@@ -1,0 +1,624 @@
+#+TITLE: emacs config
+#+STARTUP:overview
+
+* pre-init
+** remember window
+
+#+begin_src emacs-lisp
+  ;; Custom functions/hooks for persisting/loading frame geometry upon save/load
+  (defun save-frameg ()
+    "Gets the current frame's geometry and saves to ~/.emacs.frameg."
+    (let ((frameg-font (frame-parameter (selected-frame) 'font))
+          (frameg-left (frame-parameter (selected-frame) 'left))
+          (frameg-top (frame-parameter (selected-frame) 'top))
+          (frameg-width (frame-parameter (selected-frame) 'width))
+          (frameg-height (frame-parameter (selected-frame) 'height))
+          (frameg-file (expand-file-name "~/.emacs.frameg")))
+      (with-temp-buffer
+        ;; Turn off backup for this file
+        (make-local-variable 'make-backup-files)
+        (setq make-backup-files nil)
+        (insert
+         ";;; This file stores the previous emacs frame's geometry.\n"
+         ";;; Last generated " (current-time-string) ".\n"
+         "(setq initial-frame-alist\n"
+         ;; " '((font . \"" frameg-font "\")\n"
+         " '("
+         (format " (top . %d)\n" (max frameg-top 0))
+         (format " (left . %d)\n" (max frameg-left 0))
+         (format " (width . %d)\n" (max frameg-width 0))
+         (format " (height . %d)))\n" (max frameg-height 0)))
+        (when (file-writable-p frameg-file)
+          (write-file frameg-file)))))
+
+  (defun load-frameg ()
+    "Loads ~/.emacs.frameg which should load the previous frame's geometry."
+    (let ((frameg-file (expand-file-name "~/.emacs.frameg")))
+      (when (file-readable-p frameg-file)
+        (load-file frameg-file))))
+
+  ;; Special work to do ONLY when there is a window system being used
+  (if window-system
+      (progn
+        (add-hook 'after-init-hook 'load-frameg)
+        (add-hook 'kill-emacs-hook 'save-frameg)))
+#+end_src
+
+* package management
+** setup package.el to work with melpa.
+
+#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+#+end_src
+
+** installing use-package
+
+#+begin_src emacs-lisp
+  ;; Initialize use-package on non-Linux platforms
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+
+#+end_src
+
+* customization
+** theme
+
+Download theme packages in this block.
+
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :ensure t)
+#+end_src
+
+Set theming configs.
+
+#+begin_src emacs-lisp
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t)
+#+end_src
+
+Set theme.
+
+#+begin_src emacs-lisp
+  (load-theme 'doom-one t)
+#+end_src
+
+
+
+** gui settings
+
+For AHK, enable mac-style copy and paste in windows.
+
+#+begin_src emacs-lisp
+  (setq frame-title-format '("" "%b"))
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+  (menu-bar-mode -1)
+  (set-fringe-mode 10)
+
+  (global-visual-line-mode t)
+
+#+end_src
+
+Prevent accidental close.
+
+#+begin_src emacs-lisp
+  (setq confirm-kill-emacs 'y-or-n-p)
+#+end_src
+
+** text edit settings
+
+#+Begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 2)
+  (setq c-basic-offset 2)
+  (setq evil-auto-indent nil)
+
+  (setq-default indent-tabs-mode nil)
+  (setq indent-line-function 'insert-tab)
+  (setq c-default-style "linux")
+  (setq c-basic-offset 2)
+
+
+  (column-number-mode)
+
+  ;; Enable line numbers for some modes
+  (dolist (mode '(text-mode-hook
+                  prog-mode-hook
+                  conf-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 1))))
+
+  ;; Override some modes which derive from the above
+  (dolist (mode '(org-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+
+  (setq show-trailing-whitespace nil)
+
+  ;; Makes *scratch* empty.
+  (setq initial-scratch-message "")
+
+  ;; Removes *scratch* from buffer after the mode has been set.
+  (defun remove-scratch-buffer ()
+    (if (get-buffer "*scratch*")
+        (kill-buffer "*scratch*")))
+  (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
+
+  ;; Removes *messages* from the buffer.
+  (setq-default message-log-max nil)
+  (kill-buffer "*Messages*")
+
+  ;; Removes *Completions* from buffer after you've opened a file.
+  (add-hook 'minibuffer-exit-hook
+            '(lambda ()
+               (let ((buffer "*Completions*"))
+                 (and (get-buffer buffer)
+                      (kill-buffer buffer)))))
+
+  ;; Don't show *Buffer list* when opening multiple files at the same time.
+  (setq inhibit-startup-buffer-menu t)
+
+  ;; Show only one active window when opening multiple files at the same time.
+  (add-hook 'window-setup-hook 'delete-other-windows)
+
+
+  ;; No more typing the whole yes or no. Just y or n will do.
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+
+
+#+end_src
+
+Prevent emacs from contaminating system clipboard.
+#+begin_src emacs-lisp
+  (setq x-select-enable-clipboard nil)
+  (setq x-select-enable-primary nil)
+#+end_src
+
+** mode line
+
+#+Begin_src emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :init (doom-modeline-mode 1))
+
+  (custom-set-variables
+   '(package-selected-packages '(evil doom-modeline ivy command-log-mode use-package)))
+  (custom-set-faces)
+
+  (custom-set-faces
+   '(doom-modeline ((t (:font "blexmono nerd font" :height 0.9))))
+   '(doom-modeline-inactive ((t (:font "blexmono nerd font" :height 0.9)))))
+
+
+  (setq doom-modeline-height 1)
+
+  (global-tab-line-mode t)
+#+end_src
+
+*** icons
+
+#+begin_src emacs-lisp
+  (when (display-graphic-p)
+    (require 'all-the-icons))
+#+end_src
+
+** font
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil :font "blexmono nerd font 13")
+  (set-face-attribute 'fixed-pitch nil :font "blexmono nerd font" :height 1.0)
+  (set-face-attribute 'variable-pitch nil :font "ETBembo" :height 1.0 :weight 'regular)
+
+  (when (eq (nth 3 (assq 'geometry (car (display-monitor-attributes-list)))) 3840)
+    (set-face-attribute 'default nil :font "blexmono nerd font 24"))
+#+end_src
+
+* controls
+
+** evil mode
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-vsplit-window-right t)
+    (setq evil-split-window-below t)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-undo-system 'undo-redo)
+    (evil-mode))
+
+#+end_src
+
+*** evil collection
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil
+    :config
+    (setq evil-collection-mode-list '(dashboard dired ibuffer))
+    (evil-collection-init))
+  (use-package evil-tutor)
+
+#+end_src
+
+* dashboard
+
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :init
+    (add-hook 'after-init-hook 'dashboard-refresh-buffer)
+    :config
+    ;(setq dashboard-startup-banner '"~/.config/emacs/files/rms.png")
+       ;(setq dashboard-startup-banner '"~/.config/emacs/files/rms.png")
+    (setq dashboard-set-navigator t)
+    (setq dashboard-set-footer nil)
+    (setq dashboard-items '((recents  . 5) (bookmarks . 5) (agenda . 5) (projects . 5)))
+    (setq dashboard-center-content nil)
+    (setq dashboard-filter-agenda-entry 'dashboard-no-filter-agenda)
+    (dashboard-setup-startup-hook)
+    (global-unset-key [tab])
+    )
+  (set-face-attribute 'dashboard-items-face nil :inherit 'default)
+  (set-face-attribute 'dashboard-heading-face nil :inherit 'default)
+#+end_src
+
+* keybindings
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-+") 'text-scale-increase)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
+  (global-set-key (kbd "C-=") 'text-scale-set)
+
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "§") 'evil-invert-char)
+
+  (setq mac-option-modifier nil)
+  (setq mac-escape-modifier nil)
+  (setq mac-right-command-modifier 'meta)
+  (define-key evil-normal-state-map (kbd "U") 'evil-redo)
+  (global-set-key (kbd "<S-tab>") 'evil-next-buffer)
+  (global-set-key (kbd "<C-S-tab>") 'evil-prev-buffer)
+
+  (defvar dashboard-mode-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "C-p") 'dashboard-previous-line)
+      (define-key map (kbd "C-n") 'dashboard-next-line)
+      (define-key map (kbd "<up>") 'dashboard-previous-line)
+      (define-key map (kbd "<down>") 'dashboard-next-line)
+      (define-key map (kbd "k") 'dashboard-previous-line)
+      (define-key map (kbd "j") 'dashboard-next-line)
+      (define-key map [tab] 'evil-next-buffer)
+      (define-key map (kbd "C-i") 'widget-forward)
+      (define-key map [backtab] 'evil-prev-buffer)
+      (define-key map (kbd "RET") 'dashboard-return)
+      (define-key map [mouse-1] 'dashboard-mouse-1)
+      (define-key map (kbd "}") #'dashboard-next-section)
+      (define-key map (kbd "{") #'dashboard-previous-section)
+      map)
+    "Keymap for dashboard mode.")
+
+  (use-package general
+    :config
+    (general-evil-setup t))
+
+  (use-package elpy
+    :bind (:map elpy-mode-map
+                ("<g>" . nil)))
+#+end_src
+
+** Simpleclip
+
+By default, Emacs orchestrates a subtle interaction between the internal kill ring and the external system clipboard.
+
+simpleclip-mode radically simplifies clipboard handling: the system clipboard and the Emacs kill ring are made completely independent, and never influence each other.
+
+#+begin_src emacs-lisp
+  (use-package simpleclip :ensure t)
+  (require 'simpleclip)
+  (simpleclip-mode 1)
+#+end_src
+
+** general
+
+#+begin_src emacs-lisp
+  (nvmap :keymaps 'override :prefix "SPC"
+    "SPC"   '(counsel-M-x :which-key "M-x")
+    "c c"   '(compile :which-key "Compile")
+    "c C"   '(recompile :which-key "Recompile")
+    "h r r" '((lambda () (interactive) (load-file "~/.emacs.d/init.el")) :which-key "Reload emacs config")
+    "t t"   '(toggle-truncate-lines :which-key "Toggle truncate lines"))
+  (nvmap :keymaps 'override :prefix "SPC"
+    "m *"   '(org-ctrl-c-star :which-key "Org-ctrl-c-star")
+    "m +"   '(org-ctrl-c-minus :which-key "Org-ctrl-c-minus")
+    "m ."   '(counsel-org-goto :which-key "Counsel org goto")
+    "m e"   '(org-export-dispatch :which-key "Org export dispatch")
+    "m f"   '(org-footnote-new :which-key "Org footnote new")
+    "m h"   '(org-toggle-heading :which-key "Org toggle heading")
+    "m i"   '(org-toggle-item :which-key "Org toggle item")
+    "m n"   '(org-store-link :which-key "Org store link")
+    "m o"   '(org-set-property :which-key "Org set property")
+    "m t"   '(org-todo :which-key "Org todo")
+    "m x"   '(org-toggle-checkbox :which-key "Org toggle checkbox")
+    "m B"   '(org-babel-tangle :which-key "Org babel tangle")
+    "m I"   '(org-toggle-inline-images :which-key "Org toggle inline imager")
+    "m T"   '(org-todo-list :which-key "Org todo list")
+    "o a"   '(org-agenda :which-key "Org agenda")
+    )
+#+end_src
+
+** which key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t)
+  (which-key-mode)
+#+end_src
+
+** ivy + counsel
+
+#+begin_src emacs-lisp
+  (use-package counsel
+    :after ivy
+    :config (counsel-mode))
+
+  (use-package ivy
+    :defer 0.1
+    :diminish
+    :bind
+    (("C-c C-r" . ivy-resume)
+     ("C-x B" . ivy-switch-buffer-other-window))
+    :custom
+    (setq ivy-count-format "(%d/%d) ")
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    :config
+    (ivy-mode))
+
+  (use-package ivy-rich
+    :after ivy
+    :custom
+    (ivy-virtual-abbreviate 'full
+                            ivy-rich-switch-buffer-align-virtual-buffer t
+                            ivy-rich-path-style 'abbrev)
+    :config
+    (ivy-set-display-transformer 'ivy-switch-buffer
+                                 'ivy-rich-switch-buffer-transformer)
+    (ivy-rich-mode 1)) ;; this gets us descriptions in M-x.
+  (use-package swiper
+    :after ivy
+    :bind (("C-s" . swiper)
+           ("C-r" . swiper)))
+#+end_src
+
+** m-x
+
+#+begin_src emacs-lisp
+  (setq ivy-initial-inputs-alist nil)
+  (use-package smex)
+  (smex-initialize)
+#+end_src
+
+#+begin_src emacs-lisp
+  (require 'tramp)
+  (set-default 'tramp-auto-save-directory "~/.config/emacs/temp")
+  (set-default 'tramp-default-method "plink")
+#+end_src
+
+* file manager
+** treemacs
+
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :config
+    (progn
+      (setq treemacs-text-scale 0.1)
+      (setq treemacs-width 30)
+      (setq treemacs-show-hidden-files nil)
+      (setq treemacs-indentation-string "  ")
+      (setq treemacs-no-png-images t)
+      ))
+
+  (use-package treemacs-evil
+    :after (treemacs evil)
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after (treemacs projectile)
+    :ensure t)
+
+  (use-package treemacs-icons-dired
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :ensure t)
+
+  (use-package treemacs-magit
+    :after (treemacs magit)
+    :ensure t)
+
+  (use-package treemacs-persp
+    :after (treemacs persp-mode)
+    :ensure t
+    :config (treemacs-set-scope-type 'Perspectives))
+
+  (use-package treemacs-tab-bar
+    :after (treemacs)
+    :ensure t
+    :config (treemacs-set-scope-type 'Tabs))
+
+  (use-package treemacs-all-the-icons
+    :after (treemacs)
+    :ensure t
+    :config (treemacs-load-theme "All the icons")
+    )
+  (treemacs-load-all-the-icons-with-workaround-font "Hermit")
+
+#+end_src
+
+
+#+end_src
+
+** dired
+#+begin_src emacs-lisp
+  (use-package all-the-icons-dired)
+  (use-package dired-open)
+  (use-package peep-dired)
+
+  (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
+    "d d" '(dired :which-key "Open dired")
+    "d j" '(dired-jump :which-key "Dired jump to current")
+    "d p" '(peep-dired :which-key "Peep-dired"))
+
+  (with-eval-after-load 'dired
+    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
+
+  (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+#+end_src
+
+* files
+** file-related keybindings
+
+#+begin_src emacs-lisp
+  (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
+    "."     '(find-file :which-key "Find file")
+    "f f"   '(find-file :which-key "Find file")
+    "f r"   '(counsel-recentf :which-key "Recent files")
+    "f s"   '(save-buffer :which-key "Save file")
+    "f u"   '(sudo-edit-find-file :which-key "Sudo find file")
+    "f y"   '(dt/show-and-copy-buffer-path :which-key "Yank file path")
+    "f C"   '(copy-file :which-key "Copy file")
+    "f D"   '(delete-file :which-key "Delete file")
+    "f R"   '(rename-file :which-key "Rename file")
+    "f S"   '(write-file :which-key "Save file as...")
+    "f U"   '(sudo-edit :which-key "Sudo edit file"))
+#+end_src
+
+** custom filetypes
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.rep\\'" . c-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.config/emacs/saves")))
+#+end_src
+
+# * vterm
+
+## +begin_src emacs-lisp
+#  (use-package vterm :ensure t)
+## +end_src
+
+* org-mode
+* general settings
+
+#+begin_src emacs-lisp
+  (defun org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (auto-fill-mode 0)
+    (visual-line-mode 1)
+    (setq evil-auto-indent nil))
+#+end_src
+
+#+begin_src emacs-lisp
+
+  (use-package exec-path-from-shell)
+  (exec-path-from-shell-initialize)
+  (use-package eterm-256color
+    :ensure t)
+  (add-hook 'term-mode-hook #'eterm-256color-mode)
+
+#+end_src
+
+** font settings
+
+#+begin_src emacs-lisp
+  (defun org-font-setup ()
+    ;; Replace list hyphen with dot
+    (font-lock-add-keywords 'org-mode
+                            '(("^ *\\([-]\\) "
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+    ;; Set faces for heading levels
+    (dolist (face '((org-level-1 . 1.2)
+                    (org-level-2 . 1.1)
+                    (org-level-3 . 1.15)
+                    (org-level-4 . 1.1)
+                    (org-level-5 . 1.05)
+                    (org-level-6 . 1.05)
+                    (org-level-7 . 1.05)
+                    (org-level-8 . 1.05)))
+      (set-face-attribute (car face) nil :font "ETBembo" :weight 'regular :height (cdr face)))
+
+    ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+    (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil   :inherit 'fixed-pitch)
+    (set-face-attribute 'org-table nil   :inherit 'fixed-pitch)
+    (set-face-attribute 'org-verbatim nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+    )
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package org
+    :hook (org-mode . org-mode-setup)
+    :config
+    (setq org-ellipsis " >"
+          org-hide-emphasis-markers t)
+    (org-font-setup))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode)
+    :custom
+    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun org-mode-visual-fill ()
+    (setq visual-fill-column-width 100
+          visual-fill-column-center-text t)
+    (visual-fill-column-mode 1))
+
+  (use-package visual-fill-column
+    :hook (org-mode . org-mode-visual-fill))
+#+end_src
+
+#+begin_src emacs-lisp
+  (require 'org-tempo)
+
+  (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
+  (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("go" . "src go"))
+  (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+  (add-to-list 'org-structure-template-alist '("json" . "src json"))
+#+end_src
+
