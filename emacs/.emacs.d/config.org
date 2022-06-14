@@ -282,6 +282,14 @@ Prevent emacs from contaminating system clipboard.
 * keybindings
 
 #+begin_src emacs-lisp
+
+  (define-key evil-normal-state-map (kbd "C-a C-e") 'treemacs-select-window)
+  (define-key evil-normal-state-map (kbd "C-a C-x") 'evil-delete-buffer)
+
+  (evil-define-key 'treemacs treemacs-mode-map (kbd "C-a C-x") #'evil-delete-buffer)
+  (evil-define-key 'treemacs treemacs-mode-map (kbd "C-a C-e") #'evil-delete-buffer)
+  (evil-define-key 'treemacs treemacs-mode-map (kbd "z a") #'treemacs-RET-action)
+
   (global-set-key (kbd "C-+") 'text-scale-increase)
   (global-set-key (kbd "C--") 'text-scale-decrease)
   (global-set-key (kbd "C-=") 'text-scale-set)
@@ -444,9 +452,9 @@ simpleclip-mode radically simplifies clipboard handling: the system clipboard an
     :after (treemacs projectile)
     :ensure t)
 
-  (use-package treemacs-icons-dired
+  "(use-package treemacs-icons-dired
     :hook (dired-mode . treemacs-icons-dired-enable-once)
-    :ensure t)
+    :ensure t)"
 
   (use-package treemacs-magit
     :after (treemacs magit)
@@ -476,7 +484,11 @@ simpleclip-mode radically simplifies clipboard handling: the system clipboard an
 
 ** dired
 #+begin_src emacs-lisp
-  (use-package all-the-icons-dired)
+  (use-package all-the-icons-dired
+    :config
+    (use-package treemacs-icons-dired
+    :if (display-graphic-p)
+    :config (treemacs-icons-dired-mode)))
   (use-package dired-open)
   (use-package peep-dired)
 
@@ -492,7 +504,7 @@ simpleclip-mode radically simplifies clipboard handling: the system clipboard an
     (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
 
   (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  "(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)"
 #+end_src
 
 * files
