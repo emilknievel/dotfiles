@@ -1,4 +1,4 @@
-# README
+# Readme
 
 Clone folder to your home directory and run `stow the-folder-to-stow` to create symlinks of all files in the dotfiles folder to the corresponding location in your home directory.
 
