@@ -8,7 +8,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(visual-fill-column org-bullets eterm-256color exec-path-from-shell peep-dired dired-open all-the-icons-dired treemacs-tab-bar treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs smex ivy-rich counsel which-key simpleclip elpy general dashboard evil-tutor evil-collection evil doom-modeline ivy command-log-mode use-package)))
+   '(web-mode flycheck visual-fill-column org-bullets eterm-256color exec-path-from-shell peep-dired dired-open all-the-icons-dired treemacs-tab-bar treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs smex ivy-rich counsel which-key simpleclip elpy general dashboard evil-tutor evil-collection evil doom-modeline ivy command-log-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
