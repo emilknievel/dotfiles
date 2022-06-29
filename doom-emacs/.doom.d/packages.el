@@ -50,3 +50,4 @@
 ;(unpin! t)
 
 (package! spacemacs-theme)
+(package! solo-jazz-theme)
