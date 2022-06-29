@@ -21,3 +21,4 @@ stow emacs
 ```
 
 Now everything in the emacs folder has been created in the home directory as symlinks and is ready to go. Important note, everything has the exact same structure as in the emacs folder. See the GNU Stow website for more information.
+
