@@ -29,10 +29,14 @@
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 
-;; (setq doom-font (font-spec :family "BlexMono Nerd Font" :size 13 :weight 'book)
-      ;; doom-variable-pitch-font (font-spec :family "IBM Plex Serif" :size 13))
-(setq doom-font (font-spec :family "MesloLGS NF" :size 13 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 13))
+;; Bigger font size on Windows to make it look nice with high DPI on WSL.
+(if (eq system-type 'darwin)
+    (progn
+      (setq doom-font (font-spec :family "MesloLGS NF" :size 13 :weight 'regular)
+            doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 13)))
+  (progn
+    (setq doom-font (font-spec :family "MesloLGS NF" :size 22 :weight 'regular)
+          doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 22))))
 
 (setq doom-unicode-font (font-spec :family "MesloLGS NF"))
 
@@ -94,3 +98,8 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; Set initial window size
+(setq initial-frame-alist '((top . 1) (left . 1) (width . 143) (height . 55)))
+(setq doom-themes-treemacs-theme "doom-colors")
+
