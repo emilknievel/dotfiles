@@ -48,7 +48,9 @@
     ('dark (load-theme 'doom-solarized-dark t))))
 
 (if (display-graphic-p)
-    (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+    (if (eq system-type 'darwin)
+        (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+      (setq doom-theme 'doom-solarized-dark))
   (setq doom-theme 'doom-solarized-dark))
 
 
