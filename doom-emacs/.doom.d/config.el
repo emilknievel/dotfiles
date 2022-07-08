@@ -33,10 +33,10 @@
 (if (eq system-type 'darwin)
     (progn
       (setq doom-font (font-spec :family "MesloLGS NF" :size 13 :weight 'regular)
-            doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 13)))
+            doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 13)))
   (progn
     (setq doom-font (font-spec :family "MesloLGS NF" :size 22 :weight 'regular)
-          doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 22))))
+          doom-variable-pitch-font (font-spec :family "Segoe UI Variable" :size 22))))
 
 (setq doom-unicode-font (font-spec :family "MesloLGS NF"))
 
@@ -49,13 +49,13 @@
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
     ('light (load-theme 'doom-solarized-light t))
-    ('dark (load-theme 'doom-solarized-dark t))))
+    ('dark (load-theme 'doom-one t))))
 
 (if (display-graphic-p)
     (if (eq system-type 'darwin)
         (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
-      (setq doom-theme 'doom-solarized-dark))
-  (setq doom-theme 'doom-solarized-dark))
+      (setq doom-theme 'doom-one))
+  (setq doom-theme 'doom-one))
 
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
