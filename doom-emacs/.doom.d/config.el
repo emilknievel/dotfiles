@@ -35,8 +35,8 @@
       (setq doom-font (font-spec :family "MesloLGS NF" :size 13 :weight 'regular)
             doom-variable-pitch-font (font-spec :family "SF Pro Display" :size 13)))
   (progn
-    (setq doom-font (font-spec :family "MesloLGS NF" :size 22 :weight 'regular)
-          doom-variable-pitch-font (font-spec :family "Segoe UI Variable" :size 22))))
+    (setq doom-font (font-spec :family "MesloLGS NF" :size 20 :weight 'regular)
+          doom-variable-pitch-font (font-spec :family "Nimbus Sans L"  :size 20))))
 
 (setq doom-unicode-font (font-spec :family "MesloLGS NF"))
 
@@ -102,4 +102,3 @@
 ;; Set initial window size
 (setq initial-frame-alist '((top . 1) (left . 1) (width . 143) (height . 55)))
 (setq doom-themes-treemacs-theme "doom-colors")
-
