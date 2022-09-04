@@ -49,5 +49,13 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;; Themes
 (package! spacemacs-theme)
 (package! solo-jazz-theme)
+(package! nova-theme) ; https://github.com/muirmanders/emacs-nova-theme
+(package! mindre-theme) ; https://github.com/erikbackman/mindre-theme/
+;;(package! graphite-theme) ; https://github.com/codemicmaves/graphite-theme
+
+(package! nvm)
+(package! mixed-pitch)
+(package! visual-fill-column)
