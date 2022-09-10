@@ -8,6 +8,7 @@ alias gh='history | grep'              # Find command in history
 alias cpv='rsync -ah --info=progress2' # Copy with progress bar
 alias grepa='alias | grep'
 alias lg='lazygit'
+alias lga='git lga'
 
 # Homebrew
 alias brewi='brew install'
