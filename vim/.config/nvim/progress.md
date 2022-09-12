@@ -3,7 +3,7 @@
 - [x] Lualine
 - [ ] Lspconfig
 - [ ] Auto-completion: Lspkind and cmp
-- [ ] Syntax highlightings: Treesitter
+- [x] Syntax highlightings: Treesitter
 - [ ] Autotag and Autopair
 - [ ] Fuzz finder: Telescope
 - [ ] Tabs: Bufferline
