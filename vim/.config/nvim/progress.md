@@ -4,7 +4,7 @@
 - [ ] Lspconfig
 - [ ] Auto-completion: Lspkind and cmp
 - [x] Syntax highlightings: Treesitter
-- [ ] Autotag and Autopair
+- [x] Autotag and Autopair
 - [ ] Fuzz finder: Telescope
 - [ ] Tabs: Bufferline
 - [ ] LSP UIs: Lspsaga
@@ -12,3 +12,4 @@
 - [ ] Git markers: gitsigns
 - [ ] git
 - [ ] LSP tool: mason
+
