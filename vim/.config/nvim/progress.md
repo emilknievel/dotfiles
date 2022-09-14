@@ -1,15 +1,15 @@
 - [x] Packer
 - [x] Gruvbox Material
 - [x] Lualine
-- [ ] Lspconfig
-- [ ] Auto-completion: Lspkind and cmp
+- [x] Lspconfig
+- [x] Auto-completion: Lspkind and cmp
 - [x] Syntax highlightings: Treesitter
 - [x] Autotag and Autopair
 - [ ] Fuzz finder: Telescope
 - [ ] Tabs: Bufferline
-- [ ] LSP UIs: Lspsaga
+- [x] LSP UIs: Lspsaga
 - [ ] Code formatter: Prettier and null-ls
 - [ ] Git markers: gitsigns
 - [ ] git
-- [ ] LSP tool: mason
+- [x] LSP tool: mason
 
