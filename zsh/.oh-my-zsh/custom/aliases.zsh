@@ -39,3 +39,5 @@ alias ktest='kubectl --context MioAKSQAv2 -n test'
 # NeoVim
 alias nvimconfig='nvim ~/.config/nvim/init.vim'
 
+alias lsofp='lsof -i tcp:' # List open files using specified port
+
