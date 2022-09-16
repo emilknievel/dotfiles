@@ -44,6 +44,12 @@ packer.startup(function(use)
   use 'neovim/nvim-lspconfig' -- Configurations for NVim LSP
   use 'windwp/nvim-autopairs'
   use 'windwp/nvim-ts-autotag'
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end
+}
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
