@@ -41,3 +41,7 @@ alias nvimconfig='nvim ~/.config/nvim/init.vim'
 
 alias lsofp='lsof -i tcp:' # List open files using specified port
 
+# Vue
+alias qdev='quasar dev'
+alias qbuild='quasar build'
+
