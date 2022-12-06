@@ -22,7 +22,13 @@ vim.cmd [[packadd packer.nvim]]
 packer.startup(function(use)
   -- My plugins here
   use 'wbthomason/packer.nvim'
-  use 'sainnhe/gruvbox-material'
+  -- use ({
+  --   'sainnhe/gruvbox-material',
+  -- })
+  use ({
+    'rose-pine/neovim',
+    as = 'rose-pine'
+  })
   -- Automatic toggling between line number modes
   use 'jeffkreeftmeijer/vim-numbertoggle'
   use {
