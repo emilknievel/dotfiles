@@ -8,7 +8,7 @@
 - [x] Fuzz finder: Telescope
 - [ ] Tabs: Bufferline
 - [x] LSP UIs: Lspsaga
-- [ ] Code formatter: Prettier and null-ls
+- [x] Code formatter: Prettier and null-ls
 - [ ] Git markers: gitsigns
 - [ ] git
 - [x] LSP tool: mason
