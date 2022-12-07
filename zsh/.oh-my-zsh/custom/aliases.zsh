@@ -27,6 +27,7 @@ alias brewl='brew list'
 # Kitty
 alias icat='kitty +kitten icat'        # Display an image inline in terminal
 alias themes='kitty +kitten themes'    # List and swap between kitten themes
+alias kittyconfig='kitty +edit-config' # Edit kitty config
 
 # Yabai
 alias yabqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' # Query info about opene windows
@@ -37,7 +38,7 @@ alias kqa='kubectl --context MioAKSQAv2 -n qa'
 alias ktest='kubectl --context MioAKSQAv2 -n test'
 
 # NeoVim
-alias nvimconfig='nvim ~/.config/nvim/init.vim'
+alias nvimconfig='nvim ~/.config/nvim/'
 
 alias lsofp='lsof -i tcp:' # List open files using specified port
 
