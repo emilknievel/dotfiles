@@ -5,7 +5,7 @@
 - [x] Auto-completion: Lspkind and cmp
 - [x] Syntax highlightings: Treesitter
 - [x] Autotag and Autopair
-- [ ] Fuzz finder: Telescope
+- [x] Fuzz finder: Telescope
 - [ ] Tabs: Bufferline
 - [x] LSP UIs: Lspsaga
 - [ ] Code formatter: Prettier and null-ls

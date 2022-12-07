@@ -22,9 +22,9 @@ vim.cmd [[packadd packer.nvim]]
 packer.startup(function(use)
   -- My plugins here
   use 'wbthomason/packer.nvim'
-  -- use ({
-  --   'sainnhe/gruvbox-material',
-  -- })
+  use ({
+    'sainnhe/gruvbox-material',
+  })
   use ({
     'rose-pine/neovim',
     as = 'rose-pine'
@@ -48,6 +48,12 @@ packer.startup(function(use)
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
   use 'neovim/nvim-lspconfig' -- Configurations for NVim LSP
+  use 'kyazdani42/nvim-web-devicons'
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = { { 'nvim-lua/plenary.nvim' } }
+  }
+  use 'nvim-telescope/telescope-file-browser.nvim'
   use 'windwp/nvim-autopairs'
   use 'windwp/nvim-ts-autotag'
   use {
