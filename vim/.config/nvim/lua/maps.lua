@@ -39,3 +39,5 @@ keymap.set('n', '<C-w><left>', '<C-w><')
 keymap.set('n', '<C-w><right>', '<C-w>>')
 keymap.set('n', '<C-w><up>', '<C-w>+')
 keymap.set('n', '<C-w><down>', '<C-w>-')
+
+keymap.set("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>")
