@@ -1,6 +1,11 @@
 local status, lualine = pcall(require, "lualine")
 if (not status) then return end
 
+local function maximize_status()
+  return vim.t.maximized and '   ' or ''
+end
+
+
 lualine.setup {
   options = {
     icons_enabled = true,
@@ -23,7 +28,7 @@ lualine.setup {
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
+    lualine_c = {maximize_status, 'filename'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
