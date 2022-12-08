@@ -69,7 +69,8 @@ packer.startup(function(use)
   config = function()
     require('maximize').setup()
   end
-}
+  }
+  use ('tpope/vim-surround')
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
