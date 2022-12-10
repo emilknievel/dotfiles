@@ -9,7 +9,9 @@ end
 lualine.setup {
   options = {
     icons_enabled = true,
-    theme = 'rose-pine', --gruvbox-material',
+    -- theme = 'gruvbox-material',
+    -- theme = 'rose-pine',
+    theme = 'catppuccin',
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
