@@ -131,6 +131,8 @@ nvim_lsp.volar.setup {
   capabilities = capabilities,
 }
 
+nvim_lsp.gopls.setup {}
+
 local omni_cmd
 if is_mac then
   omni_cmd = { "dotnet", "/Users/tiboemv/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll" }
