@@ -22,6 +22,8 @@ vim.cmd [[packadd packer.nvim]]
 packer.startup(function(use)
   -- My plugins here
   use 'wbthomason/packer.nvim'
+
+  -- Themes
   use ({
     'sainnhe/gruvbox-material',
   })
@@ -29,6 +31,8 @@ packer.startup(function(use)
     'rose-pine/neovim',
     as = 'rose-pine'
   })
+  use { "catppuccin/nvim", as = "catppuccin" }
+
   -- Automatic toggling between line number modes
   use 'jeffkreeftmeijer/vim-numbertoggle'
   use {
