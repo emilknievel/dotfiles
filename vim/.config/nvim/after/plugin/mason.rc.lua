@@ -8,6 +8,23 @@ mason.setup({
 })
 
 lspconfig.setup {
-  ensure_installed = { "sumneko_lua" },
+  ensure_installed = {
+    "awk_ls",
+    "bashls",
+    "cssls",
+    "dockerls",
+    "gopls",
+    "graphql",
+    "jsonls",
+    "marksman",
+    "omnisharp",
+    "pylsp",
+    "rust_analyzer",
+    "sumneko_lua",
+    "tailwindcss",
+    "tsserver",
+    "volar",
+    "yamlls",
+  },
 }
 

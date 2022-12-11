@@ -64,74 +64,27 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
+
+nvim_lsp.awk_ls.setup {}
+
+nvim_lsp.bashls.setup {}
+
+nvim_lsp.cssls.setup {}
+
+nvim_lsp.dockerls.setup {}
+
 nvim_lsp.flow.setup {
   on_attach = on_attach,
   capabilities = capabilities
 }
 
-nvim_lsp.tsserver.setup {
-  on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" },
-  cmd = { "typescript-language-server", "--stdio" },
-  capabilities = capabilities
-}
-
-nvim_lsp.sourcekit.setup {
-  on_attach = on_attach,
-}
-
-nvim_lsp.sumneko_lua.setup {
-  on_attach = on_attach,
-  settings = {
-    Lua = {
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { 'vim' },
-      },
-
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false
-      },
-    },
-  },
-}
-
-nvim_lsp.tailwindcss.setup {}
-
-local util = require('lspconfig.util')
-local function get_typescript_server_path(root_dir)
-
-  local global_ts = '/Users/tiboemv/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib'
-  local found_ts = ''
-  local function check_dir(path)
-    found_ts =  util.path.join(path, 'node_modules', 'typescript', 'lib')
-    if util.path.exists(found_ts) then
-      return path
-    end
-  end
-  if util.search_ancestors(root_dir, check_dir) then
-    return found_ts
-  else
-    return global_ts
-  end
-end
-
-nvim_lsp.volar.setup {
-  init_options = {
-    typescript = {
-      tsdk = '',
-    },
-  },
-  on_new_config = function (new_config, new_root_dir)
-    new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
-  end,
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
 nvim_lsp.gopls.setup {}
+
+nvim_lsp.graphql.setup {}
+
+nvim_lsp.jsonls.setup {}
+
+nvim_lsp.marksman.setup {}
 
 local omni_cmd
 if is_mac then
@@ -180,6 +133,75 @@ nvim_lsp.omnisharp.setup {
   -- true
   analyze_open_documents_only = false,
 }
+
+nvim_lsp.pylsp.setup {}
+
+nvim_lsp.rust_analyzer.setup {}
+
+nvim_lsp.sourcekit.setup {
+  on_attach = on_attach,
+}
+
+nvim_lsp.sumneko_lua.setup {
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'vim' },
+      },
+
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false
+      },
+    },
+  },
+}
+
+nvim_lsp.tailwindcss.setup {}
+
+local util = require('lspconfig.util')
+local function get_typescript_server_path(root_dir)
+
+  local global_ts = '/Users/tiboemv/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib'
+  local found_ts = ''
+  local function check_dir(path)
+    found_ts =  util.path.join(path, 'node_modules', 'typescript', 'lib')
+    if util.path.exists(found_ts) then
+      return path
+    end
+  end
+  if util.search_ancestors(root_dir, check_dir) then
+    return found_ts
+  else
+    return global_ts
+  end
+end
+
+nvim_lsp.tsserver.setup {
+  on_attach = on_attach,
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" },
+  cmd = { "typescript-language-server", "--stdio" },
+  capabilities = capabilities
+}
+
+nvim_lsp.volar.setup {
+  init_options = {
+    typescript = {
+      tsdk = '',
+    },
+  },
+  on_new_config = function (new_config, new_root_dir)
+    new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+  end,
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
+
+nvim_lsp.yamlls.setup {}
+
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
