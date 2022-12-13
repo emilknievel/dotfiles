@@ -1,15 +1,13 @@
 --vim.lsp.set_log_level("debug")
 
-local status, nvim_lsp = pcall(require, "lspconfig")
-if (not status) then return end
+local status, nvim_lsp = pcall(require, 'lspconfig')
+if not status then return end
 
 local protocol = require('vim.lsp.protocol')
 
-local has = function(x)
-  return vim.fn.has(x) == 1
-end
-local is_mac = has "macunix"
-local is_win = has "win32"
+local has = function(x) return vim.fn.has(x) == 1 end
+local is_mac = has('macunix')
+local is_win = has('win32')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -29,8 +27,13 @@ local on_attach = function(client, bufnr)
   --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  local lsp_format_modifications = require "lsp-format-modifications"
+  buf_set_keymap(
+    'i',
+    '<C-k>',
+    '<cmd>lua vim.lsp.buf.signature_help()<CR>',
+    opts
+  )
+  local lsp_format_modifications = require('lsp-format-modifications')
   lsp_format_modifications.attach(client, bufnr, { format_on_save = true })
 end
 
@@ -67,37 +70,42 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
+nvim_lsp.awk_ls.setup({})
 
-nvim_lsp.awk_ls.setup {}
+nvim_lsp.bashls.setup({})
 
-nvim_lsp.bashls.setup {}
+nvim_lsp.cssls.setup({})
 
-nvim_lsp.cssls.setup {}
+nvim_lsp.dockerls.setup({})
 
-nvim_lsp.dockerls.setup {}
-
-nvim_lsp.flow.setup {
+nvim_lsp.flow.setup({
   on_attach = on_attach,
-  capabilities = capabilities
-}
+  capabilities = capabilities,
+})
 
-nvim_lsp.gopls.setup {}
+nvim_lsp.gopls.setup({})
 
-nvim_lsp.graphql.setup {}
+nvim_lsp.graphql.setup({})
 
-nvim_lsp.jsonls.setup {}
+nvim_lsp.jsonls.setup({})
 
-nvim_lsp.marksman.setup {}
+nvim_lsp.marksman.setup({})
 
 local omni_cmd
 if is_mac then
-  omni_cmd = { "dotnet", "/Users/tiboemv/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll" }
+  omni_cmd = {
+    'dotnet',
+    '/Users/tiboemv/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll',
+  }
 end
 if is_win then
-  omni_cmd = { "dotnet", "/mnt/c/Users/Emil/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll" }
+  omni_cmd = {
+    'dotnet',
+    '/mnt/c/Users/Emil/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll',
+  }
 end
 
-nvim_lsp.omnisharp.setup {
+nvim_lsp.omnisharp.setup({
   on_attach = on_attach,
   cmd = omni_cmd,
 
@@ -135,17 +143,17 @@ nvim_lsp.omnisharp.setup {
   -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
   -- true
   analyze_open_documents_only = false,
-}
+})
 
-nvim_lsp.pylsp.setup {}
+nvim_lsp.pylsp.setup({})
 
-nvim_lsp.rust_analyzer.setup {}
+nvim_lsp.rust_analyzer.setup({})
 
-nvim_lsp.sourcekit.setup {
+nvim_lsp.sourcekit.setup({
   on_attach = on_attach,
-}
+})
 
-nvim_lsp.sumneko_lua.setup {
+nvim_lsp.sumneko_lua.setup({
   on_attach = on_attach,
   settings = {
     Lua = {
@@ -156,26 +164,25 @@ nvim_lsp.sumneko_lua.setup {
 
       workspace = {
         -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false
+        library = vim.api.nvim_get_runtime_file('', true),
+        checkThirdParty = false,
       },
     },
   },
-}
+})
 
-nvim_lsp.tailwindcss.setup {}
+nvim_lsp.tailwindcss.setup({})
 
 local util = require('lspconfig.util')
 local function get_typescript_server_path(root_dir)
-
-  local global_ts = '/Users/tiboemv/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib'
+  local global_ts =
+  '/Users/tiboemv/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib'
   local found_ts = ''
   local function check_dir(path)
-    found_ts =  util.path.join(path, 'node_modules', 'typescript', 'lib')
-    if util.path.exists(found_ts) then
-      return path
-    end
+    found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
+    if util.path.exists(found_ts) then return path end
   end
+
   if util.search_ancestors(root_dir, check_dir) then
     return found_ts
   else
@@ -183,51 +190,55 @@ local function get_typescript_server_path(root_dir)
   end
 end
 
-nvim_lsp.tsserver.setup {
+nvim_lsp.tsserver.setup({
   on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript" },
-  cmd = { "typescript-language-server", "--stdio" },
-  capabilities = capabilities
-}
+  filetypes = {
+    'typescript',
+    'typescriptreact',
+    'typescript.tsx',
+    'javascript',
+  },
+  cmd = { 'typescript-language-server', '--stdio' },
+  capabilities = capabilities,
+})
 
-nvim_lsp.volar.setup {
+nvim_lsp.volar.setup({
   init_options = {
     typescript = {
       tsdk = '',
     },
   },
-  on_new_config = function (new_config, new_root_dir)
-    new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+  on_new_config = function(new_config, new_root_dir)
+    new_config.init_options.typescript.tsdk =
+    get_typescript_server_path(new_root_dir)
   end,
   on_attach = on_attach,
   capabilities = capabilities,
-}
+})
 
-nvim_lsp.yamlls.setup {}
+nvim_lsp.yamlls.setup({})
 
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.lsp.handlers['textDocument/publishDiagnostics'] =
+vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
     update_in_insert = false,
-    virtual_text = { spacing = 4, prefix = "●" },
+  virtual_text = { spacing = 4, prefix = '●' },
     severity_sort = true,
-  }
-)
+})
 
 -- Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' }
 for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  local hl = 'DiagnosticSign' .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
 
 vim.diagnostic.config({
   virtual_text = {
-    prefix = '●'
+    prefix = '●',
   },
   update_in_insert = true,
   float = {
-    source = "always", -- Or "if_many"
+    source = 'always', -- Or "if_many"
   },
 })
