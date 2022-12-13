@@ -54,4 +54,4 @@ keymap.set('n', 'N', 'Nzzzv') -- Center view when going backwards through search
 
 
 -- Fun stuff
-keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { desc = 'Make it rain!' })
+-- keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { desc = 'Make it rain!' })
