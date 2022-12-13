@@ -67,6 +67,7 @@ packer.startup(function(use)
     end
   }
   use ('jose-elias-alvarez/null-ls.nvim')
+  use "jayp0521/mason-null-ls.nvim"
   use ('MunifTanjim/prettier.nvim')
   use {
   'declancm/maximize.nvim', -- maximize window: <leader>z
