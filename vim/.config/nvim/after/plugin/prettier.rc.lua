@@ -16,5 +16,6 @@ prettier.setup({
     'typescript',
     'typescriptreact',
     'yaml',
+    'vue'
   },
 })

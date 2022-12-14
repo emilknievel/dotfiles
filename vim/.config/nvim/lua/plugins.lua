@@ -76,8 +76,6 @@ packer.startup(function(use)
   })
   use('jose-elias-alvarez/null-ls.nvim')
   use('jayp0521/mason-null-ls.nvim')
-  use('joechrisellis/lsp-format-modifications.nvim') -- format only modified lines
-  -- use('MunifTanjim/prettier.nvim')
   use({
     'declancm/maximize.nvim', -- maximize window: <leader>z
     config = function() require('maximize').setup() end,
