@@ -132,7 +132,7 @@ nvim_lsp.omnisharp.setup({
   -- have a negative impact on initial completion responsiveness,
   -- particularly for the first few completion sessions after opening a
   -- solution.
-  enable_import_completion = false,
+  enable_import_completion = true,
 
   -- Specifies whether to include preview versions of the .NET SDK when
   -- determining which version to use for project loading.
@@ -174,7 +174,7 @@ nvim_lsp.tailwindcss.setup({})
 local util = require('lspconfig.util')
 local function get_typescript_server_path(root_dir)
   local global_ts =
-  '/Users/tiboemv/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib'
+    '/Users/tiboemv/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib'
   local found_ts = ''
   local function check_dir(path)
     found_ts = util.path.join(path, 'node_modules', 'typescript', 'lib')
@@ -208,7 +208,7 @@ nvim_lsp.volar.setup({
   },
   on_new_config = function(new_config, new_root_dir)
     new_config.init_options.typescript.tsdk =
-    get_typescript_server_path(new_root_dir)
+      get_typescript_server_path(new_root_dir)
   end,
   on_attach = on_attach,
   capabilities = capabilities,
@@ -217,12 +217,12 @@ nvim_lsp.volar.setup({
 nvim_lsp.yamlls.setup({})
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] =
-vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  underline = true,
-  update_in_insert = false,
-  virtual_text = { spacing = 4, prefix = '●' },
-  severity_sort = true,
-})
+  vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    update_in_insert = false,
+    virtual_text = { spacing = 4, prefix = '●' },
+    severity_sort = true,
+  })
 
 -- Diagnostic symbols in the sign column (gutter)
 local signs = { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' }
