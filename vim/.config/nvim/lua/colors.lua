@@ -29,7 +29,7 @@ require('rose-pine').setup({
   dark_variant = 'main',
   bold_vert_split = false,
   dim_nc_background = false,
-  disable_background = true,
+  disable_background = false,
   disable_float_background = false,
   disable_italics = true,
 
@@ -73,7 +73,7 @@ require('catppuccin').setup({
     light = 'latte',
     dark = 'mocha',
   },
-  transparent_background = true,
+  transparent_background = false,
   term_colors = false,
   dim_inactive = {
     enabled = false,
