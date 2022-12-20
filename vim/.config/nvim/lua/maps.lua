@@ -57,7 +57,7 @@ keymap.set('n', 'J', 'mzJ`z')
 keymap.set('x', '<leader>p', '\'_dP')
 
 -- yank with leader to copy to system clipboard
-keymap.set({'n', 'v'}, '<leader>y', [["+y]])
+keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
 keymap.set('n', '<leader>Y', [["+Y]])
 
 -- delete to void register
@@ -66,8 +66,8 @@ keymap.set('v', '<leader>d', '\'_d')
 
 keymap.set('n', 'Q', '<nop>') -- never want to press 'Q'
 
-keymap.set('n', '<leader>f', function ()
-  vim.lsp.buf.format()
+keymap.set('n', '<leader>f', function()
+    vim.lsp.buf.format()
 end)
 
 -- quickfix navigation
