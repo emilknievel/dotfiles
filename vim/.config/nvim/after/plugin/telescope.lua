@@ -69,3 +69,4 @@ vim.keymap.set(
     })
   end
 )
+vim.keymap.set('n', '<leader>fp', function() builtin.git_files() end)
