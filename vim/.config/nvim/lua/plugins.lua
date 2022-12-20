@@ -100,6 +100,7 @@ packer.startup(function(use)
     'folke/which-key.nvim',
     config = function() require('which-key').setup() end,
   })
+  use('theprimeagen/harpoon')
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
