@@ -101,6 +101,7 @@ packer.startup(function(use)
     config = function() require('which-key').setup() end,
   })
   use('theprimeagen/harpoon')
+  use('mbbill/undotree')
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
