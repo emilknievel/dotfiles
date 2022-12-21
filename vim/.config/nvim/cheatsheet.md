@@ -4,9 +4,11 @@
 
 ## LSP
 
-| Mode   | Keymap       | Description      |
-| ------ | ------------ | ---------------- |
-| Normal | `<leader>gd` | Go to definition |
+| Mode   | Keymap       | Description        |
+| ------ | ------------ | ------------------ |
+| Normal | `<leader>gd` | Go to definition   |
+| Normal | `<leader>gD` | Go to declaration  |
+| Normal | `<leader>gp` | Preview definition |
 
 ## Git
 
