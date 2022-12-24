@@ -4,11 +4,16 @@
 
 ## LSP
 
-| Mode   | Keymap       | Description        |
-| ------ | ------------ | ------------------ |
-| Normal | `<leader>gd` | Go to definition   |
-| Normal | `<leader>gD` | Go to declaration  |
-| Normal | `<leader>gp` | Preview definition |
+| Mode   | Keymap        | Description                    |
+| ------ | ------------- | ------------------------------ |
+| Normal | `<leader>gd`  | Go to definition               |
+| Normal | `<leader>gD`  | Go to declaration              |
+| Normal | `<leader>gp`  | Preview definition             |
+| Normal | `K`           | Hover doc                      |
+| Normal | `<C-j>`       | Diagnostic jump next           |
+| Insert | `<C-k>`       | Signature help                 |
+| Normal | `<leader>vrn` | Rename                         |
+| Normal | `cd`          | Show line & cursor diagnostics |
 
 ## Git
 
