@@ -40,6 +40,7 @@ packer.startup(function(use)
         as = 'rose-pine',
     })
     use({ 'catppuccin/nvim', as = 'catppuccin' })
+    use 'folke/tokyonight.nvim'
 
     -- Automatic toggling between line number modes
     use('jeffkreeftmeijer/vim-numbertoggle')
