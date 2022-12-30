@@ -47,22 +47,39 @@ keymap.set('n', 'n', 'nzzzv') -- Center view when going forwards through search 
 keymap.set('n', 'N', 'Nzzzv') -- Center view when going backwards through search results
 
 -- move selected text up and down
-keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
-keymap.set('v', 'K', ":m '>-2<CR>gv=gv")
+keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move selected text down' })
+keymap.set('v', 'K', ":m '>-2<CR>gv=gv", { desc = 'Move selected text up' })
 
 -- append line below to current line with space in between. Keep cursor pos
-keymap.set('n', 'J', 'mzJ`z')
+keymap.set('n', 'J', 'mzJ`z', {
+    desc = 'Append line below to end of caret line with spaces in between. Keep cursor pos.',
+})
 
 -- delete highlighted word and paste previous text in buffer
-keymap.set('x', '<leader>p', '"_dP')
+keymap.set(
+    'x',
+    '<leader>p',
+    '"_dP',
+    { desc = 'Delete highlighted word and paste previous text in buffer' }
+)
 
 -- yank with leader to copy to system clipboard
-keymap.set({ 'n', 'v' }, '<leader>y', [["+y]])
-keymap.set('n', '<leader>Y', [["+Y]])
+keymap.set(
+    { 'n', 'v' },
+    '<leader>y',
+    [["+y]],
+    { desc = 'Copy to system clipboard' }
+)
+keymap.set(
+    'n',
+    '<leader>Y',
+    [["+Y]],
+    { desc = 'Copy current line to system clipboard' }
+)
 
 -- delete to void register
-keymap.set('n', '<leader>d', "'_d")
-keymap.set('v', '<leader>d', "'_d")
+keymap.set('n', '<leader>d', "'_d", { desc = 'Delete to void register' })
+keymap.set('v', '<leader>d', "'_d", { desc = 'Delete to void register' })
 
 keymap.set('n', 'Q', '<nop>') -- never want to press 'Q'
 
@@ -75,10 +92,20 @@ keymap.set('n', '<leader>k', '<cmd>lnext<CR>zz')
 keymap.set('n', '<leader>j', '<cmd>lprev<CR>zz')
 
 -- replace current word in buffer
-keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>//g<Left><Left>]])
+keymap.set(
+    'n',
+    '<leader>s',
+    [[:%s/\<<C-r><C-w>\>//g<Left><Left>]],
+    { desc = 'Replace current word in buffer' }
+)
 
 -- make current file executable
-keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
+keymap.set(
+    'n',
+    '<leader>x',
+    '<cmd>!chmod +x %<CR>',
+    { silent = true, desc = 'Make current file executable' }
+)
 
 -- Fun stuff
 -- keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { desc = 'Make it rain!' })
