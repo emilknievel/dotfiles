@@ -46,3 +46,12 @@ vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append({ 'r' })
+
+vim.opt.listchars = {
+    eol = '↵',
+    tab = '» ',
+    space = '·',
+    extends = '>',
+    precedes = '<',
+    nbsp = '%',
+}

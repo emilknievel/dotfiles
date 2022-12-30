@@ -107,5 +107,10 @@ keymap.set(
     { silent = true, desc = 'Make current file executable' }
 )
 
+keymap.set('n', '<leader>ws', function()
+    vim.opt.list = not vim.opt.list:get()
+    print('Display whitespace: ' .. tostring(vim.opt.list:get()))
+end, { desc = 'Toggle displaying whitespace' })
+
 -- Fun stuff
 -- keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { desc = 'Make it rain!' })
