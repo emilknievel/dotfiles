@@ -37,3 +37,9 @@
 | Mode   | Keymap       | Description    |
 | ------ | ------------ | -------------- |
 | Normal | `<leader>md` | Toggle preview |
+
+## Vim
+
+| Mode   | Keymap | Description                       |
+| ------ | ------ | --------------------------------- |
+| Normal | `*`    | Search in file for word on marker |
