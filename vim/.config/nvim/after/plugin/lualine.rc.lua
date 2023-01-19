@@ -12,8 +12,8 @@ lualine.setup {
     icons_enabled = true,
     -- theme = 'gruvbox-material',
     -- theme = 'rose-pine',
-    -- theme = 'catppuccin',
-    theme = "tokyonight",
+    theme = 'catppuccin',
+    -- theme = "tokyonight",
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = {
