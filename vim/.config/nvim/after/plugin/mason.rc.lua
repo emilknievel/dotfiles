@@ -60,9 +60,18 @@ null_ls.setup {
     null_ls.builtins.formatting.stylua.with {
       extra_args = {
         "--config-path",
-        vim.fn.expand "~/.config/stylua.toml",
+        vim.fn.expand "~/.config/nvim/stylua.toml",
       },
     },
+
+    -- eslint_d as default linter
+    null_ls.builtins.diagnostics.eslint_d.with({
+      only_local = 'node_modules/.bin'
+    }),
+    -- eslint_d as default for code actions
+    null_ls.builtins.code_actions.eslint_d.with({
+      only_local = 'node_modules/.bin'
+    }),
   },
   on_attach = function(client, bufnr)
     if client.supports_method "textDocument/formatting" then
