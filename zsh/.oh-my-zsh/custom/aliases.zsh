@@ -7,8 +7,13 @@ alias j='jobs -l'
 alias gh='history | grep'              # Find command in history
 alias cpv='rsync -ah --info=progress2' # Copy with progress bar
 alias grepa='alias | grep'
+
+# Git
 alias lg='lazygit'
 alias lga='git lga'
+alias gbvv='git branch -vv'
+alias gc-='git checkout -' # Checkout previous branch
+alias gbm='git branch -m' # Rename branch
 
 # Homebrew
 alias brewi='brew install'
