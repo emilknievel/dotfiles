@@ -16,12 +16,12 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 # global settings
 yabai -m config mouse_follows_focus          off
-yabai -m config focus_follows_mouse          autofocus
+yabai -m config focus_follows_mouse          off
 yabai -m config window_origin_display        default
 yabai -m config window_placement             second_child
 yabai -m config window_topmost               off
 yabai -m config window_shadow                on #float #off
-yabai -m config window_opacity               on
+yabai -m config window_opacity               off
 yabai -m config window_opacity_duration      0.0 #0.5
 yabai -m config window_animation_frame_rate  120
 yabai -m config active_window_opacity        1.0
@@ -62,5 +62,8 @@ yabai -m rule --add app="^JetBrains Toolbox$" manage=off
 yabai -m rule --add app="^KeyboardCleanTool$" manage=off
 yabai -m rule --add app="^Lunar$" manage=off
 yabai -m rule --add app="^1Password$" manage=off
+yabai -m rule --add app="^Påminnelser" manage=off
+yabai -m rule --add app="^Arc" title="^Account" manage=off
+yabai -m rule --add app="^Arc" title="^Space 1" manage=off
 
 echo "yabai configuration loaded.."
