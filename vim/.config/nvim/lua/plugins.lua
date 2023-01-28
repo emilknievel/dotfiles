@@ -140,6 +140,16 @@ packer.startup(function(use)
     "rest-nvim/rest.nvim",
     requires = { "nvim-lua/plenary.nvim" },
   }
+  use {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup {
+        text = {
+          spinner = "clock", -- animation shown when tasks are ongoing
+        },
+      }
+    end,
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
