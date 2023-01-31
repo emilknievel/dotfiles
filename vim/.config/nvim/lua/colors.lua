@@ -13,7 +13,7 @@ vim.opt.background = "dark"
 
 -- highlight columns past 80
 --vim.wo.colorcolumn = vim.fn.join(vim.fn.range(81,999),',')
-vim.wo.colorcolumn = "81"
+-- vim.wo.colorcolumn = "81"
 
 -- set contrast "hard, medium(default), soft"
 -- vim.g.gruvbox_material_background = 'medium'
