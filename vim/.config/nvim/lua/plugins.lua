@@ -45,7 +45,7 @@ packer.startup(function(use)
   use "jeffkreeftmeijer/vim-numbertoggle"
   use {
     "nvim-lualine/lualine.nvim",
-    requires = { "kyazdani42/nvim-web-devicons", opt = true },
+    requires = { "nvim-tree/nvim-web-devicons", opt = true },
   }
   use "onsails/lspkind-nvim" -- vscode-like pictograms
   use "hrsh7th/cmp-buffer" -- nvim-cmp source for buffer words
@@ -84,7 +84,7 @@ packer.startup(function(use)
   }
   use "nvim-treesitter/playground"
   use "neovim/nvim-lspconfig" -- Configurations for NVim LSP
-  use "kyazdani42/nvim-web-devicons"
+  use "nvim-tree/nvim-web-devicons"
   use {
     "nvim-telescope/telescope.nvim",
     requires = { { "nvim-lua/plenary.nvim" } },
