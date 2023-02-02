@@ -147,6 +147,11 @@ packer.startup(function(use)
         text = {
           spinner = "clock", -- animation shown when tasks are ongoing
         },
+        sources = {
+          ["null-ls"] = {
+            ignore = true,
+          },
+        },
       }
     end,
   }
