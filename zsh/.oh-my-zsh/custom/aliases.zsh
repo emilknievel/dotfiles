@@ -50,4 +50,3 @@ alias lsofp='lsof -i tcp:' # List open files using specified port
 # Vue
 alias qd='quasar dev'
 alias qb='quasar build'
-
