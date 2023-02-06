@@ -73,6 +73,8 @@ null_ls.setup {
     null_ls.builtins.code_actions.eslint_d.with({
       only_local = 'node_modules/.bin'
     }),
+
+    null_ls.builtins.formatting.prettier,
   },
   on_attach = function(client, bufnr)
     if client.supports_method "textDocument/formatting" then
@@ -94,6 +96,9 @@ null_ls.setup {
       -- })
     end
     if client.supports_method "textDocument/rangeFormatting" then
+      local lsp_format_modifications = require"lsp-format-modifications"
+      lsp_format_modifications.attach(client, bufnr, { format_on_save = true })
+
       vim.keymap.set("x", "<Leader>fm", function()
         vim.lsp.buf.format {
           bufnr = vim.api.nvim_get_current_buf(),

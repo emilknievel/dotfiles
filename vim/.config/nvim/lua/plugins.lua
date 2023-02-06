@@ -166,6 +166,7 @@ packer.startup(function(use)
     require("todo-comments").setup {}
   end
 }
+  use "joechrisellis/lsp-format-modifications.nvim"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
