@@ -4,7 +4,7 @@ alias dotnet64="/usr/local/share/dotnet/x64/dotnet"
 alias bc='bc -l'                       # Start calculator with math support
 alias h='history'
 alias j='jobs -l'
-alias gh='history | grep'              # Find command in history
+alias hg='history | grep'              # Find command in history
 alias cpv='rsync -ah --info=progress2' # Copy with progress bar
 alias grepa='alias | grep'
 
