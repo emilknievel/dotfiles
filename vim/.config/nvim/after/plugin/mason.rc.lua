@@ -25,6 +25,7 @@ mason_lspconfig.setup {
   ensure_installed = {
     "awk_ls",
     "bashls",
+    "clojure_lsp",
     "cssls",
     "dockerls",
     "gopls",
