@@ -166,18 +166,6 @@ case "$OSTYPE" in
     ;;
 esac
 
-# ssh agent
-case "$OSTYPE" in
-  linux*)
-    if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-      ssh-agent -t 1h > "$XDG_RUNTIME_DIR/ssh-agent.env"
-    fi
-    if [[ "$SSH_AUTH_SOCK" ]]; then
-      source "$XDG_RUNTIME_DIR/ssh-agent.env" > /dev/null
-    fi
-    ;;
-esac
-
 # nvm auto load
 autoload -U add-zsh-hook
 load-nvmrc() {
