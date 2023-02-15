@@ -35,7 +35,7 @@ mason_lspconfig.setup {
     "omnisharp",
     "pylsp",
     "rust_analyzer",
-    "sumneko_lua",
+    "lua_ls",
     "solargraph",
     "tailwindcss",
     "tsserver",
