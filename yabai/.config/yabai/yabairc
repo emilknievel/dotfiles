@@ -43,11 +43,11 @@ yabai -m config mouse_drop_action            swap
 
 # general space settings
 yabai -m config layout                       bsp
-yabai -m config top_padding                  20 #12 #20
-yabai -m config bottom_padding               20 #12 #20
-yabai -m config left_padding                 20 #12 #20
-yabai -m config right_padding                20 #12 #20
-yabai -m config window_gap                   20 #12
+yabai -m config top_padding                  12 #20
+yabai -m config bottom_padding               12 #20
+yabai -m config left_padding                 12 #20
+yabai -m config right_padding                12 #20
+yabai -m config window_gap                   12
 
 yabai -m rule --add label="sys" app="^System.*inställningar$" manage=off
 yabai -m rule --add app="^Archive Utility$" manage=off
@@ -65,5 +65,6 @@ yabai -m rule --add app="^1Password$" manage=off
 yabai -m rule --add app="^Påminnelser" manage=off
 yabai -m rule --add app="^Arc" title="^Account" manage=off
 yabai -m rule --add app="^Arc" title="^Space 1" manage=off
+yabai -m rule --add app="^Steam" manage=off
 
 echo "yabai configuration loaded.."
