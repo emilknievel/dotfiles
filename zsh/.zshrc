@@ -28,14 +28,14 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 
-case "$OSTYPE" in
-  darwin*)
-    ZSH_THEME="simple"
-    ;;
-  linux*)
-    ZSH_THEME="powerlevel10k/powerlevel10k"
-    ;;
-esac
+# case "$OSTYPE" in
+#   darwin*)
+#     ZSH_THEME="simple"
+#     ;;
+#   linux*)
+#     ZSH_THEME="powerlevel10k/powerlevel10k"
+#     ;;
+# esac
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -97,14 +97,6 @@ esac
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-
-# plugin prereq
-# =============
-# zsh-autosuggestions
-# -------------------
-# install zsh-autosuggestions with: git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-# add ZSH_AUTOSUGGEST_STRATEGY=(history completion) to oh-my-zsh custom dir in eg. autocomplete.zsh
-#
 plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
@@ -202,6 +194,8 @@ case "$OSTYPE" in
   darwin*)
     source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
     ;;
+  linux*)
+    source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 esac
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
