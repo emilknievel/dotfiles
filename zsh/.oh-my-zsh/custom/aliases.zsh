@@ -50,3 +50,9 @@ alias lsofp='lsof -i tcp:' # List open files using specified port
 # Vue
 alias qd='quasar dev'
 alias qb='quasar build'
+
+# tmux
+alias t="tmux"
+alias ta="tmux attach -t"
+alias tls="tmux ls"
+alias tn="tmux new -t"
