@@ -222,3 +222,6 @@ case "$OSTYPE" in
     fi
     ;;
 esac
+
+# prereq: zoxide, fzf
+eval "$(zoxide init zsh)"
