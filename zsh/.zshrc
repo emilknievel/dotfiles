@@ -227,3 +227,6 @@ esac
 
 # prereq: zoxide, fzf
 eval "$(zoxide init zsh)"
+
+# do Ctrl+L with Ctrl+Alt+L
+bindkey "^[l" clear-screen
