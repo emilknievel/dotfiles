@@ -87,5 +87,8 @@ keymap.set("n", "<leader>ws", function()
   print("Display whitespace: " .. tostring(vim.opt.list:get()))
 end, { desc = "Toggle displaying whitespace" })
 
+-- jj to escape
+keymap.set("i", "jj", "<Esc>", { noremap = false })
+
 -- Fun stuff
 -- keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { desc = 'Make it rain!' })
