@@ -16,18 +16,18 @@ alias gc-='git checkout -' # Checkout previous branch
 alias gbm='git branch -m' # Rename branch
 
 # Homebrew
-alias brewi='brew install'
-alias brewic='brew install --cask'
-alias brewc='brew cleanup'
-alias brewud='brew update'
-alias brewug='brew upgrade'
-alias brewsl='brew services list'
-alias brewsr='brew services restart'
-alias brewss='brew services start'
-alias brewsc='brew services stop'
-alias brewq='brew info' # "query"
-alias brewo='brew outdated'
-alias brewl='brew list'
+alias bri='brew install'
+alias bric='brew install --cask'
+alias brcl='brew cleanup'
+alias brud='brew update'
+alias brug='brew upgrade'
+alias brsl='brew services list'
+alias brsr='brew services restart'
+alias brss='brew services start'
+alias brsc='brew services stop'
+alias brq='brew info' # "query"
+alias bro='brew outdated'
+alias brl='brew list'
 
 # Kitty
 alias icat='kitty +kitten icat'        # Display an image inline in terminal
