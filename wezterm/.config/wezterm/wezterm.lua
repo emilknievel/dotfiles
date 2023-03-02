@@ -16,5 +16,5 @@ return {
   enable_tab_bar = false,
   window_decorations = "RESIZE",
   -- color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
-  color_scheme = "Catppuccin Frappe",
+  color_scheme = "Catppuccin Mocha",
 }

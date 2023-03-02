@@ -68,10 +68,10 @@ require("rose-pine").setup {
 
 -- Catppuccin
 require("catppuccin").setup {
-  flavour = "frappe", -- latte, frappe, macchiato, mocha
+  flavour = "mocha", -- latte, frappe, macchiato, mocha
   background = { -- :h background
     light = "latte",
-    dark = "frappe",
+    dark = "mocha",
   },
   transparent_background = false,
   term_colors = false,
