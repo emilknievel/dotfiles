@@ -76,5 +76,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux
-# 
+#
 vim/.config/nvim/plugin/packer_compiled.lua
+lazygit/.config/lazygit/state.yml
