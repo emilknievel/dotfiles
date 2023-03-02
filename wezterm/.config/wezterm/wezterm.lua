@@ -4,7 +4,7 @@ local wezterm = require "wezterm"
 -- TODO: Use when dynamic theming solved for other utils.
 function scheme_for_appearance(appearance)
   if appearance:find "Dark" then
-    return "Catppuccin Mocha"
+    return "Catppuccin Frappe"
   else
     return "Catppuccin Latte"
   end
@@ -16,5 +16,5 @@ return {
   enable_tab_bar = false,
   window_decorations = "RESIZE",
   -- color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
-  color_scheme = "Catppuccin Mocha",
+  color_scheme = "Catppuccin Frappe",
 }
