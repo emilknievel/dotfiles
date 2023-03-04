@@ -67,48 +67,38 @@ null_ls.setup {
     },
 
     -- eslint_d as default linter
-    null_ls.builtins.diagnostics.eslint_d.with({
-      only_local = 'node_modules/.bin'
-    }),
+    null_ls.builtins.diagnostics.eslint_d.with {
+      only_local = "node_modules/.bin",
+    },
     -- eslint_d as default for code actions
-    null_ls.builtins.code_actions.eslint_d.with({
-      only_local = 'node_modules/.bin'
-    }),
+    null_ls.builtins.code_actions.eslint_d.with {
+      only_local = "node_modules/.bin",
+    },
 
-    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.prettierd.with {
+      only_local = "node_modules/.bin",
+    },
   },
   on_attach = function(client, bufnr)
     if client.supports_method "textDocument/formatting" then
+      -- format buffer
       vim.keymap.set("n", "<Leader>fm", function()
         vim.lsp.buf.format {
           bufnr = vim.api.nvim_get_current_buf(),
         }
       end, { buffer = bufnr, desc = "[lsp] format" })
-
-      -- format on save
-      -- vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-      -- vim.api.nvim_create_autocmd(event, {
-      --     buffer = bufnr,
-      --     group = group,
-      --     callback = function()
-      --         vim.lsp.buf.format({ bufnr = bufnr, async = async })
-      --     end,
-      --     desc = '[lsp] format on save',
-      -- })
     end
     if client.supports_method "textDocument/rangeFormatting" then
-      local lsp_format_modifications = require"lsp-format-modifications"
-      lsp_format_modifications.attach(client, bufnr, { format_on_save = true })
+      local lsp_format_modifications = require "lsp-format-modifications"
+      lsp_format_modifications.attach(client, bufnr, { format_on_save = false })
 
+      -- format selection
       vim.keymap.set("x", "<Leader>fm", function()
         vim.lsp.buf.format {
           bufnr = vim.api.nvim_get_current_buf(),
         }
       end, { buffer = bufnr, desc = "[lsp] format" })
     end
-
-    -- local lsp_format_modifications = require('lsp-format-modifications')
-    -- lsp_format_modifications.attach(client, bufnr, { format_on_save = true })
   end,
 }
 
