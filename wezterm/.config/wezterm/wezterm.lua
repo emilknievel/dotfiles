@@ -11,8 +11,10 @@ function scheme_for_appearance(appearance)
 end
 
 return {
+  -- font = wezterm.font "BlexMono Nerd Font",
   font = wezterm.font "BlexMono Nerd Font",
   font_size = 14.0,
+  freetype_load_target = "Light",
   enable_tab_bar = false,
   window_decorations = "RESIZE",
   -- color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),

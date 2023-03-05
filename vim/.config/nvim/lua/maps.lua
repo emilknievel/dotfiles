@@ -71,8 +71,8 @@ keymap.set("n", "Q", "<nop>") -- never want to press 'Q'
 -- keymap.set('n', '<leader>f', function() vim.lsp.buf.format() end)
 
 -- quickfix navigation
-keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+keymap.set("n", "<C-K>", "<cmd>cnext<CR>zz")
+keymap.set("n", "<C-J>", "<cmd>cprev<CR>zz")
 keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 

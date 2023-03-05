@@ -66,5 +66,6 @@ yabai -m rule --add app="^Påminnelser" manage=off
 yabai -m rule --add app="^Arc" title="^Account" manage=off
 yabai -m rule --add app="^Arc" title="^Space 1" manage=off
 yabai -m rule --add app="^Steam" manage=off
+yabai -m rule --add app="^Ivory" title="^Ivory" manage=off
 
 echo "yabai configuration loaded.."
