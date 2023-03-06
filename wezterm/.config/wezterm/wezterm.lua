@@ -14,9 +14,12 @@ return {
   -- font = wezterm.font "BlexMono Nerd Font",
   font = wezterm.font "BlexMono Nerd Font",
   font_size = 14.0,
-  freetype_load_target = "Light",
+  freetype_load_flags = "NO_HINTING",
   enable_tab_bar = false,
   window_decorations = "RESIZE",
   -- color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
   color_scheme = "Catppuccin Frappe",
+  default_cursor_style = "BlinkingBlock",
+  cursor_blink_ease_in = "Constant",
+  cursor_blink_ease_out = "Constant",
 }
