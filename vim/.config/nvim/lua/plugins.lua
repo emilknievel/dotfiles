@@ -153,7 +153,7 @@ packer.startup(function(use)
         },
         sources = {
           ["null-ls"] = {
-            ignore = true,
+            ignore = false,
           },
         },
       }

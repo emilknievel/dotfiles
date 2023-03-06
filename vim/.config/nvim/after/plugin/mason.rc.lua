@@ -37,7 +37,7 @@ mason_lspconfig.setup {
     "rust_analyzer",
     "lua_ls",
     "solargraph",
-    "tailwindcss",
+    -- "tailwindcss",
     "tsserver",
     "volar",
     "yamlls",

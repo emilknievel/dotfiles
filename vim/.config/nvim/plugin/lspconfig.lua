@@ -170,7 +170,7 @@ nvim_lsp.lua_ls.setup {
   },
 }
 
-nvim_lsp.tailwindcss.setup {}
+-- nvim_lsp.tailwindcss.setup {}
 
 local util = require "lspconfig.util"
 local function get_typescript_server_path(root_dir)
