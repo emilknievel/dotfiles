@@ -92,3 +92,6 @@ keymap.set("i", "jj", "<Esc>", { noremap = false })
 
 -- Fun stuff
 -- keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { desc = 'Make it rain!' })
+
+vim.keymap.set("n", "<leader>gdo", "<cmd>DiffviewOpen<CR>")
+vim.keymap.set("n", "<leader>gdc", "<cmd>DiffviewClose<CR>")

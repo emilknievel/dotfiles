@@ -56,8 +56,8 @@ packer.startup(function(use)
   use "glepnir/lspsaga.nvim" -- LSP UIs
   -- Snippets
   use { "L3MON4D3/LuaSnip", run = "make install_jsregexp" }
-  use { 'rafamadriz/friendly-snippets' }
-  use { 'saadparwaiz1/cmp_luasnip' }
+  use { "rafamadriz/friendly-snippets" }
+  use { "saadparwaiz1/cmp_luasnip" }
 
   -- use({
   --     'VonHeikemen/lsp-zero.nvim',
@@ -153,19 +153,19 @@ packer.startup(function(use)
         },
         sources = {
           ["null-ls"] = {
-            ignore = false,
+            ignore = true,
           },
         },
       }
     end,
   }
   use {
-  "folke/todo-comments.nvim",
-  requires = "nvim-lua/plenary.nvim",
-  config = function()
-    require("todo-comments").setup {}
-  end
-}
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {}
+    end,
+  }
   use "joechrisellis/lsp-format-modifications.nvim"
   use {
     "johnfrankmorgan/whitespace.nvim",
@@ -202,6 +202,10 @@ packer.startup(function(use)
       vim.keymap.set("n", "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
       vim.keymap.set("n", "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
     end,
+  }
+  use {
+    "sindrets/diffview.nvim",
+    requires = "nvim-lua/plenary.nvim",
   }
 
   -- Automatically set up your configuration after cloning packer.nvim
