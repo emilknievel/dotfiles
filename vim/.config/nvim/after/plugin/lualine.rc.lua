@@ -34,7 +34,8 @@ lualine.setup {
   options = {
     theme = "auto",
     component_separators = "|",
-    section_separators = { left = "", right = "" },
+    section_separators = "",
+    -- section_separators = { left = "", right = "" },
   },
   sections = {
     lualine_a = {
@@ -45,7 +46,7 @@ lualine.setup {
     lualine_x = { "encoding", "fileformat", "filetype" },
     lualine_y = { "progress", "location" },
     lualine_z = {
-      lsp
+      lsp,
     },
   },
   inactive_sections = {
