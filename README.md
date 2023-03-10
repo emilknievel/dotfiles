@@ -32,3 +32,6 @@ To update the submodules to their latest commit, run:
 ```bash
 git submodule foreach git pull
 ```
+
+## Todo
+- [ ] Update prerequisites section
