@@ -27,3 +27,5 @@
 [user]
   name = Emil Vågstedt
   email = emil.vagstedt@icloud.com
+[init]
+	defaultBranch = main

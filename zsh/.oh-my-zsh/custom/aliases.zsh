@@ -61,4 +61,5 @@ alias tn="tmux new -t"
 # Pop!_OS
 if [[ $(hostname -s) == "pop-os" ]]; then
   alias clipboard='xclip -sel clip'
+  alias wezterm='flatpak run org.wezfurlong.wezterm'
 fi

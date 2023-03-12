@@ -11,9 +11,8 @@ function scheme_for_appearance(appearance)
 end
 
 return {
-  -- font = wezterm.font "BlexMono Nerd Font",
-  font = wezterm.font "BlexMono Nerd Font",
-  font_size = 14.0,
+  font = wezterm.font "FiraCode Nerd Font",
+  font_size = 10.0,
   freetype_load_flags = "NO_HINTING",
   enable_tab_bar = false,
   window_decorations = "RESIZE",
