@@ -8,11 +8,11 @@ env:
   TERM: xterm-256color
   LC_ALL: "en_US.UTF-8"
 window:
-  decorations: "buttonless"
+  decorations: "None"
   padding:
-    x: 10
-    y: 10
-  option_as_alt: Both
+    x: 5
+    y: 5
+  # option_as_alt: Both
 font:
   normal:
     family: BlexMono Nerd Font
@@ -26,7 +26,7 @@ font:
   bold_italic:
     family: BlexMono Nerd Font
     style: Bold Italic
-  size: 14.0
+  size: 13.0
 mouse:
   hide_when_typing: true
 selection:
