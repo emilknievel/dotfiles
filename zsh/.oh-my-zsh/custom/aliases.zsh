@@ -57,3 +57,8 @@ alias t="tmux"
 alias ta="tmux attach -t"
 alias tls="tmux ls"
 alias tn="tmux new -t"
+
+# Pop!_OS
+if [[ $(hostname -s) == "pop-os" ]]; then
+  alias clipboard='xclip -sel clip'
+fi
