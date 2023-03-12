@@ -38,6 +38,14 @@ export ZSH="$HOME/.oh-my-zsh"
 #     ZSH_THEME="powerlevel10k/powerlevel10k"
 #     ;;
 # esac
+case "$OSTYPE" in
+  linux*)
+    if [[ $(hostname) = "pop-os" ]] then
+      ZSH_THEME="powerlevel10k/powerlevel10k"
+      export PATH=$PATH:/usr/local/go/bin
+    fi
+    ;;
+esac
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -197,7 +205,9 @@ case "$OSTYPE" in
     source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
     ;;
   linux*)
-    source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+    if ! [[ $(hostname) = "pop-os" ]] then
+      source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+    fi
 esac
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
