@@ -1,35 +1,35 @@
 [alias]
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	lga = lg --all
-	pf = push --force-with-lease
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  lga = lg --all
+  pf = push --force-with-lease
   gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
-	# Undo the last commit, leaving your staging area the same as just before you committed
-	undo = reset --soft HEAD^
+  # Undo the last commit, leaving your staging area the same as just before you committed
+  undo = reset --soft HEAD^
 [diff]
-	tool = nvim
+  tool = nvim
 [merge]
-	tool = nvim
+  tool = nvim
 [core]
-	editor = nvim
-	precomposeunicode = true
-	# Display UTF-8 characters in filenames, if you're having problems seeing them
-	quotepath = false
-	excludesfile = .config/git/gitignore_global
-	pager = "delta --syntax-theme='Catppuccin-frappe'"
-	autocrlf = input
+  editor = nvim
+  precomposeunicode = true
+  # Display UTF-8 characters in filenames, if you're having problems seeing them
+  quotepath = false
+  excludesfile = .config/git/gitignore_global
+  pager = "delta --syntax-theme='Catppuccin-frappe'"
+  autocrlf = input
 
 [help]
-	# Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
-	autocorrect = 1
+  # Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
+  autocorrect = 1
 [rerere]
-	# Remembers how you handled merging conflicts in a branch, for easier merging later
-	enabled = 1
+  # Remembers how you handled merging conflicts in a branch, for easier merging later
+  enabled = 1
 [includeIf "gitdir:~/stuff/"]
-	path = ~/.config/git/gitconfig-personal
+  path = ~/.config/git/gitconfig-personal
 [includeIf "gitdir:~/projects/"]
-	path = ~/.config/git/gitconfig-work
+  path = ~/.config/git/gitconfig-work
 [credential]
-	helper =
-	helper = /usr/local/share/gcm-core/git-credential-manager
+  helper =
+  helper = /usr/local/share/gcm-core/git-credential-manager
 [credential "https://dev.azure.com"]
-	useHttpPath = true
+  useHttpPath = true
