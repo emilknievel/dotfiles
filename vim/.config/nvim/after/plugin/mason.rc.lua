@@ -19,7 +19,7 @@ end
 local event = "BufWritePre" -- or "BufWritePost"
 local async = event == "BufWritePost"
 
-mason.setup {}
+mason.setup()
 
 mason_lspconfig.setup {
   ensure_installed = {
@@ -53,7 +53,7 @@ mason_null_ls.setup {
     "stylua",
   },
   automatic_installation = false,
-  automatic_setup = true, -- Recommended, but optional
+  handlers = {},
 }
 
 null_ls.setup {
@@ -101,15 +101,3 @@ null_ls.setup {
     end
   end,
 }
-
-mason_null_ls.setup_handlers()
--- mason_null_ls.setup_handlers({
--- 	function(source_name, methods)
--- 		-- all sources with no handler get passed here
--- 	end,
--- 	stylua = function(source_name, methods)
--- 		null_ls.builtins.formatting.stylua.with({
--- 			extra_args = { "--config-path", vim.fn.expand("~/.config/stylua.toml") },
--- 		})
--- 	end,
--- })
