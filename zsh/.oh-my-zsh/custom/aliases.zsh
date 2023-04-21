@@ -53,13 +53,16 @@ alias qd='quasar dev'
 alias qb='quasar build'
 
 # tmux
-alias t="tmux"
-alias ta="tmux attach -t"
-alias tls="tmux ls"
-alias tn="tmux new -t"
+alias t='tmux'
+alias ta='tmux attach -t'
+alias tls='tmux ls'
+alias tn='tmux new -t'
 
 # Pop!_OS
 if [[ $(hostname -s) == "pop-os" ]]; then
   alias clipboard='xclip -sel clip'
   alias wezterm='flatpak run org.wezfurlong.wezterm'
 fi
+
+# IP
+alias ipecho='curl ipecho.net/plain ; echo'
