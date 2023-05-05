@@ -254,10 +254,26 @@ bindkey "^[l" clear-screen
 # --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
 # --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284"
 
-# Rosé Pine for fzf
+# Rosé Pine dark for fzf
+# export FZF_DEFAULT_OPTS="
+# --color=fg:#908caa,bg:#191724,hl:#ebbcba
+# --color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
+# --color=border:#403d52,header:#31748f,gutter:#191724
+# --color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
+# --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+
+# Rosé pine dawn
+# export FZF_DEFAULT_OPTS="
+# --color=fg:#797593,bg:#faf4ed,hl:#d7827e
+# --color=fg+:#575279,bg+:#f2e9e1,hl+:#d7827e
+# --color=border:#dfdad9,header:#286983,gutter:#faf4ed
+# --color=spinner:#ea9d34,info:#56949f,separator:#dfdad9
+# --color=pointer:#907aa9,marker:#b4637a,prompt:#797593"
+
+# Rosé pine moon
 export FZF_DEFAULT_OPTS="
---color=fg:#908caa,bg:#191724,hl:#ebbcba
---color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
---color=border:#403d52,header:#31748f,gutter:#191724
---color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
+--color=fg:#908caa,bg:#232136,hl:#ea9a97
+--color=fg+:#e0def4,bg+:#393552,hl+:#ea9a97
+--color=border:#44415a,header:#3e8fb0,gutter:#232136
+--color=spinner:#f6c177,info:#9ccfd8,separator:#44415a
 --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
