@@ -36,6 +36,10 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
   --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  -- NOTE: disable semantic tokens for omnisharp to prevent errors. Hopefully they fix it soon.
+  if client.name == "omnisharp" then
+    client.server_capabilities.semanticTokensProvider = nil
+  end
 end
 
 protocol.CompletionItemKind = {
@@ -160,7 +164,6 @@ nvim_lsp.lua_ls.setup {
         -- Get the language server to recognize the `vim` global
         globals = { "vim" },
       },
-
       workspace = {
         -- Make the server aware of Neovim runtime files
         library = vim.api.nvim_get_runtime_file("", true),
@@ -221,6 +224,8 @@ nvim_lsp.yamlls.setup {}
 nvim_lsp.solargraph.setup {}
 
 nvim_lsp.clojure_lsp.setup {}
+
+nvim_lsp.pylsp.setup {}
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {})
 
