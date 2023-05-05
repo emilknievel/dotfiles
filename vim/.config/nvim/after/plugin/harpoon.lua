@@ -1,8 +1,10 @@
-local mark = require "harpoon.mark"
-local ui = require "harpoon.ui"
+-- NOTE: Disabled due to conflict with lspsaga popup
 
-vim.keymap.set("n", "<leader>a", mark.add_file)
-vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+-- local mark = require "harpoon.mark"
+-- local ui = require "harpoon.ui"
+--
+-- vim.keymap.set("n", "<leader>a", mark.add_file)
+-- vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
 
 -- commented out to allow for seamless tmux
 -- vim.keymap.set("n", "<C-j>", function()

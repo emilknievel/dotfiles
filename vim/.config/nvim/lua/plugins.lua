@@ -131,7 +131,7 @@ packer.startup(function(use)
       require("which-key").setup()
     end,
   }
-  use "theprimeagen/harpoon"
+  -- use "theprimeagen/harpoon"
   use "mbbill/undotree"
   use "tpope/vim-fugitive"
   use {
