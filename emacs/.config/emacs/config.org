@@ -1,6 +1,15 @@
-* Emacs Config
+* Package Management
 
-** Package Management
+** straight.el
+
+*** Use develop branch for compatibility
+
+#+begin_src emacs-lisp
+  (setq straight-repository-branch "develop")
+#+end_src
+
+*** Bootstrap straight.el
+
 #+begin_src emacs-lisp
   (defvar bootstrap-version)
   (let ((bootstrap-file
@@ -16,7 +25,23 @@
     (load bootstrap-file nil 'nomessage))
 #+end_src
 
-** Better defaults
+** use-package
+
+*** Install use-package
+
+#+begin_src emacs-lisp
+  (straight-use-package 'use-package)
+#+end_src
+
+*** Configure use-package to use straight.el by default
+
+#+begin_src emacs-lisp
+  (use-package straight
+    :custom
+    (straight-use-package-by-default t))
+#+end_src
+
+* Better defaults
 https://git.sr.ht/~technomancy/better-defaults
 #+begin_src emacs-lisp
   (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
@@ -69,7 +94,7 @@ https://git.sr.ht/~technomancy/better-defaults
                                                    "backups")))))
 #+end_src
 
-** Disable startup screen
+* Disable startup screen
 #+begin_src emacs-lisp
   (setq inhibit-startup-screen t)
 #+end_src

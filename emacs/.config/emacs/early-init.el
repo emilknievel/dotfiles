@@ -16,3 +16,6 @@
 
 (set-language-environment "UTF-8")
 (setq default-input-method nil)
+
+;; prevent package.el loading packages prior to their init-file loading
+(setq package-enable-at-startup nil)
