@@ -1,3 +1,5 @@
+#+title: Emacs Config
+
 * Package Management
 
 ** straight.el
@@ -97,4 +99,15 @@ https://git.sr.ht/~technomancy/better-defaults
 * Disable startup screen
 #+begin_src emacs-lisp
   (setq inhibit-startup-screen t)
+#+end_src
+
+* Key bindings
+
+** which-key
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :config
+    (setq which-key-popup-type 'minibuffer)
+    (which-key-mode))
 #+end_src
