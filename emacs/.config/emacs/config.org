@@ -28,34 +28,22 @@ Use develop branch for compatibility
 Bootstrap straight.el
 
 #+begin_src emacs-lisp
+  (setq straight-use-package-by-default t)
+
   (defvar bootstrap-version)
-  (let ((bootstrap-file
-	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-	(bootstrap-version 6))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-	  (url-retrieve-synchronously
-	   "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-	   'silent 'inhibit-cookies)
-	(goto-char (point-max))
-	(eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-#+end_src
+    (let ((bootstrap-file
+           (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+          (bootstrap-version 6))
+      (unless (file-exists-p bootstrap-file)
+        (with-current-buffer
+            (url-retrieve-synchronously
+             "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+             'silent 'inhibit-cookies)
+          (goto-char (point-max))
+          (eval-print-last-sexp)))
+      (load bootstrap-file nil 'nomessage))
 
-*** use-package
-
-Install use-package
-
-#+begin_src emacs-lisp
   (straight-use-package 'use-package)
-#+end_src
-
-Configure use-package to use straight.el by default
-
-#+begin_src emacs-lisp
-  (use-package straight
-    :custom
-    (straight-use-package-by-default t))
 #+end_src
 
 ** Better defaults
@@ -129,4 +117,23 @@ https://git.sr.ht/~technomancy/better-defaults
     (which-key-mode))
 #+end_src
 
+** Evil
 
+#+begin_src emacs-lisp
+  (use-package undo-fu)
+
+  (use-package evil
+    :demand t
+    :bind (("<escape>" . keyboard-escape-quit))
+    :init
+    (setq evil-want-keybinding nil)
+    (setq evil-undo-system 'undo-fu)
+    :config
+    (evil-mode 1))
+
+  (use-package evil-collection
+    :after evil
+    :config
+    (setq evil-want-integration t)
+    (evil-collection-init))
+#+end_src

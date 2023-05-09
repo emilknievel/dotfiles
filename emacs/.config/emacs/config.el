@@ -5,24 +5,22 @@
 
 (setq straight-repository-branch "develop")
 
+(setq straight-use-package-by-default t)
+
 (defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-	(url-retrieve-synchronously
-	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-	 'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 6))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
-
-(use-package straight
-  :custom
-  (straight-use-package-by-default t))
 
 (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
   (ido-mode t)
@@ -80,7 +78,19 @@
   (setq which-key-popup-type 'minibuffer)
   (which-key-mode))
 
-(setq ns-option-key-is-meta nil
-      ns-command-key-is-meta t
-      ns-command-modifier 'meta
-      ns-option-modifier 'none)
+(use-package undo-fu)
+
+(use-package evil
+  :demand t
+  :bind (("<escape>" . keyboard-escape-quit))
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-fu)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (setq evil-want-integration t)
+  (evil-collection-init))
