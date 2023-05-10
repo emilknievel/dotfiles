@@ -94,3 +94,30 @@
   :config
   (setq evil-want-integration t)
   (evil-collection-init))
+
+(use-package autothemer)
+
+; (use-package rose-pine-emacs
+;   :straight (:type git :host github :repo "thongpv87/rose-pine-emacs" :branch "master")
+;   :defer nil
+;   :config (load-theme 'rose-pine-color t))
+
+(use-package kaolin-themes)
+
+(defun my/apply-theme (appearance)
+  "Load theme, taking current system APPEARANCE into consideration."
+  (mapc #'disable-theme custom-enabled-themes)
+  (pcase appearance
+    ('light (load-theme 'kaolin-light t))
+    ('dark (load-theme 'kaolin-dark t))))
+
+(add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+
+(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 14"))
+;; Render fonts like in iTerm
+;; Still need to set
+;; `defaults write org.gnu.Emacs AppleFontSmoothing -int`
+;; in the terminal for it to work like intended
+(setq ns-use-thin-smoothing t)
