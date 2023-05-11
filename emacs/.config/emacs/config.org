@@ -107,9 +107,7 @@ https://git.sr.ht/~technomancy/better-defaults
   (setq inhibit-startup-screen t)
 #+end_src
 ** Key bindings
-
 *** which-key
-
 #+begin_src emacs-lisp
   (use-package which-key
     :config
@@ -117,7 +115,8 @@ https://git.sr.ht/~technomancy/better-defaults
     (which-key-mode))
 #+end_src
 
-** Evil
+*** Evil
+Use Evil mode for Vim like bindings.
 #+begin_src emacs-lisp
   (use-package undo-fu)
 
@@ -125,16 +124,25 @@ https://git.sr.ht/~technomancy/better-defaults
     :demand t
     :bind (("<escape>" . keyboard-escape-quit))
     :init
+    (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
     (setq evil-undo-system 'undo-fu)
+    (setq evil-want-C-u-scroll t)
     :config
+    (evil-set-leader '(normal visual) (kbd "SPC"))
     (evil-mode 1))
 
   (use-package evil-collection
     :after evil
+    :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
     :config
-    (setq evil-want-integration t)
     (evil-collection-init))
+#+end_src
+
+*** general.el (WIP)
+general.el provides a more convenient, unified interface for binding keys in Emacs.
+Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
+#+begin_src emacs-lisp
 #+end_src
 
 ** Customization

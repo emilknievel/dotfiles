@@ -84,16 +84,21 @@
   :demand t
   :bind (("<escape>" . keyboard-escape-quit))
   :init
+  (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-undo-system 'undo-fu)
+  (setq evil-want-C-u-scroll t)
   :config
+  (evil-set-leader '(normal visual) (kbd "SPC"))
   (evil-mode 1))
 
 (use-package evil-collection
   :after evil
+  :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
   :config
-  (setq evil-want-integration t)
   (evil-collection-init))
+
+
 
 (use-package autothemer)
 
