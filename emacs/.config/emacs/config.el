@@ -126,3 +126,8 @@
 ;; `defaults write org.gnu.Emacs AppleFontSmoothing -int`
 ;; in the terminal for it to work like intended
 (setq ns-use-thin-smoothing t)
+
+(setq fill-column 80)
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+
+(column-number-mode 1)

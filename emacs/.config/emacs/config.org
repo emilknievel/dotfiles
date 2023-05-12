@@ -179,3 +179,15 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
   ;; in the terminal for it to work like intended
   (setq ns-use-thin-smoothing t)
 #+end_src
+
+*** Column indication
+Show column indicator at column 80
+#+begin_src emacs-lisp
+  (setq fill-column 80)
+  (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+#+end_src
+
+Display in the modeline what column the caret is currently at
+#+begin_src emacs-lisp
+  (column-number-mode 1)
+#+end_src
