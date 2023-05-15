@@ -24,6 +24,10 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, ...)
   end
 
+  local function to_snake_case(str)
+    return string.gsub(str, "%s*[- ]%s*", "_")
+  end
+
   --Enable completion triggered by <c-x><c-o>
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -36,9 +40,20 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
   --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  -- NOTE: disable semantic tokens for omnisharp to prevent errors. Hopefully they fix it soon.
+
+  -- NOTE: Workaround for omnisharp semantic tokens not conforming to lsp spec.
   if client.name == "omnisharp" then
-    client.server_capabilities.semanticTokensProvider = nil
+    local semantic_tokens_provider = client.server_capabilities.semanticTokensProvider
+
+    local token_modifiers = semantic_tokens_provider.legend.tokenModifiers
+    for i, v in ipairs(token_modifiers) do
+      token_modifiers[i] = to_snake_case(v)
+    end
+
+    local token_types = semantic_tokens_provider.legend.tokenTypes
+    for i, v in ipairs(token_types) do
+      token_types[i] = to_snake_case(v)
+    end
   end
 end
 
