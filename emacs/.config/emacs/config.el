@@ -120,7 +120,7 @@
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
-(add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 13"))
+(add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 14"))
 ;; Render fonts like in iTerm
 ;; Still need to set
 ;; `defaults write org.gnu.Emacs AppleFontSmoothing -int`
@@ -131,3 +131,7 @@
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 (column-number-mode 1)
+
+(setq show-trailing-whitespace t)
+
+(setq require-final-newline t)

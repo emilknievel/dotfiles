@@ -172,7 +172,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 
 *** Font
 #+begin_src emacs-lisp
-  (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 13"))
+  (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 14"))
   ;; Render fonts like in iTerm
   ;; Still need to set
   ;; `defaults write org.gnu.Emacs AppleFontSmoothing -int`
@@ -181,13 +181,24 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+end_src
 
 *** Column indication
-Show column indicator at column 80
+Show column indicator at column 80.
 #+begin_src emacs-lisp
   (setq fill-column 80)
   (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 #+end_src
 
-Display in the modeline what column the caret is currently at
+Display in the modeline what column the caret is currently at.
 #+begin_src emacs-lisp
   (column-number-mode 1)
+#+end_src
+
+*** Whitespace
+Show trailing whitespace in buffer.
+#+begin_src emacs-lisp
+  (setq show-trailing-whitespace t)
+#+end_src
+
+Add a newline to the end of the file if one doesn't already exist. 
+#+begin_src emacs-lisp
+  (setq require-final-newline t)
 #+end_src
