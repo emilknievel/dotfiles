@@ -107,27 +107,24 @@
 
 (setopt confirm-kill-emacs 'yes-or-no-p)
 
-(use-package autothemer)
+(use-package kaolin-themes
+  :config
+  (setq kaolin-themes-distinct-fringe t)
+  (setq kaolin-themes-hl-line-colored t))
 
-; (use-package rose-pine-emacs
-;   :straight (:type git :host github :repo "thongpv87/rose-pine-emacs" :branch "master")
-;   :defer nil
-;   :config (load-theme 'rose-pine-color t))
-
-(use-package kaolin-themes)
-
+;; Change dark/light theme on OS appearance change.
 (defun my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
     ('light (load-theme 'kaolin-light t))
     ('dark (load-theme 'kaolin-dark t))))
-
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
 (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 14"))
+
 ;; Render fonts like in iTerm
 ;; Still need to set
 ;; `defaults write org.gnu.Emacs AppleFontSmoothing -int`
