@@ -159,6 +159,12 @@
 
 (setq require-final-newline t)
 
+(use-package treesit-auto
+  :demand t
+  :config
+  (setq treesit-auto-install 'prompt)
+  (global-treesit-auto-mode))
+
 ;;(use-package corfu
 ;;  :general
 ;;  (:keymaps 'corfu-map
@@ -171,3 +177,5 @@
 ;;   "M-l" #'corfu-show-location)     ; rebind to <leader>-l
 ;;  :config
 ;;  (corfu-global-mode))
+
+(add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))

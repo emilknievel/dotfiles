@@ -262,3 +262,10 @@ Use automatic installation, usage and fallback for tree-sitter major modes.
   ;;  :config
   ;;  (corfu-global-mode))
 #+end_src
+
+** Language configuration
+*** Prolog
+Use prolog-mode instead of perl-mode for .pl files.
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
+#+end_src
