@@ -236,6 +236,16 @@ Add a newline to the end of the file if one doesn't already exist.
   (setq require-final-newline t)
 #+end_src
 
+*** Treesitter
+Use automatic installation, usage and fallback for tree-sitter major modes.
+#+begin_src emacs-lisp
+  (use-package treesit-auto
+    :demand t
+    :config
+    (setq treesit-auto-install 'prompt)
+    (global-treesit-auto-mode))
+#+end_src
+
 ** Completion
 *** Corfu
 #+begin_src emacs-lisp
