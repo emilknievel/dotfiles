@@ -16,17 +16,13 @@
 #+email: emil.vagstedt@icloud.com
 
 ** Package Management
-
 *** straight.el
-
 Use develop branch for compatibility
-
 #+begin_src emacs-lisp
   (setq straight-repository-branch "develop")
 #+end_src
 
 Bootstrap straight.el
-
 #+begin_src emacs-lisp
   (setq straight-use-package-by-default t)
 
@@ -47,9 +43,7 @@ Bootstrap straight.el
 #+end_src
 
 ** Better defaults
-
 https://git.sr.ht/~technomancy/better-defaults
-
 #+begin_src emacs-lisp
   (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
     (ido-mode t)
