@@ -101,11 +101,15 @@ https://git.sr.ht/~technomancy/better-defaults
                                                    "backups")))))
 #+end_src
 
-** Disable startup screen
-
+** Security
+Integrate Emacs with GnuTLS to ensure trusted connections.
 #+begin_src emacs-lisp
-  (setq inhibit-startup-screen t)
+  (use-package gnutls
+    :defer t
+    :custom
+    (gnutls-verify-error t))
 #+end_src
+
 ** Key bindings
 *** which-key
 #+begin_src emacs-lisp
@@ -146,6 +150,17 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+end_src
 
 ** Customization
+*** Disable startup screen
+Get rid of the annoying startup screen.
+#+begin_src emacs-lisp
+  (setq inhibit-startup-screen t)
+#+end_src
+
+*** Confirm on exit
+#+begin_src emacs-lisp
+  (setopt confirm-kill-emacs 'yes-or-no-p)
+#+end_src
+
 *** Theme
 #+begin_src emacs-lisp
   (use-package autothemer)

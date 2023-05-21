@@ -71,7 +71,10 @@
   (setq backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                  "backups")))))
 
-(setq inhibit-startup-screen t)
+(use-package gnutls
+  :defer t
+  :custom
+  (gnutls-verify-error t))
 
 (use-package which-key
   :config
@@ -99,6 +102,10 @@
   (evil-collection-init))
 
 
+
+(setq inhibit-startup-screen t)
+
+(setopt confirm-kill-emacs 'yes-or-no-p)
 
 (use-package autothemer)
 
@@ -135,3 +142,16 @@
 (setq show-trailing-whitespace t)
 
 (setq require-final-newline t)
+
+;;(use-package corfu
+;;  :general
+;;  (:keymaps 'corfu-map
+;;   :states 'insert
+;;   "C-n" #'corfu-next
+;;   "C-p" #'corfu-previous
+;;   "<escape>" #'corfu-quit
+;;   "<return>" #'corfu-insert
+;;   "M-d" #'corfu-show-documentation ; rebind to <leader>-d
+;;   "M-l" #'corfu-show-location)     ; rebind to <leader>-l
+;;  :config
+;;  (corfu-global-mode))
