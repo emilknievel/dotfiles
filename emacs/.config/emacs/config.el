@@ -139,6 +139,22 @@
 
 (column-number-mode 1)
 
+(defun my/display-set-relative ()
+  (setq display-line-numbers 'visual))
+
+(defun my/display-set-absolute ()
+  (setq display-line-numbers t))
+
+(use-package display-line-numbers
+  :custom
+  (display-line-numbers-widen t)
+  ; (display-line-numbers-type 'visual)
+  :hook
+  ((prog-mode conf-mode) . display-line-numbers-mode)
+  :config
+  (add-hook 'evil-insert-state-entry-hook #'my/display-set-absolute)
+  (add-hook 'evil-insert-state-exit-hook #'my/display-set-relative))
+
 (setq show-trailing-whitespace t)
 
 (setq require-final-newline t)

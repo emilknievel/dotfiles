@@ -207,6 +207,30 @@ Display in the modeline what column the caret is currently at.
   (column-number-mode 1)
 #+end_src
 
+*** Display line numbers
+Hooks for relative and absolute line numbers.
+#+begin_src emacs-lisp
+  (defun my/display-set-relative ()
+    (setq display-line-numbers 'visual))
+
+  (defun my/display-set-absolute ()
+    (setq display-line-numbers t))
+#+end_src
+
+Turn on line numbers for program and configuration modes.
+#+begin_src emacs-lisp
+  (use-package display-line-numbers
+    :custom
+    (display-line-numbers-widen t)
+    ; (display-line-numbers-type 'visual)
+    :hook
+    ((prog-mode conf-mode) . display-line-numbers-mode)
+    :config
+    (add-hook 'evil-insert-state-entry-hook #'my/display-set-absolute)
+    (add-hook 'evil-insert-state-exit-hook #'my/display-set-relative))
+
+#+end_src
+
 *** Whitespace
 Show trailing whitespace in buffer.
 #+begin_src emacs-lisp
@@ -216,4 +240,21 @@ Show trailing whitespace in buffer.
 Add a newline to the end of the file if one doesn't already exist. 
 #+begin_src emacs-lisp
   (setq require-final-newline t)
+#+end_src
+
+** Completion
+*** Corfu
+#+begin_src emacs-lisp
+  ;;(use-package corfu
+  ;;  :general
+  ;;  (:keymaps 'corfu-map
+  ;;   :states 'insert
+  ;;   "C-n" #'corfu-next
+  ;;   "C-p" #'corfu-previous
+  ;;   "<escape>" #'corfu-quit
+  ;;   "<return>" #'corfu-insert
+  ;;   "M-d" #'corfu-show-documentation ; rebind to <leader>-d
+  ;;   "M-l" #'corfu-show-location)     ; rebind to <leader>-l
+  ;;  :config
+  ;;  (corfu-global-mode))
 #+end_src
