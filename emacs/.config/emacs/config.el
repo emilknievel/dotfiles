@@ -134,9 +134,8 @@
 (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 15"))
 
 ;; Render fonts like in iTerm
-;; Still need to set
-;; `defaults write org.gnu.Emacs AppleFontSmoothing -int`
-;; in the terminal for it to work like intended (turned off as of commit adding this).
+;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
+;; in the terminal for it to work like intended.
 (setq ns-use-thin-smoothing t)
 
 (setq fill-column 80)
