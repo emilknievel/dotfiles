@@ -153,7 +153,7 @@
 (use-package display-line-numbers
   :custom
   (display-line-numbers-widen t)
-  ; (display-line-numbers-type 'visual)
+  (display-line-numbers-type 'visual)
   :hook
   ((prog-mode conf-mode) . display-line-numbers-mode)
   :config
