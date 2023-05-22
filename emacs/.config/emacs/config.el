@@ -114,19 +114,21 @@
 
 (use-package catppuccin-theme
   :config
-  (load-theme 'catppuccin t))
+  (load-theme 'catppuccin t)
+  (setq catppuccin-flavor 'frappe)
+  (catppuccin-reload))
 
 ;; Change dark/light theme on OS appearance change.
 (defun my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ;; TODO: Make this work based on theme instead.
     ('light (setq catppuccin-flavor 'latte))
     ('dark (setq catppuccin-flavor 'frappe)))
   (catppuccin-reload))
     ;;('light (load-theme 'kaolin-light t))
     ;;('dark (load-theme 'kaolin-dark t))))
+
 (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
