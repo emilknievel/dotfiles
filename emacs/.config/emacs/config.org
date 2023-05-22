@@ -156,7 +156,7 @@ Get rid of the annoying startup screen.
 #+end_src
 
 *** Theme
-Kaolin theme.
+**** Kaolin.
 #+begin_src emacs-lisp
   (use-package kaolin-themes
     :config
@@ -164,6 +164,14 @@ Kaolin theme.
     (setq kaolin-themes-hl-line-colored t))
 #+end_src
 
+**** Catppuccin
+#+begin_src emacs-lisp
+  (use-package catppuccin-theme
+    :config
+    (load-theme 'catppuccin t))
+#+end_src
+
+**** Set theme based on OS.
 Toggle dark/light theme on OS appearance change.
 #+begin_src emacs-lisp
   ;; Change dark/light theme on OS appearance change.
@@ -171,8 +179,12 @@ Toggle dark/light theme on OS appearance change.
     "Load theme, taking current system APPEARANCE into consideration."
     (mapc #'disable-theme custom-enabled-themes)
     (pcase appearance
-      ('light (load-theme 'kaolin-light t))
-      ('dark (load-theme 'kaolin-dark t))))
+      ;; TODO: Make this work based on theme instead.
+      ('light (setq catppuccin-flavor 'latte))
+      ('dark (setq catppuccin-flavor 'frappe)))
+    (catppuccin-reload))
+      ;;('light (load-theme 'kaolin-light t))
+      ;;('dark (load-theme 'kaolin-dark t))))
   (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
 #+end_src
 
