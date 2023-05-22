@@ -150,5 +150,5 @@ require("tokyonight").setup {
   on_highlights = function(highlights, colors) end,
 }
 
--- vim.cmd.colorscheme "catppuccin"
-vim.cmd.colorscheme "rose-pine"
+vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "rose-pine"
