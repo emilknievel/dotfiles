@@ -131,12 +131,12 @@
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
-(add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 14"))
+(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 15"))
 
 ;; Render fonts like in iTerm
 ;; Still need to set
 ;; `defaults write org.gnu.Emacs AppleFontSmoothing -int`
-;; in the terminal for it to work like intended
+;; in the terminal for it to work like intended (turned off as of commit adding this).
 (setq ns-use-thin-smoothing t)
 
 (setq fill-column 80)
