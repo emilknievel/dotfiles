@@ -174,6 +174,12 @@
   (setq treesit-auto-install 'prompt)
   (global-treesit-auto-mode))
 
+(use-package nerd-icons)
+
+(use-package doom-modeline
+  :init
+  (doom-modeline-mode 1))
+
 (use-package corfu
   ;; Optional customizations
   :custom

@@ -266,6 +266,19 @@ Use automatic installation, usage and fallback for tree-sitter major modes.
     (global-treesit-auto-mode))
 #+end_src
 
+*** Icons
+Install the icons with ~M-x nerd-icons-install-fonts~.
+#+begin_src emacs-lisp
+  (use-package nerd-icons)
+#+end_src
+
+*** Modeline
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :init
+    (doom-modeline-mode 1))
+#+end_src
+
 ** Completion
 *** Corfu
 #+begin_src emacs-lisp
