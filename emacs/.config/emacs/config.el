@@ -101,6 +101,9 @@
   :config
   (evil-collection-init))
 
+(use-package evil-commentary
+  :hook (prog-mode . evil-commentary-mode))
+
 
 
 (setq inhibit-startup-screen t)

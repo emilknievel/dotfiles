@@ -135,6 +135,9 @@ Use Evil mode for Vim like bindings.
     :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
     :config
     (evil-collection-init))
+
+  (use-package evil-commentary
+    :hook (prog-mode . evil-commentary-mode))
 #+end_src
 
 *** general.el (WIP)
