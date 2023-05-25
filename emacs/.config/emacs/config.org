@@ -272,6 +272,14 @@ Install the icons with ~M-x nerd-icons-install-fonts~.
   (use-package nerd-icons)
 #+end_src
 
+Nerd icons for dired.
+#+begin_src emacs-lisp
+  (use-package nerd-icons-dired
+    :hook ((dired-mode . nerd-icons-dired-mode)
+           ;; prevent icons from overlapping vertically
+           (dired-mode . (lambda () (setq line-spacing 0.25)))))
+#+end_src
+
 *** Modeline
 #+begin_src emacs-lisp
   (use-package doom-modeline

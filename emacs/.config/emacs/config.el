@@ -176,6 +176,11 @@
 
 (use-package nerd-icons)
 
+(use-package nerd-icons-dired
+  :hook ((dired-mode . nerd-icons-dired-mode)
+         ;; prevent icons from overlapping vertically
+         (dired-mode . (lambda () (setq line-spacing 0.25)))))
+
 (use-package doom-modeline
   :init
   (doom-modeline-mode 1))
