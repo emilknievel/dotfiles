@@ -28,6 +28,7 @@ alias brsc='brew services stop'
 alias brq='brew info' # "query"
 alias bro='brew outdated'
 alias brl='brew list'
+alias brmd='brew doctor'
 
 # Kitty
 alias icat='kitty +kitten icat'        # Display an image inline in terminal
