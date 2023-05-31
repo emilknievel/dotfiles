@@ -2,8 +2,8 @@ import:
   # uncomment the flavour you want below:
   # - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
   # - ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
-  - ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
-  # - ~/.config/alacritty/catppuccin/catppuccin-latte.yml
+  # - ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
+  - ~/.config/alacritty/catppuccin/catppuccin-latte.yml
 env:
   TERM: xterm-256color
   LC_ALL: "en_US.UTF-8"
@@ -15,18 +15,18 @@ window:
   # option_as_alt: Both
 font:
   normal:
-    family: BlexMono Nerd Font
+    family: FiraCode Nerd Font
     style: Regular
   bold:
-    family: BlexMono Nerd Font
+    family: FiraCode Nerd Font
     style: Bold
   italic:
-    family: BlexMono Nerd Font
+    family: FiraCode Nerd Font
     style: Italic
   bold_italic:
-    family: BlexMono Nerd Font
+    family: FiraCode Nerd Font
     style: Bold Italic
-  size: 11.5
+  size: 14
 mouse:
   hide_when_typing: true
 selection:
