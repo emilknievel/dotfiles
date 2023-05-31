@@ -41,10 +41,29 @@ local on_attach = function(client, bufnr)
   --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap("i", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 
+  if client.supports_method "textDocument/formatting" then
+    -- format buffer
+    vim.keymap.set("n", "<Leader>fm", function()
+      vim.lsp.buf.format {
+        bufnr = vim.api.nvim_get_current_buf(),
+      }
+    end, { buffer = bufnr, desc = "[lsp] format" })
+  end
+  if client.supports_method "textDocument/rangeFormatting" then
+    local lsp_format_modifications = require "lsp-format-modifications"
+    lsp_format_modifications.attach(client, bufnr, { format_on_save = false })
+
+    -- format selection
+    vim.keymap.set("x", "<Leader>fm", function()
+      vim.lsp.buf.format {
+        bufnr = vim.api.nvim_get_current_buf(),
+      }
+    end, { buffer = bufnr, desc = "[lsp] format" })
+  end
+
   -- NOTE: Workaround for omnisharp semantic tokens not conforming to lsp spec.
   if client.name == "omnisharp" then
     local semantic_tokens_provider = client.server_capabilities.semanticTokensProvider
-
     local token_modifiers = semantic_tokens_provider.legend.tokenModifiers
     for i, v in ipairs(token_modifiers) do
       token_modifiers[i] = to_snake_case(v)
