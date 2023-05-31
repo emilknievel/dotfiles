@@ -140,16 +140,22 @@
     ;;('light (load-theme 'kaolin-light t))
     ;;('dark (load-theme 'kaolin-dark t))))
 
-(add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+(cond ((eq system-type 'darwin) ; macOS specific
+  (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
+))
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
-(add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 14"))
-
-;; Render fonts like in iTerm
-;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
-;; in the terminal for it to work like intended.
-(setq ns-use-thin-smoothing t)
+(cond ((eq system-type 'darwin)
+       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 14"))
+       ;; Render fonts like in iTerm
+       ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
+       ;; in the terminal for it to work like intended.
+       (setq ns-use-thin-smoothing t)
+       )
+      ((eq system-type 'gnu/linux)
+       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 10"))
+       ))
 
 (defun my/show-column-guide ()
   (setq display-fill-column-indicator-column 80)
