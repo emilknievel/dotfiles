@@ -1,10 +1,9 @@
-# Dotfiles
 
 Dotfiles is simply put a collection of different dotfiles I want to have quick access to.
 
 ## Prerequisites
 
-No installation needed in most POSIX style systems. The only requirement to apply the different configurations is to make sure to have GNU Stow installed.
+~~No installation needed in most POSIX style systems. The only requirement to apply the different configurations is to make sure to have GNU Stow installed.~~ Not exactly true at this point...
 
 ### Gnu Stow
 
@@ -17,10 +16,10 @@ I feel the best way to explain how something works is to do it with an example. 
 ```bash
 # cwd: ~/
 cd dotfiles
-stow emacs
+stow --no-folding emacs
 ```
 
-Now everything in the emacs folder has been created in the home directory as symlinks and is ready to go. Important note, everything has the exact same structure as in the emacs folder. See the GNU Stow website for more information.
+Now everything in the emacs folder has been created in the home directory as symlinks and is ready to go. Important note, everything has the exact same structure as in the emacs folder. See the GNU Stow website for more information. Also note the `--no-folding` flag. This makes sure that only files are symlinked which makes sure that no unwanted stuff is tracked by git.
 
 ## Submodules
 This repository utilizes git submodules. To make sure that submodules are installed, run the following command:
