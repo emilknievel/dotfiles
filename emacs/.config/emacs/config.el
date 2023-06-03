@@ -154,7 +154,7 @@
        (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 10"))
+       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 11"))
        ))
 
 (defun my/show-column-guide ()
