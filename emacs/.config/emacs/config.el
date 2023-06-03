@@ -495,3 +495,11 @@ parses its input."
   (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
   (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+
+(use-package vterm
+  :general
+  (my/leader-key-map
+    "v v" 'vterm
+    "v w" 'vterm-other-window)
+  :config
+  (setq vterm-max-scrollback 5000))

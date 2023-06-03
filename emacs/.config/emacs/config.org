@@ -666,3 +666,14 @@ VSCode style git gutters: [[https://ianyepan.github.io/posts/emacs-git-gutter/]]
 #   ;; (use-package dap-mode)
 #   ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 # #+end_src
+
+** Terminal Emulation
+#+begin_src emacs-lisp
+  (use-package vterm
+    :general
+    (my/leader-key-map
+      "v v" 'vterm
+      "v w" 'vterm-other-window)
+    :config
+    (setq vterm-max-scrollback 5000))
+#+end_src
