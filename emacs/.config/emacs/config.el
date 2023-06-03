@@ -109,10 +109,14 @@
   :config
   (general-evil-setup t)
   (general-define-key
-   :keymaps '(normal insert emacs)
-   :prefix "SPC"
-   :non-normal-prefix "M-SPC"
-   :prefix-map 'my/leader-key-map))
+    :keymaps '(normal insert emacs)
+    :prefix "SPC"
+    :non-normal-prefix "M-SPC"
+    :prefix-map 'my/leader-key-map
+    "s f" 'find-file
+    "s d" 'dired
+    "b b" 'switch-to-buffer
+    "b i" 'ibuffer))
 
 (setq inhibit-startup-screen t)
 
@@ -147,7 +151,7 @@
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 14"))
+       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 13"))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
