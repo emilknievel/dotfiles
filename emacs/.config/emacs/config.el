@@ -113,10 +113,36 @@
     :prefix "SPC"
     :non-normal-prefix "M-SPC"
     :prefix-map 'my/leader-key-map
-    "s f" 'find-file
-    "s d" 'dired
+
+    ;; files
+    "f s" 'save-buffer
+    "f f" 'find-file
+    "f l" 'load-file
+
+    ;; dirs
+    "d d" 'dired
+
+    ;; buffers
     "b b" 'switch-to-buffer
-    "b i" 'ibuffer))
+    "b B" 'ibuffer
+    "b X" 'scratch-buffer
+    "q q" 'save-buffers-kill-terminal
+
+    ;; windows
+    "w s" 'evil-window-split
+    "w v" 'evil-window-vsplit
+    "w w" 'other-window
+    "w q" 'delete-window
+    "w +" 'evil-window-increase-height
+    "w -" 'evil-window-decrease-height
+    "w >" 'evil-window-increase-width
+    "w <" 'evil-window-decrease-width
+    "w =" 'balance-windows
+    "w H" 'evil-window-left
+    "w J" 'evil-window-down
+    "w K" 'evil-window-up
+    "w L" 'evil-window-right
+))
 
 (setq inhibit-startup-screen t)
 
@@ -520,7 +546,7 @@ parses its input."
 (use-package vterm
   :general
   (my/leader-key-map
-    "v v" 'vterm
-    "v w" 'vterm-other-window)
+    "o T" 'vterm
+    "o t" 'vterm-other-window)
   :config
   (setq vterm-max-scrollback 5000))
