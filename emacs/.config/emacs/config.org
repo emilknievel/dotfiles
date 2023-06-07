@@ -660,6 +660,17 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
     :hook (clojure-mode . smartparens-mode))
 #+end_src
 
+*** Common Lisp
+#+begin_src emacs-lisp
+  (use-package sly
+    :init (setq inferior-lisp-program (executable-find "sbcl"))
+    :mode ("\\.lisp?\\'" . common-lisp-mode)
+    :hook
+    (sly-mode . (lambda ()
+                  (unless (sly-connected-p)
+                    (save-excursion (sly))))))
+#+end_src
+
 ** Syntax checking
 #+begin_src emacs-lisp
   (use-package flycheck

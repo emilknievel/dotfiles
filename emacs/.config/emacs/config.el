@@ -523,6 +523,14 @@ parses its input."
   :init (require 'smartparens-config)
   :hook (clojure-mode . smartparens-mode))
 
+(use-package sly
+  :init (setq inferior-lisp-program (executable-find "sbcl"))
+  :mode ("\\.lisp?\\'" . common-lisp-mode)
+  :hook
+  (sly-mode . (lambda ()
+                (unless (sly-connected-p)
+                  (save-excursion (sly))))))
+
 (use-package flycheck
   :init (global-flycheck-mode))
 
