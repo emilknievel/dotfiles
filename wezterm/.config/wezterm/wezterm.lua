@@ -12,7 +12,7 @@ end
 
 return {
   font = wezterm.font "FiraCode Nerd Font",
-  font_size = 11.0,
+  font_size = 10.0,
   -- freetype_load_flags = "NO_HINTING",
 
   -- Disable ligatures
