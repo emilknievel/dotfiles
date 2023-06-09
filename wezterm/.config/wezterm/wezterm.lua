@@ -16,10 +16,10 @@ return {
   -- freetype_load_flags = "NO_HINTING",
 
   -- Disable ligatures
-  -- harfbuzz_features = {"calt=0", "clig=0", "liga=0"},
+  harfbuzz_features = {"calt=0", "clig=0", "liga=0"},
 
   enable_tab_bar = false,
-  -- window_decorations = "RESIZE",
+  window_decorations = "RESIZE",
   -- color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
   color_scheme = "Catppuccin Frappe",
   default_cursor_style = "BlinkingBlock",
