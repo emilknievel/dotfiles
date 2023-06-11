@@ -148,27 +148,16 @@
 
 (setopt confirm-kill-emacs 'yes-or-no-p)
 
-(use-package kaolin-themes
-  :config
-  (setq kaolin-themes-distinct-fringe t)
-  (setq kaolin-themes-hl-line-colored t))
-
-(use-package catppuccin-theme
-  :config
-  (load-theme 'catppuccin t)
-  (setq catppuccin-flavor 'frappe)
-  (catppuccin-reload))
+(require-theme 'modus-themes)
 
 ;; Change dark/light theme on OS appearance change.
 (defun my/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (mapc #'disable-theme custom-enabled-themes)
   (pcase appearance
-    ('light (setq catppuccin-flavor 'latte))
-    ('dark (setq catppuccin-flavor 'frappe)))
-  (catppuccin-reload))
-    ;;('light (load-theme 'kaolin-light t))
-    ;;('dark (load-theme 'kaolin-dark t))))
+    ('light (load-theme 'modus-operandi-tinted))
+    ('dark (load-theme 'modus-vivendi-tinted))))
+  ;; (catppuccin-reload))
 
 (cond ((eq system-type 'darwin) ; macOS specific
   (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
@@ -197,11 +186,15 @@
 
 (defun my/display-set-relative ()
   (interactive)
-  (setq display-line-numbers 'visual))
+  (if (not (eq major-mode 'org-mode))
+      (setq display-line-numbers 'visual)
+    (setq display-line-numbers nil)))
 
 (defun my/display-set-absolute ()
   (interactive)
-  (setq display-line-numbers t))
+  (if (not (eq major-mode 'org-mode))
+      (setq display-line-numbers t)
+    (setq display-line-numbers nil)))
 
 (defun my/display-set-hidden ()
   (interactive)

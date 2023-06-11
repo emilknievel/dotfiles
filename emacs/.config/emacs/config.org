@@ -198,21 +198,26 @@ Get rid of the annoying startup screen.
 #+end_src
 
 *** Theme
-**** Kaolin.
-#+begin_src emacs-lisp
-  (use-package kaolin-themes
-    :config
-    (setq kaolin-themes-distinct-fringe t)
-    (setq kaolin-themes-hl-line-colored t))
-#+end_src
+# **** Kaolin.
+# #+begin_src emacs-lisp
+#   (use-package kaolin-themes
+#     :config
+#     (setq kaolin-themes-distinct-fringe t)
+#     (setq kaolin-themes-hl-line-colored t))
+# #+end_src
 
-**** Catppuccin
+# **** Catppuccin
+# #+begin_src emacs-lisp
+#   (use-package catppuccin-theme
+#     :config
+#     (load-theme 'catppuccin t)
+#     (setq catppuccin-flavor 'frappe)
+#     (catppuccin-reload))
+# #+end_src
+
+**** Modus
 #+begin_src emacs-lisp
-  (use-package catppuccin-theme
-    :config
-    (load-theme 'catppuccin t)
-    (setq catppuccin-flavor 'frappe)
-    (catppuccin-reload))
+  (require-theme 'modus-themes)
 #+end_src
 
 **** Set theme based on OS.
@@ -223,11 +228,9 @@ Toggle dark/light theme on OS appearance change.
     "Load theme, taking current system APPEARANCE into consideration."
     (mapc #'disable-theme custom-enabled-themes)
     (pcase appearance
-      ('light (setq catppuccin-flavor 'latte))
-      ('dark (setq catppuccin-flavor 'frappe)))
-    (catppuccin-reload))
-      ;;('light (load-theme 'kaolin-light t))
-      ;;('dark (load-theme 'kaolin-dark t))))
+      ('light (load-theme 'modus-operandi-tinted))
+      ('dark (load-theme 'modus-vivendi-tinted))))
+    ;; (catppuccin-reload))
 
   (cond ((eq system-type 'darwin) ; macOS specific
     (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
@@ -274,11 +277,15 @@ Hooks for relative and absolute line numbers.
 #+begin_src emacs-lisp
   (defun my/display-set-relative ()
     (interactive)
-    (setq display-line-numbers 'visual))
+    (if (not (eq major-mode 'org-mode))
+        (setq display-line-numbers 'visual)
+      (setq display-line-numbers nil)))
 
   (defun my/display-set-absolute ()
     (interactive)
-    (setq display-line-numbers t))
+    (if (not (eq major-mode 'org-mode))
+        (setq display-line-numbers t)
+      (setq display-line-numbers nil)))
 
   (defun my/display-set-hidden ()
     (interactive)
