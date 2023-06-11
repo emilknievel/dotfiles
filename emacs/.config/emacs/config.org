@@ -194,7 +194,15 @@ Get rid of the annoying startup screen.
 
 *** Confirm on exit
 #+begin_src emacs-lisp
-  (setopt confirm-kill-emacs 'yes-or-no-p)
+  (setopt confirm-kill-emacs 'y-or-n-p)
+#+end_src
+
+*** macOS
+#+begin_src emacs-lisp
+  (setq ns-use-proxy-icon nil
+    ns-use-mwheel-momentum t
+    ns-use-mwheel-acceleration t
+    frame-resize-pixelwise t)
 #+end_src
 
 *** Theme
@@ -220,27 +228,25 @@ Get rid of the annoying startup screen.
   (require-theme 'modus-themes)
 #+end_src
 
-**** Set theme based on OS.
-Toggle dark/light theme on OS appearance change.
+**** Toggle theme based on time of day
 #+begin_src emacs-lisp
-  ;; Change dark/light theme on OS appearance change.
-  (defun my/apply-theme (appearance)
-    "Load theme, taking current system APPEARANCE into consideration."
-    (mapc #'disable-theme custom-enabled-themes)
-    (pcase appearance
-      ('light (load-theme 'modus-operandi-tinted))
-      ('dark (load-theme 'modus-vivendi-tinted))))
-    ;; (catppuccin-reload))
-
-  (cond ((eq system-type 'darwin) ; macOS specific
-    (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
-  ))
+  (use-package circadian
+    :config
+    (setq calendar-latitude 58.389590)
+    (setq calendar-longitude 13.837250)
+    (setq circadian-themes '((:sunrise . modus-operandi-tinted)
+                             (:sunset . modus-vivendi-tinted)))
+    (circadian-setup))
 #+end_src
 
 *** Titlebar
 We want the titlebar to match the theme background color.
 #+begin_src emacs-lisp
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+
+  (use-package ns-auto-titlebar
+    :config
+    (when (eq system-type 'darwin) (ns-auto-titlebar-mode)))
 #+end_src
 
 *** Font
@@ -689,7 +695,7 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
     :init (global-flycheck-mode))
 #+end_src
 ** Git
-Magit is a must-have.
+*** Magit
 #+begin_src emacs-lisp
   (use-package magit
     :general
@@ -697,19 +703,15 @@ Magit is a must-have.
       "g s" 'magit-status))
 #+end_src
 
-VSCode style git gutters: [[https://ianyepan.github.io/posts/emacs-git-gutter/]]
+*** diff-hl
 #+begin_src emacs-lisp
-  (use-package git-gutter
-    :hook ((prog-mode . git-gutter-mode)
-           (org-mode . git-gutter-mode))
-    :config
-    (setq git-gutter:update-interval 0.02))
-
-  (use-package git-gutter-fringe
-    :config
-    (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-    (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-    (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+  (use-package diff-hl
+    :init
+    (global-diff-hl-mode)
+    (diff-hl-flydiff-mode)
+    :hook
+    (magit-pre-refresh . diff-hl-magit-pre-refresh)
+    (magit-post-refresh . diff-hl-magit-post-refresh))
 #+end_src
 
 ** LSP

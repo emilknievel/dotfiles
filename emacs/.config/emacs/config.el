@@ -146,24 +146,28 @@
 
 (setq inhibit-startup-screen t)
 
-(setopt confirm-kill-emacs 'yes-or-no-p)
+(setopt confirm-kill-emacs 'y-or-n-p)
+
+(setq ns-use-proxy-icon nil
+  ns-use-mwheel-momentum t
+  ns-use-mwheel-acceleration t
+  frame-resize-pixelwise t)
 
 (require-theme 'modus-themes)
 
-;; Change dark/light theme on OS appearance change.
-(defun my/apply-theme (appearance)
-  "Load theme, taking current system APPEARANCE into consideration."
-  (mapc #'disable-theme custom-enabled-themes)
-  (pcase appearance
-    ('light (load-theme 'modus-operandi-tinted))
-    ('dark (load-theme 'modus-vivendi-tinted))))
-  ;; (catppuccin-reload))
-
-(cond ((eq system-type 'darwin) ; macOS specific
-  (add-hook 'ns-system-appearance-change-functions #'my/apply-theme)
-))
+(use-package circadian
+  :config
+  (setq calendar-latitude 58.389590)
+  (setq calendar-longitude 13.837250)
+  (setq circadian-themes '((:sunrise . modus-operandi-tinted)
+                           (:sunset . modus-vivendi-tinted)))
+  (circadian-setup))
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+
+(use-package ns-auto-titlebar
+  :config
+  (when (eq system-type 'darwin) (ns-auto-titlebar-mode)))
 
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 13"))
@@ -537,17 +541,13 @@ parses its input."
   (my/leader-key-map
     "g s" 'magit-status))
 
-(use-package git-gutter
-  :hook ((prog-mode . git-gutter-mode)
-         (org-mode . git-gutter-mode))
-  :config
-  (setq git-gutter:update-interval 0.02))
-
-(use-package git-gutter-fringe
-  :config
-  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+(use-package diff-hl
+  :init
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
+  :hook
+  (magit-pre-refresh . diff-hl-magit-pre-refresh)
+  (magit-post-refresh . diff-hl-magit-post-refresh))
 
 (use-package vterm
   :general
