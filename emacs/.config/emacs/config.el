@@ -472,6 +472,11 @@ parses its input."
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode))
 
+  ;; Keybindings
+  (global-set-key (kbd "C-<tab>") #'corfu-next)
+  (global-set-key (kbd "C-S-<tab>") #'corfu-previous)
+  (global-set-key (kbd "C-M-i") #'corfu-complete)
+
   ;; Recommended: Enable Corfu globally.
   ;; This is recommended since Dabbrev can be used globally (M-/).
   ;; See also `corfu-exclude-modes'.
