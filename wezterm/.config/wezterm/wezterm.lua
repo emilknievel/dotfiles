@@ -1,5 +1,8 @@
 local wezterm = require "wezterm"
 
+local colors = require("lua/rose-pine").colors()
+local window_frame = require("lua/rose-pine").window_frame()
+
 -- Dynamically set theme based on OS appearance.
 -- TODO: Use when dynamic theming solved for other utils.
 function scheme_for_appearance(appearance)
@@ -21,7 +24,8 @@ return {
   enable_tab_bar = false,
   window_decorations = "RESIZE",
   -- color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
-  color_scheme = "Catppuccin Frappe",
+  -- color_scheme = "Catppuccin Mocha",
+  colors = colors,
   default_cursor_style = "BlinkingBlock",
   cursor_blink_ease_in = "Constant",
   cursor_blink_ease_out = "Constant",
