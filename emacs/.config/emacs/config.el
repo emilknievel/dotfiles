@@ -160,8 +160,10 @@
   :config
   (setq calendar-latitude 58.389590)
   (setq calendar-longitude 13.837250)
-  (setq circadian-themes '((:sunrise . modus-operandi-tinted)
-                           (:sunset . modus-vivendi-tinted)))
+  ;; (setq circadian-themes '((:sunrise . modus-operandi)
+  ;;                          (:sunset . modus-vivendi)))
+  (setq circadian-themes '(("8:00" . modus-operandi)
+                           ("20:00" . modus-vivendi)))
   (circadian-setup))
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
