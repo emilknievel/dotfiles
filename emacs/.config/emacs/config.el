@@ -153,7 +153,8 @@
   ns-use-mwheel-acceleration t
   frame-resize-pixelwise t)
 
-(require-theme 'modus-themes)
+;; (require-theme 'modus-themes)
+(use-package modus-themes)
 
 (use-package circadian
   :config

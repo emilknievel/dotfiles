@@ -225,7 +225,8 @@ Get rid of the annoying startup screen.
 
 **** Modus
 #+begin_src emacs-lisp
-  (require-theme 'modus-themes)
+  ;; (require-theme 'modus-themes)
+  (use-package modus-themes)
 #+end_src
 
 **** Toggle theme based on time of day
