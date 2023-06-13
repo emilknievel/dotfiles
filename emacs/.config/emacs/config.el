@@ -153,8 +153,17 @@
   ns-use-mwheel-acceleration t
   frame-resize-pixelwise t)
 
+(setq custom-theme-directory "~/.config/emacs/themes/")
+
 ;; (require-theme 'modus-themes)
 (use-package modus-themes)
+
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (doom-themes-org-config))
 
 (use-package circadian
   :config
@@ -162,8 +171,8 @@
   (setq calendar-longitude 13.837250)
   ;; (setq circadian-themes '((:sunrise . modus-operandi)
   ;;                          (:sunset . modus-vivendi)))
-  (setq circadian-themes '(("8:00" . modus-operandi)
-                           ("20:00" . modus-vivendi)))
+  (setq circadian-themes '(("8:00" . doom-rose-pine-dawn)
+                           ("20:00" . doom-rose-pine)))
   (circadian-setup))
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))

@@ -206,6 +206,11 @@ Get rid of the annoying startup screen.
 #+end_src
 
 *** Theme
+**** Themes directory
+#+begin_src emacs-lisp
+  (setq custom-theme-directory "~/.config/emacs/themes/")
+#+end_src
+
 # **** Kaolin.
 # #+begin_src emacs-lisp
 #   (use-package kaolin-themes
@@ -229,6 +234,16 @@ Get rid of the annoying startup screen.
   (use-package modus-themes)
 #+end_src
 
+*** Doom
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :ensure t
+    :config
+    (setq doom-themes-enable-bold t
+          doom-themes-enable-italic t)
+    (doom-themes-org-config))
+#+end_src
+
 **** Toggle theme based on time of day
 #+begin_src emacs-lisp
   (use-package circadian
@@ -237,8 +252,8 @@ Get rid of the annoying startup screen.
     (setq calendar-longitude 13.837250)
     ;; (setq circadian-themes '((:sunrise . modus-operandi)
     ;;                          (:sunset . modus-vivendi)))
-    (setq circadian-themes '(("8:00" . modus-operandi)
-                             ("20:00" . modus-vivendi)))
+    (setq circadian-themes '(("8:00" . doom-rose-pine-dawn)
+                             ("20:00" . doom-rose-pine)))
     (circadian-setup))
 #+end_src
 
