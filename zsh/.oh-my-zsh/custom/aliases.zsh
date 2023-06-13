@@ -64,5 +64,15 @@ if [[ $(hostname -s) == "pop-os" ]]; then
   alias clipboard='xclip -sel clip'
 fi
 
+# APT
+alias apts='apt search'
+alias apti='apt install'
+alias aptud='apt update'
+alias aptug='apt upgrade'
+alias aptq='apt show'
+alias aptr='apt remove'
+alias aptl='apt list'
+alias aptli='apt list --installed'
+
 # IP
 alias ipecho='curl ipecho.net/plain ; echo'
