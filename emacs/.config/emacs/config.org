@@ -639,6 +639,20 @@ Nerd icons for dired.
     (setq tab-always-indent 'complete))
 #+end_src
 
+*** LSP
+** Eglot
+#+begin_src emacs-lisp
+  (use-package eglot)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package flycheck-eglot
+    :ensure t
+    :after (flycheck eglot)
+    :config
+    (global-flycheck-eglot-mode 1))
+#+end_src
+
 ** Language configuration
 *** Prolog
 Use prolog-mode instead of perl-mode for .pl files.
@@ -716,31 +730,6 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
     (magit-pre-refresh . diff-hl-magit-pre-refresh)
     (magit-post-refresh . diff-hl-magit-post-refresh))
 #+end_src
-
-** LSP
-# #+begin_src emacs-lisp
-#   (use-package lsp-mode
-#     :init
-#     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-#     (setq lsp-keymap-prefix "C-c l")
-#     :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-#            (XXX-mode . lsp)
-#            ;; if you want which-key integration
-#            (lsp-mode . lsp-enable-which-key-integration))
-#     :commands lsp)
-
-#   ;; optionally
-#   ;; (use-package lsp-ui :commands lsp-ui-mode)
-#   ;; if you are helm user
-#   ;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-#   ;; if you are ivy user
-#   ;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-#   ;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-#   ;; optionally if you want to use debugger
-#   ;; (use-package dap-mode)
-#   ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-# #+end_src
 
 ** Terminal Emulation
 #+begin_src emacs-lisp

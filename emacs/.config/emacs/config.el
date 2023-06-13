@@ -505,6 +505,14 @@ parses its input."
   ;; `completion-at-point' is often bound to M-TAB.
   (setq tab-always-indent 'complete))
 
+(use-package eglot)
+
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
+
 (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
 
 (use-package dockerfile-mode
