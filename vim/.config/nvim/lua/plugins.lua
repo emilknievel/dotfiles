@@ -45,6 +45,7 @@ packer.startup(function(use)
   use "onsails/lspkind-nvim" -- vscode-like pictograms
   use "glepnir/lspsaga.nvim" -- LSP UIs
 
+  use "Hoffs/omnisharp-extended-lsp.nvim" -- extended textDocument/definition handler
   use({
       'VonHeikemen/lsp-zero.nvim',
       branch = 'v2.x',
