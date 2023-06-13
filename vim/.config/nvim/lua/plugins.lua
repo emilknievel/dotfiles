@@ -32,54 +32,41 @@ packer.startup(function(use)
 
   -- Themes
   use {
-    "sainnhe/gruvbox-material",
-  }
-  use {
     "rose-pine/neovim",
     as = "rose-pine",
   }
-  use { "catppuccin/nvim", as = "catppuccin" }
-  use "folke/tokyonight.nvim"
-
   -- Automatic toggling between line number modes
   use "jeffkreeftmeijer/vim-numbertoggle"
   use {
     "nvim-lualine/lualine.nvim",
     requires = { "nvim-tree/nvim-web-devicons", opt = true },
   }
-  use "onsails/lspkind-nvim" -- vscode-like pictograms
-  use "hrsh7th/cmp-buffer" -- nvim-cmp source for buffer words
-  use "hrsh7th/cmp-nvim-lsp" -- nvim-cmp source for neovim's built-in LSP
-  use "hrsh7th/nvim-cmp" -- Completion
-  use "williamboman/mason.nvim"
-  use "williamboman/mason-lspconfig.nvim"
-  use "glepnir/lspsaga.nvim" -- LSP UIs
-  -- Snippets
-  use { "L3MON4D3/LuaSnip", run = "make install_jsregexp" }
-  use { "rafamadriz/friendly-snippets" }
-  use { "saadparwaiz1/cmp_luasnip" }
 
-  -- use({
-  --     'VonHeikemen/lsp-zero.nvim',
-  --     requires = {
-  --         -- LSP Support
-  --         { 'neovim/nvim-lspconfig' },
-  --         { 'williamboman/mason.nvim' },
-  --         { 'williamboman/mason-lspconfig.nvim' },
-  --
-  --         -- Autocompletion
-  --         { 'hrsh7th/nvim-cmp' },
-  --         { 'hrsh7th/cmp-buffer' },
-  --         { 'hrsh7th/cmp-path' },
-  --         { 'saadparwaiz1/cmp_luasnip' },
-  --         { 'hrsh7th/cmp-nvim-lsp' },
-  --         { 'hrsh7th/cmp-nvim-lua' },
-  --
-  --         -- Snippets
-  --         { 'L3MON4D3/LuaSnip' },
-  --         { 'rafamadriz/friendly-snippets' },
-  --     },
-  -- })
+  use "onsails/lspkind-nvim" -- vscode-like pictograms
+  use "glepnir/lspsaga.nvim" -- LSP UIs
+
+  use({
+      'VonHeikemen/lsp-zero.nvim',
+      branch = 'v2.x',
+      requires = {
+          -- LSP Support
+          { 'neovim/nvim-lspconfig' },
+          { 'williamboman/mason.nvim' },
+          { 'williamboman/mason-lspconfig.nvim' },
+
+          -- Autocompletion
+          { 'hrsh7th/nvim-cmp' },
+          { 'hrsh7th/cmp-buffer' },
+          { 'hrsh7th/cmp-path' },
+          { 'saadparwaiz1/cmp_luasnip' },
+          { 'hrsh7th/cmp-nvim-lsp' },
+          { 'hrsh7th/cmp-nvim-lua' },
+
+          -- Snippets
+          { 'L3MON4D3/LuaSnip' },
+          { 'rafamadriz/friendly-snippets' },
+      },
+  })
   use {
     "nvim-treesitter/nvim-treesitter",
     run = function()
@@ -87,7 +74,6 @@ packer.startup(function(use)
     end,
   }
   use "nvim-treesitter/playground"
-  use "neovim/nvim-lspconfig" -- Configurations for NVim LSP
   use "nvim-tree/nvim-web-devicons"
   use {
     "nvim-telescope/telescope.nvim",
@@ -102,8 +88,8 @@ packer.startup(function(use)
       require("Comment").setup()
     end,
   }
-  use "jose-elias-alvarez/null-ls.nvim"
-  use "jayp0521/mason-null-ls.nvim"
+  -- use "jose-elias-alvarez/null-ls.nvim"
+  -- use "jayp0521/mason-null-ls.nvim"
   use {
     "declancm/maximize.nvim", -- maximize window: <leader>z
     config = function()
