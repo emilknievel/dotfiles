@@ -576,3 +576,9 @@ parses its input."
     "o t" 'vterm-other-window)
   :config
   (setq vterm-max-scrollback 5000))
+
+(use-package project
+  :general
+  (my/leader-key-map
+    "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
+  :straight (:type built-in))

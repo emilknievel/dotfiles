@@ -756,3 +756,13 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
     :config
     (setq vterm-max-scrollback 5000))
 #+end_src
+
+** Project
+#+begin_src emacs-lisp
+  (use-package project
+    :general
+    (my/leader-key-map
+      "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
+    :straight (:type built-in))
+#+end_src
+[[https://www.patrickdelliott.com/emacs.d/#org0a74aa5][source]]
