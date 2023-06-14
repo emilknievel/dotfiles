@@ -65,14 +65,15 @@ if [[ $(hostname -s) == "pop-os" ]]; then
 fi
 
 # APT
-alias apts='apt search'
-alias apti='apt install'
-alias aptud='apt update'
-alias aptug='apt upgrade'
-alias aptq='apt show'
-alias aptr='apt remove'
-alias aptl='apt list'
-alias aptli='apt list --installed'
+alias apts='sudo apt search'
+alias apti='sudo apt install'
+alias aptud='sudo apt update'
+alias aptug='sudo apt upgrade'
+alias aptq='sudo apt show'
+alias aptr='sudo apt remove'
+alias aptl='sudo apt list'
+alias aptli='sudo apt list --installed'
+alias apto='sudo apt list --upgradable' # "outdated"
 
 # IP
 alias ipecho='curl ipecho.net/plain ; echo'
