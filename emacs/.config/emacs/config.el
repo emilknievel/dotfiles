@@ -99,7 +99,8 @@
   :after evil
   :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  :hook (vterm-mode . evil-collection-vterm-escape-stay))
 
 (use-package evil-commentary
   :hook (prog-mode . evil-commentary-mode))
