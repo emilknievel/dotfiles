@@ -1,7 +1,7 @@
 all: clean install_deps stow
 
-install_deps: .bin/install_deps.sh
-	# do some stuff
+install_deps:
+	# run .scripts/install_deps.sh
 
 stow:
 	# stow everything
