@@ -29,3 +29,5 @@
   email = emil.vagstedt@icloud.com
 [init]
 	defaultBranch = main
+[rebase]
+  autosquash = true
