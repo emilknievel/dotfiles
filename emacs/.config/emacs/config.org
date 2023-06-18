@@ -394,6 +394,13 @@ Nerd icons for dired.
     (doom-modeline-mode 1))
 #+end_src
 
+*** Padding
+#+begin_src emacs-lisp
+  (use-package spacious-padding
+    :config
+    (spacious-padding-mode 1))
+#+end_src
+
 ** Completion
 *** Nerd Icons Completion
 #+begin_src emacs-lisp
@@ -414,7 +421,7 @@ Nerd icons for dired.
     (marginalia-max-relative-age 0)
     (marginalia-align 'right)
     :init
-    (marginalia-mode)) 
+    (marginalia-mode))
 #+end_src
 
 *** Vertico

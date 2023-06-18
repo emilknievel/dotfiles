@@ -270,6 +270,10 @@
   :init
   (doom-modeline-mode 1))
 
+(use-package spacious-padding
+  :config
+  (spacious-padding-mode 1))
+
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
