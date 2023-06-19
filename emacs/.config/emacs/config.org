@@ -235,7 +235,7 @@ Get rid of the annoying startup screen.
   (use-package modus-themes)
 #+end_src
 
-*** Doom
+**** Doom
 #+begin_src emacs-lisp
   (use-package doom-themes
     :ensure t
@@ -251,9 +251,7 @@ Get rid of the annoying startup screen.
     :config
     (setq calendar-latitude 58.389590)
     (setq calendar-longitude 13.837250)
-    ;; (setq circadian-themes '((:sunrise . modus-operandi)
-    ;;                          (:sunset . modus-vivendi)))
-    (setq circadian-themes '(("8:00" . doom-rose-pine-dawn)
+    (setq circadian-themes '(("5:00" . doom-rose-pine-dawn)
                              ("20:00" . doom-rose-pine)))
     (circadian-setup))
 #+end_src
