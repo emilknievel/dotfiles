@@ -5,9 +5,9 @@ local function to_snake_case(str)
 end
 
 lsp.on_attach(function(client, bufnr)
-  lsp.default_keymaps({buffer = bufnr})
+  lsp.default_keymaps({ buffer = bufnr })
 
-    -- NOTE: Workaround for omnisharp semantic tokens not conforming to lsp spec.
+  -- NOTE: Workaround for omnisharp semantic tokens not conforming to lsp spec.
   if client.name == "omnisharp" then
     local semantic_tokens_provider = client.server_capabilities.semanticTokensProvider
     local token_modifiers = semantic_tokens_provider.legend.tokenModifiers
@@ -29,16 +29,11 @@ local omnisharp_bin = homedir .. "/.local/share/nvim/mason/packages/omnisharp/Om
 -- on Windows
 -- local omnisharp_bin = "/path/to/omnisharp/OmniSharp.exe"
 
-
-local on_attach = function(client)
-end
-
 local config = {
-  on_attach = on_attach,
   handlers = {
     ["textDocument/definition"] = require('omnisharp_extended').handler,
   },
-  cmd = { omnisharp_bin, '--languageserver' , '--hostPID', tostring(pid) },
+  cmd = { omnisharp_bin, '--languageserver', '--hostPID', tostring(pid) },
   -- Enables support for reading code style, naming convention and analyzer
   -- settings from .editorconfig.
   enable_editorconfig_support = true,
@@ -75,7 +70,17 @@ local config = {
   analyze_open_documents_only = false,
 }
 
-require'lspconfig'.omnisharp.setup(config)
+require 'lspconfig'.omnisharp.setup(config)
+
+require 'lspconfig'.lua_ls.setup {
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { 'vim' }
+      }
+    }
+  }
+}
 
 lsp.setup()
 
@@ -91,22 +96,22 @@ cmp.setup({
     completeopt = 'menu,menuone,noinsert'
   },
   sources = {
-    {name = 'path'},
-    {name = 'nvim_lsp'},
-    {name = 'buffer', keyword_length = 3},
-    {name = 'luasnip', keyword_length = 2},
+    { name = 'path' },
+    { name = 'nvim_lsp' },
+    { name = 'buffer',  keyword_length = 3 },
+    { name = 'luasnip', keyword_length = 2 },
   },
   formatting = {
-    fields = {'abbr', 'kind', 'menu'},
+    fields = { 'abbr', 'kind', 'menu' },
     format = require('lspkind').cmp_format({
-      mode = 'symbol', -- show only symbol annotations
-      maxwidth = 50, -- prevent the popup from showing more than provided characters
+      mode = 'symbol',       -- show only symbol annotations
+      maxwidth = 50,         -- prevent the popup from showing more than provided characters
       ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
     })
   },
   mapping = {
     -- `Enter` key to confirm completion
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
 
     -- Ctrl+Space to trigger completion menu
     ['<C-Space>'] = cmp.mapping.complete(),
