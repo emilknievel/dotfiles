@@ -345,11 +345,10 @@ Add a newline to the end of the file if one doesn't already exist.
 #+end_src
 
 *** Treesitter
-Use automatic installation, usage and fallback for tree-sitter major modes.
 #+begin_src emacs-lisp
-  (use-package treesit-auto
-    :demand t
-    :init
+    ;; (use-package treesit-auto
+    ;;   :demand t
+    ;;   :init
     (setq treesit-language-source-alist
           '((bash "https://github.com/tree-sitter/tree-sitter-bash")
             (cmake "https://github.com/uyha/tree-sitter-cmake")
@@ -365,10 +364,22 @@ Use automatic installation, usage and fallback for tree-sitter major modes.
             (toml "https://github.com/tree-sitter/tree-sitter-toml")
             (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
             (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-            (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-    :config
-    (setq treesit-auto-install 'prompt)
-    (global-treesit-auto-mode))
+            (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+            (ocaml "https://github.com/tree-sitter/tree-sitter-ocaml" "master" "ocaml/src")
+            (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
+            (rust "https://github.com/tree-sitter/tree-sitter-rust")))
+      ;; :config
+      ;; (setq treesit-auto-install 'prompt)
+      ;; (global-treesit-auto-mode))
+#+end_src
+
+Install grammars from treesit-language-source-alist with ~(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))~.
+Call e.g. ~treesit-language-available-p 'python~ to determine if grammar is available for the language.
+#+begin_src emacs-lisp
+  (defun my/install-treesit-grammars ()
+    "Install tree-sitter grammars from treesit-language-source-alist"
+    (interactive)
+    (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
 #+end_src
 
 *** Icons
