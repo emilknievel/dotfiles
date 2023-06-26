@@ -15,7 +15,7 @@
   # Display UTF-8 characters in filenames, if you're having problems seeing them
   quotepath = false
   ; excludesfile = .config/git/gitignore_global
-  pager = "delta --syntax-theme='Catppuccin-frappe'"
+  pager = "delta --syntax-theme='base16'"
   autocrlf = input
 
 [help]
