@@ -7,8 +7,8 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
   },
 
-  "onsails/lspkind-nvim", -- vscode-like pictograms
-  "glepnir/lspsaga.nvim", -- LSP UIs
+  "onsails/lspkind-nvim",              -- vscode-like pictograms
+  "glepnir/lspsaga.nvim",              -- LSP UIs
 
   "Hoffs/omnisharp-extended-lsp.nvim", -- extended textDocument/definition handler
   {
@@ -76,7 +76,6 @@ return {
     end,
   },
 
-  "lewis6991/gitsigns.nvim",
   "eandrju/cellular-automaton.nvim",
   "ThePrimeagen/vim-be-good",
 
@@ -89,7 +88,6 @@ return {
 
   -- "theprimeagen/harpoon",
   "mbbill/undotree",
-  "tpope/vim-fugitive",
 
   {
     "iamcco/markdown-preview.nvim",
