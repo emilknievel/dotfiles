@@ -4,7 +4,6 @@ return {
 
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
   },
 
   "onsails/lspkind-nvim",              -- vscode-like pictograms
@@ -34,15 +33,7 @@ return {
     },
   },
 
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = function()
-      require("nvim-treesitter.install").update { with_sync = true }
-    end,
-  },
-
-  "nvim-treesitter/playground",
-  "nvim-tree/nvim-web-devicons",
+  { "nvim-tree/nvim-web-devicons", lazy = true },
 
   {
     "nvim-telescope/telescope.nvim",
@@ -50,7 +41,6 @@ return {
   },
 
   "nvim-telescope/telescope-file-browser.nvim",
-  "windwp/nvim-ts-autotag",
 
   {
     "numToStr/Comment.nvim",
@@ -76,7 +66,6 @@ return {
     end,
   },
 
-  "eandrju/cellular-automaton.nvim",
   "ThePrimeagen/vim-be-good",
 
   {
