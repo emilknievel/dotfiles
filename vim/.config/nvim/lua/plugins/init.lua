@@ -57,10 +57,6 @@ return {
       vim.fn["mkdp#util#install"]()
     end,
   },
-  {
-    "rest-nvim/rest.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-  },
 
   {
     "j-hui/fidget.nvim",
