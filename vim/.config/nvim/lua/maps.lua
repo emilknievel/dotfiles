@@ -43,8 +43,8 @@ keymap.set("n", "<C-w><down>", "<C-w>-", { desc = "Grow window down" })
 keymap.set("n", "<C-d>", "<C-d>zz") -- Center view after moving down half a page
 keymap.set("n", "<C-u>", "<C-u>zz") -- Center view after moving up half a page
 
-keymap.set("n", "n", "nzzzv") -- Center view when going forwards through search results
-keymap.set("n", "N", "Nzzzv") -- Center view when going backwards through search results
+keymap.set("n", "n", "nzzzv")       -- Center view when going forwards through search results
+keymap.set("n", "N", "Nzzzv")       -- Center view when going backwards through search results
 
 -- move selected text up and down
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected text down" })
@@ -89,9 +89,6 @@ end, { desc = "Toggle displaying whitespace" })
 
 -- jj to escape
 keymap.set("i", "jj", "<Esc>", { noremap = false })
-
--- Fun stuff
--- keymap.set('n', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>', { desc = 'Make it rain!' })
 
 vim.keymap.set("n", "<leader>gdo", "<cmd>DiffviewOpen<CR>")
 vim.keymap.set("n", "<leader>gdc", "<cmd>DiffviewClose<CR>")
