@@ -2,10 +2,6 @@ return {
   -- Automatic toggling between line number modes
   "jeffkreeftmeijer/vim-numbertoggle",
 
-  {
-    "nvim-lualine/lualine.nvim",
-  },
-
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
   {
