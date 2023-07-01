@@ -9,14 +9,23 @@
   tool = nvim
 [merge]
   tool = nvim
+
 [core]
   editor = nvim
   precomposeunicode = true
   # Display UTF-8 characters in filenames, if you're having problems seeing them
   quotepath = false
   excludesfile = .config/git/gitignore_global
-  pager = "delta --syntax-theme='base16'"
+  pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
   autocrlf = input
+
+[delta "light-mode"]
+  light = true
+  syntax-theme = base16
+
+[delta "dark-mode"]
+  light = false
+  syntax-theme = base16
 
 [help]
   # Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
