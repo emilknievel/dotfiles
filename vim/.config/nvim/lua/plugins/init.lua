@@ -2,56 +2,7 @@ return {
   -- Automatic toggling between line number modes
   "jeffkreeftmeijer/vim-numbertoggle",
 
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
-  },
-
-  "onsails/lspkind-nvim", -- vscode-like pictograms
-  "glepnir/lspsaga.nvim", -- LSP UIs
-
-  "Hoffs/omnisharp-extended-lsp.nvim", -- extended textDocument/definition handler
-  {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v2.x',
-    dependencies = {
-      -- LSP Support
-      { 'neovim/nvim-lspconfig' },
-      { 'williamboman/mason.nvim' },
-      { 'williamboman/mason-lspconfig.nvim' },
-
-      -- Autocompletion
-      { 'hrsh7th/nvim-cmp' },
-      { 'hrsh7th/cmp-buffer' },
-      { 'hrsh7th/cmp-path' },
-      { 'saadparwaiz1/cmp_luasnip' },
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'hrsh7th/cmp-nvim-lua' },
-
-      -- Snippets
-      { 'L3MON4D3/LuaSnip' },
-      { 'rafamadriz/friendly-snippets' },
-    },
-  },
-
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = function()
-      require("nvim-treesitter.install").update { with_sync = true }
-    end,
-  },
-
-  "nvim-treesitter/playground",
-  "nvim-tree/nvim-web-devicons",
-
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { { "nvim-lua/plenary.nvim" } },
-  },
-
-  "nvim-telescope/telescope-file-browser.nvim",
-  "windwp/nvim-autopairs",
-  "windwp/nvim-ts-autotag",
+  { "nvim-tree/nvim-web-devicons", lazy = true },
 
   {
     "numToStr/Comment.nvim",
@@ -77,8 +28,6 @@ return {
     end,
   },
 
-  "lewis6991/gitsigns.nvim",
-  "eandrju/cellular-automaton.nvim",
   "ThePrimeagen/vim-be-good",
 
   {
@@ -89,18 +38,11 @@ return {
   },
 
   -- "theprimeagen/harpoon",
-  "mbbill/undotree",
-  "tpope/vim-fugitive",
-
   {
-    "iamcco/markdown-preview.nvim",
-    build = function()
-      vim.fn["mkdp#util#install"]()
+    "mbbill/undotree",
+    config = function()
+      vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
     end,
-  },
-  {
-    "rest-nvim/rest.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
   },
 
   {
@@ -126,8 +68,6 @@ return {
       require("todo-comments").setup {}
     end,
   },
-
-  "joechrisellis/lsp-format-modifications.nvim",
 
   {
     "johnfrankmorgan/whitespace.nvim",

@@ -16,10 +16,10 @@ end
 return {
   font = wezterm.font "FiraCode Nerd Font",
   font_size = 10.0,
-  -- freetype_load_flags = "NO_HINTING",
+  freetype_load_flags = "NO_HINTING",
 
   -- Disable ligatures
-  harfbuzz_features = {"calt=0", "clig=0", "liga=0"},
+  harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
 
   enable_tab_bar = false,
   window_decorations = "RESIZE",
@@ -31,4 +31,5 @@ return {
   cursor_blink_ease_out = "Constant",
 
   front_end = "WebGpu",
+
 }

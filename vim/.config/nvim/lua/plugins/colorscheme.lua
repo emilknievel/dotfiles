@@ -15,7 +15,7 @@ return {
         bold_vert_split = false,
         dim_nc_background = false,
         disable_background = false,
-        disable_float_background = false,
+        disable_float_background = true,
         disable_italics = true,
         --- @usage string hex value or named color from rosepinetheme.com/palette
         groups = {
