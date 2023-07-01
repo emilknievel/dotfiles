@@ -48,13 +48,6 @@ return {
   "mbbill/undotree",
 
   {
-    "iamcco/markdown-preview.nvim",
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
-  },
-
-  {
     "j-hui/fidget.nvim",
     config = function()
       require("fidget").setup {
