@@ -266,21 +266,35 @@ bindkey "^[l" clear-screen
 # --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 # --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
-# Rosé Pine dark for fzf
-export FZF_DEFAULT_OPTS="
---color=fg:#908caa,bg:#191724,hl:#ebbcba
---color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
---color=border:#403d52,header:#31748f,gutter:#191724
---color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
---color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
-
-# Rosé pine dawn
-# export FZF_DEFAULT_OPTS="
-# --color=fg:#797593,bg:#faf4ed,hl:#d7827e
-# --color=fg+:#575279,bg+:#f2e9e1,hl+:#d7827e
-# --color=border:#dfdad9,header:#286983,gutter:#faf4ed
-# --color=spinner:#ea9d34,info:#56949f,separator:#dfdad9
-# --color=pointer:#907aa9,marker:#b4637a,prompt:#797593"
+case "$OSTYPE" in
+  darwin*)
+    # determine light/dark from AppleInterfaceStyle
+    if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
+      # dark
+      export FZF_DEFAULT_OPTS="
+      --color=fg:#908caa,bg:#191724,hl:#ebbcba
+      --color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
+      --color=border:#403d52,header:#31748f,gutter:#191724
+      --color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
+      --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+    else
+      export FZF_DEFAULT_OPTS="
+      --color=fg:#797593,bg:#faf4ed,hl:#d7827e
+      --color=fg+:#575279,bg+:#f2e9e1,hl+:#d7827e
+      --color=border:#dfdad9,header:#286983,gutter:#faf4ed
+      --color=spinner:#ea9d34,info:#56949f,separator:#dfdad9
+      --color=pointer:#907aa9,marker:#b4637a,prompt:#797593"
+    fi
+    ;;
+  linux*)
+    export FZF_DEFAULT_OPTS="
+    --color=fg:#908caa,bg:#191724,hl:#ebbcba
+    --color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
+    --color=border:#403d52,header:#31748f,gutter:#191724
+    --color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
+    --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+    ;;
+esac
 
 # Rosé pine moon
 # export FZF_DEFAULT_OPTS="

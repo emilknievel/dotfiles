@@ -185,7 +185,7 @@
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
-       (setq ns-use-thin-smoothing t)
+       ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
        (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 10"))
