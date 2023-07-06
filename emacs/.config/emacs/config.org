@@ -11,9 +11,10 @@
   ;; You should make any changes there and regenerate it from Emacs org-mode using C-c C-v t
 #+end_src
 
-#+title: Emacs Config
-#+author: Emil Vågstedt
-#+email: emil.vagstedt@icloud.com
+#+TITLE: Emacs Config
+#+AUTHOR: Emil Vågstedt
+#+EMAIL: emil.vagstedt@icloud.com
+#+OPTIONS: toc:t
 
 ** Package Management
 *** straight.el
@@ -785,6 +786,7 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
   (use-package flycheck
     :init (global-flycheck-mode))
 #+end_src
+
 ** Git
 *** Magit
 #+begin_src emacs-lisp
