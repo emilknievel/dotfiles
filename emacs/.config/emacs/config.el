@@ -170,8 +170,8 @@
   :config
   (setq calendar-latitude 58.389590)
   (setq calendar-longitude 13.837250)
-  (setq circadian-themes '(("5:00" . doom-rose-pine-dawn)
-                           ("20:00" . doom-rose-pine)))
+  (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
+                           (:sunset . doom-rose-pine)))
   (circadian-setup))
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
