@@ -5,7 +5,7 @@ local window_frame = require("lua/rose-pine").window_frame()
 
 return {
   font = wezterm.font "BlexMono Nerd Font",
-  font_size = 12.0,
+  font_size = 11.0,
   freetype_load_flags = "NO_HINTING",
 
   -- Disable ligatures
