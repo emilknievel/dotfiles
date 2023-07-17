@@ -77,3 +77,6 @@ alias apto='sudo apt list --upgradable' # "outdated"
 
 # IP
 alias ipecho='curl ipecho.net/plain ; echo'
+
+# ls
+alias la='ls -a'
