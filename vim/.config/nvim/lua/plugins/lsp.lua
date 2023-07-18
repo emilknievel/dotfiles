@@ -46,28 +46,17 @@ return {
 
       lsp.on_attach(function(client, bufnr)
         lsp.default_keymaps({ buffer = bufnr })
-
-        -- NOTE: Workaround for omnisharp semantic tokens not conforming to lsp spec.
-        if client.name == "omnisharp" then
-          local semantic_tokens_provider = client.server_capabilities.semanticTokensProvider
-          local token_modifiers = semantic_tokens_provider.legend.tokenModifiers
-          for i, v in ipairs(token_modifiers) do
-            token_modifiers[i] = to_snake_case(v)
-          end
-
-          local token_types = semantic_tokens_provider.legend.tokenTypes
-          for i, v in ipairs(token_types) do
-            token_types[i] = to_snake_case(v)
-          end
-        end
       end)
 
       local homedir = os.getenv("HOME")
       local pid = vim.fn.getpid()
-      -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)
-      local omnisharp_bin = homedir .. "/.local/share/nvim/mason/packages/omnisharp/OmniSharp"
-      -- on Windows
-      -- local omnisharp_bin = "/path/to/omnisharp/OmniSharp.exe"
+      local sysname = vim.loop.os_uname().sysname
+      local omnisharp_bin
+      if sysname == "Darwin" then
+        omnisharp_bin = homedir .. "/.local/share/nvim/mason/packages/omnisharp/OmniSharp"
+      elseif sysname == "Linux" then
+        omnisharp_bin = homedir .. "/.local/share/nvim/mason/bin/omnisharp"
+      end -- TODO: Windows support
 
       local config = {
         handlers = {
