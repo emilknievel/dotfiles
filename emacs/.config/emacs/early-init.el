@@ -3,7 +3,7 @@
 (setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold (expt 2 23))))
 
-(setq native-comp-deferred-compilation nil)
+(setq native-comp-jit-compilation nil)
 (setq load-prefer-newer noninteractive)
 
 (setq-default inhibit-redisplay t

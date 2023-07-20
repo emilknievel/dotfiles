@@ -25,8 +25,6 @@ Use develop branch for compatibility
 
 Bootstrap straight.el
 #+begin_src emacs-lisp
-  (setq straight-use-package-by-default t)
-
   (defvar bootstrap-version)
     (let ((bootstrap-file
            (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -41,6 +39,7 @@ Bootstrap straight.el
       (load bootstrap-file nil 'nomessage))
 
   (straight-use-package 'use-package)
+  (setq straight-use-package-by-default t)
 #+end_src
 
 ** Better defaults
@@ -827,3 +826,15 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
     :straight (:type built-in))
 #+end_src
 [[https://www.patrickdelliott.com/emacs.d/#org0a74aa5][source]]
+
+** Dired
+#+begin_src emacs-lisp
+  (use-package dired
+    :straight (:type built-in)
+    :config
+    (when (string= system-type "darwin")
+      (setq dired-use-ls-dired t
+            insert-directory-program "/opt/homebrew/bin/gls"))
+    :custom
+    (dired-listing-switches "-aBhl --group-directories-first"))
+#+end_src

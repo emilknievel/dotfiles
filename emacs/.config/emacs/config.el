@@ -5,8 +5,6 @@
 
 (setq straight-repository-branch "develop")
 
-(setq straight-use-package-by-default t)
-
 (defvar bootstrap-version)
   (let ((bootstrap-file
          (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -21,6 +19,7 @@
     (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
 (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
   (ido-mode t)
@@ -632,3 +631,12 @@ parses its input."
   (my/leader-key-map
     "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
   :straight (:type built-in))
+
+(use-package dired
+  :straight (:type built-in)
+  :config
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired t
+          insert-directory-program "/opt/homebrew/bin/gls"))
+  :custom
+  (dired-listing-switches "-aBhl --group-directories-first"))
