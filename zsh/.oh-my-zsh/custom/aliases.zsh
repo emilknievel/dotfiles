@@ -80,3 +80,19 @@ alias ipecho='curl ipecho.net/plain ; echo'
 
 # ls
 alias la='ls -a'
+
+# glow
+alias glow='glow -s $NVIM_THEME' # match vim dark/light mode
+alias glowp='glow -s $NVIM_THEME -p' # use paging
+
+alias sorc='source ~/.zshrc'
+
+# exa
+alias e='exa --all --long --header --icons --git'
+alias ea='exa --all'
+alias el='exa --long --header --icons --git'
+alias et='exa --tree --icons'
+
+# exercism
+alias exs='exercism submit'
+alias ext='exercism test'
