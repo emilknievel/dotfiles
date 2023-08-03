@@ -277,6 +277,8 @@ case "$OSTYPE" in
       --color=border:#403d52,header:#31748f,gutter:#191724
       --color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
       --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+
+      export NVIM_THEME="dark"
     else
       export FZF_DEFAULT_OPTS="
       --color=fg:#797593,bg:#faf4ed,hl:#d7827e
@@ -284,6 +286,8 @@ case "$OSTYPE" in
       --color=border:#dfdad9,header:#286983,gutter:#faf4ed
       --color=spinner:#ea9d34,info:#56949f,separator:#dfdad9
       --color=pointer:#907aa9,marker:#b4637a,prompt:#797593"
+
+      export NVIM_THEME="light"
     fi
     ;;
   linux*)
@@ -293,6 +297,8 @@ case "$OSTYPE" in
     --color=border:#403d52,header:#31748f,gutter:#191724
     --color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
     --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+
+    export NVIM_THEME="dark"
     ;;
 esac
 
