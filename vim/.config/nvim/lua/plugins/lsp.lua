@@ -46,6 +46,8 @@ return {
 
       lsp.on_attach(function(client, bufnr)
         lsp.default_keymaps({ buffer = bufnr })
+
+        vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', { buffer = true })
       end)
 
       local homedir = os.getenv("HOME")
@@ -113,6 +115,17 @@ return {
 
       lsp.setup()
 
+      local null_ls = require('null-ls')
+
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.prettierd,
+          null_ls.builtins.diagnostics.eslint_d,
+          -- null_ls.builtins.formatting.eslint_d,
+          -- null_ls.builtins.formatting.stylua,
+        }
+      })
+
       -- You need to setup `cmp` after lsp-zero
       local cmp = require('cmp')
       local cmp_action = require('lsp-zero').cmp_action()
@@ -156,4 +169,12 @@ return {
 
   },
 
+  {
+    "jay-babu/mason-null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+    }
+  }
 }

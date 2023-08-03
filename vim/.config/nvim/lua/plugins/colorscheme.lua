@@ -2,7 +2,7 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
 
     config = function()
@@ -45,7 +45,7 @@ return {
         -- Change specific vim highlight groups
         -- https://github.com/rose-pine/neovim/wiki/Recipes
         highlight_groups = {
-          ColorColumn = { bg = "rose" },
+          ColorColumn = { bg = "foam", blend = 10 },
           -- Blend colours against the "base" background
           CursorLine = { bg = "foam", blend = 10 },
           StatusLine = { fg = "love", bg = "love", blend = 10 },

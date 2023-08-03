@@ -16,6 +16,9 @@ return {
     ft = filetypes,
     config = function()
       vim.g.mkdp_filetypes = filetypes
+      vim.g.mkdp_auto_close = true
+      vim.g.mkdp_echo_preview_url = true
+      vim.g.mkdp_page_title = "${name}"
     end,
   },
 }
