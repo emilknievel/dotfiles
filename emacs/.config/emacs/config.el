@@ -240,7 +240,7 @@
   (when (eq system-type 'darwin) (ns-auto-titlebar-mode)))
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 14"))
+       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 13"))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
@@ -252,8 +252,8 @@
 
 (custom-theme-set-faces
  'user
- '(variable-pitch ((t (:family "Open Sans" :height 150 :weight normal))))
- '(fixed-pitch ((t ( :family "FiraCode Nerd Font" :height 140 :weight normal))))
+ '(variable-pitch ((t (:family "Open Sans" :height 140 :weight normal))))
+ '(fixed-pitch ((t ( :family "FiraCode Nerd Font" :height 130 :weight normal))))
 
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
