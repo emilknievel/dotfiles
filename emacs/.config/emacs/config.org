@@ -116,6 +116,26 @@ https://git.sr.ht/~technomancy/better-defaults
   (defvar my/learning-path "~/stuff/learning-stuff/"
     "Learning resources/projects")
 
+  (defvar my/dark-theme 'doom-rose-pine)
+  (defvar my/light-theme 'doom-rose-pine-dawn)
+
+  (defvar my/current-theme my/dark-theme)
+
+#+end_src
+
+** Functions
+
+#+begin_src emacs-lisp
+
+  (defun my/toggle-theme ()
+    "Toggle between two themes"
+    (interactive)
+    (if (eq my/current-theme my/dark-theme)
+        (progn (load-theme my/light-theme t)
+               (setq my/current-theme my/light-theme))
+      (progn (load-theme my/dark-theme t)
+             (setq my/current-theme my/dark-theme))))
+
 #+end_src
 
 ** Security
@@ -258,7 +278,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
   "t v" '(visual-line-mode :which-key "visual line mode")
   "t n" '(display-line-numbers-mode :which-key "display line numbers")
   "t c" '(visual-fill-column-mode :which-key "visual fill column mode")
-  "t t" '(load-theme :which-key "load theme")
+  "t t" 'my/toggle-theme
   ))
 
 #+end_src
@@ -354,10 +374,14 @@ Get rid of the annoying startup screen.
           doom-themes-enable-italic nil)
     :config
     (doom-themes-org-config)
-    (doom-themes-visual-bell-config)
+    (doom-themes-visual-bell-config))
 
-    (load-theme 'doom-rose-pine t))
+#+end_src
 
+*** Load current theme
+
+#+begin_src emacs-lisp
+  (load-theme my/current-theme t)
 #+end_src
 
 *** Titlebar

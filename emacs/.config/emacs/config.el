@@ -76,6 +76,20 @@
 (defvar my/learning-path "~/stuff/learning-stuff/"
   "Learning resources/projects")
 
+(defvar my/dark-theme 'doom-rose-pine)
+(defvar my/light-theme 'doom-rose-pine-dawn)
+
+(defvar my/current-theme my/dark-theme)
+
+(defun my/toggle-theme ()
+  "Toggle between two themes"
+  (interactive)
+  (if (eq my/current-theme my/dark-theme)
+      (progn (load-theme my/light-theme t)
+             (setq my/current-theme my/light-theme))
+    (progn (load-theme my/dark-theme t)
+           (setq my/current-theme my/dark-theme))))
+
 (use-package gnutls
   :defer t
   :custom
@@ -178,7 +192,7 @@
 "t v" '(visual-line-mode :which-key "visual line mode")
 "t n" '(display-line-numbers-mode :which-key "display line numbers")
 "t c" '(visual-fill-column-mode :which-key "visual fill column mode")
-"t t" '(load-theme :which-key "load theme")
+"t t" 'my/toggle-theme
 ))
 
 (use-package iedit)
@@ -215,9 +229,9 @@
         doom-themes-enable-italic nil)
   :config
   (doom-themes-org-config)
-  (doom-themes-visual-bell-config)
+  (doom-themes-visual-bell-config))
 
-  (load-theme 'doom-rose-pine t))
+(load-theme my/current-theme t)
 
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
