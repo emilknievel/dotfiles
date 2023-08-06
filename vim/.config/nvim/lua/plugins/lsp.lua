@@ -22,7 +22,7 @@ return {
       { "rafamadriz/friendly-snippets" },
 
       {
-        "glepnir/lspsaga.nvim",
+        "nvimdev/lspsaga.nvim",
         event = "LspAttach",
         config = function()
           require("lspsaga").setup({})
