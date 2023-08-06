@@ -203,11 +203,6 @@ Use Evil mode for Vim like bindings.
     :config
     (global-evil-surround-mode 1))
 
-  (use-package evil-goggles
-    :ensure t
-    :config
-    (evil-goggles-mode))
-
 #+end_src
 
 *** general.el

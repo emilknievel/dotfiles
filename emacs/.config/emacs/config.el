@@ -134,11 +134,6 @@
   :config
   (global-evil-surround-mode 1))
 
-(use-package evil-goggles
-  :ensure t
-  :config
-  (evil-goggles-mode))
-
 (use-package general
   :after evil
   :config
