@@ -76,11 +76,6 @@
 (defvar my/learning-path "~/stuff/learning-stuff/"
   "Learning resources/projects")
 
-(defvar my/dark-theme 'doom-rose-pine)
-(defvar my/light-theme 'doom-rose-pine-dawn)
-
-(defvar my/current-theme my/dark-theme)
-
 (defun my/toggle-theme ()
   "Toggle between two themes"
   (interactive)
@@ -204,6 +199,10 @@
   mac-right-command-modifier 'none
   mac-option-modifier nil
   mac-control-modifier 'control)
+
+(defvar my/dark-theme 'modus-vivendi)
+(defvar my/light-theme 'modus-operandi-tinted)
+(defvar my/current-theme my/light-theme)
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 

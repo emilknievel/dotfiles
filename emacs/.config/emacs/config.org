@@ -116,11 +116,6 @@ https://git.sr.ht/~technomancy/better-defaults
   (defvar my/learning-path "~/stuff/learning-stuff/"
     "Learning resources/projects")
 
-  (defvar my/dark-theme 'doom-rose-pine)
-  (defvar my/light-theme 'doom-rose-pine-dawn)
-
-  (defvar my/current-theme my/dark-theme)
-
 #+end_src
 
 ** Functions
@@ -322,6 +317,14 @@ Get rid of the annoying startup screen.
 #+end_src
 
 *** Theme
+**** Variables
+#+begin_src emacs-lisp
+
+  (defvar my/dark-theme 'modus-vivendi)
+  (defvar my/light-theme 'modus-operandi-tinted)
+  (defvar my/current-theme my/light-theme)
+
+#+end_src
 **** Themes directory
 
 #+begin_src emacs-lisp
@@ -373,10 +376,12 @@ Get rid of the annoying startup screen.
 
 #+end_src
 
-*** Load current theme
+**** Load current theme
 
 #+begin_src emacs-lisp
+
   (load-theme my/current-theme t)
+
 #+end_src
 
 *** Titlebar
