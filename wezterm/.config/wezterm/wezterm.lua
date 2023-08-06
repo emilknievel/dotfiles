@@ -1,11 +1,11 @@
 local wezterm = require "wezterm"
 
-local colors = require("lua/rose-pine").colors()
-local window_frame = require("lua/rose-pine").window_frame()
+-- local colors = require("lua/rose-pine").colors()
+-- local window_frame = require("lua/rose-pine").window_frame()
 
 return {
-  font = wezterm.font "BlexMono Nerd Font",
-  font_size = 11.0,
+  font = wezterm.font "FiraCode Nerd Font",
+  font_size = 10.0,
   freetype_load_flags = "NO_HINTING",
 
   -- Disable ligatures
@@ -13,7 +13,8 @@ return {
 
   enable_tab_bar = false,
   window_decorations = "RESIZE",
-  colors = colors,
+  -- colors = colors,
+  color_scheme = "Rosé Pine (Gogh)",
   default_cursor_style = "BlinkingBlock",
   cursor_blink_ease_in = "Constant",
   cursor_blink_ease_out = "Constant",
