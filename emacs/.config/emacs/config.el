@@ -200,9 +200,12 @@
   mac-option-modifier nil
   mac-control-modifier 'control)
 
-(defvar my/dark-theme 'modus-vivendi)
-(defvar my/light-theme 'modus-operandi-tinted)
-(defvar my/current-theme my/light-theme)
+(when (eq system-type 'gnu/linux)
+  (setq default-frame-alist '((undecorated . t))))
+
+(defvar my/dark-theme 'doom-rose-pine)
+(defvar my/light-theme 'doom-rose-pine-dawn)
+(defvar my/current-theme my/dark-theme)
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
@@ -245,8 +248,8 @@
        ))
 
 (cond ((eq system-type 'gnu/linux)
-       (setq variable-pitch-size 110)
-       (setq fixed-pitch-size 105))
+       (setq variable-pitch-size 105)
+       (setq fixed-pitch-size 100))
       ((eq system-type 'darwin)
        (setq variable-pitch-size 140)
        (setq fixed-pitch-size 130)))

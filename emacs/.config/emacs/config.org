@@ -316,13 +316,21 @@ Get rid of the annoying startup screen.
 
 #+end_src
 
+*** Linux
+#+begin_src emacs-lisp
+
+  (when (eq system-type 'gnu/linux)
+    (setq default-frame-alist '((undecorated . t))))
+
+#+end_src
+
 *** Theme
 **** Variables
 #+begin_src emacs-lisp
 
-  (defvar my/dark-theme 'modus-vivendi)
-  (defvar my/light-theme 'modus-operandi-tinted)
-  (defvar my/current-theme my/light-theme)
+  (defvar my/dark-theme 'doom-rose-pine)
+  (defvar my/light-theme 'doom-rose-pine-dawn)
+  (defvar my/current-theme my/dark-theme)
 
 #+end_src
 **** Themes directory
@@ -419,8 +427,8 @@ Set up proportional fonts for Org mode.
 
 #+begin_src emacs-lisp
   (cond ((eq system-type 'gnu/linux)
-         (setq variable-pitch-size 110)
-         (setq fixed-pitch-size 105))
+         (setq variable-pitch-size 105)
+         (setq fixed-pitch-size 100))
         ((eq system-type 'darwin)
          (setq variable-pitch-size 140)
          (setq fixed-pitch-size 130)))
