@@ -140,6 +140,8 @@
     :prefix-map 'my/leader-key-map
 
     ;; Top level functions
+
+    "SPC" '(execute-extended-command :which-key "M-x")
     ;; files
     "f s" 'save-buffer
     "f f" 'find-file
