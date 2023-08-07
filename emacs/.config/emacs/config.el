@@ -241,13 +241,20 @@
        ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist '(font . "BlexMono Nerd Font 11"))
+       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 10"))
        ))
+
+(cond ((eq system-type 'gnu/linux)
+       (setq variable-pitch-size 110)
+       (setq fixed-pitch-size 105))
+      ((eq system-type 'darwin)
+       (setq variable-pitch-size 140)
+       (setq fixed-pitch-size 130)))
 
 (custom-theme-set-faces
  'user
- '(variable-pitch ((t (:family "Open Sans" :height 140 :weight normal))))
- '(fixed-pitch ((t ( :family "FiraCode Nerd Font" :height 130 :weight normal))))
+ `(variable-pitch ((t (:family "Open Sans" :height ,variable-pitch-size :weight normal))))
+ `(fixed-pitch ((t ( :family "FiraCode Nerd Font" :height ,fixed-pitch-size :weight normal))))
 
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
