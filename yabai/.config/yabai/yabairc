@@ -43,11 +43,11 @@ yabai -m config mouse_drop_action            swap
 
 # general space settings
 yabai -m config layout                       bsp
-yabai -m config top_padding                  20 # 4 # 10 # 12
-yabai -m config bottom_padding               20 # 4 # 10 # 12
-yabai -m config left_padding                 20 # 4 # 10 # 12
-yabai -m config right_padding                20 # 4 # 10 # 12
-yabai -m config window_gap                   20 # 4 # 10 # 12
+yabai -m config top_padding                  10
+yabai -m config bottom_padding               10
+yabai -m config left_padding                 10
+yabai -m config right_padding                10
+yabai -m config window_gap                   10
 
 yabai -m rule --add label="sys" app="^System.*inställningar$" manage=off
 yabai -m rule --add app="^Archive Utility$" manage=off
@@ -65,6 +65,7 @@ yabai -m rule --add app="^1Password$" manage=off
 yabai -m rule --add app="^Påminnelser" manage=off
 yabai -m rule --add app="^Steam$" manage=off
 yabai -m rule --add app="^Ivory$" title="Ivory" manage=off
-yabai -m rule --add-app="^DevDocs$" manage=off
+yabai -m rule --add app="^DevDocs$" manage=off
+yabai -m rule --add title="\- Huddle$" manage=off
 
 echo "yabai configuration loaded.."

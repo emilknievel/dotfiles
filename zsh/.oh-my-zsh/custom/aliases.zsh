@@ -34,6 +34,8 @@ alias brmd='brew doctor'
 alias icat='kitty +kitten icat'        # Display an image inline in terminal
 alias themes='kitty +kitten themes'    # List and swap between kitten themes
 alias kittyconfig='kitty +edit-config' # Edit kitty config
+alias klight='kitty +kitten themes --reload-in=all Rosé\ Pine\ Dawn'
+alias kdark='kitty +kitten themes --reload-in=all Rosé\ Pine'
 
 # Yabai
 alias yabqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' # Query info about opene windows
