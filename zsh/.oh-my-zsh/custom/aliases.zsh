@@ -31,11 +31,12 @@ alias brl='brew list'
 alias brmd='brew doctor'
 
 # Kitty
-alias icat='kitty +kitten icat'        # Display an image inline in terminal
-alias themes='kitty +kitten themes'    # List and swap between kitten themes
-alias kittyconfig='kitty +edit-config' # Edit kitty config
-alias klight='kitty +kitten themes --reload-in=all Rosé\ Pine\ Dawn'
-alias kdark='kitty +kitten themes --reload-in=all Rosé\ Pine'
+alias kki='kitty +kitten icat'    # Display an image inline in terminal
+alias kkt='kitty +kitten themes'  # List and swap between kitten themes
+alias kkc='kitty +edit-config'    # Edit kitty config
+alias kks='kitty +kitten ssh'     # Kitty shell integration over ssh
+alias kktl='kitty +kitten themes --reload-in=all Rosé\ Pine\ Dawn'
+alias kktd='kitty +kitten themes --reload-in=all Rosé\ Pine'
 
 # Yabai
 alias yabqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' # Query info about opene windows
