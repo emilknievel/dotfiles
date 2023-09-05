@@ -9,64 +9,64 @@ all: #clean install_deps stow
 stow: stow_emacs stow_vim stow_alacritty stow_bat stow_lazygit stow_neofetch stow_tmux stow_wezterm stow_zsh
 ifeq ($(UNAME), Linux)
 	rm -f ~/.gitconfig; \
-	stow --no-folding -vt ~ git-linux
+	stow git-linux
 endif
 ifeq ($(UNAME), Darwin)
 	rm -f ~/.gitconfig; \
 	rm -rf ~/.config/git; \
-	stow --no-folding -vt ~ git-mac; \
+	stow git-mac; \
 	rm -rf ~/.config/yabai; \
-	stow --no-folding -vt ~ yabai; \
+	stow yabai; \
 	rm -f ~/.skhdrc; \
-	stow --no-folding -vt ~ skhd
+	stow skhd
 endif
 
 stow_emacs: clean_emacs
-	stow --no-folding -vt ~ emacs
+	stow emacs
 
 stow_vim: clean_vim
-	stow --no-folding -vt ~ vim
+	stow vim
 
 stow_alacritty: clean_alacritty
-	stow --no-folding -vt ~ alacritty
+	stow alacritty
 
 stow_bat: clean_bat
-	stow --no-folding -vt ~ bat
+	stow bat
 
 stow_git:
 ifeq ($(UNAME), Linux)
 	rm -f ~/.gitconfig; \
-	stow --no-folding -vt ~ git-linux
+	stow git-linux
 endif
 ifeq ($(UNAME), Darwin)
 	rm -f ~/.gitconfig; \
 	rm -rf ~/.config/git; \
-	stow --no-folding -vt ~ git-mac
+	stow git-mac
 endif
 
 stow_lazygit: clean_lazygit
-	stow --no-folding -vt ~ lazygit
+	stow lazygit
 
 stow_neofetch: clean_neofetch
-	stow --no-folding -vt ~ neofetch
+	stow neofetch
 
 stow_tmux: clean_tmux
-	stow --no-folding -vt ~ tmux
+	stow tmux
 
 stow_wezterm: clean_wezterm
-	stow --no-folding -vt ~ wezterm
+	stow wezterm
 
 stow_zsh: clean_zsh
-	stow --no-folding -vt ~ zsh
+	stow zsh
 
 ## mac specific
 stow_yabai:
 	rm -rf ~/.config/yabai; \
-	stow --no-folding -vt ~ yabai
+	stow yabai
 
 stow_skhd:
 	rm -f ~/.skhdrc; \
-	stow --no-folding -vt ~ skhd
+	stow skhd
 
 clean: clean_emacs clean_vim clean_alacritty clean_bat clean_lazygit clean_neofetch clean_tmux clean_wezterm clean_zsh
 ifeq ($(UNAME), Linux)
