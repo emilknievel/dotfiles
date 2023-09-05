@@ -239,7 +239,7 @@
   (when (eq system-type 'darwin) (ns-auto-titlebar-mode)))
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "FiraCode Nerd Font 13"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka SS15 15"))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
@@ -254,12 +254,12 @@
        (setq fixed-pitch-size 100))
       ((eq system-type 'darwin)
        (setq variable-pitch-size 140)
-       (setq fixed-pitch-size 130)))
+       (setq fixed-pitch-size 140)))
 
 (custom-theme-set-faces
  'user
  `(variable-pitch ((t (:family "Open Sans" :height ,variable-pitch-size :weight normal))))
- `(fixed-pitch ((t ( :family "FiraCode Nerd Font" :height ,fixed-pitch-size :weight normal))))
+ `(fixed-pitch ((t ( :family "Iosevka SS15" :height ,fixed-pitch-size :weight normal))))
 
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
@@ -912,3 +912,15 @@ parses its input."
 (use-package org-bullets
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+;; OCaml configuration
+;;  - better error and backtrace matching
+
+(defun set-ocaml-error-regexp ()
+ (set
+  'compilation-error-regexp-alist
+  (list '("[Ff]ile \\(\"\\(.*?\\)\", line \\(-?[0-9]+\\)\\(, characters \\(-?[0-9]+\\)-\\([0-9]+\\)\\)?\\)\\(:\n\\(\\(Warning .*?\\)\\|\\(Error\\)\\):\\)?"
+          2 3 (5 . 6) (9 . 11) 1 (8 compilation-message-face)))))
+
+(add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
+(add-hook 'caml-mode-hook 'set-ocaml-error-regexp)

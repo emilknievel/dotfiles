@@ -129,3 +129,11 @@ flycheck_*.el
 
 # network security
 /network-security.data
+
+# misc.
+eln-cache/
+elpa/
+straight/
+history
+ido.last
+places
