@@ -253,12 +253,12 @@
        (setq variable-pitch-size 105)
        (setq fixed-pitch-size 100))
       ((eq system-type 'darwin)
-       (setq variable-pitch-size 140)
-       (setq fixed-pitch-size 140)))
+       (setq variable-pitch-size 150)
+       (setq fixed-pitch-size 150)))
 
 (custom-theme-set-faces
  'user
- `(variable-pitch ((t (:family "Open Sans" :height ,variable-pitch-size :weight normal))))
+ `(variable-pitch ((t (:family "Inter" :height ,variable-pitch-size :weight normal))))
  `(fixed-pitch ((t ( :family "Iosevka SS15" :height ,fixed-pitch-size :weight normal))))
 
  '(org-block ((t (:inherit fixed-pitch))))
