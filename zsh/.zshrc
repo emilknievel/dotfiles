@@ -327,3 +327,8 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 if [ "$USER" = "tiboemv" ]; then
   export NODE_EXTRA_CA_CERTS="$HOME/mio-self-signed.pem"
 fi
+
+# use gnu-awk instead of awk on mac
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
+fi
