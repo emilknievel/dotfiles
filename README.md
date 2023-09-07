@@ -16,10 +16,10 @@ I feel the best way to explain how something works is to do it with an example. 
 ```bash
 # cwd: ~/
 cd dotfiles
-stow --no-folding emacs
+stow emacs
 ```
 
-Now everything in the emacs folder has been created in the home directory as symlinks and is ready to go. Important note, everything has the exact same structure as in the emacs folder. See the GNU Stow website for more information. Also note the `--no-folding` flag. This makes sure that only files are symlinked which makes sure that no unwanted stuff is tracked by git.
+Now everything in the emacs folder has been created in the home directory as symlinks and is ready to go. Important note, everything has the exact same structure as in the emacs folder. See the GNU Stow website for more information.
 
 ## Submodules
 This repository utilizes git submodules. To make sure that submodules are installed, run the following command:
