@@ -16,7 +16,7 @@ return {
         dim_nc_background = false,
         disable_background = true,
         disable_float_background = true,
-        disable_italics = true,
+        disable_italics = false,
         --- @usage string hex value or named color from rosepinetheme.com/palette
         groups = {
           background = "base",
