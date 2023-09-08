@@ -137,3 +137,6 @@ straight/
 history
 ido.last
 places
+
+### Vim ###
+lazy-lock.json
