@@ -239,7 +239,7 @@
   (when (eq system-type 'darwin) (ns-auto-titlebar-mode)))
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "Iosevka SS15 15"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka 15"))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
@@ -259,7 +259,7 @@
 (custom-theme-set-faces
  'user
  `(variable-pitch ((t (:family "Inter" :height ,variable-pitch-size :weight normal))))
- `(fixed-pitch ((t ( :family "Iosevka SS15" :height ,fixed-pitch-size :weight normal))))
+ `(fixed-pitch ((t ( :family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
