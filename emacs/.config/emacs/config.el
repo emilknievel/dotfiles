@@ -151,41 +151,40 @@
     ;; dirs
     "d d" 'dired
 
-    ;; buffers
-    "b b" 'switch-to-buffer
-    "b B" 'ibuffer
-    "b X" 'scratch-buffer
-    "q q" 'save-buffers-kill-terminal
+;; buffers
+"b b" 'switch-to-buffer
+"b B" 'ibuffer
+"b X" 'scratch-buffer
+"q q" 'save-buffers-kill-terminal
 
-    ;; windows
-    "w s" 'evil-window-split
-    "w v" 'evil-window-vsplit
-    "w w" 'other-window
-    "w q" 'delete-window
-    "w +" 'evil-window-increase-height
-    "w -" 'evil-window-decrease-height
-    "w >" 'evil-window-increase-width
-    "w <" 'evil-window-decrease-width
-    "w =" 'balance-windows
-    "w H" 'evil-window-left
-    "w J" 'evil-window-down
-    "w K" 'evil-window-up
-    "w L" 'evil-window-right
+;; windows
+"w s" 'evil-window-split
+"w v" 'evil-window-vsplit
+"w w" 'other-window
+"w q" 'delete-window
+"w +" 'evil-window-increase-height
+"w -" 'evil-window-decrease-height
+"w >" 'evil-window-increase-width
+"w <" 'evil-window-decrease-width
+"w =" 'balance-windows
+"w H" 'evil-window-left
+"w J" 'evil-window-down
+"w K" 'evil-window-up
+"w L" 'evil-window-right
 
-    ;; help
-    "h f" 'describe-function
-    "h v" 'describe-variable
-    "h k" 'describe-key
-    "h i" 'info
-    "h b" 'describe-bindings
+;; help
+"h f" 'describe-function
+"h v" 'describe-variable
+"h k" 'describe-key
+"h i" 'info
+"h b" 'describe-bindings
 
-;; Toggles
+;; toggles
 "t" '(nil :which-key "toggles")
 "t v" '(visual-line-mode :which-key "visual line mode")
 "t n" '(display-line-numbers-mode :which-key "display line numbers")
 "t c" '(visual-fill-column-mode :which-key "visual fill column mode")
-"t t" 'my/toggle-theme
-))
+"t t" 'my/toggle-theme))
 
 (use-package iedit)
 
