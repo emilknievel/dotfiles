@@ -258,9 +258,11 @@
 (custom-theme-set-faces
  'user
  `(variable-pitch ((t (:family "Inter" :height ,variable-pitch-size :weight normal))))
- `(fixed-pitch ((t ( :family "Iosevka" :height ,fixed-pitch-size :weight normal))))
+ `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
  '(org-block ((t (:inherit fixed-pitch))))
+ '(org-block-begin-line ((t (:inherit fixed-pitch))))
+ '(org-block-end-line ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
  ;; '(org-document-info ((t (:foreground "dark orange"))))
  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
