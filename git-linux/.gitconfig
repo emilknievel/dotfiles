@@ -21,9 +21,6 @@
 [help]
   # Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
   autocorrect = 1
-[rerere]
-  # Remembers how you handled merging conflicts in a branch, for easier merging later
-  enabled = 1
 [user]
   name = Emil Vågstedt
   email = emil.vagstedt@icloud.com
