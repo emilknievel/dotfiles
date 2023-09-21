@@ -138,6 +138,7 @@ history
 ido.last
 places
 transient/
+.cache/
 
 ### Vim ###
 lazy-lock.json
