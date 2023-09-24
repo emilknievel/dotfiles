@@ -339,7 +339,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
 
-  (when (eq system-type 'gnu/linux)
+  (when (and (eq system-type 'gnu/linux) (not (string-match "-[Mm]icrosoft" operating-system-release)))
     (setq default-frame-alist '((undecorated . t))))
 
 #+end_src
@@ -443,6 +443,9 @@ We want the titlebar to match the theme background color.
          (add-to-list 'default-frame-alist '(font . "Iosevka 11"))
          ))
 
+  (when (string-match "-[Mm]icrosoft" operating-system-release)
+    (add-to-list 'default-frame-alist '(font . "Iosevka 17")))
+
 #+end_src
 
 Set up proportional fonts for Org mode.
@@ -454,6 +457,10 @@ Set up proportional fonts for Org mode.
         ((eq system-type 'darwin)
          (setq variable-pitch-size 150)
          (setq fixed-pitch-size 150)))
+
+  (when (string-match "-[Mm]icrosoft" operating-system-release)
+    (setq variable-pitch-size 170)
+    (setq fixed-pitch-size 170))
 
   (custom-theme-set-faces
    'user

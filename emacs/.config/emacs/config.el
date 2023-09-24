@@ -201,7 +201,7 @@
   mac-option-modifier nil
   mac-control-modifier 'control)
 
-(when (eq system-type 'gnu/linux)
+(when (and (eq system-type 'gnu/linux) (not (string-match "-[Mm]icrosoft" operating-system-release)))
   (setq default-frame-alist '((undecorated . t))))
 
 (defvar my/dark-theme 'doom-rose-pine)
@@ -248,12 +248,19 @@
        (add-to-list 'default-frame-alist '(font . "Iosevka 11"))
        ))
 
+(when (string-match "-[Mm]icrosoft" operating-system-release)
+  (add-to-list 'default-frame-alist '(font . "Iosevka 17")))
+
 (cond ((eq system-type 'gnu/linux)
        (setq variable-pitch-size 110)
        (setq fixed-pitch-size 110))
       ((eq system-type 'darwin)
        (setq variable-pitch-size 150)
        (setq fixed-pitch-size 150)))
+
+(when (string-match "-[Mm]icrosoft" operating-system-release)
+  (setq variable-pitch-size 170)
+  (setq fixed-pitch-size 170))
 
 (custom-theme-set-faces
  'user
