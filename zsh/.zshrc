@@ -306,6 +306,9 @@ esac
 
 export FZF_DEFAULT_OPTS="$fzf_default"
 export TERM_THEME="$term_theme"
+
+git config --global delta.light $( [[ "$term_theme" == "light" ]] && echo true || echo false )
+
 ## End color theme ##
 
 # vterm

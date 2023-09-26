@@ -1,40 +1,35 @@
 [alias]
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  lga = lg --all
-  pf = push --force-with-lease
-  gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
-  # Undo the last commit, leaving your staging area the same as just before you committed
-  undo = reset --soft HEAD^
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lga = lg --all
+	pf = push --force-with-lease
+	gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
+	# Undo the last commit, leaving your staging area the same as just before you committed
+	undo = reset --soft HEAD^
 [diff]
-  tool = nvim
+	tool = nvim
 [merge]
-  tool = nvim
+	tool = nvim
 
 [core]
-  editor = nvim
-  precomposeunicode = true
-  # Display UTF-8 characters in filenames, if you're having problems seeing them
-  quotepath = false
-  excludesfile = .config/git/gitignore_global
-  pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
-  autocrlf = input
+	editor = nvim
+	precomposeunicode = true
+	# Display UTF-8 characters in filenames, if you're having problems seeing them
+	quotepath = false
+	excludesfile = .config/git/gitignore_global
+	pager = delta
+	autocrlf = input
 
-[delta "light-mode"]
-  light = true
-  syntax-theme = base16
-
-[delta "dark-mode"]
-  light = false
-  syntax-theme = base16
+[delta]
+	syntax-theme = base16
 
 [help]
-  # Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
-  autocorrect = 1
+	# Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
+	autocorrect = 1
 [includeIf "gitdir:~/stuff/"]
-  path = ~/.config/git/gitconfig-personal
+	path = ~/.config/git/gitconfig-personal
 [includeIf "gitdir:~/projects/"]
-  path = ~/.config/git/gitconfig-work
+	path = ~/.config/git/gitconfig-work
 [init]
 	defaultBranch = main
 [rebase]
-  autosquash = true
+	autosquash = true
