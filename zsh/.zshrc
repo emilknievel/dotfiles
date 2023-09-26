@@ -248,67 +248,65 @@ bindkey "^[l" clear-screen
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Catppuccin frappe for fzf
-# export FZF_DEFAULT_OPTS=" \
-# --color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284 \
-# --color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
-# --color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284"
+## Color theme ##
+fzf_dark="
+--color=fg:#908caa,bg:#191724,hl:#ebbcba
+--color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
+--color=border:#403d52,header:#31748f,gutter:#191724
+--color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
+--color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa
+"
 
-# Macchiato
-# export FZF_DEFAULT_OPTS=" \
-# --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
-# --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
-# --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
-
-# Mocha
-# export FZF_DEFAULT_OPTS=" \
-# --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-# --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-# --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+fzf_light="
+--color=fg:#797593,bg:#faf4ed,hl:#d7827e
+--color=fg+:#575279,bg+:#f2e9e1,hl+:#d7827e
+--color=border:#dfdad9,header:#286983,gutter:#faf4ed
+--color=spinner:#ea9d34,info:#56949f,separator:#dfdad9
+--color=pointer:#907aa9,marker:#b4637a,prompt:#797593
+"
 
 case "$OSTYPE" in
   darwin*)
     # determine light/dark from AppleInterfaceStyle
     if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
-      # dark
-      export FZF_DEFAULT_OPTS="
-      --color=fg:#908caa,bg:#191724,hl:#ebbcba
-      --color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
-      --color=border:#403d52,header:#31748f,gutter:#191724
-      --color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
-      --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
-
-      export NVIM_THEME="dark"
+      fzf_default=$fzf_dark
+      term_theme="dark"
     else
-      export FZF_DEFAULT_OPTS="
-      --color=fg:#797593,bg:#faf4ed,hl:#d7827e
-      --color=fg+:#575279,bg+:#f2e9e1,hl+:#d7827e
-      --color=border:#dfdad9,header:#286983,gutter:#faf4ed
-      --color=spinner:#ea9d34,info:#56949f,separator:#dfdad9
-      --color=pointer:#907aa9,marker:#b4637a,prompt:#797593"
-
-      export NVIM_THEME="light"
+      fzf_default=$fzf_light
+      term_theme="light"
     fi
     ;;
   linux*)
-    export FZF_DEFAULT_OPTS="
-    --color=fg:#908caa,bg:#191724,hl:#ebbcba
-    --color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
-    --color=border:#403d52,header:#31748f,gutter:#191724
-    --color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
-    --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+    # Check if running under WSL2
+    if [[ -n "$WSL_DISTRO_NAME" ]]; then
+      # Check the Windows theme
+      windows_theme=$(reg.exe query 'HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' /v 'AppsUseLightTheme' | grep -o '0x[0-9]*')
 
-    export NVIM_THEME="dark"
+      if [[ $windows_theme == 0x0 ]]; then
+        fzf_default=$fzf_dark
+        term_theme="dark"
+      else
+        fzf_default=$fzf_light
+        term_theme="light"
+      fi
+    else
+      # Check the GTK theme
+      gtk_theme=$(dconf read /org/gnome/desktop/interface/gtk-theme)
+
+      if [[ "$gtk_theme" == *"light"* ]]; then
+        fzf_default=$fzf_light
+        term_theme="light"
+      else
+        fzf_default=$fzf_dark
+        term_theme="dark"
+      fi
+    fi
     ;;
 esac
 
-# Rosé pine moon
-# export FZF_DEFAULT_OPTS="
-# --color=fg:#908caa,bg:#232136,hl:#ea9a97
-# --color=fg+:#e0def4,bg+:#393552,hl+:#ea9a97
-# --color=border:#44415a,header:#3e8fb0,gutter:#232136
-# --color=spinner:#f6c177,info:#9ccfd8,separator:#44415a
-# --color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+export FZF_DEFAULT_OPTS="$fzf_default"
+export TERM_THEME="$term_theme"
+## End color theme ##
 
 # vterm
 source $ZSH/custom/vterm.zsh
