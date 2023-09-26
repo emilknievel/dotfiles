@@ -309,6 +309,14 @@ export TERM_THEME="$term_theme"
 
 git config --global delta.light $( [[ "$term_theme" == "light" ]] && echo true || echo false )
 
+if command -v kitty &> /dev/null; then
+  if [[ "$term_theme" == "dark" ]]; then
+    kitty +kitten themes --reload-in=all Rosé\ Pine
+  else
+    kitty +kitten themes --reload-in=all Rosé\ Pine\ Dawn
+  fi
+fi
+
 ## End color theme ##
 
 # vterm
