@@ -264,7 +264,7 @@
 
 (custom-theme-set-faces
  'user
- `(variable-pitch ((t (:family "Inter" :height ,variable-pitch-size :weight normal))))
+ `(variable-pitch ((t (:family "Noto sans" :height ,variable-pitch-size :weight normal))))
  `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
  '(org-block ((t (:inherit fixed-pitch))))
@@ -917,9 +917,10 @@ parses its input."
   :config
   (setq org-hide-emphasis-markers t))
 
-(use-package org-bullets
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+(use-package org-superstar
+  :hook
+  (org-mode . (lambda ()
+                (org-superstar-mode 1))))
 
 ;; OCaml configuration
 ;;  - better error and backtrace matching
