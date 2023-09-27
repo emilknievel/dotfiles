@@ -139,6 +139,7 @@ ido.last
 places
 transient/
 .cache/
+tree-sitter/
 
 ### Vim ###
 lazy-lock.json
