@@ -249,7 +249,7 @@
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
-  (add-to-list 'default-frame-alist '(font . "Iosevka 17")))
+  (add-to-list 'default-frame-alist '(font . "Iosevka 20")))
 
 (cond ((eq system-type 'gnu/linux)
        (setq variable-pitch-size 110)
@@ -259,12 +259,12 @@
        (setq fixed-pitch-size 150)))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
-  (setq variable-pitch-size 170)
-  (setq fixed-pitch-size 170))
+  (setq variable-pitch-size 200)
+  (setq fixed-pitch-size 200))
 
 (custom-theme-set-faces
  'user
- `(variable-pitch ((t (:family "Noto sans" :height ,variable-pitch-size :weight normal))))
+ `(variable-pitch ((t (:family "sans-serif" :height ,variable-pitch-size :weight normal))))
  `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
  '(org-block ((t (:inherit fixed-pitch))))
