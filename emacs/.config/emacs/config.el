@@ -249,7 +249,7 @@
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
-  (add-to-list 'default-frame-alist '(font . "Iosevka 20")))
+  (add-to-list 'default-frame-alist '(font . "Iosevka 19")))
 
 (cond ((eq system-type 'gnu/linux)
        (setq variable-pitch-size 110)
@@ -259,8 +259,8 @@
        (setq fixed-pitch-size 160)))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
-  (setq variable-pitch-size 200)
-  (setq fixed-pitch-size 200))
+  (setq variable-pitch-size 190)
+  (setq fixed-pitch-size 190))
 
 (custom-theme-set-faces
  'user
