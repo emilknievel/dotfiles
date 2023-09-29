@@ -238,7 +238,7 @@
   (when (eq system-type 'darwin) (ns-auto-titlebar-mode)))
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "Iosevka 16"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka 15"))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
@@ -255,8 +255,8 @@
        (setq variable-pitch-size 110)
        (setq fixed-pitch-size 110))
       ((eq system-type 'darwin)
-       (setq variable-pitch-size 160)
-       (setq fixed-pitch-size 160)))
+       (setq variable-pitch-size 150)
+       (setq fixed-pitch-size 150)))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
   (setq variable-pitch-size 190)
