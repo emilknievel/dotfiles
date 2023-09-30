@@ -734,6 +734,9 @@ parses its input."
   :config
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode)))
 
+(use-package jq-mode
+  :mode ("\\.jq\\'" . jq-mode))
+
 (use-package flycheck
   :init (global-flycheck-mode))
 

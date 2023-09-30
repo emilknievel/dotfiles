@@ -1121,6 +1121,17 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
 
 #+end_src
 
+*** jq
+
+Info about interactive use in a JSON buffer, Org-babel support and how to use with yq for yaml provided [[https://github.com/ljos/jq-mode][here]].
+
+#+begin_src emacs-lisp
+
+  (use-package jq-mode
+    :mode ("\\.jq\\'" . jq-mode))
+
+#+end_src
+
 ** Syntax checking
 
 #+begin_src emacs-lisp
