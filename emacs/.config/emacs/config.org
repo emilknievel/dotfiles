@@ -444,7 +444,7 @@ We want the titlebar to match the theme background color.
          ))
 
   (when (string-match "-[Mm]icrosoft" operating-system-release)
-    (add-to-list 'default-frame-alist '(font . "Iosevka 19")))
+    (add-to-list 'default-frame-alist '(font . "Iosevka 18")))
 
 #+end_src
 
@@ -459,8 +459,8 @@ Set up proportional fonts for Org mode.
          (setq fixed-pitch-size 150)))
 
   (when (string-match "-[Mm]icrosoft" operating-system-release)
-    (setq variable-pitch-size 190)
-    (setq fixed-pitch-size 190))
+    (setq variable-pitch-size 180)
+    (setq fixed-pitch-size 180))
 
   (custom-theme-set-faces
    'user
