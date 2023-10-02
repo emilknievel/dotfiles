@@ -231,6 +231,15 @@
 
 (load-theme my/current-theme t)
 
+(use-package circadian
+  :config
+  (setq calendar-latitude 58.4)
+  (setq calendar-longitude 13.8)
+  ;; todo: use my/dark-theme and my/light-theme instead
+  (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
+                           (:sunset  . doom-rose-pine)))
+  (circadian-setup))
+
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
 (use-package ns-auto-titlebar

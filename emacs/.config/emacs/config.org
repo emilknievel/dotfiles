@@ -414,6 +414,23 @@ Get rid of the annoying startup screen.
 
 #+end_src
 
+**** Circadian
+
+Theme based on sunrise/sunset.
+
+#+begin_src emacs-lisp
+
+  (use-package circadian
+    :config
+    (setq calendar-latitude 58.4)
+    (setq calendar-longitude 13.8)
+    ;; todo: use my/dark-theme and my/light-theme instead
+    (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
+                             (:sunset  . doom-rose-pine)))
+    (circadian-setup))
+
+#+end_src
+
 *** Titlebar
 
 We want the titlebar to match the theme background color.
