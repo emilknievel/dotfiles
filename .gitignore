@@ -141,6 +141,8 @@ transient/
 .cache/
 tree-sitter/
 emacs/.config/emacs/projects
+emacs/.config/emacs/.lsp-session-*
+emacs/.config/emacs/custom.el
 
 ### Vim ###
 lazy-lock.json

@@ -269,15 +269,15 @@
        ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist '(font . "Iosevka 11"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka 12"))
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
   (add-to-list 'default-frame-alist '(font . "Iosevka 18")))
 
 (cond ((eq system-type 'gnu/linux)
-       (setq variable-pitch-size 110)
-       (setq fixed-pitch-size 110))
+       (setq variable-pitch-size 120)
+       (setq fixed-pitch-size 120))
       ((eq system-type 'darwin)
        (setq variable-pitch-size 150)
        (setq fixed-pitch-size 150)))
@@ -354,9 +354,6 @@
 
 (setq require-final-newline t)
 
-;; (use-package treesit-auto
-;;   :demand t
-;;   :init
 (setq treesit-language-source-alist
       '((bash "https://github.com/tree-sitter/tree-sitter-bash")
         (cmake "https://github.com/uyha/tree-sitter-cmake")
@@ -376,15 +373,31 @@
         (ocaml "https://github.com/tree-sitter/tree-sitter-ocaml" "master" "ocaml/src")
         (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
         (rust "https://github.com/tree-sitter/tree-sitter-rust")
-        (c "https://github.com/tree-sitter/tree-sitter-c")))
-  ;; :config
-  ;; (setq treesit-auto-install 'prompt)
-  ;; (global-treesit-auto-mode))
+        (c "https://github.com/tree-sitter/tree-sitter-c")
+        (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")
+        ))
 
-(defun my/install-treesit-grammars ()
-  "Install tree-sitter grammars from treesit-language-source-alist"
-  (interactive)
-  (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
+(setq major-mode-remap-alist
+      '((bash-mode . bash-ts-mode)
+        (cmake-mode . cmake-ts-mode)
+        (css-mode . css-ts-mode)
+        (elisp-mode . elisp-ts-mode)
+        (go-mode . go-ts-mode)
+        (html-mode . html-ts-mode)
+        (javascript-mode . javascript-ts-mode)
+        (json-mode . json-ts-mode)
+        (make-mode . make-ts-mode)
+        (markdown-mode . markdown-ts-mode)
+        (python-mode . python-ts-mode)
+        (toml-mode . toml-ts-mode)
+        (tsx-mode . tsx-ts-mode)
+        (typescript-mode . typescript-ts-mode)
+        (yaml-mode . yaml-ts-mode)
+        (ocaml-mode . ocaml-ts-mode)
+        (csharp-mode . csharp-ts-mode)
+        (rust-mode . rust-ts-mode)
+        (c-mode . c-ts-mode)
+        (c++-mode . c++-ts-mode)))
 
 (use-package nerd-icons)
 
@@ -701,7 +714,10 @@ parses its input."
   ((web-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration)
    (lsp-mode . lsp-ui-mode)
-   (lsp-completion-mode . my/lsp-mode-setup-completion))
+   (lsp-completion-mode . my/lsp-mode-setup-completion)
+   (csharp-ts-mode . lsp-deferred)
+   (c-ts-mode . lsp-deferred)
+   (c++-ts-mode . lsp-deferred))
   :commands (lsp lsp-deferred)
   :custom
   (lsp-completion-provider :none)) ;; Corfu instead of Company
