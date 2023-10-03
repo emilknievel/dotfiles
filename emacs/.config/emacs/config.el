@@ -152,6 +152,7 @@
     "d d" 'dired
 
 ;; buffers
+"b" '(nil :which-key "buffers")
 "b b" 'switch-to-buffer
 "b B" 'ibuffer
 "b X" 'scratch-buffer
@@ -187,6 +188,8 @@
 "t t" 'my/toggle-theme))
 
 (use-package iedit)
+;; git
+"g" '(nil :wk "git")
 
 (require 'whitespace)
 

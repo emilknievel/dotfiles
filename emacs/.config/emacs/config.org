@@ -238,6 +238,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+begin_src emacs-lisp
 
   ;; buffers
+  "b" '(nil :which-key "buffers")
   "b b" 'switch-to-buffer
   "b B" 'ibuffer
   "b X" 'scratch-buffer
@@ -289,6 +290,15 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
   "t n" '(display-line-numbers-mode :which-key "display line numbers")
   "t c" '(visual-fill-column-mode :which-key "visual fill column mode")
   "t t" 'my/toggle-theme))
+
+#+end_src
+
+**** Git
+
+#+begin_src emacs-lisp
+
+  ;; git
+  "g" '(nil :wk "git")
 
 #+end_src
 
