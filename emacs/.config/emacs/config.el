@@ -410,7 +410,7 @@
 (use-package marginalia
   :general
   (:keymaps 'minibuffer-local-map
-    "M-A" 'marginalia-cycle)
+    "M-a" 'marginalia-cycle)
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right)
