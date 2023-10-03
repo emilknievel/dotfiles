@@ -140,6 +140,7 @@ places
 transient/
 .cache/
 tree-sitter/
+emacs/.config/emacs/projects
 
 ### Vim ###
 lazy-lock.json
