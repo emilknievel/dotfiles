@@ -305,9 +305,21 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 ** Editing
 *** iedit
 
+Edit multiple occurrences in the same way simultaneously.
+
 #+begin_src emacs-lisp
 
-  (use-package iedit)
+  (use-package iedit
+    :general
+    (my/leader-key-map "e" 'iedit-mode))
+
+#+end_src
+
+Integrate iedit with evil. [[https://github.com/syl20bnr/evil-iedit-state][Keybindings]] etc.
+
+#+begin_src emacs-lisp
+
+  (use-package evil-iedit-state)
 
 #+end_src
 

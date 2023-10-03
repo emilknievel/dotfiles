@@ -187,9 +187,14 @@
 "t c" '(visual-fill-column-mode :which-key "visual fill column mode")
 "t t" 'my/toggle-theme))
 
-(use-package iedit)
 ;; git
 "g" '(nil :wk "git")
+
+(use-package iedit
+  :general
+  (my/leader-key-map "e" 'iedit-mode))
+
+(use-package evil-iedit-state)
 
 (require 'whitespace)
 
