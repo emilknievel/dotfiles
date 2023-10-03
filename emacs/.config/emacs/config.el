@@ -188,6 +188,8 @@
 
 (use-package iedit)
 
+(require 'whitespace)
+
 (setq inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)

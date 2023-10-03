@@ -301,6 +301,16 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 
 #+end_src
 
+*** Whitespace
+
+Show trailing whitespace.
+
+#+begin_src emacs-lisp
+
+  (require 'whitespace)
+
+#+end_src
+
 ** Customization
 *** Disable startup screen
 
