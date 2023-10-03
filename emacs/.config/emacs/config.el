@@ -198,6 +198,11 @@
 
 (require 'whitespace)
 
+(use-package expand-region
+  :general
+  (my/leader-key-map
+   "=" '(er/expand-region :wk "expand region")))
+
 (setq inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)

@@ -333,6 +333,19 @@ Show trailing whitespace.
 
 #+end_src
 
+*** Expand region
+
+Increase selected region by semantic units.
+
+#+begin_src emacs-lisp
+
+  (use-package expand-region
+    :general
+    (my/leader-key-map
+     "=" '(er/expand-region :wk "expand region")))
+
+#+end_src
+
 ** Customization
 *** Disable startup screen
 
