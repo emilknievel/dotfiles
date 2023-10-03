@@ -956,7 +956,7 @@ Nerd icons for dired.
     ;; Optional customizations
     :custom
     (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-    (corfu-auto nil)                 ;; Enable auto completion
+    (corfu-auto t)                 ;; Enable auto completion
     (corfu-auto-delay 0)
     (corfu-auto-prefix 0)
 
@@ -986,6 +986,7 @@ Nerd icons for dired.
 
   ;; A few more useful configurations...
   (use-package emacs
+    :ensure nil
     :init
     ;; TAB cycle if there are only few candidates
     (setq completion-cycle-threshold 3)
@@ -1062,8 +1063,7 @@ Nerd icons for dired.
     ((web-mode . lsp-deferred)
      (lsp-mode . lsp-enable-which-key-integration)
      (lsp-mode . lsp-ui-mode)
-     (lsp-completion-mode . my/lsp-mode-setup-completion)
-     (lsp-mode . lsp-enable-which-key-integration))
+     (lsp-completion-mode . my/lsp-mode-setup-completion))
     :commands (lsp lsp-deferred)
     :custom
     (lsp-completion-provider :none)) ;; Corfu instead of Company
