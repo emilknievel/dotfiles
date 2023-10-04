@@ -476,20 +476,6 @@ Theme based on sunrise/sunset.
 
 #+end_src
 
-*** Titlebar
-
-We want the titlebar to match the theme background color.
-
-#+begin_src emacs-lisp
-
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-
-  (use-package ns-auto-titlebar
-    :config
-    (when (eq system-type 'darwin) (ns-auto-titlebar-mode)))
-
-#+end_src
-
 *** Fonts
 
 #+begin_src emacs-lisp

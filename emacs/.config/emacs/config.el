@@ -255,12 +255,6 @@
                            (:sunset  . doom-rose-pine)))
   (circadian-setup))
 
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-
-(use-package ns-auto-titlebar
-  :config
-  (when (eq system-type 'darwin) (ns-auto-titlebar-mode)))
-
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist '(font . "Iosevka 15"))
        ;; Render fonts like in iTerm

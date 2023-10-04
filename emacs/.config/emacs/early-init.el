@@ -1,4 +1,10 @@
-;;; early-init.el -*- lexical-binding: t; -*-
+;;; early-init.el --- Early initialization -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;; Loaded before initialization.
+
+;;; Code:
 
 (setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold (expt 2 23))))
@@ -19,3 +25,9 @@
 
 ;; prevent package.el loading packages prior to their init-file loading
 (setq package-enable-at-startup nil)
+
+;; Hide titlebar on macOS
+(when (string= system-type "darwin")
+  (add-to-list 'default-frame-alist '(undecorated-round . t)))
+
+;;; early-init.el ends here
