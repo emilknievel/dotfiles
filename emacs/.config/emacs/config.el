@@ -369,7 +369,7 @@
         (rust "https://github.com/tree-sitter/tree-sitter-rust")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")
-        ))
+        (vue "https://github.com/ikatyang/tree-sitter-vue")))
 
 (setq major-mode-remap-alist
       '((bash-mode . bash-ts-mode)
@@ -711,7 +711,8 @@ parses its input."
    (lsp-completion-mode . my/lsp-mode-setup-completion)
    (csharp-ts-mode . lsp-deferred)
    (c-ts-mode . lsp-deferred)
-   (c++-ts-mode . lsp-deferred))
+   (c++-ts-mode . lsp-deferred)
+   (vue-ts-mode . web-mode))
   :commands (lsp lsp-deferred)
   :custom
   (lsp-completion-provider :none)) ;; Corfu instead of Company
