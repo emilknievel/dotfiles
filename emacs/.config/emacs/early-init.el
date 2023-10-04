@@ -23,11 +23,14 @@
 (set-language-environment "UTF-8")
 (setq default-input-method nil)
 
-;; prevent package.el loading packages prior to their init-file loading
+;; Prevent package.el loading packages prior to their init-file loading
 (setq package-enable-at-startup nil)
 
-;; Hide titlebar on macOS
-(when (string= system-type "darwin")
-  (add-to-list 'default-frame-alist '(undecorated-round . t)))
+;; Hide titlebar
+(cond ((eq system-type 'darwin)
+       (add-to-list 'default-frame-alist '(undecorated-round . t)))
+      ((and (eq system-type 'gnu/linux)
+            (not (string-match "-[Mm]icrosoft" operating-system-release)))
+       (add-to-list 'default-frame-alist '(undecorated . t))))
 
 ;;; early-init.el ends here

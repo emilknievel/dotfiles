@@ -216,9 +216,6 @@
   mac-option-modifier nil
   mac-control-modifier 'control)
 
-(when (and (eq system-type 'gnu/linux) (not (string-match "-[Mm]icrosoft" operating-system-release)))
-  (setq default-frame-alist '((undecorated . t))))
-
 (defvar my/dark-theme 'doom-rose-pine)
 (defvar my/light-theme 'doom-rose-pine-dawn)
 (defvar my/current-theme my/light-theme)

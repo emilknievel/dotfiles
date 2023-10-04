@@ -380,15 +380,6 @@ Get rid of the annoying startup screen.
 
 #+end_src
 
-*** Linux
-
-#+begin_src emacs-lisp
-
-  (when (and (eq system-type 'gnu/linux) (not (string-match "-[Mm]icrosoft" operating-system-release)))
-    (setq default-frame-alist '((undecorated . t))))
-
-#+end_src
-
 *** Theme
 **** Variables
 
