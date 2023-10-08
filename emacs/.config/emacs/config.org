@@ -1468,3 +1468,14 @@ Replace headline markers with unicode bullets.
   (add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
   (add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
 #+end_src
+
+** PDF
+
+Use PDF tools package to turn Emacs into a PDF viewer with annotation support etc.
+
+#+begin_src emacs-lisp
+
+  (use-package pdf-tools)
+
+#+end_src
+

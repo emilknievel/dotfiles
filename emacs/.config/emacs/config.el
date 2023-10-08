@@ -968,3 +968,5 @@ parses its input."
 
 (add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
 (add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
+
+(use-package pdf-tools)
