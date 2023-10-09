@@ -6,17 +6,17 @@
 (setq straight-repository-branch "develop")
 
 (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 6))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
@@ -59,7 +59,7 @@
       apropos-do-all t
       mouse-yank-at-point t
       require-final-newline t
-      ; visible-bell t
+      ;; visible-bell t
       load-prefer-newer t
       backup-by-copying t
       frame-inhibit-implied-resize t
@@ -125,7 +125,7 @@
 (use-package evil-surround
   :after evil
   :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
-          (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
+         (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
   :config
   (global-evil-surround-mode 1))
 
@@ -134,22 +134,22 @@
   :config
   (general-evil-setup t)
   (general-define-key
-    :keymaps '(normal insert emacs)
-    :prefix "SPC"
-    :non-normal-prefix "M-SPC"
-    :prefix-map 'my/leader-key-map
+   :keymaps '(normal insert emacs)
+   :prefix "SPC"
+   :non-normal-prefix "M-SPC"
+   :prefix-map 'my/leader-key-map
 
-    ;; Top level functions
+   ;; Top level functions
 
-    "SPC" '(execute-extended-command :which-key "M-x")
-    ;; files
-    "f s" 'save-buffer
-    "f f" 'find-file
-    "f l" 'load-file
-    "f g" '(consult-ripgrep :which-key "consult-ripgrep")
+   "SPC" '(execute-extended-command :which-key "M-x")
+   ;; files
+   "f s" 'save-buffer
+   "f f" 'find-file
+   "f l" 'load-file
+   "f g" '(consult-ripgrep :which-key "consult-ripgrep")
 
-    ;; dirs
-    "d d" 'dired
+   ;; dirs
+   "d d" 'dired
 
 ;; buffers
 "b" '(nil :which-key "buffers")
@@ -208,13 +208,13 @@
 (setopt confirm-kill-emacs 'y-or-n-p)
 
 (setq ns-use-proxy-icon nil
-  ns-use-mwheel-momentum t
-  ns-use-mwheel-acceleration t
-  frame-resize-pixelwise t
-  mac-command-modifier 'meta
-  mac-right-command-modifier 'none
-  mac-option-modifier nil
-  mac-control-modifier 'control)
+      ns-use-mwheel-momentum t
+      ns-use-mwheel-acceleration t
+      frame-resize-pixelwise t
+      mac-command-modifier 'meta
+      mac-right-command-modifier 'none
+      mac-option-modifier nil
+      mac-control-modifier 'control)
 
 (defvar my/dark-theme 'doom-rose-pine)
 (defvar my/light-theme 'doom-rose-pine-dawn)
@@ -282,9 +282,19 @@
  `(variable-pitch ((t (:family "Inter" :height ,variable-pitch-size :weight normal))))
  `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
+ `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 0.9))))
+ `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 0.9))))
+ `(org-level-6 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 0.9))))
+ `(org-level-5 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 0.9))))
+ `(org-level-4 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.0))))
+ `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.125))))
+ `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.265625))))
+ `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.42382813))))
+ `(org-document-title ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.60180664 :underline nil))))
+
  '(org-block ((t (:inherit fixed-pitch))))
- ;; '(org-block-begin-line ((t (:inherit fixed-pitch))))
- ;; '(org-block-end-line ((t (:inherit fixed-pitch))))
+ '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
+ '(org-block-end-line ((t (:inherit (fixed-pitch line-number)))))
  ;; '(org-code ((t (:inherit (shadow fixed-pitch)))))
  ;; '(org-document-info ((t (:foreground "dark orange"))))
  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
@@ -337,9 +347,9 @@
   ;; (add-hook 'evil-insert-state-exit-hook #'my/display-set-relative)
   :general
   (my/leader-key-map
-    "n h" 'my/display-set-hidden
-    "n r" 'my/display-set-relative
-    "n a" 'my/display-set-absolute))
+   "n h" 'my/display-set-hidden
+   "n r" 'my/display-set-relative
+   "n a" 'my/display-set-absolute))
 
 (setq show-trailing-whitespace t)
 
@@ -369,7 +379,7 @@
 (use-package marginalia
   :general
   (:keymaps 'minibuffer-local-map
-    "M-a" 'marginalia-cycle)
+            "M-a" 'marginalia-cycle)
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right)
@@ -393,28 +403,28 @@
                                 ))
   :general
   (:keymaps '(normal insert visual motion)
-   "M-." #'vertico-repeat
-   )
+            "M-." #'vertico-repeat
+            )
   (:keymaps 'vertico-map
-   "<tab>" #'vertico-insert ; Set manually otherwise setting `vertico-quick-insert' overrides this
-   "<escape>" #'minibuffer-keyboard-quit
-   "?" #'minibuffer-completion-help
-   "C-M-n" #'vertico-next-group
-   "C-M-p" #'vertico-previous-group
-   ;; Multiform toggles
-   "<backspace>" #'vertico-directory-delete-char
-   "C-w" #'vertico-directory-delete-word
-   "C-<backspace>" #'vertico-directory-delete-word
-   "RET" #'vertico-directory-enter
-   "C-i" #'vertico-quick-insert
-   "C-o" #'vertico-quick-exit
-   "M-o" #'kb/vertico-quick-embark
-   "M-G" #'vertico-multiform-grid
-   "M-F" #'vertico-multiform-flat
-   "M-R" #'vertico-multiform-reverse
-   "M-U" #'vertico-multiform-unobtrusive
-   "C-l" #'kb/vertico-multiform-flat-toggle
-   )
+            "<tab>" #'vertico-insert ; Set manually otherwise setting `vertico-quick-insert' overrides this
+            "<escape>" #'minibuffer-keyboard-quit
+            "?" #'minibuffer-completion-help
+            "C-M-n" #'vertico-next-group
+            "C-M-p" #'vertico-previous-group
+            ;; Multiform toggles
+            "<backspace>" #'vertico-directory-delete-char
+            "C-w" #'vertico-directory-delete-word
+            "C-<backspace>" #'vertico-directory-delete-word
+            "RET" #'vertico-directory-enter
+            "C-i" #'vertico-quick-insert
+            "C-o" #'vertico-quick-exit
+            "M-o" #'kb/vertico-quick-embark
+            "M-G" #'vertico-multiform-grid
+            "M-F" #'vertico-multiform-flat
+            "M-R" #'vertico-multiform-reverse
+            "M-U" #'vertico-multiform-unobtrusive
+            "C-l" #'kb/vertico-multiform-flat-toggle
+            )
   :hook ((rfn-eshadow-update-overlay . vertico-directory-tidy) ; Clean up file path when typing
          (minibuffer-setup . vertico-repeat-save) ; Make sure vertico state is saved
          )
@@ -476,14 +486,13 @@
   ;; Prefix the current candidate with “» ”. From
   ;; https://github.com/minad/vertico/wiki#prefix-current-candidate-with-arrow
   (advice-add #'vertico--format-candidate :around
-                                          (lambda (orig cand prefix suffix index _start)
-                                            (setq cand (funcall orig cand prefix suffix index _start))
-                                            (concat
-                                             (if (= vertico--index index)
-                                                 (propertize "» " 'face 'vertico-current)
-                                               "  ")
-                                             cand)))
-  )
+              (lambda (orig cand prefix suffix index _start)
+                (setq cand (funcall orig cand prefix suffix index _start))
+                (concat
+                 (if (= vertico--index index)
+                     (propertize "» " 'face 'vertico-current)
+                   "  ")
+                 cand))))
 
 (use-package orderless
   :custom
@@ -525,11 +534,11 @@ the first word of the candidate.  If ANCHORED is `both' require
 that the first and last initials appear in the first and last
 words of the candidate, respectively."
     (orderless--separated-by
-     '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
-     (cl-loop for char across component collect `(seq word-start ,char))
-     (when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
-     (when (eq anchored 'both)
-       '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
+        '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
+      (cl-loop for char across component collect `(seq word-start ,char))
+      (when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
+      (when (eq anchored 'both)
+        '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
 
   (defun orderless-strict-initialism (component)
     "Match a COMPONENT as a strict initialism.
@@ -643,7 +652,7 @@ parses its input."
   ;;(add-to-list 'completion-at-point-functions #'cape-dict)
   ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
-)
+  )
 
 (use-package lsp-mode
   :init
@@ -776,7 +785,7 @@ parses its input."
 (use-package magit
   :general
   (my/leader-key-map
-    "g s" 'magit-status))
+   "g s" 'magit-status))
 
 (use-package diff-hl
   :init
@@ -789,8 +798,8 @@ parses its input."
 (use-package vterm
   :general
   (my/leader-key-map
-    "o t" 'vterm
-    "o T" 'vterm-other-window)
+   "o t" 'vterm
+   "o T" 'vterm-other-window)
   :config
   (setq vterm-max-scrollback 5000)
   (setq vterm-kill-buffer-on-exit 't))
@@ -798,14 +807,14 @@ parses its input."
 (use-package project
   :general
   (my/leader-key-map
-    "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
+   "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
   :straight (:type built-in))
 
 (use-package dired
   :straight (:type built-in)
   :general
   (my/leader-key-map
-    "d j" '(dired-jump :which-key "dired jump"))
+   "d j" '(dired-jump :which-key "dired jump"))
   :config
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
@@ -946,12 +955,15 @@ parses its input."
   ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
   ;;;; 5. No project support
   ;; (setq consult-project-function nil)
-)
+  )
 
 (use-package org
   :straight (:type built-in)
   :config
-  (setq org-hide-emphasis-markers t))
+  (setq org-hide-emphasis-markers t)
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture)))
 
 (use-package org-superstar
   :hook
@@ -962,10 +974,10 @@ parses its input."
 ;;  - better error and backtrace matching
 
 (defun set-ocaml-error-regexp ()
- (set
-  'compilation-error-regexp-alist
-  (list '("[Ff]ile \\(\"\\(.*?\\)\", line \\(-?[0-9]+\\)\\(, characters \\(-?[0-9]+\\)-\\([0-9]+\\)\\)?\\)\\(:\n\\(\\(Warning .*?\\)\\|\\(Error\\)\\):\\)?"
-          2 3 (5 . 6) (9 . 11) 1 (8 compilation-message-face)))))
+  (set
+   'compilation-error-regexp-alist
+   (list '("[Ff]ile \\(\"\\(.*?\\)\", line \\(-?[0-9]+\\)\\(, characters \\(-?[0-9]+\\)-\\([0-9]+\\)\\)?\\)\\(:\n\\(\\(Warning .*?\\)\\|\\(Error\\)\\):\\)?"
+           2 3 (5 . 6) (9 . 11) 1 (8 compilation-message-face)))))
 
 (add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
 (add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
