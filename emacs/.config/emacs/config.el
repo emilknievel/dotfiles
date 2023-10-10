@@ -1008,4 +1008,6 @@ parses its input."
 (add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
 (add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
 
-(use-package pdf-tools)
+(use-package pdf-tools
+  :config
+  (pdf-tools-install)) ; install pdf-tools in all current and future pdf buffers

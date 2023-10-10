@@ -1532,7 +1532,13 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
 
 #+begin_src emacs-lisp
 
-  (use-package pdf-tools)
+  (use-package pdf-tools
+    :config
+    (pdf-tools-install)) ; install pdf-tools in all current and future pdf buffers
 
 #+end_src
+
+** TODO Org-noter [0/2]
+- [ ] Read up on what the package does.
+- [ ] Find out how it can be combined with pdf-tools to sync annotations and highlights to Org.
 
