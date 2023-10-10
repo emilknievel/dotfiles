@@ -676,7 +676,7 @@ parses its input."
 
   (defun ev/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(flex)))
+          '(orderless-flex)))
 
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
@@ -695,7 +695,9 @@ parses its input."
   (lsp-completion-provider :none)) ;; Corfu instead of Company
 
 ;; optionally
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ui
+  :after lsp-mode
+  :commands lsp-ui-mode)
 ;; if you are helm user
 ;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 ;; if you are ivy user
