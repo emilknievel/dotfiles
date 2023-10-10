@@ -141,54 +141,69 @@
 
    ;; Top level functions
 
-   "SPC" '(execute-extended-command :which-key "M-x")
+   "SPC" '(execute-extended-command :wk "M-x")
    ;; files
    "f s" 'save-buffer
    "f f" 'find-file
    "f l" 'load-file
-   "f g" '(consult-ripgrep :which-key "consult-ripgrep")
+   "f g" '(consult-ripgrep :wk "consult-ripgrep")
 
    ;; dirs
-   "d d" 'dired
+   "d d" 'dired))
 
-;; buffers
-"b" '(nil :which-key "buffers")
-"b b" 'switch-to-buffer
-"b B" 'ibuffer
-"b X" 'scratch-buffer
-"q q" 'save-buffers-kill-terminal
+(general-define-key
+ :prefix-map 'my/leader-key-map
+ ;; buffers
+ "b" '(nil :wk "buffers")
+ "b b" 'switch-to-buffer
+ "b B" 'ibuffer
+ "b X" 'scratch-buffer
+ "q q" 'save-buffers-kill-terminal)
 
-;; windows
-"w s" 'evil-window-split
-"w v" 'evil-window-vsplit
-"w w" 'other-window
-"w q" 'delete-window
-"w +" 'evil-window-increase-height
-"w -" 'evil-window-decrease-height
-"w >" 'evil-window-increase-width
-"w <" 'evil-window-decrease-width
-"w =" 'balance-windows
-"w H" 'evil-window-left
-"w J" 'evil-window-down
-"w K" 'evil-window-up
-"w L" 'evil-window-right
+(general-define-key
+ :prefix-map 'my/leader-key-map
+ ;; windows
+ "w s" 'evil-window-split
+ "w v" 'evil-window-vsplit
+ "w w" 'other-window
+ "w q" 'delete-window
+ "w +" 'evil-window-increase-height
+ "w -" 'evil-window-decrease-height
+ "w >" 'evil-window-increase-width
+ "w <" 'evil-window-decrease-width
+ "w =" 'balance-windows
+ "w H" 'evil-window-left
+ "w J" 'evil-window-down
+ "w K" 'evil-window-up
+ "w L" 'evil-window-right)
 
-;; help
-"h f" 'describe-function
-"h v" 'describe-variable
-"h k" 'describe-key
-"h i" 'info
-"h b" 'describe-bindings
+(general-define-key
+ :prefix-map 'my/leader-key-map
+ ;; help
+ "h" '(nil :wk "help")
+ "h f" 'describe-function
+ "h v" 'describe-variable
+ "h k" 'describe-key
+ "h i" 'info
+ "h b" 'describe-bindings)
 
-;; toggles
-"t" '(nil :which-key "toggles")
-"t v" '(visual-line-mode :which-key "visual line mode")
-"t n" '(display-line-numbers-mode :which-key "display line numbers")
-"t c" '(visual-fill-column-mode :which-key "visual fill column mode")
-"t t" 'my/toggle-theme))
+(general-define-key
+ :prefix-map 'my/leader-key-map
+ ;; toggles
+ "t" '(nil :wk "toggles")
+ "t v" '(visual-line-mode :wk "visual line mode")
+ "t n" '(display-line-numbers-mode :wk "display line numbers")
+ "t c" '(visual-fill-column-mode :wk "visual fill column mode")
+ "t t" 'my/toggle-theme)
 
-;; git
-"g" '(nil :wk "git")
+(general-define-key
+ :prefix-map 'my/leader-key-map
+ ;; git
+ "g" '(nil :wk "git"))
+
+(general-define-key
+ :prefix-map 'my/leader-key-map
+ "u" '(nil :wk "ui"))
 
 (use-package iedit
   :general
@@ -815,7 +830,7 @@ parses its input."
   :straight (:type built-in)
   :general
   (my/leader-key-map
-   "d j" '(dired-jump :which-key "dired jump"))
+   "d j" '(dired-jump :wk "dired jump"))
   :config
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
