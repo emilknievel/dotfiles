@@ -1492,6 +1492,22 @@ Replace headline markers with unicode bullets.
 
 #+end_src
 
+*** Olivetti
+
+Olivetti is a minor mode that provides a nice writing environment by setting comfortable window margins etc.
+
+#+begin_src emacs-lisp
+
+  (use-package olivetti
+    :general
+    (my/leader-key-map "u o" 'olivetti-mode)
+    :config
+    (setq olivetti-body-width 120
+          olivetti-minimum-body-width 72)
+    :hook (org-mode . olivetti-mode))
+
+  #+end_src
+
 ** OCaml
 
 #+begin_src emacs-lisp

@@ -986,6 +986,14 @@ parses its input."
   (org-mode . (lambda ()
                 (org-superstar-mode 1))))
 
+(use-package olivetti
+  :general
+  (my/leader-key-map "u o" 'olivetti-mode)
+  :config
+  (setq olivetti-body-width 120
+        olivetti-minimum-body-width 72)
+  :hook (org-mode . olivetti-mode))
+
 ;; OCaml configuration
 ;;  - better error and backtrace matching
 
