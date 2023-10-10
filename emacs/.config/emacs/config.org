@@ -1251,6 +1251,10 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
 #+end_src
 
+*** TODO magit/forge [0/1]
+- [ ] Check out what it's all about.
+- [ ] How does this fit in with my current workflow with eg. github. Does it also have a use in azure devops? Is it comparable with the gh cli tool?
+
 *** diff-hl
 
 #+begin_src emacs-lisp
@@ -1265,6 +1269,9 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
     (magit-post-refresh . diff-hl-magit-post-refresh))
 
 #+end_src
+
+*** TODO Consult-GH [0/1]
+- [ ] Research and list how I would use this package. What does it replace in my current github workflow?
 
 ** Terminal Emulation
 
