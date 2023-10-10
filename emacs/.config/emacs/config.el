@@ -76,14 +76,14 @@
 (defvar my/learning-path "~/stuff/learning-stuff/"
   "Learning resources/projects")
 
-(defun my/toggle-theme ()
+(defun ev/toggle-theme ()
   "Toggle between two themes"
   (interactive)
-  (if (eq my/current-theme my/dark-theme)
-      (progn (load-theme my/light-theme t)
-             (setq my/current-theme my/light-theme))
-    (progn (load-theme my/dark-theme t)
-           (setq my/current-theme my/dark-theme))))
+  (if (eq ev/current-theme ev/dark-theme)
+      (progn (load-theme ev/light-theme t)
+             (setq ev/current-theme ev/light-theme))
+    (progn (load-theme ev/dark-theme t)
+           (setq ev/current-theme ev/dark-theme))))
 
 (use-package gnutls
   :defer t
@@ -137,7 +137,7 @@
    :keymaps '(normal insert emacs)
    :prefix "SPC"
    :non-normal-prefix "M-SPC"
-   :prefix-map 'my/leader-key-map
+   :prefix-map 'ev/leader-key-map
 
    ;; Top level functions
 
@@ -152,7 +152,7 @@
    "d d" 'dired))
 
 (general-define-key
- :prefix-map 'my/leader-key-map
+ :prefix-map 'ev/leader-key-map
  ;; buffers
  "b" '(nil :wk "buffers")
  "b b" 'switch-to-buffer
@@ -161,7 +161,7 @@
  "q q" 'save-buffers-kill-terminal)
 
 (general-define-key
- :prefix-map 'my/leader-key-map
+ :prefix-map 'ev/leader-key-map
  ;; windows
  "w s" 'evil-window-split
  "w v" 'evil-window-vsplit
@@ -178,7 +178,7 @@
  "w L" 'evil-window-right)
 
 (general-define-key
- :prefix-map 'my/leader-key-map
+ :prefix-map 'ev/leader-key-map
  ;; help
  "h" '(nil :wk "help")
  "h f" 'describe-function
@@ -188,26 +188,26 @@
  "h b" 'describe-bindings)
 
 (general-define-key
- :prefix-map 'my/leader-key-map
+ :prefix-map 'ev/leader-key-map
  ;; toggles
  "t" '(nil :wk "toggles")
  "t v" '(visual-line-mode :wk "visual line mode")
  "t n" '(display-line-numbers-mode :wk "display line numbers")
  "t c" '(visual-fill-column-mode :wk "visual fill column mode")
- "t t" 'my/toggle-theme)
+ "t t" 'ev/toggle-theme)
 
 (general-define-key
- :prefix-map 'my/leader-key-map
+ :prefix-map 'ev/leader-key-map
  ;; git
  "g" '(nil :wk "git"))
 
 (general-define-key
- :prefix-map 'my/leader-key-map
+ :prefix-map 'ev/leader-key-map
  "u" '(nil :wk "ui"))
 
 (use-package iedit
   :general
-  (my/leader-key-map "e" 'iedit-mode))
+  (ev/leader-key-map "e" 'iedit-mode))
 
 (use-package evil-iedit-state)
 
@@ -215,7 +215,7 @@
 
 (use-package expand-region
   :general
-  (my/leader-key-map
+  (ev/leader-key-map
    "=" '(er/expand-region :wk "expand region")))
 
 (setq inhibit-startup-screen t)
@@ -231,9 +231,9 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
-(defvar my/dark-theme 'doom-rose-pine)
-(defvar my/light-theme 'doom-rose-pine-dawn)
-(defvar my/current-theme my/light-theme)
+(defvar ev/dark-theme 'doom-rose-pine)
+(defvar ev/light-theme 'doom-rose-pine-dawn)
+(defvar ev/current-theme ev/light-theme)
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
@@ -256,13 +256,13 @@
   (doom-themes-org-config)
   (doom-themes-visual-bell-config))
 
-(load-theme my/current-theme t)
+(load-theme ev/current-theme t)
 
 (use-package circadian
   :config
   (setq calendar-latitude 58.4)
   (setq calendar-longitude 13.8)
-  ;; todo: use my/dark-theme and my/light-theme instead
+  ;; todo: use ev/dark-theme and ev/light-theme instead
   (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
                            (:sunset  . doom-rose-pine)))
   (circadian-setup))
@@ -325,27 +325,27 @@
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
 
-(defun my/show-column-guide ()
+(defun ev/show-column-guide ()
   (setq display-fill-column-indicator-column 80)
   (display-fill-column-indicator-mode))
 
-(add-hook 'prog-mode-hook #'my/show-column-guide)
+(add-hook 'prog-mode-hook #'ev/show-column-guide)
 
 (column-number-mode 1)
 
-(defun my/display-set-relative ()
+(defun ev/display-set-relative ()
   (interactive)
   (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode)))
       (setq display-line-numbers 'visual)
     (setq display-line-numbers nil)))
 
-(defun my/display-set-absolute ()
+(defun ev/display-set-absolute ()
   (interactive)
   (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode)))
       (setq display-line-numbers t)
     (setq display-line-numbers nil)))
 
-(defun my/display-set-hidden ()
+(defun ev/display-set-hidden ()
   (interactive)
   (setq display-line-numbers nil))
 
@@ -355,16 +355,16 @@
   (display-line-numbers-type 'visual)
   :hook
   ((prog-mode conf-mode) . display-line-numbers-mode)
-  (evil-insert-state-entry . my/display-set-absolute)
-  (evil-insert-state-exit . my/display-set-relative)
+  (evil-insert-state-entry . ev/display-set-absolute)
+  (evil-insert-state-exit . ev/display-set-relative)
   ;; :config
-  ;; (add-hook 'evil-insert-state-entry-hook #'my/display-set-absolute)
-  ;; (add-hook 'evil-insert-state-exit-hook #'my/display-set-relative)
+  ;; (add-hook 'evil-insert-state-entry-hook #'ev/display-set-absolute)
+  ;; (add-hook 'evil-insert-state-exit-hook #'ev/display-set-relative)
   :general
-  (my/leader-key-map
-   "n h" 'my/display-set-hidden
-   "n r" 'my/display-set-relative
-   "n a" 'my/display-set-absolute))
+  (ev/leader-key-map
+   "n h" 'ev/display-set-hidden
+   "n r" 'ev/display-set-relative
+   "n a" 'ev/display-set-absolute))
 
 (setq show-trailing-whitespace t)
 
@@ -674,7 +674,7 @@ parses its input."
   (add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
   (add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
 
-  (defun my/lsp-mode-setup-completion ()
+  (defun ev/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
           '(flex)))
 
@@ -684,7 +684,7 @@ parses its input."
   ((web-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration)
    (lsp-mode . lsp-ui-mode)
-   (lsp-completion-mode . my/lsp-mode-setup-completion)
+   (lsp-completion-mode . ev/lsp-mode-setup-completion)
    (csharp-ts-mode . lsp-deferred)
    (c-ts-mode . lsp-deferred)
    (c++-ts-mode . lsp-deferred)
@@ -799,7 +799,7 @@ parses its input."
 
 (use-package magit
   :general
-  (my/leader-key-map
+  (ev/leader-key-map
    "g s" 'magit-status))
 
 (use-package diff-hl
@@ -813,7 +813,7 @@ parses its input."
 
 (use-package vterm
   :general
-  (my/leader-key-map
+  (ev/leader-key-map
    "o t" 'vterm
    "o T" 'vterm-other-window)
   :config
@@ -822,14 +822,14 @@ parses its input."
 
 (use-package project
   :general
-  (my/leader-key-map
+  (ev/leader-key-map
    "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
   :straight (:type built-in))
 
 (use-package dired
   :straight (:type built-in)
   :general
-  (my/leader-key-map
+  (ev/leader-key-map
    "d j" '(dired-jump :wk "dired jump"))
   :config
   (when (string= system-type "darwin")
@@ -988,7 +988,7 @@ parses its input."
 
 (use-package olivetti
   :general
-  (my/leader-key-map "u o" 'olivetti-mode)
+  (ev/leader-key-map "u o" 'olivetti-mode)
   :config
   (setq olivetti-body-width 120
         olivetti-minimum-body-width 72)

@@ -122,14 +122,14 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 
 #+begin_src emacs-lisp
 
-  (defun my/toggle-theme ()
+  (defun ev/toggle-theme ()
     "Toggle between two themes"
     (interactive)
-    (if (eq my/current-theme my/dark-theme)
-        (progn (load-theme my/light-theme t)
-               (setq my/current-theme my/light-theme))
-      (progn (load-theme my/dark-theme t)
-             (setq my/current-theme my/dark-theme))))
+    (if (eq ev/current-theme ev/dark-theme)
+        (progn (load-theme ev/light-theme t)
+               (setq ev/current-theme ev/light-theme))
+      (progn (load-theme ev/dark-theme t)
+             (setq ev/current-theme ev/dark-theme))))
 
 #+end_src
 
@@ -205,7 +205,7 @@ Use Evil mode for Vim like bindings.
 general.el provides a more convenient, unified interface for binding keys in Emacs.
 Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
 
-Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:prefix-map 'my/leader-key-map~.
+Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:prefix-map 'ev/leader-key-map~.
 
 **** Preamble
 
@@ -219,7 +219,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
      :keymaps '(normal insert emacs)
      :prefix "SPC"
      :non-normal-prefix "M-SPC"
-     :prefix-map 'my/leader-key-map
+     :prefix-map 'ev/leader-key-map
 
      ;; Top level functions
 
@@ -240,7 +240,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+begin_src emacs-lisp
 
   (general-define-key
-   :prefix-map 'my/leader-key-map
+   :prefix-map 'ev/leader-key-map
    ;; buffers
    "b" '(nil :wk "buffers")
    "b b" 'switch-to-buffer
@@ -255,7 +255,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+begin_src emacs-lisp
 
   (general-define-key
-   :prefix-map 'my/leader-key-map
+   :prefix-map 'ev/leader-key-map
    ;; windows
    "w s" 'evil-window-split
    "w v" 'evil-window-vsplit
@@ -278,7 +278,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+begin_src emacs-lisp
 
   (general-define-key
-   :prefix-map 'my/leader-key-map
+   :prefix-map 'ev/leader-key-map
    ;; help
    "h" '(nil :wk "help")
    "h f" 'describe-function
@@ -294,13 +294,13 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+begin_src emacs-lisp
 
   (general-define-key
-   :prefix-map 'my/leader-key-map
+   :prefix-map 'ev/leader-key-map
    ;; toggles
    "t" '(nil :wk "toggles")
    "t v" '(visual-line-mode :wk "visual line mode")
    "t n" '(display-line-numbers-mode :wk "display line numbers")
    "t c" '(visual-fill-column-mode :wk "visual fill column mode")
-   "t t" 'my/toggle-theme)
+   "t t" 'ev/toggle-theme)
 
 #+end_src
 
@@ -309,7 +309,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+begin_src emacs-lisp
 
   (general-define-key
-   :prefix-map 'my/leader-key-map
+   :prefix-map 'ev/leader-key-map
    ;; git
    "g" '(nil :wk "git"))
 
@@ -320,7 +320,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+begin_src emacs-lisp
 
   (general-define-key
-   :prefix-map 'my/leader-key-map
+   :prefix-map 'ev/leader-key-map
    "u" '(nil :wk "ui"))
 
 #+end_src
@@ -334,7 +334,7 @@ Edit multiple occurrences in the same way simultaneously.
 
   (use-package iedit
     :general
-    (my/leader-key-map "e" 'iedit-mode))
+    (ev/leader-key-map "e" 'iedit-mode))
 
 #+end_src
 
@@ -364,7 +364,7 @@ Increase selected region by semantic units.
 
   (use-package expand-region
     :general
-    (my/leader-key-map
+    (ev/leader-key-map
      "=" '(er/expand-region :wk "expand region")))
 
 #+end_src
@@ -408,9 +408,9 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
 
-  (defvar my/dark-theme 'doom-rose-pine)
-  (defvar my/light-theme 'doom-rose-pine-dawn)
-  (defvar my/current-theme my/light-theme)
+  (defvar ev/dark-theme 'doom-rose-pine)
+  (defvar ev/light-theme 'doom-rose-pine-dawn)
+  (defvar ev/current-theme ev/light-theme)
 
 #+end_src
 
@@ -469,7 +469,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
 
-  (load-theme my/current-theme t)
+  (load-theme ev/current-theme t)
 
 #+end_src
 
@@ -483,7 +483,7 @@ Theme based on sunrise/sunset.
     :config
     (setq calendar-latitude 58.4)
     (setq calendar-longitude 13.8)
-    ;; todo: use my/dark-theme and my/light-theme instead
+    ;; todo: use ev/dark-theme and ev/light-theme instead
     (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
                              (:sunset  . doom-rose-pine)))
     (circadian-setup))
@@ -566,11 +566,11 @@ Show column indicator at column 80.
 
 #+begin_src emacs-lisp
 
-  (defun my/show-column-guide ()
+  (defun ev/show-column-guide ()
     (setq display-fill-column-indicator-column 80)
     (display-fill-column-indicator-mode))
 
-  (add-hook 'prog-mode-hook #'my/show-column-guide)
+  (add-hook 'prog-mode-hook #'ev/show-column-guide)
 
 #+end_src
 
@@ -588,19 +588,19 @@ Hooks for relative and absolute line numbers.
 
 #+begin_src emacs-lisp
 
-  (defun my/display-set-relative ()
+  (defun ev/display-set-relative ()
     (interactive)
     (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode)))
         (setq display-line-numbers 'visual)
       (setq display-line-numbers nil)))
 
-  (defun my/display-set-absolute ()
+  (defun ev/display-set-absolute ()
     (interactive)
     (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode)))
         (setq display-line-numbers t)
       (setq display-line-numbers nil)))
 
-  (defun my/display-set-hidden ()
+  (defun ev/display-set-hidden ()
     (interactive)
     (setq display-line-numbers nil))
 
@@ -616,16 +616,16 @@ Turn on line numbers for program and configuration modes.
     (display-line-numbers-type 'visual)
     :hook
     ((prog-mode conf-mode) . display-line-numbers-mode)
-    (evil-insert-state-entry . my/display-set-absolute)
-    (evil-insert-state-exit . my/display-set-relative)
+    (evil-insert-state-entry . ev/display-set-absolute)
+    (evil-insert-state-exit . ev/display-set-relative)
     ;; :config
-    ;; (add-hook 'evil-insert-state-entry-hook #'my/display-set-absolute)
-    ;; (add-hook 'evil-insert-state-exit-hook #'my/display-set-relative)
+    ;; (add-hook 'evil-insert-state-entry-hook #'ev/display-set-absolute)
+    ;; (add-hook 'evil-insert-state-exit-hook #'ev/display-set-relative)
     :general
-    (my/leader-key-map
-     "n h" 'my/display-set-hidden
-     "n r" 'my/display-set-relative
-     "n a" 'my/display-set-absolute))
+    (ev/leader-key-map
+     "n h" 'ev/display-set-hidden
+     "n r" 'ev/display-set-relative
+     "n a" 'ev/display-set-absolute))
 
 #+end_src
 
@@ -1018,7 +1018,7 @@ Nerd icons for dired.
     (add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
     (add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
 
-    (defun my/lsp-mode-setup-completion ()
+    (defun ev/lsp-mode-setup-completion ()
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
             '(flex)))
 
@@ -1028,7 +1028,7 @@ Nerd icons for dired.
     ((web-mode . lsp-deferred)
      (lsp-mode . lsp-enable-which-key-integration)
      (lsp-mode . lsp-ui-mode)
-     (lsp-completion-mode . my/lsp-mode-setup-completion)
+     (lsp-completion-mode . ev/lsp-mode-setup-completion)
      (csharp-ts-mode . lsp-deferred)
      (c-ts-mode . lsp-deferred)
      (c++-ts-mode . lsp-deferred)
@@ -1244,7 +1244,7 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
   (use-package magit
     :general
-    (my/leader-key-map
+    (ev/leader-key-map
      "g s" 'magit-status))
 
 #+end_src
@@ -1270,7 +1270,7 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
   (use-package vterm
     :general
-    (my/leader-key-map
+    (ev/leader-key-map
      "o t" 'vterm
      "o T" 'vterm-other-window)
     :config
@@ -1285,7 +1285,7 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
   (use-package project
     :general
-    (my/leader-key-map
+    (ev/leader-key-map
      "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
     :straight (:type built-in))
 
@@ -1300,7 +1300,7 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
   (use-package dired
     :straight (:type built-in)
     :general
-    (my/leader-key-map
+    (ev/leader-key-map
      "d j" '(dired-jump :wk "dired jump"))
     :config
     (when (string= system-type "darwin")
@@ -1500,7 +1500,7 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
 
   (use-package olivetti
     :general
-    (my/leader-key-map "u o" 'olivetti-mode)
+    (ev/leader-key-map "u o" 'olivetti-mode)
     :config
     (setq olivetti-body-width 120
           olivetti-minimum-body-width 72)
