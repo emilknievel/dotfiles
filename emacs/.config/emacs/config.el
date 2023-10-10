@@ -739,7 +739,7 @@ parses its input."
         (elisp-mode . elisp-ts-mode)
         (go-mode . go-ts-mode)
         (html-mode . html-ts-mode)
-        (javascript-mode . javascript-ts-mode)
+        (javascript-mode . js-ts-mode)
         (json-mode . json-ts-mode)
         (make-mode . make-ts-mode)
         (markdown-mode . markdown-ts-mode)
