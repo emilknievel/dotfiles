@@ -692,7 +692,10 @@ parses its input."
    (csharp-ts-mode . lsp-deferred))
   :commands (lsp lsp-deferred)
   :custom
-  (lsp-completion-provider :none)) ;; Corfu instead of Company
+  (lsp-completion-provider :none) ;; Corfu instead of Company
+  :general
+  (ev/leader-key-map
+   "c a" '(lsp-execute-code-action :wk "execute code action")))
 
 ;; optionally
 (use-package lsp-ui
