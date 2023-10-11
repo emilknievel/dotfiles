@@ -747,7 +747,6 @@ parses its input."
         (javascript-mode . js-ts-mode)
         (json-mode . json-ts-mode)
         (make-mode . make-ts-mode)
-        (markdown-mode . markdown-ts-mode)
         (python-mode . python-ts-mode)
         (toml-mode . toml-ts-mode)
         (tsx-mode . tsx-ts-mode)
@@ -771,7 +770,10 @@ parses its input."
 
 (use-package markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "pandoc"))
+  :init (setq markdown-command "pandoc"
+              markdown-header-scaling t
+              markdown-enable-math t
+              markdown-make-gfm-checkboxes-buttons t))
 
 (use-package clojure-mode)
 
