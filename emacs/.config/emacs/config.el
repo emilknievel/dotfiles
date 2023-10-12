@@ -294,18 +294,18 @@
 
 (custom-theme-set-faces
  'user
- `(variable-pitch ((t (:family "Inter" :height ,variable-pitch-size :weight normal))))
+ `(variable-pitch ((t (:family "Literata" :height ,variable-pitch-size :weight normal))))
  `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
- `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 0.9))))
- `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 0.9))))
- `(org-level-6 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 0.9))))
- `(org-level-5 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 0.9))))
- `(org-level-4 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.0))))
- `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.125))))
- `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.265625))))
- `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.42382813))))
- `(org-document-title ((t (:inherit variable-pitch :family "Literata" :weight SemiBold :height 1.60180664 :underline nil))))
+ `(org-level-8 ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 0.9))))
+ `(org-level-7 ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 0.9))))
+ `(org-level-6 ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 0.9))))
+ `(org-level-5 ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 0.9))))
+ `(org-level-4 ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 1.0))))
+ `(org-level-3 ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 1.125))))
+ `(org-level-2 ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 1.265625))))
+ `(org-level-1 ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 1.42382813))))
+ `(org-document-title ((t (:inherit variable-pitch :family "Lato" :weight SemiBold :height 1.60180664 :underline nil))))
 
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
