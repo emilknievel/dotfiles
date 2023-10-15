@@ -1001,6 +1001,15 @@ parses its input."
         olivetti-minimum-body-width 72)
   :hook (org-mode . olivetti-mode))
 
+(use-package org-roam
+  :custom
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-setup))
+
 ;; OCaml configuration
 ;;  - better error and backtrace matching
 

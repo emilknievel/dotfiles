@@ -147,3 +147,4 @@ emacs/.config/emacs/custom.el
 ### Vim ###
 lazy-lock.json
 /emacs/.config/emacs/url/
+*.db

@@ -1522,6 +1522,35 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
 
 #+end_src
 
+** TODO Org Roam [0/2]
+
+- [ ] Go through all the shownotes [0/4]
+  - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][Getting Started with Org Roam]]
+  - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/][Capturing Notes Efficiently with Org Roam]]
+  - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/keep-a-journal/][Keep a Journal in Emacs with Org Roam]]
+  - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/][5 Org Roam Hacks for Better Productivity in Emacs]]
+
+- [-] Add org-roam folder to syncthing [1/3]
+  - [X] Add ~~/org-roam/~ to syncthing on linux machine.
+  - [ ] Sync server to ~~/org-roam/~ on macOS (alternatively add it to iCloud) if not getting syncthing to work on iOS.
+  - [ ] Add folder to syncthing on iOS device if possible. If not, use iCloud.
+
+Personal wiki. Org files are synced through [[https://syncthing.net][Syncthing]] and the db is stored locally.
+Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-in-emacs/][Build a Second Brain in Emacs]] show notes.
+
+#+begin_src emacs-lisp
+
+  (use-package org-roam
+    :custom
+    (org-roam-completion-everywhere t)
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n i" . org-roam-node-insert))
+    :config
+    (org-roam-setup))
+
+#+end_src
+
 ** OCaml
 
 #+begin_src emacs-lisp
