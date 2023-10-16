@@ -369,6 +369,17 @@ Increase selected region by semantic units.
 
 #+end_src
 
+*** Vundo
+
+Visual undo. Displays the undo history as a tree and lets you move in the tree to go back to previous buffer states.
+Invoked with ~M-x vundo~.
+
+#+begin_src emacs-lisp
+
+  (use-package vundo)
+
+#+end_src
+
 ** Customization
 *** Disable startup screen
 
