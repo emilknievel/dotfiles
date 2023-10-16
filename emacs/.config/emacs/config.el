@@ -294,18 +294,20 @@
 
 (custom-theme-set-faces
  'user
- `(variable-pitch ((t (:family "Iosevka Slab" :height ,variable-pitch-size :weight normal))))
- `(fixed-pitch ((t (:family "Iosevka Slab" :height ,fixed-pitch-size :weight normal))))
+ `(variable-pitch ((t (:family "Fira Sans" :height ,variable-pitch-size :weight normal))))
+ `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
- `(org-level-8 ((t (:inherit variable-pitch :weight SemiBold :height 0.9))))
- `(org-level-7 ((t (:inherit variable-pitch :weight SemiBold :height 0.9))))
- `(org-level-6 ((t (:inherit variable-pitch :weight SemiBold :height 0.9))))
- `(org-level-5 ((t (:inherit variable-pitch :weight SemiBold :height 0.9))))
- `(org-level-4 ((t (:inherit variable-pitch :weight SemiBold :height 1.0))))
- `(org-level-3 ((t (:inherit variable-pitch :weight SemiBold :height 1.125))))
- `(org-level-2 ((t (:inherit variable-pitch :weight SemiBold :height 1.265625))))
- `(org-level-1 ((t (:inherit variable-pitch :weight SemiBold :height 1.42382813))))
- ;; '(org-todo ((t (:inherit fixed-pitch))))
+ `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
+ `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
+ `(org-level-6 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
+ `(org-level-5 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
+ `(org-level-4 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.0))))
+ `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.2))))
+ `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.28))))
+ `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.42382813))))
+ `(org-todo ((t :family "Iosevka Slab" :weight Semibold)))
+ `(org-checkbox ((t (:inherit org-todo))))
+ `(org-ellipsis ((t (:inherit fixed-pitch))))
  ;; `(org-document-title ((t (:inherit variable-pitch :weight SemiBold :height 1.60180664 :underline nil))))
 
  '(org-block ((t (:inherit fixed-pitch))))
@@ -983,8 +985,12 @@ parses its input."
 
 (use-package org
   :straight (:type built-in)
-  :config
-  (setq org-hide-emphasis-markers t)
+  :custom
+  (org-hide-emphasis-markers t)
+  (org-return-follows-link t)
+  (org-pretty-entities t)
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(300))
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)))
@@ -1001,6 +1007,9 @@ parses its input."
   (setq olivetti-body-width 120
         olivetti-minimum-body-width 72)
   :hook (org-mode . olivetti-mode))
+
+(use-package org-appear
+  :hook (org-mode . org-appear-mode))
 
 (use-package org-roam
   :custom

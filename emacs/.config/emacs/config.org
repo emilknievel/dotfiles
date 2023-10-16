@@ -527,18 +527,20 @@ Set up proportional fonts for Org mode.
 
   (custom-theme-set-faces
    'user
-   `(variable-pitch ((t (:family "Iosevka Slab" :height ,variable-pitch-size :weight normal))))
-   `(fixed-pitch ((t (:family "Iosevka Slab" :height ,fixed-pitch-size :weight normal))))
+   `(variable-pitch ((t (:family "Fira Sans" :height ,variable-pitch-size :weight normal))))
+   `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
-   `(org-level-8 ((t (:inherit variable-pitch :weight SemiBold :height 0.9))))
-   `(org-level-7 ((t (:inherit variable-pitch :weight SemiBold :height 0.9))))
-   `(org-level-6 ((t (:inherit variable-pitch :weight SemiBold :height 0.9))))
-   `(org-level-5 ((t (:inherit variable-pitch :weight SemiBold :height 0.9))))
-   `(org-level-4 ((t (:inherit variable-pitch :weight SemiBold :height 1.0))))
-   `(org-level-3 ((t (:inherit variable-pitch :weight SemiBold :height 1.125))))
-   `(org-level-2 ((t (:inherit variable-pitch :weight SemiBold :height 1.265625))))
-   `(org-level-1 ((t (:inherit variable-pitch :weight SemiBold :height 1.42382813))))
-   ;; '(org-todo ((t (:inherit fixed-pitch))))
+   `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
+   `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
+   `(org-level-6 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
+   `(org-level-5 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
+   `(org-level-4 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.0))))
+   `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.2))))
+   `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.28))))
+   `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.42382813))))
+   `(org-todo ((t :family "Iosevka Slab" :weight Semibold)))
+   `(org-checkbox ((t (:inherit org-todo))))
+   `(org-ellipsis ((t (:inherit fixed-pitch))))
    ;; `(org-document-title ((t (:inherit variable-pitch :weight SemiBold :height 1.60180664 :underline nil))))
 
    '(org-block ((t (:inherit fixed-pitch))))
@@ -640,7 +642,7 @@ Show trailing whitespace in buffer.
 
 #+end_src
 
-Add a newline to the end of the file if one doesn't already exist. 
+Add a newline to the end of the file if one doesn't already exist.
 
 #+begin_src emacs-lisp
 
@@ -1257,7 +1259,8 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
 #+end_src
 
-*** TODO magit/forge [0/1]
+*** TODO magit/forge [0/2]
+
 - [ ] Check out what it's all about.
 - [ ] How does this fit in with my current workflow with eg. github. Does it also have a use in azure devops? Is it comparable with the gh cli tool?
 
@@ -1277,6 +1280,7 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 #+end_src
 
 *** TODO Consult-GH [0/1]
+
 - [ ] Research and list how I would use this package. What does it replace in my current github workflow?
 
 ** Terminal Emulation
@@ -1486,8 +1490,12 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
   (use-package org
     :straight (:type built-in)
-    :config
-    (setq org-hide-emphasis-markers t)
+    :custom
+    (org-hide-emphasis-markers t)
+    (org-return-follows-link t)
+    (org-pretty-entities t)
+    (org-startup-with-inline-images t)
+    (org-image-actual-width '(300))
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
            ("C-c c" . org-capture)))
@@ -1523,7 +1531,18 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
 
 #+end_src
 
-** TODO Org Roam [0/2]
+*** Appear
+
+This package displays hidden emphasis markers while the cursor is on a rich text word.
+
+#+begin_src emacs-lisp
+
+  (use-package org-appear
+    :hook (org-mode . org-appear-mode))
+
+#+end_src
+
+*** TODO Org Roam [0/2]
 
 - [ ] Go through all the shownotes [0/4]
   - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][Getting Started with Org Roam]]
@@ -1552,6 +1571,11 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 
 #+end_src
 
+*** TODO Org-noter [0/2]
+
+- [ ] Read up on what the package does.
+- [ ] Find out how it can be combined with pdf-tools to sync annotations and highlights to Org.
+
 ** OCaml
 
 #+begin_src emacs-lisp
@@ -1579,8 +1603,3 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
     (pdf-tools-install)) ; install pdf-tools in all current and future pdf buffers
 
 #+end_src
-
-** TODO Org-noter [0/2]
-
-- [ ] Read up on what the package does.
-- [ ] Find out how it can be combined with pdf-tools to sync annotations and highlights to Org.
