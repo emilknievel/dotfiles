@@ -218,6 +218,9 @@
   (ev/leader-key-map
    "=" '(er/expand-region :wk "expand region")))
 
+(use-package vundo
+  :general (ev/leader-key-map "c u" 'vundo))
+
 (setq inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)

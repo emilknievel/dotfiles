@@ -372,11 +372,12 @@ Increase selected region by semantic units.
 *** Vundo
 
 Visual undo. Displays the undo history as a tree and lets you move in the tree to go back to previous buffer states.
-Invoked with ~M-x vundo~.
+Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 #+begin_src emacs-lisp
 
-  (use-package vundo)
+  (use-package vundo
+    :general (ev/leader-key-map "c u" 'vundo))
 
 #+end_src
 
