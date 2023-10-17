@@ -682,7 +682,7 @@ parses its input."
 
   (defun ev/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless-flex)))
+          '(orderless)))
 
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
@@ -716,6 +716,19 @@ parses its input."
 ;; optionally if you want to use debugger
 ;; (use-package dap-mode)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-use-icons t)
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  (kind-icon-blend-background nil)  ; Use midpoint color between foreground and background colors ("blended")?
+  (kind-icon-blend-frac 0.08)
+  (kind-icon-default-style
+   '(:padding -1 :stroke 0 :margin 0 :radius 0 :height 0.5 :scale 1.0))
+  (kind-icon-formatted 'variable)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package yasnippet
   :hook ((lsp-mode . yas-minor-mode)))
