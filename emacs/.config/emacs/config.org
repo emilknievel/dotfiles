@@ -1345,7 +1345,8 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
 [[https://www.patrickdelliott.com/emacs.d/#org0a74aa5][source]]
 
-** Dired
+** File exploration
+*** Dired
 
 #+begin_src emacs-lisp
 
@@ -1378,6 +1379,28 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
     :config
     (evil-define-key 'normal dired-mode-map
       "H" 'dired-hide-dotfiles-mode))
+
+#+end_src
+
+*** Treemacs
+
+Treemacs is an Emacs package that provides a customizable, tree-style file explorer and project manager, streamlining file navigation and organization.
+
+#+begin_src emacs-lisp
+
+  (use-package treemacs
+    :defer t
+    :general (ev/leader-key-map "f e" 'treemacs))
+
+  (use-package treemacs-evil
+    :after (treemacs evil))
+
+  (use-package treemacs-magit
+    :after (treemacs magit))
+
+  (use-package treemacs-nerd-icons
+    :after (treemacs nerd-icons)
+    :config (treemacs-load-theme "nerd-icons"))
 
 #+end_src
 

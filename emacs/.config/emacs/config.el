@@ -876,6 +876,20 @@ parses its input."
   (evil-define-key 'normal dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
 
+(use-package treemacs
+  :defer t
+  :general (ev/leader-key-map "f e" 'treemacs))
+
+(use-package treemacs-evil
+  :after (treemacs evil))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
+
+(use-package treemacs-nerd-icons
+  :after (treemacs nerd-icons)
+  :config (treemacs-load-theme "nerd-icons"))
+
 (use-package editorconfig
   :diminish
   :config (editorconfig-mode 1))
