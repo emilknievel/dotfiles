@@ -1271,6 +1271,19 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
 #+end_src
 
+*** HTTP
+
+**** restclient.el
+
+This package provides a simple way to interact with RESTful APIs from within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode highlights some of its features.
+
+#+begin_src emacs-lisp
+
+  (use-package restclient
+    :mode ("\\.http\\'" . restclient-mode))
+
+#+end_src
+
 ** Syntax checking
 
 #+begin_src emacs-lisp

@@ -820,6 +820,9 @@ parses its input."
 (use-package jq-mode
   :mode ("\\.jq\\'" . jq-mode))
 
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode))
+
 (use-package flycheck
   :init (global-flycheck-mode))
 
