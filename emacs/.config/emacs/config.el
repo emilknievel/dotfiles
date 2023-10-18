@@ -823,8 +823,11 @@ parses its input."
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode))
 
+;; Below makes sure that restclient-jq can be required which
+;; is a must if we want to be able to use jq related tasks.
 (use-package restclient-jq
-  :after (jq-mode restclient))
+  :after restclient
+  :config (require 'restclient-jq))
 
 (use-package flycheck
   :init (global-flycheck-mode))

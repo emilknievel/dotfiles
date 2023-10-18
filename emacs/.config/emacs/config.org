@@ -1272,18 +1272,27 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 #+end_src
 
 *** HTTP
-
 **** restclient.el
 
 This package provides a simple way to interact with RESTful APIs from within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode highlights some of its features.
+
+Notable keymaps:
+
+| Keymap  | Command description                                     |
+|---------+---------------------------------------------------------|
+| ~C-c C-c~ | Send request at point                                   |
+| ~C-c C-j~ | Run jq interactively on restclient json response buffer |
 
 #+begin_src emacs-lisp
 
   (use-package restclient
     :mode ("\\.http\\'" . restclient-mode))
 
+  ;; Below makes sure that restclient-jq can be required which
+  ;; is a must if we want to be able to use jq related tasks.
   (use-package restclient-jq
-    :after (jq-mode restclient))
+    :after restclient
+    :config (require 'restclient-jq))
 
 #+end_src
 
@@ -1310,7 +1319,7 @@ This package provides a simple way to interact with RESTful APIs from within Ema
 
 *** TODO magit/forge [0/2]
 
-- [ ] Check out what it's all about.
+- [ ] Check what it's all about.
 - [ ] How does this fit in with my current workflow with eg. github. Does it also have a use in azure devops? Is it comparable with the gh cli tool?
 
 *** diff-hl
