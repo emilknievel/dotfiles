@@ -1282,6 +1282,9 @@ This package provides a simple way to interact with RESTful APIs from within Ema
   (use-package restclient
     :mode ("\\.http\\'" . restclient-mode))
 
+  (use-package restclient-jq
+    :after (jq-mode restclient))
+
 #+end_src
 
 ** Syntax checking

@@ -823,6 +823,9 @@ parses its input."
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode))
 
+(use-package restclient-jq
+  :after (jq-mode restclient))
+
 (use-package flycheck
   :init (global-flycheck-mode))
 
