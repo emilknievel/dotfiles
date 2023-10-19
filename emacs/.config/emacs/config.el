@@ -130,13 +130,15 @@
   (global-evil-surround-mode 1))
 
 (use-package general
+  :init
+  (global-unset-key (kbd "C-M-SPC"))
   :after evil
   :config
   (general-evil-setup t)
   (general-define-key
    :keymaps '(normal insert emacs)
    :prefix "SPC"
-   :non-normal-prefix "M-SPC"
+   :non-normal-prefix "C-M-SPC"
    :prefix-map 'ev/leader-key-map
 
    ;; Top level functions
@@ -1074,3 +1076,35 @@ parses its input."
 (use-package pdf-tools
   :config
   (pdf-tools-install)) ; install pdf-tools in all current and future pdf buffers
+
+(use-package embark
+  :bind
+  ;; going to need to change some of these in order to make it work nice with EViL etc.
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :general
+  (ev/leader-key-map
+   "E a" 'embark-act
+   "E h B" 'embark-bindings)
+
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
+  ;; strategy, if you want to see the documentation from multiple providers.
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
