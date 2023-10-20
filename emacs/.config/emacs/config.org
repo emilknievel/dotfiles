@@ -424,7 +424,7 @@ Get rid of the annoying startup screen.
 
   (defvar ev/dark-theme 'doom-rose-pine)
   (defvar ev/light-theme 'doom-rose-pine-dawn)
-  (defvar ev/current-theme ev/light-theme)
+  (defvar ev/current-theme ev/dark-theme)
 
 #+end_src
 

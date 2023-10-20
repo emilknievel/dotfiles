@@ -238,7 +238,7 @@
 
 (defvar ev/dark-theme 'doom-rose-pine)
 (defvar ev/light-theme 'doom-rose-pine-dawn)
-(defvar ev/current-theme ev/light-theme)
+(defvar ev/current-theme ev/dark-theme)
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
