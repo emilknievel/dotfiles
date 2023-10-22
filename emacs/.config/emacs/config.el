@@ -240,8 +240,8 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
-(defvar ev/dark-theme 'doom-rose-pine)
-(defvar ev/light-theme 'doom-rose-pine-dawn)
+(defvar ev/dark-theme 'doom-one)
+(defvar ev/light-theme 'doom-one-light)
 (defvar ev/current-theme ev/dark-theme)
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
@@ -259,8 +259,8 @@
 (use-package doom-themes
   :ensure t
   :init
-  (setq doom-themes-enable-bold nil
-        doom-themes-enable-italic nil)
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
   :config
   (doom-themes-org-config)
   (doom-themes-visual-bell-config))
@@ -272,8 +272,8 @@
   (setq calendar-latitude 58.4)
   (setq calendar-longitude 13.8)
   ;; todo: use ev/dark-theme and ev/light-theme instead
-  (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
-                           (:sunset  . doom-rose-pine)))
+  (setq circadian-themes '((:sunrise . doom-one-light)
+                           (:sunset  . doom-one)))
   (circadian-setup))
 
 (cond ((eq system-type 'darwin)
@@ -320,8 +320,8 @@
  ;; `(org-document-title ((t (:inherit variable-pitch :weight SemiBold :height 1.60180664 :underline nil))))
 
  '(org-block ((t (:inherit fixed-pitch))))
- '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
- '(org-block-end-line ((t (:inherit (fixed-pitch line-number)))))
+ ;; '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
+ ;; '(org-block-end-line ((t (:inherit (fixed-pitch line-number)))))
  ;; '(org-code ((t (:inherit (shadow fixed-pitch)))))
  ;; '(org-document-info ((t (:foreground "dark orange"))))
  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
