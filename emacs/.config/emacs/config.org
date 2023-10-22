@@ -420,8 +420,8 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
 
-  (defvar ev/dark-theme 'doom-one)
-  (defvar ev/light-theme 'doom-one-light)
+  (defvar ev/dark-theme 'doom-rose-pine)
+  (defvar ev/light-theme 'doom-rose-pine-dawn)
   (defvar ev/current-theme ev/dark-theme)
 
 #+end_src
@@ -496,8 +496,8 @@ Theme based on sunrise/sunset.
     (setq calendar-latitude 58.4)
     (setq calendar-longitude 13.8)
     ;; todo: use ev/dark-theme and ev/light-theme instead
-    (setq circadian-themes '((:sunrise . doom-one-light)
-                             (:sunset  . doom-one)))
+    (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
+                             (:sunset  . doom-rose-pine)))
     (circadian-setup))
 
 #+end_src
@@ -556,8 +556,8 @@ Set up proportional fonts for Org mode.
    ;; `(org-document-title ((t (:inherit variable-pitch :weight SemiBold :height 1.60180664 :underline nil))))
 
    '(org-block ((t (:inherit fixed-pitch))))
-   ;; '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
-   ;; '(org-block-end-line ((t (:inherit (fixed-pitch line-number)))))
+   '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
+   '(org-block-end-line ((t (:inherit (fixed-pitch line-number)))))
    ;; '(org-code ((t (:inherit (shadow fixed-pitch)))))
    ;; '(org-document-info ((t (:foreground "dark orange"))))
    '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
