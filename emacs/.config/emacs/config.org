@@ -1341,7 +1341,7 @@ Notable keymaps:
   (use-package magit
     :general
     (ev/leader-key-map
-     "g s" 'magit-status))
+     "g g" 'magit-status))
 
 #+end_src
 

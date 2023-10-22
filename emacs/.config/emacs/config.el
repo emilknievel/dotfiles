@@ -836,7 +836,7 @@ parses its input."
 (use-package magit
   :general
   (ev/leader-key-map
-   "g s" 'magit-status))
+   "g g" 'magit-status))
 
 (use-package diff-hl
   :init
