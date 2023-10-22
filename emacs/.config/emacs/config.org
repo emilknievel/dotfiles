@@ -119,8 +119,9 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 #+end_src
 
 ** Functions
+*** Toggle theme (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
   (defun ev/toggle-theme ()
     "Toggle between two themes"
@@ -420,8 +421,8 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
 
-  (defvar ev/dark-theme 'doom-rose-pine)
-  (defvar ev/light-theme 'doom-rose-pine-dawn)
+  (defvar ev/dark-theme 'ef-dark)
+  (defvar ev/light-theme 'ef-light)
   (defvar ev/current-theme ev/dark-theme)
 
 #+end_src
@@ -434,7 +435,7 @@ Get rid of the annoying startup screen.
 
 #+end_src
 
-**** Kaolin.
+**** Kaolin
 
 #+begin_src emacs-lisp
 
@@ -450,7 +451,7 @@ Get rid of the annoying startup screen.
 #+begin_src emacs-lisp
 
   (use-package catppuccin-theme
-    :init (setq catppuccin-flavor 'frappe))
+    :init (setq catppuccin-flavor 'mocha))
 
 #+end_src
 
@@ -459,6 +460,20 @@ Get rid of the annoying startup screen.
 #+begin_src emacs-lisp
 
   (use-package modus-themes)
+
+#+end_src
+
+**** Ef
+
+#+begin_src emacs-lisp
+
+  (use-package ef-themes
+    :custom
+    (ef-themes-to-toggle '(ef-dark ef-light))
+    (ef-themes-mixed-fonts t)
+    :config (ef-themes-select 'ef-light)
+    :general (ev/leader-key-map
+              "t t" 'ef-themes-toggle))
 
 #+end_src
 
@@ -477,19 +492,19 @@ Get rid of the annoying startup screen.
 
 #+end_src
 
-**** Load current theme
+**** Load current theme (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
   (load-theme ev/current-theme t)
 
 #+end_src
 
-**** Circadian
+**** Circadian (disabled)
 
 Theme based on sunrise/sunset.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
   (use-package circadian
     :config
@@ -499,6 +514,18 @@ Theme based on sunrise/sunset.
     (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
                              (:sunset  . doom-rose-pine)))
     (circadian-setup))
+
+#+end_src
+
+**** Auto-Dark for Emacs
+
+#+begin_src emacs-lisp
+
+  (use-package auto-dark
+    :init
+    (setq auto-dark-dark-theme ev/dark-theme
+          auto-dark-light-theme ev/light-theme)
+    :config (auto-dark-mode t))
 
 #+end_src
 
@@ -557,7 +584,7 @@ Set up proportional fonts for Org mode.
 
    '(org-block ((t (:inherit fixed-pitch))))
    '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
-   '(org-block-end-line ((t (:inherit (fixed-pitch line-number)))))
+   '(org-block-end-line ((t (:inherit org-block-begin-line))))
    ;; '(org-code ((t (:inherit (shadow fixed-pitch)))))
    ;; '(org-document-info ((t (:foreground "dark orange"))))
    '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
@@ -1607,7 +1634,7 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
   (use-package olivetti
     :general
     (ev/leader-key-map "u o" 'olivetti-mode)
-    :config
+    :init
     (setq olivetti-body-width 120
           olivetti-minimum-body-width 72)
     :hook (org-mode . olivetti-mode))
@@ -1702,7 +1729,7 @@ Package repo.
 
     :general
     (ev/leader-key-map
-     "E a" 'embark-act
+     "E E" 'embark-act
      "E h B" 'embark-bindings)
 
     :init

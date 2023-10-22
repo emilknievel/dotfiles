@@ -76,15 +76,6 @@
 (defvar my/learning-path "~/stuff/learning-stuff/"
   "Learning resources/projects")
 
-(defun ev/toggle-theme ()
-  "Toggle between two themes"
-  (interactive)
-  (if (eq ev/current-theme ev/dark-theme)
-      (progn (load-theme ev/light-theme t)
-             (setq ev/current-theme ev/light-theme))
-    (progn (load-theme ev/dark-theme t)
-           (setq ev/current-theme ev/dark-theme))))
-
 (use-package gnutls
   :defer t
   :custom
@@ -240,8 +231,8 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
-(defvar ev/dark-theme 'doom-rose-pine)
-(defvar ev/light-theme 'doom-rose-pine-dawn)
+(defvar ev/dark-theme 'ef-dark)
+(defvar ev/light-theme 'ef-light)
 (defvar ev/current-theme ev/dark-theme)
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
@@ -252,9 +243,17 @@
   (setq kaolin-themes-hl-line-colored t))
 
 (use-package catppuccin-theme
-  :init (setq catppuccin-flavor 'frappe))
+  :init (setq catppuccin-flavor 'mocha))
 
 (use-package modus-themes)
+
+(use-package ef-themes
+  :custom
+  (ef-themes-to-toggle '(ef-dark ef-light))
+  (ef-themes-mixed-fonts t)
+  :config (ef-themes-select 'ef-light)
+  :general (ev/leader-key-map
+            "t t" 'ef-themes-toggle))
 
 (use-package doom-themes
   :ensure t
@@ -265,16 +264,11 @@
   (doom-themes-org-config)
   (doom-themes-visual-bell-config))
 
-(load-theme ev/current-theme t)
-
-(use-package circadian
-  :config
-  (setq calendar-latitude 58.4)
-  (setq calendar-longitude 13.8)
-  ;; todo: use ev/dark-theme and ev/light-theme instead
-  (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
-                           (:sunset  . doom-rose-pine)))
-  (circadian-setup))
+(use-package auto-dark
+  :init
+  (setq auto-dark-dark-theme ev/dark-theme
+        auto-dark-light-theme ev/light-theme)
+  :config (auto-dark-mode t))
 
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist '(font . "Iosevka 15"))
@@ -321,7 +315,7 @@
 
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
- '(org-block-end-line ((t (:inherit (fixed-pitch line-number)))))
+ '(org-block-end-line ((t (:inherit org-block-begin-line))))
  ;; '(org-code ((t (:inherit (shadow fixed-pitch)))))
  ;; '(org-document-info ((t (:foreground "dark orange"))))
  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
@@ -1050,7 +1044,7 @@ parses its input."
 (use-package olivetti
   :general
   (ev/leader-key-map "u o" 'olivetti-mode)
-  :config
+  :init
   (setq olivetti-body-width 120
         olivetti-minimum-body-width 72)
   :hook (org-mode . olivetti-mode))
@@ -1092,7 +1086,7 @@ parses its input."
 
   :general
   (ev/leader-key-map
-   "E a" 'embark-act
+   "E E" 'embark-act
    "E h B" 'embark-bindings)
 
   :init
