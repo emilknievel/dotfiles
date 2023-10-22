@@ -142,16 +142,31 @@
    :prefix-map 'ev/leader-key-map
 
    ;; Top level functions
-
    "SPC" '(execute-extended-command :wk "M-x")
-   ;; files
-   "f s" 'save-buffer
-   "f f" 'find-file
-   "f l" 'load-file
-   "f g" '(consult-ripgrep :wk "consult-ripgrep")
 
-   ;; dirs
-   "d d" 'dired))
+   ;; Prefixes
+   "b" '(:ignore t :wk "Buffer")
+   "c" '(:ignore t :wk "Code")
+   "d" '(:ignore t :wk "Directory")
+   "E" '(:ignore t :wk "Embark")
+   "f" '(:ignore t :wk "File")
+   "g" '(:ignore t :wk "Git")
+   "h" '(:ignore t :wk "Help")
+   "n" '(:ignore t :wk "Note")
+   "n r" '(:ignore t :wk "Roam")
+   "p" '(:ignore t :wk "Project")
+   "q" '(:ignore t :wk "Quit")
+   "t" '(:ignore t :wk "Toggle")
+   "u" '(:ignore t :wk "UI")
+   "u l" '(:ignore t :wk "Linum")
+   "w" '(:ignore t :wk "Window")))
+
+(general-define-key
+ :prefix-map 'ev/leader-key-map
+ "f s" 'save-buffer
+ "f f" 'find-file
+ "f l" 'load-file
+ "f g" '(consult-ripgrep :wk "consult-ripgrep"))
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
@@ -182,7 +197,6 @@
 (general-define-key
  :prefix-map 'ev/leader-key-map
  ;; help
- "h" '(nil :wk "help")
  "h f" 'describe-function
  "h v" 'describe-variable
  "h k" 'describe-key
@@ -192,20 +206,10 @@
 (general-define-key
  :prefix-map 'ev/leader-key-map
  ;; toggles
- "t" '(nil :wk "toggles")
  "t v" '(visual-line-mode :wk "visual line mode")
  "t n" '(display-line-numbers-mode :wk "display line numbers")
  "t c" '(visual-fill-column-mode :wk "visual fill column mode")
  "t t" 'ev/toggle-theme)
-
-(general-define-key
- :prefix-map 'ev/leader-key-map
- ;; git
- "g" '(nil :wk "git"))
-
-(general-define-key
- :prefix-map 'ev/leader-key-map
- "u" '(nil :wk "ui"))
 
 (use-package iedit
   :general
@@ -370,9 +374,9 @@
   ;; (add-hook 'evil-insert-state-exit-hook #'ev/display-set-relative)
   :general
   (ev/leader-key-map
-   "n h" 'ev/display-set-hidden
-   "n r" 'ev/display-set-relative
-   "n a" 'ev/display-set-absolute))
+   "u l h" 'ev/display-set-hidden
+   "u l r" 'ev/display-set-relative
+   "u l a" 'ev/display-set-absolute))
 
 (setq show-trailing-whitespace t)
 
@@ -868,6 +872,7 @@ parses its input."
   :straight (:type built-in)
   :general
   (ev/leader-key-map
+   "d d" 'dired
    "d j" '(dired-jump :wk "dired jump"))
   :config
   (when (string= system-type "darwin")
