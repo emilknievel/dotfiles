@@ -794,7 +794,8 @@ parses its input."
   :init (setq markdown-command "pandoc"
               markdown-header-scaling t
               markdown-enable-math t
-              markdown-make-gfm-checkboxes-buttons t))
+              markdown-make-gfm-checkboxes-buttons t
+              markdown-fontify-code-blocks-natively t))
 
 (use-package clojure-mode)
 
