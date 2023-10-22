@@ -1054,10 +1054,15 @@ parses its input."
 
 (use-package org-roam
   :custom
+  (org-roam-directory "~/org-roam")
   (org-roam-completion-everywhere t)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert))
+  :general (ev/leader-key-map
+            "n r r" 'org-roam-buffer-toggle
+            "n r f" 'org-roam-node-find
+            "n r i" 'org-roam-node-insert)
   :config
   (org-roam-setup))
 

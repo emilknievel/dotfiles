@@ -148,3 +148,4 @@ emacs/.config/emacs/custom.el
 lazy-lock.json
 /emacs/.config/emacs/url/
 *.db
+/emacs/.config/emacs/bookmarks
