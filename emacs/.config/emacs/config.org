@@ -141,22 +141,6 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 
 #+end_src
 
-** Functions
-*** Toggle theme (disabled)
-
-#+begin_src emacs-lisp :tangle no
-
-  (defun ev/toggle-theme ()
-    "Toggle between two themes"
-    (interactive)
-    (if (eq ev/current-theme ev/dark-theme)
-        (progn (load-theme ev/light-theme t)
-               (setq ev/current-theme ev/light-theme))
-      (progn (load-theme ev/dark-theme t)
-             (setq ev/current-theme ev/dark-theme))))
-
-#+end_src
-
 ** Security
 
 Integrate Emacs with GnuTLS to ensure trusted connections.
@@ -267,7 +251,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
      "u l" '(:ignore t :wk "Linum")
      "w" '(:ignore t :wk "Window")))
 
-     #+end_src
+#+end_src
 
 **** Files
 
@@ -280,7 +264,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    "f l" 'load-file
    "f g" '(consult-ripgrep :wk "consult-ripgrep"))
 
-  #+end_src
+#+end_src
 
 **** Buffers
 
@@ -444,9 +428,24 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
 
-  (defvar ev/dark-theme 'ef-dark)
-  (defvar ev/light-theme 'ef-light)
+  (defvar ev/dark-theme 'doom-one)
+  (defvar ev/light-theme 'doom-one-light)
   (defvar ev/current-theme ev/dark-theme)
+
+#+end_src
+
+**** Toggle theme
+
+#+begin_src emacs-lisp
+
+  (defun ev/toggle-theme ()
+    "Toggle between two themes"
+    (interactive)
+    (if (eq ev/current-theme ev/dark-theme)
+        (progn (load-theme ev/light-theme t)
+               (setq ev/current-theme ev/light-theme))
+      (progn (load-theme ev/dark-theme t)
+             (setq ev/current-theme ev/dark-theme))))
 
 #+end_src
 
@@ -455,6 +454,14 @@ Get rid of the annoying startup screen.
 #+begin_src emacs-lisp
 
   (setq custom-theme-directory "~/.config/emacs/themes/")
+
+#+end_src
+
+#+begin_src emacs-lisp
+
+  (general-define-key
+   :prefix-map 'ev/leader-key-map
+   "t t" '(ev/toggle-theme :wk "Toggle theme"))
 
 #+end_src
 
@@ -486,9 +493,9 @@ Get rid of the annoying startup screen.
 
 #+end_src
 
-**** Ef
+**** Ef (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
   (use-package ef-themes
     :custom
@@ -515,9 +522,9 @@ Get rid of the annoying startup screen.
 
 #+end_src
 
-**** Load current theme (disabled)
+**** Load current theme
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 
   (load-theme ev/current-theme t)
 

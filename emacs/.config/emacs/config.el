@@ -248,11 +248,24 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
-(defvar ev/dark-theme 'ef-dark)
-(defvar ev/light-theme 'ef-light)
+(defvar ev/dark-theme 'doom-one)
+(defvar ev/light-theme 'doom-one-light)
 (defvar ev/current-theme ev/dark-theme)
 
+(defun ev/toggle-theme ()
+  "Toggle between two themes"
+  (interactive)
+  (if (eq ev/current-theme ev/dark-theme)
+      (progn (load-theme ev/light-theme t)
+             (setq ev/current-theme ev/light-theme))
+    (progn (load-theme ev/dark-theme t)
+           (setq ev/current-theme ev/dark-theme))))
+
 (setq custom-theme-directory "~/.config/emacs/themes/")
+
+(general-define-key
+ :prefix-map 'ev/leader-key-map
+ "t t" '(ev/toggle-theme :wk "Toggle theme"))
 
 (use-package kaolin-themes
   :config
@@ -264,14 +277,6 @@
 
 (use-package modus-themes)
 
-(use-package ef-themes
-  :custom
-  (ef-themes-to-toggle '(ef-dark ef-light))
-  (ef-themes-mixed-fonts t)
-  :config (ef-themes-select 'ef-light)
-  :general (ev/leader-key-map
-            "t t" 'ef-themes-toggle))
-
 (use-package doom-themes
   :ensure t
   :init
@@ -280,6 +285,8 @@
   :config
   (doom-themes-org-config)
   (doom-themes-visual-bell-config))
+
+(load-theme ev/current-theme t)
 
 (use-package auto-dark
   :init
