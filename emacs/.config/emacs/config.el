@@ -76,6 +76,23 @@
 (defvar my/learning-path "~/stuff/learning-stuff/"
   "Learning resources/projects")
 
+(use-package exec-path-from-shell
+  :config
+  (setq exec-path-from-shell-variables '("DOTNET_ROOT"
+                                         "LANG"
+                                         "XDG_CONFIG_HOME"
+                                         "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
+                                         "NVM_DIR"
+                                         "NVM_CD_FLAGS"
+                                         ;; "FZF_DEFAULT_OPTS"
+                                         "OPAM_SWITCH_PREFIX"
+                                         "CAML_LD_LIBRARY"
+                                         "OCAML_TOPLEVEL_PATH"
+                                         "BUN_INSTALL"
+                                         "NODE_EXTRA_CA_CERTS"))
+  (exec-path-from-shell-initialize)
+  :when (or (memq window-system '(mac ns x)) (daemonp)))
+
 (use-package gnutls
   :defer t
   :custom

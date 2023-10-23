@@ -118,6 +118,29 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 
 #+end_src
 
+*** Get environment variables from shell
+
+#+begin_src emacs-lisp
+
+  (use-package exec-path-from-shell
+    :config
+    (setq exec-path-from-shell-variables '("DOTNET_ROOT"
+                                           "LANG"
+                                           "XDG_CONFIG_HOME"
+                                           "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
+                                           "NVM_DIR"
+                                           "NVM_CD_FLAGS"
+                                           ;; "FZF_DEFAULT_OPTS"
+                                           "OPAM_SWITCH_PREFIX"
+                                           "CAML_LD_LIBRARY"
+                                           "OCAML_TOPLEVEL_PATH"
+                                           "BUN_INSTALL"
+                                           "NODE_EXTRA_CA_CERTS"))
+    (exec-path-from-shell-initialize)
+    :when (or (memq window-system '(mac ns x)) (daemonp)))
+
+#+end_src
+
 ** Functions
 *** Toggle theme (disabled)
 
