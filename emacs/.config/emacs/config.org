@@ -1074,7 +1074,6 @@ Nerd icons for dired.
      (csharp-ts-mode . lsp-deferred)
      (c-ts-mode . lsp-deferred)
      (c++-ts-mode . lsp-deferred)
-     (vue-ts-mode . web-mode)
      (csharp-ts-mode . lsp-deferred))
     :commands (lsp lsp-deferred)
     :custom
@@ -1282,9 +1281,7 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
 
 #+begin_src emacs-lisp
 
-  (use-package web-mode
-    :config
-    (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode)))
+  (use-package web-mode)
 
 #+end_src
 
@@ -1321,6 +1318,18 @@ Notable keymaps:
   (use-package restclient-jq
     :after restclient
     :config (require 'restclient-jq))
+
+#+end_src
+
+*** Vue
+
+#+begin_src emacs-lisp
+
+  (straight-use-package '(vue-ts-mode
+    :host github
+    :repo "8uff3r/vue-ts-mode"
+    :branch "main"
+    :mode "\\.vue\\'"))
 
 #+end_src
 

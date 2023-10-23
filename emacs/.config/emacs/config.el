@@ -694,7 +694,6 @@ parses its input."
    (csharp-ts-mode . lsp-deferred)
    (c-ts-mode . lsp-deferred)
    (c++-ts-mode . lsp-deferred)
-   (vue-ts-mode . web-mode)
    (csharp-ts-mode . lsp-deferred))
   :commands (lsp lsp-deferred)
   :custom
@@ -814,9 +813,7 @@ parses its input."
 
 (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . tsx-ts-mode))
 
-(use-package web-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode)))
+(use-package web-mode)
 
 (use-package jq-mode
   :mode ("\\.jq\\'" . jq-mode))
@@ -829,6 +826,12 @@ parses its input."
 (use-package restclient-jq
   :after restclient
   :config (require 'restclient-jq))
+
+(straight-use-package '(vue-ts-mode
+  :host github
+  :repo "8uff3r/vue-ts-mode"
+  :branch "main"
+  :mode "\\.vue\\'"))
 
 (use-package flycheck
   :init (global-flycheck-mode))
