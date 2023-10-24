@@ -219,6 +219,11 @@
  "t c" '(visual-fill-column-mode :wk "visual fill column mode")
  "t t" 'ev/toggle-theme)
 
+(general-define-key
+ :prefix-map 'ev/leader-key-map
+ ;; emacsclient
+ "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
+
 (use-package iedit
   :general
   (ev/leader-key-map "e" 'iedit-mode))

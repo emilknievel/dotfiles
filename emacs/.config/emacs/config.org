@@ -333,6 +333,17 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 
 #+end_src
 
+**** Emacs Client
+
+#+begin_src emacs-lisp
+
+  (general-define-key
+   :prefix-map 'ev/leader-key-map
+   ;; emacsclient
+   "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
+
+#+end_src
+
 ** Editing
 *** iedit
 
