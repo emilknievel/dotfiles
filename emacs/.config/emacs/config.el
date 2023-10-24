@@ -851,11 +851,12 @@ parses its input."
   :after restclient
   :config (require 'restclient-jq))
 
-(straight-use-package '(vue-ts-mode
-  :host github
-  :repo "8uff3r/vue-ts-mode"
-  :branch "main"
-  :mode "\\.vue\\'"))
+(straight-use-package
+ '(vue-ts-mode
+   :host github
+   :repo "8uff3r/vue-ts-mode"
+   :branch "main"
+   :mode "\\.vue\\'"))
 
 (use-package flycheck
   :init (global-flycheck-mode))
@@ -1083,13 +1084,24 @@ parses its input."
   :custom
   (org-roam-directory "~/org-roam")
   (org-roam-completion-everywhere t)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert))
-  :general (ev/leader-key-map
-            "n r r" 'org-roam-buffer-toggle
-            "n r f" 'org-roam-node-find
-            "n r i" 'org-roam-node-insert)
+
+  (org-roam-capture-templates
+   '(("d" "default" plain
+      "%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "+title: ${title}\n")
+      :unnarrowed t)))
+
+  :bind
+  (("C-c n l" . org-roam-buffer-toggle) ; Backlinks buffer
+   ("C-c n f" . org-roam-node-find)
+   ("C-c n i" . org-roam-node-insert))
+
+  :general
+  (ev/leader-key-map
+   "n r r" 'org-roam-buffer-toggle
+   "n r f" 'org-roam-node-find
+   "n r i" 'org-roam-node-insert)
+
   :config
   (org-roam-setup))
 
