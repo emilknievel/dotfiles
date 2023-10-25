@@ -300,7 +300,7 @@
   :config (auto-dark-mode t))
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "Iosevka 15"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka Comfy 15"))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
@@ -311,7 +311,7 @@
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
-  (add-to-list 'default-frame-alist '(font . "Iosevka 18")))
+  (add-to-list 'default-frame-alist '(font . "Iosevka Comfy 18")))
 
 (cond ((eq system-type 'gnu/linux)
        (setq variable-pitch-size 120)
