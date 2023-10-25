@@ -80,7 +80,6 @@
   :config
   (setq exec-path-from-shell-variables '("PATH"
                                          "DOTNET_ROOT"
-                                         "LANG"
                                          "XDG_CONFIG_HOME"
                                          "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
                                          "NVM_DIR"
@@ -93,6 +92,8 @@
                                          "NODE_EXTRA_CA_CERTS"))
   (exec-path-from-shell-initialize)
   :when (or (memq window-system '(mac ns x)) (daemonp)))
+
+(setenv "LANG" "en_US.UTF-8")
 
 (use-package gnutls
   :defer t

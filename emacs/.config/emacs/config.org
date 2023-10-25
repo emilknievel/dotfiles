@@ -118,7 +118,8 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 
 #+end_src
 
-*** Get environment variables from shell
+*** Environment variables
+**** Get environment variables from shell
 
 #+begin_src emacs-lisp
 
@@ -126,7 +127,6 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
     :config
     (setq exec-path-from-shell-variables '("PATH"
                                            "DOTNET_ROOT"
-                                           "LANG"
                                            "XDG_CONFIG_HOME"
                                            "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
                                            "NVM_DIR"
@@ -139,6 +139,14 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
                                            "NODE_EXTRA_CA_CERTS"))
     (exec-path-from-shell-initialize)
     :when (or (memq window-system '(mac ns x)) (daemonp)))
+
+#+end_src
+
+**** Emacs specific
+
+#+begin_src emacs-lisp
+
+  (setenv "LANG" "en_US.UTF-8")
 
 #+end_src
 
