@@ -724,7 +724,8 @@ parses its input."
    (csharp-ts-mode . lsp-deferred)
    (c-ts-mode . lsp-deferred)
    (c++-ts-mode . lsp-deferred)
-   (csharp-ts-mode . lsp-deferred))
+   (csharp-ts-mode . lsp-deferred)
+   (vue-ts-mode . lsp-deferred))
   :commands (lsp lsp-deferred)
   :custom
   (lsp-completion-provider :none) ;; Corfu instead of Company
@@ -857,12 +858,13 @@ parses its input."
   :after restclient
   :config (require 'restclient-jq))
 
-(straight-use-package
- '(vue-ts-mode
-   :host github
-   :repo "8uff3r/vue-ts-mode"
-   :branch "main"
-   :mode "\\.vue\\'"))
+(use-package vue-ts-mode
+  :straight '(vue-ts-mode
+              :type git
+              :host github
+              :repo "8uff3r/vue-ts-mode"
+              :branch "main")
+  :mode ("\\.vue\\'" . vue-ts-mode))
 
 (use-package flycheck
   :init (global-flycheck-mode))
