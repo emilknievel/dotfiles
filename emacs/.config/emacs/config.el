@@ -259,14 +259,22 @@
 (defvar ev/light-theme 'doom-one-light)
 (defvar ev/current-theme ev/dark-theme)
 
+(defun ev/load-dark-theme ()
+  (load-theme ev/dark-theme t)
+  (setq ev/current-theme ev/dark-theme)
+  (setenv "TERM_THEME" "dark"))
+
+(defun ev/load-light-theme ()
+  (load-theme ev/light-theme t)
+  (setq ev/current-theme ev/light-theme)
+  (setenv "TERM_THEME" "light"))
+
 (defun ev/toggle-theme ()
   "Toggle between two themes"
   (interactive)
   (if (eq ev/current-theme ev/dark-theme)
-      (progn (load-theme ev/light-theme t)
-             (setq ev/current-theme ev/light-theme))
-    (progn (load-theme ev/dark-theme t)
-           (setq ev/current-theme ev/dark-theme))))
+      (ev/load-light-theme)
+    (ev/load-dark-theme)))
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
@@ -299,21 +307,24 @@
   :init
   (setq auto-dark-dark-theme ev/dark-theme
         auto-dark-light-theme ev/light-theme)
-  :config (auto-dark-mode t))
+  :config (auto-dark-mode t)
+  :hook
+  ((auto-dark-dark-mode . (lambda () (setenv "TERM_THEME" "dark")))
+   (auto-dark-light-mode . (lambda () (setenv "TERM_THEME" "light")))))
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "Iosevka Comfy 15"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka 15"))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
        ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist '(font . "Iosevka Comfy 12"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka 12"))
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
-  (add-to-list 'default-frame-alist '(font . "Iosevka Comfy 18")))
+  (add-to-list 'default-frame-alist '(font . "Iosevka 18")))
 
 (cond ((eq system-type 'gnu/linux)
        (setq variable-pitch-size 120)
@@ -329,7 +340,7 @@
 (custom-theme-set-faces
  'user
  `(variable-pitch ((t (:family "Fira Sans" :height ,variable-pitch-size :weight normal))))
- `(fixed-pitch ((t (:family "Iosevka Comfy" :height ,fixed-pitch-size :weight normal))))
+ `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
 
  `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
  `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
@@ -339,7 +350,7 @@
  `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.2))))
  `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.28))))
  `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.42382813))))
- `(org-todo ((t :family "Iosevka Comfy Motion" :weight Semibold)))
+ `(org-todo ((t :family "Iosevka Slab" :weight Semibold)))
  `(org-checkbox ((t (:inherit org-todo))))
  `(org-ellipsis ((t (:inherit fixed-pitch))))
  ;; `(org-document-title ((t (:inherit variable-pitch :weight SemiBold :height 1.60180664 :underline nil))))
