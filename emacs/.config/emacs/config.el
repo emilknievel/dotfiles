@@ -78,7 +78,8 @@
 
 (use-package exec-path-from-shell
   :config
-  (setq exec-path-from-shell-variables '("DOTNET_ROOT"
+  (setq exec-path-from-shell-variables '("PATH"
+                                         "DOTNET_ROOT"
                                          "LANG"
                                          "XDG_CONFIG_HOME"
                                          "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
