@@ -307,7 +307,7 @@
        ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist '(font . "Iosevka 12"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka Comfy 12"))
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
@@ -327,7 +327,7 @@
 (custom-theme-set-faces
  'user
  `(variable-pitch ((t (:family "Fira Sans" :height ,variable-pitch-size :weight normal))))
- `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
+ `(fixed-pitch ((t (:family "Iosevka Comfy" :height ,fixed-pitch-size :weight normal))))
 
  `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
  `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
@@ -337,7 +337,7 @@
  `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.2))))
  `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.28))))
  `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.42382813))))
- `(org-todo ((t :family "Iosevka Slab" :weight Semibold)))
+ `(org-todo ((t :family "Iosevka Comfy Motion" :weight Semibold)))
  `(org-checkbox ((t (:inherit org-todo))))
  `(org-ellipsis ((t (:inherit fixed-pitch))))
  ;; `(org-document-title ((t (:inherit variable-pitch :weight SemiBold :height 1.60180664 :underline nil))))
