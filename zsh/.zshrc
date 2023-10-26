@@ -226,12 +226,12 @@ case "$OSTYPE" in
     ;;
 esac
 
-# rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
 # local scripts and binaries
 export PATH="$HOME/.local/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
 
 case "$OSTYPE" in
   linux*)
