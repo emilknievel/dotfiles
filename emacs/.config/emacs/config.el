@@ -737,7 +737,8 @@ parses its input."
    (c-ts-mode . lsp-deferred)
    (c++-ts-mode . lsp-deferred)
    (csharp-ts-mode . lsp-deferred)
-   (vue-ts-mode . lsp-deferred))
+   (vue-ts-mode . lsp-deferred)
+   (rust-ts-mode . lsp-deferred))
   :commands (lsp lsp-deferred)
   :custom
   (lsp-completion-provider :none) ;; Corfu instead of Company
@@ -877,6 +878,8 @@ parses its input."
               :repo "8uff3r/vue-ts-mode"
               :branch "main")
   :mode ("\\.vue\\'" . vue-ts-mode))
+
+(add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 
 (use-package flycheck
   :init (global-flycheck-mode))
