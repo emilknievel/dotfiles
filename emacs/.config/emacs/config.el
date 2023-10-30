@@ -255,26 +255,29 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
-(defvar ev/dark-theme 'doom-one)
-(defvar ev/light-theme 'doom-one-light)
-(defvar ev/current-theme ev/dark-theme)
+;; (defvar ev/dark-theme 'doom-one)
+;; (defvar ev/light-theme 'doom-one-light)
+(defvar ev/current-theme 'catppuccin)
 
 (defun ev/load-dark-theme ()
-  (load-theme ev/dark-theme t)
-  (setq ev/current-theme ev/dark-theme)
+  ;; (load-theme ev/dark-theme t)
+  ;; (setq ev/current-theme ev/dark-theme)
+  (setq catppuccin-flavor 'mocha)
   (setenv "TERM_THEME" "dark"))
 
 (defun ev/load-light-theme ()
-  (load-theme ev/light-theme t)
-  (setq ev/current-theme ev/light-theme)
+  ;; (load-theme ev/light-theme t)
+  ;; (setq ev/current-theme ev/light-theme)
+  (setq catppuccin-flavor 'latte)
   (setenv "TERM_THEME" "light"))
 
 (defun ev/toggle-theme ()
   "Toggle between two themes"
   (interactive)
-  (if (eq ev/current-theme ev/dark-theme)
-      (ev/load-light-theme)
-    (ev/load-dark-theme)))
+  (if (eq catppuccin-flavor 'latte)
+      (ev/load-dark-theme)
+    (ev/load-light-theme))
+  (catppuccin-reload))
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
@@ -305,12 +308,18 @@
 
 (use-package auto-dark
   :init
-  (setq auto-dark-dark-theme ev/dark-theme
-        auto-dark-light-theme ev/light-theme)
+  (setq auto-dark-dark-theme 'catppuccin
+        auto-dark-light-theme 'catppuccin)
   :config (auto-dark-mode t)
   :hook
-  ((auto-dark-dark-mode . (lambda () (setenv "TERM_THEME" "dark")))
-   (auto-dark-light-mode . (lambda () (setenv "TERM_THEME" "light")))))
+  ((auto-dark-dark-mode . (lambda ()
+                            (setenv "TERM_THEME" "dark")
+                            (setq catppuccin-flavor 'mocha)
+                            (catppuccin-reload)))
+   (auto-dark-light-mode . (lambda ()
+                             (setenv "TERM_THEME" "light")
+                             (setq catppuccin-flavor 'latte)
+                             (catppuccin-reload)))))
 
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist '(font . "Iosevka 15"))

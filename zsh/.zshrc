@@ -251,21 +251,15 @@ bindkey "^[l" clear-screen
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ## Color theme ##
-fzf_dark="
---color=fg:#908caa,bg:#191724,hl:#ebbcba
---color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
---color=border:#403d52,header:#31748f,gutter:#191724
---color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
---color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa
-"
+fzf_dark=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
-fzf_light="
---color=fg:#797593,bg:#faf4ed,hl:#d7827e
---color=fg+:#575279,bg+:#f2e9e1,hl+:#d7827e
---color=border:#dfdad9,header:#286983,gutter:#faf4ed
---color=spinner:#ea9d34,info:#56949f,separator:#dfdad9
---color=pointer:#907aa9,marker:#b4637a,prompt:#797593
-"
+fzf_light=" \
+--color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
+--color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
+--color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
 
 case "$OSTYPE" in
   darwin*)
@@ -313,9 +307,9 @@ git config --global delta.light $( [[ "$term_theme" == "light" ]] && echo true |
 
 if command -v kitty &> /dev/null; then
   if [[ "$term_theme" == "dark" ]]; then
-    kitty +kitten themes --reload-in=all Rosé\ Pine
+    kitty +kitten themes --reload-in=all Catppuccin-Mocha
   else
-    kitty +kitten themes --reload-in=all Rosé\ Pine\ Dawn
+    kitty +kitten themes --reload-in=all Catppuccin-Latte
   fi
 fi
 
