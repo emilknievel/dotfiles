@@ -1,29 +1,30 @@
-return {
-  {
-    "goolord/alpha-nvim",
-    opts = function()
-      local dashboard = require("alpha.themes.dashboard")
-      local logo = [[
- .              +   .                .   . .     .  .
+local logo = [[
+ .              +   .                .   . .     .  .  
                    .                    .       .     *
-  .       *                        . . . .  .   .  + .
-            "You Are Here"            .   .  +  . . .
-.                 |             .  .   .    .    . .
-                  |           .     .     . +.    +  .
-                 \|/            .       .   . .
-        . .       V          .    * . . .  .  +   .
-           +      .           .   .      +
-                            .       . +  .+. .
-  .                      .     . + .  . .     .      .
-           .      .    .     . .   . . .        ! /
-      *             .    . .  +    .  .       - O -
-          .     .    .  +   . .  *  .       . / |
-               . + .  .  .  .. +  .
-.      .  .  .  *   .  *  . +..  .            *
- .      .   . .   .   .   . .  +   .    .            +
-     ]]
+  .       *                        . . . .  .   .  + . 
+            "You Are Here"            .   .  +  . . .  
+.                 |             .  .   .    .    . .   
+                  |           .     .     . +.    +  . 
+                 \|/            .       .   . .        
+        . .       V          .    * . . .  .  +   .    
+           +      .           .   .      +             
+                            .       . +  .+. .         
+  .                      .     . + .  . .     .      . 
+           .      .    .     . .   . . .        ! /    
+      *             .    . .  +    .  .       - O -    
+          .     .    .  +   . .  *  .       . / |      
+               . + .  .  .  .. +  .                    
+.      .  .  .  *   .  *  . +..  .            *        
+ .      .   . .   .   .   . .  +   .    .            + 
+]]
 
-      dashboard.section.header.val = vim.split(logo, "\n")
-    end,
+logo = string.rep("\n", 8) .. logo .. "\n\n"
+
+return {
+  "nvimdev/dashboard-nvim",
+  opts = {
+    config = {
+      header = vim.split(logo, "\n"),
+    },
   },
 }
