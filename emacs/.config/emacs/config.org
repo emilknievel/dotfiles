@@ -655,7 +655,7 @@ Set up proportional fonts for Org mode.
    '(org-block ((t (:inherit fixed-pitch))))
    '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
    '(org-block-end-line ((t (:inherit org-block-begin-line))))
-   ;; '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-code ((t (:inherit (shadow fixed-pitch)))))
    ;; '(org-document-info ((t (:foreground "dark orange"))))
    '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
    '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
@@ -1703,16 +1703,47 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
 
 #+end_src
 
-*** Org superstar
+*** Org superstar (disabled)
 
 Replace headline markers with unicode bullets.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 
   (use-package org-superstar
     :hook
     (org-mode . (lambda ()
                   (org-superstar-mode 1))))
+
+#+end_src
+
+*** Org Modern
+
+#+begin_src emacs-lisp
+
+  (use-package org-modern
+    :after org
+    :config
+    (defun ev/setup-org-modern ()
+      (dolist (face '(window-divider
+                      window-divider-first-pixel
+                      window-divider-last-pixel))
+        (face-spec-reset-face face)
+        (set-face-foreground face (face-attribute 'default :background)))
+      (set-face-background 'fringe (face-attribute 'default :background)))
+
+    (setq org-auto-align-tags nil
+          org-tags-column 0
+          org-catch-invisible-edits 'show-and-error
+          org-special-ctrl-a/e t
+          org-insert-heading-respect-content t
+          org-hide-emphasis-markers t
+          org-pretty-entities t
+          org-ellipsis "…"
+          org-modern-star '("*"))
+
+    (org-modern-mode)
+
+    :hook (org-mode . ev/setup-org-modern))
 
 #+end_src
 
@@ -1740,6 +1771,18 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 
   (use-package org-appear
     :hook (org-mode . org-appear-mode))
+
+#+end_src
+
+*** Denote
+
+A simple note-taking app.
+
+#+begin_src emacs-lisp
+
+  (use-package denote
+    :custom
+    (denote-directory "~/denote/Notes"))
 
 #+end_src
 

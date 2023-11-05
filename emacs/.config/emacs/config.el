@@ -367,7 +367,7 @@
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
  '(org-block-end-line ((t (:inherit org-block-begin-line))))
- ;; '(org-code ((t (:inherit (shadow fixed-pitch)))))
+ '(org-code ((t (:inherit (shadow fixed-pitch)))))
  ;; '(org-document-info ((t (:foreground "dark orange"))))
  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
@@ -1096,10 +1096,30 @@ parses its input."
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)))
 
-(use-package org-superstar
-  :hook
-  (org-mode . (lambda ()
-                (org-superstar-mode 1))))
+(use-package org-modern
+  :after org
+  :config
+  (defun ev/setup-org-modern ()
+    (dolist (face '(window-divider
+                    window-divider-first-pixel
+                    window-divider-last-pixel))
+      (face-spec-reset-face face)
+      (set-face-foreground face (face-attribute 'default :background)))
+    (set-face-background 'fringe (face-attribute 'default :background)))
+
+  (setq org-auto-align-tags nil
+        org-tags-column 0
+        org-catch-invisible-edits 'show-and-error
+        org-special-ctrl-a/e t
+        org-insert-heading-respect-content t
+        org-hide-emphasis-markers t
+        org-pretty-entities t
+        org-ellipsis "…"
+        org-modern-star '("*"))
+
+  (org-modern-mode)
+
+  :hook (org-mode . ev/setup-org-modern))
 
 (use-package olivetti
   :general
@@ -1111,6 +1131,10 @@ parses its input."
 
 (use-package org-appear
   :hook (org-mode . org-appear-mode))
+
+(use-package denote
+  :custom
+  (denote-directory "~/denote/Notes"))
 
 (use-package org-roam
   :custom
