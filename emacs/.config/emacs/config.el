@@ -1086,10 +1086,6 @@ parses its input."
 (use-package org-appear
   :hook (org-mode . org-appear-mode))
 
-(use-package denote
-  :custom
-  (denote-directory "~/denote/Notes"))
-
 (use-package org-roam
   :custom
   (org-roam-directory "~/org-roam")

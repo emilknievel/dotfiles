@@ -1576,16 +1576,6 @@ This package displays hidden emphasis markers while the cursor is on a rich text
     :hook (org-mode . org-appear-mode))
 #+end_src
 
-*** Denote
-
-A simple note-taking app.
-
-#+begin_src emacs-lisp
-  (use-package denote
-    :custom
-    (denote-directory "~/denote/Notes"))
-#+end_src
-
 *** TODO Org Roam [0/2]
 - [-] Go through all the videos + shownotes [1/4]
   - [X] [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][Getting Started with Org Roam]]
