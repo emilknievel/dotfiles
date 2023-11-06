@@ -18,19 +18,15 @@
 
 ** Package Management
 *** straight.el
-
 Use develop branch for compatibility
 
 #+begin_src emacs-lisp
-
   (setq straight-repository-branch "develop")
-
 #+end_src
 
 Bootstrap straight.el
 
 #+begin_src emacs-lisp
-
   (defvar bootstrap-version)
   (let ((bootstrap-file
          (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -46,15 +42,12 @@ Bootstrap straight.el
 
   (straight-use-package 'use-package)
   (setq straight-use-package-by-default t)
-
 #+end_src
 
 ** Better defaults
-
 Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]].
 
 #+begin_src emacs-lisp
-
   (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
     (ido-mode t)
     (setq ido-enable-flex-matching t))
@@ -103,26 +96,22 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
   (unless backup-directory-alist
     (setq backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                    "backups")))))
-
 #+end_src
 
 ** Variables
 
 #+begin_src emacs-lisp
-
   (defvar my/work-projects-path "~/projects/"
     "Work related projects")
 
   (defvar my/learning-path "~/stuff/learning-stuff/"
     "Learning resources/projects")
-
 #+end_src
 
 *** Environment variables
 **** Get environment variables from shell
 
 #+begin_src emacs-lisp
-
   (use-package exec-path-from-shell
     :config
     (setq exec-path-from-shell-variables '("PATH"
@@ -139,35 +128,28 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
                                            "NODE_EXTRA_CA_CERTS"))
     (exec-path-from-shell-initialize)
     :when (or (memq window-system '(mac ns x)) (daemonp)))
-
 #+end_src
 
 **** Emacs specific
 
 #+begin_src emacs-lisp
-
   (setenv "LANG" "en_US.UTF-8")
-
 #+end_src
 
 ** Security
-
 Integrate Emacs with GnuTLS to ensure trusted connections.
 
 #+begin_src emacs-lisp
-
   (use-package gnutls
     :defer t
     :custom
     (gnutls-verify-error t))
-
 #+end_src
 
 ** Key bindings
 *** which-key
 
 #+begin_src emacs-lisp
-
   (use-package which-key
     :diminish which-key-mode
     :init
@@ -175,15 +157,12 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
     (which-key-setup-minibuffer)
     :config
     (setq which-key-idle-delay 0.3))
-
 #+end_src
 
 *** Evil
-
 Use Evil mode for Vim like bindings.
 
 #+begin_src emacs-lisp
-
   (use-package undo-fu)
 
   (use-package evil
@@ -214,11 +193,9 @@ Use Evil mode for Vim like bindings.
            (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
     :config
     (global-evil-surround-mode 1))
-
 #+end_src
 
 *** general.el
-
 general.el provides a more convenient, unified interface for binding keys in Emacs.
 Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
 
@@ -227,7 +204,6 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 **** Preamble
 
 #+begin_src emacs-lisp
-
   (use-package general
     :init
     (global-unset-key (kbd "C-M-SPC"))
@@ -259,26 +235,22 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
      "u" '(:ignore t :wk "UI")
      "u l" '(:ignore t :wk "Linum")
      "w" '(:ignore t :wk "Window")))
-
 #+end_src
 
 **** Files
 
 #+begin_src emacs-lisp
-
   (general-define-key
    :prefix-map 'ev/leader-key-map
    "f s" 'save-buffer
    "f f" 'find-file
    "f l" 'load-file
    "f g" '(consult-ripgrep :wk "consult-ripgrep"))
-
 #+end_src
 
 **** Buffers
 
 #+begin_src emacs-lisp
-
   (general-define-key
    :prefix-map 'ev/leader-key-map
    ;; buffers
@@ -287,13 +259,11 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    "b B" 'ibuffer
    "b X" 'scratch-buffer
    "q q" 'save-buffers-kill-terminal)
-
 #+end_src
 
 **** Windows
 
 #+begin_src emacs-lisp
-
   (general-define-key
    :prefix-map 'ev/leader-key-map
    ;; windows
@@ -310,13 +280,11 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    "w J" 'evil-window-down
    "w K" 'evil-window-up
    "w L" 'evil-window-right)
-
 #+end_src
 
 **** Help
 
 #+begin_src emacs-lisp
-
   (general-define-key
    :prefix-map 'ev/leader-key-map
    ;; help
@@ -325,13 +293,11 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    "h k" 'describe-key
    "h i" 'info
    "h b" 'describe-bindings)
-
 #+end_src
 
 **** Toggles
 
 #+begin_src emacs-lisp
-
   (general-define-key
    :prefix-map 'ev/leader-key-map
    ;; toggles
@@ -339,27 +305,22 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    "t n" '(display-line-numbers-mode :wk "display line numbers")
    "t c" '(visual-fill-column-mode :wk "visual fill column mode")
    "t t" 'ev/toggle-theme)
-
 #+end_src
 
 **** Emacs Client
 
 #+begin_src emacs-lisp
-
   (general-define-key
    :prefix-map 'ev/leader-key-map
    ;; emacsclient
    "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
-
 #+end_src
 
 ** Editing
 *** iedit
-
 Edit multiple occurrences in the same way simultaneously.
 
 #+begin_src emacs-lisp
-
   (use-package iedit
     :general
     (ev/leader-key-map "e" 'iedit-mode))
@@ -371,67 +332,51 @@ Integrate iedit with evil. [[https://github.com/syl20bnr/evil-iedit-state][Keybi
 #+begin_src emacs-lisp
 
   (use-package evil-iedit-state)
-
 #+end_src
 
 *** Whitespace
-
 Show trailing whitespace.
 
 #+begin_src emacs-lisp
-
   (require 'whitespace)
-
 #+end_src
 
 *** Expand region
-
 Increase selected region by semantic units.
 
 #+begin_src emacs-lisp
-
   (use-package expand-region
     :general
     (ev/leader-key-map
      "=" '(er/expand-region :wk "expand region")))
-
 #+end_src
 
 *** Vundo
-
 Visual undo. Displays the undo history as a tree and lets you move in the tree to go back to previous buffer states.
 Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 #+begin_src emacs-lisp
-
   (use-package vundo
     :general (ev/leader-key-map "c u" 'vundo))
-
 #+end_src
 
 ** Customization
 *** Disable startup screen
-
 Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
-
   (setq inhibit-startup-screen t)
-
 #+end_src
 
 *** Confirm on exit
 
 #+begin_src emacs-lisp
-
   (setopt confirm-kill-emacs 'y-or-n-p)
-
 #+end_src
 
 *** macOS
 
 #+begin_src emacs-lisp
-
   (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
@@ -440,24 +385,20 @@ Get rid of the annoying startup screen.
         mac-right-command-modifier 'none
         mac-option-modifier nil
         mac-control-modifier 'control)
-
 #+end_src
 
 *** Theme
 **** Variables
 
 #+begin_src emacs-lisp
-
   ;; (defvar ev/dark-theme 'doom-one)
   ;; (defvar ev/light-theme 'doom-one-light)
   (defvar ev/current-theme 'catppuccin)
-
 #+end_src
 
 **** Toggle theme
 
 #+begin_src emacs-lisp
-
   (defun ev/load-dark-theme ()
     ;; (load-theme ev/dark-theme t)
     ;; (setq ev/current-theme ev/dark-theme)
@@ -477,57 +418,45 @@ Get rid of the annoying startup screen.
         (ev/load-dark-theme)
       (ev/load-light-theme))
     (catppuccin-reload))
-
 #+end_src
 
 **** Themes directory
 
 #+begin_src emacs-lisp
-
   (setq custom-theme-directory "~/.config/emacs/themes/")
-
 #+end_src
 
 #+begin_src emacs-lisp
-
   (general-define-key
    :prefix-map 'ev/leader-key-map
    "t t" '(ev/toggle-theme :wk "Toggle theme"))
-
 #+end_src
 
 **** Kaolin
 
 #+begin_src emacs-lisp
-
   (use-package kaolin-themes
     :config
     (setq kaolin-themes-distinct-fringe t)
     (setq kaolin-themes-hl-line-colored t))
-
 #+end_src
 
 **** Catppuccin
 
 #+begin_src emacs-lisp
-
   (use-package catppuccin-theme
     :init (setq catppuccin-flavor 'mocha))
-
 #+end_src
 
 **** Modus
 
 #+begin_src emacs-lisp
-
   (use-package modus-themes)
-
 #+end_src
 
 **** Ef (disabled)
 
 #+begin_src emacs-lisp :tangle no
-
   (use-package ef-themes
     :custom
     (ef-themes-to-toggle '(ef-dark ef-light))
@@ -535,13 +464,11 @@ Get rid of the annoying startup screen.
     :config (ef-themes-select 'ef-light)
     :general (ev/leader-key-map
               "t t" 'ef-themes-toggle))
-
 #+end_src
 
 **** Doom
 
 #+begin_src emacs-lisp
-
   (use-package doom-themes
     :ensure t
     :init
@@ -550,23 +477,18 @@ Get rid of the annoying startup screen.
     :config
     (doom-themes-org-config)
     (doom-themes-visual-bell-config))
-
 #+end_src
 
 **** Load current theme
 
 #+begin_src emacs-lisp
-
   (load-theme ev/current-theme t)
-
 #+end_src
 
 **** Circadian (disabled)
-
 Theme based on sunrise/sunset.
 
 #+begin_src emacs-lisp :tangle no
-
   (use-package circadian
     :config
     (setq calendar-latitude 58.4)
@@ -575,13 +497,11 @@ Theme based on sunrise/sunset.
     (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
                              (:sunset  . doom-rose-pine)))
     (circadian-setup))
-
 #+end_src
 
 **** Auto-Dark for Emacs
 
 #+begin_src emacs-lisp
-
   (use-package auto-dark
     :init
     (setq auto-dark-dark-theme 'catppuccin
@@ -596,13 +516,11 @@ Theme based on sunrise/sunset.
                                (setenv "TERM_THEME" "light")
                                (setq catppuccin-flavor 'latte)
                                (catppuccin-reload)))))
-
 #+end_src
 
 *** Fonts
 
 #+begin_src emacs-lisp
-
   (cond ((eq system-type 'darwin)
          (add-to-list 'default-frame-alist '(font . "Iosevka 15"))
          ;; Render fonts like in iTerm
@@ -616,13 +534,11 @@ Theme based on sunrise/sunset.
 
   (when (string-match "-[Mm]icrosoft" operating-system-release)
     (add-to-list 'default-frame-alist '(font . "Iosevka 18")))
-
 #+end_src
 
-Set up proportional fonts for Org mode.
+*Disabled* Set up proportional fonts for Org mode.
 
-#+begin_src emacs-lisp
-
+#+begin_src emacs-lisp :tangle no
   (cond ((eq system-type 'gnu/linux)
          (setq variable-pitch-size 120)
          (setq fixed-pitch-size 120))
@@ -665,41 +581,34 @@ Set up proportional fonts for Org mode.
    '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
    '(org-table ((t (:inherit (fixed-pitch org-table)))))
    '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-   '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+   '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+  )
 
   (add-hook 'org-mode-hook 'variable-pitch-mode)
   (add-hook 'org-mode-hook 'visual-line-mode)
-
 #+end_src
 
 *** Column indication
-
 Show column indicator at column 80.
 
 #+begin_src emacs-lisp
-
   (defun ev/show-column-guide ()
     (setq display-fill-column-indicator-column 80)
     (display-fill-column-indicator-mode))
 
   (add-hook 'prog-mode-hook #'ev/show-column-guide)
-
 #+end_src
 
 Display in the modeline what column the caret is currently at.
 
 #+begin_src emacs-lisp
-
   (column-number-mode 1)
-
 #+end_src
 
 *** Display line numbers
-
 Hooks for relative and absolute line numbers.
 
 #+begin_src emacs-lisp
-
   (defun ev/display-set-relative ()
     (interactive)
     (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode)))
@@ -715,13 +624,11 @@ Hooks for relative and absolute line numbers.
   (defun ev/display-set-hidden ()
     (interactive)
     (setq display-line-numbers nil))
-
 #+end_src
 
 Turn on line numbers for program and configuration modes.
 
 #+begin_src emacs-lisp
-
   (use-package display-line-numbers
     :custom
     (display-line-numbers-widen t)
@@ -738,85 +645,67 @@ Turn on line numbers for program and configuration modes.
      "u l h" 'ev/display-set-hidden
      "u l r" 'ev/display-set-relative
      "u l a" 'ev/display-set-absolute))
-
 #+end_src
 
 *** Whitespace
-
 Show trailing whitespace in buffer.
 
 #+begin_src emacs-lisp
-
   (setq show-trailing-whitespace t)
-
 #+end_src
 
 Add a newline to the end of the file if one doesn't already exist.
 
 #+begin_src emacs-lisp
-
   (setq require-final-newline t)
-
 #+end_src
 
 *** Icons
-
 Install the icons with ~M-x nerd-icons-install-fonts~.
 
 #+begin_src emacs-lisp
-
   (use-package nerd-icons)
-
 #+end_src
 
 Nerd icons for dired.
 
 #+begin_src emacs-lisp
-
   (use-package nerd-icons-dired
     :hook ((dired-mode . nerd-icons-dired-mode)
            ;; prevent icons from overlapping vertically
            (dired-mode . (lambda () (setq line-spacing 0.25)))))
-
 #+end_src
 
 *** Modeline
 
 #+begin_src emacs-lisp
-
   (use-package doom-modeline
     :init
     (doom-modeline-mode 1))
-
 #+end_src
 
 *** Padding
 
 #+begin_src emacs-lisp
-
   (use-package spacious-padding
     :config
     (spacious-padding-mode 1))
-
 #+end_src
 
 ** Completion
 *** Nerd Icons Completion
 
 #+begin_src emacs-lisp
-
   (use-package nerd-icons-completion
     :after (marginalia nerd-icons)
     :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
     :init
     (nerd-icons-completion-mode))
-
 #+end_src
 
 *** Marginalia
 
 #+begin_src emacs-lisp
-
   (use-package marginalia
     :general
     (:keymaps 'minibuffer-local-map
@@ -826,13 +715,11 @@ Nerd icons for dired.
     (marginalia-align 'right)
     :init
     (marginalia-mode))
-
 #+end_src
 
 *** Vertico
 
 #+begin_src emacs-lisp
-
   (use-package vertico
     :demand t                             ; Otherwise won't get loaded immediately
     :straight (vertico :files (:defaults "extensions/*") ; Special recipe to load extensions conveniently
@@ -940,13 +827,11 @@ Nerd icons for dired.
                        (propertize "» " 'face 'vertico-current)
                      "  ")
                    cand))))
-
 #+end_src
 
 *** Orderless
 
 #+begin_src emacs-lisp
-
   (use-package orderless
     :custom
     (completion-styles '(orderless))
@@ -1022,13 +907,11 @@ Nerd icons for dired.
       (when (string-suffix-p "." pattern)
         `(orderless-flex . ,(substring pattern 0 -1))))
     )
-
 #+end_src
 
 *** Corfu
 
 #+begin_src emacs-lisp
-
   (use-package corfu
     ;; Optional customizations
     :custom
@@ -1076,13 +959,11 @@ Nerd icons for dired.
     ;; Enable indentation+completion using the TAB key.
     ;; `completion-at-point' is often bound to M-TAB.
     (setq tab-always-indent 'complete))
-
 #+end_src
 
 *** Cape
 
 #+begin_src emacs-lisp
-
   ;; Add extensions
   (use-package cape
     ;; Bind dedicated completion commands
@@ -1118,13 +999,11 @@ Nerd icons for dired.
     ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
     ;;(add-to-list 'completion-at-point-functions #'cape-line)
     )
-
 #+end_src
 
 *** LSP
 
 #+begin_src emacs-lisp
-
   (use-package lsp-mode
     :init
     (add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
@@ -1167,15 +1046,12 @@ Nerd icons for dired.
   ;; optionally if you want to use debugger
   ;; (use-package dap-mode)
   ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-
 #+end_src
 
 *** Kind-icon
-
 Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560185][this]] post for handling theme changes.
 
 #+begin_src emacs-lisp
-
   (use-package kind-icon
     :after corfu
     :custom
@@ -1188,25 +1064,20 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (kind-icon-formatted 'variable)
     :config
     (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
 #+end_src
 
 *** Snippets
 
 #+begin_src emacs-lisp
-
   (use-package yasnippet
     :hook ((lsp-mode . yas-minor-mode)))
-
 #+end_src
 
 ** Language configuration
 *** Treesitter
-
 Language grammars.
 
 #+begin_src emacs-lisp
-
   (setq treesit-language-source-alist
         '((bash "https://github.com/tree-sitter/tree-sitter-bash")
           (cmake "https://github.com/uyha/tree-sitter-cmake")
@@ -1229,7 +1100,6 @@ Language grammars.
           (c "https://github.com/tree-sitter/tree-sitter-c")
           (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")
           (vue "https://github.com/ikatyang/tree-sitter-vue")))
-
 #+end_src
 
 Install grammars from treesit-language-source-alist with ~(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))~.
@@ -1240,7 +1110,6 @@ Show all existing tree-sitter major modes with the apropos help command: ~C-h a 
 Make Emacs use ts mode when opening the corresponding filetype.
 
 #+begin_src emacs-lisp
-
   (setq major-mode-remap-alist
         '((bash-mode . bash-ts-mode)
           (cmake-mode . cmake-ts-mode)
@@ -1261,45 +1130,35 @@ Make Emacs use ts mode when opening the corresponding filetype.
           (rust-mode . rust-ts-mode)
           (c-mode . c-ts-mode)
           (c++-mode . c++-ts-mode)))
-
 #+end_src
 
 *** Prolog
-
 Use prolog-mode instead of perl-mode for .pl files.
 
 #+begin_src emacs-lisp
-
   (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
-
 #+end_src
 
 *** Docker
-
 Docker file mode.
 
 #+begin_src emacs-lisp
-
   (use-package dockerfile-mode
     :config (put 'dockerfile-image-name 'safe-local-variable #'stringp))
-
 #+end_src
 
 *** YAML
 
 #+begin_src emacs-lisp
-
   (use-package yaml-mode
     :hook
     (yaml-mode . (lambda ()
                    (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
-
 #+end_src
 
 *** Markdown
 
 #+begin_src emacs-lisp
-
   (use-package markdown-mode
     :mode ("README\\.md\\'" . gfm-mode)
     :init (setq markdown-command "pandoc"
@@ -1307,15 +1166,12 @@ Docker file mode.
                 markdown-enable-math t
                 markdown-make-gfm-checkboxes-buttons t
                 markdown-fontify-code-blocks-natively t))
-
 #+end_src
 
 *** Clojure
-
 Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the future.
 
 #+begin_src emacs-lisp
-
   (use-package clojure-mode)
 
   (use-package aggressive-indent-mode
@@ -1324,13 +1180,11 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
   (use-package smartparens
     :init (require 'smartparens-config)
     :hook (clojure-mode . smartparens-mode))
-
 #+end_src
 
 *** Common Lisp
 
 #+begin_src emacs-lisp
-
   (use-package sly
     :init (setq inferior-lisp-program (executable-find "sbcl"))
     :mode ("\\.lisp?\\'" . common-lisp-mode)
@@ -1338,39 +1192,30 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
     (sly-mode . (lambda ()
                   (unless (sly-connected-p)
                     (save-excursion (sly))))))
-
 #+end_src
 
 *** Typescript
 
 #+begin_src emacs-lisp
-
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . tsx-ts-mode))
-
 #+end_src
 
 *** Web
 
 #+begin_src emacs-lisp
-
   (use-package web-mode)
-
 #+end_src
 
 *** jq
-
 Info about interactive use in a JSON buffer, Org-babel support and how to use with yq for yaml provided [[https://github.com/ljos/jq-mode][here]].
 
 #+begin_src emacs-lisp
-
   (use-package jq-mode
     :mode ("\\.jq\\'" . jq-mode))
-
 #+end_src
 
 *** HTTP
 **** restclient.el
-
 This package provides a simple way to interact with RESTful APIs from within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode highlights some of its features.
 
 Notable keymaps:
@@ -1381,7 +1226,6 @@ Notable keymaps:
 | ~C-c C-j~ | Run jq interactively on restclient json response buffer |
 
 #+begin_src emacs-lisp
-
   (use-package restclient
     :mode ("\\.http\\'" . restclient-mode))
 
@@ -1390,13 +1234,11 @@ Notable keymaps:
   (use-package restclient-jq
     :after restclient
     :config (require 'restclient-jq))
-
 #+end_src
 
 *** Vue
 
 #+begin_src emacs-lisp
-
   (use-package vue-ts-mode
     :straight '(vue-ts-mode
                 :type git
@@ -1404,47 +1246,37 @@ Notable keymaps:
                 :repo "8uff3r/vue-ts-mode"
                 :branch "main")
     :mode ("\\.vue\\'" . vue-ts-mode))
-
 #+end_src
 
 *** Rust
 
 #+begin_src emacs-lisp
-
   (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
-
 #+end_src
 
 ** Syntax checking
 
 #+begin_src emacs-lisp
-
   (use-package flycheck
     :init (global-flycheck-mode))
-
 #+end_src
 
 ** Git
 *** Magit
 
 #+begin_src emacs-lisp
-
   (use-package magit
     :general
     (ev/leader-key-map
      "g g" 'magit-status))
-
 #+end_src
 
 *** TODO magit/forge [0/2]
-
 - [ ] Check what it's all about.
 - [ ] How does this fit in with my current workflow with eg. github. Does it also have a use in azure devops? Is it comparable with the gh cli tool?
 
 *** diff-hl
-
 #+begin_src emacs-lisp
-
   (use-package diff-hl
     :init
     (global-diff-hl-mode)
@@ -1453,17 +1285,14 @@ Notable keymaps:
     :hook
     (magit-pre-refresh . diff-hl-magit-pre-refresh)
     (magit-post-refresh . diff-hl-magit-post-refresh))
-
 #+end_src
 
 *** TODO Consult-GH [0/1]
-
 - [ ] Research and list how I would use this package. What does it replace in my current github workflow?
 
 ** Terminal Emulation
 
 #+begin_src emacs-lisp
-
   (use-package vterm
     :general
     (ev/leader-key-map
@@ -1472,28 +1301,23 @@ Notable keymaps:
     :config
     (setq vterm-max-scrollback 5000)
     (setq vterm-kill-buffer-on-exit 't))
-
 #+end_src
 
 ** Project
 
 #+begin_src emacs-lisp
-
   (use-package project
     :general
     (ev/leader-key-map
      "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
     :straight (:type built-in))
-
 #+end_src
-
 [[https://www.patrickdelliott.com/emacs.d/#org0a74aa5][source]]
 
 ** File exploration
 *** Dired
 
 #+begin_src emacs-lisp
-
   (use-package dired
     :straight (:type built-in)
     :general
@@ -1512,27 +1336,22 @@ Notable keymaps:
     (dired-listing-switches "-aBhl --group-directories-first"))
 
   (use-package dired-single)
-
 #+end_src
 
 *** Hide/show hidden files
 
 #+begin_src emacs-lisp
-
   (use-package dired-hide-dotfiles
     :hook (dired-mode . dired-hide-dotfiles-mode)
     :config
     (evil-define-key 'normal dired-mode-map
       "H" 'dired-hide-dotfiles-mode))
-
 #+end_src
 
 *** Treemacs
-
 Treemacs is an Emacs package that provides a customizable, tree-style file explorer and project manager, streamlining file navigation and organization.
 
 #+begin_src emacs-lisp
-
   (use-package treemacs
     :defer t
     :general (ev/leader-key-map "f e" 'treemacs))
@@ -1546,24 +1365,20 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
   (use-package treemacs-nerd-icons
     :after (treemacs nerd-icons)
     :config (treemacs-load-theme "nerd-icons"))
-
 #+end_src
 
 ** Editorconfig
 
 #+begin_src emacs-lisp
-
   (use-package editorconfig
     :diminish
     :config (editorconfig-mode 1))
-
 #+end_src
 
 ** Search
 *** Consult
 
 #+begin_src emacs-lisp
-
   ;; Example configuration for Consult
   (use-package consult
     ;; Replace bindings. Lazily loaded due by `use-package'.
@@ -1682,13 +1497,11 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
     ;;;; 5. No project support
     ;; (setq consult-project-function nil)
     )
-
 #+end_src
 
 ** Org
 
 #+begin_src emacs-lisp
-
   (use-package org
     :straight (:type built-in)
     :custom
@@ -1696,30 +1509,26 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
     (org-return-follows-link t)
     (org-pretty-entities t)
     (org-startup-with-inline-images t)
+    (org-fontify-quote-and-verse-blocks t)
     (org-image-actual-width '(300))
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
            ("C-c c" . org-capture)))
-
 #+end_src
 
 *** Org superstar (disabled)
-
 Replace headline markers with unicode bullets.
 
 #+begin_src emacs-lisp :tangle no
-
   (use-package org-superstar
     :hook
     (org-mode . (lambda ()
                   (org-superstar-mode 1))))
-
 #+end_src
 
 *** Org Modern
 
 #+begin_src emacs-lisp
-
   (use-package org-modern
     :after org
     :config
@@ -1744,15 +1553,12 @@ Replace headline markers with unicode bullets.
     (org-modern-mode)
 
     :hook (org-mode . ev/setup-org-modern))
-
 #+end_src
 
 *** Olivetti
-
 Olivetti is a minor mode that provides a nice writing environment by setting comfortable window margins etc.
 
 #+begin_src emacs-lisp
-
   (use-package olivetti
     :general
     (ev/leader-key-map "u o" 'olivetti-mode)
@@ -1760,18 +1566,14 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
     (setq olivetti-body-width 120
           olivetti-minimum-body-width 72)
     :hook (org-mode . olivetti-mode))
-
 #+end_src
 
 *** Appear
-
 This package displays hidden emphasis markers while the cursor is on a rich text word.
 
 #+begin_src emacs-lisp
-
   (use-package org-appear
     :hook (org-mode . org-appear-mode))
-
 #+end_src
 
 *** Denote
@@ -1779,15 +1581,12 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 A simple note-taking app.
 
 #+begin_src emacs-lisp
-
   (use-package denote
     :custom
     (denote-directory "~/denote/Notes"))
-
 #+end_src
 
 *** TODO Org Roam [0/2]
-
 - [-] Go through all the videos + shownotes [1/4]
   - [X] [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][Getting Started with Org Roam]]
   - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/][Capturing Notes Efficiently with Org Roam]]
@@ -1803,7 +1602,6 @@ Personal wiki. Org files are synced through [[https://syncthing.net][Syncthing]]
 Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-in-emacs/][Build a Second Brain in Emacs]] show notes.
 
 #+begin_src emacs-lisp
-
   (use-package org-roam
     :custom
     (org-roam-directory "~/org-roam")
@@ -1828,11 +1626,9 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 
     :config
     (org-roam-setup))
-
 #+end_src
 
 *** TODO Org-noter [0/2]
-
 - [ ] Read up on what the package does.
 - [ ] Find out how it can be combined with pdf-tools to sync annotations and highlights to Org.
 
@@ -1853,23 +1649,18 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 #+end_src
 
 ** PDF
-
 Use PDF tools package to turn Emacs into a PDF viewer with annotation support etc.
 
 #+begin_src emacs-lisp
-
   (use-package pdf-tools
     :config
     (pdf-tools-install)) ; install pdf-tools in all current and future pdf buffers
-
 #+end_src
 
 ** Embark
-
 Package repo.
 
 #+begin_src emacs-lisp
-
   (use-package embark
     :bind
     ;; going to need to change some of these in order to make it work nice with EViL etc.
@@ -1901,5 +1692,4 @@ Package repo.
   (use-package embark-consult
     :hook
     (embark-collect-mode . consult-preview-at-point-mode))
-
 #+end_src
