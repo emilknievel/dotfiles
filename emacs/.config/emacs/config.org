@@ -1556,6 +1556,7 @@ Replace headline markers with unicode bullets.
           org-hide-emphasis-markers t
           org-pretty-entities t
           org-ellipsis "…"
+          org-modern-table nil
           org-modern-star '("*"))
 
     (org-modern-mode)

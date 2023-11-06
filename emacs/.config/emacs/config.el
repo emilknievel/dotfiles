@@ -1125,6 +1125,7 @@ parses its input."
         org-hide-emphasis-markers t
         org-pretty-entities t
         org-ellipsis "…"
+        org-modern-table nil
         org-modern-star '("*"))
 
   (org-modern-mode)
