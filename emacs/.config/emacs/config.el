@@ -166,6 +166,7 @@
    "n r" '(:ignore t :wk "Roam")
    "p" '(:ignore t :wk "Project")
    "q" '(:ignore t :wk "Quit")
+   "s" '(:ignore t :wk "Search")
    "t" '(:ignore t :wk "Toggle")
    "u" '(:ignore t :wk "UI")
    "u l" '(:ignore t :wk "Linum")
@@ -175,8 +176,7 @@
  :prefix-map 'ev/leader-key-map
  "f s" 'save-buffer
  "f f" 'find-file
- "f l" 'load-file
- "f g" '(consult-ripgrep :wk "consult-ripgrep"))
+ "f l" 'load-file)
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
@@ -976,6 +976,13 @@ parses its input."
 
 ;; Example configuration for Consult
 (use-package consult
+  :general
+  (ev/leader-key-map
+   "s g" 'consult-git-grep
+   "s s" 'consult-ripgrep
+   "s l" 'consult-line
+   "s L" 'consult-line-multi)
+
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c M-x" . consult-mode-command)
