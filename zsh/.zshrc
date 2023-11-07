@@ -308,8 +308,10 @@ git config --global delta.light $( [[ "$term_theme" == "light" ]] && echo true |
 if command -v kitty &> /dev/null; then
   if [[ "$term_theme" == "dark" ]]; then
     kitty +kitten themes --reload-in=all Catppuccin-Mocha
+    export BAT_THEME="Catppuccin-mocha"
   else
     kitty +kitten themes --reload-in=all Catppuccin-Latte
+    export BAT_THEME="Catppuccin-latte"
   fi
 fi
 
@@ -337,3 +339,4 @@ fi
 if [[ "$OSTYPE" == "darwin"* ]]; then
   export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
 fi
+

@@ -402,7 +402,7 @@ Get rid of the annoying startup screen.
   (defun ev/load-dark-theme ()
     ;; (load-theme ev/dark-theme t)
     ;; (setq ev/current-theme ev/dark-theme)
-    (setq catppuccin-flavor 'macchiato)
+    (setq catppuccin-flavor 'mocha)
     (setenv "TERM_THEME" "dark"))
 
   (defun ev/load-light-theme ()
@@ -445,7 +445,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (use-package catppuccin-theme
-    :init (setq catppuccin-flavor 'macchiato))
+    :init (setq catppuccin-flavor 'mocha))
 #+end_src
 
 **** Modus
@@ -510,7 +510,7 @@ Theme based on sunrise/sunset.
     :hook
     ((auto-dark-dark-mode . (lambda ()
                               (setenv "TERM_THEME" "dark")
-                              (setq catppuccin-flavor 'macchiato)
+                              (setq catppuccin-flavor 'mocha)
                               (catppuccin-reload)))
      (auto-dark-light-mode . (lambda ()
                                (setenv "TERM_THEME" "light")

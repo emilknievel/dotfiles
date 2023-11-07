@@ -262,7 +262,7 @@
 (defun ev/load-dark-theme ()
   ;; (load-theme ev/dark-theme t)
   ;; (setq ev/current-theme ev/dark-theme)
-  (setq catppuccin-flavor 'macchiato)
+  (setq catppuccin-flavor 'mocha)
   (setenv "TERM_THEME" "dark"))
 
 (defun ev/load-light-theme ()
@@ -291,7 +291,7 @@
   (setq kaolin-themes-hl-line-colored t))
 
 (use-package catppuccin-theme
-  :init (setq catppuccin-flavor 'macchiato))
+  :init (setq catppuccin-flavor 'mocha))
 
 (use-package modus-themes)
 
@@ -314,7 +314,7 @@
   :hook
   ((auto-dark-dark-mode . (lambda ()
                             (setenv "TERM_THEME" "dark")
-                            (setq catppuccin-flavor 'macchiato)
+                            (setq catppuccin-flavor 'mocha)
                             (catppuccin-reload)))
    (auto-dark-light-mode . (lambda ()
                              (setenv "TERM_THEME" "light")
