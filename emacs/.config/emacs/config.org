@@ -1531,16 +1531,6 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
            ("C-c c" . org-capture)))
 #+end_src
 
-*** Org superstar (disabled)
-Replace headline markers with unicode bullets.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package org-superstar
-    :hook
-    (org-mode . (lambda ()
-                  (org-superstar-mode 1))))
-#+end_src
-
 *** Org Modern
 
 #+begin_src emacs-lisp
