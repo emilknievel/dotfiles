@@ -7,7 +7,7 @@ return {
     opts = {
       background = {
         light = "latte",
-        dark = "macchiato",
+        dark = "mocha",
       },
     },
   },
