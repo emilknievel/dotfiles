@@ -303,7 +303,8 @@ esac
 export FZF_DEFAULT_OPTS="$fzf_default"
 export TERM_THEME="$term_theme"
 
-git config --global delta.light $( [[ "$term_theme" == "light" ]] && echo true || echo false )
+# delta.light based on term_theme (light/dark)
+alias git='git -c delta.light=$( [[ "$term_theme" == "light" ]] && echo true || echo false )'
 
 if command -v kitty &> /dev/null; then
   if [[ "$term_theme" == "dark" ]]; then
