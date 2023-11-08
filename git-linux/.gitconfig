@@ -17,11 +17,6 @@
 	; excludesfile = .config/git/gitignore_global
 	pager = delta
 	autocrlf = input
-
-[delta]
-	syntax-theme = base16
-	light = true
-
 [help]
 	# Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
 	autocorrect = 1
