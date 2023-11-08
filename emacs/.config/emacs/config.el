@@ -458,12 +458,14 @@
   (nerd-icons-completion-mode))
 
 (use-package marginalia
+  :after vertico
   :general
   (:keymaps 'minibuffer-local-map
             "M-a" 'marginalia-cycle)
   :custom
   (marginalia-max-relative-age 0)
   (marginalia-align 'right)
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :init
   (marginalia-mode))
 
