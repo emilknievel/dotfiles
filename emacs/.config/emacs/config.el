@@ -1135,7 +1135,7 @@ parses its input."
         org-modern-table nil
         org-modern-star '("*"))
 
-  (org-modern-mode)
+  (global-org-modern-mode)
 
   :hook (org-mode . ev/setup-org-modern))
 
@@ -1155,16 +1155,41 @@ parses its input."
   (org-roam-directory "~/org-roam")
   (org-roam-completion-everywhere t)
 
+  ;; file templates
   (org-roam-capture-templates
+
    '(("d" "default" plain
       "%?"
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "+title: ${title}\n")
-      :unnarrowed t)))
+      :unnarrowed t)
+
+     ("l" "programming language" plain
+      "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+
+     ("b" "book notes" plain
+      "\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+
+     ("a" "author notes" plain
+      "\n* Author Summary\n\n%?\n\n* Notable Works\n\n"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+
+     ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: project")
+      :unnarrowed t)
+
+     ))
 
   :bind
   (("C-c n l" . org-roam-buffer-toggle) ; Backlinks buffer
    ("C-c n f" . org-roam-node-find)
-   ("C-c n i" . org-roam-node-insert))
+   ("C-c n i" . org-roam-node-insert)
+   :map org-mode-map
+   ("C-M-i" . completion-at-point))
 
   :general
   (ev/leader-key-map

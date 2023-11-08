@@ -1556,7 +1556,7 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
           org-modern-table nil
           org-modern-star '("*"))
 
-    (org-modern-mode)
+    (global-org-modern-mode)
 
     :hook (org-mode . ev/setup-org-modern))
 #+end_src
@@ -1585,7 +1585,10 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 *** TODO Org Roam [0/2]
 - [-] Go through all the videos + shownotes [1/4]
   - [X] [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][Getting Started with Org Roam]]
-  - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/][Capturing Notes Efficiently with Org Roam]]
+  - [-] [[https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/][Capturing Notes Efficiently with Org Roam]] [0/3]
+    - [-] Storing templates in Org files ~t=1355s~
+    - [ ] Customizing the default template ~t=1542s~
+    - [ ] Figure out why I don't see tags in the marginalia when invoking ~org-roam-node-find~
   - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/keep-a-journal/][Keep a Journal in Emacs with Org Roam]]
   - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/][5 Org Roam Hacks for Better Productivity in Emacs]]
 
@@ -1603,16 +1606,41 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
     (org-roam-directory "~/org-roam")
     (org-roam-completion-everywhere t)
 
+    ;; file templates
     (org-roam-capture-templates
+
      '(("d" "default" plain
         "%?"
         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "+title: ${title}\n")
-        :unnarrowed t)))
+        :unnarrowed t)
+
+       ("l" "programming language" plain
+        "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
+        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        :unnarrowed t)
+
+       ("b" "book notes" plain
+        "\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
+        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        :unnarrowed t)
+
+       ("a" "author notes" plain
+        "\n* Author Summary\n\n%?\n\n* Notable Works\n\n"
+        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        :unnarrowed t)
+
+       ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: project")
+        :unnarrowed t)
+
+       ))
 
     :bind
     (("C-c n l" . org-roam-buffer-toggle) ; Backlinks buffer
      ("C-c n f" . org-roam-node-find)
-     ("C-c n i" . org-roam-node-insert))
+     ("C-c n i" . org-roam-node-insert)
+     :map org-mode-map
+     ("C-M-i" . completion-at-point))
 
     :general
     (ev/leader-key-map
