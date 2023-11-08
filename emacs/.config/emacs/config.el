@@ -1157,6 +1157,11 @@ parses its input."
   (org-roam-directory "~/org-roam")
   (org-roam-completion-everywhere t)
 
+  ;; display tags when searching nodes
+  (org-roam-node-display-template
+   (concat "${title:*} "
+           (propertize "${tags}" 'face 'org-tag)))
+
   ;; file templates
   (org-roam-capture-templates
 
