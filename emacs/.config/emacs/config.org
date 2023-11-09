@@ -1584,7 +1584,7 @@ This package displays hidden emphasis markers while the cursor is on a rich text
     :hook (org-mode . org-appear-mode))
 #+end_src
 
-*** TODO Org Roam [0/2]
+*** TODO Org Roam [2/3]
 - [-] Go through all the videos + shownotes [2/4]
   - [X] [[https://systemcrafters.net/build-a-second-brain-in-emacs/getting-started-with-org-roam/][Getting Started with Org Roam]]
   - [X] [[https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/][Capturing Notes Efficiently with Org Roam]] [3/3]
@@ -1594,10 +1594,11 @@ This package displays hidden emphasis markers while the cursor is on a rich text
   - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/keep-a-journal/][Keep a Journal in Emacs with Org Roam]]
   - [ ] [[https://systemcrafters.net/build-a-second-brain-in-emacs/5-org-roam-hacks/][5 Org Roam Hacks for Better Productivity in Emacs]]
 
-- [-] Add org-roam folder to syncthing [2/3]
+- [X] Add org-roam folder to syncthing [2/2]
   - [X] Add ~~/org-roam/~ to syncthing on linux machine.
   - [X] Sync server to ~~/org-roam/~ on macOS (alternatively add it to iCloud) if not getting syncthing to work on iOS.
-  - [ ] Add folder to syncthing on iOS device if possible. If not, use iCloud.
+
+- [X] org-roam-ui
 
 Personal wiki. Org files are synced through [[https://syncthing.net][Syncthing]] and the db is stored locally.
 Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-in-emacs/][Build a Second Brain in Emacs]] show notes.
@@ -1656,6 +1657,29 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 
     :config
     (org-roam-setup))
+#+end_src
+
+**** Websocket
+
+#+begin_src emacs-lisp
+  (use-package websocket
+    :straight t
+    :after org-roam)
+#+end_src
+
+**** org-roam-ui
+
+#+begin_src emacs-lisp
+  (use-package org-roam-ui
+    :straight
+    (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+    :after org-roam
+    ;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
 #+end_src
 
 *** TODO Org-noter [0/2]
