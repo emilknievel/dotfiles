@@ -1686,6 +1686,15 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 - [ ] Read up on what the package does.
 - [ ] Find out how it can be combined with pdf-tools to sync annotations and highlights to Org.
 
+*** TODO Mermaid
+- [ ] Install [[https://github.com/arnm/ob-mermaid][ob-mermaid]]
+
+*** TODO Transclusion
+- [ ] Install [[https://github.com/nobiot/org-transclusion][org-transclusion]]
+
+*** TODO Super Agenda
+- [ ] Install [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]
+
 ** OCaml
 
 #+begin_src emacs-lisp
