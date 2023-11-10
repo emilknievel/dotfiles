@@ -1,10 +1,10 @@
 UNAME := $(shell uname)
 
 all: #clean install_deps stow
-	echo 'not implemented'
+	echo "not implemented"
 
-# install_deps: # run .scripts/install_deps.sh
-
+install_deps:
+	./.scripts/install_deps.sh
 
 stow: stow_emacs stow_vim stow_alacritty stow_bat stow_lazygit stow_neofetch stow_tmux stow_wezterm stow_zsh
 ifeq ($(UNAME), Linux)
