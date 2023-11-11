@@ -367,7 +367,7 @@
  `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
  `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
  `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-todo ((t :family "Iosevka Slab" :weight Semibold)))
+ `(org-todo ((t (:inherit fixed-pitch))))
  `(org-checkbox ((t (:inherit org-todo))))
  `(org-ellipsis ((t (:inherit fixed-pitch))))
  ;; `(org-document-title ((t (:inherit variable-pitch :weight SemiBold :height 1.60180664 :underline nil))))
@@ -1155,6 +1155,7 @@ parses its input."
 (use-package org-roam
   :custom
   (org-roam-directory "~/org-roam")
+  (org-roam-dailies-directory "journal/")
   (org-roam-completion-everywhere t)
 
   ;; display tags when searching nodes
@@ -1190,13 +1191,22 @@ parses its input."
       :unnarrowed t)
      ))
 
+  ;; Daily note templates
+  (org-roam-dailies-capture-templates
+   '(("d" "default" entry "* %<%H:%M %p>: %?"
+      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+
   :bind
   (("C-c n l" . org-roam-buffer-toggle) ; Backlinks buffer
    ("C-c n f" . org-roam-node-find)
    ("C-c n i" . org-roam-node-insert)
    :map org-mode-map
-   ("C-M-i" . completion-at-point))
-
+   ("C-M-i" . completion-at-point)
+   :map org-roam-dailies-map
+   ("Y" . org-roam-dailies-capture-yesterday)
+   ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
   :general
   (ev/leader-key-map
    "n r r" 'org-roam-buffer-toggle
@@ -1204,6 +1214,7 @@ parses its input."
    "n r i" 'org-roam-node-insert)
 
   :config
+  (require 'org-roam-dailies)
   (org-roam-setup))
 
 (use-package websocket
