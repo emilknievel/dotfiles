@@ -26,6 +26,7 @@ function install_bspwm_sxhkd_and_polybar() {
     sudo nala install -y bspwm
     echo "Installing polybar..."
     sudo nala install -y polybar
+    sudo nala install -y rofi # launcher
 }
 
 install_nala
