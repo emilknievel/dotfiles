@@ -657,7 +657,7 @@ parses its input."
   ;; Optional customizations
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto nil)                 ;; Enable auto completion
   (corfu-auto-delay 0)
   (corfu-auto-prefix 0)
 
@@ -697,9 +697,7 @@ parses its input."
   ;; (setq read-extended-command-predicate
   ;;       #'command-completion-default-include-p)
 
-  ;; Enable indentation+completion using the TAB key.
-  ;; `completion-at-point' is often bound to M-TAB.
-  (setq tab-always-indent 'complete))
+  (setq tab-always-indent t))
 
 ;; Add extensions
 (use-package cape
@@ -1279,3 +1277,10 @@ parses its input."
 (use-package embark-consult
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :hook (prog-mode . copilot-mode)
+  :config
+  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
