@@ -289,7 +289,7 @@ case "$OSTYPE" in
       # Check the GTK theme
       gtk_theme=$(dconf read /org/gnome/desktop/interface/gtk-theme)
 
-      if [[ "$gtk_theme" == *"light"* ]]; then
+      if [[ "$gtk_theme" == *"light"* || "$gtk_theme" == *"Latte"* ]]; then
         fzf_default=$fzf_light
         term_theme="light"
       else
