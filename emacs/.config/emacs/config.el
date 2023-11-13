@@ -322,74 +322,45 @@
                              (catppuccin-reload)))))
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "Iosevka 15"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 15"))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
        ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist '(font . "Iosevka 12"))
+       (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 12"))
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
   (add-to-list 'default-frame-alist '(font . "Iosevka 18")))
 
-(cond ((eq system-type 'gnu/linux)
-       (setq variable-pitch-size 120)
-       (setq fixed-pitch-size 120))
-      ((eq system-type 'darwin)
-       (setq variable-pitch-size 150)
-       (setq fixed-pitch-size 150)))
-
-(when (string-match "-[Mm]icrosoft" operating-system-release)
-  (setq variable-pitch-size 180)
-  (setq fixed-pitch-size 180))
+(use-package ligature
+  :straight
+  (ligature :type git :host github :repo "mickeynp/ligature.el")
+  :config
+  (setq liga '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+               ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+               "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+               "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+               "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+               "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+               "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+               "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+               ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+               "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+               "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+               "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+               "\\\\" "://"))
+  (ligature-set-ligatures 'prog-mode liga)
+  (ligature-set-ligatures 'org-mode liga)
+  (global-ligature-mode t))
 
 (custom-theme-set-faces
  'user
- `(variable-pitch ((t (:family "Inter" :height ,variable-pitch-size :weight normal))))
- `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
-
- ;; `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
- ;; `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
- ;; `(org-level-6 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
- ;; `(org-level-5 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
- ;; `(org-level-4 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.0))))
- ;; `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.2))))
- ;; `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.28))))
- ;; `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.42382813))))
- `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-level-6 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-level-5 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-level-4 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
- `(org-todo ((t (:inherit fixed-pitch))))
- `(org-checkbox ((t (:inherit org-todo))))
- `(org-ellipsis ((t (:inherit fixed-pitch))))
- ;; `(org-document-title ((t (:inherit variable-pitch :weight SemiBold :height 1.60180664 :underline nil))))
-
- '(org-block ((t (:inherit fixed-pitch))))
- '(org-block-begin-line ((t (:inherit (fixed-pitch line-number)))))
- '(org-block-end-line ((t (:inherit org-block-begin-line))))
- '(org-code ((t (:inherit (shadow fixed-pitch)))))
- ;; '(org-document-info ((t (:foreground "dark orange"))))
- '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
- '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
- '(org-link ((t (:inherit font-lock-keyword-face :underline t))))
- '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-property-value ((t (:inherit fixed-pitch))) t)
- '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-table ((t (:inherit (fixed-pitch org-table)))))
- '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
- '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
+ `(org-link ((t (:inherit font-lock-keyword-face :underline t))))
+ `(org-italic ((t (:weight italic))))
  )
-
-(add-hook 'org-mode-hook 'variable-pitch-mode)
-(add-hook 'org-mode-hook 'visual-line-mode)
 
 (defun ev/show-column-guide ()
   (setq display-fill-column-indicator-column 80)
@@ -1107,7 +1078,6 @@ parses its input."
   :custom
   (org-hide-emphasis-markers t)
   (org-return-follows-link t)
-  (org-pretty-entities t)
   (org-startup-with-inline-images t)
   (org-fontify-quote-and-verse-blocks t)
   (org-image-actual-width '(300))
@@ -1117,6 +1087,18 @@ parses its input."
 
 (use-package org-modern
   :after org
+  :custom
+  (org-auto-align-tags nil)
+  (org-tags-column 0)
+  (org-catch-invisible-edits 'show-and-error)
+  (org-special-ctrl-a/e t)
+  (org-insert-heading-respect-content t)
+  (org-hide-emphasis-markers t)
+  (org-pretty-entities t)
+  (org-modern-block-fringe 8)
+  (org-ellipsis "…")
+  (org-modern-table nil)
+  (org-modern-star '("*"))
   :config
   (defun ev/setup-org-modern ()
     (dolist (face '(window-divider
@@ -1125,20 +1107,7 @@ parses its input."
       (face-spec-reset-face face)
       (set-face-foreground face (face-attribute 'default :background)))
     (set-face-background 'fringe (face-attribute 'default :background)))
-
-  (setq org-auto-align-tags nil
-        org-tags-column 0
-        org-catch-invisible-edits 'show-and-error
-        org-special-ctrl-a/e t
-        org-insert-heading-respect-content t
-        org-hide-emphasis-markers t
-        org-pretty-entities t
-        org-ellipsis "…"
-        org-modern-table nil
-        org-modern-star '("*"))
-
   (global-org-modern-mode)
-
   :hook (org-mode . ev/setup-org-modern))
 
 (use-package olivetti
