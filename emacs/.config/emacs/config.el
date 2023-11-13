@@ -1286,3 +1286,14 @@ parses its input."
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
+
+(use-package gptel
+  :custom
+  (gptel-default-mode #'org-mode)
+  (gptel-prompt-prefix-alist '((org-mode . "")))
+  :config
+  (add-hook 'gptel-pre-response-hook (lambda () (interactive) (end-of-buffer) (newline) (previous-line)))
+  (with-eval-after-load 'gptel
+    (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
+
+  (add-to-list 'display-buffer-alist '("ChatGPT" display-buffer-same-window)))

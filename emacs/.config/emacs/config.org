@@ -1774,6 +1774,7 @@ Package repo.
 
 ** AI
 *** Copilot
+
 Copilot.el is an Emacs plugin for GitHub Copilot.
 
 #+begin_src emacs-lisp
@@ -1783,4 +1784,21 @@ Copilot.el is an Emacs plugin for GitHub Copilot.
     :config
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
     (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
+#+end_src
+
+*** GPTel
+
+Large Language Model chat client.
+
+#+begin_src emacs-lisp
+  (use-package gptel
+    :custom
+    (gptel-default-mode #'org-mode)
+    (gptel-prompt-prefix-alist '((org-mode . "")))
+    :config
+    (add-hook 'gptel-pre-response-hook (lambda () (interactive) (end-of-buffer) (newline) (previous-line)))
+    (with-eval-after-load 'gptel
+      (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
+
+    (add-to-list 'display-buffer-alist '("ChatGPT" display-buffer-same-window)))
 #+end_src
