@@ -1262,6 +1262,12 @@ Notable keymaps:
   (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 #+end_src
 
+*** MIPS
+
+#+begin_src emacs-lisp
+  (use-package mips-mode :mode "\\.mips$")
+#+end_src
+
 ** Syntax checking
 
 #+begin_src emacs-lisp

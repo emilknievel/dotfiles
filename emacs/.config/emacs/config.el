@@ -899,6 +899,8 @@ parses its input."
 
 (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 
+(use-package mips-mode :mode "\\.mips$")
+
 (use-package flycheck
   :init (global-flycheck-mode))
 
