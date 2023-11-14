@@ -39,7 +39,8 @@ alias kktl='kitty +kitten themes --reload-in=all Rosé\ Pine\ Dawn'
 alias kktd='kitty +kitten themes --reload-in=all Rosé\ Pine'
 
 # Yabai
-alias yabqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' # Query info about opene windows
+alias yqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' # Query info about open windows
+alias yqwm='yabai -m query --windows --window mouse | jq' # Query window under mouse
 
 # Kubernetes
 alias kprod='kubectl --context MioAKSProduction -n production'

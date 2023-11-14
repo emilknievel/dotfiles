@@ -67,7 +67,8 @@ yabai -m rule --add app="^Steam$" manage=off
 yabai -m rule --add app="^Ivory$" title="Ivory" manage=off
 yabai -m rule --add app="^DevDocs$" manage=off
 yabai -m rule --add title="\- Huddle$" manage=off
-
+yabai -m rule --add app="^Bartender 5$" manage=off
+yabai -m rule --add app="^Aktivitetskontroll$" manage=off
 echo "yabai configuration loaded.."
 
 # borders active_color=0xffcba6f7 inactive_color=0xff6c7086 width=5.0 2>/dev/null 1>&2 &
