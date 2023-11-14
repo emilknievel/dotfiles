@@ -1095,10 +1095,10 @@ parses its input."
   (org-insert-heading-respect-content t)
   (org-hide-emphasis-markers t)
   (org-pretty-entities t)
-  (org-modern-block-fringe 8)
+  ;; (org-modern-block-fringe 8)
   (org-ellipsis "…")
   (org-modern-table nil)
-  (org-modern-star '("*"))
+  ;; (org-modern-star '("*"))
   :config
   (defun ev/setup-org-modern ()
     (dolist (face '(window-divider
@@ -1162,8 +1162,12 @@ parses its input."
 
   ;; Daily note templates
   (org-roam-dailies-capture-templates
-   '(("d" "default" entry "* %<%H:%M %p>: %?"
-      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+   '(("d" "default" entry "* %<%H:%M> %?"
+      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))
+
+     ("t" "task" entry "* TODO %?"
+      :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))
+     ))
 
   :bind
   (("C-c n l" . org-roam-buffer-toggle) ; Backlinks buffer
