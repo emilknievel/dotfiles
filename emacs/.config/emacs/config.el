@@ -1271,7 +1271,9 @@ parses its input."
   (gptel-default-mode #'org-mode)
 
   :config
-  (add-hook 'gptel-pre-response-hook (lambda () (interactive) (end-of-buffer) (newline) (previous-line)))
+  ;; Put the caret at the next prompt after generating a response.
+  (add-hook 'gptel-post-response-hook (lambda () (goto-char (point-max))))
+
   (with-eval-after-load 'gptel
     (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
 
