@@ -70,10 +70,10 @@
   (setq backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                  "backups")))))
 
-(defvar my/work-projects-path "~/projects/"
+(defvar ev/work-projects-path "~/projects/"
   "Work related projects")
 
-(defvar my/learning-path "~/stuff/learning-stuff/"
+(defvar ev/learning-path "~/stuff/learning-stuff/"
   "Learning resources/projects")
 
 (use-package exec-path-from-shell
@@ -324,19 +324,22 @@
                              (setq catppuccin-flavor 'latte)
                              (catppuccin-reload)))))
 
+(defvar ev/editor-font "Iosevka SS15")
+(defvar ev/variable-pitch "Inter")
+
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 15"))
+       (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 15")))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
        ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 12"))
+       (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 12")))
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
-  (add-to-list 'default-frame-alist '(font . "Iosevka 18")))
+  (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 18"))))
 
 (use-package ligature
   :straight

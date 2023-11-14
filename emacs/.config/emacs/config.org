@@ -101,10 +101,10 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 ** Variables
 
 #+begin_src emacs-lisp
-  (defvar my/work-projects-path "~/projects/"
+  (defvar ev/work-projects-path "~/projects/"
     "Work related projects")
 
-  (defvar my/learning-path "~/stuff/learning-stuff/"
+  (defvar ev/learning-path "~/stuff/learning-stuff/"
     "Learning resources/projects")
 #+end_src
 
@@ -529,20 +529,30 @@ Theme based on sunrise/sunset.
 
 *** Fonts
 
+
+**** Font variables
+
+#+begin_src emacs-lisp
+  (defvar ev/editor-font "Iosevka SS15")
+  (defvar ev/variable-pitch "Inter")
+#+end_src
+
+**** Setup editor font
+
 #+begin_src emacs-lisp
   (cond ((eq system-type 'darwin)
-         (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 15"))
+         (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 15")))
          ;; Render fonts like in iTerm
          ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
          ;; in the terminal for it to work like intended.
          ;; (setq ns-use-thin-smoothing t)
          )
         ((eq system-type 'gnu/linux)
-         (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 12"))
+         (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 12")))
          ))
 
   (when (string-match "-[Mm]icrosoft" operating-system-release)
-    (add-to-list 'default-frame-alist '(font . "Iosevka 18")))
+    (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 18"))))
 #+end_src
 
 **** Ligatures
@@ -571,6 +581,7 @@ Theme based on sunrise/sunset.
 #+end_src
 
 **** Org fonts
+
 Set up proportional fonts for Org mode.
 
 #+begin_src emacs-lisp :tangle no
@@ -587,17 +598,9 @@ Set up proportional fonts for Org mode.
 
   (custom-theme-set-faces
    'user
-   `(variable-pitch ((t (:family "Inter" :height ,variable-pitch-size :weight normal))))
-   `(fixed-pitch ((t (:family "Iosevka" :height ,fixed-pitch-size :weight normal))))
+   `(variable-pitch ((t (:family ev/variable-pitch :height ,variable-pitch-size :weight normal))))
+   `(fixed-pitch ((t (:family ev/editor-font :height ,fixed-pitch-size :weight normal))))
 
-   ;; `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
-   ;; `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
-   ;; `(org-level-6 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
-   ;; `(org-level-5 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 0.9))))
-   ;; `(org-level-4 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.0))))
-   ;; `(org-level-3 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.2))))
-   ;; `(org-level-2 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.28))))
-   ;; `(org-level-1 ((t (:inherit variable-pitch :family "Literata" :weight Semibold :height 1.42382813))))
    `(org-level-8 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
    `(org-level-7 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
    `(org-level-6 ((t (:inherit variable-pitch :family "Literata" :weight Semibold))))
