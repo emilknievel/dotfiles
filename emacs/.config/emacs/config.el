@@ -1266,10 +1266,12 @@ parses its input."
 (use-package gptel
   :custom
   (gptel-default-mode #'org-mode)
-  (gptel-prompt-prefix-alist '((org-mode . "")))
+
   :config
   (add-hook 'gptel-pre-response-hook (lambda () (interactive) (end-of-buffer) (newline) (previous-line)))
   (with-eval-after-load 'gptel
     (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
 
-  (add-to-list 'display-buffer-alist '("ChatGPT" display-buffer-same-window)))
+  :hook (gptel-mode . (lambda () (setq gptel-api-key (auth-source-pick-first-password
+                                                      :host "OpenAI API Key"
+                                                      :user "api key")))))
