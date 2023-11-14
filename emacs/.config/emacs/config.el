@@ -100,6 +100,9 @@
   :custom
   (gnutls-verify-error t))
 
+(use-package auth-source-1password
+  :config (auth-source-1password-enable))
+
 (use-package which-key
   :diminish which-key-mode
   :init
