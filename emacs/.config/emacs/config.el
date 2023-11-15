@@ -1265,7 +1265,9 @@ parses its input."
   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
 
   :hook
-  (prog-mode . (lambda () (unless (string-match-p "*temp*" (buffer-name)) (copilot-mode))))
+  (prog-mode . (lambda ()
+                 (unless (string-match-p "*temp*" (buffer-name))
+                   (copilot-mode))))
 
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
@@ -1280,14 +1282,17 @@ parses its input."
     (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
 
   (defun ev/next-prompt ()
+    "Move the cursor to the next prompt"
     (interactive)
     (let ((empty-header-regexp "^\\*+\\s-*$"))
       (goto-char (point-max))
-      (re-search-backward empty-header-regexp nil t)))
+      (re-search-backward empty-header-regexp nil t))
+    (move-end-of-line nil))
 
-  :general (ev/leader-key-map
-            "a a" 'gptel
-            "a g" 'gptel-menu)
+  :general
+  (ev/leader-key-map
+   "a a" 'gptel
+   "a g" 'gptel-menu)
 
   :hook
   ((gptel-mode . (lambda () (setq gptel-api-key (auth-source-pick-first-password
