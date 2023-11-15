@@ -636,11 +636,11 @@ parses its input."
   ;; Optional customizations
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto nil)                 ;; Enable auto completion
-  (corfu-auto-delay 0)
-  (corfu-auto-prefix 0)
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto-delay 0.2)
+  (corfu-auto-prefix 3)
 
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-separator ?\s)          ;; (M-SPC) Orderless field separator
   ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
   (corfu-quit-no-match 'separator)
   ;; (corfu-preview-current nil)    ;; Disable current candidate preview
@@ -654,8 +654,8 @@ parses its input."
   ;;        (eshell-mode . corfu-mode))
 
   ;; Keybindings
-  (global-set-key (kbd "C-<tab>") #'corfu-next)
-  (global-set-key (kbd "C-S-<tab>") #'corfu-previous)
+  (global-set-key (kbd "M-n") #'corfu-next)
+  (global-set-key (kbd "M-p") #'corfu-previous)
   (global-set-key (kbd "C-M-i") #'corfu-complete)
 
   ;; Recommended: Enable Corfu globally.
@@ -676,7 +676,7 @@ parses its input."
   ;; (setq read-extended-command-predicate
   ;;       #'command-completion-default-include-p)
 
-  (setq tab-always-indent t))
+  (setq tab-always-indent 'complete))
 
 ;; Add extensions
 (use-package cape
