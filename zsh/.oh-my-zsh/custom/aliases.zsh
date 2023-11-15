@@ -61,7 +61,8 @@ alias qb='quasar build'
 alias t='tmux'
 alias ta='tmux attach -t'
 alias tls='tmux ls'
-alias tn='tmux new -t'
+alias tn='tmux new-session -c'
+alias tnt='tmux new -t'
 
 # Pop!_OS
 if [[ $(hostname -s) == "pop-os" ]]; then
