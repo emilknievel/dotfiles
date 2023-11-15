@@ -1261,7 +1261,10 @@ parses its input."
 
 (use-package copilot
   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :hook (prog-mode . copilot-mode)
+
+  :hook
+  (prog-mode . (lambda () (unless (string-match-p "*temp*" (buffer-name)) (copilot-mode))))
+
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
