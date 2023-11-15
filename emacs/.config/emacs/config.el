@@ -158,6 +158,8 @@
    "SPC" '(execute-extended-command :wk "M-x")
 
    ;; Prefixes
+
+   "a" '(:ignore t :which-key "AI")
    "b" '(:ignore t :wk "Buffer")
    "c" '(:ignore t :wk "Code")
    "d" '(:ignore t :wk "Directory")
@@ -1274,12 +1276,21 @@ parses its input."
   (gptel-default-mode #'org-mode)
 
   :config
-  ;; Put the caret at the next prompt after generating a response.
-  (add-hook 'gptel-post-response-hook (lambda () (goto-char (point-max))))
-
   (with-eval-after-load 'gptel
     (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
 
-  :hook (gptel-mode . (lambda () (setq gptel-api-key (auth-source-pick-first-password
-                                                      :host "OpenAI API Key"
-                                                      :user "api key")))))
+  (defun ev/next-prompt ()
+    (interactive)
+    (let ((empty-header-regexp "^\\*+\\s-*$"))
+      (goto-char (point-max))
+      (re-search-backward empty-header-regexp nil t)))
+
+  :general (ev/leader-key-map
+            "a a" 'gptel
+            "a g" 'gptel-menu)
+
+  :hook
+  ((gptel-mode . (lambda () (setq gptel-api-key (auth-source-pick-first-password
+                                                 :host "OpenAI API Key"
+                                                 :user "api key"))))
+   (gptel-post-response . ev/next-prompt)))
