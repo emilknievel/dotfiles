@@ -98,15 +98,7 @@ sketchybar --add item clock right                              \
            --add item battery right                            \
            --set battery script="$PLUGIN_DIR/battery.sh"       \
                          update_freq=120                       \
-           --subscribe battery system_woke power_source_change \
-                                                               \
-           --add item slack right                              \
-           --set slack                                         \
-                 update_freq=180                               \
-                 script="$PLUGIN_DIR/slack.sh"                 \
-                 background.padding_left=15                    \
-                 icon.font.size=18                             \
-           --subscribe slack system_woke
+           --subscribe battery system_woke power_source_change
 
 ##### Finalizing Setup #####
 # The below command is only needed at the end of the initial configuration to
