@@ -1139,6 +1139,7 @@ parses its input."
   :hook (org-mode . org-appear-mode))
 
 (use-package org-roam
+  :demand t
   :custom
   (org-roam-directory "~/org-roam")
   (org-roam-dailies-directory "journal/")
@@ -1158,22 +1159,26 @@ parses its input."
 
      ("l" "programming language" plain
       (file "~/org-roam/templates/programming-language-note-template.org")
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :programming-language:")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n#+filetags: :programming-language:")
       :unnarrowed t)
 
      ("b" "book notes" plain
       (file "~/org-roam/templates/book-note-template.org")
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :literature:book:")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n#+filetags: :literature:book:")
       :unnarrowed t)
 
      ("a" "author notes" plain
       (file "~/org-roam/templates/author-notes-template.org")
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :literature:author:")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n#+filetags: :literature:author:")
       :unnarrowed t)
 
      ("p" "project" plain
       (file "~/org-roam/templates/project-template.org")
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :project:")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n#+category: ${title}\n#+filetags: :project:")
       :unnarrowed t)
      ))
 
