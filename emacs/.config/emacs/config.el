@@ -1095,6 +1095,7 @@ parses its input."
   (org-startup-with-inline-images t)
   (org-fontify-quote-and-verse-blocks t)
   (org-image-actual-width '(300))
+  (org-startup-indented t)
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)))

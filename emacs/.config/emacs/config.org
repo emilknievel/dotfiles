@@ -1614,6 +1614,8 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
 
 ** Org
 
+*** Initial config
+
 #+begin_src emacs-lisp
   (use-package org
     :straight (:type built-in)
@@ -1623,6 +1625,7 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
     (org-startup-with-inline-images t)
     (org-fontify-quote-and-verse-blocks t)
     (org-image-actual-width '(300))
+    (org-startup-indented t)
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
            ("C-c c" . org-capture)))
