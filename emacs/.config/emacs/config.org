@@ -1896,10 +1896,21 @@ Display org roam database as connected nodes in the browser.
     :after org-roam)
 #+end_src
 
-*** TODO Org-noter [0/2]
+*** Org-noter
 
-- [ ] Read up on what the package does.
-- [ ] Find out how it can be combined with pdf-tools to sync annotations and highlights to Org.
+#+begin_src emacs-lisp
+  (use-package org-noter
+    :custom
+    ;; Directory where org-noter will look for note files if invoked in a
+    ;; non-org-roam buffer
+    (org-noter-notes-search-path '("~/org-roam"))
+
+    ;; Create highlight in pdf when creating note
+    (org-noter-highlight-selected-text t)
+
+    ;; Remember last read location in document
+    (org-noter-auto-save-last-location t))
+#+end_src
 
 *** TODO Mermaid
 
