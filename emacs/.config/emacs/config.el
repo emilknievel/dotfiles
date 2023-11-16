@@ -1195,6 +1195,7 @@ parses its input."
   (("C-c n l" . org-roam-buffer-toggle) ; Backlinks buffer
    ("C-c n f" . org-roam-node-find)
    ("C-c n i" . org-roam-node-insert)
+   ("C-c n I" . ev/org-roam-node-insert-immediate)
    :map org-mode-map
    ("C-M-i" . completion-at-point)
    :map org-roam-dailies-map
@@ -1210,11 +1211,90 @@ parses its input."
 
   :config
   (require 'org-roam-dailies)
-  (org-roam-setup))
+  (org-roam-db-autosync-enable))
 
-(use-package websocket
-  :straight t
-  :after org-roam)
+(defun ev/org-roam-node-insert-immediate (arg &rest args)
+  "Fast node insertion based on first item in org-roam-capture-templates"
+  (interactive "P")
+  (let ((args (cons arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
+
+(defun ev/org-roam-filter-by-tag (tag-name)
+  (lambda (node)
+    (member tag-name (org-roam-node-tags node))))
+
+(defun ev/org-roam-list-notes-by-tag (tag-name)
+  (cl-remove-duplicates
+   (mapcar
+    #'org-roam-node-file
+    (seq-filter (ev/org-roam-filter-by-tag tag-name) (org-roam-node-list)))
+   :test #'string=))
+
+(defun ev/org-roam-refresh-agenda-list ()
+  (interactive)
+  (setq org-agenda-files (ev/org-roam-list-notes-by-tag "project")))
+
+(ev/org-roam-refresh-agenda-list)
+
+(defun ev/org-roam-project-finalize-hook ()
+  "Adds the captured project file to `org-agenda-files' if the
+  capture was not aborted."
+  ;; Remove the hook since it was added temporarily
+  (remove-hook 'org-capture-after-finalize-hook #'ev/org-roam-project-finalize-hook)
+
+  ;; Add project file to the agenda list if the capture was confirmed
+  (unless org-note-abort
+    (with-current-buffer (org-capture-get :buffer)
+      (add-to-list 'org-agenda-files (buffer-file-name)))))
+
+(defun ev/org-roam-find-project ()
+  (interactive)
+  ;; Add the project file to the agenda after capture is finished
+  (add-hook 'org-capture-after-finalize-hook #'ev/org-roam-project-finalize-hook)
+
+  ;; Select a project file to open, creating it if necessary
+  (org-roam-node-find
+   nil
+   nil
+   (ev/org-roam-filter-by-tag "project")
+   nil
+   :templates
+   '(("p" "project" plain
+      (file "~/org-roam/templates/project-template.org")
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n#+category: ${title}\n#+filetags: :project:")
+      :unnarrowed t))))
+
+(global-set-key (kbd "C-c n p") #'ev/org-roam-find-project)
+
+(defun ev/org-roam-capture-inbox ()
+  "Capture a note into inbox."
+  (interactive)
+  (org-roam-capture- :node (org-roam-node-create)
+                     :templates '(("i" "inbox" plain "* %?"
+                                   :if-new (file+head "inbox.org" "#+title: Inbox\n")))))
+
+(global-set-key (kbd "C-c n x") #'ev/org-roam-capture-inbox)
+
+(defun ev/org-roam-capture-task ()
+  (interactive)
+  ;; Add the project file to the agenda after capture is finished
+  (add-hook 'org-capture-after-finalize-hook #'ev/org-roam-project-finalize-hook)
+
+  ;; Capture the new task, creating the project file if necessary
+  (org-roam-capture- :node (org-roam-node-read
+                            nil
+                            (ev/org-roam-filter-by-tag "project"))
+                     :templates
+                     '(("p" "project" plain "** TODO %?"
+                        :if-new
+                        (file+head+olp "%<%Y%m%d%H%M%S>-${slug}.org"
+                                       "#+title: ${title}\n#+category: ${title}\n#+filetags: project"
+                                       ("Tasks"))))))
+
+(global-set-key (kbd "C-c n t") #'ev/org-roam-capture-task)
 
 (use-package org-roam-ui
   :straight
@@ -1226,6 +1306,10 @@ parses its input."
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
+
+(use-package websocket
+  :straight t
+  :after org-roam)
 
 ;; OCaml configuration
 ;;  - better error and backtrace matching
