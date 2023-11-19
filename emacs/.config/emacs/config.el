@@ -334,7 +334,7 @@
                              (setq catppuccin-flavor 'latte)
                              (catppuccin-reload)))))
 
-(defvar ev/editor-font "Iosevka")
+(defvar ev/editor-font "JetBrainsMono Nerd Font")
 (defvar ev/variable-pitch "Inter")
 
 (cond ((eq system-type 'darwin)

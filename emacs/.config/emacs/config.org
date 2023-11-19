@@ -564,7 +564,7 @@ Theme based on sunrise/sunset.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar ev/editor-font "Iosevka")
+  (defvar ev/editor-font "JetBrainsMono Nerd Font")
   (defvar ev/variable-pitch "Inter")
 #+end_src
 
