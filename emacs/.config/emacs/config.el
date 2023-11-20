@@ -722,49 +722,6 @@ parses its input."
   ;;(add-to-list 'completion-at-point-functions #'cape-line)
   )
 
-(use-package lsp-mode
-  :init
-  (add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
-  (add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
-
-  (defun ev/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
-
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  :hook
-  ((web-mode . lsp-deferred)
-   (lsp-mode . lsp-enable-which-key-integration)
-   (lsp-mode . lsp-ui-mode)
-   (lsp-completion-mode . ev/lsp-mode-setup-completion)
-   (csharp-ts-mode . lsp-deferred)
-   (c-ts-mode . lsp-deferred)
-   (c++-ts-mode . lsp-deferred)
-   (csharp-ts-mode . lsp-deferred)
-   (vue-ts-mode . lsp-deferred)
-   (rust-ts-mode . lsp-deferred))
-  :commands (lsp lsp-deferred)
-  :custom
-  (lsp-completion-provider :none) ;; Corfu instead of Company
-  :general
-  (ev/leader-key-map
-   "c a" '(lsp-execute-code-action :wk "execute code action")))
-
-;; optionally
-(use-package lsp-ui
-  :after lsp-mode
-  :commands lsp-ui-mode)
-;; if you are helm user
-;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-;; if you are ivy user
-;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-;; optionally if you want to use debugger
-;; (use-package dap-mode)
-;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-
 (use-package kind-icon
   :after corfu
   :custom
@@ -778,8 +735,18 @@ parses its input."
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(use-package yasnippet
-  :hook ((lsp-mode . yas-minor-mode)))
+(use-package yasnippet)
+
+(use-package yasnippet-snippets
+  :after yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1))
+
+(use-package yasnippet-capf
+  :after cape
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (setq treesit-language-source-alist
       '((bash "https://github.com/tree-sitter/tree-sitter-bash")

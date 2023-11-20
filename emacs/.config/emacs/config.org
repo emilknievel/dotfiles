@@ -1091,53 +1091,6 @@ Nerd icons for dired.
     )
 #+end_src
 
-*** LSP
-
-#+begin_src emacs-lisp
-  (use-package lsp-mode
-    :init
-    (add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
-    (add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
-
-    (defun ev/lsp-mode-setup-completion ()
-      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-            '(orderless)))
-
-    ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-    (setq lsp-keymap-prefix "C-c l")
-    :hook
-    ((web-mode . lsp-deferred)
-     (lsp-mode . lsp-enable-which-key-integration)
-     (lsp-mode . lsp-ui-mode)
-     (lsp-completion-mode . ev/lsp-mode-setup-completion)
-     (csharp-ts-mode . lsp-deferred)
-     (c-ts-mode . lsp-deferred)
-     (c++-ts-mode . lsp-deferred)
-     (csharp-ts-mode . lsp-deferred)
-     (vue-ts-mode . lsp-deferred)
-     (rust-ts-mode . lsp-deferred))
-    :commands (lsp lsp-deferred)
-    :custom
-    (lsp-completion-provider :none) ;; Corfu instead of Company
-    :general
-    (ev/leader-key-map
-     "c a" '(lsp-execute-code-action :wk "execute code action")))
-
-  ;; optionally
-  (use-package lsp-ui
-    :after lsp-mode
-    :commands lsp-ui-mode)
-  ;; if you are helm user
-  ;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-  ;; if you are ivy user
-  ;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-  ;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-  ;; optionally if you want to use debugger
-  ;; (use-package dap-mode)
-  ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-#+end_src
-
 *** Kind-icon
 
 Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560185][this]] post for handling theme changes.
@@ -1160,8 +1113,22 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 *** Snippets
 
 #+begin_src emacs-lisp
-  (use-package yasnippet
-    :hook ((lsp-mode . yas-minor-mode)))
+  (use-package yasnippet)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package yasnippet-snippets
+    :after yasnippet
+    :ensure t
+    :config
+    (yas-global-mode 1))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package yasnippet-capf
+    :after cape
+    :config
+    (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 #+end_src
 
 ** Language configuration
