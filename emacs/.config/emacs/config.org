@@ -572,7 +572,7 @@ Theme based on sunrise/sunset.
 
 #+begin_src emacs-lisp
   (cond ((eq system-type 'darwin)
-         (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 15")))
+         (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 13")))
          ;; Render fonts like in iTerm
          ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
          ;; in the terminal for it to work like intended.
@@ -2039,4 +2039,15 @@ GPTel allows us to talk with different LLMs from within Emacs.
                                                    :host "OpenAI API Key"
                                                    :user "api key"))))
      (gptel-post-response . ev/next-prompt)))
+#+end_src
+
+** Rainbow delimiters
+
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook ((clojure-mode . rainbow-delimiters-mode)
+           (emacs-lisp-mode . rainbow-delimiters-mode)
+           (lisp-mode . rainbow-delimiters-mode)
+           (common-lisp-mode . rainbow-delimiters-mode)
+           (web-mode . rainbow-delimiters-mode)))
 #+end_src

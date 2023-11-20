@@ -338,7 +338,7 @@
 (defvar ev/variable-pitch "Inter")
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 15")))
+       (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 13")))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
@@ -1409,3 +1409,10 @@ parses its input."
                                                  :host "OpenAI API Key"
                                                  :user "api key"))))
    (gptel-post-response . ev/next-prompt)))
+
+(use-package rainbow-delimiters
+  :hook ((clojure-mode . rainbow-delimiters-mode)
+         (emacs-lisp-mode . rainbow-delimiters-mode)
+         (lisp-mode . rainbow-delimiters-mode)
+         (common-lisp-mode . rainbow-delimiters-mode)
+         (web-mode . rainbow-delimiters-mode)))
