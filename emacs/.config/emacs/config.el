@@ -431,8 +431,8 @@
          (dired-mode . (lambda () (setq line-spacing 0.25)))))
 
 (use-package doom-modeline
-  :init
-  (doom-modeline-mode 1))
+  :ensure t
+  :init (doom-modeline-mode 1))
 
 (use-package spacious-padding
   :config
