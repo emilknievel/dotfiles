@@ -1326,6 +1326,12 @@ Notable keymaps:
   (use-package mips-mode :mode "\\.mips$")
 #+end_src
 
+*** Mermaid
+
+#+begin_src emacs-lisp
+  (use-package mermaid-mode :mode "\\.mmd$")
+#+end_src
+
 ** Syntax checking
 
 #+begin_src emacs-lisp
@@ -1879,9 +1885,34 @@ Display org roam database as connected nodes in the browser.
     (org-noter-auto-save-last-location t))
 #+end_src
 
-*** TODO Mermaid
+*** Babel
 
-- [ ] Install [[https://github.com/arnm/ob-mermaid][ob-mermaid]]
+#+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate nil
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t)
+
+  (defconst load-language-alist
+    '((emacs-lisp . t)
+      (perl       . t)
+      (python     . t)
+      (ruby       . t)
+      (js         . t)
+      (css        . t)
+      (sass       . t)
+      (C          . t)
+      (java       . t)
+      (shell      . t)
+      (plantuml   . t))
+    "Alist of org ob languages.")
+
+  ;; Install: npm install -g @mermaid-js/mermaid-cli
+  (use-package ob-mermaid
+    :init (cl-pushnew '(mermaid . t) load-language-alist))
+
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               load-language-alist)
+#+end_src
 
 *** TODO Transclusion
 
