@@ -304,7 +304,9 @@
   (setq kaolin-themes-hl-line-colored t))
 
 (use-package catppuccin-theme
-  :init (setq catppuccin-flavor 'mocha))
+  :ensure t
+  :init (setq catppuccin-flavor 'mocha)
+  :config (catppuccin-reload))
 
 (use-package modus-themes)
 
@@ -375,7 +377,7 @@
 (custom-theme-set-faces
  'user
  `(org-link ((t (:inherit font-lock-keyword-face :underline t))))
- `(org-italic ((t (:weight italic))))
+ `(org-italic ((t (:slant italic))))
  )
 
 (defun ev/show-column-guide ()
@@ -1087,15 +1089,7 @@ parses its input."
   (org-modern-table nil)
   ;; (org-modern-star '("*"))
   :config
-  (defun ev/setup-org-modern ()
-    (dolist (face '(window-divider
-                    window-divider-first-pixel
-                    window-divider-last-pixel))
-      (face-spec-reset-face face)
-      (set-face-foreground face (face-attribute 'default :background)))
-    (set-face-background 'fringe (face-attribute 'default :background)))
-  (global-org-modern-mode)
-  :hook (org-mode . ev/setup-org-modern))
+  (global-org-modern-mode))
 
 (use-package olivetti
   :general
