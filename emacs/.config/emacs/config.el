@@ -290,6 +290,7 @@
   (if (eq catppuccin-flavor 'latte)
       (ev/load-dark-theme)
     (ev/load-light-theme))
+  (mapcar #'disable-theme custom-enabled-themes)
   (catppuccin-reload))
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
@@ -304,9 +305,7 @@
   (setq kaolin-themes-hl-line-colored t))
 
 (use-package catppuccin-theme
-  :ensure t
-  :init (setq catppuccin-flavor 'mocha)
-  :config (catppuccin-reload))
+  :init (setq catppuccin-flavor 'mocha))
 
 (use-package modus-themes)
 
@@ -330,13 +329,15 @@
   ((auto-dark-dark-mode . (lambda ()
                             (setenv "TERM_THEME" "dark")
                             (setq catppuccin-flavor 'mocha)
+                            (mapcar #'disable-theme custom-enabled-themes)
                             (catppuccin-reload)))
    (auto-dark-light-mode . (lambda ()
                              (setenv "TERM_THEME" "light")
+                             (mapcar #'disable-theme custom-enabled-themes)
                              (setq catppuccin-flavor 'latte)
                              (catppuccin-reload)))))
 
-(defvar ev/editor-font "JetBrainsMono Nerd Font")
+(defvar ev/editor-font "JetBrainsMono NF")
 (defvar ev/variable-pitch "Inter")
 
 (cond ((eq system-type 'darwin)

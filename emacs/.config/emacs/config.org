@@ -457,6 +457,7 @@ Get rid of the annoying startup screen.
     (if (eq catppuccin-flavor 'latte)
         (ev/load-dark-theme)
       (ev/load-light-theme))
+    (mapcar #'disable-theme custom-enabled-themes)
     (catppuccin-reload))
 #+end_src
 
@@ -485,9 +486,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (use-package catppuccin-theme
-    :ensure t
-    :init (setq catppuccin-flavor 'mocha)
-    :config (catppuccin-reload))
+    :init (setq catppuccin-flavor 'mocha))
 #+end_src
 
 **** Modus
@@ -554,9 +553,11 @@ Theme based on sunrise/sunset.
     ((auto-dark-dark-mode . (lambda ()
                               (setenv "TERM_THEME" "dark")
                               (setq catppuccin-flavor 'mocha)
+                              (mapcar #'disable-theme custom-enabled-themes)
                               (catppuccin-reload)))
      (auto-dark-light-mode . (lambda ()
                                (setenv "TERM_THEME" "light")
+                               (mapcar #'disable-theme custom-enabled-themes)
                                (setq catppuccin-flavor 'latte)
                                (catppuccin-reload)))))
 #+end_src
@@ -566,7 +567,7 @@ Theme based on sunrise/sunset.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar ev/editor-font "JetBrainsMono Nerd Font")
+  (defvar ev/editor-font "JetBrainsMono NF")
   (defvar ev/variable-pitch "Inter")
 #+end_src
 
