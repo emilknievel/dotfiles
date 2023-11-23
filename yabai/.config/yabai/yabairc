@@ -20,9 +20,10 @@ yabai -m config focus_follows_mouse off
 yabai -m config window_origin_display default
 yabai -m config window_placement second_child
 yabai -m config window_topmost off
-yabai -m config window_shadow on
+yabai -m config window_shadow off
 yabai -m config window_opacity off
-yabai -m config window_opacity_duration 0.0 # 0.5
+# yabai -m config window_opacity_duration 0.0
+# yabai -m config window_animation_duration 0.1
 yabai -m config window_animation_frame_rate 120
 yabai -m config active_window_opacity 1.0
 yabai -m config normal_window_opacity 0.9
@@ -71,4 +72,4 @@ yabai -m rule --add app="^Bartender 5$" manage=off
 yabai -m rule --add app="^Aktivitetskontroll$" manage=off
 echo "yabai configuration loaded.."
 
-# borders active_color=0xffcba6f7 inactive_color=0xff6c7086 width=5.0 2>/dev/null 1>&2 &
+borders active_color=0xffcba6f7 inactive_color=0xff6c7086 width=5.0 2>/dev/null 1>&2 &
