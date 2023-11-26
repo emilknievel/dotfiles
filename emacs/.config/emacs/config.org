@@ -422,9 +422,9 @@ Get rid of the annoying startup screen.
 
 *** Theme
 
-**** Background alpha
+**** Background alpha (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (set-frame-parameter nil 'alpha-background 90)
 #+end_src
 

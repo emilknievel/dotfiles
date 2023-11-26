@@ -266,8 +266,6 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
-(set-frame-parameter nil 'alpha-background 90)
-
 ;; (defvar ev/dark-theme 'doom-one)
 ;; (defvar ev/light-theme 'doom-one-light)
 (defvar ev/current-theme 'catppuccin)
