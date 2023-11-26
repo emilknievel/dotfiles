@@ -266,30 +266,30 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
-;; (defvar ev/dark-theme 'doom-one)
-;; (defvar ev/light-theme 'doom-one-light)
-(defvar ev/current-theme 'catppuccin)
+(defvar ev/dark-theme 'catppuccin)
+(defvar ev/light-theme 'doom-solarized-light)
+(defvar ev/current-theme ev/dark-theme)
 
 (defun ev/load-dark-theme ()
-  ;; (load-theme ev/dark-theme t)
-  ;; (setq ev/current-theme ev/dark-theme)
+  (load-theme ev/dark-theme t)
+  (setq ev/current-theme ev/dark-theme)
   (setq catppuccin-flavor 'mocha)
-  (setenv "TERM_THEME" "dark"))
+  (setenv "TERM_THEME" "dark")
+  (catppuccin-reload))
 
 (defun ev/load-light-theme ()
-  ;; (load-theme ev/light-theme t)
-  ;; (setq ev/current-theme ev/light-theme)
-  (setq catppuccin-flavor 'latte)
+  (load-theme ev/light-theme t)
+  (setq ev/current-theme ev/light-theme)
+  ;; (setq catppuccin-flavor 'latte)
   (setenv "TERM_THEME" "light"))
 
 (defun ev/toggle-theme ()
   "Toggle between two themes"
   (interactive)
-  (if (eq catppuccin-flavor 'latte)
-      (ev/load-dark-theme)
-    (ev/load-light-theme))
   (mapcar #'disable-theme custom-enabled-themes)
-  (catppuccin-reload))
+  (if (eq ev/current-theme ev/light-theme)
+      (ev/load-dark-theme)
+    (ev/load-light-theme)))
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
@@ -320,8 +320,8 @@
 
 (use-package auto-dark
   :init
-  (setq auto-dark-dark-theme 'catppuccin
-        auto-dark-light-theme 'catppuccin)
+  (setq auto-dark-dark-theme ev/dark-theme
+        auto-dark-light-theme ev/light-theme)
   :config (auto-dark-mode t)
   :hook
   ((auto-dark-dark-mode . (lambda ()
@@ -332,8 +332,7 @@
    (auto-dark-light-mode . (lambda ()
                              (setenv "TERM_THEME" "light")
                              (mapcar #'disable-theme custom-enabled-themes)
-                             (setq catppuccin-flavor 'latte)
-                             (catppuccin-reload)))))
+                             (load-theme ev/light-theme)))))
 
 (defvar ev/editor-font "JetBrainsMono NF")
 (defvar ev/variable-pitch "Inter")
