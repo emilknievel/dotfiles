@@ -335,17 +335,21 @@
                              (load-theme ev/light-theme)))))
 
 (defvar ev/editor-font "JetBrainsMono NF")
+
+(defvar ev/linux-font "IBM Plex Mono")
+(defvar ev/macos-font ev/editor-font)
+
 (defvar ev/variable-pitch "Inter")
 
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 13")))
+       (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 13")))
        ;; Render fonts like in iTerm
        ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
        ;; in the terminal for it to work like intended.
        ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 12")))
+       (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 10")))
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
@@ -1082,10 +1086,11 @@ parses its input."
   (org-insert-heading-respect-content t)
   (org-hide-emphasis-markers t)
   (org-pretty-entities t)
-  ;; (org-modern-block-fringe 8)
+  (org-modern-block-fringe 8)
   (org-ellipsis "…")
-  (org-modern-table nil)
-  ;; (org-modern-star '("*"))
+  (org-modern-table t)
+  (org-modern-todo t)
+  (org-modern-star '("*"))
   :config
   (global-org-modern-mode))
 
