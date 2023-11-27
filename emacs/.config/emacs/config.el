@@ -865,8 +865,6 @@ parses its input."
 
 (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 
-(use-package mips-mode :mode "\\.mips$")
-
 (use-package mermaid-mode :mode "\\.mmd$")
 
 (use-package flycheck
@@ -1409,10 +1407,3 @@ parses its input."
                                                  :host "OpenAI API Key"
                                                  :user "api key"))))
    (gptel-post-response . ev/next-prompt)))
-
-(use-package rainbow-delimiters
-  :hook ((clojure-mode . rainbow-delimiters-mode)
-         (emacs-lisp-mode . rainbow-delimiters-mode)
-         (lisp-mode . rainbow-delimiters-mode)
-         (common-lisp-mode . rainbow-delimiters-mode)
-         (web-mode . rainbow-delimiters-mode)))

@@ -568,7 +568,7 @@ Theme based on sunrise/sunset.
 #+begin_src emacs-lisp
   (defvar ev/editor-font "JetBrainsMono Nerd Font")
 
-  (defvar ev/linux-font "IBM Plex Mono")
+  (defvar ev/linux-font "Iosevka")
   (defvar ev/macos-font ev/editor-font)
 
   (defvar ev/variable-pitch "Inter")
@@ -585,7 +585,7 @@ Theme based on sunrise/sunset.
          ;; (setq ns-use-thin-smoothing t)
          )
         ((eq system-type 'gnu/linux)
-         (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 10")))
+         (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 12")))
          ))
 
   (when (string-match "-[Mm]icrosoft" operating-system-release)
@@ -1137,6 +1137,20 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 #+end_src
 
+** Eglot
+
+#+begin_src emacs-lisp
+  (use-package eglot)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package flycheck-eglot
+    :ensure t
+    :after (flycheck eglot)
+    :config
+    (global-flycheck-eglot-mode 1))
+#+end_src
+
 ** Language configuration
 
 *** Treesitter
@@ -1326,9 +1340,9 @@ Notable keymaps:
   (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 #+end_src
 
-*** MIPS
+*** MIPS (broken)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package mips-mode :mode "\\.mips$")
 #+end_src
 
@@ -2037,15 +2051,4 @@ GPTel allows us to talk with different LLMs from within Emacs.
                                                    :host "OpenAI API Key"
                                                    :user "api key"))))
      (gptel-post-response . ev/next-prompt)))
-#+end_src
-
-** Rainbow delimiters
-
-#+begin_src emacs-lisp
-  (use-package rainbow-delimiters
-    :hook ((clojure-mode . rainbow-delimiters-mode)
-           (emacs-lisp-mode . rainbow-delimiters-mode)
-           (lisp-mode . rainbow-delimiters-mode)
-           (common-lisp-mode . rainbow-delimiters-mode)
-           (web-mode . rainbow-delimiters-mode)))
 #+end_src
