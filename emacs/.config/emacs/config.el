@@ -332,9 +332,9 @@
    (auto-dark-light-mode . (lambda ()
                              (setenv "TERM_THEME" "light")
                              (mapcar #'disable-theme custom-enabled-themes)
-                             (load-theme ev/light-theme)))))
+                             (load-theme ev/light-theme t)))))
 
-(defvar ev/editor-font "JetBrainsMono NF")
+(defvar ev/editor-font "JetBrainsMono Nerd Font")
 
 (defvar ev/linux-font "IBM Plex Mono")
 (defvar ev/macos-font ev/editor-font)
