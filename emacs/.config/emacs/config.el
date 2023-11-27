@@ -336,7 +336,7 @@
 
 (defvar ev/editor-font "JetBrainsMono Nerd Font")
 
-(defvar ev/linux-font "IBM Plex Mono")
+(defvar ev/linux-font "Iosevka")
 (defvar ev/macos-font ev/editor-font)
 
 (defvar ev/variable-pitch "Inter")
@@ -349,7 +349,7 @@
        ;; (setq ns-use-thin-smoothing t)
        )
       ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 10")))
+       (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 12")))
        ))
 
 (when (string-match "-[Mm]icrosoft" operating-system-release)
@@ -751,6 +751,14 @@ parses its input."
   :after cape
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
+(use-package eglot)
+
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
 
 (setq treesit-language-source-alist
       '((bash "https://github.com/tree-sitter/tree-sitter-bash")
