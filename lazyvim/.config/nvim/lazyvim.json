@@ -1,6 +1,9 @@
 {
   "extras": [
-
+    "lazyvim.plugins.extras.dap.core",
+    "lazyvim.plugins.extras.lang.markdown",
+    "lazyvim.plugins.extras.lang.tailwind",
+    "lazyvim.plugins.extras.test.core"
   ],
   "news": {
     "NEWS.md": "2123"
