@@ -1140,7 +1140,11 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 ** Eglot
 
 #+begin_src emacs-lisp
-  (use-package eglot)
+  (use-package eglot
+    :config
+    (with-eval-after-load 'eglot
+      (add-to-list
+       'eglot-server-programs '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp")))))
 #+end_src
 
 #+begin_src emacs-lisp

@@ -752,7 +752,11 @@ parses its input."
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
-(use-package eglot)
+(use-package eglot
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list
+     'eglot-server-programs '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp")))))
 
 (use-package flycheck-eglot
   :ensure t
