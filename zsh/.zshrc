@@ -46,6 +46,9 @@ case "$OSTYPE" in
       ZSH_THEME="powerlevel10k/powerlevel10k"
       export PATH=$PATH:/usr/local/go/bin
     fi
+
+    export DOTNET_ROOT="$HOME/.dotnet"
+    export PATH="$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools"
     ;;
 esac
 
