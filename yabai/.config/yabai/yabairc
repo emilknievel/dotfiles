@@ -73,4 +73,4 @@ yabai -m rule --add app="^Aktivitetskontroll$" manage=off
 yabai -m rule --add app="^Alfred Preferences$" manage=off
 echo "yabai configuration loaded.."
 
-borders active_color=0xffcba6f7 inactive_color=0xff6c7086 width=5.0 2>/dev/null 1>&2 &
+borders active_color=0xffcba6f7 inactive_color=0xff6c7086 width=5.0 hidpi=on 2>/dev/null 1>&2 &
