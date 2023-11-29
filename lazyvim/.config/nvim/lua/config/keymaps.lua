@@ -11,3 +11,4 @@ local function toggle_theme()
 end
 
 vim.keymap.set("n", "<leader>tt", toggle_theme, { desc = "Toggle theme" })
+vim.keymap.set("i", "jj", "<Esc>")
