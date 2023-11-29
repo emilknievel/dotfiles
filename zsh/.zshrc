@@ -14,7 +14,7 @@ case "$OSTYPE" in
     # Add .NET Core SDK tools
     export PATH="$PATH:$HOME/.dotnet/tools"
     # dotnet root
-    export DOTNET_ROOT="$(dirname $(which dotnet))"
+    export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
     # Add python from pyenv to path
     export PATH="$PATH:$HOME/.pyenv/shims"
     # Add doom
