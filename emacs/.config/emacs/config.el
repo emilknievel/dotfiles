@@ -196,7 +196,8 @@
  "b b" 'switch-to-buffer
  "b B" 'ibuffer
  "b X" 'scratch-buffer
- "q q" 'save-buffers-kill-terminal)
+ "q q" 'save-buffers-kill-terminal
+ "b r" 'revert-buffer-quick)
 
 (general-define-key
  :prefix-map 'ev/leader-key-map

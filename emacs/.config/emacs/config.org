@@ -283,7 +283,8 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    "b b" 'switch-to-buffer
    "b B" 'ibuffer
    "b X" 'scratch-buffer
-   "q q" 'save-buffers-kill-terminal)
+   "q q" 'save-buffers-kill-terminal
+   "b r" 'revert-buffer-quick)
 #+end_src
 
 **** Windows
