@@ -266,27 +266,53 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
+;; https://github.com/catppuccin/emacs/issues/61#issuecomment-1551251639
+(setq ev/org-src-block-faces org-src-block-faces)
+
+;; (defun ev/revert-if-org-file ()
+;;   "Revert the buffer if the current file is an Org file."
+;;   (when (and buffer-file-name
+;;              (string= (file-name-extension buffer-file-name) "org"))
+;;     (revert-buffer :ignore-auto :noconfirm)))
+
+(defun ev/text-org-blocks ()
+  (if (eq ev/current-theme 'catppuccin)
+      (setq ev/org-block-cookie (face-remap-add-relative 'org-block (list :foreground (catppuccin-get-color 'text))))
+    (when ev/org-block-cookie
+      (face-remap-reset-base ev/org-block-cookie))))
+  ;; (ev/revert-if-org-file))
+
+;; (debug-on-entry 'ev/revert-if-org-file)
+
+(add-hook 'org-mode-hook 'ev/text-org-blocks)
+
 (defvar ev/dark-theme 'catppuccin)
 (defvar ev/light-theme 'doom-solarized-light)
 (defvar ev/current-theme ev/dark-theme)
 
 (defun ev/load-dark-theme ()
+  (mapcar #'disable-theme custom-enabled-themes)
   (load-theme ev/dark-theme t)
   (setq ev/current-theme ev/dark-theme)
   (setq catppuccin-flavor 'mocha)
   (setenv "TERM_THEME" "dark")
-  (catppuccin-reload))
+  (catppuccin-reload)
+  (setq org-src-fontify-natively t)
+  (add-to-list 'org-src-block-faces (list "" (list :foreground (catppuccin-get-color 'green))))
+  (ev/text-org-blocks))
 
 (defun ev/load-light-theme ()
+  (mapcar #'disable-theme custom-enabled-themes)
   (load-theme ev/light-theme t)
   (setq ev/current-theme ev/light-theme)
   ;; (setq catppuccin-flavor 'latte)
-  (setenv "TERM_THEME" "light"))
+  (setenv "TERM_THEME" "light")
+  (setq org-src-block-faces ev/org-src-block-faces)
+  (ev/text-org-blocks))
 
 (defun ev/toggle-theme ()
   "Toggle between two themes"
   (interactive)
-  (mapcar #'disable-theme custom-enabled-themes)
   (if (eq ev/current-theme ev/light-theme)
       (ev/load-dark-theme)
     (ev/load-light-theme)))
@@ -316,7 +342,7 @@
   (doom-themes-org-config)
   (doom-themes-visual-bell-config))
 
-(load-theme ev/current-theme t)
+(ev/load-dark-theme)
 
 (use-package auto-dark
   :init
@@ -325,14 +351,9 @@
   :config (auto-dark-mode t)
   :hook
   ((auto-dark-dark-mode . (lambda ()
-                            (setenv "TERM_THEME" "dark")
-                            (setq catppuccin-flavor 'mocha)
-                            (mapcar #'disable-theme custom-enabled-themes)
-                            (catppuccin-reload)))
+                            (ev/load-dark-theme)))
    (auto-dark-light-mode . (lambda ()
-                             (setenv "TERM_THEME" "light")
-                             (mapcar #'disable-theme custom-enabled-themes)
-                             (load-theme ev/light-theme t)))))
+                             (ev/load-light-theme)))))
 
 (defvar ev/editor-font "JetBrainsMono Nerd Font")
 
