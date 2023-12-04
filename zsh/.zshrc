@@ -11,10 +11,10 @@ case "$OSTYPE" in
   darwin*)
     # If you come from bash you might have to change your $PATH.
     export PATH=$HOME/bin:/usr/local/bin:$PATH
-    # Add .NET Core SDK tools
-    export PATH="$PATH:$HOME/.dotnet/tools"
-    # dotnet root
-    export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+
+    # dotnet from M$ website, already in path
+    export DOTNET_ROOT="$(dirname $(which dotnet))"
+
     # Add python from pyenv to path
     export PATH="$PATH:$HOME/.pyenv/shims"
     # Add doom
