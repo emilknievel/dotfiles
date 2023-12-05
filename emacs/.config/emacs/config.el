@@ -361,7 +361,11 @@
 (defvar ev/linux-font "Iosevka")
 (defvar ev/macos-font ev/editor-font)
 
-(defvar ev/variable-pitch "Inter")
+(if (eq system-type 'darwin)
+    (defvar ev/default-font ev/macos-font)
+  (defvar ev/default-font ev/linux-font))
+
+(defvar ev/variable-pitch "Sans")
 
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 13")))
@@ -398,11 +402,26 @@
   (ligature-set-ligatures 'org-mode liga)
   (global-ligature-mode t))
 
+;; (custom-theme-set-faces
+;;  'user
+;;  `(org-link ((t (:inherit font-lock-keyword-face :underline t))))
+;;  `(org-italic ((t (:slant italic))))
+;;  )
 (custom-theme-set-faces
  'user
- `(org-link ((t (:inherit font-lock-keyword-face :underline t))))
- `(org-italic ((t (:slant italic))))
- )
+   `(org-document-info-keyword ((t (:inherit font-lock-comment-face :slant normal)))))
+
+(use-package mixed-pitch
+  :init
+  (if (eq system-type 'darwin)
+      (progn (set-face-attribute 'default nil :font ev/default-font :height 130)
+             (set-face-attribute 'fixed-pitch nil :font ev/macos-font))
+    (progn (set-face-attribute 'default nil :font ev/default-font :height 120)
+           (set-face-attribute 'fixed-pitch nil :font ev/linux-font)))
+  (set-face-attribute 'variable-pitch nil :font ev/variable-pitch)
+  :hook
+  ;; If you want it in all text modes:
+  (text-mode . mixed-pitch-mode))
 
 (defun ev/show-column-guide ()
   (setq display-fill-column-indicator-column 80)
