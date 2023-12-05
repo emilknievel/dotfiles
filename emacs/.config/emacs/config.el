@@ -356,16 +356,20 @@
    (auto-dark-light-mode . (lambda ()
                              (ev/load-light-theme)))))
 
-(defvar ev/editor-font "JetBrainsMono Nerd Font")
-
 (defvar ev/linux-font "Iosevka")
-(defvar ev/macos-font ev/editor-font)
+(defvar ev/macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
-    (progn (defvar ev/default-font ev/macos-font)
-           (defvar ev/variable-pitch "SF Pro Text"))
-  (progn (defvar ev/default-font ev/linux-font)
-         (defvar ev/variable-pitch "DejaVu Sans")))
+    (defvar ev/editor-font ev/macos-font)
+  (defvar ev/editor-font ev/linux-font))
+
+(if (eq system-type 'darwin)
+    (progn (defvar ev/default-font ev/editor-font)
+           (defvar ev/serif-font "Source Serif 4")
+           (defvar ev/sans-font "Lato"))
+  (progn (defvar ev/default-font ev/editor-font)
+         (defvar ev/serif-font "DejaVu Serif")
+         (defvar ev/sans-font "DejaVu Sans")))
 
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 13")))
@@ -402,26 +406,50 @@
   (ligature-set-ligatures 'org-mode liga)
   (global-ligature-mode t))
 
-;; (custom-theme-set-faces
-;;  'user
-;;  `(org-link ((t (:inherit font-lock-keyword-face :underline t))))
-;;  `(org-italic ((t (:slant italic))))
-;;  )
+;; Set default, fixed and variable pitch fonts
+(use-package mixed-pitch
+  :config
+  (setq mixed-pitch-face 'variable-pitch)
+  (setq mixed-pitch-set-height t)
+
+  (if (eq system-type 'darwin)
+      (setq ev/serif-height 170)
+    (setq ev/serif-height 160))
+
+  (set-face-attribute 'variable-pitch nil :family ev/serif-font :height ev/serif-height)
+  (set-face-attribute 'org-modern-tag nil :family ev/sans-font)
+  (set-face-attribute 'org-modern-label nil :family ev/sans-font)
+  (set-face-attribute 'org-headline-done nil :family ev/sans-font)
+  (set-face-attribute 'org-document-title nil :family ev/sans-font)
+  (set-face-attribute 'org-drawer nil :family ev/editor-font)
+  (set-face-attribute 'org-property-value nil :family ev/editor-font)
+  (set-face-attribute 'org-special-keyword nil :family ev/editor-font)
+  (set-face-attribute 'org-document-info nil :family ev/sans-font)
+
 (custom-theme-set-faces
  'user
-   `(org-document-info-keyword ((t (:inherit font-lock-comment-face :slant normal)))))
+ `(outline-1 ((t (:inherit variable-pitch :height 1.5 :family ,ev/sans-font))))
+ `(outline-2 ((t (:inherit variable-pitch :height 1.4 :family ,ev/sans-font))))
+ `(outline-3 ((t (:inherit variable-pitch :height 1.3 :family ,ev/sans-font))))
+ `(outline-4 ((t (:inherit variable-pitch :height 1.2 :family ,ev/sans-font))))
+ `(outline-5 ((t (:inherit variable-pitch :height 1.1 :family ,ev/sans-font))))
+ `(outline-6 ((t (:inherit variable-pitch :height 1.0 :family ,ev/sans-font))))
+ `(outline-7 ((t (:inherit variable-pitch :height 1.0 :family ,ev/sans-font))))
+ `(outline-8 ((t (:inherit variable-pitch :height 1.0 :family ,ev/sans-font))))
+ `(org-level-1 ((t (:inherit outline-1 :height 1.0 :weight bold))))
+ `(org-level-2 ((t (:inherit outline-2 :height 1.0 :weight bold))))
+ `(org-level-3 ((t (:inherit outline-3 :height 1.0 :weight bold))))
+ `(org-level-4 ((t (:inherit outline-4 :height 1.0 :weight bold))))
+ `(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight bold))))
+ `(org-level-6 ((t (:inherit outline-6 :height 1.0 :weight bold))))
+ `(org-level-7 ((t (:inherit outline-7 :height 1.0 :weight bold))))
+ `(org-level-8 ((t (:inherit outline-8 :height 1.0 :weight bold)))))
 
-(use-package mixed-pitch
-  :init
-  (if (eq system-type 'darwin)
-      (progn (set-face-attribute 'default nil :font ev/default-font :height 130)
-             (set-face-attribute 'fixed-pitch nil :font ev/macos-font))
-    (progn (set-face-attribute 'default nil :font ev/default-font :height 120)
-           (set-face-attribute 'fixed-pitch nil :font ev/linux-font)))
-  (set-face-attribute 'variable-pitch nil :font ev/variable-pitch)
   :hook
-  ;; If you want it in all text modes:
   (text-mode . mixed-pitch-mode))
+
+;; Sensible line-breaking
+(add-hook 'text-mode-hook 'visual-line-mode)
 
 (defun ev/show-column-guide ()
   (setq display-fill-column-indicator-column 80)
