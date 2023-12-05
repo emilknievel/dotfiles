@@ -367,21 +367,18 @@
     (progn (defvar ev/default-font ev/editor-font)
            (defvar ev/variable-pitch-font "SF Pro Text"))
   (progn (defvar ev/default-font ev/editor-font)
-         (defvar ev/variable-pitch-font "DejaVu Sans")))
+         (defvar ev/variable-pitch-font "Alegreya Sans")))
 
-(cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 13")))
-       ;; Render fonts like in iTerm
-       ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
-       ;; in the terminal for it to work like intended.
-       ;; (setq ns-use-thin-smoothing t)
-       )
-      ((eq system-type 'gnu/linux)
-       (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 12")))
-       ))
+(if (eq system-type 'darwin)
+    (progn (setq ev/variable-pitch-font-height 150)
+           (setq ev/editor-font-height 130))
+  (progn (setq ev/variable-pitch-font-height 150)
+         (setq ev/editor-font-height 120)))
 
-(when (string-match "-[Mm]icrosoft" operating-system-release)
-  (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 18"))))
+(set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
+(set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/editor-font-height)
+(set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height ev/variable-pitch-font-height)
+(set-face-attribute 'italic nil :slant 'italic :underline nil)
 
 (use-package ligature
   :straight
@@ -1128,21 +1125,21 @@ parses its input."
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
   ((org-mode gfm-mode markdown-mode) . org-modern-mode)
   :config
-  (if (eq system-type 'darwin)
-      (progn (setq ev/variable-pitch-font-height 150)
-             (setq ev/editor-font-height 130))
-    (progn (setq ev/variable-pitch-font-height 130)
-           (setq ev/editor-font-height 120)))
-
-  (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
-  (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/editor-font-height)
-  (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height ev/variable-pitch-font-height)
-
   (custom-theme-set-faces
    'user
-   `(org-block ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+   `(org-block ((t (:inherit fixed-pitch :family ,ev/editor-font :height 1.1))))
+   `(org-block-begin-line ((t (:inherit (org-block font-lock-comment-face) :height 0.8 :weight bold))))
+   `(org-block-end-line ((t (:inherit org-block-begin-line))))
+   `(org-code ((t (:inherit org-block))))
    `(markdown-inline-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
    `(markdown-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+   `(markdown-header-face ((t (:inherit variable-pitch :weight bold))))
+   `(markdown-header-face-1 ((t :inherit markdown-header-face)))
+   `(markdown-header-face-2 ((t :inherit markdown-header-face)))
+   `(markdown-header-face-3 ((t :inherit markdown-header-face)))
+   `(markdown-header-face-4 ((t :inherit markdown-header-face)))
+   `(markdown-header-face-5 ((t :inherit markdown-header-face)))
+   `(markdown-header-face-6 ((t :inherit markdown-header-face)))
    `(outline-1 ((t (:inherit variable-pitch :height 1.5))))
    `(outline-2 ((t (:inherit variable-pitch :height 1.4))))
    `(outline-3 ((t (:inherit variable-pitch :height 1.3))))
