@@ -362,10 +362,10 @@
 (defvar ev/macos-font ev/editor-font)
 
 (if (eq system-type 'darwin)
-    (defvar ev/default-font ev/macos-font)
-  (defvar ev/default-font ev/linux-font))
-
-(defvar ev/variable-pitch "Sans")
+    (progn (defvar ev/default-font ev/macos-font)
+           (defvar ev/variable-pitch "SF Pro Text"))
+  (progn (defvar ev/default-font ev/linux-font)
+         (defvar ev/variable-pitch "DejaVu Sans")))
 
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 13")))
