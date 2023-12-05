@@ -365,11 +365,9 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/serif-font "Source Serif 4")
-           (defvar ev/sans-font "Lato"))
+           (defvar ev/variable-pitch-font "SF Pro Text"))
   (progn (defvar ev/default-font ev/editor-font)
-         (defvar ev/serif-font "DejaVu Serif")
-         (defvar ev/sans-font "DejaVu Sans")))
+         (defvar ev/variable-pitch-font "DejaVu Sans")))
 
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 13")))
@@ -406,51 +404,6 @@
   (ligature-set-ligatures 'org-mode liga)
   (global-ligature-mode t))
 
-;; Set default, fixed and variable pitch fonts
-(use-package mixed-pitch
-  :config
-  (setq mixed-pitch-face 'variable-pitch)
-  (setq mixed-pitch-set-height t)
-
-  (if (eq system-type 'darwin)
-      (setq ev/serif-height 170)
-    (setq ev/serif-height 160))
-
-  (set-face-attribute 'variable-pitch nil :family ev/serif-font :height ev/serif-height)
-  (set-face-attribute 'org-modern-tag nil :family ev/sans-font)
-  (set-face-attribute 'org-modern-label nil :family ev/sans-font)
-  (set-face-attribute 'org-headline-done nil :family ev/sans-font)
-  (set-face-attribute 'org-document-title nil :family ev/sans-font)
-  (set-face-attribute 'org-drawer nil :family ev/editor-font)
-  (set-face-attribute 'org-property-value nil :family ev/editor-font)
-  (set-face-attribute 'org-special-keyword nil :family ev/editor-font)
-  (set-face-attribute 'org-document-info nil :family ev/sans-font)
-
-(custom-theme-set-faces
- 'user
- `(outline-1 ((t (:inherit variable-pitch :height 1.5 :family ,ev/sans-font))))
- `(outline-2 ((t (:inherit variable-pitch :height 1.4 :family ,ev/sans-font))))
- `(outline-3 ((t (:inherit variable-pitch :height 1.3 :family ,ev/sans-font))))
- `(outline-4 ((t (:inherit variable-pitch :height 1.2 :family ,ev/sans-font))))
- `(outline-5 ((t (:inherit variable-pitch :height 1.1 :family ,ev/sans-font))))
- `(outline-6 ((t (:inherit variable-pitch :height 1.0 :family ,ev/sans-font))))
- `(outline-7 ((t (:inherit variable-pitch :height 1.0 :family ,ev/sans-font))))
- `(outline-8 ((t (:inherit variable-pitch :height 1.0 :family ,ev/sans-font))))
- `(org-level-1 ((t (:inherit outline-1 :height 1.0 :weight bold))))
- `(org-level-2 ((t (:inherit outline-2 :height 1.0 :weight bold))))
- `(org-level-3 ((t (:inherit outline-3 :height 1.0 :weight bold))))
- `(org-level-4 ((t (:inherit outline-4 :height 1.0 :weight bold))))
- `(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight bold))))
- `(org-level-6 ((t (:inherit outline-6 :height 1.0 :weight bold))))
- `(org-level-7 ((t (:inherit outline-7 :height 1.0 :weight bold))))
- `(org-level-8 ((t (:inherit outline-8 :height 1.0 :weight bold)))))
-
-  :hook
-  (text-mode . mixed-pitch-mode))
-
-;; Sensible line-breaking
-(add-hook 'text-mode-hook 'visual-line-mode)
-
 (defun ev/show-column-guide ()
   (setq display-fill-column-indicator-column 80)
   (display-fill-column-indicator-mode))
@@ -461,13 +414,13 @@
 
 (defun ev/display-set-relative ()
   (interactive)
-  (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode)))
+  (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode) (eq major-mode 'markdown-mode) (eq major-mode 'gfm-mode)))
       (setq display-line-numbers 'visual)
     (setq display-line-numbers nil)))
 
 (defun ev/display-set-absolute ()
   (interactive)
-  (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode)))
+  (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode) (eq major-mode 'markdown-mode) (eq major-mode 'gfm-mode)))
       (setq display-line-numbers t)
     (setq display-line-numbers nil)))
 
@@ -1170,8 +1123,43 @@ parses its input."
   (org-modern-table t)
   (org-modern-todo t)
   (org-modern-star '("*"))
+  :hook
+  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+  ((org-mode gfm-mode markdown-mode) . visual-line-mode)
+  ((org-mode gfm-mode markdown-mode) . org-modern-mode)
   :config
-  (global-org-modern-mode))
+  (if (eq system-type 'darwin)
+      (progn (setq ev/variable-pitch-font-height 150)
+             (setq ev/editor-font-height 130))
+    (progn (setq ev/variable-pitch-font-height 130)
+           (setq ev/editor-font-height 120)))
+
+  (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
+  (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/editor-font-height)
+  (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height ev/variable-pitch-font-height)
+
+  (custom-theme-set-faces
+   'user
+   `(org-block ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+   `(markdown-inline-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+   `(markdown-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+   `(outline-1 ((t (:inherit variable-pitch :height 1.5))))
+   `(outline-2 ((t (:inherit variable-pitch :height 1.4))))
+   `(outline-3 ((t (:inherit variable-pitch :height 1.3))))
+   `(outline-4 ((t (:inherit variable-pitch :height 1.2))))
+   `(outline-5 ((t (:inherit variable-pitch :height 1.1))))
+   `(outline-6 ((t (:inherit variable-pitch :height 1.0))))
+   `(outline-7 ((t (:inherit variable-pitch :height 1.0))))
+   `(outline-8 ((t (:inherit variable-pitch :height 1.0))))
+   `(org-level-1 ((t (:inherit outline-1 :height 1.0 :weight bold))))
+   `(org-level-2 ((t (:inherit outline-2 :height 1.0 :weight bold))))
+   `(org-level-3 ((t (:inherit outline-3 :height 1.0 :weight bold))))
+   `(org-level-4 ((t (:inherit outline-4 :height 1.0 :weight bold))))
+   `(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight bold))))
+   `(org-level-6 ((t (:inherit outline-6 :height 1.0 :weight bold))))
+   `(org-level-7 ((t (:inherit outline-7 :height 1.0 :weight bold))))
+   `(org-level-8 ((t (:inherit outline-8 :height 1.0 :weight bold))))
+   `(org-document-title ((t (:inherit outline-1 :height 1.1 :weight bold))))))
 
 (use-package olivetti
   :general
@@ -1179,7 +1167,8 @@ parses its input."
   :init
   (setq olivetti-body-width 120
         olivetti-minimum-body-width 72)
-  :hook (org-mode . olivetti-mode))
+  :config
+  :hook ((org-mode markdown-mode) . olivetti-mode))
 
 (use-package org-appear
   :hook (org-mode . org-appear-mode))
