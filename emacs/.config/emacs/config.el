@@ -363,12 +363,12 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "SF Pro Text"))
+           (defvar ev/variable-pitch-font "Alegreya Sans"))
   (progn (defvar ev/default-font ev/editor-font)
          (defvar ev/variable-pitch-font "Alegreya Sans")))
 
 (if (eq system-type 'darwin)
-    (progn (setq ev/variable-pitch-font-height 150)
+    (progn (setq ev/variable-pitch-font-height 190)
            (setq ev/editor-font-height 130))
   (progn (setq ev/variable-pitch-font-height 150)
          (setq ev/editor-font-height 120)))
