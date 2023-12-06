@@ -247,9 +247,7 @@
 (require 'whitespace)
 
 (use-package expand-region
-  :general
-  (ev/leader-key-map
-   "=" '(er/expand-region :wk "expand region")))
+  :general (ev/leader-key-map "=" 'er/expand-region))
 
 (use-package vundo
   :general (ev/leader-key-map "c u" 'vundo))

@@ -372,13 +372,11 @@ Show trailing whitespace.
 
 *** Expand region
 
-Increase selected region by semantic units.
+Increase selected region by /semantic units/.
 
 #+begin_src emacs-lisp
   (use-package expand-region
-    :general
-    (ev/leader-key-map
-     "=" '(er/expand-region :wk "expand region")))
+    :general (ev/leader-key-map "=" 'er/expand-region))
 #+end_src
 
 *** Vundo
