@@ -344,3 +344,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
 fi
 
+# lua
+export PATH="$PATH:$HOME/.luarocks/bin"

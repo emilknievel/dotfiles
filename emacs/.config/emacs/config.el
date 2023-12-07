@@ -888,6 +888,8 @@ parses its input."
 
 (use-package mermaid-mode :mode "\\.mmd$")
 
+(use-package lua-mode :mode "\\.lua\\'")
+
 (use-package flycheck
   :init (global-flycheck-mode))
 
@@ -1368,7 +1370,8 @@ parses its input."
     (C          . t)
     (java       . t)
     (shell      . t)
-    (plantuml   . t))
+    (plantuml   . t)
+    (lua        . t))
   "Alist of org ob languages.")
 
 ;; Install: npm install -g @mermaid-js/mermaid-cli

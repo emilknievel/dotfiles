@@ -1339,6 +1339,12 @@ Notable keymaps:
   (use-package mermaid-mode :mode "\\.mmd$")
 #+end_src
 
+*** Lua
+
+#+begin_src emacs-lisp
+  (use-package lua-mode :mode "\\.lua\\'")
+#+end_src
+
 ** Syntax checking
 
 #+begin_src emacs-lisp
@@ -1940,7 +1946,8 @@ Display org roam database as connected nodes in the browser.
       (C          . t)
       (java       . t)
       (shell      . t)
-      (plantuml   . t))
+      (plantuml   . t)
+      (lua        . t))
     "Alist of org ob languages.")
 
   ;; Install: npm install -g @mermaid-js/mermaid-cli
