@@ -365,12 +365,12 @@
     (progn (defvar ev/default-font ev/editor-font)
            (defvar ev/variable-pitch-font "Alegreya Sans"))
   (progn (defvar ev/default-font ev/editor-font)
-         (defvar ev/variable-pitch-font "Alegreya Sans")))
+         (defvar ev/variable-pitch-font "Liberation Sans")))
 
 (if (eq system-type 'darwin)
     (progn (setq ev/variable-pitch-font-height 190)
            (setq ev/editor-font-height 130))
-  (progn (setq ev/variable-pitch-font-height 150)
+  (progn (setq ev/variable-pitch-font-height 120)
          (setq ev/editor-font-height 120)))
 
 (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
@@ -1117,7 +1117,7 @@ parses its input."
   (org-pretty-entities t)
   (org-modern-block-fringe 8)
   (org-ellipsis "…")
-  (org-modern-table t)
+  (org-modern-table nil)
   (org-modern-todo t)
   (org-modern-star '("*"))
   :hook
@@ -1127,10 +1127,11 @@ parses its input."
   :config
   (custom-theme-set-faces
    'user
-   `(org-block ((t (:inherit fixed-pitch :family ,ev/editor-font :height 1.1))))
-   `(org-block-begin-line ((t (:inherit (org-block font-lock-comment-face) :height 0.8 :weight bold))))
+   `(org-block ((t (:inherit fixed-pitch))))
+   `(org-block-begin-line ((t (:inherit (org-block font-lock-comment-face) :height 0.9 :weight bold))))
    `(org-block-end-line ((t (:inherit org-block-begin-line))))
    `(org-code ((t (:inherit org-block))))
+   `(org-table ((t (:inherit fixed-pitch))))
    `(markdown-inline-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
    `(markdown-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
    `(markdown-header-face ((t (:inherit variable-pitch :weight bold))))
