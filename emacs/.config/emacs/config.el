@@ -355,7 +355,7 @@
                              (ev/load-light-theme)))))
 
 (defvar ev/linux-font "Iosevka")
-(defvar ev/macos-font "JetBrainsMono Nerd Font")
+(defvar ev/macos-font "Iosevka")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -363,13 +363,13 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "Alegreya Sans"))
+           (defvar ev/variable-pitch-font "SF Pro"))
   (progn (defvar ev/default-font ev/editor-font)
          (defvar ev/variable-pitch-font "Liberation Sans")))
 
 (if (eq system-type 'darwin)
-    (progn (setq ev/variable-pitch-font-height 190)
-           (setq ev/editor-font-height 130))
+    (progn (setq ev/variable-pitch-font-height 160)
+           (setq ev/editor-font-height 160))
   (progn (setq ev/variable-pitch-font-height 120)
          (setq ev/editor-font-height 120)))
 
