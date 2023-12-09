@@ -35,8 +35,8 @@ alias kki='kitty +kitten icat'    # Display an image inline in terminal
 alias kkt='kitty +kitten themes'  # List and swap between kitten themes
 alias kkc='kitty +edit-config'    # Edit kitty config
 alias kks='kitty +kitten ssh'     # Kitty shell integration over ssh
-alias kktl='kitty +kitten themes --reload-in=all Rosé\ Pine\ Dawn'
-alias kktd='kitty +kitten themes --reload-in=all Rosé\ Pine'
+alias kktl='kitty +kitten themes --reload-in=all Catppuccin-latte'
+alias kktd='kitty +kitten themes --reload-in=all Catppuccin-mocha'
 
 # Yabai
 alias yqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' # Query info about open windows
