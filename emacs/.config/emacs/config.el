@@ -773,7 +773,8 @@ parses its input."
   :config
   (with-eval-after-load 'eglot
     (add-to-list
-     'eglot-server-programs '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp")))))
+     'eglot-server-programs '(((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))
+                              ((lua-mode lua-ts-mode) . ("lua-language-server"))))))
 
 (use-package flycheck-eglot
   :ensure t
@@ -790,6 +791,7 @@ parses its input."
         (html "https://github.com/tree-sitter/tree-sitter-html")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
         (json "https://github.com/tree-sitter/tree-sitter-json")
+        (lua "https://github.com/MunifTanjim/tree-sitter-lua")
         (make "https://github.com/alemuller/tree-sitter-make")
         (markdown "https://github.com/ikatyang/tree-sitter-markdown")
         (python "https://github.com/tree-sitter/tree-sitter-python")
@@ -823,7 +825,8 @@ parses its input."
         (csharp-mode . csharp-ts-mode)
         (rust-mode . rust-ts-mode)
         (c-mode . c-ts-mode)
-        (c++-mode . c++-ts-mode)))
+        (c++-mode . c++-ts-mode)
+        (lua-mode . lua-ts-mode)))
 
 (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
 
@@ -889,6 +892,7 @@ parses its input."
 (use-package mermaid-mode :mode "\\.mmd$")
 
 (use-package lua-mode :mode "\\.lua\\'")
+(use-package lua-ts-mode :hook (lua-mode . lua-ts-mode))
 
 (use-package flycheck
   :init (global-flycheck-mode))
