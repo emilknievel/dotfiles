@@ -355,7 +355,7 @@
                              (ev/load-light-theme)))))
 
 (defvar ev/linux-font "Iosevka")
-(defvar ev/macos-font "Iosevka")
+(defvar ev/macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -369,7 +369,7 @@
 
 (if (eq system-type 'darwin)
     (progn (setq ev/variable-pitch-font-height 160)
-           (setq ev/editor-font-height 160))
+           (setq ev/editor-font-height 150))
   (progn (setq ev/variable-pitch-font-height 120)
          (setq ev/editor-font-height 120)))
 
@@ -774,7 +774,8 @@ parses its input."
   (with-eval-after-load 'eglot
     (add-to-list
      'eglot-server-programs '(((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))
-                              ((lua-mode lua-ts-mode) . ("lua-language-server"))))))
+                              ((lua-mode lua-ts-mode) . ("lua-language-server")))))
+  (setq project-vc-extra-root-markers '(".busted")))
 
 (use-package flycheck-eglot
   :ensure t

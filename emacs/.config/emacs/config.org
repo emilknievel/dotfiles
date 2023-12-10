@@ -591,7 +591,7 @@ Theme based on sunrise/sunset.
 #+begin_src emacs-lisp
 
   (defvar ev/linux-font "Iosevka")
-  (defvar ev/macos-font "Iosevka")
+  (defvar ev/macos-font "JetBrainsMono Nerd Font")
 
   (if (eq system-type 'darwin)
       (defvar ev/editor-font ev/macos-font)
@@ -609,7 +609,7 @@ Theme based on sunrise/sunset.
 #+begin_src emacs-lisp
   (if (eq system-type 'darwin)
       (progn (setq ev/variable-pitch-font-height 160)
-             (setq ev/editor-font-height 160))
+             (setq ev/editor-font-height 150))
     (progn (setq ev/variable-pitch-font-height 120)
            (setq ev/editor-font-height 120)))
 
@@ -622,7 +622,7 @@ Theme based on sunrise/sunset.
 
 #+begin_src emacs-lisp :tangle no
   (cond ((eq system-type 'darwin)
-         (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 13")))
+         (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 15")))
          ;; Render fonts like in iTerm
          ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
          ;; in the terminal for it to work like intended.
@@ -1127,7 +1127,8 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (with-eval-after-load 'eglot
       (add-to-list
        'eglot-server-programs '(((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))
-                                ((lua-mode lua-ts-mode) . ("lua-language-server"))))))
+                                ((lua-mode lua-ts-mode) . ("lua-language-server")))))
+    (setq project-vc-extra-root-markers '(".busted")))
 #+end_src
 
 #+begin_src emacs-lisp
