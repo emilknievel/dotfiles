@@ -1133,8 +1133,6 @@ parses its input."
   (custom-theme-set-faces
    'user
    `(org-block ((t (:inherit fixed-pitch))))
-   `(org-block-begin-line ((t (:inherit (org-block font-lock-comment-face) :height 0.9 :weight bold))))
-   `(org-block-end-line ((t (:inherit org-block-begin-line))))
    `(org-code ((t (:inherit org-block))))
    `(org-table ((t (:inherit fixed-pitch))))
    `(markdown-inline-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
