@@ -369,7 +369,7 @@
 
 (if (eq system-type 'darwin)
     (progn (setq ev/variable-pitch-font-height 160)
-           (setq ev/editor-font-height 150))
+           (setq ev/editor-font-height 130))
   (progn (setq ev/variable-pitch-font-height 120)
          (setq ev/editor-font-height 120)))
 
