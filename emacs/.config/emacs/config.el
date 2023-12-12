@@ -369,12 +369,14 @@
 
 (if (eq system-type 'darwin)
     (progn (setq ev/variable-pitch-font-height 160)
-           (setq ev/editor-font-height 130))
+           (setq ev/editor-font-height 130)
+           (setq ev/fixed-pitch-font-height 150))
   (progn (setq ev/variable-pitch-font-height 120)
-         (setq ev/editor-font-height 120)))
+         (setq ev/editor-font-height 120)
+         (setq ev/fixed-pitch-font-height 120)))
 
 (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
-(set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/editor-font-height)
+(set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/fixed-pitch-font-height)
 (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height ev/variable-pitch-font-height)
 (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
