@@ -326,3 +326,6 @@ fi
 
 # lua
 export PATH="$PATH:$HOME/.luarocks/bin"
+
+# starship.rs
+eval "$(starship init zsh)"
