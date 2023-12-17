@@ -1,6 +1,6 @@
 local colorscheme = function()
   local base16_theme = os.getenv("BASE16_THEME")
-  local theme_name = base16_theme and base16_theme:match("([^%-]+)") or "default"
+  local theme_name = base16_theme and base16_theme:match("tokyo%-night") and "tokyonight" or "catppuccin"
   return theme_name
 end
 
