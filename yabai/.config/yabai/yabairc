@@ -44,11 +44,11 @@ yabai -m config mouse_drop_action swap
 
 # general space settings
 yabai -m config layout bsp
-yabai -m config top_padding 10
-yabai -m config bottom_padding 10
-yabai -m config left_padding 10
-yabai -m config right_padding 10
-yabai -m config window_gap 10
+yabai -m config top_padding 5
+yabai -m config bottom_padding 5
+yabai -m config left_padding 5
+yabai -m config right_padding 5
+yabai -m config window_gap 5
 
 yabai -m rule --add label="sys" app="^System.*inställningar$" manage=off
 yabai -m rule --add app="^Archive Utility$" manage=off
@@ -73,4 +73,4 @@ yabai -m rule --add app="^Aktivitetskontroll$" manage=off
 yabai -m rule --add app="^Alfred Preferences$" manage=off
 echo "yabai configuration loaded.."
 
-borders active_color=0xffcba6f7 inactive_color=0xff6c7086 width=5.0 hidpi=on 2>/dev/null 1>&2 &
+# borders active_color=0xffcba6f7 inactive_color=0xff6c7086 width=5.0 hidpi=on 2>/dev/null 1>&2 &
