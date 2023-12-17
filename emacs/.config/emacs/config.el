@@ -354,7 +354,7 @@
    (auto-dark-light-mode . (lambda ()
                              (ev/load-light-theme)))))
 
-(defvar ev/linux-font "Iosevka")
+(defvar ev/linux-font "JetBrainsMono NF")
 (defvar ev/macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
@@ -365,15 +365,15 @@
     (progn (defvar ev/default-font ev/editor-font)
            (defvar ev/variable-pitch-font "SF Pro Text"))
   (progn (defvar ev/default-font ev/editor-font)
-         (defvar ev/variable-pitch-font "Liberation Sans")))
+         (defvar ev/variable-pitch-font "sans")))
 
 (if (eq system-type 'darwin)
     (progn (setq ev/variable-pitch-font-height 140)
            (setq ev/editor-font-height 130)
            (setq ev/fixed-pitch-font-height 130))
-  (progn (setq ev/variable-pitch-font-height 120)
-         (setq ev/editor-font-height 120)
-         (setq ev/fixed-pitch-font-height 120)))
+  (progn (setq ev/variable-pitch-font-height 100)
+         (setq ev/editor-font-height 100)
+         (setq ev/fixed-pitch-font-height 100)))
 
 (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
 (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/fixed-pitch-font-height)

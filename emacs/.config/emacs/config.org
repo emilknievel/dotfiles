@@ -589,7 +589,7 @@ Theme based on sunrise/sunset.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar ev/linux-font "Iosevka")
+  (defvar ev/linux-font "JetBrainsMono NF")
   (defvar ev/macos-font "JetBrainsMono Nerd Font")
 
   (if (eq system-type 'darwin)
@@ -600,7 +600,7 @@ Theme based on sunrise/sunset.
       (progn (defvar ev/default-font ev/editor-font)
              (defvar ev/variable-pitch-font "SF Pro Text"))
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "Liberation Sans")))
+           (defvar ev/variable-pitch-font "sans")))
 #+end_src
 
 **** Setup editor font
@@ -610,9 +610,9 @@ Theme based on sunrise/sunset.
       (progn (setq ev/variable-pitch-font-height 140)
              (setq ev/editor-font-height 130)
              (setq ev/fixed-pitch-font-height 130))
-    (progn (setq ev/variable-pitch-font-height 120)
-           (setq ev/editor-font-height 120)
-           (setq ev/fixed-pitch-font-height 120)))
+    (progn (setq ev/variable-pitch-font-height 100)
+           (setq ev/editor-font-height 100)
+           (setq ev/fixed-pitch-font-height 100)))
 
   (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
   (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/fixed-pitch-font-height)
@@ -629,7 +629,7 @@ Theme based on sunrise/sunset.
          ;; (setq ns-use-thin-smoothing t)
          )
         ((eq system-type 'gnu/linux)
-         (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 12")))
+         (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 10")))
          ))
 
   (when (string-match "-[Mm]icrosoft" operating-system-release)
