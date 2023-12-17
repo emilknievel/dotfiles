@@ -87,8 +87,8 @@ alias ipecho='curl ipecho.net/plain ; echo'
 alias la='ls -a'
 
 # glow
-alias glow='glow -s $TERM_THEME' # match vim dark/light mode
-alias glowp='glow -s $TERM_THEME -p' # use paging
+# alias glow='glow -s $TERM_THEME' # match vim dark/light mode
+alias glowp='glow -p' # use paging
 
 alias sorc='source ~/.zshrc'
 

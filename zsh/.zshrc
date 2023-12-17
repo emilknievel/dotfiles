@@ -36,7 +36,7 @@ export ZSH="$HOME/.oh-my-zsh"
 case "$OSTYPE" in
   linux*)
     if [[ $(hostname) = "pop-os" ]] then
-      ZSH_THEME="powerlevel10k/powerlevel10k"
+      # ZSH_THEME="powerlevel10k/powerlevel10k"
       export PATH=$PATH:/usr/local/go/bin
     fi
 
@@ -105,7 +105,7 @@ esac
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions)
+plugins=(git zsh-autosuggestions base16-shell)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -234,25 +234,28 @@ bindkey "^[l" clear-screen
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ## Color theme ##
-fzf_dark=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
-
-fzf_light=" \
---color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
---color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
---color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
+# Catppuccin
+# fzf_dark=" \
+# --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+# --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+# --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+#
+# fzf_light=" \
+# --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
+# --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
+# --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
 
 case "$OSTYPE" in
   darwin*)
     # determine light/dark from AppleInterfaceStyle
     if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
-      fzf_default=$fzf_dark
+      # fzf_default=$fzf_dark
       term_theme="dark"
+      base16_catppuccin-mocha
     else
-      fzf_default=$fzf_light
+      # fzf_default=$fzf_light
       term_theme="light"
+      base16_tokyonight-light
     fi
     ;;
   linux*)
@@ -262,10 +265,10 @@ case "$OSTYPE" in
       windows_theme=$(reg.exe query 'HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' /v 'AppsUseLightTheme' | grep -o '0x[0-9]*')
 
       if [[ $windows_theme == 0x0 ]]; then
-        fzf_default=$fzf_dark
+        # fzf_default=$fzf_dark
         term_theme="dark"
       else
-        fzf_default=$fzf_light
+        # fzf_default=$fzf_light
         term_theme="light"
       fi
     else
@@ -273,31 +276,31 @@ case "$OSTYPE" in
       gtk_theme=$(dconf read /org/gnome/desktop/interface/gtk-theme)
 
       if [[ "$gtk_theme" == *"light"* || "$gtk_theme" == *"Latte"* ]]; then
-        fzf_default=$fzf_light
+        # fzf_default=$fzf_light
         term_theme="light"
       else
-        fzf_default=$fzf_dark
+        # fzf_default=$fzf_dark
         term_theme="dark"
       fi
     fi
     ;;
 esac
 
-export FZF_DEFAULT_OPTS="$fzf_default"
+# export FZF_DEFAULT_OPTS="$fzf_default"
 export TERM_THEME="$term_theme"
 
 # delta.light based on term_theme (light/dark)
-alias git='git -c delta.light=$( [[ "$term_theme" == "light" ]] && echo true || echo false )'
+# alias git='git -c delta.light=$( [[ "$term_theme" == "light" ]] && echo true || echo false )'
 
-if command -v kitty &> /dev/null; then
-  if [[ "$term_theme" == "dark" ]]; then
-    kitty +kitten themes --reload-in=all Catppuccin-Mocha
-    export BAT_THEME="Catppuccin-mocha"
-  else
-    kitty +kitten themes --reload-in=all Catppuccin-Latte
-    export BAT_THEME="Catppuccin-latte"
-  fi
-fi
+# if command -v kitty &> /dev/null; then
+#   if [[ "$term_theme" == "dark" ]]; then
+#     kitty +kitten themes --reload-in=all Catppuccin-Mocha
+#     export BAT_THEME="Catppuccin-mocha"
+#   else
+#     kitty +kitten themes --reload-in=all Catppuccin-Latte
+#     export BAT_THEME="Catppuccin-latte"
+#   fi
+# fi
 
 ## End color theme ##
 
@@ -326,6 +329,10 @@ fi
 
 # lua
 export PATH="$PATH:$HOME/.luarocks/bin"
+
+# base16
+export BASE16_THEME_DEFAULT="catppuccin-mocha"
+export BASE16_SHELL_ENABLE_VARS=1
 
 # starship.rs
 eval "$(starship init zsh)"

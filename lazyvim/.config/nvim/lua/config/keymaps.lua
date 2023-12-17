@@ -5,8 +5,10 @@
 local function toggle_theme()
   if vim.o.background == "light" then
     vim.cmd("set background=dark")
+    vim.cmd("colorscheme catppuccin")
   else
     vim.cmd("set background=light")
+    vim.cmd("colorscheme tokyonight")
   end
 end
 

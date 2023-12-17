@@ -1,3 +1,9 @@
+local colorscheme = function()
+  local base16_theme = os.getenv("BASE16_THEME")
+  local theme_name = base16_theme and base16_theme:match("([^%-]+)") or "default"
+  return theme_name
+end
+
 return {
   { "rose-pine/neovim", name = "rose-pine" },
   {
@@ -13,9 +19,15 @@ return {
     },
   },
   {
+    "maxmx03/solarized.nvim",
+    name = "solarized",
+    lazy = false,
+    priority = 1000,
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = colorscheme(),
     },
   },
   -- {

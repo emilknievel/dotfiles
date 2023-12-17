@@ -28,3 +28,9 @@
 	defaultBranch = main
 [rebase]
 	autosquash = true
+[include]
+	# Import ${XDG_CONFIG_HOME:-$HOME/.config}/tinted-theming/delta.gitconfig.
+	# It will set delta.light=(true|false):
+	path = ~/.config/tinted-theming/delta.gitconfig
+[delta]
+	syntax-theme = "base16-256"
