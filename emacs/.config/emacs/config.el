@@ -1401,8 +1401,15 @@ parses its input."
 (add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
 
 (use-package pdf-tools
-  :config
-  (pdf-tools-install)) ; install pdf-tools in all current and future pdf buffers
+  :commands (pdf-loader-install)
+  :mode "\\.pdf\\'"
+  :bind (:map pdf-view-mode-map
+              ("j" . pdf-view-next-line-or-next-page)
+              ("k" . pdf-view-previous-line-or-previous-page))
+  :init (pdf-loader-install)
+  :config (add-to-list 'revert-without-query ".pdf")
+  :hook (pdf-view-mode . (lambda () (interactive)
+                           (display-line-numbers-mode -1))))
 
 (use-package embark
   :bind
