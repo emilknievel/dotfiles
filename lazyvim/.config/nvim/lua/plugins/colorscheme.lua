@@ -1,16 +1,16 @@
 local base16_theme = os.getenv("BASE16_THEME")
 
 local colorscheme = function()
-  local theme_name = base16_theme and base16_theme:match("tokyo%-night") and "tokyonight"
-    or base16_theme and base16_theme:match("solarized") and "solarized"
+  local theme_name = base16_theme and base16_theme:match("solarized") and "solarized"
     or base16_theme and base16_theme:match("catppuccin") and "catppuccin"
-    or "gruvbox"
+    or base16_theme and base16_theme:match("rose%-pine") and "rose-pine"
+    or "tokyonight"
 
   return theme_name
 end
 
 return {
-  { "rose-pine/neovim", name = "rose-pine" },
+  { "rose-pine/neovim", name = "rose-pine", opts = { disable_background = true } },
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -22,7 +22,14 @@ return {
           "macchiato"
         ) and "macchiato" or base16_theme and base16_theme:match("frappe") and "frappe",
       },
-      -- transparent_background = true,
+      transparent_background = true,
+      highlight_overrides = {
+        all = function(colors)
+          return {
+            NormalFloat = { bg = colors.mantle },
+          }
+        end,
+      },
     },
   },
   {
@@ -37,10 +44,10 @@ return {
       colorscheme = colorscheme(),
     },
   },
-  -- {
-  --   "rcarriga/nvim-notify",
-  --   opts = {
-  --     background_colour = "#000000",
-  --   },
-  -- },
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      background_colour = vim.api.nvim_get_hl(0, { name = "Normal" }).bg and "Normal" or "#000000",
+    },
+  },
 }
