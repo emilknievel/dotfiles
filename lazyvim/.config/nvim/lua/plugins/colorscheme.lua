@@ -10,6 +10,17 @@ local colorscheme = function()
 end
 
 return {
+  {
+    "folke/tokyonight.nvim",
+    name = "tokyonight",
+    opts = {
+      style = "night",
+      transparent = true,
+      styles = {
+        floats = "normal",
+      },
+    },
+  },
   { "rose-pine/neovim", name = "rose-pine", opts = { disable_background = true } },
   {
     "catppuccin/nvim",
