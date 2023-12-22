@@ -755,7 +755,9 @@ Nerd icons for dired.
 
 *** Modeline
 
-#+begin_src emacs-lisp
+**** Doom modeline (disabled)
+
+#+begin_src emacs-lisp :tangle no
   (use-package doom-modeline
     :ensure t
     :init (doom-modeline-mode 1))

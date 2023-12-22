@@ -453,10 +453,6 @@
          ;; prevent icons from overlapping vertically
          (dired-mode . (lambda () (setq line-spacing 0.25)))))
 
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1))
-
 (use-package spacious-padding
   :config
   (spacious-padding-mode 1))
