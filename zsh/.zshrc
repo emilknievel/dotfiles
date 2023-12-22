@@ -278,7 +278,7 @@ case "$OSTYPE" in
       if [[ "$gtk_theme" == *"light"* || "$gtk_theme" == *"Latte"* ]]; then
         # fzf_default=$fzf_light
         term_theme="light"
-        base16_catppuccin-frappe
+        base16_solarized-light
       else
         # fzf_default=$fzf_dark
         term_theme="dark"

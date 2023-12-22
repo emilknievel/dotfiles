@@ -4,8 +4,8 @@ local colorscheme = function()
   local theme_name = base16_theme and base16_theme:match("solarized") and "solarized"
     or base16_theme and base16_theme:match("catppuccin") and "catppuccin"
     or base16_theme and base16_theme:match("rose%-pine") and "rose-pine"
+    or base16_theme and base16_theme:match("kanagawa") and "kanagawa"
     or "tokyonight"
-
   return theme_name
 end
 
@@ -15,39 +15,47 @@ return {
     name = "tokyonight",
     opts = {
       style = "night",
-      transparent = true,
-      styles = {
-        floats = "normal",
-      },
+      -- transparent = true,
+      -- styles = {
+      --   floats = "normal",
+      -- },
     },
   },
-  { "rose-pine/neovim", name = "rose-pine", opts = { disable_background = true } },
+  { "rose-pine/neovim", name = "rose-pine", opts = { disable_background = false } },
   {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
     opts = {
       background = {
-        light = "latte",
-        dark = base16_theme and base16_theme:match("mocha") and "mocha" or base16_theme and base16_theme:match(
-          "macchiato"
-        ) and "macchiato" or base16_theme and base16_theme:match("frappe") and "frappe",
+        light = "frappe",
+        dark = "mocha",
       },
-      transparent_background = true,
-      highlight_overrides = {
-        all = function(colors)
-          return {
-            NormalFloat = { bg = colors.mantle },
-          }
-        end,
-      },
+      -- transparent_background = true,
+      -- highlight_overrides = {
+      --   all = function(colors)
+      --     return {
+      --       NormalFloat = { bg = colors.mantle },
+      --     }
+      --   end,
+      -- },
     },
   },
   {
     "maxmx03/solarized.nvim",
     name = "solarized",
-    lazy = false,
     priority = 1000,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    name = "kanagawa",
+    priority = 1000,
+    opts = {
+      background = { -- wave, dragon, lotus
+        dark = "dragon",
+        light = "lotus",
+      },
+    },
   },
   {
     "LazyVim/LazyVim",
@@ -55,10 +63,10 @@ return {
       colorscheme = colorscheme(),
     },
   },
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      background_colour = vim.api.nvim_get_hl(0, { name = "Normal" }).bg and "Normal" or "#000000",
-    },
-  },
+  -- {
+  --   "rcarriga/nvim-notify",
+  --   opts = {
+  --     background_colour = vim.api.nvim_get_hl(0, { name = "Normal" }).bg and "Normal" or "#000000",
+  --   },
+  -- },
 }
