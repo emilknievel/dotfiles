@@ -251,11 +251,11 @@ case "$OSTYPE" in
     if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
       # fzf_default=$fzf_dark
       term_theme="dark"
-      base16_catppuccin-mocha
+      base16_ayu-dark
     else
       # fzf_default=$fzf_light
       term_theme="light"
-      base16_catppuccin-frappe
+      base16_cupertino
     fi
     ;;
   linux*)
