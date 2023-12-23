@@ -357,7 +357,6 @@ Edit multiple occurrences in the same way simultaneously.
 Integrate iedit with evil. [[https://github.com/syl20bnr/evil-iedit-state][Keybindings]] etc.
 
 #+begin_src emacs-lisp
-
   (use-package evil-iedit-state)
 #+end_src
 
@@ -420,9 +419,9 @@ Get rid of the annoying startup screen.
 
 *** Theme
 
-**** Preamble
+**** Preamble (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   ;; https://github.com/catppuccin/emacs/issues/61#issuecomment-1551251639
   (setq ev/org-src-block-faces org-src-block-faces)
 
@@ -444,23 +443,17 @@ Get rid of the annoying startup screen.
   (add-hook 'org-mode-hook 'ev/text-org-blocks)
 #+end_src
 
-**** Background alpha (disabled)
+**** Variables (disabled)
 
 #+begin_src emacs-lisp :tangle no
-  (set-frame-parameter nil 'alpha-background 90)
-#+end_src
-
-**** Variables
-
-#+begin_src emacs-lisp
   (defvar ev/dark-theme 'catppuccin)
   (defvar ev/light-theme 'doom-solarized-light)
   (defvar ev/current-theme ev/dark-theme)
 #+end_src
 
-**** Toggle theme
+**** Toggle theme (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (defun ev/load-dark-theme ()
     (mapcar #'disable-theme custom-enabled-themes)
     (load-theme ev/dark-theme t)
@@ -487,6 +480,10 @@ Get rid of the annoying startup screen.
     (if (eq ev/current-theme ev/light-theme)
         (ev/load-dark-theme)
       (ev/load-light-theme)))
+
+  (general-define-key
+   :prefix-map 'ev/leader-key-map
+   "t t" '(ev/toggle-theme :wk "Toggle theme"))
 #+end_src
 
 **** Themes directory
@@ -495,24 +492,9 @@ Get rid of the annoying startup screen.
   (setq custom-theme-directory "~/.config/emacs/themes/")
 #+end_src
 
-#+begin_src emacs-lisp
-  (general-define-key
-   :prefix-map 'ev/leader-key-map
-   "t t" '(ev/toggle-theme :wk "Toggle theme"))
-#+end_src
+**** Catppuccin (disabled)
 
-**** Kaolin
-
-#+begin_src emacs-lisp
-  (use-package kaolin-themes
-    :config
-    (setq kaolin-themes-distinct-fringe t)
-    (setq kaolin-themes-hl-line-colored t))
-#+end_src
-
-**** Catppuccin
-
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package catppuccin-theme
     :init (setq catppuccin-flavor 'mocha))
 #+end_src
@@ -520,7 +502,31 @@ Get rid of the annoying startup screen.
 **** Modus
 
 #+begin_src emacs-lisp
-  (use-package modus-themes)
+  (use-package modus-themes
+    :ensure t
+    :custom
+    (modus-themes-mixed-fonts t)
+    (modus-themes-org-blocks 'gray-background)
+    (modus-themes-common-palette-overrides
+     '((fringe unspecified)
+       (bg-paren-match bg-magenta-intense)
+       (fg-heading-1 blue-warmer)
+       (fg-heading-2 yellow-cooler)
+       (fg-heading-3 cyan-cooler)))
+    (modus-themes-headings
+     '((1 . (variable-pitch 1.5))
+       (2 . (variable-pitch 1.4))
+       (3 . (variable-pitch 1.3))
+       (4 . (variable-pitch 1.2))
+       (5 . (variable-pitch 1.1))
+       (6 . (variable-pitch 1.0))
+       (7 . (variable-pitch 1.0))
+       (8 . (variable-pitch 1.0))))
+    :config
+    (load-theme 'modus-operandi :no-confirm)
+    (general-define-key
+     :prefix-map 'ev/leader-key-map
+     "t t" '(modus-themes-toggle :wk "Toggle theme")))
 #+end_src
 
 **** Ef (disabled)
@@ -535,9 +541,9 @@ Get rid of the annoying startup screen.
               "t t" 'ef-themes-toggle))
 #+end_src
 
-**** Doom
+**** Doom (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package doom-themes
     :ensure t
     :init
@@ -548,40 +554,14 @@ Get rid of the annoying startup screen.
     (doom-themes-visual-bell-config))
 #+end_src
 
-**** Load current theme
-
-#+begin_src emacs-lisp
-  (ev/load-dark-theme)
-#+end_src
-
-**** Circadian (disabled)
-
-Theme based on sunrise/sunset.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package circadian
-    :config
-    (setq calendar-latitude 58.4)
-    (setq calendar-longitude 13.8)
-    ;; todo: use ev/dark-theme and ev/light-theme instead
-    (setq circadian-themes '((:sunrise . doom-rose-pine-dawn)
-                             (:sunset  . doom-rose-pine)))
-    (circadian-setup))
-#+end_src
-
 **** Auto-Dark for Emacs
 
 #+begin_src emacs-lisp
   (use-package auto-dark
     :init
-    (setq auto-dark-dark-theme ev/dark-theme
-          auto-dark-light-theme ev/light-theme)
-    :config (auto-dark-mode t)
-    :hook
-    ((auto-dark-dark-mode . (lambda ()
-                              (ev/load-dark-theme)))
-     (auto-dark-light-mode . (lambda ()
-                               (ev/load-light-theme)))))
+    (setq auto-dark-dark-theme 'modus-vivendi
+          auto-dark-light-theme 'modus-operandi)
+    :config (auto-dark-mode t))
 #+end_src
 
 *** Fonts
@@ -621,56 +601,13 @@ Theme based on sunrise/sunset.
   (set-face-attribute 'italic nil :slant 'italic :underline nil)
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
-  (cond ((eq system-type 'darwin)
-         (add-to-list 'default-frame-alist `(font . ,(concat ev/macos-font " 13")))
-         ;; Render fonts like in iTerm
-         ;; Still need to set `defaults write org.gnu.Emacs AppleFontSmoothing -int`
-         ;; in the terminal for it to work like intended.
-         ;; (setq ns-use-thin-smoothing t)
-         )
-        ((eq system-type 'gnu/linux)
-         (add-to-list 'default-frame-alist `(font . ,(concat ev/linux-font " 10")))
-         ))
-
-  (when (string-match "-[Mm]icrosoft" operating-system-release)
-    (add-to-list 'default-frame-alist `(font . ,(concat ev/editor-font " 18"))))
-#+end_src
-
 **** Custom faces
 
 #+begin_src emacs-lisp
   (custom-theme-set-faces
    'user
-   `(org-block ((t (:inherit fixed-pitch))))
-   `(org-code ((t (:inherit org-block))))
-   `(org-table ((t (:inherit fixed-pitch))))
-   `(markdown-inline-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+   `(markdown-inline-code-face ((t (:inherit org-code))))
    `(markdown-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
-   `(outline-1 ((t (:inherit variable-pitch :height 1.5))))
-   `(outline-2 ((t (:inherit variable-pitch :height 1.4))))
-   `(outline-3 ((t (:inherit variable-pitch :height 1.3))))
-   `(outline-4 ((t (:inherit variable-pitch :height 1.2))))
-   `(outline-5 ((t (:inherit variable-pitch :height 1.1))))
-   `(outline-6 ((t (:inherit variable-pitch :height 1.0))))
-   `(outline-7 ((t (:inherit variable-pitch :height 1.0))))
-   `(outline-8 ((t (:inherit variable-pitch :height 1.0))))
-   `(org-level-1 ((t (:inherit outline-1 :height 1.0 :weight bold))))
-   `(org-level-2 ((t (:inherit outline-2 :height 1.0 :weight bold))))
-   `(org-level-3 ((t (:inherit outline-3 :height 1.0 :weight bold))))
-   `(org-level-4 ((t (:inherit outline-4 :height 1.0 :weight bold))))
-   `(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight bold))))
-   `(org-level-6 ((t (:inherit outline-6 :height 1.0 :weight bold))))
-   `(org-level-7 ((t (:inherit outline-7 :height 1.0 :weight bold))))
-   `(org-level-8 ((t (:inherit outline-8 :height 1.0 :weight bold))))
-   `(markdown-header-face-1 ((t (:inherit org-level-1))))
-   `(markdown-header-face-2 ((t (:inherit org-level-2))))
-   `(markdown-header-face-3 ((t (:inherit org-level-3))))
-   `(markdown-header-face-4 ((t (:inherit org-level-4))))
-   `(markdown-header-face-5 ((t (:inherit org-level-5))))
-   `(markdown-header-face-6 ((t (:inherit org-level-6))))
-   `(markdown-header-face-7 ((t (:inherit org-level-7))))
-   `(markdown-header-face-8 ((t (:inherit org-level-8))))
    `(org-document-title ((t (:inherit outline-1 :height 1.1 :weight bold)))))
 #+end_src
 
@@ -1272,12 +1209,13 @@ Docker file mode.
 
 #+begin_src emacs-lisp
   (use-package markdown-mode
-    :mode ("README\\.md\\'" . gfm-mode)
+    :mode ("\\.md\\'" . gfm-mode)
     :init (setq markdown-command "pandoc"
                 markdown-header-scaling t
                 markdown-enable-math t
                 markdown-make-gfm-checkboxes-buttons t
-                markdown-fontify-code-blocks-natively t))
+                markdown-fontify-code-blocks-natively t)
+    :hook (markdown-mode . (lambda () (variable-pitch-mode 1))))
 #+end_src
 
 *** Clojure
@@ -1338,8 +1276,8 @@ Notable keymaps:
 
 | Keymap  | Command description                                     |
 |---------+---------------------------------------------------------|
-| ~C-c C-c~ | Send request at point                                   |
-| ~C-c C-j~ | Run jq interactively on restclient json response buffer |
+| =C-c C-c= | Send request at point                                   |
+| =C-c C-j= | Run jq interactively on restclient json response buffer |
 
 #+begin_src emacs-lisp
   (use-package restclient
@@ -1482,7 +1420,6 @@ Notable keymaps:
 
 #+begin_src emacs-lisp
   (use-package dired-hide-dotfiles
-    :hook (dired-mode . dired-hide-dotfiles-mode)
     :config
     (evil-define-key 'normal dired-mode-map
       "H" 'dired-hide-dotfiles-mode))
@@ -1656,7 +1593,6 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
   (use-package org
     :straight (:type built-in)
     :custom
-    (org-hide-emphasis-markers t)
     (org-return-follows-link t)
     (org-startup-with-inline-images t)
     (org-fontify-quote-and-verse-blocks t)
@@ -1686,10 +1622,11 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
     (org-modern-table nil)
     (org-modern-todo t)
     (org-modern-star '("*"))
+    (org-modern-hide-stars 'leading)
     :hook
     ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
     ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-    ((org-mode gfm-mode markdown-mode) . org-modern-mode))
+    (org-mode . org-modern-mode))
 #+end_src
 
 *** Olivetti

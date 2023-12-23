@@ -265,94 +265,39 @@
       mac-option-modifier nil
       mac-control-modifier 'control)
 
-;; https://github.com/catppuccin/emacs/issues/61#issuecomment-1551251639
-(setq ev/org-src-block-faces org-src-block-faces)
-
-;; (defun ev/revert-if-org-file ()
-;;   "Revert the buffer if the current file is an Org file."
-;;   (when (and buffer-file-name
-;;              (string= (file-name-extension buffer-file-name) "org"))
-;;     (revert-buffer :ignore-auto :noconfirm)))
-
-(defun ev/text-org-blocks ()
-  (if (eq ev/current-theme 'catppuccin)
-      (setq ev/org-block-cookie (face-remap-add-relative 'org-block (list :foreground (catppuccin-get-color 'text))))
-    (when ev/org-block-cookie
-      (face-remap-reset-base ev/org-block-cookie))))
-  ;; (ev/revert-if-org-file))
-
-;; (debug-on-entry 'ev/revert-if-org-file)
-
-(add-hook 'org-mode-hook 'ev/text-org-blocks)
-
-(defvar ev/dark-theme 'catppuccin)
-(defvar ev/light-theme 'doom-solarized-light)
-(defvar ev/current-theme ev/dark-theme)
-
-(defun ev/load-dark-theme ()
-  (mapcar #'disable-theme custom-enabled-themes)
-  (load-theme ev/dark-theme t)
-  (setq ev/current-theme ev/dark-theme)
-  (setq catppuccin-flavor 'mocha)
-  (setenv "TERM_THEME" "dark")
-  (catppuccin-reload)
-  (setq org-src-fontify-natively t)
-  (add-to-list 'org-src-block-faces (list "" (list :foreground (catppuccin-get-color 'green))))
-  (ev/text-org-blocks))
-
-(defun ev/load-light-theme ()
-  (mapcar #'disable-theme custom-enabled-themes)
-  (load-theme ev/light-theme t)
-  (setq ev/current-theme ev/light-theme)
-  ;; (setq catppuccin-flavor 'latte)
-  (setenv "TERM_THEME" "light")
-  (setq org-src-block-faces ev/org-src-block-faces)
-  (ev/text-org-blocks))
-
-(defun ev/toggle-theme ()
-  "Toggle between two themes"
-  (interactive)
-  (if (eq ev/current-theme ev/light-theme)
-      (ev/load-dark-theme)
-    (ev/load-light-theme)))
-
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
-(general-define-key
- :prefix-map 'ev/leader-key-map
- "t t" '(ev/toggle-theme :wk "Toggle theme"))
-
-(use-package kaolin-themes
-  :config
-  (setq kaolin-themes-distinct-fringe t)
-  (setq kaolin-themes-hl-line-colored t))
-
-(use-package catppuccin-theme
-  :init (setq catppuccin-flavor 'mocha))
-
-(use-package modus-themes)
-
-(use-package doom-themes
+(use-package modus-themes
   :ensure t
-  :init
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
+  :custom
+  (modus-themes-mixed-fonts t)
+  (modus-themes-org-blocks 'gray-background)
+  (modus-themes-common-palette-overrides
+   '((fringe unspecified)
+     (bg-paren-match bg-magenta-intense)
+     (fg-heading-1 blue-warmer)
+     (fg-heading-2 yellow-cooler)
+     (fg-heading-3 cyan-cooler)))
+  (modus-themes-headings
+   '((1 . (variable-pitch 1.5))
+     (2 . (variable-pitch 1.4))
+     (3 . (variable-pitch 1.3))
+     (4 . (variable-pitch 1.2))
+     (5 . (variable-pitch 1.1))
+     (6 . (variable-pitch 1.0))
+     (7 . (variable-pitch 1.0))
+     (8 . (variable-pitch 1.0))))
   :config
-  (doom-themes-org-config)
-  (doom-themes-visual-bell-config))
-
-(ev/load-dark-theme)
+  (load-theme 'modus-operandi :no-confirm)
+  (general-define-key
+   :prefix-map 'ev/leader-key-map
+   "t t" '(modus-themes-toggle :wk "Toggle theme")))
 
 (use-package auto-dark
   :init
-  (setq auto-dark-dark-theme ev/dark-theme
-        auto-dark-light-theme ev/light-theme)
-  :config (auto-dark-mode t)
-  :hook
-  ((auto-dark-dark-mode . (lambda ()
-                            (ev/load-dark-theme)))
-   (auto-dark-light-mode . (lambda ()
-                             (ev/load-light-theme)))))
+  (setq auto-dark-dark-theme 'modus-vivendi
+        auto-dark-light-theme 'modus-operandi)
+  :config (auto-dark-mode t))
 
 (defvar ev/linux-font "JetBrainsMono NF")
 ;; (defvar ev/macos-font "JetBrainsMono Nerd Font")
@@ -383,35 +328,8 @@
 
 (custom-theme-set-faces
  'user
- `(org-block ((t (:inherit fixed-pitch))))
- `(org-code ((t (:inherit org-block))))
- `(org-table ((t (:inherit fixed-pitch))))
- `(markdown-inline-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+ `(markdown-inline-code-face ((t (:inherit org-code))))
  `(markdown-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
- `(outline-1 ((t (:inherit variable-pitch :height 1.5))))
- `(outline-2 ((t (:inherit variable-pitch :height 1.4))))
- `(outline-3 ((t (:inherit variable-pitch :height 1.3))))
- `(outline-4 ((t (:inherit variable-pitch :height 1.2))))
- `(outline-5 ((t (:inherit variable-pitch :height 1.1))))
- `(outline-6 ((t (:inherit variable-pitch :height 1.0))))
- `(outline-7 ((t (:inherit variable-pitch :height 1.0))))
- `(outline-8 ((t (:inherit variable-pitch :height 1.0))))
- `(org-level-1 ((t (:inherit outline-1 :height 1.0 :weight bold))))
- `(org-level-2 ((t (:inherit outline-2 :height 1.0 :weight bold))))
- `(org-level-3 ((t (:inherit outline-3 :height 1.0 :weight bold))))
- `(org-level-4 ((t (:inherit outline-4 :height 1.0 :weight bold))))
- `(org-level-5 ((t (:inherit outline-5 :height 1.0 :weight bold))))
- `(org-level-6 ((t (:inherit outline-6 :height 1.0 :weight bold))))
- `(org-level-7 ((t (:inherit outline-7 :height 1.0 :weight bold))))
- `(org-level-8 ((t (:inherit outline-8 :height 1.0 :weight bold))))
- `(markdown-header-face-1 ((t (:inherit org-level-1))))
- `(markdown-header-face-2 ((t (:inherit org-level-2))))
- `(markdown-header-face-3 ((t (:inherit org-level-3))))
- `(markdown-header-face-4 ((t (:inherit org-level-4))))
- `(markdown-header-face-5 ((t (:inherit org-level-5))))
- `(markdown-header-face-6 ((t (:inherit org-level-6))))
- `(markdown-header-face-7 ((t (:inherit org-level-7))))
- `(markdown-header-face-8 ((t (:inherit org-level-8))))
  `(org-document-title ((t (:inherit outline-1 :height 1.1 :weight bold)))))
 
 (use-package ligature
@@ -872,12 +790,13 @@ parses its input."
                  (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 
 (use-package markdown-mode
-  :mode ("README\\.md\\'" . gfm-mode)
+  :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "pandoc"
               markdown-header-scaling t
               markdown-enable-math t
               markdown-make-gfm-checkboxes-buttons t
-              markdown-fontify-code-blocks-natively t))
+              markdown-fontify-code-blocks-natively t)
+  :hook (markdown-mode . (lambda () (variable-pitch-mode 1))))
 
 (use-package clojure-mode)
 
@@ -979,7 +898,6 @@ parses its input."
 (use-package dired-single)
 
 (use-package dired-hide-dotfiles
-  :hook (dired-mode . dired-hide-dotfiles-mode)
   :config
   (evil-define-key 'normal dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
@@ -1131,7 +1049,6 @@ parses its input."
 (use-package org
   :straight (:type built-in)
   :custom
-  (org-hide-emphasis-markers t)
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
   (org-fontify-quote-and-verse-blocks t)
@@ -1157,10 +1074,11 @@ parses its input."
   (org-modern-table nil)
   (org-modern-todo t)
   (org-modern-star '("*"))
+  (org-modern-hide-stars 'leading)
   :hook
   ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ((org-mode gfm-mode markdown-mode) . org-modern-mode))
+  (org-mode . org-modern-mode))
 
 (use-package olivetti
   :general
