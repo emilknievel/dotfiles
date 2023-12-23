@@ -355,7 +355,8 @@
                              (ev/load-light-theme)))))
 
 (defvar ev/linux-font "JetBrainsMono NF")
-(defvar ev/macos-font "JetBrainsMono Nerd Font")
+;; (defvar ev/macos-font "JetBrainsMono Nerd Font")
+(defvar ev/macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
