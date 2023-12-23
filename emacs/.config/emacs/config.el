@@ -301,7 +301,7 @@
 
 (defvar ev/linux-font "JetBrainsMono NF")
 ;; (defvar ev/macos-font "JetBrainsMono Nerd Font")
-(defvar ev/macos-font "SF Mono")
+(defvar ev/macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -315,8 +315,8 @@
 
 (if (eq system-type 'darwin)
     (progn (setq ev/variable-pitch-font-height 140)
-           (setq ev/editor-font-height 130)
-           (setq ev/fixed-pitch-font-height 130))
+           (setq ev/editor-font-height 140)
+           (setq ev/fixed-pitch-font-height 140))
   (progn (setq ev/variable-pitch-font-height 100)
          (setq ev/editor-font-height 100)
          (setq ev/fixed-pitch-font-height 100)))
