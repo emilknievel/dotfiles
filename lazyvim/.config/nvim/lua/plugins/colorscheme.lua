@@ -6,7 +6,7 @@ local colorscheme = function()
     or base16_theme and base16_theme:match("rose%-pine") and "rose-pine"
     or base16_theme and base16_theme:match("tokyo%-night") and "tokyonight"
     or base16_theme and base16_theme:match("kanagawa") and "kanagawa"
-    or "catppuccin"
+    or "modus"
   return theme_name
 end
 
@@ -60,6 +60,10 @@ return {
         light = "lotus",
       },
     },
+  },
+  {
+    "miikanissi/modus-themes.nvim",
+    priority = 1000,
   },
   {
     "LazyVim/LazyVim",
