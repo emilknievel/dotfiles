@@ -306,8 +306,9 @@ export TERM_THEME="$term_theme"
 
 ## End color theme ##
 
-# vterm
-source $ZSH/custom/vterm.zsh
+# emacs-eat
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+  source "$EAT_SHELL_INTEGRATION_DIR/zsh"
 
 # opam configuration
 [[ ! -r "$HOME/.opam/opam-init/init.zsh" ]] || source "$HOME/.opam/opam-init/init.zsh"  > /dev/null 2> /dev/null

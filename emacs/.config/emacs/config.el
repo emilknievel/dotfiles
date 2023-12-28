@@ -863,14 +863,21 @@ parses its input."
   (magit-pre-refresh . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
-(use-package vterm
-  :general
-  (ev/leader-key-map
-   "o t" 'vterm
-   "o T" 'vterm-other-window)
-  :config
-  (setq vterm-max-scrollback 5000)
-  (setq vterm-kill-buffer-on-exit 't))
+(use-package eat
+  :straight (
+             :type git
+             :host codeberg
+             :repo "akib/emacs-eat"
+             :files ("*.el" ("term" "term/*.el") "*.texi"
+                     "*.ti" ("terminfo/e" "terminfo/e/*")
+                     ("terminfo/65" "terminfo/65/*")
+                     ("integration" "integration/*")
+                     (:exclude ".dir-locals.el" "*-tests.el")))
+  :custom
+  (eat-term-name "xterm-256color")
+  (eat-kill-buffer-on-exit t)
+  :hook ((eshell-load . eat-eshell-mode)
+         (eshell-load . eat-eshell-visual-command-mode)))
 
 (use-package project
   :general
