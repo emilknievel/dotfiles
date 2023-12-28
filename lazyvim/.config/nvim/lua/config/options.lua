@@ -5,6 +5,5 @@
 vim.opt.tabstop = 8
 vim.opt.spelllang = { "en", "sv" }
 
--- vim.opt.background = "dark"
 local term_theme = os.getenv("TERM_THEME")
 vim.opt.background = term_theme == "light" and "light" or "dark"

@@ -1,12 +1,20 @@
-local base16_theme = os.getenv("BASE16_THEME")
-
 local colorscheme = function()
+  local base16_theme = os.getenv("BASE16_THEME")
+  local background = vim.api.nvim_get_option("background")
+
   local theme_name = base16_theme and base16_theme:match("solarized") and "solarized"
     or base16_theme and base16_theme:match("catppuccin") and "catppuccin"
     or base16_theme and base16_theme:match("rose%-pine") and "rose-pine"
     or base16_theme and base16_theme:match("tokyo%-night") and "tokyonight"
     or base16_theme and base16_theme:match("kanagawa") and "kanagawa"
-    or "modus"
+    or background == "light" and "modus-operandi"
+    or background == "dark" and "modus-vivendi"
+    or "modus-vivendi"
+
+  if theme_name and theme_name:match("modus") then
+    vim.g.modus_termtrans_enable = 1
+  end
+
   return theme_name
 end
 
@@ -62,19 +70,13 @@ return {
     },
   },
   {
-    "miikanissi/modus-themes.nvim",
+    "ishan9299/modus-theme-vim",
     priority = 1000,
   },
   {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = colorscheme(),
-    },
-  },
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      background_colour = vim.api.nvim_get_hl(0, { name = "Normal" }).bg and "Normal" or "#000000",
     },
   },
 }
