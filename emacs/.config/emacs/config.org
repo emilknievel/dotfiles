@@ -172,7 +172,7 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 
 #+begin_src emacs-lisp
   (use-package which-key
-    :diminish which-key-mode
+    :diminish
     :init
     (which-key-mode)
     (which-key-setup-minibuffer)
@@ -558,6 +558,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (use-package auto-dark
+    :diminish
     :init
     (setq auto-dark-dark-theme 'modus-vivendi
           auto-dark-light-theme 'modus-operandi)
@@ -736,6 +737,16 @@ Nerd icons for dired.
   (use-package doom-modeline
     :ensure t
     :init (doom-modeline-mode 1))
+#+end_src
+
+**** Diminish
+
+Declutter the modeline.
+
+#+begin_src emacs-lisp
+  (use-package diminish
+    :config
+    (diminish 'visual-line-mode))
 #+end_src
 
 *** Padding
@@ -1644,6 +1655,7 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
 
 #+begin_src emacs-lisp
   (use-package olivetti
+    :diminish
     :general
     (ev/leader-key-map "u o" 'olivetti-mode)
     :init

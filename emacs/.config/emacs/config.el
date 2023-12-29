@@ -110,7 +110,7 @@
   :config (auth-source-1password-enable))
 
 (use-package which-key
-  :diminish which-key-mode
+  :diminish
   :init
   (which-key-mode)
   (which-key-setup-minibuffer)
@@ -294,6 +294,7 @@
    "t t" '(modus-themes-toggle :wk "Toggle theme")))
 
 (use-package auto-dark
+  :diminish
   :init
   (setq auto-dark-dark-theme 'modus-vivendi
         auto-dark-light-theme 'modus-operandi)
@@ -404,6 +405,10 @@
   :hook ((dired-mode . nerd-icons-dired-mode)
          ;; prevent icons from overlapping vertically
          (dired-mode . (lambda () (setq line-spacing 0.25)))))
+
+(use-package diminish
+  :config
+  (diminish 'visual-line-mode))
 
 (use-package spacious-padding
   :config
@@ -1088,6 +1093,7 @@ parses its input."
   (org-mode . org-modern-mode))
 
 (use-package olivetti
+  :diminish
   :general
   (ev/leader-key-map "u o" 'olivetti-mode)
   :init
