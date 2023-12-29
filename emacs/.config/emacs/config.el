@@ -1393,13 +1393,17 @@ parses its input."
       (re-search-backward empty-header-regexp nil t))
     (move-end-of-line nil))
 
+  (defun ev/gptel-get-default-key ()
+    "Get the OpenAI API key from the auth-source"
+    (interactive)
+    (setq gptel-api-key (auth-source-pick-first-password
+                         :host "OpenAI API Key"
+                         :user "api key")))
   :general
   (ev/leader-key-map
    "a a" 'gptel
    "a g" 'gptel-menu)
 
   :hook
-  ((gptel-mode . (lambda () (setq gptel-api-key (auth-source-pick-first-password
-                                                 :host "OpenAI API Key"
-                                                 :user "api key"))))
+  ((gptel-mode . ev/gptel-get-default-key)
    (gptel-post-response . ev/next-prompt)))
