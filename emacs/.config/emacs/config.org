@@ -533,8 +533,9 @@ Get rid of the annoying startup screen.
        (6 . (variable-pitch 1.0))
        (7 . (variable-pitch 1.0))
        (8 . (variable-pitch 1.0))))
+    (modus-themes-variable-pitch-ui t)
     :config
-    (load-theme 'modus-operandi :no-confirm)
+    (load-theme 'modus-vivendi :no-confirm)
     (general-define-key
      :prefix-map 'ev/leader-key-map
      "t t" '(modus-themes-toggle :wk "Toggle theme")))
