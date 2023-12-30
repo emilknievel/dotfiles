@@ -166,6 +166,16 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
     :config (auth-source-1password-enable))
 #+end_src
 
+** Reload
+
+#+begin_src emacs-lisp
+  (defun ev/reload-emacs-config ()
+    "Tangle org file and reload the emacs config."
+    (interactive)
+    (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
+    (load-file (expand-file-name "config.el" user-emacs-directory)))
+#+end_src
+
 ** Key bindings
 
 *** which-key
@@ -268,9 +278,10 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+begin_src emacs-lisp
   (general-define-key
    :prefix-map 'ev/leader-key-map
-   "f s" 'save-buffer
+   "f c" 'ev/reload-emacs-config
    "f f" 'find-file
-   "f l" 'load-file)
+   "f l" 'load-file
+   "f s" 'save-buffer)
 #+end_src
 
 **** Buffers

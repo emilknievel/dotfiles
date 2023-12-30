@@ -109,6 +109,12 @@
 (use-package auth-source-1password
   :config (auth-source-1password-enable))
 
+(defun ev/reload-emacs-config ()
+  "Tangle org file and reload the emacs config."
+  (interactive)
+  (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
+  (load-file (expand-file-name "config.el" user-emacs-directory)))
+
 (use-package which-key
   :diminish
   :init
@@ -185,9 +191,10 @@
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
- "f s" 'save-buffer
+ "f c" 'ev/reload-emacs-config
  "f f" 'find-file
- "f l" 'load-file)
+ "f l" 'load-file
+ "f s" 'save-buffer)
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
