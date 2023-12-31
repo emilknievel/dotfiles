@@ -108,12 +108,6 @@
 (use-package auth-source-1password
   :config (auth-source-1password-enable))
 
-(defun ev/reload-emacs-config ()
-  "Tangle org file and reload the emacs config."
-  (interactive)
-  (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
-  (load-file (expand-file-name "config.el" user-emacs-directory)))
-
 (use-package which-key
   :diminish
   :init
@@ -176,6 +170,7 @@
    "d" '(:ignore t :wk "Directory")
    "E" '(:ignore t :wk "Embark")
    "f" '(:ignore t :wk "File")
+   "f c" '(:ignore t :wk "Config")
    "g" '(:ignore t :wk "Git")
    "h" '(:ignore t :wk "Help")
    "n" '(:ignore t :wk "Note")
@@ -189,9 +184,21 @@
    "u f" '(:ignore t :wk "Fonts")
    "w" '(:ignore t :wk "Window")))
 
+(defun ev/reload-emacs-config ()
+  "Tangle org file and reload the emacs config."
+  (interactive)
+  (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
+  (load-file (expand-file-name "config.el" user-emacs-directory)))
+
+(defun ev/edit-emacs-config ()
+  "Edit Emacs literate config file."
+  (interactive)
+  (find-file (expand-file-name "config.org" user-emacs-directory)))
+
 (general-define-key
  :prefix-map 'ev/leader-key-map
- "f c" 'ev/reload-emacs-config
+ "f c r" 'ev/reload-emacs-config
+ "f c f" 'ev/edit-emacs-config
  "f f" 'find-file
  "f l" 'load-file
  "f s" 'save-buffer)
@@ -312,7 +319,6 @@
   :config (auto-dark-mode t))
 
 (defvar ev/linux-font "JetBrainsMono NF")
-;; (defvar ev/macos-font "JetBrainsMono Nerd Font")
 (defvar ev/macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)

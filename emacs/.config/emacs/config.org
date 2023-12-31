@@ -165,16 +165,6 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
     :config (auth-source-1password-enable))
 #+end_src
 
-** Reload
-
-#+begin_src emacs-lisp
-  (defun ev/reload-emacs-config ()
-    "Tangle org file and reload the emacs config."
-    (interactive)
-    (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
-    (load-file (expand-file-name "config.el" user-emacs-directory)))
-#+end_src
-
 ** Key bindings
 
 *** which-key
@@ -259,6 +249,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
      "d" '(:ignore t :wk "Directory")
      "E" '(:ignore t :wk "Embark")
      "f" '(:ignore t :wk "File")
+     "f c" '(:ignore t :wk "Config")
      "g" '(:ignore t :wk "Git")
      "h" '(:ignore t :wk "Help")
      "n" '(:ignore t :wk "Note")
@@ -276,9 +267,21 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 **** Files
 
 #+begin_src emacs-lisp
+  (defun ev/reload-emacs-config ()
+    "Tangle org file and reload the emacs config."
+    (interactive)
+    (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
+    (load-file (expand-file-name "config.el" user-emacs-directory)))
+
+  (defun ev/edit-emacs-config ()
+    "Edit Emacs literate config file."
+    (interactive)
+    (find-file (expand-file-name "config.org" user-emacs-directory)))
+
   (general-define-key
    :prefix-map 'ev/leader-key-map
-   "f c" 'ev/reload-emacs-config
+   "f c r" 'ev/reload-emacs-config
+   "f c f" 'ev/edit-emacs-config
    "f f" 'find-file
    "f l" 'load-file
    "f s" 'save-buffer)
@@ -586,7 +589,6 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (defvar ev/linux-font "JetBrainsMono NF")
-  ;; (defvar ev/macos-font "JetBrainsMono Nerd Font")
   (defvar ev/macos-font "Iosevka Comfy")
 
   (if (eq system-type 'darwin)
