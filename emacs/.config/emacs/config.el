@@ -90,7 +90,6 @@
                                          "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
                                          "NVM_DIR"
                                          "NVM_CD_FLAGS"
-                                         ;; "FZF_DEFAULT_OPTS"
                                          "OPAM_SWITCH_PREFIX"
                                          "CAML_LD_LIBRARY"
                                          "OCAML_TOPLEVEL_PATH"
@@ -374,8 +373,6 @@
 
 (add-hook 'prog-mode-hook #'ev/show-column-guide)
 
-(column-number-mode 1)
-
 (defun ev/display-set-relative ()
   (interactive)
   (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode) (eq major-mode 'markdown-mode) (eq major-mode 'gfm-mode)))
@@ -419,6 +416,8 @@
   :hook ((dired-mode . nerd-icons-dired-mode)
          ;; prevent icons from overlapping vertically
          (dired-mode . (lambda () (setq line-spacing 0.25)))))
+
+(column-number-mode 1)
 
 (use-package diminish
   :config

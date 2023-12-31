@@ -130,7 +130,6 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
                                            "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
                                            "NVM_DIR"
                                            "NVM_CD_FLAGS"
-                                           ;; "FZF_DEFAULT_OPTS"
                                            "OPAM_SWITCH_PREFIX"
                                            "CAML_LD_LIBRARY"
                                            "OCAML_TOPLEVEL_PATH"
@@ -669,12 +668,6 @@ Show column indicator at column 80.
   (add-hook 'prog-mode-hook #'ev/show-column-guide)
 #+end_src
 
-Display in the modeline what column the caret is currently at.
-
-#+begin_src emacs-lisp
-  (column-number-mode 1)
-#+end_src
-
 *** Display line numbers
 
 Hooks for relative and absolute line numbers.
@@ -751,12 +744,10 @@ Nerd icons for dired.
 
 *** Modeline
 
-**** Doom modeline (disabled)
+**** Display cursor column
 
-#+begin_src emacs-lisp :tangle no
-  (use-package doom-modeline
-    :ensure t
-    :init (doom-modeline-mode 1))
+#+begin_src emacs-lisp
+  (column-number-mode 1)
 #+end_src
 
 **** Diminish
