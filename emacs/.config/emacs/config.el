@@ -187,6 +187,7 @@
    "t" '(:ignore t :wk "Toggle")
    "u" '(:ignore t :wk "UI")
    "u l" '(:ignore t :wk "Linum")
+   "u f" '(:ignore t :wk "Fonts")
    "w" '(:ignore t :wk "Window")))
 
 (general-define-key
@@ -363,7 +364,9 @@
                "\\\\" "://"))
   (ligature-set-ligatures 'prog-mode liga)
   (ligature-set-ligatures 'org-mode liga)
-  (global-ligature-mode t))
+  :general
+  (ev/leader-key-map
+   "u f l" 'global-ligature-mode))
 
 (defun ev/show-column-guide ()
   (setq display-fill-column-indicator-column 80)
