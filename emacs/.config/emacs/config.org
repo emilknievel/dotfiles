@@ -523,7 +523,10 @@ Get rid of the annoying startup screen.
        (bg-paren-match bg-magenta-intense)
        (fg-heading-1 blue-warmer)
        (fg-heading-2 yellow-cooler)
-       (fg-heading-3 cyan-cooler)))
+       (fg-heading-3 cyan-cooler)
+       (bg-mode-line-active bg-blue-subtle)
+       (fg-mode-line-active fg-main)
+       (border-mode-line-active blue-intense)))
     (modus-themes-headings
      '((1 . (variable-pitch 1.5))
        (2 . (variable-pitch 1.4))
@@ -533,7 +536,7 @@ Get rid of the annoying startup screen.
        (6 . (variable-pitch 1.0))
        (7 . (variable-pitch 1.0))
        (8 . (variable-pitch 1.0))))
-    (modus-themes-variable-pitch-ui t)
+    (modus-themes-variable-pitch-ui nil)
     :config
     (load-theme 'modus-vivendi :no-confirm)
     (general-define-key
