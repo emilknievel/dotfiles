@@ -237,15 +237,15 @@
  "h v" 'describe-variable
  "h k" 'describe-key
  "h i" 'info
- "h b" 'describe-bindings)
+ "h b" 'describe-bindings
+ "h a" 'describe-face)
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
  ;; toggles
  "t v" '(visual-line-mode :wk "visual line mode")
  "t n" '(display-line-numbers-mode :wk "display line numbers")
- "t c" '(visual-fill-column-mode :wk "visual fill column mode")
- "t t" 'ev/toggle-theme)
+ "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
