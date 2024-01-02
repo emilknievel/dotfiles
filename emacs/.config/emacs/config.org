@@ -528,10 +528,7 @@ Get rid of the annoying startup screen.
        (bg-paren-match bg-magenta-intense)
        (fg-heading-1 blue-warmer)
        (fg-heading-2 yellow-cooler)
-       (fg-heading-3 cyan-cooler)
-       (bg-mode-line-active bg-blue-subtle)
-       (fg-mode-line-active fg-main)
-       (border-mode-line-active blue-intense)))
+       (fg-heading-3 cyan-cooler)))
     (modus-themes-headings
      '((1 . (variable-pitch 1.5))
        (2 . (variable-pitch 1.4))
