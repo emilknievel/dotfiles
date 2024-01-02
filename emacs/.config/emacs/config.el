@@ -861,7 +861,13 @@ parses its input."
               :host github
               :repo "8uff3r/vue-ts-mode"
               :branch "main")
-  :mode ("\\.vue\\'" . vue-ts-mode))
+  :mode ("\\.vue\\'" . vue-ts-mode)
+  :config
+  (add-to-list 'eglot-server-programs
+               '(vue-ts-mode . ("vue-language-server" "--stdio"
+                                :initializationOptions
+                                (:typescript (:tsdk "./node_modules/typescript/lib")))))
+  :hook (vue-ts-mode . eglot-ensure))
 
 (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 
