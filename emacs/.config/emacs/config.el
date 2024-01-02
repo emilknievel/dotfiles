@@ -797,7 +797,7 @@ parses its input."
         (typescript-mode . typescript-ts-mode)
         (yaml-mode . yaml-ts-mode)
         (ocaml-mode . ocaml-ts-mode)
-        (csharp-mode . csharp-ts-mode)
+        ;; (csharp-mode . csharp-ts-mode)
         (rust-mode . rust-ts-mode)
         (c-mode . c-ts-mode)
         (c++-mode . c++-ts-mode)
