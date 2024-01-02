@@ -175,6 +175,8 @@
    "h" '(:ignore t :wk "Help")
    "n" '(:ignore t :wk "Note")
    "n r" '(:ignore t :wk "Roam")
+   "o" '(:ignore t :wk "Org")
+   "o b" '(:ignore t :wk "Babel")
    "p" '(:ignore t :wk "Project")
    "q" '(:ignore t :wk "Quit")
    "s" '(:ignore t :wk "Search")
@@ -1122,7 +1124,8 @@ any directory proferred by `consult-dir'."
   (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
-         ("C-c c" . org-capture)))
+         ("C-c c" . org-capture))
+  :general (ev/leader-key-map "o b t" 'org-babel-tangle))
 
 (use-package org-modern
   :after org
