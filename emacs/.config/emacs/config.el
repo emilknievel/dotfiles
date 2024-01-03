@@ -76,6 +76,8 @@
   (setq backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                  "backups")))))
 
+(setq calendar-week-start-day 1)
+
 (defvar ev/work-projects-path "~/projects/"
   "Work related projects")
 
