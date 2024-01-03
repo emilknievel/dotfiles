@@ -744,13 +744,7 @@ parses its input."
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
-(use-package eglot
-  :config
-  (with-eval-after-load 'eglot
-    (add-to-list
-     'eglot-server-programs '(((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))
-                              ((lua-mode lua-ts-mode) . ("lua-language-server")))))
-  (setq project-vc-extra-root-markers '(".busted")))
+(use-package eglot)
 
 (use-package flycheck-eglot
   :ensure t
@@ -864,18 +858,34 @@ parses its input."
               :branch "main")
   :mode ("\\.vue\\'" . vue-ts-mode)
   :config
-  (add-to-list 'eglot-server-programs
-               '(vue-ts-mode . ("vue-language-server" "--stdio"
-                                :initializationOptions
-                                (:typescript (:tsdk "./node_modules/typescript/lib")))))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(vue-ts-mode . ("vue-language-server" "--stdio"
+                                  :initializationOptions
+                                  (:typescript (:tsdk "./node_modules/typescript/lib"))))))
   :hook (vue-ts-mode . eglot-ensure))
 
 (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 
 (use-package mermaid-mode :mode "\\.mmd$")
 
-(use-package lua-mode :mode "\\.lua\\'")
-(use-package lua-ts-mode :hook (lua-mode . lua-ts-mode))
+(use-package lua-mode
+  :mode "\\.lua\\'")
+
+(use-package lua-ts-mode
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((lua-mode lua-ts-mode) . ("lua-language-server"))))
+  (add-to-list 'project-vc-extra-root-markers ".busted")
+  :hook
+  ((lua-mode . lua-ts-mode)
+   (lua-ts-mode . eglot-ensure)))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))))
+(add-hook 'csharp-mode-hook 'eglot-ensure)
 
 (use-package flycheck
   :init (global-flycheck-mode))

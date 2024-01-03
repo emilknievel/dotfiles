@@ -1130,13 +1130,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 ** Eglot
 
 #+begin_src emacs-lisp
-  (use-package eglot
-    :config
-    (with-eval-after-load 'eglot
-      (add-to-list
-       'eglot-server-programs '(((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))
-                                ((lua-mode lua-ts-mode) . ("lua-language-server")))))
-    (setq project-vc-extra-root-markers '(".busted")))
+  (use-package eglot)
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1332,10 +1326,11 @@ Notable keymaps:
                 :branch "main")
     :mode ("\\.vue\\'" . vue-ts-mode)
     :config
-    (add-to-list 'eglot-server-programs
-                 '(vue-ts-mode . ("vue-language-server" "--stdio"
-                                  :initializationOptions
-                                  (:typescript (:tsdk "./node_modules/typescript/lib")))))
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '(vue-ts-mode . ("vue-language-server" "--stdio"
+                                    :initializationOptions
+                                    (:typescript (:tsdk "./node_modules/typescript/lib"))))))
     :hook (vue-ts-mode . eglot-ensure))
 #+end_src
 
@@ -1360,8 +1355,27 @@ Notable keymaps:
 *** Lua
 
 #+begin_src emacs-lisp
-  (use-package lua-mode :mode "\\.lua\\'")
-  (use-package lua-ts-mode :hook (lua-mode . lua-ts-mode))
+  (use-package lua-mode
+    :mode "\\.lua\\'")
+
+  (use-package lua-ts-mode
+    :config
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '((lua-mode lua-ts-mode) . ("lua-language-server"))))
+    (add-to-list 'project-vc-extra-root-markers ".busted")
+    :hook
+    ((lua-mode . lua-ts-mode)
+     (lua-ts-mode . eglot-ensure)))
+#+end_src
+
+*** C#
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))))
+  (add-hook 'csharp-mode-hook 'eglot-ensure)
 #+end_src
 
 ** Syntax checking
