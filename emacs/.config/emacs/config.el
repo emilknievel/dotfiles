@@ -319,7 +319,7 @@
         auto-dark-light-theme 'modus-operandi)
   :config (auto-dark-mode t))
 
-(defvar ev/linux-font "JetBrainsMono NF")
+(defvar ev/linux-font "Iosevka Comfy")
 (defvar ev/macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
@@ -337,8 +337,8 @@
            (setq ev/editor-font-height 140)
            (setq ev/fixed-pitch-font-height 140))
   (progn (setq ev/variable-pitch-font-height 100)
-         (setq ev/editor-font-height 100)
-         (setq ev/fixed-pitch-font-height 100)))
+         (setq ev/editor-font-height 110)
+         (setq ev/fixed-pitch-font-height 110)))
 
 (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
 (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/fixed-pitch-font-height)
