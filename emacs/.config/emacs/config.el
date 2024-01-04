@@ -311,6 +311,7 @@
      (8 . (1.0))))
   (modus-themes-variable-pitch-ui nil)
   :config
+  ;; TODO: manually set org code blocks to match modus theme look on protiselaos' website
   (load-theme 'modus-vivendi :no-confirm)
   (general-define-key
    :prefix-map 'ev/leader-key-map
@@ -332,7 +333,7 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "SF Pro Text"))
+           (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo"))
   (progn (defvar ev/default-font ev/editor-font)
          (defvar ev/variable-pitch-font "sans")))
 
@@ -1139,32 +1140,32 @@ any directory proferred by `consult-dir'."
   (org-startup-with-inline-images t)
   (org-fontify-quote-and-verse-blocks t)
   (org-image-actual-width '(300))
-  (org-startup-indented t)
-  (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
-  :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
-  :general (ev/leader-key-map "o b t" 'org-babel-tangle))
-
-(use-package org-modern
-  :after org
-  :custom
+  (org-pretty-entities t)
   (org-auto-align-tags nil)
   (org-tags-column 0)
   (org-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
   (org-hide-emphasis-markers t)
-  (org-pretty-entities t)
-  (org-modern-block-fringe 8)
   (org-ellipsis "…")
+  (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture))
+  :hook
+  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+  ((org-mode gfm-mode markdown-mode) . visual-line-mode)
+  :general (ev/leader-key-map "o b t" 'org-babel-tangle))
+
+(use-package org-modern
+  :after org
+  :custom
   (org-modern-table nil)
   (org-modern-todo t)
   (org-modern-star '("*"))
-  (org-modern-hide-stars 'leading)
+  (org-modern-hide-stars nil)
+  (org-modern-block-fringe 8)
   :hook
-  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
-  ((org-mode gfm-mode markdown-mode) . visual-line-mode)
   (org-mode . org-modern-mode))
 
 (use-package olivetti
