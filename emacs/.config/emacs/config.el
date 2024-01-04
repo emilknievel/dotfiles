@@ -335,13 +335,13 @@
     (progn (defvar ev/default-font ev/editor-font)
            (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo"))
   (progn (defvar ev/default-font ev/editor-font)
-         (defvar ev/variable-pitch-font "sans")))
+         (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
 
 (if (eq system-type 'darwin)
     (progn (setq ev/variable-pitch-font-height 140)
            (setq ev/editor-font-height 140)
            (setq ev/fixed-pitch-font-height 140))
-  (progn (setq ev/variable-pitch-font-height 100)
+  (progn (setq ev/variable-pitch-font-height 110)
          (setq ev/editor-font-height 110)
          (setq ev/fixed-pitch-font-height 110)))
 
