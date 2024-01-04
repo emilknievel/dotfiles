@@ -818,8 +818,7 @@ parses its input."
               markdown-header-scaling t
               markdown-enable-math t
               markdown-make-gfm-checkboxes-buttons t
-              markdown-fontify-code-blocks-natively t)
-  :hook (markdown-mode . (lambda () (variable-pitch-mode 1))))
+              markdown-fontify-code-blocks-natively t))
 
 (use-package clojure-mode)
 
