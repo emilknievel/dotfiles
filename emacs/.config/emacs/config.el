@@ -253,6 +253,10 @@
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
+ "u f v" 'variable-pitch-mode)
+
+(general-define-key
+ :prefix-map 'ev/leader-key-map
  ;; emacsclient
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
@@ -297,14 +301,14 @@
      (fg-heading-2 yellow-cooler)
      (fg-heading-3 cyan-cooler)))
   (modus-themes-headings
-   '((1 . (variable-pitch 1.5))
-     (2 . (variable-pitch 1.4))
-     (3 . (variable-pitch 1.3))
-     (4 . (variable-pitch 1.2))
-     (5 . (variable-pitch 1.1))
-     (6 . (variable-pitch 1.0))
-     (7 . (variable-pitch 1.0))
-     (8 . (variable-pitch 1.0))))
+   '((1 . (1.5))
+     (2 . (1.4))
+     (3 . (1.3))
+     (4 . (1.2))
+     (5 . (1.1))
+     (6 . (1.0))
+     (7 . (1.0))
+     (8 . (1.0))))
   (modus-themes-variable-pitch-ui nil)
   :config
   (load-theme 'modus-vivendi :no-confirm)
@@ -914,6 +918,7 @@ parses its input."
                      ("terminfo/65" "terminfo/65/*")
                      ("integration" "integration/*")
                      (:exclude ".dir-locals.el" "*-tests.el")))
+  :general (ev/leader-key-map "t e" 'eshell)
   :custom
   (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
@@ -1153,7 +1158,7 @@ any directory proferred by `consult-dir'."
   (org-modern-star '("*"))
   (org-modern-hide-stars 'leading)
   :hook
-  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
   (org-mode . org-modern-mode))
 
