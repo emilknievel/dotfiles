@@ -885,10 +885,16 @@ parses its input."
   ((lua-mode . lua-ts-mode)
    (lua-ts-mode . eglot-ensure)))
 
+;; Invoke Eglot when entering a C# file
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
                '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))))
 (add-hook 'csharp-mode-hook 'eglot-ensure)
+
+;; C# is fairly verbose, so lines are usually longer than 80 columns
+(add-hook 'csharp-mode-hook
+          (lambda () (when (not (= display-fill-column-indicator-column 120))
+                       (setq display-fill-column-indicator-column 120))))
 
 (use-package flycheck
   :init (global-flycheck-mode))
