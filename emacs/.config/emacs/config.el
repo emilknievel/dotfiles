@@ -166,7 +166,8 @@
 
    ;; Prefixes
 
-   "a" '(:ignore t :which-key "AI")
+   "a" '(:ignore t :wk "AI")
+   "a c" '(:ignore t :wk "Copilot")
    "b" '(:ignore t :wk "Buffer")
    "c" '(:ignore t :wk "Code")
    "d" '(:ignore t :wk "Directory")
@@ -1449,15 +1450,20 @@ any directory proferred by `consult-dir'."
 
 (use-package copilot
   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-
   :hook
-  (prog-mode . (lambda ()
-                 (unless (string-match-p "*temp*" (buffer-name))
-                   (copilot-mode))))
-
+  ;; (prog-mode . (lambda ()
+  ;;                (unless (string-match-p "*temp*" (buffer-name))
+  ;;                  (copilot-mode))))
+  (emacs-lisp-mode . (lambda ()
+                       (setq-local copilot--indent-warning-printed-p t)))
   :config
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
+  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
+  :general (ev/leader-key-map
+            "a c m" 'copilot-mode
+            "a c n" 'copilot-next-completion
+            "a c p" 'copilot-previous-completion))
 
 (use-package gptel
   :custom
