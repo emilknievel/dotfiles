@@ -1495,3 +1495,18 @@ any directory proferred by `consult-dir'."
   :hook
   ((gptel-mode . ev/gptel-get-default-key)
    (gptel-post-response . ev/next-prompt)))
+
+(use-package popper
+  :bind (("C-`"   . popper-toggle)
+         ("M-`"   . popper-cycle)
+         ("C-M-`" . popper-toggle-type))
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          compilation-mode
+          "^\\*eshell.*\\*$" eshell-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))                ; For echo area hints
