@@ -33,4 +33,4 @@
 	# It will set delta.light=(true|false):
 	path = ~/.config/tinted-theming/delta.gitconfig
 [delta]
-	syntax-theme = "base16-256"
+	syntax-theme = "ansi"

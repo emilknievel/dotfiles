@@ -1,5 +1,9 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 
+# base16
+export BASE16_THEME_DEFAULT="base16_default-dark"
+export BASE16_SHELL_ENABLE_VARS=1
+
 case "$OSTYPE" in
   darwin*)
     # If you come from bash you might have to change your $PATH.
@@ -332,10 +336,6 @@ fi
 
 # lua
 export PATH="$PATH:$HOME/.luarocks/bin"
-
-# base16
-export BASE16_THEME_DEFAULT="catppuccin-mocha"
-export BASE16_SHELL_ENABLE_VARS=1
 
 # starship.rs
 eval "$(starship init zsh)"

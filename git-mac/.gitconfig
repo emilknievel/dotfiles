@@ -36,4 +36,4 @@
 [rebase]
 	autosquash = true
 [delta]
-	syntax-theme = "base16-256"
+	syntax-theme = "ansi"
