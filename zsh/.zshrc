@@ -21,6 +21,11 @@ case "$OSTYPE" in
     ;;
 esac
 
+# Scale fonts if using WSL
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+    export GDK_DPI_SCALE=1.5
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -271,9 +276,11 @@ case "$OSTYPE" in
       if [[ $windows_theme == 0x0 ]]; then
         # fzf_default=$fzf_dark
         term_theme="dark"
+	base16_ayu-dark
       else
         # fzf_default=$fzf_light
         term_theme="light"
+	base16_cupertino
       fi
     else
       # Check the GTK theme
