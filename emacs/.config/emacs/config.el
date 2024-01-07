@@ -78,12 +78,6 @@
 
 (setq calendar-week-start-day 1)
 
-(defvar ev/work-projects-path "~/projects/"
-  "Work related projects")
-
-(defvar ev/learning-path "~/stuff/learning-stuff/"
-  "Learning resources/projects")
-
 (use-package exec-path-from-shell
   :config
   (setq exec-path-from-shell-variables '("PATH"
@@ -117,37 +111,6 @@
   (which-key-setup-minibuffer)
   :config
   (setq which-key-idle-delay 0.3))
-
-(use-package undo-fu)
-
-(use-package evil
-  :demand t
-  :bind (("<escape>" . keyboard-escape-quit))
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-undo-system 'undo-fu)
-  (setq evil-want-C-u-scroll t)
-  :config
-  (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
-  (evil-mode 1))
-
-(use-package evil-collection
-  :after evil
-  :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
-  :config
-  (evil-collection-init)
-  :hook (vterm-mode . evil-collection-vterm-escape-stay))
-
-(use-package evil-commentary
-  :hook (prog-mode . evil-commentary-mode))
-
-(use-package evil-surround
-  :after evil
-  :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
-         (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
-  :config
-  (global-evil-surround-mode 1))
 
 (use-package general
   :init
@@ -186,8 +149,7 @@
    "t" '(:ignore t :wk "Toggle")
    "u" '(:ignore t :wk "UI")
    "u l" '(:ignore t :wk "Linum")
-   "u f" '(:ignore t :wk "Fonts")
-   "w" '(:ignore t :wk "Window")))
+   "u f" '(:ignore t :wk "Fonts")))
 
 (defun ev/reload-emacs-config ()
   "Tangle org file and reload the emacs config."
@@ -220,23 +182,6 @@
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
- ;; windows
- "w s" 'evil-window-split
- "w v" 'evil-window-vsplit
- "w w" 'other-window
- "w q" 'delete-window
- "w +" 'evil-window-increase-height
- "w -" 'evil-window-decrease-height
- "w >" 'evil-window-increase-width
- "w <" 'evil-window-decrease-width
- "w =" 'balance-windows
- "w H" 'evil-window-left
- "w J" 'evil-window-down
- "w K" 'evil-window-up
- "w L" 'evil-window-right)
-
-(general-define-key
- :prefix-map 'ev/leader-key-map
  ;; help
  "h f" 'describe-function
  "h v" 'describe-variable
@@ -254,12 +199,50 @@
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
- "u f v" 'variable-pitch-mode)
+ "u f v" 'variable-pitch-mode
+ "u f b" 'ev/big-font-size
+ "u f +" 'ev/increase-font-size
+ "u f -" 'ev/decrease-font-size
+ "u f 0" 'ev/reset-font-size)
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
  ;; emacsclient
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
+
+(use-package undo-fu)
+
+(use-package evil
+  :after general
+  :bind (("<escape>" . keyboard-escape-quit))
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-fu)
+  (setq evil-want-C-u-scroll t)
+  :general
+  (ev/leader-key-map
+   "w" '(:keymap evil-window-map :wk "Window"))
+  :config
+  (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
+  :config
+  (evil-collection-init)
+  :hook (vterm-mode . evil-collection-vterm-escape-stay))
+
+(use-package evil-commentary
+  :hook (prog-mode . evil-commentary-mode))
+
+(use-package evil-surround
+  :after evil
+  :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
+         (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
+  :config
+  (global-evil-surround-mode 1))
 
 (use-package iedit
   :general
@@ -310,19 +293,41 @@
      (6 . (1.0))
      (7 . (1.0))
      (8 . (1.0))))
-  (modus-themes-variable-pitch-ui nil)
+  (modus-themes-variable-pitch-ui t))
+  ;; :config
+  ;; ;; TODO: manually set org code blocks to match modus theme look on protiselaos' website
+  ;; (load-theme 'modus-vivendi :no-confirm)
+  ;; (general-define-key
+  ;;  :prefix-map 'ev/leader-key-map
+  ;;  "t t" '(modus-themes-toggle :wk "Toggle theme")))
+
+(use-package ef-themes
+  :custom
+  (ef-themes-mixed-fonts t)
+  (ef-themes-common-palette-overrides
+   '((fringe unspecified)))
+  (ef-themes-headings
+   '((1 . (1.5))
+     (2 . (1.4))
+     (3 . (1.3))
+     (4 . (1.2))
+     (5 . (1.1))
+     (6 . (1.0))
+     (7 . (1.0))
+     (8 . (1.0))))
+  (ef-themes-variable-pitch-ui t)
+  (ef-themes-to-toggle '(ef-dark ef-light))
+  (ef-themes-mixed-fonts t)
   :config
-  ;; TODO: manually set org code blocks to match modus theme look on protiselaos' website
-  (load-theme 'modus-vivendi :no-confirm)
-  (general-define-key
-   :prefix-map 'ev/leader-key-map
-   "t t" '(modus-themes-toggle :wk "Toggle theme")))
+  (load-theme 'ef-dark :no-confirm)
+  :general (ev/leader-key-map
+            "t t" 'ef-themes-toggle))
 
 (use-package auto-dark
   :diminish
   :init
-  (setq auto-dark-dark-theme 'modus-vivendi
-        auto-dark-light-theme 'modus-operandi)
+  (setq auto-dark-dark-theme 'ef-dark
+        auto-dark-light-theme 'ef-light)
   :config (auto-dark-mode t))
 
 (defvar ev/linux-font "Iosevka Comfy")
@@ -350,6 +355,30 @@
 (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/fixed-pitch-font-height)
 (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height ev/variable-pitch-font-height)
 (set-face-attribute 'italic nil :slant 'italic :underline nil)
+
+(defun ev/big-font-size ()
+  (interactive)
+  (set-face-attribute 'default nil :family ev/editor-font :height (+ ev/editor-font-height 30))
+  (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height (+ ev/fixed-pitch-font-height 30))
+  (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height (+ ev/variable-pitch-font-height 30)))
+
+  (defun ev/increase-font-size ()
+    (interactive)
+    (set-face-attribute 'default nil :height (ceiling (* 1.1 (face-attribute 'default :height))))
+    (set-face-attribute 'fixed-pitch nil :height (ceiling (* 1.1 (face-attribute 'fixed-pitch :height))))
+    (set-face-attribute 'variable-pitch nil :height (ceiling (* 1.1 (face-attribute 'variable-pitch :height)))))
+
+  (defun ev/decrease-font-size ()
+    (interactive)
+    (set-face-attribute 'default nil :height (max 1 (floor (* 0.9 (face-attribute 'default :height)))))
+    (set-face-attribute 'fixed-pitch nil :height (max 1 (floor (* 0.9 (face-attribute 'fixed-pitch :height)))))
+    (set-face-attribute 'variable-pitch nil :height (max 1 (floor (* 0.9 (face-attribute 'variable-pitch :height))))))
+
+  (defun ev/reset-font-size ()
+    (interactive)
+    (set-face-attribute 'default nil :height ev/editor-font-height)
+    (set-face-attribute 'fixed-pitch nil :height ev/fixed-pitch-font-height)
+    (set-face-attribute 'variable-pitch nil :height ev/variable-pitch-font-height))
 
 (custom-theme-set-faces
  'user
@@ -916,15 +945,14 @@ parses its input."
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
 (use-package eat
-  :straight (
-             :type git
-             :host codeberg
-             :repo "akib/emacs-eat"
-             :files ("*.el" ("term" "term/*.el") "*.texi"
-                     "*.ti" ("terminfo/e" "terminfo/e/*")
-                     ("terminfo/65" "terminfo/65/*")
-                     ("integration" "integration/*")
-                     (:exclude ".dir-locals.el" "*-tests.el")))
+  :straight (:type git
+                   :host codeberg
+                   :repo "akib/emacs-eat"
+                   :files ("*.el" ("term" "term/*.el") "*.texi"
+                           "*.ti" ("terminfo/e" "terminfo/e/*")
+                           ("terminfo/65" "terminfo/65/*")
+                           ("integration" "integration/*")
+                           (:exclude ".dir-locals.el" "*-tests.el")))
   :general (ev/leader-key-map "t e" 'eshell)
   :custom
   (eat-term-name "xterm-256color")
@@ -1359,7 +1387,7 @@ any directory proferred by `consult-dir'."
   :custom
   ;; Directory where org-noter will look for note files if invoked in a
   ;; non-org-roam buffer
-  (org-noter-notes-search-path '("~/org-roam"))
+  (org-noter-notes-search-path '("~/org/notes"))
 
   ;; Create highlight in pdf when creating note
   (org-noter-highlight-selected-text t)
@@ -1385,11 +1413,6 @@ any directory proferred by `consult-dir'."
     (plantuml   . t)
     (lua        . t))
   "Alist of org ob languages.")
-
-;; Install: npm install -g @mermaid-js/mermaid-cli
-(use-package ob-mermaid
-  :init (cl-pushnew '(mermaid . t) load-language-alist))
-
 (org-babel-do-load-languages 'org-babel-load-languages
                              load-language-alist)
 

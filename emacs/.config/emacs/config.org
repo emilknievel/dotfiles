@@ -115,19 +115,9 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
   (setq calendar-week-start-day 1)
 #+end_src
 
-** Variables
+** Environment variables
 
-#+begin_src emacs-lisp
-  (defvar ev/work-projects-path "~/projects/"
-    "Work related projects")
-
-  (defvar ev/learning-path "~/stuff/learning-stuff/"
-    "Learning resources/projects")
-#+end_src
-
-*** Environment variables
-
-**** Get environment variables from shell
+*** Get OS shell variables
 
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -147,7 +137,7 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
     :when (or (memq window-system '(mac ns x)) (daemonp)))
 #+end_src
 
-**** Emacs specific
+*** Emacs specific
 
 #+begin_src emacs-lisp
   (setenv "LANG" "en_US.UTF-8")
@@ -166,7 +156,7 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 
 *** Secrets
 
-**** 1Password
+**** 1Password auth source
 
 #+begin_src emacs-lisp
   (use-package auth-source-1password
@@ -185,43 +175,6 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
     (which-key-setup-minibuffer)
     :config
     (setq which-key-idle-delay 0.3))
-#+end_src
-
-*** Evil
-
-Use Evil mode for Vim like bindings.
-
-#+begin_src emacs-lisp
-  (use-package undo-fu)
-
-  (use-package evil
-    :demand t
-    :bind (("<escape>" . keyboard-escape-quit))
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-undo-system 'undo-fu)
-    (setq evil-want-C-u-scroll t)
-    :config
-    (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
-    (evil-mode 1))
-
-  (use-package evil-collection
-    :after evil
-    :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
-    :config
-    (evil-collection-init)
-    :hook (vterm-mode . evil-collection-vterm-escape-stay))
-
-  (use-package evil-commentary
-    :hook (prog-mode . evil-commentary-mode))
-
-  (use-package evil-surround
-    :after evil
-    :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
-           (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
-    :config
-    (global-evil-surround-mode 1))
 #+end_src
 
 *** general.el
@@ -271,8 +224,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
      "t" '(:ignore t :wk "Toggle")
      "u" '(:ignore t :wk "UI")
      "u l" '(:ignore t :wk "Linum")
-     "u f" '(:ignore t :wk "Fonts")
-     "w" '(:ignore t :wk "Window")))
+     "u f" '(:ignore t :wk "Fonts")))
 #+end_src
 
 **** Files
@@ -312,27 +264,6 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    "b r" 'revert-buffer-quick)
 #+end_src
 
-**** Windows
-
-#+begin_src emacs-lisp
-  (general-define-key
-   :prefix-map 'ev/leader-key-map
-   ;; windows
-   "w s" 'evil-window-split
-   "w v" 'evil-window-vsplit
-   "w w" 'other-window
-   "w q" 'delete-window
-   "w +" 'evil-window-increase-height
-   "w -" 'evil-window-decrease-height
-   "w >" 'evil-window-increase-width
-   "w <" 'evil-window-decrease-width
-   "w =" 'balance-windows
-   "w H" 'evil-window-left
-   "w J" 'evil-window-down
-   "w K" 'evil-window-up
-   "w L" 'evil-window-right)
-#+end_src
-
 **** Help
 
 #+begin_src emacs-lisp
@@ -363,7 +294,11 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+begin_src emacs-lisp
   (general-define-key
    :prefix-map 'ev/leader-key-map
-   "u f v" 'variable-pitch-mode)
+   "u f v" 'variable-pitch-mode
+   "u f b" 'ev/big-font-size
+   "u f +" 'ev/increase-font-size
+   "u f -" 'ev/decrease-font-size
+   "u f 0" 'ev/reset-font-size)
 #+end_src
 
 **** Emacs Client
@@ -373,6 +308,46 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    :prefix-map 'ev/leader-key-map
    ;; emacsclient
    "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
+#+end_src
+
+*** Evil
+
+Use Evil mode for Vim like bindings.
+
+#+begin_src emacs-lisp
+  (use-package undo-fu)
+
+  (use-package evil
+    :after general
+    :bind (("<escape>" . keyboard-escape-quit))
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-undo-system 'undo-fu)
+    (setq evil-want-C-u-scroll t)
+    :general
+    (ev/leader-key-map
+     "w" '(:keymap evil-window-map :wk "Window"))
+    :config
+    (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+    (evil-mode 1))
+
+  (use-package evil-collection
+    :after evil
+    :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
+    :config
+    (evil-collection-init)
+    :hook (vterm-mode . evil-collection-vterm-escape-stay))
+
+  (use-package evil-commentary
+    :hook (prog-mode . evil-commentary-mode))
+
+  (use-package evil-surround
+    :after evil
+    :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
+           (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
+    :config
+    (global-evil-surround-mode 1))
 #+end_src
 
 ** Editing
@@ -452,87 +427,13 @@ Get rid of the annoying startup screen.
 
 *** Theme
 
-**** Preamble (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  ;; https://github.com/catppuccin/emacs/issues/61#issuecomment-1551251639
-  (setq ev/org-src-block-faces org-src-block-faces)
-
-  ;; (defun ev/revert-if-org-file ()
-  ;;   "Revert the buffer if the current file is an Org file."
-  ;;   (when (and buffer-file-name
-  ;;              (string= (file-name-extension buffer-file-name) "org"))
-  ;;     (revert-buffer :ignore-auto :noconfirm)))
-
-  (defun ev/text-org-blocks ()
-    (if (eq ev/current-theme 'catppuccin)
-        (setq ev/org-block-cookie (face-remap-add-relative 'org-block (list :foreground (catppuccin-get-color 'text))))
-      (when ev/org-block-cookie
-        (face-remap-reset-base ev/org-block-cookie))))
-    ;; (ev/revert-if-org-file))
-
-  ;; (debug-on-entry 'ev/revert-if-org-file)
-
-  (add-hook 'org-mode-hook 'ev/text-org-blocks)
-#+end_src
-
-**** Variables (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (defvar ev/dark-theme 'catppuccin)
-  (defvar ev/light-theme 'doom-solarized-light)
-  (defvar ev/current-theme ev/dark-theme)
-#+end_src
-
-**** Toggle theme (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (defun ev/load-dark-theme ()
-    (mapcar #'disable-theme custom-enabled-themes)
-    (load-theme ev/dark-theme t)
-    (setq ev/current-theme ev/dark-theme)
-    (setq catppuccin-flavor 'mocha)
-    (setenv "TERM_THEME" "dark")
-    (catppuccin-reload)
-    (setq org-src-fontify-natively t)
-    (add-to-list 'org-src-block-faces (list "" (list :foreground (catppuccin-get-color 'green))))
-    (ev/text-org-blocks))
-
-  (defun ev/load-light-theme ()
-    (mapcar #'disable-theme custom-enabled-themes)
-    (load-theme ev/light-theme t)
-    (setq ev/current-theme ev/light-theme)
-    ;; (setq catppuccin-flavor 'latte)
-    (setenv "TERM_THEME" "light")
-    (setq org-src-block-faces ev/org-src-block-faces)
-    (ev/text-org-blocks))
-
-  (defun ev/toggle-theme ()
-    "Toggle between two themes"
-    (interactive)
-    (if (eq ev/current-theme ev/light-theme)
-        (ev/load-dark-theme)
-      (ev/load-light-theme)))
-
-  (general-define-key
-   :prefix-map 'ev/leader-key-map
-   "t t" '(ev/toggle-theme :wk "Toggle theme"))
-#+end_src
-
 **** Themes directory
 
 #+begin_src emacs-lisp
   (setq custom-theme-directory "~/.config/emacs/themes/")
 #+end_src
 
-**** Catppuccin (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package catppuccin-theme
-    :init (setq catppuccin-flavor 'mocha))
-#+end_src
-
-**** Modus
+**** Modus themes
 
 #+begin_src emacs-lisp
   (use-package modus-themes
@@ -555,38 +456,39 @@ Get rid of the annoying startup screen.
        (6 . (1.0))
        (7 . (1.0))
        (8 . (1.0))))
-    (modus-themes-variable-pitch-ui nil)
-    :config
-    ;; TODO: manually set org code blocks to match modus theme look on protiselaos' website
-    (load-theme 'modus-vivendi :no-confirm)
-    (general-define-key
-     :prefix-map 'ev/leader-key-map
-     "t t" '(modus-themes-toggle :wk "Toggle theme")))
+    (modus-themes-variable-pitch-ui t))
+    ;; :config
+    ;; ;; TODO: manually set org code blocks to match modus theme look on protiselaos' website
+    ;; (load-theme 'modus-vivendi :no-confirm)
+    ;; (general-define-key
+    ;;  :prefix-map 'ev/leader-key-map
+    ;;  "t t" '(modus-themes-toggle :wk "Toggle theme")))
 #+end_src
 
-**** Ef (disabled)
+**** Ef themes
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package ef-themes
     :custom
+    (ef-themes-mixed-fonts t)
+    (ef-themes-common-palette-overrides
+     '((fringe unspecified)))
+    (ef-themes-headings
+     '((1 . (1.5))
+       (2 . (1.4))
+       (3 . (1.3))
+       (4 . (1.2))
+       (5 . (1.1))
+       (6 . (1.0))
+       (7 . (1.0))
+       (8 . (1.0))))
+    (ef-themes-variable-pitch-ui t)
     (ef-themes-to-toggle '(ef-dark ef-light))
     (ef-themes-mixed-fonts t)
-    :config (ef-themes-select 'ef-light)
+    :config
+    (load-theme 'ef-dark :no-confirm)
     :general (ev/leader-key-map
               "t t" 'ef-themes-toggle))
-#+end_src
-
-**** Doom (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package doom-themes
-    :ensure t
-    :init
-    (setq doom-themes-enable-bold t
-          doom-themes-enable-italic t)
-    :config
-    (doom-themes-org-config)
-    (doom-themes-visual-bell-config))
 #+end_src
 
 **** Auto-Dark for Emacs
@@ -595,8 +497,8 @@ Get rid of the annoying startup screen.
   (use-package auto-dark
     :diminish
     :init
-    (setq auto-dark-dark-theme 'modus-vivendi
-          auto-dark-light-theme 'modus-operandi)
+    (setq auto-dark-dark-theme 'ef-dark
+          auto-dark-light-theme 'ef-light)
     :config (auto-dark-mode t))
 #+end_src
 
@@ -619,7 +521,7 @@ Get rid of the annoying startup screen.
            (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
 #+end_src
 
-**** Setup editor font
+**** Setup editor fonts
 
 #+begin_src emacs-lisp
   (if (eq system-type 'darwin)
@@ -634,6 +536,30 @@ Get rid of the annoying startup screen.
   (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/fixed-pitch-font-height)
   (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height ev/variable-pitch-font-height)
   (set-face-attribute 'italic nil :slant 'italic :underline nil)
+
+  (defun ev/big-font-size ()
+    (interactive)
+    (set-face-attribute 'default nil :family ev/editor-font :height (+ ev/editor-font-height 30))
+    (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height (+ ev/fixed-pitch-font-height 30))
+    (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height (+ ev/variable-pitch-font-height 30)))
+
+    (defun ev/increase-font-size ()
+      (interactive)
+      (set-face-attribute 'default nil :height (ceiling (* 1.1 (face-attribute 'default :height))))
+      (set-face-attribute 'fixed-pitch nil :height (ceiling (* 1.1 (face-attribute 'fixed-pitch :height))))
+      (set-face-attribute 'variable-pitch nil :height (ceiling (* 1.1 (face-attribute 'variable-pitch :height)))))
+
+    (defun ev/decrease-font-size ()
+      (interactive)
+      (set-face-attribute 'default nil :height (max 1 (floor (* 0.9 (face-attribute 'default :height)))))
+      (set-face-attribute 'fixed-pitch nil :height (max 1 (floor (* 0.9 (face-attribute 'fixed-pitch :height)))))
+      (set-face-attribute 'variable-pitch nil :height (max 1 (floor (* 0.9 (face-attribute 'variable-pitch :height))))))
+
+    (defun ev/reset-font-size ()
+      (interactive)
+      (set-face-attribute 'default nil :height ev/editor-font-height)
+      (set-face-attribute 'fixed-pitch nil :height ev/fixed-pitch-font-height)
+      (set-face-attribute 'variable-pitch nil :height ev/variable-pitch-font-height))
 #+end_src
 
 **** Custom faces
@@ -648,7 +574,7 @@ Get rid of the annoying startup screen.
 
 **** Ligatures
 
-Display ligatures. Disabled by default. Enable with ~'<leader> u f l'~ =(ui->fonts->ligatures)=.
+Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts->ligatures)=.
 
 #+begin_src emacs-lisp
   (use-package ligature
@@ -1349,12 +1275,6 @@ Notable keymaps:
   (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 #+end_src
 
-*** MIPS (broken)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package mips-mode :mode "\\.mips$")
-#+end_src
-
 *** Mermaid
 
 #+begin_src emacs-lisp
@@ -1439,15 +1359,14 @@ Notable keymaps:
 
 #+begin_src emacs-lisp
   (use-package eat
-    :straight (
-               :type git
-               :host codeberg
-               :repo "akib/emacs-eat"
-               :files ("*.el" ("term" "term/*.el") "*.texi"
-                       "*.ti" ("terminfo/e" "terminfo/e/*")
-                       ("terminfo/65" "terminfo/65/*")
-                       ("integration" "integration/*")
-                       (:exclude ".dir-locals.el" "*-tests.el")))
+    :straight (:type git
+                     :host codeberg
+                     :repo "akib/emacs-eat"
+                     :files ("*.el" ("term" "term/*.el") "*.texi"
+                             "*.ti" ("terminfo/e" "terminfo/e/*")
+                             ("terminfo/65" "terminfo/65/*")
+                             ("integration" "integration/*")
+                             (:exclude ".dir-locals.el" "*-tests.el")))
     :general (ev/leader-key-map "t e" 'eshell)
     :custom
     (eat-term-name "xterm-256color")
@@ -1979,7 +1898,7 @@ Display org roam database as connected nodes in the browser.
     :custom
     ;; Directory where org-noter will look for note files if invoked in a
     ;; non-org-roam buffer
-    (org-noter-notes-search-path '("~/org-roam"))
+    (org-noter-notes-search-path '("~/org/notes"))
 
     ;; Create highlight in pdf when creating note
     (org-noter-highlight-selected-text t)
@@ -2009,11 +1928,6 @@ Display org roam database as connected nodes in the browser.
       (plantuml   . t)
       (lua        . t))
     "Alist of org ob languages.")
-
-  ;; Install: npm install -g @mermaid-js/mermaid-cli
-  (use-package ob-mermaid
-    :init (cl-pushnew '(mermaid . t) load-language-alist))
-
   (org-babel-do-load-languages 'org-babel-load-languages
                                load-language-alist)
 #+end_src
