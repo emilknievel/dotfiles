@@ -240,7 +240,7 @@ case "$OSTYPE" in
       if [[ $windows_theme == 0x0 ]]; then
         # fzf_default=$fzf_dark
         term_theme="dark"
-	base16_ayu-dark
+	base16_windows-10
       else
         # fzf_default=$fzf_light
         term_theme="light"
