@@ -114,7 +114,7 @@ esac
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions base16-shell)
+plugins=(git zsh-autosuggestions base16-shell asdf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -162,48 +162,12 @@ case "$OSTYPE" in
     ;;
 esac
 
-## NVM ##
-export NVM_DIR="$HOME/.nvm"
-
-case "$OSTYPE" in
-  darwin*)
-    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-    [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-    ;;
-  linux*) # Make sure that nvm was installed through git: https://github.com/nvm-sh/nvm#git-install
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-    ;;
-esac
-
 case "$OSTYPE" in
   linux*)
     export PNPM_HOME="$HOME/.local/share/pnpm"
     export PATH="$PNPM_HOME:$PATH"
     ;;
 esac
-
-# nvm auto load
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install --silent
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use --silent
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    #echo "Reverting to nvm default version"
-    nvm use default > /dev/null
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
 
 eval "$(direnv hook zsh)"
 
