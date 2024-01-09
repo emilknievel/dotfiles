@@ -82,6 +82,7 @@
   :config
   (setq exec-path-from-shell-variables '("PATH"
                                          "TERM_THEME"
+                                         "WSL_DISTRO_NAME"
                                          "DOTNET_ROOT"
                                          "XDG_CONFIG_HOME"
                                          "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
@@ -322,7 +323,7 @@
   :general (ev/leader-key-map
             "t t" 'ef-themes-toggle))
 
-(if (display-graphic-p)
+(if (and (display-graphic-p) (not (getenv "WSL_DISTRO_NAME")))
     (use-package auto-dark
       :diminish
       :init

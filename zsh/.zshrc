@@ -234,18 +234,8 @@ case "$OSTYPE" in
   linux*)
     # Check if running under WSL2
     if [[ -n "$WSL_DISTRO_NAME" ]]; then
-      # Check the Windows theme
-      windows_theme=$(reg.exe query 'HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' /v 'AppsUseLightTheme' | grep -o '0x[0-9]*')
-
-      if [[ $windows_theme == 0x0 ]]; then
-        # fzf_default=$fzf_dark
-        term_theme="dark"
-	base16_windows-10
-      else
-        # fzf_default=$fzf_light
-        term_theme="light"
-	base16_cupertino
-      fi
+      term_theme="dark"
+      base16_windows-10
     else
       # Check the GTK theme
       gtk_theme=$(dconf read /org/gnome/desktop/interface/gtk-theme)

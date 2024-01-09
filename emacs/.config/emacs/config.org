@@ -124,6 +124,7 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
     :config
     (setq exec-path-from-shell-variables '("PATH"
                                            "TERM_THEME"
+                                           "WSL_DISTRO_NAME"
                                            "DOTNET_ROOT"
                                            "XDG_CONFIG_HOME"
                                            "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
@@ -493,7 +494,7 @@ Get rid of the annoying startup screen.
 **** Auto-Dark for Emacs
 
 #+begin_src emacs-lisp
-  (if (display-graphic-p)
+  (if (and (display-graphic-p) (not (getenv "WSL_DISTRO_NAME")))
       (use-package auto-dark
         :diminish
         :init
