@@ -81,11 +81,10 @@
 (use-package exec-path-from-shell
   :config
   (setq exec-path-from-shell-variables '("PATH"
+                                         "TERM_THEME"
                                          "DOTNET_ROOT"
                                          "XDG_CONFIG_HOME"
                                          "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
-                                         "NVM_DIR"
-                                         "NVM_CD_FLAGS"
                                          "OPAM_SWITCH_PREFIX"
                                          "CAML_LD_LIBRARY"
                                          "OCAML_TOPLEVEL_PATH"
@@ -323,12 +322,18 @@
   :general (ev/leader-key-map
             "t t" 'ef-themes-toggle))
 
-(use-package auto-dark
-  :diminish
-  :init
-  (setq auto-dark-dark-theme 'ef-dark
-        auto-dark-light-theme 'ef-light)
-  :config (auto-dark-mode t))
+(if (display-graphic-p)
+    (use-package auto-dark
+      :diminish
+      :init
+      (setq auto-dark-dark-theme 'ef-dark
+            auto-dark-light-theme 'ef-light)
+      :config
+      (auto-dark-mode t))
+  ;; load according to terminal theme if running inside terminal
+  (if (string= (getenv "TERM_THEME") "light")
+      (load-theme 'ef-light :no-confirm)
+    (load-theme 'ef-dark :no-confirm)))
 
 (defvar ev/linux-font "Iosevka Comfy")
 (defvar ev/macos-font "Iosevka Comfy")

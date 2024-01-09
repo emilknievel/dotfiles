@@ -139,8 +139,8 @@ esac
 #   export EDITOR='mvim'
 # fi
 
-export EDITOR='vim'
-export VISUAL='nvim'
+export EDITOR='vi'
+export VISUAL='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
