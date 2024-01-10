@@ -2092,8 +2092,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
             "Output\\*$"
             "\\*Async Shell Command\\*"
             help-mode
-            compilation-mode
-            "^\\*eshell.*\\*$" eshell-mode))
+            compilation-mode))
     (popper-mode +1)
     (popper-echo-mode +1))                ; For echo area hints
 #+end_src

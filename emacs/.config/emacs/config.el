@@ -1535,7 +1535,6 @@ any directory proferred by `consult-dir'."
           "Output\\*$"
           "\\*Async Shell Command\\*"
           help-mode
-          compilation-mode
-          "^\\*eshell.*\\*$" eshell-mode))
+          compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1))                ; For echo area hints
