@@ -1195,7 +1195,14 @@ any directory proferred by `consult-dir'."
   :hook ((org-mode markdown-mode) . olivetti-mode))
 
 (use-package org-appear
-  :config (setq org-hide-emphasis-markers t)
+  :custom
+  (org-hide-emphasis-markers t)
+  (org-appear-autoemphasis t)
+  (org-appear-autolinks t)
+  (org-appear-autosubmarkers t)
+  (org-appear-autoentities t)
+  (org-appear-autokeywords t)
+  (org-appear-inside-latex t)
   :hook (org-mode . org-appear-mode))
 
 (use-package org-roam

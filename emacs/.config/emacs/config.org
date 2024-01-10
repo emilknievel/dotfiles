@@ -1559,7 +1559,14 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 
 #+begin_src emacs-lisp
   (use-package org-appear
-    :config (setq org-hide-emphasis-markers t)
+    :custom
+    (org-hide-emphasis-markers t)
+    (org-appear-autoemphasis t)
+    (org-appear-autolinks t)
+    (org-appear-autosubmarkers t)
+    (org-appear-autoentities t)
+    (org-appear-autokeywords t)
+    (org-appear-inside-latex t)
     :hook (org-mode . org-appear-mode))
 #+end_src
 
