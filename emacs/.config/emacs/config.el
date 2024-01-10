@@ -206,7 +206,7 @@
   (ev/leader-key-map
    "w" '(:keymap evil-window-map :wk "Window"))
   :config
-  (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+  (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
   (evil-mode 1))
 
 (use-package evil-collection
