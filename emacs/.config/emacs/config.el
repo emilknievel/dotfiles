@@ -1164,6 +1164,7 @@ any directory proferred by `consult-dir'."
   (org-insert-heading-respect-content t)
   (org-ellipsis "…")
   (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
+  (org-startup-folded 'content) ; show an outline of all headings by default
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
