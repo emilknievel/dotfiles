@@ -22,36 +22,6 @@
 #+EMAIL: emil.vagstedt@icloud.com
 #+OPTIONS: toc:t
 
-** Package Management
-
-*** straight.el
-
-Use develop branch for compatibility
-
-#+begin_src emacs-lisp
-  (setq straight-repository-branch "develop")
-#+end_src
-
-Bootstrap straight.el
-
-#+begin_src emacs-lisp
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 6))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-
-  (straight-use-package 'use-package)
-  (setq straight-use-package-by-default t)
-#+end_src
-
 ** Better defaults
 
 Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]].
@@ -1626,7 +1596,6 @@ Jump to previously visited directory, not unlike using =zoxide=.
 
 #+begin_src emacs-lisp
   (use-package org
-    :straight (:type built-in)
     :custom
     (org-return-follows-link t)
     (org-startup-with-inline-images t)
@@ -1638,7 +1607,6 @@ Jump to previously visited directory, not unlike using =zoxide=.
     (org-catch-invisible-edits 'show-and-error)
     (org-special-ctrl-a/e t)
     (org-insert-heading-respect-content t)
-    (org-hide-emphasis-markers t)
     (org-ellipsis "…")
     (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
     :bind (("C-c l" . org-store-link)
@@ -1687,6 +1655,7 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 
 #+begin_src emacs-lisp
   (use-package org-appear
+    :config (setq org-hide-emphasis-markers t)
     :hook (org-mode . org-appear-mode))
 #+end_src
 

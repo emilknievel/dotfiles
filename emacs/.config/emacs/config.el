@@ -9,24 +9,6 @@
 
 ;;; Code:
 
-(setq straight-repository-branch "develop")
-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-(straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
-
 (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
   (ido-mode t)
   (setq ido-enable-flex-matching t))
@@ -1169,7 +1151,6 @@ any directory proferred by `consult-dir'."
   )
 
 (use-package org
-  :straight (:type built-in)
   :custom
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
@@ -1181,7 +1162,6 @@ any directory proferred by `consult-dir'."
   (org-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-hide-emphasis-markers t)
   (org-ellipsis "…")
   (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
   :bind (("C-c l" . org-store-link)
@@ -1214,6 +1194,7 @@ any directory proferred by `consult-dir'."
   :hook ((org-mode markdown-mode) . olivetti-mode))
 
 (use-package org-appear
+  :config (setq org-hide-emphasis-markers t)
   :hook (org-mode . org-appear-mode))
 
 (use-package org-roam
