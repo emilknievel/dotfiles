@@ -1411,6 +1411,10 @@ any directory proferred by `consult-dir'."
 (org-babel-do-load-languages 'org-babel-load-languages
                              load-language-alist)
 
+(use-package denote
+  :config
+  (setq denote-directory (expand-file-name "~/Documents/notes/")))
+
 ;; OCaml configuration
 ;;  - better error and backtrace matching
 

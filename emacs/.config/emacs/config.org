@@ -1817,6 +1817,15 @@ Display org roam database as connected nodes in the browser.
 *** TODO Super Agenda
 - [ ] Install [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]
 
+** Denote (WIP)
+Use denote for note-taking.
+
+#+begin_src emacs-lisp
+  (use-package denote
+    :config
+    (setq denote-directory (expand-file-name "~/Documents/notes/")))
+#+end_src
+
 ** OCaml
 #+begin_src emacs-lisp
   ;; OCaml configuration
