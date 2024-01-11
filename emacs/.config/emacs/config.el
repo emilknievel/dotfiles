@@ -1227,7 +1227,7 @@ any directory proferred by `consult-dir'."
      ("l" "programming language" plain
       (file "~/org-roam/templates/programming-language-note-template.org")
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+title: ${title}\n#+filetags: :programming-language:")
+                         "#+title: ${title}\n#+filetags: :programming_language:")
       :unnarrowed t)
 
      ("b" "book notes" plain
