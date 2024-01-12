@@ -21,11 +21,6 @@ case "$OSTYPE" in
     ;;
 esac
 
-# Scale fonts if using WSL
-if [[ -n "$WSL_DISTRO_NAME" ]]; then
-    export GDK_DPI_SCALE=1.5
-fi
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 

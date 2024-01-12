@@ -463,13 +463,20 @@ Get rid of the annoying startup screen.
 
 **** Setup editor fonts
 #+begin_src emacs-lisp
+  (defun ev/setup-linux-font-heights ()
+    (if (getenv "WSL_DISTRO_NAME")
+        (setq ev/variable-pitch-font-height 170
+              ev/editor-font-height 170
+              ev/fixed-pitch-font-height 170)
+      (setq ev/variable-pitch-font-height 110
+            ev/editor-font-height 110
+            ev/fixed-pitch-font-height 110)))
+
   (if (eq system-type 'darwin)
-      (progn (setq ev/variable-pitch-font-height 140)
-             (setq ev/editor-font-height 140)
-             (setq ev/fixed-pitch-font-height 140))
-    (progn (setq ev/variable-pitch-font-height 110)
-           (setq ev/editor-font-height 110)
-           (setq ev/fixed-pitch-font-height 110)))
+      (setq ev/variable-pitch-font-height 140
+            ev/editor-font-height 140
+            ev/fixed-pitch-font-height 140)
+    (ev/setup-linux-font-heights))
 
   (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
   (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/fixed-pitch-font-height)
@@ -482,23 +489,23 @@ Get rid of the annoying startup screen.
     (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height (+ ev/fixed-pitch-font-height 30))
     (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height (+ ev/variable-pitch-font-height 30)))
 
-    (defun ev/increase-font-size ()
-      (interactive)
-      (set-face-attribute 'default nil :height (ceiling (* 1.1 (face-attribute 'default :height))))
-      (set-face-attribute 'fixed-pitch nil :height (ceiling (* 1.1 (face-attribute 'fixed-pitch :height))))
-      (set-face-attribute 'variable-pitch nil :height (ceiling (* 1.1 (face-attribute 'variable-pitch :height)))))
+  (defun ev/increase-font-size ()
+    (interactive)
+    (set-face-attribute 'default nil :height (ceiling (* 1.1 (face-attribute 'default :height))))
+    (set-face-attribute 'fixed-pitch nil :height (ceiling (* 1.1 (face-attribute 'fixed-pitch :height))))
+    (set-face-attribute 'variable-pitch nil :height (ceiling (* 1.1 (face-attribute 'variable-pitch :height)))))
 
-    (defun ev/decrease-font-size ()
-      (interactive)
-      (set-face-attribute 'default nil :height (max 1 (floor (* 0.9 (face-attribute 'default :height)))))
-      (set-face-attribute 'fixed-pitch nil :height (max 1 (floor (* 0.9 (face-attribute 'fixed-pitch :height)))))
-      (set-face-attribute 'variable-pitch nil :height (max 1 (floor (* 0.9 (face-attribute 'variable-pitch :height))))))
+  (defun ev/decrease-font-size ()
+    (interactive)
+    (set-face-attribute 'default nil :height (max 1 (floor (* 0.9 (face-attribute 'default :height)))))
+    (set-face-attribute 'fixed-pitch nil :height (max 1 (floor (* 0.9 (face-attribute 'fixed-pitch :height)))))
+    (set-face-attribute 'variable-pitch nil :height (max 1 (floor (* 0.9 (face-attribute 'variable-pitch :height))))))
 
-    (defun ev/reset-font-size ()
-      (interactive)
-      (set-face-attribute 'default nil :height ev/editor-font-height)
-      (set-face-attribute 'fixed-pitch nil :height ev/fixed-pitch-font-height)
-      (set-face-attribute 'variable-pitch nil :height ev/variable-pitch-font-height))
+  (defun ev/reset-font-size ()
+    (interactive)
+    (set-face-attribute 'default nil :height ev/editor-font-height)
+    (set-face-attribute 'fixed-pitch nil :height ev/fixed-pitch-font-height)
+    (set-face-attribute 'variable-pitch nil :height ev/variable-pitch-font-height))
 #+end_src
 
 **** Custom faces
