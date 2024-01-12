@@ -1503,6 +1503,8 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+begin_src emacs-lisp
   (use-package org
     :custom
+    (org-directory (expand-file-name "~/Documents/org"))
+    (org-agenda-files `(,org-directory))
     (org-return-follows-link t)
     (org-startup-with-inline-images t)
     (org-fontify-quote-and-verse-blocks t)
@@ -1515,7 +1517,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
     (org-insert-heading-respect-content t)
     (org-ellipsis "…")
     (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
-    (org-startup-folded 'content) ; show an outline of all headings by default
+    ;; (org-startup-folded 'content) ; show an outline of all headings by default
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
            ("C-c c" . org-capture))
@@ -1652,8 +1654,8 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 
 #+end_src
 
-**** Org agenda hacks
-#+begin_src emacs-lisp
+**** Org agenda hacks (disabled)
+#+begin_src emacs-lisp :tangle no
   (defun ev/org-roam-node-insert-immediate (arg &rest args)
     "Fast node insertion based on first item in org-roam-capture-templates"
     (interactive "P")

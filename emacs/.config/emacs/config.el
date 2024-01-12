@@ -1152,6 +1152,8 @@ any directory proferred by `consult-dir'."
 
 (use-package org
   :custom
+  (org-directory (expand-file-name "~/Documents/org"))
+  (org-agenda-files `(,org-directory))
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
   (org-fontify-quote-and-verse-blocks t)
@@ -1164,7 +1166,7 @@ any directory proferred by `consult-dir'."
   (org-insert-heading-respect-content t)
   (org-ellipsis "…")
   (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
-  (org-startup-folded 'content) ; show an outline of all headings by default
+  ;; (org-startup-folded 'content) ; show an outline of all headings by default
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
@@ -1279,31 +1281,6 @@ any directory proferred by `consult-dir'."
   :config
   (require 'org-roam-dailies)
   (org-roam-db-autosync-enable))
-
-(defun ev/org-roam-node-insert-immediate (arg &rest args)
-  "Fast node insertion based on first item in org-roam-capture-templates"
-  (interactive "P")
-  (let ((args (cons arg args))
-        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-                                                  '(:immediate-finish t)))))
-    (apply #'org-roam-node-insert args)))
-
-(defun ev/org-roam-filter-by-tag (tag-name)
-  (lambda (node)
-    (member tag-name (org-roam-node-tags node))))
-
-(defun ev/org-roam-list-notes-by-tag (tag-name)
-  (cl-remove-duplicates
-   (mapcar
-    #'org-roam-node-file
-    (seq-filter (ev/org-roam-filter-by-tag tag-name) (org-roam-node-list)))
-   :test #'string=))
-
-(defun ev/org-roam-refresh-agenda-list ()
-  (interactive)
-  (setq org-agenda-files (ev/org-roam-list-notes-by-tag "project")))
-
-(ev/org-roam-refresh-agenda-list)
 
 (defun ev/org-roam-project-finalize-hook ()
   "Adds the captured project file to `org-agenda-files' if the
