@@ -460,9 +460,11 @@
   :config
   (diminish 'visual-line-mode))
 
-(use-package spacious-padding
-  :config
-  (spacious-padding-mode 1))
+(setq visible-bell nil
+      ring-bell-function 'flash-mode-line)
+(defun flash-mode-line ()
+  (invert-face 'mode-line)
+  (run-with-timer 0.1 nil #'invert-face 'mode-line))
 
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)

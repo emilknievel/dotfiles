@@ -642,11 +642,20 @@ Declutter the modeline.
     (diminish 'visual-line-mode))
 #+end_src
 
-*** Padding
+**** Flash modeline instead of visual-bell
 #+begin_src emacs-lisp
+  (setq visible-bell nil
+        ring-bell-function 'flash-mode-line)
+  (defun flash-mode-line ()
+    (invert-face 'mode-line)
+    (run-with-timer 0.1 nil #'invert-face 'mode-line))
+#+end_src
+
+*** Padding (disabled)
+#+begin_src emacs-lisp :tangle no
   (use-package spacious-padding
     :config
-    (spacious-padding-mode 1))
+    (spacious-padding-mode t))
 #+end_src
 
 ** Completion
