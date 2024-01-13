@@ -297,7 +297,7 @@
      (6 . (1.0))
      (7 . (1.0))
      (8 . (1.0))))
-  (ef-themes-variable-pitch-ui t)
+  (ef-themes-variable-pitch-ui nil)
   (ef-themes-to-toggle '(ef-dark ef-light))
   (ef-themes-mixed-fonts t)
   :config
