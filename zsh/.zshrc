@@ -202,26 +202,13 @@ bindkey "^[l" clear-screen
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ## Color theme ##
-# Catppuccin
-# fzf_dark=" \
-# --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
-# --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
-# --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
-#
-# fzf_light=" \
-# --color=bg+:#ccd0da,bg:#eff1f5,spinner:#dc8a78,hl:#d20f39 \
-# --color=fg:#4c4f69,header:#d20f39,info:#8839ef,pointer:#dc8a78 \
-# --color=marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39"
-
 case "$OSTYPE" in
   darwin*)
     # determine light/dark from AppleInterfaceStyle
     if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
-      # fzf_default=$fzf_dark
       term_theme="dark"
-      base16_ayu-dark
+      base16_pop
     else
-      # fzf_default=$fzf_light
       term_theme="light"
       base16_cupertino
     fi
@@ -236,13 +223,11 @@ case "$OSTYPE" in
       gtk_theme=$(dconf read /org/gnome/desktop/interface/gtk-theme)
 
       if [[ "$gtk_theme" == *"light"* || "$gtk_theme" == *"Latte"* ]]; then
-        # fzf_default=$fzf_light
         term_theme="light"
         base16_cupertino
       else
-        # fzf_default=$fzf_dark
         term_theme="dark"
-        base16_ayu-dark
+        base16_pop
       fi
     fi
     ;;
@@ -250,20 +235,6 @@ esac
 
 # export FZF_DEFAULT_OPTS="$fzf_default"
 export TERM_THEME="$term_theme"
-
-# delta.light based on term_theme (light/dark)
-# alias git='git -c delta.light=$( [[ "$term_theme" == "light" ]] && echo true || echo false )'
-
-# if command -v kitty &> /dev/null; then
-#   if [[ "$term_theme" == "dark" ]]; then
-#     kitty +kitten themes --reload-in=all Catppuccin-Mocha
-#     export BAT_THEME="Catppuccin-mocha"
-#   else
-#     kitty +kitten themes --reload-in=all Catppuccin-Latte
-#     export BAT_THEME="Catppuccin-latte"
-#   fi
-# fi
-
 ## End color theme ##
 
 # emacs-eat
