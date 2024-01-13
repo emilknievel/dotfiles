@@ -147,7 +147,8 @@ emacs/.config/emacs/custom.el
 ### Vim ###
 lazy-lock.json
 
-/emacs/.config/emacs/url/
+emacs/.config/emacs/url/
 *.db
-/emacs/.config/emacs/bookmarks
-/emacs/.config/emacs/eshell/
+emacs/.config/emacs/bookmarks
+emacs/.config/emacs/eshell/history
+emacs/.config/emacs/eshell/lastdir
