@@ -1399,7 +1399,8 @@ any directory proferred by `consult-dir'."
 
 (use-package denote
   :config
-  (setq denote-directory (expand-file-name "~/Documents/notes/")))
+  (setq denote-directory (expand-file-name "~/Documents/notes/"))
+  :hook (dired-mode . denote-dired-mode)) ; fontify denote filenames in dired
 
 ;; OCaml configuration
 ;;  - better error and backtrace matching
