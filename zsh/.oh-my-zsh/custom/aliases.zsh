@@ -68,6 +68,11 @@ if [[ $(hostname -s) == "pop-os" ]]; then
   alias clipboard='xclip -sel clip'
 fi
 
+# WSL
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+  alias bat=batcat
+fi
+
 # APT
 alias apts='sudo apt search'
 alias apti='sudo apt install'
