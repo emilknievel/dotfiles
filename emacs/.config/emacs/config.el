@@ -97,7 +97,7 @@
 (use-package general
   :init
   (global-unset-key (kbd "C-M-SPC"))
-  :after evil
+  :after which-key
   :config
   (general-evil-setup t)
   (general-define-key
@@ -131,7 +131,8 @@
    "t" '(:ignore t :wk "Toggle")
    "u" '(:ignore t :wk "UI")
    "u l" '(:ignore t :wk "Linum")
-   "u f" '(:ignore t :wk "Fonts")))
+   "u f" '(:ignore t :wk "Fonts")
+   "w" '(:ignore t :wk "Windows")))
 
 (defun ev/reload-emacs-config ()
   "Tangle org file and reload the emacs config."
