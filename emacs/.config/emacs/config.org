@@ -171,8 +171,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
      "f c" '(:ignore t :wk "Config")
      "g" '(:ignore t :wk "Git")
      "h" '(:ignore t :wk "Help")
-     "n" '(:ignore t :wk "Note")
-     "n r" '(:ignore t :wk "Roam")
+     "n" '(:ignore t :wk "Notes")
      "o" '(:ignore t :wk "Org")
      "o b" '(:ignore t :wk "Babel")
      "p" '(:ignore t :wk "Project")
@@ -1589,11 +1588,11 @@ This package displays hidden emphasis markers while the cursor is on a rich text
     :hook (org-mode . org-appear-mode))
 #+end_src
 
-*** Org Roam
+*** Org Roam (disabled)
 Personal wiki. Org files are synced through [[https://syncthing.net][Syncthing]] and the db is stored locally.
 Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-in-emacs/][Build a Second Brain in Emacs]] show notes.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package org-roam
     :demand t
     :custom
@@ -1699,8 +1698,8 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
   (ev/org-roam-refresh-agenda-list)
 #+end_src
 
-**** Select notes based on tag
-#+begin_src emacs-lisp
+**** Select notes based on tag (disabled)
+#+begin_src emacs-lisp :tangle no
   (defun ev/org-roam-project-finalize-hook ()
     "Adds the captured project file to `org-agenda-files' if the
     capture was not aborted."
@@ -1733,10 +1732,10 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
   (global-set-key (kbd "C-c n p") #'ev/org-roam-find-project)
 #+end_src
 
-**** Custom capture tasks
+**** Custom capture tasks (disabled)
 Quickly capture new notes and tasks for later review in the ~Inbox.org~ file.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (defun ev/org-roam-capture-inbox ()
     "Capture a note into inbox."
     (interactive)
@@ -1749,7 +1748,7 @@ Quickly capture new notes and tasks for later review in the ~Inbox.org~ file.
 
 Capture a task directly into a specific project.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (defun ev/org-roam-capture-task ()
     (interactive)
     ;; Add the project file to the agenda after capture is finished
@@ -1769,10 +1768,10 @@ Capture a task directly into a specific project.
   (global-set-key (kbd "C-c n t") #'ev/org-roam-capture-task)
 #+end_src
 
-*** org-roam-ui
+*** org-roam-ui (disabled)
 Display org roam database as connected nodes in the browser.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package org-roam-ui
     :straight
     (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
@@ -1785,7 +1784,7 @@ Display org roam database as connected nodes in the browser.
           org-roam-ui-open-on-start t))
 #+end_src
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package websocket
     :straight t
     :after org-roam)
