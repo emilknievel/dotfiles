@@ -627,14 +627,14 @@ Nerd icons for dired.
            (dired-mode . (lambda () (setq line-spacing 0.25)))))
 #+end_src
 
-*** Modeline
+*** Mode line
 **** Display cursor column
 #+begin_src emacs-lisp
   (column-number-mode 1)
 #+end_src
 
 **** Diminish
-Declutter the modeline.
+Declutter the mode line.
 
 #+begin_src emacs-lisp
   (use-package diminish
@@ -642,13 +642,33 @@ Declutter the modeline.
     (diminish 'visual-line-mode))
 #+end_src
 
-**** Flash modeline instead of visual-bell
+**** Flash mode line instead of visual-bell
 #+begin_src emacs-lisp
   (setq visible-bell nil
         ring-bell-function 'flash-mode-line)
   (defun flash-mode-line ()
     (invert-face 'mode-line)
     (run-with-timer 0.1 nil #'invert-face 'mode-line))
+#+end_src
+
+**** Display current date and time on the mode line (disabled until worked out how to only display on active)
+Display the current date and time on the mode line.
+
+#+begin_src emacs-lisp
+  (setq display-time-format " %a %e %b, %H:%M ")
+  ;; (setq display-time-24hr-format t)
+  ;; (setq display-time-day-and-date t)
+  (setq display-time-interval 60)
+  (setq display-time-default-load-average nil)
+
+  ;; Only display current date and time
+  (setq display-time-string-forms
+        '((propertize
+           (format-time-string display-time-format now)
+           'face 'display-time-date-and-time
+           'help-echo (format-time-string "%a %b %e, %Y" now))
+          " "))
+  ;; (display-time-mode 1)
 #+end_src
 
 *** Padding (disabled)
@@ -1844,7 +1864,7 @@ Display org roam database as connected nodes in the browser.
 *** TODO Super Agenda
 - [ ] Install [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]
 
-** Denote (WIP)
+** Denote
 Use denote for note-taking. Lots of this is copied from Prot's config.
 
 #+begin_src emacs-lisp
