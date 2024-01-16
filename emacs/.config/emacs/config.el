@@ -158,6 +158,7 @@
  "b" '(nil :wk "buffers")
  "b b" 'switch-to-buffer
  "b B" 'ibuffer
+ "b c" 'consult-buffer
  "b X" 'scratch-buffer
  "q q" 'save-buffers-kill-terminal
  "b r" 'revert-buffer-quick)
@@ -1282,7 +1283,7 @@ any directory proferred by `consult-dir'."
   ;; `denote-rename-buffer-format' for how to modify this.
   (setq denote-rename-buffer-format "[D] %t")
   (denote-rename-buffer-mode 1)
-  (setq denote-journal-extras-directory nil) ; use the `denote-directory'
+  ;; (setq denote-journal-extras-directory nil) ; use the `denote-directory'
   (setq denote-journal-extras-title-format nil) ; always prompt for title
   (setq denote-journal-extras-keyword "journal")
   (with-eval-after-load 'org-capture

@@ -214,6 +214,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
    "b" '(nil :wk "buffers")
    "b b" 'switch-to-buffer
    "b B" 'ibuffer
+   "b c" 'consult-buffer
    "b X" 'scratch-buffer
    "q q" 'save-buffers-kill-terminal
    "b r" 'revert-buffer-quick)
@@ -1877,7 +1878,7 @@ Use denote for note-taking. Lots of this is copied from Prot's config.
     ;; `denote-rename-buffer-format' for how to modify this.
     (setq denote-rename-buffer-format "[D] %t")
     (denote-rename-buffer-mode 1)
-    (setq denote-journal-extras-directory nil) ; use the `denote-directory'
+    ;; (setq denote-journal-extras-directory nil) ; use the `denote-directory'
     (setq denote-journal-extras-title-format nil) ; always prompt for title
     (setq denote-journal-extras-keyword "journal")
     (with-eval-after-load 'org-capture
@@ -1933,6 +1934,20 @@ Use denote for note-taking. Lots of this is copied from Prot's config.
      ;; existing buttons upon visiting the file (Org renders links as
      ;; buttons right away).
      (find-file . denote-link-buttonize-buffer)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+  ;; still need to figure this one out
+  (use-package consult-notes
+    :straight (:type git :host github :repo "mclear-tools/consult-notes")
+    :commands (consult-notes
+               consult-notes-search-in-all-notes)
+    :config
+    (setq consult-notes-file-dir-sources
+          `(("Denote Notes"  ?d ,(denote-directory))
+            ("Agenda Files" ?a ,(org-directory)))))
+    ;; search only for text files in denote dir
+    ;; (setq consult-notes-denote-files-function (function denote-directory-text-only-files)))
 #+end_src
 
 ** OCaml
