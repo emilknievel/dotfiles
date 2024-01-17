@@ -1216,8 +1216,8 @@ any directory proferred by `consult-dir'."
   :config
   ;; Agenda
   (setq org-refile-targets
-        '((org-agenda-files . (:maxlevel . 2))
-          (nil . (:maxlevel . 2))))
+        '((org-agenda-files . (:maxlevel . 3))
+          (nil . (:maxlevel . 3))))
   (setq org-refile-use-outline-path t)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-cache t)
