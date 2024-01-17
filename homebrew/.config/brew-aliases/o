@@ -1,0 +1,6 @@
+#! /opt/homebrew/bin/bash
+# alias: brew o
+#:  * `o` [args...]
+#:    `brew o` is an alias for `brew outdated`
+brew outdated $*
+

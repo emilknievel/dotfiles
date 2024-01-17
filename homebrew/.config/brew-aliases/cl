@@ -1,0 +1,6 @@
+#! /opt/homebrew/bin/bash
+# alias: brew cl
+#:  * `cl` [args...]
+#:    `brew cl` is an alias for `brew cleanup`
+brew cleanup $*
+

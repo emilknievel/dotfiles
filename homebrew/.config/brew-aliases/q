@@ -1,0 +1,6 @@
+#! /opt/homebrew/bin/bash
+# alias: brew q
+#:  * `q` [args...]
+#:    `brew q` is an alias for `brew info`
+brew info $*
+

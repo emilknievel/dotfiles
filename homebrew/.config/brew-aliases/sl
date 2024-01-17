@@ -1,0 +1,6 @@
+#! /opt/homebrew/bin/bash
+# alias: brew sl
+#:  * `sl` [args...]
+#:    `brew sl` is an alias for `brew services list`
+brew services list $*
+

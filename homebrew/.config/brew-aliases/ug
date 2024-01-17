@@ -1,0 +1,6 @@
+#! /opt/homebrew/bin/bash
+# alias: brew ug
+#:  * `ug` [args...]
+#:    `brew ug` is an alias for `brew upgrade`
+brew upgrade $*
+

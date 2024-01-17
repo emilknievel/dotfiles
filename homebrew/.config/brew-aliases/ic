@@ -1,0 +1,6 @@
+#! /opt/homebrew/bin/bash
+# alias: brew ic
+#:  * `ic` [args...]
+#:    `brew ic` is an alias for `brew install --cask`
+brew install --cask $*
+
