@@ -1191,7 +1191,15 @@ any directory proferred by `consult-dir'."
   (org-insert-heading-respect-content t)
   (org-ellipsis "…")
   (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
-  ;; (org-startup-folded 'content) ; show an outline of all headings by default
+
+  (org-default-notes-file (concat org-directory "/inbox.org"))
+  (org-capture-templates
+   '(("f" "Fleeting note" item
+      (file+headline org-default-notes-file "Notes")
+      "- %?")
+     ("t" "New task" entry
+      (file+headline org-default-notes-file "Tasks")
+      "* TODO %i%?")))
   :config
   ;; Agenda
   (setq org-refile-targets
@@ -1283,7 +1291,7 @@ any directory proferred by `consult-dir'."
   ;; `denote-rename-buffer-format' for how to modify this.
   (setq denote-rename-buffer-format "[D] %t")
   (denote-rename-buffer-mode 1)
-  ;; (setq denote-journal-extras-directory nil) ; use the `denote-directory'
+  (setq denote-journal-extras-directory (concat denote-directory "/journal"))
   (setq denote-journal-extras-title-format nil) ; always prompt for title
   (setq denote-journal-extras-keyword "journal")
   (with-eval-after-load 'org-capture
@@ -1339,6 +1347,19 @@ any directory proferred by `consult-dir'."
    ;; existing buttons upon visiting the file (Org renders links as
    ;; buttons right away).
    (find-file . denote-link-buttonize-buffer)))
+
+(use-package consult-notes
+  :after denote
+  :commands (consult-notes
+             consult-notes-search-in-all-notes)
+  :custom
+  (consult-notes-file-dir-sources
+   `(("Notes" ?n ,denote-directory)
+     ("Journals" ?j ,denote-journal-extras-directory)
+     ("Agenda" ?a ,org-directory)))
+  :bind
+  (("C-c n c" . consult-notes)
+   ("C-c n C" . consult-notes-search-in-all-notes)))
 
 ;; OCaml configuration
 ;;  - better error and backtrace matching

@@ -1554,7 +1554,15 @@ Jump to previously visited directory, not unlike using =zoxide=.
     (org-insert-heading-respect-content t)
     (org-ellipsis "…")
     (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
-    ;; (org-startup-folded 'content) ; show an outline of all headings by default
+
+    (org-default-notes-file (concat org-directory "/inbox.org"))
+    (org-capture-templates
+     '(("f" "Fleeting note" item
+        (file+headline org-default-notes-file "Notes")
+        "- %?")
+       ("t" "New task" entry
+        (file+headline org-default-notes-file "Tasks")
+        "* TODO %i%?")))
     :config
     ;; Agenda
     (setq org-refile-targets
@@ -1878,7 +1886,7 @@ Use denote for note-taking. Lots of this is copied from Prot's config.
     ;; `denote-rename-buffer-format' for how to modify this.
     (setq denote-rename-buffer-format "[D] %t")
     (denote-rename-buffer-mode 1)
-    ;; (setq denote-journal-extras-directory nil) ; use the `denote-directory'
+    (setq denote-journal-extras-directory (concat denote-directory "/journal"))
     (setq denote-journal-extras-title-format nil) ; always prompt for title
     (setq denote-journal-extras-keyword "journal")
     (with-eval-after-load 'org-capture
@@ -1936,18 +1944,19 @@ Use denote for note-taking. Lots of this is copied from Prot's config.
      (find-file . denote-link-buttonize-buffer)))
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
-  ;; still need to figure this one out
+#+begin_src emacs-lisp
   (use-package consult-notes
-    :straight (:type git :host github :repo "mclear-tools/consult-notes")
+    :after denote
     :commands (consult-notes
                consult-notes-search-in-all-notes)
-    :config
-    (setq consult-notes-file-dir-sources
-          `(("Denote Notes"  ?d ,(denote-directory))
-            ("Agenda Files" ?a ,(org-directory)))))
-    ;; search only for text files in denote dir
-    ;; (setq consult-notes-denote-files-function (function denote-directory-text-only-files)))
+    :custom
+    (consult-notes-file-dir-sources
+     `(("Notes" ?n ,denote-directory)
+       ("Journals" ?j ,denote-journal-extras-directory)
+       ("Agenda" ?a ,org-directory)))
+    :bind
+    (("C-c n c" . consult-notes)
+     ("C-c n C" . consult-notes-search-in-all-notes)))
 #+end_src
 
 ** OCaml
