@@ -55,10 +55,8 @@
       custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (unless backup-directory-alist
-  (setq backup-directory-alist `(("." . ,(concat user-emacs-directory
-                                                 "backups")))))
+  (setq backup-directory-alist `(("." . "/tmp/backups/"))))
 
-(setq backup-directory-alist `(("." . "/tmp/backups/")))
 (make-directory "/tmp/auto-saves/" t)
 
 (setq auto-save-list-file-prefix "/tmp/auto-saves/sessions/"

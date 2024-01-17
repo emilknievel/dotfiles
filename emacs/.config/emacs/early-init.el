@@ -26,10 +26,17 @@
 ;; Prevent package.el loading packages prior to their init-file loading
 (setq package-enable-at-startup nil)
 
+;; Sensible default height/width
+(setq default-frame-alist (list '(min-height . 1)
+                                '(height . 55)
+                                '(min-width . 1)
+                                '(width . 120)))
+
 ;; Customize titlebar
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
       ((and (eq system-type 'gnu/linux)
             (not (string-match "-[Mm]icrosoft" operating-system-release)))
        (add-to-list 'default-frame-alist '(undecorated . t))))
+
 ;;; early-init.el ends here
