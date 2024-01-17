@@ -58,6 +58,19 @@
   (setq backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                  "backups")))))
 
+(setq backup-directory-alist `(("." . "/tmp/backups/")))
+(make-directory "/tmp/auto-saves/" t)
+
+(setq auto-save-list-file-prefix "/tmp/auto-saves/sessions/"
+      auto-save-file-name-transforms `((".*" ,"/tmp/auto-saves/" t)))
+
+(add-hook 'kill-emacs-hook
+          (lambda ()
+            (dolist (file (directory-files temporary-file-directory t "\\`auto-save-file-name-p\\'"))
+              (delete-file file))))
+
+(setq create-lockfiles nil)
+
 (setq calendar-week-start-day 1)
 
 (use-package exec-path-from-shell
