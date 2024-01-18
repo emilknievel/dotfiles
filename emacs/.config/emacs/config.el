@@ -478,20 +478,18 @@
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
 
-(setq display-time-format " %a %e %b, %H:%M ")
-;; (setq display-time-24hr-format t)
-;; (setq display-time-day-and-date t)
+(setq display-time-format " %H:%M ")
 (setq display-time-interval 60)
 (setq display-time-default-load-average nil)
 
-;; Only display current date and time
+;; Only display current date and time, not email stuff
 (setq display-time-string-forms
       '((propertize
          (format-time-string display-time-format now)
-         'face 'display-time-date-and-time
+         ;; 'face 'display-time-date-and-time
          'help-echo (format-time-string "%a %b %e, %Y" now))
         " "))
-;; (display-time-mode 1)
+(display-time-mode 1)
 
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)
