@@ -229,9 +229,11 @@
   :hook (vterm-mode . evil-collection-vterm-escape-stay))
 
 (use-package evil-commentary
+  :diminish
   :hook (prog-mode . evil-commentary-mode))
 
 (use-package evil-surround
+  :diminish
   :after evil
   :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
          (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
@@ -470,7 +472,11 @@
 
 (use-package diminish
   :config
-  (diminish 'visual-line-mode))
+  (diminish 'visual-line-mode)
+  (diminish 'which-key-mode)
+  (diminish 'buffer-face-mode)
+  (diminish 'auto-revert-mode)
+  (diminish 'eldoc-mode))
 
 (setq visible-bell nil
       ring-bell-function 'flash-mode-line)
