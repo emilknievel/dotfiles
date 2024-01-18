@@ -1488,3 +1488,8 @@ any directory proferred by `consult-dir'."
           compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1))                ; For echo area hints
+
+(defun ev/insert-timestamp ()
+  "Insert timestamp with format [%H:%M] at point."
+  (interactive)
+  (insert (format-time-string "[%H:%M]")))

@@ -2123,3 +2123,11 @@ GPTel allows us to talk with different LLMs from within Emacs.
     (popper-mode +1)
     (popper-echo-mode +1))                ; For echo area hints
 #+end_src
+
+** Insert timestamp at point
+#+begin_src emacs-lisp
+  (defun ev/insert-timestamp ()
+    "Insert timestamp with format [%H:%M] at point."
+    (interactive)
+    (insert (format-time-string "[%H:%M]")))
+#+end_src
