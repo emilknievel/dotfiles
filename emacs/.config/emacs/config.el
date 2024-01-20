@@ -1191,9 +1191,11 @@ any directory proferred by `consult-dir'."
   )
 
 (use-package org
+  :init
+  (setq org-directory (expand-file-name "~/Documents/org")
+        org-agenda-files `(,org-directory)
+        org-default-notes-file (concat org-directory "/inbox.org"))
   :custom
-  (org-directory (expand-file-name "~/Documents/org"))
-  (org-agenda-files `(,org-directory))
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
   (org-fontify-quote-and-verse-blocks t)
@@ -1207,7 +1209,6 @@ any directory proferred by `consult-dir'."
   (org-ellipsis "…")
   (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
 
-  (org-default-notes-file (concat org-directory "/inbox.org"))
   (org-capture-templates
    '(("f" "Fleeting note" item
       (file+headline org-default-notes-file "Notes")
@@ -1298,15 +1299,16 @@ any directory proferred by `consult-dir'."
                              load-language-alist)
 
 (use-package denote
+  :init
+  (setq denote-directory (expand-file-name "~/Documents/notes/")
+        denote-journal-extras-directory (concat denote-directory "/journal"))
   :config
-  (setq denote-directory (expand-file-name "~/Documents/notes/"))
   ;; Automatically rename Denote buffers when opening them so that
   ;; instead of their long file name they have a literal "[D]"
   ;; followed by the file's title.  Read the doc string of
   ;; `denote-rename-buffer-format' for how to modify this.
   (setq denote-rename-buffer-format "[D] %t")
   (denote-rename-buffer-mode 1)
-  (setq denote-journal-extras-directory (concat denote-directory "/journal"))
   (setq denote-journal-extras-title-format nil) ; always prompt for title
   (setq denote-journal-extras-keyword "journal")
   (with-eval-after-load 'org-capture
@@ -1364,7 +1366,6 @@ any directory proferred by `consult-dir'."
    (find-file . denote-link-buttonize-buffer)))
 
 (use-package consult-notes
-  :after denote
   :commands (consult-notes
              consult-notes-search-in-all-notes)
   :custom
@@ -1372,6 +1373,9 @@ any directory proferred by `consult-dir'."
    `(("Notes" ?n ,denote-directory)
      ("Journals" ?j ,denote-journal-extras-directory)
      ("Agenda" ?a ,org-directory)))
+  :config
+  (when (locate-library "denote")
+    (consult-notes-denote-mode))
   :bind
   (("C-c n c" . consult-notes)
    ("C-c n C" . consult-notes-search-in-all-notes)))
