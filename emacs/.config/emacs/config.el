@@ -1223,7 +1223,6 @@ any directory proferred by `consult-dir'."
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
   :hook
-  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
   :general (ev/leader-key-map "o b t" 'org-babel-tangle))
 
