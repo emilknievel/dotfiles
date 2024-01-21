@@ -418,13 +418,7 @@ Get rid of the annoying startup screen.
        (6 . (1.0))
        (7 . (1.0))
        (8 . (1.0))))
-    (modus-themes-variable-pitch-ui t))
-    ;; :config
-    ;; ;; TODO: manually set org code blocks to match modus theme look on protiselaos' website
-    ;; (load-theme 'modus-vivendi :no-confirm)
-    ;; (general-define-key
-    ;;  :prefix-map 'ev/leader-key-map
-    ;;  "t t" '(modus-themes-toggle :wk "Toggle theme")))
+    (modus-themes-variable-pitch-ui nil))
 #+end_src
 
 **** Ef themes
