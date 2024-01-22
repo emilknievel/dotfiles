@@ -313,18 +313,19 @@
   :general (ev/leader-key-map
             "t t" 'ef-themes-toggle))
 
-(if (and (display-graphic-p) (not (getenv "WSL_DISTRO_NAME")))
-    (use-package auto-dark
-      :diminish
-      :init
-      (setq auto-dark-dark-theme 'ef-dark
-            auto-dark-light-theme 'ef-light)
-      :config
-      (auto-dark-mode t))
-  ;; load according to terminal theme if running inside terminal
-  (if (string= (getenv "TERM_THEME") "light")
-      (load-theme 'ef-light :no-confirm)
-    (load-theme 'ef-dark :no-confirm)))
+(use-package auto-dark
+  :diminish
+  :init
+  (setq auto-dark-dark-theme 'ef-dark
+        auto-dark-light-theme 'ef-light)
+  :config
+  ;; load auto-dark when using gui emacs within non-wsl unix/posix,
+  ;; otherwise use the TERM_THEME env variable to select theme
+  (if (and (display-graphic-p) (not (getenv "WSL_DISTRO_NAME")))
+      (auto-dark-mode t)
+    (if (string= (getenv "TERM_THEME") "light")
+        (load-theme 'ef-light :no-confirm)
+      (load-theme 'ef-dark :no-confirm))))
 
 (defvar ev/linux-font "Iosevka Comfy")
 (defvar ev/macos-font "Hack Nerd Font")
