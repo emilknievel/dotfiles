@@ -219,6 +219,10 @@
    "w" '(:keymap evil-window-map :wk "Window"))
   :config
   (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+  ;; M-. is reverse evil repeat only when previously done evil-repeat (C-.)
+  (define-key evil-normal-state-map (kbd "M-.")
+              `(menu-item "" evil-repeat-pop :filter
+                          ,(lambda (cmd) (if (eq last-command 'evil-repeat-pop) cmd))))
   (evil-mode 1))
 
 (use-package evil-collection
@@ -527,7 +531,7 @@
                                 ))
   :general
   (:keymaps '(normal insert visual motion)
-            "M-." #'vertico-repeat
+            "C-<" #'vertico-repeat ; C-S-,
             )
   (:keymaps 'vertico-map
             "<tab>" #'vertico-insert ; Set manually otherwise setting `vertico-quick-insert' overrides this
@@ -1399,9 +1403,8 @@ any directory proferred by `consult-dir'."
 
 (use-package embark
   :bind
-  ;; going to need to change some of these in order to make it work nice with EViL etc.
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
+  (("C->" . embark-act)         ;; C-S-.
+   ("M-." . embark-dwim)        ;; M-. also is "go-to-definition but embark-dwim does just that in that context
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
   :general
