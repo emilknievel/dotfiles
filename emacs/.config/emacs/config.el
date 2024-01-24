@@ -332,7 +332,7 @@
       (load-theme 'ef-dark :no-confirm))))
 
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "Hack Nerd Font")
+(defvar ev/macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)

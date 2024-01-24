@@ -471,7 +471,7 @@ Get rid of the annoying startup screen.
 **** Font variables
 #+begin_src emacs-lisp
   (defvar ev/linux-font "Iosevka Comfy")
-  (defvar ev/macos-font "Hack Nerd Font")
+  (defvar ev/macos-font "SF Mono")
 
   (if (eq system-type 'darwin)
       (defvar ev/editor-font ev/macos-font)
