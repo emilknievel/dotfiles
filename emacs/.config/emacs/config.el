@@ -793,7 +793,10 @@ parses its input."
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(use-package yasnippet)
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs
+        `(,(concat user-emacs-directory (file-name-as-directory "snippets")))))
 
 (use-package yasnippet-snippets
   :after yasnippet

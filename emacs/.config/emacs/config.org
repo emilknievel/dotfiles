@@ -1026,7 +1026,10 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 *** Snippets
 #+begin_src emacs-lisp
-  (use-package yasnippet)
+  (use-package yasnippet
+    :config
+    (setq yas-snippet-dirs
+          `(,(concat user-emacs-directory (file-name-as-directory "snippets")))))
 #+end_src
 
 #+begin_src emacs-lisp
