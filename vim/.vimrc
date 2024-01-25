@@ -1,6 +1,7 @@
 syntax on
 nnoremap U <C-R>
 filetype plugin indent on
+autocmd FileType gitcommit setlocal colorcolumn=51,73
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
