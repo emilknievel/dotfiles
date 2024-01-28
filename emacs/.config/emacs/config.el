@@ -794,17 +794,18 @@ parses its input."
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package yasnippet
-  :config
+  :init
   (setq yas-snippet-dirs
         `(,(concat user-emacs-directory (file-name-as-directory "snippets"))))
   :hook
-  (yas-minor-mode . (lambda () (setq require-final-newline nil))))
+  ;; still have to manually activate the mode for some reason...
+  (snippet-mode . (lambda () (set (make-local-variable 'require-final-newline) nil)))
+  :config
+  (yas-global-mode 1))
 
 (use-package yasnippet-snippets
   :after yasnippet
-  :ensure t
-  :config
-  (yas-global-mode 1))
+  :ensure t)
 
 (use-package yasnippet-capf
   :after cape

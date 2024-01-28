@@ -1027,19 +1027,20 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 *** Snippets
 #+begin_src emacs-lisp
   (use-package yasnippet
-    :config
+    :init
     (setq yas-snippet-dirs
           `(,(concat user-emacs-directory (file-name-as-directory "snippets"))))
     :hook
-    (yas-minor-mode . (lambda () (setq require-final-newline nil))))
+    ;; still have to manually activate the mode for some reason...
+    (snippet-mode . (lambda () (set (make-local-variable 'require-final-newline) nil)))
+    :config
+    (yas-global-mode 1))
 #+end_src
 
 #+begin_src emacs-lisp
   (use-package yasnippet-snippets
     :after yasnippet
-    :ensure t
-    :config
-    (yas-global-mode 1))
+    :ensure t)
 #+end_src
 
 #+begin_src emacs-lisp
