@@ -332,7 +332,7 @@
       (load-theme 'ef-dark :no-confirm))))
 
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "SF Mono")
+(defvar ev/macos-font "FiraCode Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -362,7 +362,7 @@
 (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
 (set-face-attribute 'fixed-pitch nil :family ev/editor-font :height ev/fixed-pitch-font-height)
 (set-face-attribute 'variable-pitch nil :family ev/variable-pitch-font :height ev/variable-pitch-font-height)
-(set-face-attribute 'italic nil :slant 'italic :underline nil)
+;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
 (defun ev/big-font-size ()
   (interactive)
