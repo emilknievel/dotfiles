@@ -796,7 +796,9 @@ parses its input."
 (use-package yasnippet
   :config
   (setq yas-snippet-dirs
-        `(,(concat user-emacs-directory (file-name-as-directory "snippets")))))
+        `(,(concat user-emacs-directory (file-name-as-directory "snippets"))))
+  :hook
+  (yas-minor-mode . (lambda () (setq require-final-newline nil))))
 
 (use-package yasnippet-snippets
   :after yasnippet
