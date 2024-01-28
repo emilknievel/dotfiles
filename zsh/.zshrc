@@ -1,7 +1,7 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # base16
-export BASE16_THEME_DEFAULT="base16_classic-dark"
+export BASE16_THEME_DEFAULT="base16_tokyodark-terminal"
 export BASE16_SHELL_ENABLE_VARS=1
 
 case "$OSTYPE" in
@@ -205,13 +205,15 @@ bindkey "^[l" clear-screen
 case "$OSTYPE" in
   darwin*)
     # determine light/dark from AppleInterfaceStyle
-    if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
-      term_theme="dark"
-      base16_tokyodark-terminal
-    else
-      term_theme="light"
-      base16_cupertino
-    fi
+    # if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
+    #   term_theme="dark"
+    #   base16_tokyodark-terminal
+    # else
+    #   term_theme="light"
+    #   base16_cupertino
+    # fi
+    term_theme="dark"
+    base16_tokyodark-terminal
     ;;
   linux*)
     # Check if running under WSL2
