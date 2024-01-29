@@ -132,6 +132,7 @@
    "f c" '(:ignore t :wk "Config")
    "g" '(:ignore t :wk "Git")
    "h" '(:ignore t :wk "Help")
+   "h d" '(:ignore t :wk "Devdocs")
    "n" '(:ignore t :wk "Notes")
    "o" '(:ignore t :wk "Org")
    "o b" '(:ignore t :wk "Babel")
@@ -1504,3 +1505,27 @@ any directory proferred by `consult-dir'."
   "Insert timestamp with format [%H:%M] at point."
   (interactive)
   (insert (format-time-string "[%H:%M]")))
+
+(use-package devdocs
+  :init
+  (defun ev/devdocs-lookup-thing-at-point ()
+    "Look up definition of thing at point, using Devdocs."
+    (interactive)
+    (devdocs-lookup nil (thing-at-point 'symbol t)))
+  :hook
+  ((js-mode
+    . (lambda () (setq-local devdocs-current-docs '("javascript"))))
+   (markdown-mode
+    . (lambda () (setq-local devdocs-current-docs '("markdown"))))
+   ((elisp-mode emacs-lisp-mode)
+    . (lambda () (setq-local devdocs-current-docs '("elisp"))))
+   (dockerfile-mode
+    . (lambda () (setq-local devdocs-current-docs '("docker"))))
+   (vue-ts-mode
+    . (lambda () (setq-local devdocs-current-docs '("vue~3" "javascript" "typescript")))))
+  :general
+  (ev/leader-key-map
+   "h d l" 'devdocs-lookup
+   "h d p" 'devdocs-peruse
+   "h d i" 'devdocs-install
+   "h d d" 'ev/devdocs-lookup-thing-at-point))
