@@ -148,6 +148,8 @@ emacs/.config/emacs/bookmarks
 emacs/.config/emacs/eshell/history
 emacs/.config/emacs/eshell/lastdir
 emacs/.config/emacs/multisession
+# ignore downloaded devdocs documentation
+emacs/.config/emacs/devdocs
 
 ### Vim ###
 lazy-lock.json
