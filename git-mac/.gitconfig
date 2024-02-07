@@ -1,11 +1,23 @@
 [alias]
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'
 	lga = lg --all
-	count = git shortlog -sn
+	count = shortlog -sn
 	pf = push --force-with-lease
 	gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
 	# Undo the last commit, leaving your staging area the same as just before you committed
 	undo = reset --soft HEAD^
+	adog = log --all --decorate --oneline --graph
+	agda = log --graph --abbrev-commit --decorate --all
+	cc = commit
+	co = checkout
+	f = fetch
+	p = push
+	fa = fetch --all
+	st = status
+	rb = rebase
+	sts = status --short
+	d = diff
+	ds = diff --staged
 [diff]
 	tool = nvim
 [merge]
