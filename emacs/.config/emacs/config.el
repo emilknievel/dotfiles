@@ -302,11 +302,12 @@
   (modus-themes-variable-pitch-ui nil))
 
 (use-package ef-themes
-  :custom
-  (ef-themes-mixed-fonts t)
-  (ef-themes-common-palette-overrides
+  :ensure t
+  :init
+  (setq ef-themes-mixed-fonts t)
+  (setq ef-themes-common-palette-overrides
    '((fringe unspecified)))
-  (ef-themes-headings
+  (setq ef-themes-headings
    '((1 . (1.5))
      (2 . (1.4))
      (3 . (1.3))
@@ -315,30 +316,15 @@
      (6 . (1.0))
      (7 . (1.0))
      (8 . (1.0))))
-  (ef-themes-variable-pitch-ui nil)
-  (ef-themes-to-toggle '(ef-dark ef-light))
-  (ef-themes-mixed-fonts t)
-  :config
-  (load-theme 'ef-dark :no-confirm)
+  (setq ef-themes-variable-pitch-ui nil)
+  (setq ef-themes-to-toggle '(ef-dark ef-light))
+  (setq ef-themes-mixed-fonts t)
+  :config (ef-themes-select 'ef-dark)
   :general (ev/leader-key-map
             "t t" 'ef-themes-toggle))
 
-(use-package auto-dark
-  :diminish
-  :init
-  (setq auto-dark-dark-theme 'ef-dark
-        auto-dark-light-theme 'ef-light)
-  :config
-  ;; load auto-dark when using gui emacs within non-wsl unix/posix,
-  ;; otherwise use the TERM_THEME env variable to select theme
-  (if (and (display-graphic-p) (not (getenv "WSL_DISTRO_NAME")))
-      (auto-dark-mode t)
-    (if (string= (getenv "TERM_THEME") "light")
-        (load-theme 'ef-light :no-confirm)
-      (load-theme 'ef-dark :no-confirm))))
-
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "FiraCode Nerd Font")
+(defvar ev/macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -361,8 +347,8 @@
 
 (if (eq system-type 'darwin)
     (setq ev/variable-pitch-font-height 140
-          ev/editor-font-height 130
-          ev/fixed-pitch-font-height 130)
+          ev/editor-font-height 140
+          ev/fixed-pitch-font-height 140)
   (ev/setup-linux-font-heights))
 
 (set-face-attribute 'default nil :family ev/editor-font :height ev/editor-font-height)
