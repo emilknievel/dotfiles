@@ -370,6 +370,14 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
     :general (ev/leader-key-map "c u" 'vundo))
 #+end_src
 
+*** Multiple cursors
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :ensure t
+    :bind (("M-d" . mc/mark-next-like-this)
+           ("M-D" . mc/mark-all-like-this)))
+#+end_src
+
 ** Customization
 *** Disable startup screen
 Get rid of the annoying startup screen.

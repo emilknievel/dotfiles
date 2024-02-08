@@ -259,6 +259,11 @@
 (use-package vundo
   :general (ev/leader-key-map "c u" 'vundo))
 
+(use-package multiple-cursors
+  :ensure t
+  :bind (("M-d" . mc/mark-next-like-this)
+         ("M-D" . mc/mark-all-like-this)))
+
 (setq inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)
