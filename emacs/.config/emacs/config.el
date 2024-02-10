@@ -320,9 +320,9 @@
   (setq ef-themes-variable-pitch-ui nil)
   (setq ef-themes-to-toggle '(ef-dark ef-light))
   (setq ef-themes-mixed-fonts t)
-  :config (ef-themes-select 'ef-dark)
   :general (ev/leader-key-map
             "t t" 'ef-themes-toggle))
+(load-theme 'ef-dark t nil)
 
 (defvar ev/linux-font "Iosevka Comfy")
 (defvar ev/macos-font "Iosevka Comfy")

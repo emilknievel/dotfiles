@@ -455,9 +455,9 @@ Get rid of the annoying startup screen.
     (setq ef-themes-variable-pitch-ui nil)
     (setq ef-themes-to-toggle '(ef-dark ef-light))
     (setq ef-themes-mixed-fonts t)
-    :config (ef-themes-select 'ef-dark)
     :general (ev/leader-key-map
               "t t" 'ef-themes-toggle))
+  (load-theme 'ef-dark t nil)
 #+end_src
 
 **** Auto-Dark for Emacs (disabled)
