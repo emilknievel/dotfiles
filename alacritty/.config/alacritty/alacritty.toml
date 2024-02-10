@@ -7,22 +7,22 @@ LC_ALL = "en_US.UTF-8"
 TERM = "xterm-256color"
 
 [font]
-size = 14
+size = 13
 
 [font.bold]
-family = "Iosevka Nerd Font"
+family = "FiraCode Nerd Font"
 style = "Bold"
 
 [font.bold_italic]
-family = "Iosevka Nerd Font"
+family = "FiraCode Nerd Font"
 style = "Bold Italic"
 
 [font.italic]
-family = "Iosevka Nerd Font"
+family = "FiraCode Nerd Font"
 style = "Italic"
 
 [font.normal]
-family = "Iosevka Nerd Font"
+family = "FiraCode Nerd Font"
 style = "Regular"
 
 [mouse]
