@@ -215,6 +215,7 @@
   (setq evil-want-keybinding nil)
   (setq evil-undo-system 'undo-fu)
   (setq evil-want-C-u-scroll t)
+  (setq evil-respect-visual-line-mode t) ; Make vertical movement respect wrapped lines
   :general
   (ev/leader-key-map
    "w" '(:keymap evil-window-map :wk "Window"))
