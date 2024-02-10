@@ -23,6 +23,7 @@
 #+OPTIONS: toc:t
 
 ** Better defaults
+
 Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]].
 
 #+begin_src emacs-lisp
@@ -73,13 +74,16 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 #+end_src
 
 ** Emacs system files
+
 *** Backup files
+
 #+begin_src emacs-lisp
   (unless backup-directory-alist
     (setq backup-directory-alist `(("." . "/tmp/backups/"))))
 #+end_src
 
 *** Auto-save files
+
 #+begin_src emacs-lisp
   (make-directory "/tmp/auto-saves/" t)
 
@@ -93,18 +97,23 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 #+end_src
 
 *** Lock files
+
 #+begin_src emacs-lisp
   (setq create-lockfiles nil)
 #+end_src
 
 ** Calendar
+
 *** Weeks start on Mondays
+
 #+begin_src emacs-lisp
   (setq calendar-week-start-day 1)
 #+end_src
 
 ** Environment variables
+
 *** Get OS shell variables
+
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :config
@@ -124,11 +133,13 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 #+end_src
 
 *** Emacs specific
+
 #+begin_src emacs-lisp
   (setenv "LANG" "en_US.UTF-8")
 #+end_src
 
 ** Security
+
 Integrate Emacs with GnuTLS to ensure trusted connections.
 
 #+begin_src emacs-lisp
@@ -139,14 +150,18 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 #+end_src
 
 *** Secrets
+
 **** 1Password auth source
+
 #+begin_src emacs-lisp
   (use-package auth-source-1password
     :config (auth-source-1password-enable))
 #+end_src
 
 ** Key bindings
+
 *** which-key
+
 #+begin_src emacs-lisp
   (use-package which-key
     :diminish
@@ -158,12 +173,14 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 #+end_src
 
 *** general.el
+
 general.el provides a more convenient, unified interface for binding keys in Emacs.
 Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
 
 Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:prefix-map 'ev/leader-key-map~.
 
 **** Preamble
+
 #+begin_src emacs-lisp
   (use-package general
     :init
@@ -207,6 +224,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+end_src
 
 **** Files
+
 #+begin_src emacs-lisp
   (defun ev/reload-emacs-config ()
     "Tangle org file and reload the emacs config."
@@ -229,6 +247,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+end_src
 
 **** Buffers
+
 #+begin_src emacs-lisp
   (general-define-key
    :prefix-map 'ev/leader-key-map
@@ -243,6 +262,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+end_src
 
 **** Help
+
 #+begin_src emacs-lisp
   (general-define-key
    :prefix-map 'ev/leader-key-map
@@ -256,6 +276,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+end_src
 
 **** Toggles
+
 #+begin_src emacs-lisp
   (general-define-key
    :prefix-map 'ev/leader-key-map
@@ -266,6 +287,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+end_src
 
 **** UI
+
 #+begin_src emacs-lisp
   (general-define-key
    :prefix-map 'ev/leader-key-map
@@ -277,6 +299,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+end_src
 
 **** Emacs Client
+
 #+begin_src emacs-lisp
   (general-define-key
    :prefix-map 'ev/leader-key-map
@@ -285,6 +308,7 @@ Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:pre
 #+end_src
 
 *** Evil
+
 Use Evil mode for Vim like bindings.
 
 #+begin_src emacs-lisp
@@ -331,7 +355,9 @@ Use Evil mode for Vim like bindings.
 #+end_src
 
 ** Editing
+
 *** iedit
+
 Edit multiple occurrences in the same way simultaneously.
 
 #+begin_src emacs-lisp
@@ -347,6 +373,7 @@ Integrate iedit with evil. [[https://github.com/syl20bnr/evil-iedit-state][Keybi
 #+end_src
 
 *** Whitespace
+
 Show trailing whitespace.
 
 #+begin_src emacs-lisp
@@ -354,6 +381,7 @@ Show trailing whitespace.
 #+end_src
 
 *** Expand region
+
 Increase selected region by /semantic units/.
 
 #+begin_src emacs-lisp
@@ -362,6 +390,7 @@ Increase selected region by /semantic units/.
 #+end_src
 
 *** Vundo
+
 Visual undo. Displays the undo history as a tree and lets you move in the tree to go back to previous buffer states.
 
 Invoked with ~M-x vundo~ or ~<leader> c u~.
@@ -372,6 +401,7 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 #+end_src
 
 *** Multiple cursors
+
 #+begin_src emacs-lisp
   (use-package multiple-cursors
     :ensure t
@@ -380,7 +410,9 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 #+end_src
 
 ** Customization
+
 *** Disable startup screen
+
 Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
@@ -388,11 +420,13 @@ Get rid of the annoying startup screen.
 #+end_src
 
 *** Confirm on exit
+
 #+begin_src emacs-lisp
   (setopt confirm-kill-emacs 'y-or-n-p)
 #+end_src
 
 *** macOS
+
 #+begin_src emacs-lisp
   (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
@@ -405,12 +439,15 @@ Get rid of the annoying startup screen.
 #+end_src
 
 *** Theme
+
 **** Themes directory
+
 #+begin_src emacs-lisp
   (setq custom-theme-directory "~/.config/emacs/themes/")
 #+end_src
 
 **** Modus themes
+
 #+begin_src emacs-lisp
   (use-package modus-themes
     :ensure t
@@ -436,6 +473,7 @@ Get rid of the annoying startup screen.
 #+end_src
 
 **** Ef themes
+
 #+begin_src emacs-lisp
   (use-package ef-themes
     :ensure t
@@ -461,6 +499,7 @@ Get rid of the annoying startup screen.
 #+end_src
 
 **** Auto-Dark for Emacs (disabled)
+
 #+begin_src emacs-lisp :tangle no
   (use-package auto-dark
     :diminish
@@ -478,7 +517,9 @@ Get rid of the annoying startup screen.
 #+end_src
 
 *** Fonts
+
 **** Font variables
+
 #+begin_src emacs-lisp
   (defvar ev/linux-font "Iosevka Comfy")
   (defvar ev/macos-font "FiraCode Nerd Font")
@@ -495,6 +536,7 @@ Get rid of the annoying startup screen.
 #+end_src
 
 **** Setup editor fonts
+
 #+begin_src emacs-lisp
   (defun ev/setup-linux-font-heights ()
     (if (getenv "WSL_DISTRO_NAME")
@@ -578,6 +620,7 @@ Get rid of the annoying startup screen.
 #+end_src
 
 **** Custom faces
+
 #+begin_src emacs-lisp
   (custom-theme-set-faces
    'user
@@ -587,6 +630,7 @@ Get rid of the annoying startup screen.
 #+end_src
 
 **** Ligatures
+
 Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts->ligatures)=.
 
 #+begin_src emacs-lisp
@@ -615,6 +659,7 @@ Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts
 #+end_src
 
 *** Column indication
+
 Show column indicator at column 80.
 
 #+begin_src emacs-lisp
@@ -626,6 +671,7 @@ Show column indicator at column 80.
 #+end_src
 
 *** Display line numbers
+
 Hooks for relative and absolute line numbers.
 
 #+begin_src emacs-lisp
@@ -668,6 +714,7 @@ Turn on line numbers for program and configuration modes.
 #+end_src
 
 *** Whitespace
+
 Show trailing whitespace in buffer.
 
 #+begin_src emacs-lisp
@@ -681,6 +728,7 @@ Add a newline to the end of the file if one doesn't already exist.
 #+end_src
 
 *** Icons
+
 Install the icons with ~M-x nerd-icons-install-fonts~.
 
 #+begin_src emacs-lisp
@@ -697,12 +745,15 @@ Nerd icons for dired.
 #+end_src
 
 *** Mode line
+
 **** Display cursor column
+
 #+begin_src emacs-lisp
   (column-number-mode 1)
 #+end_src
 
 **** Diminish
+
 Declutter the mode line.
 
 #+begin_src emacs-lisp
@@ -716,6 +767,7 @@ Declutter the mode line.
 #+end_src
 
 **** Flash mode line instead of visual-bell
+
 #+begin_src emacs-lisp
   (setq visible-bell nil
         ring-bell-function 'flash-mode-line)
@@ -725,6 +777,7 @@ Declutter the mode line.
 #+end_src
 
 **** Display current date and time on the mode line (disabled until worked out how to only display on active)
+
 Display the current date and time on the mode line.
 
 #+begin_src emacs-lisp
@@ -743,6 +796,7 @@ Display the current date and time on the mode line.
 #+end_src
 
 *** Padding (disabled)
+
 #+begin_src emacs-lisp :tangle no
   (use-package spacious-padding
     :config
@@ -750,7 +804,9 @@ Display the current date and time on the mode line.
 #+end_src
 
 ** Completion
+
 *** Nerd Icons Completion
+
 #+begin_src emacs-lisp
   (use-package nerd-icons-completion
     :after (marginalia nerd-icons)
@@ -760,6 +816,7 @@ Display the current date and time on the mode line.
 #+end_src
 
 *** Marginalia
+
 #+begin_src emacs-lisp
   (use-package marginalia
     :after vertico
@@ -775,6 +832,7 @@ Display the current date and time on the mode line.
 #+end_src
 
 *** Vertico
+
 #+begin_src emacs-lisp
   (use-package vertico
     :demand t                             ; Otherwise won't get loaded immediately
@@ -886,6 +944,7 @@ Display the current date and time on the mode line.
 #+end_src
 
 *** Orderless
+
 #+begin_src emacs-lisp
   (use-package orderless
     :custom
@@ -965,6 +1024,7 @@ Display the current date and time on the mode line.
 #+end_src
 
 *** Corfu
+
 #+begin_src emacs-lisp
   (use-package corfu
     ;; Optional customizations
@@ -1014,6 +1074,7 @@ Display the current date and time on the mode line.
 #+end_src
 
 *** Cape
+
 #+begin_src emacs-lisp
   ;; Add extensions
   (use-package cape
@@ -1053,6 +1114,7 @@ Display the current date and time on the mode line.
 #+end_src
 
 *** Kind-icon
+
 Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560185][this]] post for handling theme changes.
 
 #+begin_src emacs-lisp
@@ -1071,6 +1133,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 #+end_src
 
 *** Snippets
+
 #+begin_src emacs-lisp
   (use-package yasnippet
     :init
@@ -1097,6 +1160,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 #+end_src
 
 ** Eglot
+
 #+begin_src emacs-lisp
   (use-package eglot)
 #+end_src
@@ -1110,7 +1174,9 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 #+end_src
 
 ** Language configuration
+
 *** Treesitter
+
 Language grammars.
 
 #+begin_src emacs-lisp
@@ -1171,6 +1237,7 @@ Make Emacs use ts mode when opening the corresponding filetype.
 #+end_src
 
 *** Prolog
+
 Use prolog-mode instead of perl-mode for .pl files.
 
 #+begin_src emacs-lisp
@@ -1178,6 +1245,7 @@ Use prolog-mode instead of perl-mode for .pl files.
 #+end_src
 
 *** Docker
+
 Docker file mode.
 
 #+begin_src emacs-lisp
@@ -1186,6 +1254,7 @@ Docker file mode.
 #+end_src
 
 *** YAML
+
 #+begin_src emacs-lisp
   (use-package yaml-mode
     :hook
@@ -1194,6 +1263,7 @@ Docker file mode.
 #+end_src
 
 *** Markdown
+
 #+begin_src emacs-lisp
   (use-package markdown-mode
     :mode ("\\.md\\'" . gfm-mode)
@@ -1205,6 +1275,7 @@ Docker file mode.
 #+end_src
 
 *** Clojure
+
 Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the future.
 
 #+begin_src emacs-lisp
@@ -1219,6 +1290,7 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
 #+end_src
 
 *** Common Lisp
+
 #+begin_src emacs-lisp
   (use-package sly
     :init (setq inferior-lisp-program (executable-find "sbcl"))
@@ -1230,16 +1302,19 @@ Clojure mode (possibly going to be replaced by clojure-ts-mode sometime in the f
 #+end_src
 
 *** Typescript
+
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . tsx-ts-mode))
 #+end_src
 
 *** Web
+
 #+begin_src emacs-lisp
   (use-package web-mode)
 #+end_src
 
 *** jq
+
 Info about interactive use in a JSON buffer, Org-babel support and how to use with yq for yaml provided [[https://github.com/ljos/jq-mode][here]].
 
 #+begin_src emacs-lisp
@@ -1248,7 +1323,9 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 #+end_src
 
 *** HTTP
+
 **** restclient.el
+
 This package provides a simple way to interact with RESTful APIs from within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode highlights some of its features.
 
 Notable keymaps:
@@ -1270,6 +1347,7 @@ Notable keymaps:
 #+end_src
 
 *** Vue
+
 #+begin_src emacs-lisp
   (use-package vue-ts-mode
     :straight '(vue-ts-mode
@@ -1288,16 +1366,19 @@ Notable keymaps:
 #+end_src
 
 *** Rust
+
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 #+end_src
 
 *** Mermaid
+
 #+begin_src emacs-lisp
   (use-package mermaid-mode :mode "\\.mmd$")
 #+end_src
 
 *** Lua
+
 #+begin_src emacs-lisp
   (use-package lua-mode
     :mode "\\.lua\\'")
@@ -1314,6 +1395,7 @@ Notable keymaps:
 #+end_src
 
 *** C#
+
 #+begin_src emacs-lisp
   ;; Invoke Eglot when entering a C# file
   (with-eval-after-load 'eglot
@@ -1328,13 +1410,16 @@ Notable keymaps:
 #+end_src
 
 ** Syntax checking
+
 #+begin_src emacs-lisp
   (use-package flycheck
     :init (global-flycheck-mode))
 #+end_src
 
 ** Git
+
 *** Magit
+
 #+begin_src emacs-lisp
   (use-package magit
     :general
@@ -1343,10 +1428,12 @@ Notable keymaps:
 #+end_src
 
 *** TODO magit/forge [0/2]
+
 - [ ] Check what it's all about.
 - [ ] How does this fit in with my current workflow with eg. github. Does it also have a use in azure devops? Is it comparable with the gh cli tool?
 
 *** diff-hl
+
 #+begin_src emacs-lisp
   (use-package diff-hl
     :init
@@ -1359,10 +1446,13 @@ Notable keymaps:
 #+end_src
 
 *** TODO Consult-GH [0/1]
+
 - [ ] Research and list how I would use this package. What does it replace in my current github workflow?
 
 ** Terminal Emulation
+
 *** Eat
+
 #+begin_src emacs-lisp
   (use-package eat
     :straight (:type git
@@ -1382,6 +1472,7 @@ Notable keymaps:
 #+end_src
 
 ** Project
+
 #+begin_src emacs-lisp
   (use-package project
     :general
@@ -1389,10 +1480,13 @@ Notable keymaps:
      "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
     :straight (:type built-in))
 #+end_src
+
 [[https://www.patrickdelliott.com/emacs.d/#org0a74aa5][source]]
 
 ** File exploration
+
 *** Dired
+
 #+begin_src emacs-lisp
   (use-package dired
     :straight (:type built-in)
@@ -1415,6 +1509,7 @@ Notable keymaps:
 #+end_src
 
 *** Hide/show hidden files
+
 #+begin_src emacs-lisp
   (use-package dired-hide-dotfiles
     :config
@@ -1423,6 +1518,7 @@ Notable keymaps:
 #+end_src
 
 *** Treemacs
+
 Treemacs is an Emacs package that provides a customizable, tree-style file explorer and project manager, streamlining file navigation and organization.
 
 #+begin_src emacs-lisp
@@ -1442,6 +1538,7 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
 #+end_src
 
 *** Consult dir
+
 Jump to previously visited directory, not unlike using =zoxide=.
 
 #+begin_src emacs-lisp
@@ -1475,6 +1572,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+end_src
 
 ** Editorconfig
+
 #+begin_src emacs-lisp
   (use-package editorconfig
     :diminish
@@ -1482,7 +1580,9 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+end_src
 
 ** Search
+
 *** Consult
+
 #+begin_src emacs-lisp
   ;; Example configuration for Consult
   (use-package consult
@@ -1612,7 +1712,9 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+end_src
 
 ** Org
+
 *** Initial config
+
 #+begin_src emacs-lisp
   (use-package org
     :init
@@ -1658,6 +1760,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+end_src
 
 *** Org Modern
+
 #+begin_src emacs-lisp
   (use-package org-modern
     :after org
@@ -1672,6 +1775,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+end_src
 
 *** Olivetti
+
 Olivetti is a minor mode that provides a nice writing environment by setting comfortable window margins etc.
 
 #+begin_src emacs-lisp
@@ -1687,6 +1791,7 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
 #+end_src
 
 *** Appear
+
 This package displays hidden emphasis markers while the cursor is on a rich text word.
 
 #+begin_src emacs-lisp
@@ -1703,6 +1808,7 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 #+end_src
 
 *** Org Roam (disabled)
+
 Personal wiki. Org files are synced through [[https://syncthing.net][Syncthing]] and the db is stored locally.
 Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-in-emacs/][Build a Second Brain in Emacs]] show notes.
 
@@ -1785,6 +1891,7 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 #+end_src
 
 **** Org agenda hacks (disabled)
+
 #+begin_src emacs-lisp :tangle no
   (defun ev/org-roam-node-insert-immediate (arg &rest args)
     "Fast node insertion based on first item in org-roam-capture-templates"
@@ -1813,6 +1920,7 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 #+end_src
 
 **** Select notes based on tag (disabled)
+
 #+begin_src emacs-lisp :tangle no
   (defun ev/org-roam-project-finalize-hook ()
     "Adds the captured project file to `org-agenda-files' if the
@@ -1847,6 +1955,7 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 #+end_src
 
 **** Custom capture tasks (disabled)
+
 Quickly capture new notes and tasks for later review in the ~Inbox.org~ file.
 
 #+begin_src emacs-lisp :tangle no
@@ -1883,6 +1992,7 @@ Capture a task directly into a specific project.
 #+end_src
 
 *** org-roam-ui (disabled)
+
 Display org roam database as connected nodes in the browser.
 
 #+begin_src emacs-lisp :tangle no
@@ -1905,6 +2015,7 @@ Display org roam database as connected nodes in the browser.
 #+end_src
 
 *** Org-noter
+
 #+begin_src emacs-lisp
   (use-package org-noter
     :custom
@@ -1920,6 +2031,7 @@ Display org roam database as connected nodes in the browser.
 #+end_src
 
 *** Babel
+
 #+begin_src emacs-lisp
   (setq org-confirm-babel-evaluate nil
         org-src-fontify-natively t
@@ -1944,12 +2056,15 @@ Display org roam database as connected nodes in the browser.
 #+end_src
 
 *** TODO Transclusion
+
 - [ ] Install [[https://github.com/nobiot/org-transclusion][org-transclusion]]
 
 *** TODO Super Agenda
+
 - [ ] Install [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]
 
 ** Denote
+
 Use denote for note-taking. Lots of this is copied from Prot's config.
 
 #+begin_src emacs-lisp
@@ -2039,6 +2154,7 @@ Use denote for note-taking. Lots of this is copied from Prot's config.
 #+end_src
 
 ** OCaml
+
 #+begin_src emacs-lisp
   ;; OCaml configuration
   ;;  - better error and backtrace matching
@@ -2054,6 +2170,7 @@ Use denote for note-taking. Lots of this is copied from Prot's config.
 #+end_src
 
 ** PDF
+
 Use PDF tools package to turn Emacs into a PDF viewer with annotation support etc.
 
 #+begin_src emacs-lisp
@@ -2070,6 +2187,7 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
 #+end_src
 
 ** Embark
+
 Package repo.
 
 #+begin_src emacs-lisp
@@ -2106,7 +2224,9 @@ Package repo.
 #+end_src
 
 ** AI
+
 *** Copilot
+
 Copilot.el is an Emacs plugin for GitHub Copilot.
 
 #+begin_src emacs-lisp
@@ -2129,6 +2249,7 @@ Copilot.el is an Emacs plugin for GitHub Copilot.
 #+end_src
 
 *** GPTel
+
 GPTel allows us to talk with different LLMs from within Emacs.
 
 #+begin_src emacs-lisp
@@ -2165,6 +2286,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
 #+end_src
 
 ** Popper
+
 #+begin_src emacs-lisp
   (use-package popper
     :bind (("C-`"   . popper-toggle)
@@ -2182,6 +2304,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
 #+end_src
 
 ** Insert timestamp at point
+
 #+begin_src emacs-lisp
   (defun ev/insert-timestamp ()
     "Insert timestamp with format [%H:%M] at point."
@@ -2190,7 +2313,9 @@ GPTel allows us to talk with different LLMs from within Emacs.
 #+end_src
 
 ** Documentation
+
 *** Devdocs
+
 #+begin_src emacs-lisp
   (use-package devdocs
     :init
