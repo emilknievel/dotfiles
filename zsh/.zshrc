@@ -1,7 +1,7 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # base16
-export BASE16_THEME_DEFAULT="base16_bright"
+export BASE16_THEME_DEFAULT="base16_selenized-black"
 export BASE16_SHELL_ENABLE_VARS=1
 
 case "$OSTYPE" in
@@ -204,17 +204,37 @@ bindkey "^[l" clear-screen
 ## Color theme ##
 case "$OSTYPE" in
   darwin*)
-    base16_bright
+    # determine light/dark from AppleInterfaceStyle
+    if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
+      term_theme="dark"
+      base16_selenized-black
+    else
+      term_theme="light"
+      base16_cupertino
+    fi
     ;;
   linux*)
     # Check if running under WSL2
     if [[ -n "$WSL_DISTRO_NAME" ]]; then
+      term_theme="dark"
       base16_windows-10
     else
-      base16_bright
+      # Check the GTK theme
+      gtk_theme=$(dconf read /org/gnome/desktop/interface/gtk-theme)
+
+      if [[ "$gtk_theme" == *"light"* || "$gtk_theme" == *"Latte"* ]]; then
+        term_theme="light"
+        base16_cupertino
+      else
+        term_theme="dark"
+        base16_selenized-black
+      fi
     fi
     ;;
 esac
+
+# export FZF_DEFAULT_OPTS="$fzf_default"
+export TERM_THEME="$term_theme"
 ## End color theme ##
 
 # emacs-eat
