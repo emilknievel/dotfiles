@@ -498,22 +498,24 @@ Get rid of the annoying startup screen.
   (load-theme 'ef-dark t nil)
 #+end_src
 
-**** Auto-Dark for Emacs (disabled)
+**** Auto-Dark for Emacs
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package auto-dark
     :diminish
     :init
     (setq auto-dark-dark-theme 'ef-dark
           auto-dark-light-theme 'ef-light)
     :config
-    ;; load auto-dark when using gui emacs within non-wsl unix/posix,
-    ;; otherwise use the TERM_THEME env variable to select theme
-    (if (and (display-graphic-p) (not (getenv "WSL_DISTRO_NAME")))
-        (auto-dark-mode t)
-      (if (string= (getenv "TERM_THEME") "light")
-          (load-theme 'ef-light :no-confirm)
-        (load-theme 'ef-dark :no-confirm))))
+    (add-hook 'auto-dark-dark-mode-hook
+              (lambda ()
+                (mapc #'disable-theme custom-enabled-themes)
+                (load-theme auto-dark-dark-theme t nil)))
+    (add-hook 'auto-dark-light-mode-hook
+              (lambda ()
+                (mapc #'disable-theme custom-enabled-themes)
+                (load-theme auto-dark-light-theme t nil)))
+    (auto-dark-mode t))
 #+end_src
 
 *** Fonts
@@ -522,7 +524,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (defvar ev/linux-font "Iosevka Comfy")
-  (defvar ev/macos-font "FiraCode Nerd Font")
+  (defvar ev/macos-font "MesloLGS NF")
 
   (if (eq system-type 'darwin)
       (defvar ev/editor-font ev/macos-font)

@@ -324,8 +324,24 @@
             "t t" 'ef-themes-toggle))
 (load-theme 'ef-dark t nil)
 
+(use-package auto-dark
+  :diminish
+  :init
+  (setq auto-dark-dark-theme 'ef-dark
+        auto-dark-light-theme 'ef-light)
+  :config
+  (add-hook 'auto-dark-dark-mode-hook
+            (lambda ()
+              (mapc #'disable-theme custom-enabled-themes)
+              (load-theme auto-dark-dark-theme t nil)))
+  (add-hook 'auto-dark-light-mode-hook
+            (lambda ()
+              (mapc #'disable-theme custom-enabled-themes)
+              (load-theme auto-dark-light-theme t nil)))
+  (auto-dark-mode t))
+
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "FiraCode Nerd Font")
+(defvar ev/macos-font "MesloLGS NF")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
