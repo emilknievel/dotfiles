@@ -5,8 +5,7 @@
     "lazyvim.plugins.extras.lang.omnisharp",
     "lazyvim.plugins.extras.lang.tailwind",
     "lazyvim.plugins.extras.lang.yaml",
-    "lazyvim.plugins.extras.test.core",
-    "lazyvim.plugins.extras.ui.mini-animate"
+    "lazyvim.plugins.extras.test.core"
   ],
   "news": {
     "NEWS.md": "2123"

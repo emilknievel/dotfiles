@@ -1,7 +1,7 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # base16
-export BASE16_THEME_DEFAULT="base16_selenized-black"
+export BASE16_THEME_DEFAULT="base16_catppuccin-mocha"
 export BASE16_SHELL_ENABLE_VARS=1
 
 case "$OSTYPE" in
@@ -207,10 +207,10 @@ case "$OSTYPE" in
     # determine light/dark from AppleInterfaceStyle
     if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
       term_theme="dark"
-      base16_selenized-black
+      base16_catppuccin-mocha
     else
       term_theme="light"
-      base16_cupertino
+      base16_catppuccin-latte
     fi
     ;;
   linux*)
@@ -224,10 +224,10 @@ case "$OSTYPE" in
 
       if [[ "$gtk_theme" == *"light"* || "$gtk_theme" == *"Latte"* ]]; then
         term_theme="light"
-        base16_cupertino
+        base16_catppuccin-latte
       else
         term_theme="dark"
-        base16_selenized-black
+        base16_catppuccin-mocha
       fi
     fi
     ;;

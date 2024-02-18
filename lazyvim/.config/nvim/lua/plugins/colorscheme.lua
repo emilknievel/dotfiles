@@ -34,12 +34,11 @@ return {
       exclude_groups = { "NotifyBackground" }, -- table: groups you don't want to clear
     },
   },
-  { "p00f/alabaster.nvim" },
-  { "nyoom-engineering/oxocarbon.nvim" },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "oxocarbon",
+      colorscheme = "catppuccin",
     },
   },
 }
