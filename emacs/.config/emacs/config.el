@@ -1573,3 +1573,22 @@ any directory proferred by `consult-dir'."
    "h d p" 'devdocs-peruse
    "h d i" 'devdocs-install
    "h d d" 'ev/devdocs-lookup-thing-at-point))
+
+(use-package hl-todo
+  :hook ((prog-mode . hl-todo-mode)
+         (conf-mode . hl-todo-mode)
+         (org-mode . hl-todo-mode))
+
+  :custom
+  (hl-todo-highlight-punctuation ":")
+  (hl-todo-keyword-faces
+   '(("TODO" warning bold)
+     ("FIXME" error bold)
+     ("REVIEW" font-lock-keyword-face bold)
+     ("HACK" font-lock-constant-face bold)
+     ("DEPRECATED" font-lock-doc-face bold)
+     ("NOTE" success bold)
+     ;; ("INFO" font-lock-keyword-face bold)
+     ("BUG" error bold))))
+
+(use-package consult-todo)
