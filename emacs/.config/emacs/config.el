@@ -1503,33 +1503,19 @@ any directory proferred by `consult-dir'."
 (use-package gptel
   :custom
   (gptel-default-mode #'org-mode)
-
   :config
   (with-eval-after-load 'gptel
     (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
-
-  (defun ev/next-prompt ()
-    "Move the cursor to the next prompt"
-    (interactive)
-    (let ((empty-header-regexp "^\\*+\\s-*$"))
-      (goto-char (point-max))
-      (re-search-backward empty-header-regexp nil t))
-    (move-end-of-line nil))
-
-  (defun ev/gptel-get-default-key ()
-    "Get the OpenAI API key from the auth-source"
-    (interactive)
-    (setq gptel-api-key (auth-source-pick-first-password
-                         :host "OpenAI API Key"
-                         :user "api key")))
+(setq-default gptel-model "mistral:latest"
+              gptel-backend (gptel-make-ollama "Ollama"
+                              :host "localhost:11434"
+                              :stream t
+                              :models '("mistral:latest")))
   :general
   (ev/leader-key-map
    "a a" 'gptel
-   "a g" 'gptel-menu)
-
-  :hook
-  ((gptel-mode . ev/gptel-get-default-key)
-   (gptel-post-response . ev/next-prompt)))
+   "a g" 'gptel-menu
+   "a s" 'gptel-send))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle)
