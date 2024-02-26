@@ -1506,16 +1506,22 @@ any directory proferred by `consult-dir'."
   :config
   (with-eval-after-load 'gptel
     (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
-(setq-default gptel-model "mistral:latest"
-              gptel-backend (gptel-make-ollama "Ollama"
-                              :host "localhost:11434"
-                              :stream t
-                              :models '("mistral:latest")))
+  (setq-default gptel-model "mistral:latest"
+                gptel-backend (gptel-make-ollama "Ollama"
+                                :host "localhost:11434"
+                                :stream t
+                                :models '("mistral:latest")))
   :general
   (ev/leader-key-map
    "a a" 'gptel
    "a g" 'gptel-menu
    "a s" 'gptel-send))
+
+;; Automatically scroll the window as the response is inserted.
+(add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+
+;; Move the cursor to next prompt after the response has been inserted.
+(add-hook 'gptel-post-response-functions 'gptel-end-of-response)
 
 (use-package popper
   :bind (("C-`"   . popper-toggle)
