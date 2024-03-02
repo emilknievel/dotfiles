@@ -327,6 +327,7 @@
 (use-package auto-dark
   :diminish
   :init
+  (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
   (setq auto-dark-dark-theme 'ef-dark
         auto-dark-light-theme 'ef-light)
   :config
