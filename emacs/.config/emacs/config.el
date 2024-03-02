@@ -939,6 +939,11 @@ parses its input."
   :init (require 'smartparens-config)
   :hook (clojure-mode . smartparens-mode))
 
+;; Invoke the nREPL with M-x cider-jack when visiting a file inside a clojure
+;; project.
+(use-package cider
+  :ensure t)
+
 (use-package sly
   :init (setq inferior-lisp-program (executable-find "sbcl"))
   :mode ("\\.lisp?\\'" . common-lisp-mode)
