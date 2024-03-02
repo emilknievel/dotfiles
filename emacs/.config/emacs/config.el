@@ -349,7 +349,7 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "SF Pro Text"))
+           (defvar ev/variable-pitch-font "Lucida Grande"))
   (progn (defvar ev/default-font ev/editor-font)
          (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
 
