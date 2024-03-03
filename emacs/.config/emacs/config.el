@@ -939,7 +939,17 @@ parses its input."
 ;; Invoke the nREPL with M-x cider-jack when visiting a file inside a clojure
 ;; project.
 (use-package cider
-  :ensure t)
+  :ensure t
+  :init
+  ;; Open a REPL buffer without switching focus to it when Cider is invoked.
+  (setq cider-repl-pop-to-buffer-on-connect 'display-only)
+
+  ;; Auto-trim REPL large buffer.
+  (setq cider-repl-buffer-size-limit 100000)
+  :hook
+  ;; Keep prompt on bottom line when output is printed.
+  (cider-repl-mode . (lambda ()
+                       (setq scroll-conservatively 101))))
 
 (use-package sly
   :init (setq inferior-lisp-program (executable-find "sbcl"))
