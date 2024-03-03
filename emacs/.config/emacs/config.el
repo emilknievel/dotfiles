@@ -489,13 +489,10 @@
   :custom
   (display-line-numbers-widen t)
   (display-line-numbers-type 'visual)
-  :hook
-  ((prog-mode conf-mode) . display-line-numbers-mode)
-  (evil-insert-state-entry . ev/display-set-absolute)
-  (evil-insert-state-exit . ev/display-set-relative)
-  ;; :config
-  ;; (add-hook 'evil-insert-state-entry-hook #'ev/display-set-absolute)
-  ;; (add-hook 'evil-insert-state-exit-hook #'ev/display-set-relative)
+  ;; :hook
+  ;; ((prog-mode conf-mode) . display-line-numbers-mode)
+  ;; (evil-insert-state-entry . ev/display-set-absolute)
+  ;; (evil-insert-state-exit . ev/display-set-relative)
   :general
   (ev/leader-key-map
    "u l h" 'ev/display-set-hidden
