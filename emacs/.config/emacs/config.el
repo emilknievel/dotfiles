@@ -1022,6 +1022,13 @@ parses its input."
   :init (global-flycheck-mode))
 
 (use-package magit
+  :config
+  ;; Make Magit the only window in the frame when invoked.
+  (setq magit-display-buffer-function
+        #'magit-display-buffer-fullframe-status-v1)
+  ;; Restore previous layout when exiting Magit.
+  (setq magit-bury-buffer-function
+        #'magit-restore-window-configuration)
   :general
   (ev/leader-key-map
    "g g" 'magit-status))
