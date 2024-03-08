@@ -324,6 +324,15 @@
             "t t" 'ef-themes-toggle))
 (load-theme 'ef-dark t nil)
 
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  ;; (setq doom-themes-treemacs-theme "doom-atom")
+  ;; (doom-themes-treemacs-config)
+  (doom-themes-org-config))
+
 (use-package auto-dark
   :diminish
   :init

@@ -498,6 +498,19 @@ Get rid of the annoying startup screen.
   (load-theme 'ef-dark t nil)
 #+end_src
 
+**** Doom
+
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :ensure t
+    :config
+    (setq doom-themes-enable-bold t
+          doom-themes-enable-italic t)
+    ;; (setq doom-themes-treemacs-theme "doom-atom")
+    ;; (doom-themes-treemacs-config)
+    (doom-themes-org-config))
+#+end_src
+
 **** Auto-Dark for Emacs
 
 #+begin_src emacs-lisp
