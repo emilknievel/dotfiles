@@ -538,7 +538,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (defvar ev/linux-font "Iosevka Comfy")
-  (defvar ev/macos-font "MesloLGS NF")
+  (defvar ev/macos-font "Iosevka Comfy")
 
   (if (eq system-type 'darwin)
       (defvar ev/editor-font ev/macos-font)
@@ -565,8 +565,8 @@ Get rid of the annoying startup screen.
 
   (if (eq system-type 'darwin)
       (setq ev/variable-pitch-font-height 140
-            ev/editor-font-height 130
-            ev/fixed-pitch-font-height 130)
+            ev/editor-font-height 140
+            ev/fixed-pitch-font-height 140)
     (ev/setup-linux-font-heights))
 
   (set-face-attribute 'default nil
@@ -810,10 +810,10 @@ Display the current date and time on the mode line.
 
 *** Padding (disabled)
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package spacious-padding
     :config
-    (spacious-padding-mode t))
+    (spacious-padding-mode 0))
 #+end_src
 
 ** Completion
@@ -2383,7 +2383,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
        ("REVIEW" font-lock-keyword-face bold)
        ("HACK" font-lock-constant-face bold)
        ("DEPRECATED" font-lock-doc-face bold)
-       ("NOTE" success bold)
+       ("NOTE" shr-code bold)
        ;; ("INFO" font-lock-keyword-face bold)
        ("BUG" error bold))))
 

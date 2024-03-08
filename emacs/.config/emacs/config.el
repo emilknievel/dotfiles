@@ -351,7 +351,7 @@
   (auto-dark-mode t))
 
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "MesloLGS NF")
+(defvar ev/macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -374,8 +374,8 @@
 
 (if (eq system-type 'darwin)
     (setq ev/variable-pitch-font-height 140
-          ev/editor-font-height 130
-          ev/fixed-pitch-font-height 130)
+          ev/editor-font-height 140
+          ev/fixed-pitch-font-height 140)
   (ev/setup-linux-font-heights))
 
 (set-face-attribute 'default nil
@@ -547,6 +547,10 @@
          'help-echo (format-time-string "%a %b %e, %Y" now))
         " "))
 (display-time-mode 1)
+
+(use-package spacious-padding
+  :config
+  (spacious-padding-mode 0))
 
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)
@@ -1608,7 +1612,7 @@ any directory proferred by `consult-dir'."
      ("REVIEW" font-lock-keyword-face bold)
      ("HACK" font-lock-constant-face bold)
      ("DEPRECATED" font-lock-doc-face bold)
-     ("NOTE" success bold)
+     ("NOTE" shr-code bold)
      ;; ("INFO" font-lock-keyword-face bold)
      ("BUG" error bold))))
 
