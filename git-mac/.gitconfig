@@ -29,7 +29,6 @@
 	# Display UTF-8 characters in filenames, if you're having problems seeing them
 	quotepath = false
 	excludesfile = .config/git/gitignore_global
-	pager = delta
 	autocrlf = input
 
 [help]
@@ -39,13 +38,7 @@
 	path = ~/.config/git/gitconfig-personal
 [includeIf "gitdir:~/projects/"]
 	path = ~/.config/git/gitconfig-work
-[include]
-	# Import ${XDG_CONFIG_HOME:-$HOME/.config}/tinted-theming/delta.gitconfig.
-	# It will set delta.light=(true|false):
-	path = ~/.config/tinted-theming/delta.gitconfig
 [init]
 	defaultBranch = main
 [rebase]
 	autosquash = true
-[delta]
-	syntax-theme = "ansi"
