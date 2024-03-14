@@ -446,6 +446,15 @@ Get rid of the annoying startup screen.
   (setq custom-theme-directory "~/.config/emacs/themes/")
 #+end_src
 
+**** Theme functions
+
+#+begin_src emacs-lisp
+  (defun ev/clear-theme ()
+    "Clear current theme"
+    (interactive)
+    (mapc #'disable-theme custom-enabled-themes))
+#+end_src
+
 **** Modus themes
 
 #+begin_src emacs-lisp

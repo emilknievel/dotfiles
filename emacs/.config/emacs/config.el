@@ -280,6 +280,11 @@
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
+(defun ev/clear-theme ()
+  "Clear current theme"
+  (interactive)
+  (mapc #'disable-theme custom-enabled-themes))
+
 (use-package modus-themes
   :ensure t
   :custom
