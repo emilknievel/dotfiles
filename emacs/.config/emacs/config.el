@@ -1036,6 +1036,18 @@ parses its input."
           (lambda () (when (not (= display-fill-column-indicator-column 120))
                        (setq display-fill-column-indicator-column 120))))
 
+;; OCaml configuration
+;;  - better error and backtrace matching
+
+(defun set-ocaml-error-regexp ()
+  (set
+   'compilation-error-regexp-alist
+   (list '("[Ff]ile \\(\"\\(.*?\\)\", line \\(-?[0-9]+\\)\\(, characters \\(-?[0-9]+\\)-\\([0-9]+\\)\\)?\\)\\(:\n\\(\\(Warning .*?\\)\\|\\(Error\\)\\):\\)?"
+           2 3 (5 . 6) (9 . 11) 1 (8 compilation-message-face)))))
+
+(add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
+(add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
+
 (use-package flycheck
   :init (global-flycheck-mode))
 
@@ -1466,18 +1478,6 @@ any directory proferred by `consult-dir'."
   :bind
   (("C-c n c" . consult-notes)
    ("C-c n C" . consult-notes-search-in-all-notes)))
-
-;; OCaml configuration
-;;  - better error and backtrace matching
-
-(defun set-ocaml-error-regexp ()
-  (set
-   'compilation-error-regexp-alist
-   (list '("[Ff]ile \\(\"\\(.*?\\)\", line \\(-?[0-9]+\\)\\(, characters \\(-?[0-9]+\\)-\\([0-9]+\\)\\)?\\)\\(:\n\\(\\(Warning .*?\\)\\|\\(Error\\)\\):\\)?"
-           2 3 (5 . 6) (9 . 11) 1 (8 compilation-message-face)))))
-
-(add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
-(add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
 
 (use-package pdf-tools
   :commands (pdf-loader-install)
