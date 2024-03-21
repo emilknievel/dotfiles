@@ -356,7 +356,7 @@
   (auto-dark-mode t))
 
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "Iosevka Comfy")
+(defvar ev/macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -364,7 +364,7 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "Lucida Grande"))
+           (defvar ev/variable-pitch-font "SF Pro Text"))
   (progn (defvar ev/default-font ev/editor-font)
          (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
 
@@ -379,8 +379,8 @@
 
 (if (eq system-type 'darwin)
     (setq ev/variable-pitch-font-height 140
-          ev/editor-font-height 140
-          ev/fixed-pitch-font-height 140)
+          ev/editor-font-height 130
+          ev/fixed-pitch-font-height 130)
   (ev/setup-linux-font-heights))
 
 (set-face-attribute 'default nil
