@@ -2395,6 +2395,4 @@ GPTel allows us to talk with different LLMs from within Emacs.
        ("NOTE" shr-code bold)
        ;; ("INFO" font-lock-keyword-face bold)
        ("BUG" error bold))))
-
-  (use-package consult-todo)
 #+end_src

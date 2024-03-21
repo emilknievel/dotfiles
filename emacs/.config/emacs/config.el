@@ -1620,5 +1620,3 @@ any directory proferred by `consult-dir'."
      ("NOTE" shr-code bold)
      ;; ("INFO" font-lock-keyword-face bold)
      ("BUG" error bold))))
-
-(use-package consult-todo)
