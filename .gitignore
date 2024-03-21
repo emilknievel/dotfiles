@@ -155,3 +155,4 @@ emacs/.config/emacs/devdocs
 lazy-lock.json
 vim/.config/nvim/plugin/packer_compiled.lua
 
+/emacs/.config/emacs/tutorial/
