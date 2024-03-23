@@ -107,14 +107,15 @@
 
 (use-package general
   :init
-  (global-unset-key (kbd "C-M-SPC"))
+  ;; (global-unset-key (kbd "C-M-SPC"))
+  (global-unset-key (kbd "C-z"))
   :after which-key
   :config
-  (general-evil-setup t)
+  ;; (general-evil-setup t)
   (general-define-key
-   :keymaps '(normal insert emacs)
-   :prefix "SPC"
-   :non-normal-prefix "C-M-SPC"
+   ;; :keymaps '(normal insert emacs)
+   :prefix "C-z"
+   ;; :global-prefix "C-M-SPC"
    :prefix-map 'ev/leader-key-map
 
    ;; Top level functions
@@ -205,46 +206,6 @@
  ;; emacsclient
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
-(use-package undo-fu)
-
-(use-package evil
-  :after general
-  :bind (("<escape>" . keyboard-escape-quit))
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-undo-system 'undo-fu)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-respect-visual-line-mode t) ; Make vertical movement respect wrapped lines
-  :general
-  (ev/leader-key-map
-   "w" '(:keymap evil-window-map :wk "Window"))
-  :config
-  (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
-  ;; M-. is reverse evil repeat only when previously done evil-repeat (C-.)
-  (define-key evil-normal-state-map (kbd "M-.")
-              `(menu-item "" evil-repeat-pop :filter
-                          ,(lambda (cmd) (if (eq last-command 'evil-repeat-pop) cmd))))
-  (evil-mode 1))
-
-(use-package evil-collection
-  :after evil
-  :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
-  :config
-  (evil-collection-init)
-  :hook (vterm-mode . evil-collection-vterm-escape-stay))
-
-(use-package evil-commentary
-  :diminish
-  :hook (prog-mode . evil-commentary-mode))
-
-(use-package evil-surround
-  :diminish
-  :after evil
-  :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
-         (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
-  :config
-  (global-evil-surround-mode 1))
 
 (use-package iedit
   :general
@@ -356,7 +317,7 @@
   (auto-dark-mode t))
 
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "JetBrainsMono Nerd Font")
+(defvar ev/macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
