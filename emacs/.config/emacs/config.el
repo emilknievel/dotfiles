@@ -206,6 +206,9 @@
  ;; emacsclient
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
+(use-package surround
+  :ensure t
+  :bind-keymap ("C-c s" . surround-keymap))
 
 (use-package iedit
   :general

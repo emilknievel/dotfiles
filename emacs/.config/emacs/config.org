@@ -356,6 +356,14 @@ Use Evil mode for Vim like bindings.
     (global-evil-surround-mode 1))
 #+end_src
 
+*** Surround
+
+#+begin_src emacs-lisp
+  (use-package surround
+    :ensure t
+    :bind-keymap ("C-c s" . surround-keymap))
+#+end_src
+
 ** Editing
 
 *** iedit
