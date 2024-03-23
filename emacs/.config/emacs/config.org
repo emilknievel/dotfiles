@@ -1276,15 +1276,6 @@ Use prolog-mode instead of perl-mode for .pl files.
   (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
 #+end_src
 
-*** Docker
-
-Docker file mode.
-
-#+begin_src emacs-lisp
-  (use-package dockerfile-mode
-    :config (put 'dockerfile-image-name 'safe-local-variable #'stringp))
-#+end_src
-
 *** YAML
 
 #+begin_src emacs-lisp
@@ -1566,9 +1557,9 @@ Notable keymaps:
     (when (string= system-type "darwin")
       (setq dired-use-ls-dired t
             insert-directory-program "/opt/homebrew/bin/gls"))
-    (evil-define-key 'normal dired-mode-map
-      "h" 'dired-up-directory
-      "l" 'dired-find-file)
+    ;; (evil-define-key 'normal dired-mode-map
+    ;;   "h" 'dired-up-directory
+    ;;   "l" 'dired-find-file)
     :hook (dired-mode . dired-hide-details-mode)
     :custom
     (dired-listing-switches "-aBhl --group-directories-first"))
@@ -1579,10 +1570,10 @@ Notable keymaps:
 *** Hide/show hidden files
 
 #+begin_src emacs-lisp
-  (use-package dired-hide-dotfiles
-    :config
-    (evil-define-key 'normal dired-mode-map
-      "H" 'dired-hide-dotfiles-mode))
+  (use-package dired-hide-dotfiles)
+  ;; :config
+  ;; (evil-define-key 'normal dired-mode-map
+  ;; "H" 'dired-hide-dotfiles-mode))
 #+end_src
 
 *** Treemacs

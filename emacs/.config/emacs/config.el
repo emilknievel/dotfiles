@@ -891,9 +891,6 @@ parses its input."
 
 (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
 
-(use-package dockerfile-mode
-  :config (put 'dockerfile-image-name 'safe-local-variable #'stringp))
-
 (use-package yaml-mode
   :hook
   (yaml-mode . (lambda ()
@@ -1066,19 +1063,19 @@ parses its input."
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
           insert-directory-program "/opt/homebrew/bin/gls"))
-  (evil-define-key 'normal dired-mode-map
-    "h" 'dired-up-directory
-    "l" 'dired-find-file)
+  ;; (evil-define-key 'normal dired-mode-map
+  ;;   "h" 'dired-up-directory
+  ;;   "l" 'dired-find-file)
   :hook (dired-mode . dired-hide-details-mode)
   :custom
   (dired-listing-switches "-aBhl --group-directories-first"))
 
 (use-package dired-single)
 
-(use-package dired-hide-dotfiles
-  :config
-  (evil-define-key 'normal dired-mode-map
-    "H" 'dired-hide-dotfiles-mode))
+(use-package dired-hide-dotfiles)
+;; :config
+;; (evil-define-key 'normal dired-mode-map
+;; "H" 'dired-hide-dotfiles-mode))
 
 (use-package treemacs
   :defer t
