@@ -1,9 +1,5 @@
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# base16
-export BASE16_THEME_DEFAULT="base16_catppuccin-mocha"
-export BASE16_SHELL_ENABLE_VARS=1
-
 case "$OSTYPE" in
   darwin*)
     # If you come from bash you might have to change your $PATH.
@@ -18,6 +14,11 @@ case "$OSTYPE" in
     export PATH="$PATH:$HOME/.emacs.d/bin"
     # coreutils
     export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+    ;;
+  linux*)
+    # base16
+    export BASE16_THEME_DEFAULT="base16_catppuccin-mocha"
+    export BASE16_SHELL_ENABLE_VARS=1
     ;;
 esac
 
@@ -109,7 +110,15 @@ esac
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions base16-shell asdf)
+case "$OSTYPE" in
+  linux*)
+    plugins=(git zsh-autosuggestions base16-shell asdf)
+    ;;
+  darwin*)
+    plugins=(git zsh-autosuggestions asdf)
+    ;;
+esac
+# plugins=(git zsh-autosuggestions base16-shell asdf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -207,10 +216,10 @@ case "$OSTYPE" in
     # determine light/dark from AppleInterfaceStyle
     if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
       term_theme="dark"
-      base16_catppuccin-mocha
+      # base16_chalk
     else
       term_theme="light"
-      base16_catppuccin-latte
+      # base16_cupertino
     fi
     ;;
   linux*)
