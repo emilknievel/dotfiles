@@ -210,6 +210,8 @@
   :ensure t
   :bind-keymap ("C-c s" . surround-keymap))
 
+(use-package hydra)
+
 (use-package iedit
   :general
   (ev/leader-key-map "e" 'iedit-mode))
@@ -224,8 +226,11 @@
 
 (use-package multiple-cursors
   :ensure t
-  :bind (("C-c M-d" . mc/mark-next-like-this)
-         ("C-c M-D" . mc/mark-all-like-this)))
+  :config
+  (defhydra hydra-multiple-cursors (global-map "C-c")
+    "multiple cursors"
+    ("M-d" mc/mark-next-like-this "mark next")
+    ("M-D" mc/unmark-previous-like-this "mark previous")))
 
 (setq inhibit-startup-screen t)
 
