@@ -36,9 +36,20 @@ return {
   },
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
   {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    config = true,
+    opts = {
+      transparent_mode = true,
+      overrides = {
+        NotifyBackground = { bg = "#ff9900" },
+      },
+    },
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "gruvbox",
     },
   },
 }
