@@ -214,8 +214,6 @@
   :general
   (ev/leader-key-map "e" 'iedit-mode))
 
-(use-package evil-iedit-state)
-
 (require 'whitespace)
 
 (use-package expand-region
@@ -226,8 +224,8 @@
 
 (use-package multiple-cursors
   :ensure t
-  :bind (("M-d" . mc/mark-next-like-this)
-         ("M-D" . mc/mark-all-like-this)))
+  :bind (("C-c M-d" . mc/mark-next-like-this)
+         ("C-c M-D" . mc/mark-all-like-this)))
 
 (setq inhibit-startup-screen t)
 

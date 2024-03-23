@@ -378,7 +378,7 @@ Edit multiple occurrences in the same way simultaneously.
 
 Integrate iedit with evil. [[https://github.com/syl20bnr/evil-iedit-state][Keybindings]] etc.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package evil-iedit-state)
 #+end_src
 
@@ -415,8 +415,8 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 #+begin_src emacs-lisp
   (use-package multiple-cursors
     :ensure t
-    :bind (("M-d" . mc/mark-next-like-this)
-           ("M-D" . mc/mark-all-like-this)))
+    :bind (("C-c M-d" . mc/mark-next-like-this)
+           ("C-c M-D" . mc/mark-all-like-this)))
 #+end_src
 
 ** Customization
