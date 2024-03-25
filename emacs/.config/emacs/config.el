@@ -1362,6 +1362,7 @@ any directory proferred by `consult-dir'."
                              load-language-alist)
 
 (use-package denote
+  :demand t
   :init
   (setq denote-directory (expand-file-name "~/Documents/notes/")
         denote-journal-extras-directory (concat denote-directory "/journal"))
@@ -1427,6 +1428,38 @@ any directory proferred by `consult-dir'."
    ;; existing buttons upon visiting the file (Org renders links as
    ;; buttons right away).
    (find-file . denote-link-buttonize-buffer)))
+
+(use-package denote-explore
+  :after denote
+  :custom
+  ;; Where to store network data and in which format
+  (denote-explore-network-directory (concat denote-directory "/graphs/"))
+  (denote-explore-network-filename "denote-network")
+  ;; Output format
+  (denote-explore-network-format 'graphviz)
+  (denote-explore-network-graphviz-filetype "svg")
+  ;; Exlude keywords or regex
+  (denote-explore-network-keywords-ignore '("bib"))
+  :bind
+  (;; Statistics
+   ("C-c n e c" . denote-explore-count-notes)
+   ("C-c n e C" . denote-explore-count-keywords)
+   ("C-c n e b" . denote-explore-keywords-barchart)
+   ("C-c n e x" . denote-explore-extensions-barchart)
+   ;; Random walks
+   ("C-c n e r" . denote-explore-random-note)
+   ("C-c n e l" . denote-explore-random-link)
+   ("C-c n e k" . denote-explore-random-keyword)
+   ;; Denote Janitor
+   ("C-c n e d" . denote-explore-identify-duplicate-notes)
+   ("C-c n e z" . denote-explore-zero-keywords)
+   ("C-c n e s" . denote-explore-single-keywords)
+   ("C-c n e o" . denote-explore-sort-keywords)
+   ("C-c n e r" . denote-explore-rename-keywords)
+   ;; Visualise denote
+   ("C-c n e n" . denote-explore-network)
+   ("C-c n e v" . denote-explore-network-regenerate)
+   ("C-c n e D" . denote-explore-degree-barchart)))
 
 (use-package consult-notes
   :commands (consult-notes
