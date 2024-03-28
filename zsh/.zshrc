@@ -1,3 +1,13 @@
+# Dependencies for config
+# -----------------------
+# oh-my-zsh
+# zsh-autosuggestions plugin
+# direnv
+# zoxide
+# fzf
+# starship.rs
+# -----------------------
+
 export XDG_CONFIG_HOME="$HOME/.config"
 
 case "$OSTYPE" in
@@ -15,11 +25,6 @@ case "$OSTYPE" in
     # coreutils
     export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
     ;;
-  linux*)
-    # base16
-    export BASE16_THEME_DEFAULT="base16_catppuccin-mocha"
-    export BASE16_SHELL_ENABLE_VARS=1
-    ;;
 esac
 
 # Path to your oh-my-zsh installation.
@@ -29,26 +34,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-
-# case "$OSTYPE" in
-#   darwin*)
-#     ZSH_THEME="simple"
-#     ;;
-#   linux*)
-#     ZSH_THEME="powerlevel10k/powerlevel10k"
-#     ;;
-# esac
-case "$OSTYPE" in
-  linux*)
-    if [[ $(hostname) = "pop-os" ]] then
-      # ZSH_THEME="powerlevel10k/powerlevel10k"
-      export PATH=$PATH:/usr/local/go/bin
-    fi
-
-    export DOTNET_ROOT="$HOME/.dotnet"
-    export PATH="$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools"
-    ;;
-esac
+# ZSH_THEME="simple"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -110,15 +96,7 @@ esac
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-case "$OSTYPE" in
-  linux*)
-    plugins=(git zsh-autosuggestions base16-shell asdf)
-    ;;
-  darwin*)
-    plugins=(git zsh-autosuggestions asdf)
-    ;;
-esac
-# plugins=(git zsh-autosuggestions base16-shell asdf)
+plugins=(git zsh-autosuggestions asdf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -166,13 +144,6 @@ case "$OSTYPE" in
     ;;
 esac
 
-case "$OSTYPE" in
-  linux*)
-    export PNPM_HOME="$HOME/.local/share/pnpm"
-    export PATH="$PNPM_HOME:$PATH"
-    ;;
-esac
-
 eval "$(direnv hook zsh)"
 
 # ruby
@@ -202,7 +173,6 @@ case "$OSTYPE" in
     ;;
 esac
 
-# prereq: zoxide, fzf
 eval "$(zoxide init zsh)"
 
 # do Ctrl+L with Ctrl+Alt+L
@@ -216,33 +186,15 @@ case "$OSTYPE" in
     # determine light/dark from AppleInterfaceStyle
     if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
       term_theme="dark"
-      # base16_chalk
     else
       term_theme="light"
-      # base16_cupertino
     fi
     ;;
   linux*)
-    # Check if running under WSL2
-    if [[ -n "$WSL_DISTRO_NAME" ]]; then
-      term_theme="dark"
-      base16_windows-10
-    else
-      # Check the GTK theme
-      gtk_theme=$(dconf read /org/gnome/desktop/interface/gtk-theme)
-
-      if [[ "$gtk_theme" == *"light"* || "$gtk_theme" == *"Latte"* ]]; then
-        term_theme="light"
-        base16_catppuccin-latte
-      else
-        term_theme="dark"
-        base16_catppuccin-mocha
-      fi
-    fi
+    term_theme="dark"
     ;;
 esac
 
-# export FZF_DEFAULT_OPTS="$fzf_default"
 export TERM_THEME="$term_theme"
 ## End color theme ##
 
