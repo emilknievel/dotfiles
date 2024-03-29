@@ -256,7 +256,6 @@
   :ensure t
   :custom
   (modus-themes-mixed-fonts t)
-  (modus-themes-org-blocks 'gray-background)
   (modus-themes-common-palette-overrides
    '((fringe unspecified)
      (bg-paren-match bg-magenta-intense)

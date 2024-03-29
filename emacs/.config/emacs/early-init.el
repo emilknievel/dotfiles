@@ -28,14 +28,15 @@
 
 ;; Sensible default height/width
 (setq default-frame-alist (list '(min-height . 1)
-                                '(height . 55)
+                                '(height . 40)
                                 '(min-width . 1)
-                                '(width . 120)))
+                                '(width . 100)))
 
 ;; Customize titlebar
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
+       (add-to-list 'default-frame-alist '(ns-transparent-titlebar . nil)))
       ((and (eq system-type 'gnu/linux)
+            ;; TODO: replace obsolete operating-system-release variable
             (not (string-match "-[Mm]icrosoft" operating-system-release)))
        (add-to-list 'default-frame-alist '(undecorated . t))))
 
