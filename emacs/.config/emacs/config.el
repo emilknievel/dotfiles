@@ -1331,7 +1331,7 @@ any directory proferred by `consult-dir'."
   :custom
   ;; Directory where org-noter will look for note files if invoked in a
   ;; non-org-roam buffer
-  (org-noter-notes-search-path '("~/org/notes"))
+  (org-noter-notes-search-path '("~/Documents/notes/literature"))
 
   ;; Create highlight in pdf when creating note
   (org-noter-highlight-selected-text t)
