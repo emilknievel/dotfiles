@@ -2349,8 +2349,6 @@ GPTel allows us to talk with different LLMs from within Emacs.
     :custom
     (gptel-default-mode #'org-mode)
     :config
-    (with-eval-after-load 'gptel
-      (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
     (setq-default gptel-model "mistral:latest"
                   gptel-backend (gptel-make-ollama "Ollama"
                                   :host "localhost:11434"
@@ -2445,4 +2443,12 @@ GPTel allows us to talk with different LLMs from within Emacs.
        ("NOTE" shr-code bold)
        ;; ("INFO" font-lock-keyword-face bold)
        ("BUG" error bold))))
+#+end_src
+
+** Window Layout
+
+Transpose arrangement of frame windows (eg. horizontal to vertical).
+
+#+begin_src emacs-lisp
+  (use-package transpose-frame)
 #+end_src

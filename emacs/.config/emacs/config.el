@@ -1538,8 +1538,6 @@ any directory proferred by `consult-dir'."
   :custom
   (gptel-default-mode #'org-mode)
   :config
-  (with-eval-after-load 'gptel
-    (evil-define-key 'normal gptel-mode-map "q" 'delete-window))
   (setq-default gptel-model "mistral:latest"
                 gptel-backend (gptel-make-ollama "Ollama"
                                 :host "localhost:11434"
@@ -1616,3 +1614,5 @@ any directory proferred by `consult-dir'."
      ("NOTE" shr-code bold)
      ;; ("INFO" font-lock-keyword-face bold)
      ("BUG" error bold))))
+
+(use-package transpose-frame)
