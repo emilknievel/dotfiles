@@ -11,6 +11,8 @@
         evil-next-line
         evil-normal-state
         evil-previous-line
+        hydra-multiple-cursors/mc/mark-next-like-this
+        kill-region
         org-self-insert-command
         ))
 
