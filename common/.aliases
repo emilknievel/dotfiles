@@ -1,3 +1,5 @@
+## Aliases
+
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias dotnet64="/usr/local/share/dotnet/x64/dotnet"
@@ -63,16 +65,6 @@ alias tls='tmux ls'
 alias tn='tmux new-session -c'
 alias tnt='tmux new -t'
 
-# Pop!_OS
-if [[ $(hostname -s) == "pop-os" ]]; then
-  alias clipboard='xclip -sel clip'
-fi
-
-# WSL
-if [[ -n "$WSL_DISTRO_NAME" ]]; then
-  alias bat=batcat
-fi
-
 # APT
 alias apts='sudo apt search'
 alias apti='sudo apt install'
@@ -94,7 +86,7 @@ alias la='ls -a'
 # alias glow='glow -s $TERM_THEME' # match vim dark/light mode
 alias glowp='glow -p' # use paging
 
-alias sorc='source ~/.zshrc'
+alias sorc='source ~/.bash_profile'
 
 # exa
 alias e='exa --all --long --header --icons --git'

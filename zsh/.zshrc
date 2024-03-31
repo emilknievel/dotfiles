@@ -8,24 +8,7 @@
 # starship.rs
 # -----------------------
 
-export XDG_CONFIG_HOME="$HOME/.config"
-
-case "$OSTYPE" in
-  darwin*)
-    # If you come from bash you might have to change your $PATH.
-    export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-    # dotnet from M$ website, already in path
-    export DOTNET_ROOT="$(dirname $(which dotnet))"
-
-    # Add python from pyenv to path
-    export PATH="$PATH:$HOME/.pyenv/shims"
-    # Add doom
-    export PATH="$PATH:$HOME/.emacs.d/bin"
-    # coreutils
-    export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
-    ;;
-esac
+source "$HOME/.commonrc"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -107,22 +90,12 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-case "$OSTYPE" in
-  darwin*)
-    # change lang to en_US but keep encoding
-    export LANG=${LANG/sv_SE/en_US}
-    ;;
-esac
-
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
 #   export EDITOR='mvim'
 # fi
-
-export EDITOR='vi'
-export VISUAL='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -137,7 +110,6 @@ export VISUAL='vim'
 # alias ohmyzsh="vim ~/.oh-my-zsh"
 # alias dotnet64="/usr/local/share/dotnet/x64/dotnet"
 
-export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 case "$OSTYPE" in
   darwin*)
     source <(kubectl completion zsh)
@@ -145,58 +117,9 @@ case "$OSTYPE" in
 esac
 
 eval "$(direnv hook zsh)"
-
-# ruby
-case "$OSTYPE" in
-  darwin*)
-    export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
-    ;;
-  linux*)
-    export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
-    export PATH="$PATH:$GEM_HOME/bin"
-    ;;
-esac
-
-# local scripts and binaries
-export PATH="$HOME/.local/scripts:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-
-# rust
-export PATH="$HOME/.cargo/bin:$PATH"
-
-case "$OSTYPE" in
-  linux*)
-    # launch windows browser if c drive is found
-    if [[ -d "/mnt/c" ]] then
-      export BROWSER="/mnt/c/Windows/explorer.exe"
-    fi
-    ;;
-esac
-
 eval "$(zoxide init zsh)"
 
-# do Ctrl+L with Ctrl+Alt+L
-bindkey "^[l" clear-screen
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-## Color theme ##
-case "$OSTYPE" in
-  darwin*)
-    # determine light/dark from AppleInterfaceStyle
-    if defaults read -globalDomain AppleInterfaceStyle &> /dev/null ; then
-      term_theme="dark"
-    else
-      term_theme="light"
-    fi
-    ;;
-  linux*)
-    term_theme="dark"
-    ;;
-esac
-
-export TERM_THEME="$term_theme"
-## End color theme ##
 
 # emacs-eat
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
@@ -207,23 +130,6 @@ export TERM_THEME="$term_theme"
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# cert workaround to make gh copilot work within corporate network
-if [ "$USER" = "tiboemv" ]; then
-  export NODE_EXTRA_CA_CERTS="$HOME/mio-self-signed.pem"
-fi
-
-# use gnu-awk instead of awk on mac
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
-fi
-
-# lua
-export PATH="$PATH:$HOME/.luarocks/bin"
 
 # starship.rs
 eval "$(starship init zsh)"
