@@ -2,6 +2,8 @@ if [ -f ~/.bashrc ]; then
     source "$HOME/.bashrc"
 fi
 
+source "$HOME/.commonrc"
+
 alias sorc="source ~/.bash_profile"
 
 # bash shell integration for emacs-eat
