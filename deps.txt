@@ -1,0 +1,12 @@
+direnv
+zoxide
+fzf
+
+# zsh:
+zsh-autosuggestions
+oh-my-zsh
+starship.rs
+
+# macOS
+homebrew
+gnu coreutils
