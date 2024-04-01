@@ -109,6 +109,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="vim ~/.zshrc"
 # alias ohmyzsh="vim ~/.oh-my-zsh"
 # alias dotnet64="/usr/local/share/dotnet/x64/dotnet"
+alias sorc="source ~/.zshrc"
 
 case "$OSTYPE" in
   darwin*)

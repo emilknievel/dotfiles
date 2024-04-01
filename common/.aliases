@@ -86,8 +86,6 @@ alias la='ls -a'
 # alias glow='glow -s $TERM_THEME' # match vim dark/light mode
 alias glowp='glow -p' # use paging
 
-alias sorc='source ~/.bash_profile'
-
 # exa
 alias e='exa --all --long --header --icons --git'
 alias ea='exa --all'
