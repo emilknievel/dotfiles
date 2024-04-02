@@ -1259,6 +1259,7 @@ any directory proferred by `consult-dir'."
   (setq org-directory (expand-file-name "~/Documents/org")
         org-agenda-files `(,org-directory)
         org-default-notes-file (concat org-directory "/inbox.org"))
+  (require 'org-indent)
   :custom
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
