@@ -1551,12 +1551,6 @@ any directory proferred by `consult-dir'."
    "a g" 'gptel-menu
    "a s" 'gptel-send))
 
-;; Automatically scroll the window as the response is inserted.
-(add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-
-;; Move the cursor to next prompt after the response has been inserted.
-(add-hook 'gptel-post-response-functions 'gptel-end-of-response)
-
 (use-package popper
   :bind (("C-`"   . popper-toggle)
          ("M-`"   . popper-cycle)
