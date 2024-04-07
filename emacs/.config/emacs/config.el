@@ -252,6 +252,18 @@
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
 
+(defun ev/solarized-light ()
+  "Clear previous theme and load solarized light"
+  (interactive)
+  (ev/clear-theme)
+  (load-theme 'doom-solarized-light t))
+
+(defun ev/solarized-dark ()
+  "Clear previous theme and load solarized dark"
+  (interactive)
+  (ev/clear-theme)
+  (load-theme 'doom-solarized-dark t))
+
 (use-package modus-themes
   :ensure t
   :custom
@@ -309,8 +321,8 @@
   :diminish
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-dark-theme 'ef-dark
-        auto-dark-light-theme 'ef-light)
+  (setq auto-dark-dark-theme 'doom-solarized-dark
+        auto-dark-light-theme 'doom-solarized-light)
   :config
   (add-hook 'auto-dark-dark-mode-hook
             (lambda ()
