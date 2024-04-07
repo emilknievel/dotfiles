@@ -429,9 +429,25 @@
 
 (custom-theme-set-faces
  'user
+ `(org-code ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+ `(org-block ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+ `(org-block-begin-line ((t (:inherit (shadow fixed-pitch) :family ,ev/editor-font :extend t))))
+ `(org-block-end-line ((t (:inherit org-block-begin-line))))
+ `(org-verbatim ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+ `(outline-1 ((t (:height 1.5))))
+ `(outline-2 ((t (:height 1.4))))
+ `(outline-3 ((t (:height 1.3))))
+ `(outline-4 ((t (:height 1.2))))
+ `(outline-5 ((t (:height 1.1))))
+ `(outline-6 ((t (:height 1.0))))
+ `(outline-7 ((t (:height 1.0))))
+ `(outline-8 ((t (:height 1.0))))
  `(markdown-inline-code-face ((t (:inherit org-code))))
  `(markdown-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
- `(org-document-title ((t (:inherit outline-1 :height 1.1 :weight bold)))))
+ `(org-document-info-keyword ((t (:inherit fixed-pitch))))
+ `(org-meta-line ((t :inherit fixed-pitch)))
+ `(org-drawer ((t :inherit fixed-pitch))))
+ ;; `(org-document-title ((t (:inherit outline-1 :weight bold)))))
 
 (use-package ligature
   :straight
@@ -914,6 +930,7 @@ parses its input."
                  (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 
 (use-package markdown-mode
+  :demand t
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "pandoc"
               markdown-header-scaling t
@@ -1275,7 +1292,7 @@ any directory proferred by `consult-dir'."
   :custom
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
-  (org-fontify-quote-and-verse-blocks t)
+  (org-fontify-quote-and-verse-blocks nil)
   (org-image-actual-width '(300))
   (org-pretty-entities t)
   (org-auto-align-tags nil)
@@ -1307,6 +1324,7 @@ any directory proferred by `consult-dir'."
          ("C-c c" . org-capture))
   :hook
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
+  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
   :general (ev/leader-key-map "o b t" 'org-babel-tangle))
 
 (use-package org-modern
