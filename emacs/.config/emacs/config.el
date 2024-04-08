@@ -335,7 +335,7 @@
   (auto-dark-mode t))
 
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "SF Mono")
+(defvar ev/macos-font "Iosevka")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -358,8 +358,8 @@
 
 (if (eq system-type 'darwin)
     (setq ev/variable-pitch-font-height 140
-          ev/editor-font-height 130
-          ev/fixed-pitch-font-height 130)
+          ev/editor-font-height 140
+          ev/fixed-pitch-font-height 140)
   (ev/setup-linux-font-heights))
 
 (set-face-attribute 'default nil
