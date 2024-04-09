@@ -625,11 +625,11 @@ Get rid of the annoying startup screen.
             ev/variable-pitch-font-weight 'normal
             ev/variable-pitch-font-width 'normal
 
-            ev/editor-font-height 140
+            ev/editor-font-height 130
             ev/editor-font-weight 'normal
             ev/editor-font-width 'normal
 
-            ev/fixed-pitch-font-height 140
+            ev/fixed-pitch-font-height 130
             ev/fixed-pitch-font-weight 'normal
             ev/fixed-pitch-font-width 'normal)
     (ev/setup-linux-fonts))
@@ -653,51 +653,27 @@ Get rid of the annoying startup screen.
 
   (defun ev/big-font-size ()
     (interactive)
-    (set-face-attribute 'default nil
-                        :height (+ ev/editor-font-height 30))
     (set-face-attribute 'fixed-pitch nil
-                        :height (+ ev/fixed-pitch-font-height 30))
+                        :height (+ (face-attribute 'fixed-pitch :height) 30))
     (set-face-attribute 'variable-pitch nil
-                        :height (+ ev/variable-pitch-font-height 30)))
+                        :height (+ (face-attribute 'variable-pitch :height) 30)))
 
   (defun ev/increase-font-size ()
     (interactive)
-    (set-face-attribute 'default nil
-                        :height
-                        (ceiling (* 1.1
-                                    (face-attribute 'default :height))))
     (set-face-attribute 'fixed-pitch nil
-                        :height
-                        (ceiling (* 1.1
-                                    (face-attribute 'fixed-pitch :height))))
+                        :height (+ (face-attribute 'fixed-pitch :height) 10))
     (set-face-attribute 'variable-pitch nil
-                        :height
-                        (ceiling (* 1.1
-                                    (face-attribute 'variable-pitch :height)))))
+                        :height (+ (face-attribute 'variable-pitch :height) 10)))
 
   (defun ev/decrease-font-size ()
     (interactive)
-    (set-face-attribute 'default nil
-                        :height
-                        (max 1
-                             (floor (* 0.9
-                                       (face-attribute 'default :height)))))
     (set-face-attribute 'fixed-pitch nil
-                        :height
-                        (max 1
-                             (floor (* 0.9
-                                       (face-attribute 'fixed-pitch :height)))))
+                        :height (- (face-attribute 'fixed-pitch :height) 10))
     (set-face-attribute 'variable-pitch nil
-                        :height
-                        (max 1
-                             (floor (* 0.9
-                                       (face-attribute 'variable-pitch :height))))))
+                        :height (- (face-attribute 'variable-pitch :height) 10)))
 
   (defun ev/reset-font-size ()
     (interactive)
-    (set-face-attribute 'default nil
-                        :height ev/editor-font-height)
-
     (set-face-attribute 'fixed-pitch nil
                         :height ev/editor-font-height)
 
