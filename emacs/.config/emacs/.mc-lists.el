@@ -3,19 +3,9 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-        evil-backward-char
-        evil-change
-        evil-exit-visual-state
-        evil-force-normal-state
-        evil-forward-char
-        evil-next-line
-        evil-normal-state
-        evil-previous-line
-        hydra-multiple-cursors/mc/mark-next-like-this
-        kill-region
-        org-self-insert-command
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        hydra-multiple-cursors/mc/mark-next-like-this
         ))
