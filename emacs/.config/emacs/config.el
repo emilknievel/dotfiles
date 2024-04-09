@@ -283,8 +283,7 @@
      (5 . (1.1))
      (6 . (1.0))
      (7 . (1.0))
-     (8 . (1.0))))
-  (modus-themes-variable-pitch-ui nil))
+     (8 . (1.0)))))
 
 (use-package ef-themes
   :ensure t
@@ -335,7 +334,8 @@
   (auto-dark-mode t))
 
 (defvar ev/linux-font "Iosevka Comfy")
-(defvar ev/macos-font "Iosevka")
+(defvar ev/macos-font "JetBrainsMono Nerd Font")
+;; (defvar ev/heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
     (defvar ev/editor-font ev/macos-font)
@@ -343,46 +343,74 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "SF Pro Text"))
+           (defvar ev/variable-pitch-font "Iosevka Aile"))
   (progn (defvar ev/default-font ev/editor-font)
          (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
 
-(defun ev/setup-linux-font-heights ()
+(defun ev/setup-linux-fonts ()
   (if (getenv "WSL_DISTRO_NAME")
       (setq ev/variable-pitch-font-height 170
+            ev/variable-pitch-font-weight 'normal
+            ev/variable-pitch-font-width 'normal
+
             ev/editor-font-height 170
-            ev/fixed-pitch-font-height 170)
+            ev/editor-font-weight 'normal
+            ev/editor-font-width 'normal
+
+            ev/fixed-pitch-font-height 170
+            ev/fixed-pitch-font-weight 'normal
+            ev/fixed-pitch-font-width 'normal)
+
     (setq ev/variable-pitch-font-height 110
+          ev/variable-pitch-font-weight 'normal
+          ev/variable-pitch-font-width 'normal
+
           ev/editor-font-height 110
-          ev/fixed-pitch-font-height 110)))
+          ev/editor-font-weight 'normal
+          ev/editor-font-width 'normal
+
+          ev/fixed-pitch-font-height 110
+          ev/fixed-pitch-font-weight 'normal
+          ev/fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
     (setq ev/variable-pitch-font-height 140
+          ev/variable-pitch-font-weight 'normal
+          ev/variable-pitch-font-width 'normal
+
           ev/editor-font-height 140
-          ev/fixed-pitch-font-height 140)
-  (ev/setup-linux-font-heights))
+          ev/editor-font-weight 'normal
+          ev/editor-font-width 'normal
+
+          ev/fixed-pitch-font-height 140
+          ev/fixed-pitch-font-weight 'normal
+          ev/fixed-pitch-font-width 'normal)
+  (ev/setup-linux-fonts))
 
 (set-face-attribute 'default nil
                     :family ev/editor-font
+                    :weight ev/editor-font-weight
+                    :width ev/editor-font-width
                     :height ev/editor-font-height)
 (set-face-attribute 'fixed-pitch nil
                     :family ev/editor-font
+                    :weight ev/fixed-pitch-font-weight
+                    :width ev/fixed-pitch-font-width
                     :height ev/fixed-pitch-font-height)
 (set-face-attribute 'variable-pitch nil
                     :family ev/variable-pitch-font
+                    :weight ev/variable-pitch-font-weight
+                    :width ev/variable-pitch-font-width
                     :height ev/variable-pitch-font-height)
 ;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
 (defun ev/big-font-size ()
   (interactive)
   (set-face-attribute 'default nil
-                      :family ev/editor-font
                       :height (+ ev/editor-font-height 30))
   (set-face-attribute 'fixed-pitch nil
-                      :family ev/editor-font
                       :height (+ ev/fixed-pitch-font-height 30))
   (set-face-attribute 'variable-pitch nil
-                      :family ev/variable-pitch-font
                       :height (+ ev/variable-pitch-font-height 30)))
 
 (defun ev/increase-font-size ()
@@ -422,8 +450,10 @@
   (interactive)
   (set-face-attribute 'default nil
                       :height ev/editor-font-height)
+
   (set-face-attribute 'fixed-pitch nil
-                      :height ev/fixed-pitch-font-height)
+                      :height ev/editor-font-height)
+
   (set-face-attribute 'variable-pitch nil
                       :height ev/variable-pitch-font-height))
 
@@ -442,12 +472,22 @@
  `(outline-6 ((t (:height 1.0))))
  `(outline-7 ((t (:height 1.0))))
  `(outline-8 ((t (:height 1.0))))
+ `(ef-themes-heading-0 ((t (:family ,ev/variable-pitch-font))))
+ `(ef-themes-heading-1 ((t (:height 1.5))))
+ `(ef-themes-heading-2 ((t (:height 1.4))))
+ `(ef-themes-heading-3 ((t (:height 1.3))))
+ `(ef-themes-heading-4 ((t (:height 1.2))))
+ `(ef-themes-heading-5 ((t (:height 1.1))))
+ `(ef-themes-heading-6 ((t (:height 1.0))))
+ `(ef-themes-heading-7 ((t (:height 1.0))))
+ `(ef-themes-heading-8 ((t (:height 1.0))))
  `(markdown-inline-code-face ((t (:inherit org-code))))
  `(markdown-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
  `(org-document-info-keyword ((t (:inherit fixed-pitch))))
  `(org-meta-line ((t :inherit fixed-pitch)))
- `(org-drawer ((t :inherit fixed-pitch))))
- ;; `(org-document-title ((t (:inherit outline-1 :weight bold)))))
+ `(org-drawer ((t :inherit fixed-pitch)))
+ `(org-document-title ((t (:family ,ev/variable-pitch-font))))
+ `(org-document-info ((t (:family ,ev/variable-pitch-font)))))
 
 (use-package ligature
   :straight
