@@ -268,7 +268,7 @@
   :ensure t
   :custom
   (modus-themes-mixed-fonts t)
-  (modus-themes-variable-pitch-ui t)
+  (modus-themes-variable-pitch-ui nil)
   (modus-themes-common-palette-overrides
    '((fringe unspecified)
      (bg-paren-match bg-magenta-intense)
@@ -300,7 +300,7 @@
      (6 . (1.0))
      (7 . (1.0))
      (8 . (1.0))))
-  (setq ef-themes-variable-pitch-ui t)
+  (setq ef-themes-variable-pitch-ui nil)
   (setq ef-themes-to-toggle '(ef-dark ef-light))
   (setq ef-themes-mixed-fonts t)
   :general (ev/leader-key-map
