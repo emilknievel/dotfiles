@@ -588,6 +588,10 @@
         " "))
 (display-time-mode 1)
 
+(use-package doom-modeline
+  :config
+  (doom-modeline-mode 1))
+
 (use-package spacious-padding
   :config
   (spacious-padding-mode 0))

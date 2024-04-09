@@ -904,6 +904,14 @@ Display the current date and time on the mode line.
   (display-time-mode 1)
 #+end_src
 
+**** Doom Modeline
+
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :config
+    (doom-modeline-mode 1))
+#+end_src
+
 *** Padding (disabled)
 
 #+begin_src emacs-lisp
