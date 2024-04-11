@@ -1380,18 +1380,6 @@ any directory proferred by `consult-dir'."
   (org-appear-inside-latex t)
   :hook (org-mode . org-appear-mode))
 
-(use-package org-noter
-  :custom
-  ;; Directory where org-noter will look for note files if invoked in a
-  ;; non-org-roam buffer
-  (org-noter-notes-search-path '("~/Documents/notes/literature"))
-
-  ;; Create highlight in pdf when creating note
-  (org-noter-highlight-selected-text t)
-
-  ;; Remember last read location in document
-  (org-noter-auto-save-last-location t))
-
 (setq org-confirm-babel-evaluate nil
       org-src-fontify-natively t
       org-src-tab-acts-natively t)
@@ -1538,6 +1526,33 @@ any directory proferred by `consult-dir'."
   :config (add-to-list 'revert-without-query ".pdf")
   :hook (pdf-view-mode . (lambda () (interactive)
                            (display-line-numbers-mode -1))))
+
+(use-package nov
+  :mode
+  ("\\.epub\\'" . nov-mode)
+  :config
+  (setq nov-text-width 100)
+  (defun ev/nov-font-setup ()
+    (face-remap-add-relative 'variable-pitch
+                             :family "EB Garamond"
+                             :height (+ ev/variable-pitch-font-height 30))
+    (face-remap-add-relative 'default
+                             :family "Courier Prime"
+                             :height (+ ev/fixed-pitch-font-height 20)))
+  :hook
+  (nov-mode . ev/nov-font-setup))
+
+(use-package org-noter
+  :custom
+  ;; Directory where org-noter will look for note files if invoked in a
+  ;; non-org-roam buffer
+  (org-noter-notes-search-path '("~/Documents/notes/literature"))
+
+  ;; Create highlight in pdf when creating note
+  (org-noter-highlight-selected-text t)
+
+  ;; Remember last read location in document
+  (org-noter-auto-save-last-location t))
 
 (use-package embark
   :bind

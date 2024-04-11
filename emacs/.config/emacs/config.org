@@ -2138,22 +2138,6 @@ Display org roam database as connected nodes in the browser.
     :after org-roam)
 #+end_src
 
-*** Org-noter
-
-#+begin_src emacs-lisp
-  (use-package org-noter
-    :custom
-    ;; Directory where org-noter will look for note files if invoked in a
-    ;; non-org-roam buffer
-    (org-noter-notes-search-path '("~/Documents/notes/literature"))
-
-    ;; Create highlight in pdf when creating note
-    (org-noter-highlight-selected-text t)
-
-    ;; Remember last read location in document
-    (org-noter-auto-save-last-location t))
-#+end_src
-
 *** Babel
 
 #+begin_src emacs-lisp
@@ -2318,7 +2302,9 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
      ("C-c n C" . consult-notes-search-in-all-notes)))
 #+end_src
 
-** PDF
+** Reading
+
+*** PDF
 
 Use PDF tools package to turn Emacs into a PDF viewer with annotation support etc.
 
@@ -2333,6 +2319,41 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
     :config (add-to-list 'revert-without-query ".pdf")
     :hook (pdf-view-mode . (lambda () (interactive)
                              (display-line-numbers-mode -1))))
+#+end_src
+
+*** Epub
+
+#+begin_src emacs-lisp
+  (use-package nov
+    :mode
+    ("\\.epub\\'" . nov-mode)
+    :config
+    (setq nov-text-width 100)
+    (defun ev/nov-font-setup ()
+      (face-remap-add-relative 'variable-pitch
+                               :family "EB Garamond"
+                               :height (+ ev/variable-pitch-font-height 30))
+      (face-remap-add-relative 'default
+                               :family "Courier Prime"
+                               :height (+ ev/fixed-pitch-font-height 20)))
+    :hook
+    (nov-mode . ev/nov-font-setup))
+#+end_src
+
+*** Org-noter
+
+#+begin_src emacs-lisp
+  (use-package org-noter
+    :custom
+    ;; Directory where org-noter will look for note files if invoked in a
+    ;; non-org-roam buffer
+    (org-noter-notes-search-path '("~/Documents/notes/literature"))
+
+    ;; Create highlight in pdf when creating note
+    (org-noter-highlight-selected-text t)
+
+    ;; Remember last read location in document
+    (org-noter-auto-save-last-location t))
 #+end_src
 
 ** Embark
