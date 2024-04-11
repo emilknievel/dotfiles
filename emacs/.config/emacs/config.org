@@ -558,7 +558,7 @@ Get rid of the annoying startup screen.
     :init
     (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
     (setq auto-dark-dark-theme 'ef-dark
-          auto-dark-light-theme 'ef-light)
+          auto-dark-light-theme 'doom-solarized-light)
     :config
     (add-hook 'auto-dark-dark-mode-hook
               (lambda ()
@@ -586,7 +586,7 @@ Get rid of the annoying startup screen.
 
   (if (eq system-type 'darwin)
       (progn (defvar ev/default-font ev/editor-font)
-             (defvar ev/variable-pitch-font "Iosevka Aile"))
+             (defvar ev/variable-pitch-font "SF Pro Text"))
     (progn (defvar ev/default-font ev/editor-font)
            (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
 #+end_src
@@ -888,12 +888,13 @@ Display the current date and time on the mode line.
     (doom-modeline-mode 1))
 #+end_src
 
-*** Padding (disabled)
+*** Padding
 
 #+begin_src emacs-lisp
   (use-package spacious-padding
     :config
-    (spacious-padding-mode 0))
+    (spacious-padding-mode 0)
+    (define-key global-map (kbd "<f8>") #'spacious-padding-mode))
 #+end_src
 
 ** Completion

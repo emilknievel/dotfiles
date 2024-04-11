@@ -321,7 +321,7 @@
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
   (setq auto-dark-dark-theme 'ef-dark
-        auto-dark-light-theme 'ef-light)
+        auto-dark-light-theme 'doom-solarized-light)
   :config
   (add-hook 'auto-dark-dark-mode-hook
             (lambda ()
@@ -343,7 +343,7 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "Iosevka Aile"))
+           (defvar ev/variable-pitch-font "SF Pro Text"))
   (progn (defvar ev/default-font ev/editor-font)
          (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
 
@@ -570,7 +570,8 @@
 
 (use-package spacious-padding
   :config
-  (spacious-padding-mode 0))
+  (spacious-padding-mode 0)
+  (define-key global-map (kbd "<f8>") #'spacious-padding-mode))
 
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)
