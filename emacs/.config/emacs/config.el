@@ -123,6 +123,7 @@
 
    ;; Prefixes
 
+   "`" '(:ignore t :wk "Term")
    "a" '(:ignore t :wk "AI")
    "a c" '(:ignore t :wk "Copilot")
    "b" '(:ignore t :wk "Buffer")
@@ -1109,7 +1110,9 @@ parses its input."
                            ("terminfo/65" "terminfo/65/*")
                            ("integration" "integration/*")
                            (:exclude ".dir-locals.el" "*-tests.el")))
-  :general (ev/leader-key-map "t e" 'eshell)
+  :general
+  (ev/leader-key-map "` e" 'eshell)
+  (ev/leader-key-map "` a" 'eat)
   :custom
   (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
@@ -1643,14 +1646,27 @@ any directory proferred by `consult-dir'."
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
+  (defun ev/popper-window-height (window)
+    (fit-window-to-buffer
+     window
+     (floor (frame-height) 3)
+     (floor (frame-height) 3)))
+
   (setq popper-reference-buffers
         '("\\*Messages\\*"
           "Output\\*$"
           "\\*Async Shell Command\\*"
           help-mode
-          compilation-mode))
+          compilation-mode
+          "^\\*eshell.*\\*$" eshell-mode ; eshell as a popup
+          "^\\*shell.*\\*$"  shell-mode  ; shell as a popup
+          "^\\*term.*\\*$"   term-mode   ; term as a popup
+          "^\\*vterm.*\\*$"  vterm-mode  ; vterm as a popup
+          "^\\*eat.*\\*$"    eat-mode    ; eat as a popup
+          )
+        popper-window-height #'ev/popper-window-height)
   (popper-mode +1)
-  (popper-echo-mode +1))                ; For echo area hints
+  (popper-echo-mode +1)) ; For echo area hints
 
 (defun ev/insert-timestamp ()
   "Insert timestamp with format [%H:%M] at point."
