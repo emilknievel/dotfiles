@@ -969,7 +969,12 @@ parses its input."
 (use-package clojure-mode)
 
 (use-package aggressive-indent-mode
-  :hook (clojure-mode))
+  :hook '(clojure-mode
+          elisp-mode
+          emacs-lisp-mode
+          lisp-mode
+          common-lisp-mode
+          scheme-mode))
 
 (use-package smartparens
   :init (require 'smartparens-config)
