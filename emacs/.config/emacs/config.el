@@ -1077,6 +1077,8 @@ parses its input."
 (use-package flycheck
   :init (global-flycheck-mode))
 
+(use-package consult-flycheck)
+
 (use-package magit
   :config
   ;; Make Magit the only window in the frame when invoked.

@@ -1543,6 +1543,10 @@ Notable keymaps:
     :init (global-flycheck-mode))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package consult-flycheck)
+#+end_src
+
 ** Git
 
 *** Magit
