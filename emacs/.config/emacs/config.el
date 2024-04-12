@@ -1335,8 +1335,15 @@ any directory proferred by `consult-dir'."
   (org-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-ellipsis "…")
-  (org-log-done 'time) ; Will add CLOSED: [timestamp] line after todo headline when marked as done
+  (org-startup-indented t)
+  ;; (org-ellipsis "…")
+
+  ;; Add CLOSED: [timestamp] line after todo headline when marked as done
+  ;; and prompt for closing note.
+  (org-log-done 'note)
+
+  ;; Ask how many minutes to keep if idle for at least 15 minutes.
+  (org-clock-idle-time 15)
 
   (org-capture-templates
    '(("f" "Fleeting note" item
@@ -1353,7 +1360,7 @@ any directory proferred by `consult-dir'."
   (setq org-refile-use-outline-path t)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-cache t)
-  (setq org-reverse-note-order nil)
+  (setq org-reverse-note-order t)
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
@@ -1367,8 +1374,8 @@ any directory proferred by `consult-dir'."
   :custom
   (org-modern-table nil)
   (org-modern-todo t)
-  (org-modern-star '("*"))
-  (org-modern-hide-stars nil)
+  ;; (org-modern-star '("*"))
+  (org-modern-hide-stars 'leading)
   (org-modern-block-fringe 8)
   :hook
   (org-mode . org-modern-mode))
