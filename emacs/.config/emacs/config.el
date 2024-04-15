@@ -238,14 +238,18 @@
 
 (setopt confirm-kill-emacs 'y-or-n-p)
 
-(setq ns-use-proxy-icon nil
-      ns-use-mwheel-momentum t
-      ns-use-mwheel-acceleration t
-      frame-resize-pixelwise t
-      mac-command-modifier 'meta
-      mac-right-command-modifier 'none
-      mac-option-modifier nil
-      mac-control-modifier 'control)
+(when (eq system-type 'darwin)
+  (use-package ns-auto-titlebar
+    :demand t
+    :config (ns-auto-titlebar-mode))
+  (setq ns-use-proxy-icon nil
+        ns-use-mwheel-momentum t
+        ns-use-mwheel-acceleration t
+        frame-resize-pixelwise t
+        mac-command-modifier 'meta
+        mac-right-command-modifier 'none
+        mac-option-modifier 'super
+        mac-control-modifier 'control))
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
