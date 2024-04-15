@@ -554,10 +554,10 @@
   :custom
   (display-line-numbers-widen t)
   (display-line-numbers-type 'visual)
-  ;; :hook
-  ;; ((prog-mode conf-mode) . display-line-numbers-mode)
-  ;; (evil-insert-state-entry . ev/display-set-absolute)
-  ;; (evil-insert-state-exit . ev/display-set-relative)
+  :hook
+  ((prog-mode conf-mode) . display-line-numbers-mode)
+  :config (set-face-attribute
+           'line-number-current-line nil :background 'unspecified)
   :general
   (ev/leader-key-map
    "u l h" 'ev/display-set-hidden
