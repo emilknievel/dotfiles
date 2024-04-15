@@ -268,46 +268,53 @@
 
 (use-package modus-themes
   :ensure t
-  :custom
-  (modus-themes-mixed-fonts t)
-  (modus-themes-variable-pitch-ui nil)
-  (modus-themes-common-palette-overrides
-   '((fringe unspecified)
-     (bg-paren-match bg-magenta-intense)
-     (fg-heading-1 blue-warmer)
-     (fg-heading-2 yellow-cooler)
-     (fg-heading-3 cyan-cooler)))
-  (modus-themes-headings
-   '((1 . (1.5))
-     (2 . (1.4))
-     (3 . (1.3))
-     (4 . (1.2))
-     (5 . (1.1))
-     (6 . (1.0))
-     (7 . (1.0))
-     (8 . (1.0)))))
+  :init
+  (setq modus-themes-mixed-fonts t)
+  (setq modus-themes-variable-pitch-ui nil)
+  (setq modus-themes-common-palette-overrides
+        '((fringe unspecified)
+          (bg-paren-match bg-magenta-intense)
+          (fg-heading-1 blue-warmer)
+          (fg-heading-2 yellow-cooler)
+          (fg-heading-3 cyan-cooler)))
+  (setq modus-themes-headings
+        '((1 . (1.5))
+          (2 . (1.4))
+          (3 . (1.3))
+          (4 . (1.2))
+          (5 . (1.1))
+          (6 . (1.0))
+          (7 . (1.0))
+          (8 . (1.0))))
+  :general (ev/leader-key-map
+            "t t m" 'modus-themes-toggle))
 
 (use-package ef-themes
   :ensure t
   :init
   (setq ef-themes-mixed-fonts t)
   (setq ef-themes-common-palette-overrides
-   '((fringe unspecified)))
+        '((fringe unspecified)))
   (setq ef-themes-headings
-   '((1 . (1.5))
-     (2 . (1.4))
-     (3 . (1.3))
-     (4 . (1.2))
-     (5 . (1.1))
-     (6 . (1.0))
-     (7 . (1.0))
-     (8 . (1.0))))
+        '((1 . (1.5))
+          (2 . (1.4))
+          (3 . (1.3))
+          (4 . (1.2))
+          (5 . (1.1))
+          (6 . (1.0))
+          (7 . (1.0))
+          (8 . (1.0))))
   (setq ef-themes-variable-pitch-ui nil)
   (setq ef-themes-to-toggle '(ef-dark ef-light))
-  (setq ef-themes-mixed-fonts t)
   :general (ev/leader-key-map
-            "t t" 'ef-themes-toggle))
-(load-theme 'ef-dark t nil)
+            "t t e" 'ef-themes-toggle))
+
+(defun ev/toggle-solarized ()
+  (interactive)
+  "Toggle between light and dark solarized themes."
+  (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-light)
+      (ev/solarized-dark)
+    (ev/solarized-light)))
 
 (use-package doom-themes
   :ensure t
@@ -316,22 +323,25 @@
         doom-themes-enable-italic t)
   ;; (setq doom-themes-treemacs-theme "doom-atom")
   ;; (doom-themes-treemacs-config)
-  (doom-themes-org-config))
+  (ev/solarized-light)
+  (doom-themes-org-config)
+  :general (ev/leader-key-map
+            "t t s" 'ev/toggle-solarized))
 
 (use-package auto-dark
   :diminish
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-dark-theme 'ef-dark
+  (setq auto-dark-dark-theme 'doom-solarized-dark
         auto-dark-light-theme 'doom-solarized-light)
   :config
   (add-hook 'auto-dark-dark-mode-hook
             (lambda ()
-              (mapc #'disable-theme custom-enabled-themes)
+              (ev/clear-theme)
               (load-theme auto-dark-dark-theme t nil)))
   (add-hook 'auto-dark-light-mode-hook
             (lambda ()
-              (mapc #'disable-theme custom-enabled-themes)
+              (ev/clear-theme)
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
