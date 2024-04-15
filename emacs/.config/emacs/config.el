@@ -1740,3 +1740,6 @@ any directory proferred by `consult-dir'."
      ("BUG" error bold))))
 
 (use-package transpose-frame)
+
+(global-set-key (kbd "<f5>") 'compile)
+(global-set-key (kbd "S-<f5>") 'recompile)

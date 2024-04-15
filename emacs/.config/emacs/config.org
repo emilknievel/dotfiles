@@ -2588,3 +2588,12 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 #+begin_src emacs-lisp
   (use-package transpose-frame)
 #+end_src
+
+** Compilation
+
+Keybindings for compilation functions.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<f5>") 'compile)
+  (global-set-key (kbd "S-<f5>") 'recompile)
+#+end_src
