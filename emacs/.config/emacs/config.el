@@ -200,7 +200,8 @@
  "u f b" 'ev/big-font-size
  "u f +" 'ev/increase-font-size
  "u f -" 'ev/decrease-font-size
- "u f 0" 'ev/reset-font-size)
+ "u f r" 'ev/reading-font-setup
+ "u f 0" 'ev/reset-fonts)
 
 (general-define-key
  :prefix-map 'ev/leader-key-map
@@ -426,13 +427,30 @@
   (set-face-attribute 'variable-pitch nil
                       :height (- (face-attribute 'variable-pitch :height) 10)))
 
-(defun ev/reset-font-size ()
+(defun ev/reset-fonts ()
   (interactive)
   (set-face-attribute 'fixed-pitch nil
+                      :family ev/editor-font
                       :height ev/editor-font-height)
 
   (set-face-attribute 'variable-pitch nil
-                      :height ev/variable-pitch-font-height))
+                      :family ev/variable-pitch-font
+                      :height ev/variable-pitch-font-height)
+  (set-face-attribute 'default nil
+                      :family ev/editor-font
+                      :height ev/editor-font-height))
+
+(defun ev/reading-font-setup ()
+  (interactive)
+  (set-face-attribute 'variable-pitch nil
+                      :family "New York"
+                      :height (face-attribute 'variable-pitch :height))
+  (set-face-attribute 'default nil
+                      :family ev/editor-font
+                      :height (face-attribute 'fixed-pitch :height))
+  (set-face-attribute 'fixed-pitch nil
+                      :family ev/editor-font
+                      :height (face-attribute 'fixed-pitch :height)))
 
 (defhydra hydra-font-actions (global-map "C-z u f")
   "font actions"
@@ -443,11 +461,11 @@
 
 (custom-theme-set-faces
  'user
- `(org-code ((t (:inherit fixed-pitch :family ,ev/editor-font))))
- `(org-block ((t (:inherit fixed-pitch :family ,ev/editor-font))))
- `(org-block-begin-line ((t (:inherit (shadow fixed-pitch) :family ,ev/editor-font :extend t))))
+ `(org-code ((t (:inherit fixed-pitch))))
+ `(org-block ((t (:inherit fixed-pitch))))
+ `(org-block-begin-line ((t (:inherit (shadow fixed-pitch) :extend t))))
  `(org-block-end-line ((t (:inherit org-block-begin-line))))
- `(org-verbatim ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+ `(org-verbatim ((t (:inherit fixed-pitch))))
  `(outline-1 ((t (:height 1.5))))
  `(outline-2 ((t (:height 1.4))))
  `(outline-3 ((t (:height 1.3))))
@@ -456,7 +474,7 @@
  `(outline-6 ((t (:height 1.0))))
  `(outline-7 ((t (:height 1.0))))
  `(outline-8 ((t (:height 1.0))))
- `(ef-themes-heading-0 ((t (:family ,ev/variable-pitch-font))))
+ `(ef-themes-heading-0 ((t (:inherit variable-pitch))))
  `(ef-themes-heading-1 ((t (:height 1.5))))
  `(ef-themes-heading-2 ((t (:height 1.4))))
  `(ef-themes-heading-3 ((t (:height 1.3))))
@@ -466,12 +484,12 @@
  `(ef-themes-heading-7 ((t (:height 1.0))))
  `(ef-themes-heading-8 ((t (:height 1.0))))
  `(markdown-inline-code-face ((t (:inherit org-code))))
- `(markdown-code-face ((t (:inherit fixed-pitch :family ,ev/editor-font))))
+ `(markdown-code-face ((t (:inherit fixed-pitch))))
  `(org-document-info-keyword ((t (:inherit fixed-pitch))))
  `(org-meta-line ((t :inherit fixed-pitch)))
  `(org-drawer ((t :inherit fixed-pitch)))
- `(org-document-title ((t (:family ,ev/variable-pitch-font))))
- `(org-document-info ((t (:family ,ev/variable-pitch-font)))))
+ `(org-document-title ((t (:inherit variable-pitch))))
+ `(org-document-info ((t (:inherit variable-pitch)))))
 
 (use-package ligature
   :straight
@@ -1556,15 +1574,8 @@ any directory proferred by `consult-dir'."
   ("\\.epub\\'" . nov-mode)
   :config
   (setq nov-text-width 100)
-  (defun ev/nov-font-setup ()
-    (face-remap-add-relative 'variable-pitch
-                             :family "EB Garamond"
-                             :height (+ ev/variable-pitch-font-height 30))
-    (face-remap-add-relative 'default
-                             :family "Courier Prime"
-                             :height (+ ev/fixed-pitch-font-height 20)))
   :hook
-  (nov-mode . ev/nov-font-setup))
+  (nov-mode . ev/reading-font-setup))
 
 (use-package org-noter
   :custom
