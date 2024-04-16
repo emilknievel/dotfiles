@@ -536,13 +536,19 @@
 
 (defun ev/display-set-relative ()
   (interactive)
-  (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode) (eq major-mode 'markdown-mode) (eq major-mode 'gfm-mode)))
+  (if (not (or (eq major-mode 'org-mode)
+               (eq major-mode 'vterm-mode)
+               (eq major-mode 'markdown-mode)
+               (eq major-mode 'gfm-mode)))
       (setq display-line-numbers 'visual)
     (setq display-line-numbers nil)))
 
 (defun ev/display-set-absolute ()
   (interactive)
-  (if (not (or (eq major-mode 'org-mode) (eq major-mode 'vterm-mode) (eq major-mode 'markdown-mode) (eq major-mode 'gfm-mode)))
+  (if (not (or (eq major-mode 'org-mode)
+               (eq major-mode 'vterm-mode)
+               (eq major-mode 'markdown-mode)
+               (eq major-mode 'gfm-mode)))
       (setq display-line-numbers t)
     (setq display-line-numbers nil)))
 
@@ -957,12 +963,17 @@ parses its input."
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-        (ocaml "https://github.com/tree-sitter/tree-sitter-ocaml" "master" "ocaml/src")
+        (ocaml "https://github.com/tree-sitter/tree-sitter-ocaml" "master" "grammars/ocaml/src")
         (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
         (rust "https://github.com/tree-sitter/tree-sitter-rust")
         (c "https://github.com/tree-sitter/tree-sitter-c")
-        (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")
-        (vue "https://github.com/ikatyang/tree-sitter-vue")))
+        (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")))
+
+(defun ev/install-ts-grammars ()
+  "Install grammars for tree-sitter from treesit-language-source-alist."
+  (interactive)
+  (mapc #'treesit-install-language-grammar
+        (mapcar #'car treesit-language-source-alist)))
 
 (setq major-mode-remap-alist
       '((bash-mode . bash-ts-mode)
@@ -1055,20 +1066,33 @@ parses its input."
   :after restclient
   :config (require 'restclient-jq))
 
-(use-package vue-ts-mode
-  :straight '(vue-ts-mode
-              :type git
-              :host github
-              :repo "8uff3r/vue-ts-mode"
-              :branch "main")
-  :mode ("\\.vue\\'" . vue-ts-mode)
-  :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '(vue-ts-mode . ("vue-language-server" "--stdio"
-                                  :initializationOptions
-                                  (:typescript (:tsdk "./node_modules/typescript/lib"))))))
-  :hook (vue-ts-mode . eglot-ensure))
+;; web-mode setup
+(define-derived-mode vue-mode web-mode "Vue")
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+
+(defun vue-eglot-init-options ()
+  ;; requires that typescript is installed globally
+  (let ((tsdk-path (expand-file-name
+                    "lib"
+                    (string-trim-right (shell-command-to-string "npm list --global --parseable typescript | head -n1")))))
+    `(:typescript (:tsdk ,tsdk-path
+                         :languageFeatures (:completion
+                                            (:defaultTagNameCase "both"
+                                                                 :defaultAttrNameCase "kebabCase"
+                                                                 :getDocumentNameCasesRequest nil
+                                                                 :getDocumentSelectionRequest nil)
+                                            :diagnostics
+                                            (:getDocumentVersionRequest nil))
+                         :documentFeatures (:documentFormatting
+                                            (:defaultPrintWidth 100
+                                                                :getDocumentPrintWidthRequest nil)
+                                            :documentSymbol t
+                                            :documentColor t)))))
+
+;; vue-ls
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
 
 (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 
