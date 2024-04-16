@@ -1687,7 +1687,7 @@ any directory proferred by `consult-dir'."
                 gptel-backend (gptel-make-ollama "Ollama"
                                 :host "localhost:11434"
                                 :stream t
-                                :models '("mistral:latest")))
+                                :models '("mistral:latest" "codegemma:latest")))
   :general
   (ev/leader-key-map
    "a a" 'gptel
