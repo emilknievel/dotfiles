@@ -556,8 +556,11 @@
   (display-line-numbers-type 'visual)
   :hook
   ((prog-mode conf-mode) . display-line-numbers-mode)
-  :config (set-face-attribute
-           'line-number-current-line nil :background 'unspecified)
+  ;; Remove highlighted background on current line.
+  (display-line-numbers-mode . (lambda ()
+                                 (set-face-attribute 'line-number-current-line
+                                                     nil
+                                                     :background 'unspecified)))
   :general
   (ev/leader-key-map
    "u l h" 'ev/display-set-hidden
