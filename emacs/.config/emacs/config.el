@@ -1092,7 +1092,8 @@ parses its input."
 ;; vue-ls
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
-               `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
+               `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
+  (add-hook 'vue-mode-hook 'eglot-ensure))
 
 (add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
 
