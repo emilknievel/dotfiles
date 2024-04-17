@@ -1618,6 +1618,12 @@ Notable keymaps:
   (add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
 #+end_src
 
+*** Docker
+
+#+begin_src emacs-lisp
+  (use-package dockerfile-mode)
+#+end_src
+
 ** Syntax checking
 
 #+begin_src emacs-lisp
