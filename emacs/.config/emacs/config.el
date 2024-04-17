@@ -212,7 +212,16 @@
   :ensure t
   :bind-keymap ("C-c s" . surround-keymap))
 
-(use-package hydra)
+(use-package hydra
+  :config
+  (defhydra hydra-window-actions (global-map "C-z w")
+    "window actions"
+    ("h" shrink-window-horizontally "shrink horizontally")
+    ("l" enlarge-window-horizontally "enlarge horizontally")
+    ("j" shrink-window "shrink window")
+    ("k" enlarge-window "enlarge window")
+    ("+" balance-windows "balance windows")
+    ("-" shrink-window-if-larger-than-buffer "fit window")))
 
 (use-package iedit
   :general
