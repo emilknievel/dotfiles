@@ -323,8 +323,8 @@
             "t t e" 'ef-themes-toggle))
 
 (defun ev/toggle-solarized ()
-  (interactive)
   "Toggle between light and dark solarized themes."
+  (interactive)
   (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-light)
       (ev/solarized-dark)
     (ev/solarized-light)))
@@ -373,6 +373,7 @@
          (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
 
 (defun ev/setup-linux-fonts ()
+  "Separate setups for fonts in WSL and regular GNU/Linux."
   (if (getenv "WSL_DISTRO_NAME")
       (setq ev/variable-pitch-font-height 170
             ev/variable-pitch-font-weight 'normal
@@ -430,6 +431,7 @@
 ;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
 (defun ev/big-font-size ()
+  "Increase font height by a bigger amount."
   (interactive)
   (set-face-attribute 'fixed-pitch nil
                       :height (+ (face-attribute 'fixed-pitch :height) 30))
@@ -437,6 +439,7 @@
                       :height (+ (face-attribute 'variable-pitch :height) 30)))
 
 (defun ev/increase-font-size ()
+  "Increase font height in steps of 10."
   (interactive)
   (set-face-attribute 'fixed-pitch nil
                       :height (+ (face-attribute 'fixed-pitch :height) 10))
@@ -444,6 +447,7 @@
                       :height (+ (face-attribute 'variable-pitch :height) 10)))
 
 (defun ev/decrease-font-size ()
+  "Decrease font height in steps of 10."
   (interactive)
   (set-face-attribute 'fixed-pitch nil
                       :height (- (face-attribute 'fixed-pitch :height) 10))
@@ -451,6 +455,7 @@
                       :height (- (face-attribute 'variable-pitch :height) 10)))
 
 (defun ev/reset-fonts ()
+  "Reset font settings to base values."
   (interactive)
   (set-face-attribute 'fixed-pitch nil
                       :family ev/editor-font
@@ -464,6 +469,7 @@
                       :height ev/editor-font-height))
 
 (defun ev/reading-font-setup ()
+  "Font settings for reading prose."
   (interactive)
   (set-face-attribute 'variable-pitch nil
                       :family "New York"
@@ -538,12 +544,14 @@
    "u f l" 'global-ligature-mode))
 
 (defun ev/show-column-guide ()
+  "Show a vertical column guide."
   (setq display-fill-column-indicator-column 80)
   (display-fill-column-indicator-mode))
 
 (add-hook 'prog-mode-hook #'ev/show-column-guide)
 
 (defun ev/display-set-relative ()
+  "Setup for relative line numbers."
   (interactive)
   (if (not (or (eq major-mode 'org-mode)
                (eq major-mode 'vterm-mode)
@@ -553,6 +561,7 @@
     (setq display-line-numbers nil)))
 
 (defun ev/display-set-absolute ()
+  "Setup for absolute line numbers."
   (interactive)
   (if (not (or (eq major-mode 'org-mode)
                (eq major-mode 'vterm-mode)
@@ -562,6 +571,7 @@
     (setq display-line-numbers nil)))
 
 (defun ev/display-set-hidden ()
+  "Hide line numbers."
   (interactive)
   (setq display-line-numbers nil))
 
@@ -1709,6 +1719,7 @@ any directory proferred by `consult-dir'."
          ("C-M-`" . popper-toggle-type))
   :init
   (defun ev/popper-window-height (window)
+    "Make popper windows cover 1/3 of frame height."
     (fit-window-to-buffer
      window
      (floor (frame-height) 3)
