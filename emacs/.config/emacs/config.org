@@ -2441,9 +2441,24 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
     :mode
     ("\\.epub\\'" . nov-mode)
     :config
-    (setq nov-text-width 100)
+    (defun ev/nov-mode-setup ()
+      "Tweak nov-mode to our liking."
+      (setq-local line-spacing 0.2
+                  next-screen-context-lines 4
+                  shr-use-colors t)
+      (when (require 'visual-fill-column nil t)
+        (setq-local visual-fill-column-center-text t
+                    visual-fill-column-width 64
+                    nov-text-width 106)
+        (visual-fill-column-mode 1))
+      (when (featurep 'hl-line-mode)
+        (hl-line-mode -1))
+      (ev/reading-font-setup)
+      (olivetti-mode)
+      ;; Re-render with new display settings
+      (nov-render-document))
     :hook
-    (nov-mode . ev/reading-font-setup))
+    (nov-mode . ev/nov-mode-setup))
 #+end_src
 
 *** Org-noter
