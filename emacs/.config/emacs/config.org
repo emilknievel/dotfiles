@@ -2477,6 +2477,23 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
     (org-noter-auto-save-last-location t))
 #+end_src
 
+*** Organizing Literature
+
+My main source of literature is the calibre folder in my file system. Calibre is the software I use for organizing and maintaining my digital library. Calibredb is a package that allows us to manage the Calibre library from within Emacs.
+
+This package requires that calibredb is installed on the system (included with the Calibre app) as well as sqlite3.
+
+#+begin_src emacs-lisp
+  (use-package calibredb
+    :defer t
+    :config
+    (setq calibredb-root-dir "~/Documents/calibre")
+    (setq calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
+    (setq calibredb-library-alist '(("~/Documents/calibre")))
+    (setq calibredb-format-all-the-icons t)
+    (setq calibredb-size-show t))
+#+end_src
+
 ** Embark
 
 Package repo.

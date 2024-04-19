@@ -1667,6 +1667,15 @@ any directory proferred by `consult-dir'."
   ;; Remember last read location in document
   (org-noter-auto-save-last-location t))
 
+(use-package calibredb
+  :defer t
+  :config
+  (setq calibredb-root-dir "~/Documents/calibre")
+  (setq calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
+  (setq calibredb-library-alist '(("~/Documents/calibre")))
+  (setq calibredb-format-all-the-icons t)
+  (setq calibredb-size-show t))
+
 (use-package embark
   :bind
   (("C->" . embark-act)         ;; C-S-.
