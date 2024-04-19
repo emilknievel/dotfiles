@@ -965,6 +965,14 @@ Display the current date and time on the mode line.
     (define-key global-map (kbd "<f8>") #'spacious-padding-mode))
 #+end_src
 
+*** Highlight line
+
+Highlight line when programming or editing configuration files.
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook 'hl-line-mode)
+  (add-hook 'conf-mode-hook 'hl-line-mode)
+#+end_src
 ** Completion
 
 *** Nerd Icons Completion
