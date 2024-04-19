@@ -1195,7 +1195,7 @@ parses its input."
   (ev/leader-key-map "` e" 'eshell)
   (ev/leader-key-map "` a" 'eat)
   :custom
-  (eat-term-name "xterm-256color")
+  ;; (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode)))
