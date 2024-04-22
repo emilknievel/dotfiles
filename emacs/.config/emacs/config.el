@@ -518,7 +518,8 @@
  `(org-meta-line ((t :inherit fixed-pitch)))
  `(org-drawer ((t :inherit fixed-pitch)))
  `(org-document-title ((t (:inherit variable-pitch))))
- `(org-document-info ((t (:inherit variable-pitch)))))
+ `(org-document-info ((t (:inherit variable-pitch))))
+ `(org-table ((t (:inherit fixed-pitch)))))
 
 (use-package ligature
   :straight

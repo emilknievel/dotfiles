@@ -769,7 +769,8 @@ Get rid of the annoying startup screen.
    `(org-meta-line ((t :inherit fixed-pitch)))
    `(org-drawer ((t :inherit fixed-pitch)))
    `(org-document-title ((t (:inherit variable-pitch))))
-   `(org-document-info ((t (:inherit variable-pitch)))))
+   `(org-document-info ((t (:inherit variable-pitch))))
+   `(org-table ((t (:inherit fixed-pitch)))))
 #+end_src
 
 **** Ligatures
@@ -973,6 +974,7 @@ Highlight line when programming or editing configuration files.
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (add-hook 'conf-mode-hook 'hl-line-mode)
 #+end_src
+
 ** Completion
 
 *** Nerd Icons Completion
