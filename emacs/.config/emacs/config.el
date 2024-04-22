@@ -364,7 +364,7 @@
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
-(defvar ev/linux-font "Iosevka Comfy")
+(defvar ev/linux-font "JetBrains Mono")
 (defvar ev/macos-font "JetBrainsMono Nerd Font")
 ;; (defvar ev/heading-font "Iosevka Aile")
 
@@ -376,7 +376,7 @@
     (progn (defvar ev/default-font ev/editor-font)
            (defvar ev/variable-pitch-font "SF Pro Text"))
   (progn (defvar ev/default-font ev/editor-font)
-         (defvar ev/variable-pitch-font "Iosevka Comfy Motion Duo")))
+         (defvar ev/variable-pitch-font "Noto Sans")))
 
 (defun ev/setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
@@ -393,16 +393,16 @@
             ev/fixed-pitch-font-weight 'normal
             ev/fixed-pitch-font-width 'normal)
 
-    (setq ev/variable-pitch-font-height 110
-          ev/variable-pitch-font-weight 'normal
+    (setq ev/variable-pitch-font-height 100
+          ev/variable-pitch-font-weight 'medium
           ev/variable-pitch-font-width 'normal
 
-          ev/editor-font-height 110
-          ev/editor-font-weight 'normal
+          ev/editor-font-height 100
+          ev/editor-font-weight 'medium
           ev/editor-font-width 'normal
 
-          ev/fixed-pitch-font-height 110
-          ev/fixed-pitch-font-weight 'normal
+          ev/fixed-pitch-font-height 100
+          ev/fixed-pitch-font-weight 'medium
           ev/fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
@@ -477,9 +477,13 @@
 (defun ev/reading-font-setup ()
   "Font settings for reading prose."
   (interactive)
-  (set-face-attribute 'variable-pitch nil
-                      :family "New York"
-                      :height (face-attribute 'variable-pitch :height))
+  (if (eq system-type 'darwin)
+      (set-face-attribute 'variable-pitch nil
+                          :family "New York"
+                          :height (face-attribute 'variable-pitch :height))
+    (set-face-attribute 'variable-pitch nil
+                        :family "Noto Serif"
+                        :height (face-attribute 'variable-pitch :height)))
   (set-face-attribute 'default nil
                       :family ev/editor-font
                       :height (face-attribute 'fixed-pitch :height))
