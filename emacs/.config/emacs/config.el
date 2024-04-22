@@ -54,6 +54,12 @@
       ediff-window-setup-function 'ediff-setup-windows-plain
       custom-file (expand-file-name "custom.el" user-emacs-directory))
 
+;; Revert buffers when the underlying file has changed
+(global-auto-revert-mode 1)
+
+;; Revert Dired and other buffers
+(setq global-auto-revert-non-file-buffers t)
+
 (unless backup-directory-alist
   (setq backup-directory-alist `(("." . "/tmp/backups/"))))
 
