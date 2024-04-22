@@ -2597,11 +2597,11 @@ GPTel allows us to talk with different LLMs from within Emacs.
     :custom
     (gptel-default-mode #'org-mode)
     :config
-    (setq-default gptel-model "mistral:latest"
+    (setq-default gptel-model "llama3:latest"
                   gptel-backend (gptel-make-ollama "Ollama"
                                   :host "localhost:11434"
                                   :stream t
-                                  :models '("mistral:latest" "codegemma:latest")))
+                                  :models '("mistral:latest" "codegemma:latest" "llama3:latest")))
     :general
     (ev/leader-key-map
      "a a" 'gptel
