@@ -614,6 +614,9 @@
          ;; prevent icons from overlapping vertically
          (dired-mode . (lambda () (setq line-spacing 0.25)))))
 
+(use-package all-the-icons
+  :if (display-graphic-p))
+
 (column-number-mode 1)
 
 (use-package diminish

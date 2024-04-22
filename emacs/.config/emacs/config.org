@@ -893,6 +893,8 @@ Add a newline to the end of the file if one doesn't already exist.
 
 *** Icons
 
+**** Nerd icons
+
 Install the icons with ~M-x nerd-icons-install-fonts~.
 
 #+begin_src emacs-lisp
@@ -906,6 +908,15 @@ Nerd icons for dired.
     :hook ((dired-mode . nerd-icons-dired-mode)
            ;; prevent icons from overlapping vertically
            (dired-mode . (lambda () (setq line-spacing 0.25)))))
+#+end_src
+
+**** All the icons
+
+Install icon fonts with ~M-x all-the-icons-install-fonts~
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :if (display-graphic-p))
 #+end_src
 
 *** Mode line
