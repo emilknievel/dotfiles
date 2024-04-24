@@ -1663,6 +1663,13 @@ Notable keymaps:
   (use-package dockerfile-mode)
 #+end_src
 
+*** CSV
+
+#+begin_src emacs-lisp
+  (use-package csv-mode
+    :mode "\\.csv\\'")
+#+end_src
+
 ** Syntax checking
 
 #+begin_src emacs-lisp

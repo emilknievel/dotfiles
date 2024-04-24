@@ -1181,6 +1181,9 @@ parses its input."
 
 (use-package dockerfile-mode)
 
+(use-package csv-mode
+  :mode "\\.csv\\'")
+
 (use-package flycheck
   :init (global-flycheck-mode))
 
