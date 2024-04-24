@@ -42,4 +42,6 @@
 ;;       (not (string-match "-[Mm]icrosoft" operating-system-release)))
 ;;  (add-to-list 'default-frame-alist '(undecorated . t))))
 
+(load-theme 'wheatgrass t nil)
+
 ;;; early-init.el ends here
