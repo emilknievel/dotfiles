@@ -81,6 +81,7 @@ alias ipecho='curl ipecho.net/plain ; echo'
 
 # ls
 alias la='ls -a'
+alias l='ls -lah'
 
 # glow
 # alias glow='glow -s $TERM_THEME' # match vim dark/light mode
