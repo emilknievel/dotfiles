@@ -364,7 +364,7 @@
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
-(defvar ev/linux-font "JetBrains Mono")
+(defvar ev/linux-font "Source Code Pro")
 (defvar ev/macos-font "JetBrainsMono Nerd Font")
 ;; (defvar ev/heading-font "Iosevka Aile")
 

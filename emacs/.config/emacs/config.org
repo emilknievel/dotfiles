@@ -607,7 +607,7 @@ Get rid of the annoying startup screen.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar ev/linux-font "JetBrains Mono")
+  (defvar ev/linux-font "Source Code Pro")
   (defvar ev/macos-font "JetBrainsMono Nerd Font")
   ;; (defvar ev/heading-font "Iosevka Aile")
 
@@ -2330,7 +2330,7 @@ Display org roam database as connected nodes in the browser.
 *** TODO Super Agenda
 
 - [ ] Install [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]
-
+  
 ** Denote
 
 Use denote for note-taking. Lots of this is copied from Prot's config.
