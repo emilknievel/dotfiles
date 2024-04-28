@@ -1463,8 +1463,7 @@ any directory proferred by `consult-dir'."
       "- %?")
      ("t" "New task" entry
       (file+headline org-default-notes-file "Tasks")
-      "* TODO %i%?"
-      :prepend t)))
+      "* TODO %i%?")))
   :config
   ;; Agenda
   (setq org-refile-targets
