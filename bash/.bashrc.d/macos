@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Exit early if not macos
+if [[ "$OSTYPE" != "darwin"* ]]; then
+  return
+fi
+
+if [ -z "$PS1" ]; then
+  return
+fi
+
+# PS1='\h:\W \u\$ '
+PS1="\[\e[38;5;10m\]\u\[\e[38;5;10m\]@\[\e[38;5;10m\]\h\[\033[0m\]:\[\e[38;5;12m\]\w\[\033[0m\]$ "
+
+# Make bash check its window size after a process completes
+shopt -s checkwinsize
+
+[ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
+
+export PATH="/opt/homebrew/bin:$PATH"
+# GNU utilities without "g" prefix. Replaces ls, cat, etc.
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+
+if type brew &>/dev/null
+then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+  then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+    do
+      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+    done
+  fi
+fi
+
+
+alias ls="ls --color"
+alias grep="grep --color"

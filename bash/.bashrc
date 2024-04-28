@@ -23,7 +23,7 @@ unset rc
 
 source "$HOME/.commonrc"
 
-eval $(ssh-agent -s) > /dev/null 2>&1
+eval "$(ssh-agent -s)" > /dev/null 2>&1
 
 # bash shell integration for emacs-eat
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
@@ -36,7 +36,3 @@ eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"
-. "$HOME/.cargo/env"
