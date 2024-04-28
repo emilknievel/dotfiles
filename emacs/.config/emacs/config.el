@@ -285,6 +285,18 @@
   (ev/clear-theme)
   (load-theme 'doom-solarized-dark t))
 
+(defun ev/rose-pine ()
+  "Clear previous theme and load rosé pine."
+  (interactive)
+  (ev/clear-theme)
+  (load-theme 'doom-rose-pine t))
+
+(defun ev/rose-pine-dawn ()
+  "Clear previous theme and load rosé pine dawn."
+  (interactive)
+  (ev/clear-theme)
+  (load-theme 'doom-rose-pine-dawn t))
+
 (use-package modus-themes
   :ensure t
   :init
@@ -331,9 +343,16 @@
 (defun ev/toggle-solarized ()
   "Toggle between light and dark solarized themes."
   (interactive)
-  (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-light)
-      (ev/solarized-dark)
-    (ev/solarized-light)))
+  (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-dark)
+      (ev/solarized-light)
+    (ev/solarized-dark)))
+
+(defun ev/toggle-rose-pine ()
+  "Toggle between light and dark Rosé Pine themes."
+  (interactive)
+  (if (eq (nth 0 custom-enabled-themes) 'doom-rose-pine)
+      (ev/rose-pine-dawn)
+    (ev/rose-pine)))
 
 (use-package doom-themes
   :ensure t
@@ -345,13 +364,14 @@
   (ev/solarized-light)
   (doom-themes-org-config)
   :general (ev/leader-key-map
-            "t t s" 'ev/toggle-solarized))
+            "t t s" 'ev/toggle-solarized
+            "t t r" 'ev/toggle-rose-pine))
 
 (use-package auto-dark
   :diminish
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-dark-theme 'doom-solarized-dark
+  (setq auto-dark-dark-theme 'doom-rose-pine
         auto-dark-light-theme 'doom-solarized-light)
   :config
   (add-hook 'auto-dark-dark-mode-hook
