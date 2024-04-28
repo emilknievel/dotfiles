@@ -1463,7 +1463,8 @@ any directory proferred by `consult-dir'."
       "- %?")
      ("t" "New task" entry
       (file+headline org-default-notes-file "Tasks")
-      "* TODO %i%?")))
+      "* TODO %i%?"
+      :prepend t)))
   :config
   ;; Agenda
   (setq org-refile-targets
@@ -1472,7 +1473,6 @@ any directory proferred by `consult-dir'."
   (setq org-refile-use-outline-path t)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-cache t)
-  (setq org-reverse-note-order t)
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
