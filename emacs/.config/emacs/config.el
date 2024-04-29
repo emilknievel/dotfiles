@@ -367,7 +367,7 @@
   (auto-dark-mode t))
 
 (defvar ev/linux-font "Source Code Pro")
-(defvar ev/macos-font "JetBrainsMono Nerd Font")
+(defvar ev/macos-font "Source Code Pro")
 ;; (defvar ev/heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
