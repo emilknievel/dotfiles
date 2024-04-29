@@ -5,6 +5,4 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   return
 fi
 
-. "$HOME/.asdf/completions/asdf.bash"
-. "$HOME/.asdf/asdf.sh"
 . "$HOME/.cargo/env"

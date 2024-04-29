@@ -21,6 +21,7 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# common configurations between shells
 source "$HOME/.commonrc"
 
 eval "$(ssh-agent -s)" > /dev/null 2>&1
@@ -35,4 +36,9 @@ test -r "$HOME/.opam/opam-init/init.sh" && . "$HOME/.opam/opam-init/init.sh" > /
 eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
 
+# fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# asdf
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
