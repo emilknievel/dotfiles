@@ -408,7 +408,7 @@
           ev/fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
-    (setq ev/variable-pitch-font-height 140
+    (setq ev/variable-pitch-font-height 130
           ev/variable-pitch-font-weight 'normal
           ev/variable-pitch-font-width 'normal
 
