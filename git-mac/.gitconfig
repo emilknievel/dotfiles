@@ -42,3 +42,5 @@
 	defaultBranch = main
 [rebase]
 	autosquash = true
+[rerere]
+	enabled = true
