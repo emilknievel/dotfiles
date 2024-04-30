@@ -408,7 +408,7 @@
           ev/fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
-    (setq ev/variable-pitch-font-height 130
+    (setq ev/variable-pitch-font-height 150
           ev/variable-pitch-font-weight 'normal
           ev/variable-pitch-font-width 'normal
 
@@ -416,7 +416,7 @@
           ev/editor-font-weight 'normal
           ev/editor-font-width 'normal
 
-          ev/fixed-pitch-font-height 130
+          ev/fixed-pitch-font-height 150
           ev/fixed-pitch-font-weight 'normal
           ev/fixed-pitch-font-width 'normal)
   (ev/setup-linux-fonts))
@@ -467,7 +467,7 @@
   (interactive)
   (set-face-attribute 'fixed-pitch nil
                       :family ev/editor-font
-                      :height ev/editor-font-height)
+                      :height ev/fixed-pitch-font-height)
 
   (set-face-attribute 'variable-pitch nil
                       :family ev/variable-pitch-font
@@ -497,8 +497,9 @@
   "font actions"
   ("l" global-ligature-mode "toggle ligatures")
   ("v" variable-pitch-mode "toggle variable pitch")
-  ("+" ev/increase-font-size "increase size")
-  ("-" ev/decrease-font-size "decrease size"))
+  ("=" ev/increase-font-size "increase size")
+  ("-" ev/decrease-font-size "decrease size")
+  ("0" ev/reset-fonts "reset fonts"))
 
 (custom-theme-set-faces
  'user
