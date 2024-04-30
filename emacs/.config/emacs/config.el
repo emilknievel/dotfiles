@@ -366,7 +366,7 @@
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
-(defvar ev/linux-font "Source Code Pro")
+(defvar ev/linux-font "Liberation Mono")
 (defvar ev/macos-font "Source Code Pro")
 ;; (defvar ev/heading-font "Iosevka Aile")
 
@@ -378,7 +378,7 @@
     (progn (defvar ev/default-font ev/editor-font)
            (defvar ev/variable-pitch-font "SF Pro Text"))
   (progn (defvar ev/default-font ev/editor-font)
-         (defvar ev/variable-pitch-font "Noto Sans")))
+         (defvar ev/variable-pitch-font "Droid Sans")))
 
 (defun ev/setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
@@ -395,16 +395,16 @@
             ev/fixed-pitch-font-weight 'normal
             ev/fixed-pitch-font-width 'normal)
 
-    (setq ev/variable-pitch-font-height 100
+    (setq ev/variable-pitch-font-height 110
           ev/variable-pitch-font-weight 'medium
           ev/variable-pitch-font-width 'normal
 
           ev/editor-font-height 100
-          ev/editor-font-weight 'medium
+          ev/editor-font-weight 'normal
           ev/editor-font-width 'normal
 
           ev/fixed-pitch-font-height 100
-          ev/fixed-pitch-font-weight 'medium
+          ev/fixed-pitch-font-weight 'normal
           ev/fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
