@@ -366,7 +366,7 @@
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
-(defvar ev/linux-font "Liberation Mono")
+(defvar ev/linux-font "Source Code Pro")
 (defvar ev/macos-font "Source Code Pro")
 ;; (defvar ev/heading-font "Iosevka Aile")
 
@@ -400,11 +400,11 @@
           ev/variable-pitch-font-width 'normal
 
           ev/editor-font-height 100
-          ev/editor-font-weight 'normal
+          ev/editor-font-weight 'medium
           ev/editor-font-width 'normal
 
           ev/fixed-pitch-font-height 100
-          ev/fixed-pitch-font-weight 'normal
+          ev/fixed-pitch-font-weight 'medium
           ev/fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)

@@ -609,7 +609,7 @@ Get rid of the annoying startup screen.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar ev/linux-font "Liberation Mono")
+  (defvar ev/linux-font "Source Code Pro")
   (defvar ev/macos-font "Source Code Pro")
   ;; (defvar ev/heading-font "Iosevka Aile")
 
@@ -647,11 +647,11 @@ Get rid of the annoying startup screen.
             ev/variable-pitch-font-width 'normal
 
             ev/editor-font-height 100
-            ev/editor-font-weight 'normal
+            ev/editor-font-weight 'medium
             ev/editor-font-width 'normal
 
             ev/fixed-pitch-font-height 100
-            ev/fixed-pitch-font-weight 'normal
+            ev/fixed-pitch-font-weight 'medium
             ev/fixed-pitch-font-width 'normal)))
 
   (if (eq system-type 'darwin)
