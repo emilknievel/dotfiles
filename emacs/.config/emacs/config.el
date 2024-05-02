@@ -660,11 +660,6 @@
   :config
   (doom-modeline-mode 1))
 
-(use-package spacious-padding
-  :config
-  (spacious-padding-mode 0)
-  (define-key global-map (kbd "<f8>") #'spacious-padding-mode))
-
 (add-hook 'prog-mode-hook 'hl-line-mode)
 (add-hook 'conf-mode-hook 'hl-line-mode)
 

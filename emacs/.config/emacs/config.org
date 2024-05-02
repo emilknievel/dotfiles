@@ -988,9 +988,9 @@ Display the current date and time on the mode line.
     (doom-modeline-mode 1))
 #+end_src
 
-*** Padding
+*** Padding (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package spacious-padding
     :config
     (spacious-padding-mode 0)
