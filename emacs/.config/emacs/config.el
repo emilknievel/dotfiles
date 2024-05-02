@@ -408,7 +408,7 @@
           ev/fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
-    (setq ev/variable-pitch-font-height 150
+    (setq ev/variable-pitch-font-height 140
           ev/variable-pitch-font-weight 'normal
           ev/variable-pitch-font-width 'normal
 
@@ -416,7 +416,7 @@
           ev/editor-font-weight 'normal
           ev/editor-font-width 'normal
 
-          ev/fixed-pitch-font-height 150
+          ev/fixed-pitch-font-height 130
           ev/fixed-pitch-font-weight 'normal
           ev/fixed-pitch-font-width 'normal)
   (ev/setup-linux-fonts))
