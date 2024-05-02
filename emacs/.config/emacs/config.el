@@ -1169,6 +1169,8 @@ parses its input."
           (lambda () (when (not (= display-fill-column-indicator-column 120))
                        (setq display-fill-column-indicator-column 120))))
 
+(use-package tuareg)
+
 ;; OCaml configuration
 ;;  - better error and backtrace matching
 
@@ -1532,7 +1534,8 @@ any directory proferred by `consult-dir'."
     (java       . t)
     (shell      . t)
     (plantuml   . t)
-    (lua        . t))
+    (lua        . t)
+    (ocaml      . t))
   "Alist of org ob languages.")
 (org-babel-do-load-languages 'org-babel-load-languages
                              load-language-alist)

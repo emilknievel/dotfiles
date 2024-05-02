@@ -1645,6 +1645,12 @@ Notable keymaps:
 
 *** OCaml
 
+Tuareg is a mode for Emacs that improves the OCaml editing experience.
+
+#+begin_src emacs-lisp
+  (use-package tuareg)
+#+end_src
+
 #+begin_src emacs-lisp
   ;; OCaml configuration
   ;;  - better error and backtrace matching
@@ -2319,7 +2325,8 @@ Display org roam database as connected nodes in the browser.
       (java       . t)
       (shell      . t)
       (plantuml   . t)
-      (lua        . t))
+      (lua        . t)
+      (ocaml      . t))
     "Alist of org ob languages.")
   (org-babel-do-load-languages 'org-babel-load-languages
                                load-language-alist)
