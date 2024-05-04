@@ -183,7 +183,7 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 general.el provides a more convenient, unified interface for binding keys in Emacs.
 Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
 
-Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:prefix-map 'ev/leader-key-map~.
+Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:prefix-map 'ev-leader-key-map~.
 Keymaps are actually using ~C-z~ now as leader because I'm giving pure emacs keybindings a shot.
 
 **** Preamble
@@ -200,7 +200,7 @@ Keymaps are actually using ~C-z~ now as leader because I'm giving pure emacs key
      ;; :keymaps '(normal insert emacs)
      :prefix "C-z"
      ;; :global-prefix "C-M-SPC"
-     :prefix-map 'ev/leader-key-map
+     :prefix-map 'ev-leader-key-map
 
      ;; Top level functions
      "SPC" '(execute-extended-command :wk "M-x")
@@ -235,21 +235,21 @@ Keymaps are actually using ~C-z~ now as leader because I'm giving pure emacs key
 **** Files
 
 #+begin_src emacs-lisp
-  (defun ev/reload-emacs-config ()
+  (defun ev-reload-emacs-config ()
     "Tangle org file and reload the emacs config."
     (interactive)
     (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
     (load-file (expand-file-name "config.el" user-emacs-directory)))
 
-  (defun ev/edit-emacs-config ()
+  (defun ev-edit-emacs-config ()
     "Edit Emacs literate config file."
     (interactive)
     (find-file (expand-file-name "config.org" user-emacs-directory)))
 
   (general-define-key
-   :prefix-map 'ev/leader-key-map
-   "f c r" 'ev/reload-emacs-config
-   "f c f" 'ev/edit-emacs-config
+   :prefix-map 'ev-leader-key-map
+   "f c r" 'ev-reload-emacs-config
+   "f c f" 'ev-edit-emacs-config
    "f f" 'find-file
    "f l" 'load-file
    "f s" 'save-buffer)
@@ -259,7 +259,7 @@ Keymaps are actually using ~C-z~ now as leader because I'm giving pure emacs key
 
 #+begin_src emacs-lisp
   (general-define-key
-   :prefix-map 'ev/leader-key-map
+   :prefix-map 'ev-leader-key-map
    ;; buffers
    "b" '(nil :wk "buffers")
    "b b" 'switch-to-buffer
@@ -274,7 +274,7 @@ Keymaps are actually using ~C-z~ now as leader because I'm giving pure emacs key
 
 #+begin_src emacs-lisp
   (general-define-key
-   :prefix-map 'ev/leader-key-map
+   :prefix-map 'ev-leader-key-map
    ;; help
    "h f" 'describe-function
    "h v" 'describe-variable
@@ -288,7 +288,7 @@ Keymaps are actually using ~C-z~ now as leader because I'm giving pure emacs key
 
 #+begin_src emacs-lisp
   (general-define-key
-   :prefix-map 'ev/leader-key-map
+   :prefix-map 'ev-leader-key-map
    ;; toggles
    "t v" '(visual-line-mode :wk "visual line mode")
    "t n" '(display-line-numbers-mode :wk "display line numbers")
@@ -299,20 +299,20 @@ Keymaps are actually using ~C-z~ now as leader because I'm giving pure emacs key
 
 #+begin_src emacs-lisp
   (general-define-key
-   :prefix-map 'ev/leader-key-map
+   :prefix-map 'ev-leader-key-map
    "u f v" 'variable-pitch-mode
-   "u f b" 'ev/big-font-size
-   "u f +" 'ev/increase-font-size
-   "u f -" 'ev/decrease-font-size
-   "u f r" 'ev/reading-font-setup
-   "u f 0" 'ev/reset-fonts)
+   "u f b" 'ev-big-font-size
+   "u f +" 'ev-increase-font-size
+   "u f -" 'ev-decrease-font-size
+   "u f r" 'ev-reading-font-setup
+   "u f 0" 'ev-reset-fonts)
 #+end_src
 
 **** Emacs Client
 
 #+begin_src emacs-lisp
   (general-define-key
-   :prefix-map 'ev/leader-key-map
+   :prefix-map 'ev-leader-key-map
    ;; emacsclient
    "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 #+end_src
@@ -334,7 +334,7 @@ Use Evil mode for Vim like bindings.
     (setq evil-want-C-u-scroll t)
     (setq evil-respect-visual-line-mode t) ; Make vertical movement respect wrapped lines
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "w" '(:keymap evil-window-map :wk "Window"))
     :config
     (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
@@ -396,7 +396,7 @@ Edit multiple occurrences in the same way simultaneously.
 #+begin_src emacs-lisp
   (use-package iedit
     :general
-    (ev/leader-key-map "e" 'iedit-mode))
+    (ev-leader-key-map "e" 'iedit-mode))
 #+end_src
 
 Integrate iedit with evil. [[https://github.com/syl20bnr/evil-iedit-state][Keybindings]] etc.
@@ -419,7 +419,7 @@ Increase selected region by /semantic units/.
 
 #+begin_src emacs-lisp
   (use-package expand-region
-    :general (ev/leader-key-map "=" 'er/expand-region))
+    :general (ev-leader-key-map "=" 'er/expand-region))
 #+end_src
 
 *** Vundo
@@ -430,7 +430,7 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 #+begin_src emacs-lisp
   (use-package vundo
-    :general (ev/leader-key-map "c u" 'vundo))
+    :general (ev-leader-key-map "c u" 'vundo))
 #+end_src
 
 *** Multiple cursors
@@ -489,33 +489,33 @@ Get rid of the annoying startup screen.
 **** Theme functions
 
 #+begin_src emacs-lisp
-  (defun ev/clear-theme ()
+  (defun ev-clear-theme ()
     "Clear current theme"
     (interactive)
     (mapc #'disable-theme custom-enabled-themes))
 
-  (defun ev/solarized-light ()
+  (defun ev-solarized-light ()
     "Clear previous theme and load solarized light"
     (interactive)
-    (ev/clear-theme)
+    (ev-clear-theme)
     (load-theme 'doom-solarized-light t))
 
-  (defun ev/solarized-dark ()
+  (defun ev-solarized-dark ()
     "Clear previous theme and load solarized dark"
     (interactive)
-    (ev/clear-theme)
+    (ev-clear-theme)
     (load-theme 'doom-solarized-dark t))
 
-  (defun ev/rose-pine ()
+  (defun ev-rose-pine ()
     "Clear previous theme and load rosé pine."
     (interactive)
-    (ev/clear-theme)
+    (ev-clear-theme)
     (load-theme 'doom-rose-pine t))
 
-  (defun ev/rose-pine-dawn ()
+  (defun ev-rose-pine-dawn ()
     "Clear previous theme and load rosé pine dawn."
     (interactive)
-    (ev/clear-theme)
+    (ev-clear-theme)
     (load-theme 'doom-rose-pine-dawn t))
 #+end_src
 
@@ -533,7 +533,7 @@ Get rid of the annoying startup screen.
             (fg-heading-1 blue-warmer)
             (fg-heading-2 yellow-cooler)
             (fg-heading-3 cyan-cooler)))
-    :general (ev/leader-key-map
+    :general (ev-leader-key-map
               "t t m" 'modus-themes-toggle))
 #+end_src
 
@@ -548,26 +548,26 @@ Get rid of the annoying startup screen.
           '((fringe unspecified)))
     (setq ef-themes-variable-pitch-ui nil)
     (setq ef-themes-to-toggle '(ef-dark ef-light))
-    :general (ev/leader-key-map
+    :general (ev-leader-key-map
               "t t e" 'ef-themes-toggle))
 #+end_src
 
 **** Doom
 
 #+begin_src emacs-lisp
-  (defun ev/toggle-solarized ()
+  (defun ev-toggle-solarized ()
     "Toggle between light and dark solarized themes."
     (interactive)
     (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-dark)
-        (ev/solarized-light)
-      (ev/solarized-dark)))
+        (ev-solarized-light)
+      (ev-solarized-dark)))
 
-  (defun ev/toggle-rose-pine ()
+  (defun ev-toggle-rose-pine ()
     "Toggle between light and dark Rosé Pine themes."
     (interactive)
     (if (eq (nth 0 custom-enabled-themes) 'doom-rose-pine)
-        (ev/rose-pine-dawn)
-      (ev/rose-pine)))
+        (ev-rose-pine-dawn)
+      (ev-rose-pine)))
 
   (use-package doom-themes
     :ensure t
@@ -576,11 +576,11 @@ Get rid of the annoying startup screen.
           doom-themes-enable-italic t)
     ;; (setq doom-themes-treemacs-theme "doom-atom")
     ;; (doom-themes-treemacs-config)
-    (ev/solarized-light)
+    (ev-solarized-light)
     (doom-themes-org-config)
-    :general (ev/leader-key-map
-              "t t s" 'ev/toggle-solarized
-              "t t r" 'ev/toggle-rose-pine))
+    :general (ev-leader-key-map
+              "t t s" 'ev-toggle-solarized
+              "t t r" 'ev-toggle-rose-pine))
 #+end_src
 
 **** Auto-Dark for Emacs
@@ -595,11 +595,11 @@ Get rid of the annoying startup screen.
     :config
     (add-hook 'auto-dark-dark-mode-hook
               (lambda ()
-                (ev/clear-theme)
+                (ev-clear-theme)
                 (load-theme auto-dark-dark-theme t nil)))
     (add-hook 'auto-dark-light-mode-hook
               (lambda ()
-                (ev/clear-theme)
+                (ev-clear-theme)
                 (load-theme auto-dark-light-theme t nil)))
     (auto-dark-mode t))
 #+end_src
@@ -609,83 +609,83 @@ Get rid of the annoying startup screen.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar ev/linux-font "Source Code Pro")
-  (defvar ev/macos-font "IntoneMono Nerd Font")
-  ;; (defvar ev/heading-font "Iosevka Aile")
+  (defvar ev-linux-font "Source Code Pro")
+  (defvar ev-macos-font "CaskaydiaCove Nerd Font")
+  ;; (defvar ev-heading-font "Iosevka Aile")
 
   (if (eq system-type 'darwin)
-      (defvar ev/editor-font ev/macos-font)
-    (defvar ev/editor-font ev/linux-font))
+      (defvar ev-editor-font ev-macos-font)
+    (defvar ev-editor-font ev-linux-font))
 
   (if (eq system-type 'darwin)
-      (progn (defvar ev/default-font ev/editor-font)
-             (defvar ev/variable-pitch-font "SF Pro Text"))
-    (progn (defvar ev/default-font ev/editor-font)
-           (defvar ev/variable-pitch-font "Droid Sans")))
+      (progn (defvar ev-default-font ev-editor-font)
+             (defvar ev-variable-pitch-font "SF Pro Text"))
+    (progn (defvar ev-default-font ev-editor-font)
+           (defvar ev-variable-pitch-font "Droid Sans")))
 #+end_src
 
 **** Setup editor fonts
 
 #+begin_src emacs-lisp
-  (defun ev/setup-linux-fonts ()
+  (defun ev-setup-linux-fonts ()
     "Separate setups for fonts in WSL and regular GNU/Linux."
     (if (getenv "WSL_DISTRO_NAME")
-        (setq ev/variable-pitch-font-height 170
-              ev/variable-pitch-font-weight 'normal
-              ev/variable-pitch-font-width 'normal
+        (setq ev-variable-pitch-font-height 170
+              ev-variable-pitch-font-weight 'normal
+              ev-variable-pitch-font-width 'normal
 
-              ev/editor-font-height 170
-              ev/editor-font-weight 'normal
-              ev/editor-font-width 'normal
+              ev-editor-font-height 170
+              ev-editor-font-weight 'normal
+              ev-editor-font-width 'normal
 
-              ev/fixed-pitch-font-height 170
-              ev/fixed-pitch-font-weight 'normal
-              ev/fixed-pitch-font-width 'normal)
+              ev-fixed-pitch-font-height 170
+              ev-fixed-pitch-font-weight 'normal
+              ev-fixed-pitch-font-width 'normal)
 
-      (setq ev/variable-pitch-font-height 110
-            ev/variable-pitch-font-weight 'medium
-            ev/variable-pitch-font-width 'normal
+      (setq ev-variable-pitch-font-height 110
+            ev-variable-pitch-font-weight 'medium
+            ev-variable-pitch-font-width 'normal
 
-            ev/editor-font-height 100
-            ev/editor-font-weight 'medium
-            ev/editor-font-width 'normal
+            ev-editor-font-height 100
+            ev-editor-font-weight 'medium
+            ev-editor-font-width 'normal
 
-            ev/fixed-pitch-font-height 100
-            ev/fixed-pitch-font-weight 'medium
-            ev/fixed-pitch-font-width 'normal)))
+            ev-fixed-pitch-font-height 100
+            ev-fixed-pitch-font-weight 'medium
+            ev-fixed-pitch-font-width 'normal)))
 
   (if (eq system-type 'darwin)
-      (setq ev/variable-pitch-font-height 140
-            ev/variable-pitch-font-weight 'normal
-            ev/variable-pitch-font-width 'normal
+      (setq ev-variable-pitch-font-height 140
+            ev-variable-pitch-font-weight 'normal
+            ev-variable-pitch-font-width 'normal
 
-            ev/editor-font-height 130
-            ev/editor-font-weight 'normal
-            ev/editor-font-width 'normal
+            ev-editor-font-height 130
+            ev-editor-font-weight 'normal
+            ev-editor-font-width 'normal
 
-            ev/fixed-pitch-font-height 130
-            ev/fixed-pitch-font-weight 'normal
-            ev/fixed-pitch-font-width 'normal)
-    (ev/setup-linux-fonts))
+            ev-fixed-pitch-font-height 130
+            ev-fixed-pitch-font-weight 'normal
+            ev-fixed-pitch-font-width 'normal)
+    (ev-setup-linux-fonts))
 
   (set-face-attribute 'default nil
-                      :family ev/editor-font
-                      :weight ev/editor-font-weight
-                      :width ev/editor-font-width
-                      :height ev/editor-font-height)
+                      :family ev-editor-font
+                      :weight ev-editor-font-weight
+                      :width ev-editor-font-width
+                      :height ev-editor-font-height)
   (set-face-attribute 'fixed-pitch nil
-                      :family ev/editor-font
-                      :weight ev/fixed-pitch-font-weight
-                      :width ev/fixed-pitch-font-width
-                      :height ev/fixed-pitch-font-height)
+                      :family ev-editor-font
+                      :weight ev-fixed-pitch-font-weight
+                      :width ev-fixed-pitch-font-width
+                      :height ev-fixed-pitch-font-height)
   (set-face-attribute 'variable-pitch nil
-                      :family ev/variable-pitch-font
-                      :weight ev/variable-pitch-font-weight
-                      :width ev/variable-pitch-font-width
-                      :height ev/variable-pitch-font-height)
+                      :family ev-variable-pitch-font
+                      :weight ev-variable-pitch-font-weight
+                      :width ev-variable-pitch-font-width
+                      :height ev-variable-pitch-font-height)
   ;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
-  (defun ev/big-font-size ()
+  (defun ev-big-font-size ()
     "Increase font height by a bigger amount."
     (interactive)
     (set-face-attribute 'fixed-pitch nil
@@ -693,7 +693,7 @@ Get rid of the annoying startup screen.
     (set-face-attribute 'variable-pitch nil
                         :height (+ (face-attribute 'variable-pitch :height) 30)))
 
-  (defun ev/increase-font-size ()
+  (defun ev-increase-font-size ()
     "Increase font height in steps of 10."
     (interactive)
     (set-face-attribute 'fixed-pitch nil
@@ -701,7 +701,7 @@ Get rid of the annoying startup screen.
     (set-face-attribute 'variable-pitch nil
                         :height (+ (face-attribute 'variable-pitch :height) 10)))
 
-  (defun ev/decrease-font-size ()
+  (defun ev-decrease-font-size ()
     "Decrease font height in steps of 10."
     (interactive)
     (set-face-attribute 'fixed-pitch nil
@@ -709,44 +709,44 @@ Get rid of the annoying startup screen.
     (set-face-attribute 'variable-pitch nil
                         :height (- (face-attribute 'variable-pitch :height) 10)))
 
-  (defun ev/reset-fonts ()
+  (defun ev-reset-fonts ()
     "Reset font settings to base values."
     (interactive)
     (set-face-attribute 'fixed-pitch nil
-                        :family ev/editor-font
-                        :height ev/fixed-pitch-font-height)
+                        :family ev-editor-font
+                        :height ev-fixed-pitch-font-height)
 
     (set-face-attribute 'variable-pitch nil
-                        :family ev/variable-pitch-font
-                        :height ev/variable-pitch-font-height)
+                        :family ev-variable-pitch-font
+                        :height ev-variable-pitch-font-height)
     (set-face-attribute 'default nil
-                        :family ev/editor-font
-                        :height ev/editor-font-height))
+                        :family ev-editor-font
+                        :height ev-editor-font-height))
 
-  (defun ev/reading-font-setup ()
+  (defun ev-reading-font-setup ()
     "Font settings for reading prose."
     (interactive)
     (if (eq system-type 'darwin)
         (set-face-attribute 'variable-pitch nil
-                            :family "New York"
+                            :family "Source Serif 4"
                             :height (face-attribute 'variable-pitch :height))
       (set-face-attribute 'variable-pitch nil
                           :family "Noto Serif"
                           :height (face-attribute 'variable-pitch :height)))
     (set-face-attribute 'default nil
-                        :family ev/editor-font
+                        :family ev-editor-font
                         :height (face-attribute 'fixed-pitch :height))
     (set-face-attribute 'fixed-pitch nil
-                        :family ev/editor-font
+                        :family ev-editor-font
                         :height (face-attribute 'fixed-pitch :height)))
 
   (defhydra hydra-font-actions (global-map "C-z u f")
     "font actions"
     ("l" global-ligature-mode "toggle ligatures")
     ("v" variable-pitch-mode "toggle variable pitch")
-    ("=" ev/increase-font-size "increase size")
-    ("-" ev/decrease-font-size "decrease size")
-    ("0" ev/reset-fonts "reset fonts"))
+    ("=" ev-increase-font-size "increase size")
+    ("-" ev-decrease-font-size "decrease size")
+    ("0" ev-reset-fonts "reset fonts"))
 #+end_src
 
 **** Custom faces
@@ -818,7 +818,7 @@ Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts
     (ligature-set-ligatures 'prog-mode liga)
     (ligature-set-ligatures 'org-mode liga)
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "u f l" 'global-ligature-mode))
 #+end_src
 
@@ -827,12 +827,12 @@ Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts
 Show column indicator at column 80.
 
 #+begin_src emacs-lisp
-  (defun ev/show-column-guide ()
+  (defun ev-show-column-guide ()
     "Show a vertical column guide."
     (setq display-fill-column-indicator-column 80)
     (display-fill-column-indicator-mode))
 
-  (add-hook 'prog-mode-hook #'ev/show-column-guide)
+  (add-hook 'prog-mode-hook #'ev-show-column-guide)
 #+end_src
 
 *** Display line numbers
@@ -840,7 +840,7 @@ Show column indicator at column 80.
 Hooks for relative and absolute line numbers.
 
 #+begin_src emacs-lisp
-  (defun ev/display-set-relative ()
+  (defun ev-display-set-relative ()
     "Setup for relative line numbers."
     (interactive)
     (if (not (or (eq major-mode 'org-mode)
@@ -850,7 +850,7 @@ Hooks for relative and absolute line numbers.
         (setq display-line-numbers 'visual)
       (setq display-line-numbers nil)))
 
-  (defun ev/display-set-absolute ()
+  (defun ev-display-set-absolute ()
     "Setup for absolute line numbers."
     (interactive)
     (if (not (or (eq major-mode 'org-mode)
@@ -860,7 +860,7 @@ Hooks for relative and absolute line numbers.
         (setq display-line-numbers t)
       (setq display-line-numbers nil)))
 
-  (defun ev/display-set-hidden ()
+  (defun ev-display-set-hidden ()
     "Hide line numbers."
     (interactive)
     (setq display-line-numbers nil))
@@ -881,10 +881,10 @@ Turn on line numbers for program and configuration modes.
                                                        nil
                                                        :background 'unspecified)))
     :general
-    (ev/leader-key-map
-     "u l h" 'ev/display-set-hidden
-     "u l r" 'ev/display-set-relative
-     "u l a" 'ev/display-set-absolute))
+    (ev-leader-key-map
+     "u l h" 'ev-display-set-hidden
+     "u l r" 'ev-display-set-relative
+     "u l a" 'ev-display-set-absolute))
 #+end_src
 
 *** Whitespace
@@ -1411,7 +1411,7 @@ Install grammars from treesit-language-source-alist with ~(mapc #'treesit-instal
 Call e.g. ~treesit-language-available-p 'python~ to determine if grammar is available for the language.
 
 #+begin_src emacs-lisp
-  (defun ev/install-ts-grammars ()
+  (defun ev-install-ts-grammars ()
     "Install grammars for tree-sitter from treesit-language-source-alist."
     (interactive)
     (mapc #'treesit-install-language-grammar
@@ -1703,7 +1703,7 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
     (setq magit-bury-buffer-function
           #'magit-restore-window-configuration)
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "g g" 'magit-status))
 #+end_src
 
@@ -1744,8 +1744,8 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
                              ("integration" "integration/*")
                              (:exclude ".dir-locals.el" "*-tests.el")))
     :general
-    (ev/leader-key-map "` e" 'eshell)
-    (ev/leader-key-map "` a" 'eat)
+    (ev-leader-key-map "` e" 'eshell)
+    (ev-leader-key-map "` a" 'eat)
     :custom
     (eat-term-name "xterm-256color")
     (eat-kill-buffer-on-exit t)
@@ -1758,7 +1758,7 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 #+begin_src emacs-lisp
   (use-package project
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
     :straight (:type built-in))
 #+end_src
@@ -1773,7 +1773,7 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
   (use-package dired
     :straight (:type built-in)
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "d d" 'dired
      "d j" '(dired-jump :wk "dired jump"))
     :config
@@ -1806,7 +1806,7 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
 #+begin_src emacs-lisp
   (use-package treemacs
     :defer t
-    :general (ev/leader-key-map "f e" 'treemacs))
+    :general (ev-leader-key-map "f e" 'treemacs))
 
   (use-package treemacs-evil
     :after (treemacs evil))
@@ -1869,7 +1869,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
   ;; Example configuration for Consult
   (use-package consult
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "s g" 'consult-git-grep
      "s s" 'consult-ripgrep
      "s l" 'consult-line
@@ -2048,7 +2048,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
     ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
     ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
     (org-agenda-mode . hl-line-mode)
-    :general (ev/leader-key-map "o b t" 'org-babel-tangle))
+    :general (ev-leader-key-map "o b t" 'org-babel-tangle))
 #+end_src
 
 *** Org Modern
@@ -2074,7 +2074,7 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
   (use-package olivetti
     :diminish
     :general
-    (ev/leader-key-map "u o" 'olivetti-mode)
+    (ev-leader-key-map "u o" 'olivetti-mode)
     :init
     (setq olivetti-body-width 120
           olivetti-minimum-body-width 72)
@@ -2162,7 +2162,7 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
     (("C-c n l" . org-roam-buffer-toggle) ; Backlinks buffer
      ("C-c n f" . org-roam-node-find)
      ("C-c n i" . org-roam-node-insert)
-     ("C-c n I" . ev/org-roam-node-insert-immediate)
+     ("C-c n I" . ev-org-roam-node-insert-immediate)
      :map org-mode-map
      ("C-M-i" . completion-at-point)
      :map org-roam-dailies-map
@@ -2171,7 +2171,7 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
     :bind-keymap
     ("C-c n d" . org-roam-dailies-map)
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "n r r" 'org-roam-buffer-toggle
      "n r f" 'org-roam-node-find
      "n r i" 'org-roam-node-insert)
@@ -2185,7 +2185,7 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 **** Org agenda hacks (disabled)
 
 #+begin_src emacs-lisp :tangle no
-  (defun ev/org-roam-node-insert-immediate (arg &rest args)
+  (defun ev-org-roam-node-insert-immediate (arg &rest args)
     "Fast node insertion based on first item in org-roam-capture-templates"
     (interactive "P")
     (let ((args (cons arg args))
@@ -2193,48 +2193,48 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
                                                     '(:immediate-finish t)))))
       (apply #'org-roam-node-insert args)))
 
-  (defun ev/org-roam-filter-by-tag (tag-name)
+  (defun ev-org-roam-filter-by-tag (tag-name)
     (lambda (node)
       (member tag-name (org-roam-node-tags node))))
 
-  (defun ev/org-roam-list-notes-by-tag (tag-name)
+  (defun ev-org-roam-list-notes-by-tag (tag-name)
     (cl-remove-duplicates
      (mapcar
       #'org-roam-node-file
-      (seq-filter (ev/org-roam-filter-by-tag tag-name) (org-roam-node-list)))
+      (seq-filter (ev-org-roam-filter-by-tag tag-name) (org-roam-node-list)))
      :test #'string=))
 
-  (defun ev/org-roam-refresh-agenda-list ()
+  (defun ev-org-roam-refresh-agenda-list ()
     (interactive)
-    (setq org-agenda-files (ev/org-roam-list-notes-by-tag "project")))
+    (setq org-agenda-files (ev-org-roam-list-notes-by-tag "project")))
 
-  (ev/org-roam-refresh-agenda-list)
+  (ev-org-roam-refresh-agenda-list)
 #+end_src
 
 **** Select notes based on tag (disabled)
 
 #+begin_src emacs-lisp :tangle no
-  (defun ev/org-roam-project-finalize-hook ()
+  (defun ev-org-roam-project-finalize-hook ()
     "Adds the captured project file to `org-agenda-files' if the
     capture was not aborted."
     ;; Remove the hook since it was added temporarily
-    (remove-hook 'org-capture-after-finalize-hook #'ev/org-roam-project-finalize-hook)
+    (remove-hook 'org-capture-after-finalize-hook #'ev-org-roam-project-finalize-hook)
 
     ;; Add project file to the agenda list if the capture was confirmed
     (unless org-note-abort
       (with-current-buffer (org-capture-get :buffer)
         (add-to-list 'org-agenda-files (buffer-file-name)))))
 
-  (defun ev/org-roam-find-project ()
+  (defun ev-org-roam-find-project ()
     (interactive)
     ;; Add the project file to the agenda after capture is finished
-    (add-hook 'org-capture-after-finalize-hook #'ev/org-roam-project-finalize-hook)
+    (add-hook 'org-capture-after-finalize-hook #'ev-org-roam-project-finalize-hook)
 
     ;; Select a project file to open, creating it if necessary
     (org-roam-node-find
      nil
      nil
-     (ev/org-roam-filter-by-tag "project")
+     (ev-org-roam-filter-by-tag "project")
      nil
      :templates
      '(("p" "project" plain
@@ -2243,7 +2243,7 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
                            "#+title: ${title}\n#+category: ${title}\n#+filetags: :project:")
         :unnarrowed t))))
 
-  (global-set-key (kbd "C-c n p") #'ev/org-roam-find-project)
+  (global-set-key (kbd "C-c n p") #'ev-org-roam-find-project)
 #+end_src
 
 **** Custom capture tasks (disabled)
@@ -2251,28 +2251,28 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
 Quickly capture new notes and tasks for later review in the ~Inbox.org~ file.
 
 #+begin_src emacs-lisp :tangle no
-  (defun ev/org-roam-capture-inbox ()
+  (defun ev-org-roam-capture-inbox ()
     "Capture a note into inbox."
     (interactive)
     (org-roam-capture- :node (org-roam-node-create)
                        :templates '(("i" "inbox" plain "* %?"
                                      :if-new (file+head "inbox.org" "#+title: Inbox\n")))))
 
-  (global-set-key (kbd "C-c n x") #'ev/org-roam-capture-inbox)
+  (global-set-key (kbd "C-c n x") #'ev-org-roam-capture-inbox)
 #+end_src
 
 Capture a task directly into a specific project.
 
 #+begin_src emacs-lisp :tangle no
-  (defun ev/org-roam-capture-task ()
+  (defun ev-org-roam-capture-task ()
     (interactive)
     ;; Add the project file to the agenda after capture is finished
-    (add-hook 'org-capture-after-finalize-hook #'ev/org-roam-project-finalize-hook)
+    (add-hook 'org-capture-after-finalize-hook #'ev-org-roam-project-finalize-hook)
 
     ;; Capture the new task, creating the project file if necessary
     (org-roam-capture- :node (org-roam-node-read
                               nil
-                              (ev/org-roam-filter-by-tag "project"))
+                              (ev-org-roam-filter-by-tag "project"))
                        :templates
                        '(("p" "project" plain "** TODO %?"
                           :if-new
@@ -2280,7 +2280,7 @@ Capture a task directly into a specific project.
                                          "#+title: ${title}\n#+category: ${title}\n#+filetags: project"
                                          ("Tasks"))))))
 
-  (global-set-key (kbd "C-c n t") #'ev/org-roam-capture-task)
+  (global-set-key (kbd "C-c n t") #'ev-org-roam-capture-task)
 #+end_src
 
 *** org-roam-ui (disabled)
@@ -2497,7 +2497,7 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
     :mode
     ("\\.epub\\'" . nov-mode)
     :config
-    (defun ev/nov-mode-setup ()
+    (defun ev-nov-mode-setup ()
       "Tweak nov-mode to our liking."
       (setq-local line-spacing 0.2
                   next-screen-context-lines 4
@@ -2509,12 +2509,12 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
         (visual-fill-column-mode 1))
       (when (featurep 'hl-line-mode)
         (hl-line-mode -1))
-      (ev/reading-font-setup)
+      (ev-reading-font-setup)
       (olivetti-mode)
       ;; Re-render with new display settings
       (nov-render-document))
     :hook
-    (nov-mode . ev/nov-mode-setup))
+    (nov-mode . ev-nov-mode-setup))
 #+end_src
 
 *** Org-noter
@@ -2562,7 +2562,7 @@ Package repo.
      ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "E E" 'embark-act
      "E h B" 'embark-bindings)
 
@@ -2606,7 +2606,7 @@ Copilot.el is an Emacs plugin for GitHub Copilot.
     (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
     (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
     (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
-    :general (ev/leader-key-map
+    :general (ev-leader-key-map
               "a c m" 'copilot-mode
               "a c n" 'copilot-next-completion
               "a c p" 'copilot-previous-completion))
@@ -2627,7 +2627,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
                                   :stream t
                                   :models '("mistral:latest" "codegemma:latest" "llama3:latest")))
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "a a" 'gptel
      "a g" 'gptel-menu
      "a s" 'gptel-send))
@@ -2641,7 +2641,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
            ("M-`"   . popper-cycle)
            ("C-M-`" . popper-toggle-type))
     :init
-    (defun ev/popper-window-height (window)
+    (defun ev-popper-window-height (window)
       "Make popper windows cover 1/2 of frame height."
       (fit-window-to-buffer
        window
@@ -2660,7 +2660,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
             "^\\*vterm.*\\*$"  vterm-mode  ; vterm as a popup
             "^\\*eat.*\\*$"    eat-mode    ; eat as a popup
             )
-          popper-window-height #'ev/popper-window-height)
+          popper-window-height #'ev-popper-window-height)
     (popper-mode +1)
     (popper-echo-mode +1)) ; For echo area hints
 #+end_src
@@ -2668,7 +2668,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
 ** Insert timestamp at point
 
 #+begin_src emacs-lisp
-  (defun ev/insert-timestamp ()
+  (defun ev-insert-timestamp ()
     "Insert timestamp with format [%H:%M] at point."
     (interactive)
     (insert (format-time-string "[%H:%M]")))
@@ -2681,7 +2681,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
 #+begin_src emacs-lisp
   (use-package devdocs
     :init
-    (defun ev/devdocs-lookup-thing-at-point ()
+    (defun ev-devdocs-lookup-thing-at-point ()
       "Look up definition of thing at point, using Devdocs."
       (interactive)
       (devdocs-lookup nil (thing-at-point 'symbol t)))
@@ -2697,11 +2697,11 @@ GPTel allows us to talk with different LLMs from within Emacs.
      (vue-ts-mode
       . (lambda () (setq-local devdocs-current-docs '("vue~3" "javascript" "typescript")))))
     :general
-    (ev/leader-key-map
+    (ev-leader-key-map
      "h d l" 'devdocs-lookup
      "h d p" 'devdocs-peruse
      "h d i" 'devdocs-install
-     "h d d" 'ev/devdocs-lookup-thing-at-point))
+     "h d d" 'ev-devdocs-lookup-thing-at-point))
 #+end_src
 
 ** TODOs
