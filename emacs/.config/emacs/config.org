@@ -2589,11 +2589,11 @@ Package repo.
 
 ** AI
 
-*** Copilot
+*** Copilot (disabled)
 
 Copilot.el is an Emacs plugin for GitHub Copilot.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package copilot
     :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
     :hook
