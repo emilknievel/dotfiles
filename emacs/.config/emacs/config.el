@@ -444,7 +444,9 @@
   (set-face-attribute 'fixed-pitch nil
                       :height (+ (face-attribute 'fixed-pitch :height) 30))
   (set-face-attribute 'variable-pitch nil
-                      :height (+ (face-attribute 'variable-pitch :height) 30)))
+                      :height (+ (face-attribute 'variable-pitch :height) 30))
+  (set-face-attribute 'default nil
+                      :height (+ (face-attribute 'default :height) 30)))
 
 (defun ev-increase-font-size ()
   "Increase font height in steps of 10."
@@ -452,7 +454,9 @@
   (set-face-attribute 'fixed-pitch nil
                       :height (+ (face-attribute 'fixed-pitch :height) 10))
   (set-face-attribute 'variable-pitch nil
-                      :height (+ (face-attribute 'variable-pitch :height) 10)))
+                      :height (+ (face-attribute 'variable-pitch :height) 10))
+  (set-face-attribute 'default nil
+                      :height (+ (face-attribute 'default :height) 10)))
 
 (defun ev-decrease-font-size ()
   "Decrease font height in steps of 10."
@@ -460,7 +464,9 @@
   (set-face-attribute 'fixed-pitch nil
                       :height (- (face-attribute 'fixed-pitch :height) 10))
   (set-face-attribute 'variable-pitch nil
-                      :height (- (face-attribute 'variable-pitch :height) 10)))
+                      :height (- (face-attribute 'variable-pitch :height) 10))
+  (set-face-attribute 'default nil
+                      :height (- (face-attribute 'default :height) 10)))
 
 (defun ev-reset-fonts ()
   "Reset font settings to base values."
@@ -481,14 +487,14 @@
   (interactive)
   (if (eq system-type 'darwin)
       (set-face-attribute 'variable-pitch nil
-                          :family "Source Serif 4"
+                          :family "Georgia"
                           :height (face-attribute 'variable-pitch :height))
     (set-face-attribute 'variable-pitch nil
                         :family "Noto Serif"
                         :height (face-attribute 'variable-pitch :height)))
   (set-face-attribute 'default nil
                       :family ev-editor-font
-                      :height (face-attribute 'fixed-pitch :height))
+                      :height (face-attribute 'default :height))
   (set-face-attribute 'fixed-pitch nil
                       :family ev-editor-font
                       :height (face-attribute 'fixed-pitch :height)))
@@ -537,9 +543,10 @@
  `(markdown-header-face-8 ((t (:inherit org-level-8))))
  `(org-meta-line ((t :inherit fixed-pitch)))
  `(org-drawer ((t :inherit fixed-pitch)))
- `(org-document-title ((t (:inherit variable-pitch))))
- `(org-document-info ((t (:inherit variable-pitch))))
- `(org-table ((t (:inherit fixed-pitch)))))
+ ;; `(org-document-title ((t (:inherit variable-pitch))))
+ ;; `(org-document-info ((t (:inherit variable-pitch))))
+ `(org-table ((t (:inherit fixed-pitch))))
+ `(org-quote ((t :inherit italic))))
 
 (use-package ligature
   :straight
@@ -1438,7 +1445,7 @@ any directory proferred by `consult-dir'."
   :custom
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
-  (org-fontify-quote-and-verse-blocks nil)
+  (org-fontify-quote-and-verse-blocks t)
   (org-image-actual-width '(300))
   (org-pretty-entities t)
   (org-auto-align-tags nil)
