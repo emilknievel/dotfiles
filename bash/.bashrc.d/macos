@@ -11,7 +11,6 @@ fi
 
 # PS1='\h:\W \u\$ '
 PS1="\[\e[38;5;10m\]\u\[\e[38;5;10m\]@\[\e[38;5;10m\]\h\[\033[0m\]:\[\e[38;5;12m\]\w\[\033[0m\]$ "
-PS1='$(printf "%$((`tput cols`-1))s\r")'$PS1 # ensure prompt on next line after output
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
