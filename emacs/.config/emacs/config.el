@@ -395,7 +395,7 @@
             ev-fixed-pitch-font-weight 'normal
             ev-fixed-pitch-font-width 'normal)
 
-    (setq ev-variable-pitch-font-height 110
+    (setq ev-variable-pitch-font-height 100
           ev-variable-pitch-font-weight 'normal
           ev-variable-pitch-font-width 'normal
 
@@ -1258,6 +1258,9 @@ parses its input."
   (dired-listing-switches "-aBhl --group-directories-first"))
 
 (use-package dired-single)
+
+(use-package casual-dired
+  :bind (:map dired-mode-map ("C-o" . 'casual-dired-tmenu)))
 
 (use-package dired-hide-dotfiles)
 ;; :config
