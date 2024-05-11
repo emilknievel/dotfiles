@@ -297,6 +297,12 @@
   (ev-clear-theme)
   (load-theme 'doom-rose-pine-dawn t))
 
+(defun ev-doom-one ()
+  "Clear previous theme and load doom-one."
+  (interactive)
+  (ev-clear-theme)
+  (load-theme 'doom-one t))
+
 (use-package modus-themes
   :ensure t
   :init
