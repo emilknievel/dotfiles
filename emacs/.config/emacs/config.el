@@ -992,7 +992,8 @@ parses its input."
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
-(use-package eglot)
+(use-package eglot
+  :general (ev-leader-key-map "c a" 'eglot-code-actions))
 
 (use-package flycheck-eglot
   :ensure t
