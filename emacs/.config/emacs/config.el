@@ -254,10 +254,10 @@
 (setopt confirm-kill-emacs 'y-or-n-p)
 
 (when (eq system-type 'darwin)
-  (use-package ns-auto-titlebar
-    :demand t
-    :config (ns-auto-titlebar-mode))
-  (setq ns-use-proxy-icon nil
+  ;; (use-package ns-auto-titlebar
+  ;;   :demand t
+  ;;   :config (ns-auto-titlebar-mode))
+  (setq ns-use-proxy-icon t
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
         frame-resize-pixelwise t
