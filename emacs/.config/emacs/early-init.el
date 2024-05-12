@@ -44,4 +44,5 @@
 
 (load-theme 'wheatgrass t nil)
 
+(load-file "~/.private.el")
 ;;; early-init.el ends here

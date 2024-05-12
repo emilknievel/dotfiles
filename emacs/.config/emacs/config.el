@@ -98,7 +98,7 @@
 (use-package gnutls
   :defer t
   :custom
-  (gnutls-verify-error t))
+  (gnutls-verify-error nil))
 
 (use-package auth-source-1password
   :config (auth-source-1password-enable))
@@ -552,7 +552,8 @@
  ;; `(org-document-title ((t (:inherit variable-pitch))))
  ;; `(org-document-info ((t (:inherit variable-pitch))))
  `(org-table ((t (:inherit fixed-pitch))))
- `(org-quote ((t :inherit italic))))
+ `(org-quote ((t :inherit italic)))
+ `(circe-originator-face ((t (:inherit bold)))))
 
 (use-package ligature
   :straight
@@ -1846,3 +1847,50 @@ any directory proferred by `consult-dir'."
 
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "S-<f5>") 'recompile)
+
+(use-package circe
+  :init
+  (defun ev-circe-set-margin ()
+    (setq left-margin-width 5))
+  (setq lui-logging-directory "~/.circe-logs.d")
+  :config
+  (require 'circe-chanop)
+  (require 'circe-lagmon)
+  (ignore-errors
+    (require 'circe-rainbow)
+    (require 'circe-probe))
+  (require 'circe-color-nicks)
+  (require 'circe-new-day-notifier)
+  (require 'lui-irc-colors)
+  (require 'circe-display-images)
+
+  (setq circe-network-options
+        `(("ZNC: Libera"
+           :tls t
+           :host ,libera-host
+           :port 1337
+           :user ,libera-user
+           :pass ,libera-pass
+           :logging t)))
+
+  (setq circe-reduce-lurker-spam t)
+  (setq circe-format-say "{nick} {body}")
+
+  (setq lui-time-stamp-position 'left-margin
+        lui-time-stamp-format "%H:%M")
+
+  (add-hook 'lui-mode-hook 'ev-circe-set-margin)
+
+  ;; (setq circe-color-nicks-everywhere t)
+  (enable-circe-color-nicks)
+  (enable-circe-display-images)
+  (enable-circe-new-day-notifier)
+
+  (add-to-list 'lui-pre-output-hook 'lui-irc-colors)
+
+  (defun circe-command-ZNC (what)
+    "Send a message to ZNC incorporated by user '*status'."
+    (circe-command-MSG "*status" what))
+
+  (setq lui-track-bar-behavior 'before-switch-to-buffer)
+  :hook (lui-mode . enable-lui-track-bar))
