@@ -615,7 +615,7 @@ Get rid of the annoying startup screen.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar ev-linux-font "DejaVu Sans Mono")
+  (defvar ev-linux-font "Noto Sans Mono")
   (defvar ev-macos-font "Menlo")
   ;; (defvar ev-heading-font "Iosevka Aile")
 
@@ -627,7 +627,7 @@ Get rid of the annoying startup screen.
       (progn (defvar ev-default-font ev-editor-font)
              (defvar ev-variable-pitch-font "SF Pro Text"))
     (progn (defvar ev-default-font ev-editor-font)
-           (defvar ev-variable-pitch-font "Inter")))
+           (defvar ev-variable-pitch-font "Noto Sans")))
 #+end_src
 
 **** Setup editor fonts
@@ -2360,7 +2360,7 @@ Display org roam database as connected nodes in the browser.
   
 ** Denote
 
-Use denote for note-taking. Lots of this is copied from Prot's config.
+Use denote for note-taking. Most of this is copied from Prot's config.
 
 #+begin_src emacs-lisp
   (use-package denote

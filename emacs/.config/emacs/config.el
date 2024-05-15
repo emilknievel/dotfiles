@@ -372,7 +372,7 @@
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
-(defvar ev-linux-font "DejaVu Sans Mono")
+(defvar ev-linux-font "Noto Sans Mono")
 (defvar ev-macos-font "Menlo")
 ;; (defvar ev-heading-font "Iosevka Aile")
 
@@ -384,7 +384,7 @@
     (progn (defvar ev-default-font ev-editor-font)
            (defvar ev-variable-pitch-font "SF Pro Text"))
   (progn (defvar ev-default-font ev-editor-font)
-         (defvar ev-variable-pitch-font "Inter")))
+         (defvar ev-variable-pitch-font "Noto Sans")))
 
 (defun ev-setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
