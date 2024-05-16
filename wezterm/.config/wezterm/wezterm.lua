@@ -18,6 +18,8 @@ local function scheme_for_appearance(appearance)
 end
 
 return {
+   -- temporarily disable wayland until new nvidia stuff is out
+   enable_wayland = false,
    color_scheme = scheme_for_appearance(get_appearance()),
    -- window_background_opacity = 0.9,
    font = wezterm.font("Noto Sans Mono"),

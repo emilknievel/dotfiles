@@ -6,3 +6,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 . "$HOME/.cargo/env"
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
