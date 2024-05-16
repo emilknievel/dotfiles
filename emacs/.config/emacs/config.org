@@ -1391,6 +1391,15 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (global-flycheck-eglot-mode 1))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package eglot-booster
+    :straight (:host github :repo "jdtsmith/eglot-booster")
+    :after eglot
+    :config (eglot-booster-mode))
+#+end_src
+
+*Deps*: [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]. I opted for cloning the git repo, building the crate, and creating a symlink to the ~emacs-lsp-booster~ binary to =$HOME /local/bin=.
+
 ** Language configuration
 
 *** Treesitter

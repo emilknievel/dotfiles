@@ -1002,6 +1002,11 @@ parses its input."
   :config
   (global-flycheck-eglot-mode 1))
 
+(use-package eglot-booster
+  :straight (:host github :repo "jdtsmith/eglot-booster")
+  :after eglot
+  :config (eglot-booster-mode))
+
 (setq treesit-language-source-alist
       '((bash "https://github.com/tree-sitter/tree-sitter-bash")
         (cmake "https://github.com/uyha/tree-sitter-cmake")
