@@ -2061,6 +2061,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
     (org-special-ctrl-a/e t)
     (org-insert-heading-respect-content t)
     (org-startup-indented t)
+    (org-hide-emphasis-markers nil) ; set to t for org-appear to have an effect
     ;; (org-ellipsis "…")
 
     ;; Add CLOSED: [timestamp] line after todo headline when marked as done
@@ -2090,9 +2091,10 @@ Jump to previously visited directory, not unlike using =zoxide=.
            ("C-c c" . org-capture))
     :hook
     ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-    ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
-    ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
+    ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+    ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
     (org-agenda-mode . hl-line-mode)
+    ((org-mode gfm-mode markdown-mode) . hl-line-mode)
     :general (ev-leader-key-map "o b t" 'org-babel-tangle))
 #+end_src
 
@@ -2133,15 +2135,15 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 
 #+begin_src emacs-lisp
   (use-package org-appear
-    :custom
-    (org-hide-emphasis-markers t)
-    (org-appear-autoemphasis t)
-    (org-appear-autolinks t)
-    (org-appear-autosubmarkers t)
-    (org-appear-autoentities t)
-    (org-appear-autokeywords t)
-    (org-appear-inside-latex t)
-    :hook (org-mode . org-appear-mode))
+    :config
+    (setq org-appear-autoemphasis t
+          org-appear-autolinks t
+          org-appear-autosubmarkers t
+          org-appear-autoentities t
+          org-appear-autokeywords t
+          org-appear-inside-latex t)
+    :hook (org-mode . org-appear-mode)
+    :general (ev-leader-key-map "o m a" 'org-appear-mode)) ; org->mode->appear
 #+end_src
 
 *** Org Roam (disabled)
@@ -2328,7 +2330,7 @@ Capture a task directly into a specific project.
   (global-set-key (kbd "C-c n t") #'ev-org-roam-capture-task)
 #+end_src
 
-*** org-roam-ui (disabled)
+**** org-roam-ui (disabled)
 
 Display org roam database as connected nodes in the browser.
 

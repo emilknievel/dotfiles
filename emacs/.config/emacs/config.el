@@ -1484,6 +1484,7 @@ any directory proferred by `consult-dir'."
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
   (org-startup-indented t)
+  (org-hide-emphasis-markers nil) ; set to t for org-appear to have an effect
   ;; (org-ellipsis "…")
 
   ;; Add CLOSED: [timestamp] line after todo headline when marked as done
@@ -1513,9 +1514,10 @@ any directory proferred by `consult-dir'."
          ("C-c c" . org-capture))
   :hook
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
-  ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
+  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+  ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
   (org-agenda-mode . hl-line-mode)
+  ((org-mode gfm-mode markdown-mode) . hl-line-mode)
   :general (ev-leader-key-map "o b t" 'org-babel-tangle))
 
 (use-package org-modern
@@ -1540,15 +1542,15 @@ any directory proferred by `consult-dir'."
   :hook ((org-mode markdown-mode) . olivetti-mode))
 
 (use-package org-appear
-  :custom
-  (org-hide-emphasis-markers t)
-  (org-appear-autoemphasis t)
-  (org-appear-autolinks t)
-  (org-appear-autosubmarkers t)
-  (org-appear-autoentities t)
-  (org-appear-autokeywords t)
-  (org-appear-inside-latex t)
-  :hook (org-mode . org-appear-mode))
+  :config
+  (setq org-appear-autoemphasis t
+        org-appear-autolinks t
+        org-appear-autosubmarkers t
+        org-appear-autoentities t
+        org-appear-autokeywords t
+        org-appear-inside-latex t)
+  :hook (org-mode . org-appear-mode)
+  :general (ev-leader-key-map "o m a" 'org-appear-mode)) ; org->mode->appear
 
 (setq org-confirm-babel-evaluate nil
       org-src-fontify-natively t
