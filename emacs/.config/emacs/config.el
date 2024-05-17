@@ -355,6 +355,28 @@
             "t t s" 'ev-toggle-solarized
             "t t r" 'ev-toggle-rose-pine))
 
+(use-package catppuccin-theme
+  :init
+  (defun ev-catppuccin (flavor)
+    "Load provided catppuccin flavor."
+    (ev-clear-theme)
+    (load-theme 'catppuccin :no-confirm)
+    (setq catppuccin-flavor flavor)
+    (catppuccin-reload))
+
+  (defun ev-catppuccin-mocha ()
+    (interactive)
+    (ev-catppuccin 'mocha))
+  (defun ev-catppuccin-macchiato ()
+    (interactive)
+    (ev-catppuccin 'macchiato))
+  (defun ev-catppuccin-frappe ()
+    (interactive)
+    (ev-catppuccin 'frappe))
+  (defun ev-catppuccin-latte ()
+    (interactive)
+    (ev-catppuccin 'latte)))
+
 (use-package auto-dark
   :diminish
   :init

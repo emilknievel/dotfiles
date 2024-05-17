@@ -589,6 +589,32 @@ Get rid of the annoying startup screen.
               "t t r" 'ev-toggle-rose-pine))
 #+end_src
 
+**** Catppuccin
+
+#+begin_src emacs-lisp
+  (use-package catppuccin-theme
+    :init
+    (defun ev-catppuccin (flavor)
+      "Load provided catppuccin flavor."
+      (ev-clear-theme)
+      (load-theme 'catppuccin :no-confirm)
+      (setq catppuccin-flavor flavor)
+      (catppuccin-reload))
+
+    (defun ev-catppuccin-mocha ()
+      (interactive)
+      (ev-catppuccin 'mocha))
+    (defun ev-catppuccin-macchiato ()
+      (interactive)
+      (ev-catppuccin 'macchiato))
+    (defun ev-catppuccin-frappe ()
+      (interactive)
+      (ev-catppuccin 'frappe))
+    (defun ev-catppuccin-latte ()
+      (interactive)
+      (ev-catppuccin 'latte)))
+#+end_src
+
 **** Auto-Dark for Emacs
 
 #+begin_src emacs-lisp
