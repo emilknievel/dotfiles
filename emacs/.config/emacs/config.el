@@ -529,11 +529,8 @@
 
 (defhydra hydra-font-actions (global-map "C-z u f")
   "font actions"
-  ("l" global-ligature-mode "toggle ligatures")
-  ("v" variable-pitch-mode "toggle variable pitch")
   ("=" ev-increase-font-size "increase size")
-  ("-" ev-decrease-font-size "decrease size")
-  ("0" ev-reset-fonts "reset fonts"))
+  ("-" ev-decrease-font-size "decrease size"))
 
 (custom-theme-set-faces
  'user
