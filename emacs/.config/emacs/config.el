@@ -254,10 +254,10 @@
 (setopt confirm-kill-emacs 'y-or-n-p)
 
 (when (eq system-type 'darwin)
-  ;; (use-package ns-auto-titlebar
-  ;;   :demand t
-  ;;   :config (ns-auto-titlebar-mode))
-  (setq ns-use-proxy-icon t
+  (use-package ns-auto-titlebar
+    :demand t
+    :config (ns-auto-titlebar-mode))
+  (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
         frame-resize-pixelwise t
@@ -395,7 +395,7 @@
   (auto-dark-mode t))
 
 (defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "LiterationMono Nerd Font")
+(defvar ev-macos-font "FiraCode Nerd Font")
 ;; (defvar ev-heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
