@@ -791,8 +791,8 @@ Get rid of the annoying startup screen.
    'user
    `(org-code ((t (:inherit fixed-pitch))))
    `(org-block ((t (:inherit fixed-pitch))))
-   `(org-block-begin-line ((t (:inherit (shadow fixed-pitch) :extend t))))
-   `(org-block-end-line ((t (:inherit org-block-begin-line))))
+   ;; `(org-block-begin-line ((t (:inherit (shadow fixed-pitch) :extend t))))
+   ;; `(org-block-end-line ((t (:inherit org-block-begin-line))))
    `(org-verbatim ((t (:inherit fixed-pitch))))
    `(outline-1 ((t (:height 1.5))))
    `(outline-2 ((t (:height 1.4))))
