@@ -1746,7 +1746,9 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
           #'magit-restore-window-configuration)
     :general
     (ev-leader-key-map
-     "g g" 'magit-status))
+     "g g" 'magit-status
+     "g i" 'magit-info
+     "g l" 'magit-log))
 #+end_src
 
 *** TODO magit/forge [0/2]

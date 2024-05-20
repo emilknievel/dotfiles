@@ -1232,7 +1232,9 @@ parses its input."
         #'magit-restore-window-configuration)
   :general
   (ev-leader-key-map
-   "g g" 'magit-status))
+   "g g" 'magit-status
+   "g i" 'magit-info
+   "g l" 'magit-log))
 
 (use-package diff-hl
   :init
