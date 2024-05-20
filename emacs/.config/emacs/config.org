@@ -1403,7 +1403,9 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 #+begin_src emacs-lisp
   (use-package eglot
-    :general (ev-leader-key-map "c a" 'eglot-code-actions))
+    :general (ev-leader-key-map "c a" 'eglot-code-actions)
+    :config
+    (setq eglot-autoshutdown t))
 #+end_src
 
 #+begin_src emacs-lisp

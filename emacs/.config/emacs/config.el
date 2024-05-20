@@ -1013,7 +1013,9 @@ parses its input."
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package eglot
-  :general (ev-leader-key-map "c a" 'eglot-code-actions))
+  :general (ev-leader-key-map "c a" 'eglot-code-actions)
+  :config
+  (setq eglot-autoshutdown t))
 
 (use-package flycheck-eglot
   :ensure t
