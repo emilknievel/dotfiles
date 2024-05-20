@@ -1224,6 +1224,10 @@ parses its input."
 
 (use-package consult-flycheck)
 
+(use-package apheleia
+  :config
+  (apheleia-global-mode +1))
+
 (use-package magit
   :config
   ;; Make Magit the only window in the frame when invoked.

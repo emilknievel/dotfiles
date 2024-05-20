@@ -1733,6 +1733,14 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
   (use-package consult-flycheck)
 #+end_src
 
+** Formatting
+
+#+begin_src emacs-lisp
+  (use-package apheleia
+    :config
+    (apheleia-global-mode +1))
+#+end_src
+
 ** Git
 
 *** Magit
