@@ -324,7 +324,7 @@
   (setq ef-themes-common-palette-overrides
         '((fringe unspecified)))
   (setq ef-themes-variable-pitch-ui nil)
-  (setq ef-themes-to-toggle '(ef-dark ef-light))
+  (setq ef-themes-to-toggle '(ef-dream ef-light))
   :general (ev-leader-key-map
             "t t e" 'ef-themes-toggle))
 
@@ -381,7 +381,7 @@
   :diminish
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-dark-theme 'ef-dark
+  (setq auto-dark-dark-theme 'ef-dream
         auto-dark-light-theme 'ef-light)
   :config
   (add-hook 'auto-dark-dark-mode-hook
