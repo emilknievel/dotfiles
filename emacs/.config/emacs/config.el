@@ -515,7 +515,7 @@
   (interactive)
   (if (eq system-type 'darwin)
       (set-face-attribute 'variable-pitch nil
-                          :family "Georgia"
+                          :family "Charter"
                           :height (face-attribute 'variable-pitch :height))
     (set-face-attribute 'variable-pitch nil
                         :family "Noto Serif"
