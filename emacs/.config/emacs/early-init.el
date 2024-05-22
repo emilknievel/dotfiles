@@ -30,9 +30,9 @@
 (setq default-frame-alist (list '(min-height . 1)
                                 '(height . 40)
                                 '(min-width . 1)
-                                '(width . 100)
-                                ;; override above and make it fullscreen
-                                '(fullscreen . maximized)))
+                                '(width . 100)))
+;; override above and make it fullscreen
+;; '(fullscreen . maximized)))
 
 ;; Customize titlebar
 (cond ((eq system-type 'darwin)
