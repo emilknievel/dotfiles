@@ -1784,8 +1784,6 @@ any directory proferred by `consult-dir'."
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package gptel
-  :custom
-  (gptel-default-mode #'org-mode)
   :config
   (setq-default gptel-model "llama3:latest"
                 gptel-backend (gptel-make-ollama "Ollama"
@@ -1796,7 +1794,8 @@ any directory proferred by `consult-dir'."
   (ev-leader-key-map
    "a a" 'gptel
    "a g" 'gptel-menu
-   "a s" 'gptel-send))
+   "a s" 'gptel-send)
+  :hook (gptel-post-stream . gptel-auto-scroll))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle)
