@@ -3,8 +3,11 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        complete-symbol
         org-delete-char
         org-force-self-insert
+        org-self-insert-command
+        org-yank
         ))
 
 (setq mc/cmds-to-run-once
