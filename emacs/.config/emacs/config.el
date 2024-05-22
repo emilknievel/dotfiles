@@ -571,8 +571,7 @@
  ;; `(org-document-title ((t (:inherit variable-pitch))))
  ;; `(org-document-info ((t (:inherit variable-pitch))))
  `(org-table ((t (:inherit fixed-pitch))))
- `(org-quote ((t :inherit italic)))
- `(circe-originator-face ((t (:inherit bold)))))
+ `(org-quote ((t :inherit italic))))
 
 (use-package ligature
   :straight
@@ -1945,4 +1944,7 @@ any directory proferred by `consult-dir'."
     (circe-command-MSG "*status" what))
 
   (setq lui-track-bar-behavior 'before-switch-to-buffer)
+  (custom-theme-set-faces
+   'user
+   `(circe-originator-face ((t (:inherit bold)))))
   :hook (lui-mode . enable-lui-track-bar))
