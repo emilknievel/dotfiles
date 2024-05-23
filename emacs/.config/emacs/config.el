@@ -539,6 +539,7 @@
  ;; `(org-block-begin-line ((t (:inherit (shadow fixed-pitch) :extend t))))
  ;; `(org-block-end-line ((t (:inherit org-block-begin-line))))
  `(org-verbatim ((t (:inherit fixed-pitch))))
+
  `(outline-1 ((t (:height 1.5))))
  `(outline-2 ((t (:height 1.4))))
  `(outline-3 ((t (:height 1.3))))
@@ -547,6 +548,7 @@
  `(outline-6 ((t (:height 1.0))))
  `(outline-7 ((t (:height 1.0))))
  `(outline-8 ((t (:height 1.0))))
+
  `(org-level-1 ((t (:inherit outline-1))))
  `(org-level-2 ((t (:inherit outline-2))))
  `(org-level-3 ((t (:inherit outline-3))))
@@ -555,7 +557,7 @@
  `(org-level-6 ((t (:inherit outline-6))))
  `(org-level-7 ((t (:inherit outline-7))))
  `(org-level-8 ((t (:inherit outline-8))))
- `(ef-themes-heading-0 ((t (:inherit variable-pitch))))
+
  `(markdown-inline-code-face ((t (:inherit org-code))))
  `(markdown-code-face ((t (:inherit fixed-pitch))))
  `(markdown-header-face-1 ((t (:inherit org-level-1))))
@@ -566,6 +568,7 @@
  `(markdown-header-face-6 ((t (:inherit org-level-6))))
  `(markdown-header-face-7 ((t (:inherit org-level-7))))
  `(markdown-header-face-8 ((t (:inherit org-level-8))))
+
  `(org-meta-line ((t :inherit fixed-pitch)))
  `(org-drawer ((t :inherit fixed-pitch)))
  ;; `(org-document-title ((t (:inherit variable-pitch))))
