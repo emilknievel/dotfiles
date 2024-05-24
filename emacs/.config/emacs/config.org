@@ -183,27 +183,25 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 general.el provides a more convenient, unified interface for binding keys in Emacs.
 Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
 
-Keymaps using ~<SPC>~ as leader are defined with ~general-define-key~ with ~:prefix-map 'ev-leader-key-map~.
-Keymaps are actually using ~C-z~ now as leader because I'm giving pure emacs keybindings a shot.
-
 **** Preamble
 
 #+begin_src emacs-lisp
   (use-package general
     :init
     ;; (global-unset-key (kbd "C-M-SPC"))
-    (global-unset-key (kbd "C-z"))
+    ;; (global-unset-key (kbd "C-z"))
     :after which-key
     :config
     ;; (general-evil-setup t)
     (general-define-key
      ;; :keymaps '(normal insert emacs)
-     :prefix "C-z"
+     :prefix "<f8>"
      ;; :global-prefix "C-M-SPC"
      :prefix-map 'ev-leader-key-map
 
      ;; Top level functions
-     "SPC" '(execute-extended-command :wk "M-x")
+     ;;"SPC" '(execute-extended-command :wk "M-x")
+     "<f8>" '(execute-extended-command :wk "M-x")
 
      ;; Prefixes
 

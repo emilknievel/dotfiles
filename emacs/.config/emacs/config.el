@@ -114,18 +114,19 @@
 (use-package general
   :init
   ;; (global-unset-key (kbd "C-M-SPC"))
-  (global-unset-key (kbd "C-z"))
+  ;; (global-unset-key (kbd "C-z"))
   :after which-key
   :config
   ;; (general-evil-setup t)
   (general-define-key
    ;; :keymaps '(normal insert emacs)
-   :prefix "C-z"
+   :prefix "<f8>"
    ;; :global-prefix "C-M-SPC"
    :prefix-map 'ev-leader-key-map
 
    ;; Top level functions
-   "SPC" '(execute-extended-command :wk "M-x")
+   ;;"SPC" '(execute-extended-command :wk "M-x")
+   "<f8>" '(execute-extended-command :wk "M-x")
 
    ;; Prefixes
 
