@@ -402,7 +402,7 @@
   (auto-dark-mode t))
 
 (defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "FiraCode Nerd Font")
+(defvar ev-macos-font "SF Mono")
 ;; (defvar ev-heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
@@ -1501,7 +1501,7 @@ any directory proferred by `consult-dir'."
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
   (org-startup-indented t)
-  (org-hide-emphasis-markers nil) ; set to t for org-appear to have an effect
+  (org-hide-emphasis-markers t)
   ;; (org-ellipsis "…")
 
   ;; Add CLOSED: [timestamp] line after todo headline when marked as done
@@ -1531,8 +1531,8 @@ any directory proferred by `consult-dir'."
          ("C-c c" . org-capture))
   :hook
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
-  ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
+  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+  ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
   (org-agenda-mode . hl-line-mode)
   ((org-mode gfm-mode markdown-mode) . hl-line-mode)
   :general (ev-leader-key-map "o b t" 'org-babel-tangle))
