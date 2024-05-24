@@ -385,6 +385,16 @@ Use Evil mode for Vim like bindings.
       ("-" shrink-window-if-larger-than-buffer "fit window")))
 #+end_src
 
+*** Devil mode
+
+#+begin_src emacs-lisp
+  (use-package devil
+    :config
+    (setq devil-lighter " \U0001F608")
+    (setq devil-prompt "\U0001F608 %t")
+    (global-devil-mode))
+#+end_src
+
 ** Editing
 
 *** iedit
@@ -640,7 +650,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (defvar ev-linux-font "Noto Sans Mono")
-  (defvar ev-macos-font "FiraCode Nerd Font")
+  (defvar ev-macos-font "SF Mono")
   ;; (defvar ev-heading-font "Iosevka Aile")
 
   (if (eq system-type 'darwin)
@@ -2073,7 +2083,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
     (org-special-ctrl-a/e t)
     (org-insert-heading-respect-content t)
     (org-startup-indented t)
-    (org-hide-emphasis-markers nil) ; set to t for org-appear to have an effect
+    (org-hide-emphasis-markers t)
     ;; (org-ellipsis "…")
 
     ;; Add CLOSED: [timestamp] line after todo headline when marked as done
@@ -2103,8 +2113,8 @@ Jump to previously visited directory, not unlike using =zoxide=.
            ("C-c c" . org-capture))
     :hook
     ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-    ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
-    ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
+    ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+    ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
     (org-agenda-mode . hl-line-mode)
     ((org-mode gfm-mode markdown-mode) . hl-line-mode)
     :general (ev-leader-key-map "o b t" 'org-babel-tangle))

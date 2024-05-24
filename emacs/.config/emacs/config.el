@@ -230,6 +230,12 @@
     ("+" balance-windows "balance windows")
     ("-" shrink-window-if-larger-than-buffer "fit window")))
 
+(use-package devil
+  :config
+  (setq devil-lighter " \U0001F608")
+  (setq devil-prompt "\U0001F608 %t")
+  (global-devil-mode))
+
 (use-package iedit
   :general
   (ev-leader-key-map "e" 'iedit-mode))
