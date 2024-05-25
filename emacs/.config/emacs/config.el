@@ -221,7 +221,7 @@
 
 (use-package hydra
   :config
-  (defhydra hydra-window-actions (global-map "C-z w")
+  (defhydra hydra-window-actions (global-map "<f8> w")
     "window actions"
     ("h" shrink-window-horizontally "shrink horizontally")
     ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -534,7 +534,7 @@
                       :family ev-editor-font
                       :height (face-attribute 'fixed-pitch :height)))
 
-(defhydra hydra-font-actions (global-map "C-z u f")
+(defhydra hydra-font-actions (global-map "<f8> u f")
   "font actions"
   ("=" ev-increase-font-size "increase size")
   ("-" ev-decrease-font-size "decrease size"))
