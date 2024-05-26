@@ -522,7 +522,7 @@
   (interactive)
   (if (eq system-type 'darwin)
       (set-face-attribute 'variable-pitch nil
-                          :family "Charter"
+                          :family "Georgia"
                           :height (face-attribute 'variable-pitch :height))
     (set-face-attribute 'variable-pitch nil
                         :family "Noto Serif"
@@ -696,7 +696,15 @@
          ;; 'face 'display-time-date-and-time
          'help-echo (format-time-string "%a %b %e, %Y" now))
         " "))
-(display-time-mode 1)
+
+(defun bram85-show-time-for-fullscreen (frame)
+  "Show the time in the modeline when the FRAME becomes full screen."
+  (let ((fullscreen (frame-parameter frame 'fullscreen)))
+    (if (memq fullscreen '(fullscreen fullboth))
+        (display-time-mode 1)
+      (display-time-mode -1))))
+
+(add-hook 'window-size-change-functions #'bram85-show-time-for-fullscreen)
 
 (use-package doom-modeline
   :config
