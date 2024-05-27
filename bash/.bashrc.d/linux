@@ -5,6 +5,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   return
 fi
 
+PS1="\[\e[38;5;10m\]\u\[\e[38;5;10m\]@\[\e[38;5;10m\]\h\[\033[0m\]:\[\e[38;5;12m\]\w\[\033[0m\]$ "
+
 . "$HOME/.cargo/env"
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
