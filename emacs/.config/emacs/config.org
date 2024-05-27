@@ -1043,13 +1043,12 @@ Display the current date and time on the mode line when in fullscreen.
     (doom-modeline-mode 1))
 #+end_src
 
-*** Padding (disabled)
+*** Padding
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package spacious-padding
     :config
-    (spacious-padding-mode 0)
-    (define-key global-map (kbd "C-z") #'spacious-padding-mode))
+    (spacious-padding-mode 1))
 #+end_src
 
 *** Highlight line
