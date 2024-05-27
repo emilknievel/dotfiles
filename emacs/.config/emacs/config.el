@@ -114,19 +114,19 @@
 (use-package general
   :init
   ;; (global-unset-key (kbd "C-M-SPC"))
-  ;; (global-unset-key (kbd "C-z"))
+  (global-unset-key (kbd "C-z"))
   :after which-key
   :config
   ;; (general-evil-setup t)
   (general-define-key
    ;; :keymaps '(normal insert emacs)
-   :prefix "<f8>"
+   :prefix "C-z"
    ;; :global-prefix "C-M-SPC"
    :prefix-map 'ev-leader-key-map
 
    ;; Top level functions
    ;;"SPC" '(execute-extended-command :wk "M-x")
-   "<f8>" '(execute-extended-command :wk "M-x")
+   "C-z" '(execute-extended-command :wk "M-x")
 
    ;; Prefixes
 
@@ -221,7 +221,7 @@
 
 (use-package hydra
   :config
-  (defhydra hydra-window-actions (global-map "<f8> w")
+  (defhydra hydra-window-actions (global-map "C-z w")
     "window actions"
     ("h" shrink-window-horizontally "shrink horizontally")
     ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -534,7 +534,7 @@
                       :family ev-editor-font
                       :height (face-attribute 'fixed-pitch :height)))
 
-(defhydra hydra-font-actions (global-map "<f8> u f")
+(defhydra hydra-font-actions (global-map "C-z u f")
   "font actions"
   ("=" ev-increase-font-size "increase size")
   ("-" ev-decrease-font-size "decrease size"))
