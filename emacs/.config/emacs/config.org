@@ -602,11 +602,15 @@ Get rid of the annoying startup screen.
 #+begin_src emacs-lisp
   (use-package catppuccin-theme
     :init
+    (defun ctp/text-org-blocks ()
+      (setq catppuccin-face-cookie (face-remap-add-relative 'org-block (list :foreground (catppuccin-get-color 'text)))))
+
     (defun ev-catppuccin (flavor)
       "Load provided catppuccin flavor."
       (ev-clear-theme)
       (load-theme 'catppuccin :no-confirm)
       (setq catppuccin-flavor flavor)
+      (ctp/text-org-blocks)
       (catppuccin-reload))
 
     (defun ev-catppuccin-mocha ()
