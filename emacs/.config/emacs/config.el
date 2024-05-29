@@ -14,7 +14,7 @@
   (setq ido-enable-flex-matching t))
 
 (unless (memq window-system '(mac ns))
-  (menu-bar-mode 1))
+  (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode)
@@ -331,7 +331,7 @@
   (setq ef-themes-common-palette-overrides
         '((fringe unspecified)))
   (setq ef-themes-variable-pitch-ui nil)
-  (setq ef-themes-to-toggle '(ef-dream ef-light))
+  (setq ef-themes-to-toggle '(ef-dark ef-light))
   :general (ev-leader-key-map
             "t t e" 'ef-themes-toggle))
 
@@ -362,37 +362,11 @@
             "t t s" 'ev-toggle-solarized
             "t t r" 'ev-toggle-rose-pine))
 
-(use-package catppuccin-theme
-  :init
-  (defun ctp/text-org-blocks ()
-    (setq catppuccin-face-cookie (face-remap-add-relative 'org-block (list :foreground (catppuccin-get-color 'text)))))
-
-  (defun ev-catppuccin (flavor)
-    "Load provided catppuccin flavor."
-    (ev-clear-theme)
-    (load-theme 'catppuccin :no-confirm)
-    (setq catppuccin-flavor flavor)
-    (ctp/text-org-blocks)
-    (catppuccin-reload))
-
-  (defun ev-catppuccin-mocha ()
-    (interactive)
-    (ev-catppuccin 'mocha))
-  (defun ev-catppuccin-macchiato ()
-    (interactive)
-    (ev-catppuccin 'macchiato))
-  (defun ev-catppuccin-frappe ()
-    (interactive)
-    (ev-catppuccin 'frappe))
-  (defun ev-catppuccin-latte ()
-    (interactive)
-    (ev-catppuccin 'latte)))
-
 (use-package auto-dark
   :diminish
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-dark-theme 'ef-dream
+  (setq auto-dark-dark-theme 'ef-dark
         auto-dark-light-theme 'ef-light)
   :config
   (add-hook 'auto-dark-dark-mode-hook
@@ -701,14 +675,7 @@
          'help-echo (format-time-string "%a %b %e, %Y" now))
         " "))
 
-(defun bram85-show-time-for-fullscreen (frame)
-  "Show the time in the modeline when the FRAME becomes full screen."
-  (let ((fullscreen (frame-parameter frame 'fullscreen)))
-    (if (memq fullscreen '(fullscreen fullboth))
-        (display-time-mode 1)
-      (display-time-mode -1))))
-
-(add-hook 'window-size-change-functions #'bram85-show-time-for-fullscreen)
+(display-time-mode 1)
 
 (use-package doom-modeline
   :config
@@ -717,9 +684,6 @@
 (use-package spacious-padding
   :config
   (spacious-padding-mode 1))
-
-(add-hook 'prog-mode-hook 'hl-line-mode)
-(add-hook 'conf-mode-hook 'hl-line-mode)
 
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)
@@ -1549,8 +1513,8 @@ any directory proferred by `consult-dir'."
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
   ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
   ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
-  (org-agenda-mode . hl-line-mode)
-  ((org-mode gfm-mode markdown-mode) . hl-line-mode)
+  ;; (org-agenda-mode . hl-line-mode)
+  ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
   :general (ev-leader-key-map "o b t" 'org-babel-tangle))
 
 (use-package org-modern
