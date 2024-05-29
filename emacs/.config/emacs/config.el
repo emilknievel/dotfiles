@@ -261,6 +261,7 @@
   :bind-keymap ("C-c s" . surround-keymap))
 
 (use-package hydra
+  :after evil
   :config
   (defhydra hydra-window-actions (evil-normal-state-map "SPC w")
     "window actions"
@@ -555,10 +556,11 @@
                       :family ev-editor-font
                       :height (face-attribute 'fixed-pitch :height)))
 
-(defhydra hydra-font-actions (evil-normal-state-map "SPC u f")
-  "font actions"
-  ("=" ev-increase-font-size "increase size")
-  ("-" ev-decrease-font-size "decrease size"))
+(with-eval-after-load 'evil
+  (defhydra hydra-font-actions (evil-normal-state-map "SPC u f")
+    "font actions"
+    ("=" ev-increase-font-size "increase size")
+    ("-" ev-decrease-font-size "decrease size")))
 
 (custom-theme-set-faces
  'user

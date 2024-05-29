@@ -374,6 +374,7 @@ Use Evil mode for Vim like bindings.
 
 #+begin_src emacs-lisp
   (use-package hydra
+    :after evil
     :config
     (defhydra hydra-window-actions (evil-normal-state-map "SPC w")
       "window actions"
@@ -760,10 +761,11 @@ Get rid of the annoying startup screen.
                         :family ev-editor-font
                         :height (face-attribute 'fixed-pitch :height)))
 
-  (defhydra hydra-font-actions (evil-normal-state-map "SPC u f")
-    "font actions"
-    ("=" ev-increase-font-size "increase size")
-    ("-" ev-decrease-font-size "decrease size"))
+  (with-eval-after-load 'evil
+    (defhydra hydra-font-actions (evil-normal-state-map "SPC u f")
+      "font actions"
+      ("=" ev-increase-font-size "increase size")
+      ("-" ev-decrease-font-size "decrease size")))
 #+end_src
 
 **** Custom faces
