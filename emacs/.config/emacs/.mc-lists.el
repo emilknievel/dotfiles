@@ -4,6 +4,11 @@
 (setq mc/cmds-to-run-for-all
       '(
         complete-symbol
+        evil-backward-word-begin
+        evil-delete
+        evil-next-visual-line
+        evil-previous-visual-line
+        evil-undo
         org-delete-char
         org-force-self-insert
         org-self-insert-command
