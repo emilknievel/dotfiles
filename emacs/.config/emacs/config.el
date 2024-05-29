@@ -114,19 +114,19 @@
 (use-package general
   :init
   ;; (global-unset-key (kbd "C-M-SPC"))
-  (global-unset-key (kbd "C-z"))
+  ;; (global-unset-key (kbd "C-z"))
   :after which-key
   :config
-  ;; (general-evil-setup t)
+  (general-evil-setup t)
   (general-define-key
-   ;; :keymaps '(normal insert emacs)
-   :prefix "C-z"
-   ;; :global-prefix "C-M-SPC"
+   :keymaps '(normal insert emacs)
+   :prefix "SPC"
+   :global-prefix "C-M-SPC"
    :prefix-map 'ev-leader-key-map
 
    ;; Top level functions
-   ;;"SPC" '(execute-extended-command :wk "M-x")
-   "C-z" '(execute-extended-command :wk "M-x")
+   "SPC" '(execute-extended-command :wk "M-x")
+   ;; "C-z" '(execute-extended-command :wk "M-x")
 
    ;; Prefixes
 
@@ -205,7 +205,7 @@
  :prefix-map 'ev-leader-key-map
  "u f v" 'variable-pitch-mode
  "u f b" 'ev-big-font-size
- "u f +" 'ev-increase-font-size
+ "u f =" 'ev-increase-font-size
  "u f -" 'ev-decrease-font-size
  "u f r" 'ev-reading-font-setup
  "u f 0" 'ev-reset-fonts)
@@ -215,13 +215,54 @@
  ;; emacsclient
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
+(use-package undo-fu)
+
+(use-package evil
+  :after general
+  :bind (("<escape>" . keyboard-escape-quit))
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-fu)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-respect-visual-line-mode t) ; Make vertical movement respect wrapped lines
+  ;; :general
+  ;; (ev-leader-key-map
+  ;;  "w" '(:keymap evil-window-map :wk "Window"))
+  :config
+  (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+  ;; M-. is reverse evil repeat only when previously done evil-repeat (C-.)
+  (define-key evil-normal-state-map (kbd "M-.")
+              `(menu-item "" evil-repeat-pop :filter
+                          ,(lambda (cmd) (if (eq last-command 'evil-repeat-pop) cmd))))
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
+  :config
+  (evil-collection-init)
+  :hook (vterm-mode . evil-collection-vterm-escape-stay))
+
+(use-package evil-commentary
+  :diminish
+  :hook (prog-mode . evil-commentary-mode))
+
+(use-package evil-surround
+  :diminish
+  :after evil
+  :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
+         (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
+  :config
+  (global-evil-surround-mode 1))
+
 (use-package surround
   :ensure t
   :bind-keymap ("C-c s" . surround-keymap))
 
 (use-package hydra
   :config
-  (defhydra hydra-window-actions (global-map "C-z w")
+  (defhydra hydra-window-actions (evil-normal-state-map "SPC w")
     "window actions"
     ("h" shrink-window-horizontally "shrink horizontally")
     ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -239,6 +280,8 @@
 (use-package iedit
   :general
   (ev-leader-key-map "e" 'iedit-mode))
+
+(use-package evil-iedit-state)
 
 (require 'whitespace)
 
@@ -512,7 +555,7 @@
                       :family ev-editor-font
                       :height (face-attribute 'fixed-pitch :height)))
 
-(defhydra hydra-font-actions (global-map "C-z u f")
+(defhydra hydra-font-actions (evil-normal-state-map "SPC u f")
   "font actions"
   ("=" ev-increase-font-size "increase size")
   ("-" ev-decrease-font-size "decrease size"))
@@ -1223,6 +1266,7 @@ parses its input."
   ;; Restore previous layout when exiting Magit.
   (setq magit-bury-buffer-function
         #'magit-restore-window-configuration)
+  (evil-define-key 'normal magit-mode-map "q" 'magit-mode-quit-window)
   :general
   (ev-leader-key-map
    "g g" 'magit-status
@@ -1863,7 +1907,8 @@ any directory proferred by `consult-dir'."
   ;; already links to the manual, if a function is referenced there.
   (global-set-key (kbd "C-h F") #'helpful-function)
 
-  (global-set-key (kbd "C-h o") #'helpful-symbol))
+  (global-set-key (kbd "C-h o") #'helpful-symbol)
+  (evil-define-key 'normal helpful-mode-map "q" 'quit-window))
 
 (use-package hl-todo
   :hook ((prog-mode . hl-todo-mode)
