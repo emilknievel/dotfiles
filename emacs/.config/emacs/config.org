@@ -916,12 +916,6 @@ Show trailing whitespace in buffer.
   (setq show-trailing-whitespace t)
 #+end_src
 
-Add a newline to the end of the file if one doesn't already exist.
-
-#+begin_src emacs-lisp
-  (setq require-final-newline t)
-#+end_src
-
 *** Icons
 
 **** Nerd icons

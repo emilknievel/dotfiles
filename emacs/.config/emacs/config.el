@@ -635,8 +635,6 @@
 
 (setq show-trailing-whitespace t)
 
-(setq require-final-newline t)
-
 (use-package nerd-icons)
 
 (use-package nerd-icons-dired
