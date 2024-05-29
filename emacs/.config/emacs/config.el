@@ -1905,7 +1905,8 @@ any directory proferred by `consult-dir'."
   ;; already links to the manual, if a function is referenced there.
   (global-set-key (kbd "C-h F") #'helpful-function)
 
-  (global-set-key (kbd "C-h o") #'helpful-symbol))
+  (global-set-key (kbd "C-h o") #'helpful-symbol)
+  (evil-define-key 'normal helpful-mode-map "q" 'quit-window))
 
 (use-package hl-todo
   :hook ((prog-mode . hl-todo-mode)

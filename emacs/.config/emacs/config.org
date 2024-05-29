@@ -2768,7 +2768,8 @@ Helpful is basically *Help* with some extra features.
     ;; already links to the manual, if a function is referenced there.
     (global-set-key (kbd "C-h F") #'helpful-function)
 
-    (global-set-key (kbd "C-h o") #'helpful-symbol))
+    (global-set-key (kbd "C-h o") #'helpful-symbol)
+    (evil-define-key 'normal helpful-mode-map "q" 'quit-window))
 #+end_src
 
 ** TODOs
