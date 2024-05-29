@@ -1264,6 +1264,7 @@ parses its input."
   ;; Restore previous layout when exiting Magit.
   (setq magit-bury-buffer-function
         #'magit-restore-window-configuration)
+  (evil-define-key 'normal magit-mode-map "q" 'magit-mode-quit-window)
   :general
   (ev-leader-key-map
    "g g" 'magit-status
