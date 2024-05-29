@@ -409,7 +409,7 @@ Edit multiple occurrences in the same way simultaneously.
 
 Integrate iedit with evil. [[https://github.com/syl20bnr/evil-iedit-state][Keybindings]] etc.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package evil-iedit-state)
 #+end_src
 

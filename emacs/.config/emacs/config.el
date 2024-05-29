@@ -281,6 +281,8 @@
   :general
   (ev-leader-key-map "e" 'iedit-mode))
 
+(use-package evil-iedit-state)
+
 (require 'whitespace)
 
 (use-package expand-region
