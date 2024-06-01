@@ -1006,9 +1006,9 @@ Display the current date and time on the mode line.
     (doom-modeline-mode 1))
 #+end_src
 
-*** Padding
+*** Padding (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package spacious-padding
     :config
     (spacious-padding-mode 1))
@@ -1815,9 +1815,10 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
     (when (string= system-type "darwin")
       (setq dired-use-ls-dired t
             insert-directory-program "/opt/homebrew/bin/gls"))
-    ;; (evil-define-key 'normal dired-mode-map
-    ;;   "h" 'dired-up-directory
-    ;;   "l" 'dired-find-file)
+    (evil-define-key 'normal dired-mode-map
+      "h" 'dired-up-directory
+      "l" 'dired-find-file
+      "q" 'quit-window)
     :hook (dired-mode . dired-hide-details-mode)
     :custom
     (dired-listing-switches "-aBhl --group-directories-first"))
@@ -1831,10 +1832,9 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 *** Hide/show hidden files
 
 #+begin_src emacs-lisp
-  (use-package dired-hide-dotfiles)
-  ;; :config
-  ;; (evil-define-key 'normal dired-mode-map
-  ;; "H" 'dired-hide-dotfiles-mode))
+  (use-package dired-hide-dotfiles
+    :config
+    (evil-define-key 'normal dired-mode-map "H" 'dired-hide-dotfiles-mode))
 #+end_src
 
 *** Treemacs

@@ -724,10 +724,6 @@
   :config
   (doom-modeline-mode 1))
 
-(use-package spacious-padding
-  :config
-  (spacious-padding-mode 1))
-
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
@@ -1318,9 +1314,10 @@ parses its input."
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
           insert-directory-program "/opt/homebrew/bin/gls"))
-  ;; (evil-define-key 'normal dired-mode-map
-  ;;   "h" 'dired-up-directory
-  ;;   "l" 'dired-find-file)
+  (evil-define-key 'normal dired-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file
+    "q" 'quit-window)
   :hook (dired-mode . dired-hide-details-mode)
   :custom
   (dired-listing-switches "-aBhl --group-directories-first"))
@@ -1330,10 +1327,9 @@ parses its input."
 (use-package casual-dired
   :bind (:map dired-mode-map ("C-o" . 'casual-dired-tmenu)))
 
-(use-package dired-hide-dotfiles)
-;; :config
-;; (evil-define-key 'normal dired-mode-map
-;; "H" 'dired-hide-dotfiles-mode))
+(use-package dired-hide-dotfiles
+  :config
+  (evil-define-key 'normal dired-mode-map "H" 'dired-hide-dotfiles-mode))
 
 (use-package treemacs
   :defer t
