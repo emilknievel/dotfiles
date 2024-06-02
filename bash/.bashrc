@@ -72,7 +72,7 @@ case "$OSTYPE" in
 esac
 
 export EDITOR='vi'
-export VISUAL='vim'
+export VISUAL='nvim'
 
 # disable .net telemetry
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
