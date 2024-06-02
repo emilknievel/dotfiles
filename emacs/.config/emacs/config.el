@@ -931,7 +931,7 @@ parses its input."
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto t)                 ;; Enable auto completion
-  (corfu-auto-delay 2.0)
+  (corfu-auto-delay 0.2)
   (corfu-auto-prefix 3)
 
   ;; (corfu-separator ?\s)          ;; (M-SPC) Orderless field separator
@@ -947,16 +947,26 @@ parses its input."
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode))
 
+  ;; Popup info
+  ;; Display information about current completion item after 0.2 seconds.
+  (setq corfu-popupinfo-delay 0.2)
+
   ;; Keybindings
-  (global-set-key (kbd "M-n") #'corfu-next)
-  (global-set-key (kbd "M-p") #'corfu-previous)
-  (global-set-key (kbd "C-M-i") #'corfu-complete)
+  (global-set-key (kbd "C-M-i") #'corfu-complete) ; To invoke completion manually.
+
+  :bind
+  (:map corfu-map (("SPC" . corfu-insert-separator)
+                   ("RET" . nil)
+                   ("M-n" . corfu-next)
+                   ("M-p" . corfu-previous)
+                   ("C-M-i" . corfu-insert)))
 
   ;; Recommended: Enable Corfu globally.
   ;; This is recommended since Dabbrev can be used globally (M-/).
   ;; See also `corfu-exclude-modes'.
   :init
-  (global-corfu-mode))
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -970,7 +980,7 @@ parses its input."
   ;; (setq read-extended-command-predicate
   ;;       #'command-completion-default-include-p)
 
-  (setq tab-always-indent 'complete))
+  (setq tab-always-indent t))
 
 ;; Add extensions
 (use-package cape
