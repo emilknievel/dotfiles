@@ -1822,6 +1822,23 @@ any directory proferred by `consult-dir'."
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package copilot
+  :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
+  :hook
+  ;; (prog-mode . (lambda ()
+  ;;                (unless (string-match-p "*temp*" (buffer-name))
+  ;;                  (copilot-mode))))
+  (emacs-lisp-mode . (lambda ()
+                       (setq-local copilot--indent-warning-printed-p t)))
+  :config
+  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+  (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
+  :general (ev-leader-key-map
+            "a c m" 'copilot-mode
+            "a c n" 'copilot-next-completion
+            "a c p" 'copilot-previous-completion))
+
 (use-package gptel
   :config
   (setq-default gptel-model "llama3:latest"
