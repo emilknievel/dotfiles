@@ -24,7 +24,6 @@
 	tool = nvim
 
 [core]
-	editor = vim
 	precomposeunicode = true
 	# Display UTF-8 characters in filenames, if you're having problems seeing them
 	quotepath = false
