@@ -9,13 +9,14 @@ end
 
 local function scheme_for_appearance(appearance)
   if appearance:find('Dark') then
-    return 'Dark'
+    return 'rose-pine'
   else
-    return 'Terminal Basic'
+    return 'rose-pine'
   end
 end
 
 return {
+  enable_wayland = false,
   color_scheme = scheme_for_appearance(get_appearance()),
 
   font = wezterm.font('NotoSansM Nerd Font'),
@@ -25,8 +26,6 @@ return {
   enable_tab_bar = true,
   use_fancy_tab_bar = false,
   hide_tab_bar_if_only_one_tab = true,
-
-  enable_wayland = false,
 
   scrollback_lines = 50000,
 }
