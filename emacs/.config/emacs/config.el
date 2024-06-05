@@ -118,41 +118,47 @@
   :after which-key
   :config
   (general-evil-setup t)
-  (general-define-key
-   :keymaps '(normal insert emacs)
-   :prefix "SPC"
-   :global-prefix "C-M-SPC"
-   :prefix-map 'ev-leader-key-map
+  ;; (general-define-key
+  ;;  :keymaps '(normal insert visual emacs)
+  ;;  :prefix "SPC"
+  ;;  :global-prefix "C-M-SPC"
+  ;;  :prefix-map 'ev-leader-key-map
 
-   ;; Top level functions
-   "SPC" '(execute-extended-command :wk "M-x")
-   ;; "C-z" '(execute-extended-command :wk "M-x")
+  (general-create-definer ev-leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-M-SPC"))
 
-   ;; Prefixes
+(ev-leader-keys
+ ;; Top level functions
+ "SPC" '(execute-extended-command :wk "M-x")
+ ;; "C-z" '(execute-extended-command :wk "M-x")
 
-   "`" '(:ignore t :wk "Term")
-   "a" '(:ignore t :wk "AI")
-   "a c" '(:ignore t :wk "Copilot")
-   "b" '(:ignore t :wk "Buffer")
-   "c" '(:ignore t :wk "Code")
-   "d" '(:ignore t :wk "Directory")
-   "E" '(:ignore t :wk "Embark")
-   "f" '(:ignore t :wk "File")
-   "f c" '(:ignore t :wk "Config")
-   "g" '(:ignore t :wk "Git")
-   "h" '(:ignore t :wk "Help")
-   "h d" '(:ignore t :wk "Devdocs")
-   "n" '(:ignore t :wk "Notes")
-   "o" '(:ignore t :wk "Org")
-   "o b" '(:ignore t :wk "Babel")
-   "p" '(:ignore t :wk "Project")
-   "q" '(:ignore t :wk "Quit")
-   "s" '(:ignore t :wk "Search")
-   "t" '(:ignore t :wk "Toggle")
-   "u" '(:ignore t :wk "UI")
-   "u l" '(:ignore t :wk "Linum")
-   "u f" '(:ignore t :wk "Fonts")
-   "w" '(:ignore t :wk "Windows")))
+ ;; Prefixes
+
+ "`" '(:ignore t :wk "Term")
+ "a" '(:ignore t :wk "AI")
+ "a c" '(:ignore t :wk "Copilot")
+ "b" '(:ignore t :wk "Buffer")
+ "c" '(:ignore t :wk "Code")
+ "d" '(:ignore t :wk "Directory")
+ "E" '(:ignore t :wk "Embark")
+ "f" '(:ignore t :wk "File")
+ "f c" '(:ignore t :wk "Config")
+ "g" '(:ignore t :wk "Git")
+ "h" '(:ignore t :wk "Help")
+ "h d" '(:ignore t :wk "Devdocs")
+ "n" '(:ignore t :wk "Notes")
+ "o" '(:ignore t :wk "Org")
+ "o b" '(:ignore t :wk "Babel")
+ "p" '(:ignore t :wk "Project")
+ "q" '(:ignore t :wk "Quit")
+ "s" '(:ignore t :wk "Search")
+ "t" '(:ignore t :wk "Toggle")
+ "u" '(:ignore t :wk "UI")
+ "u l" '(:ignore t :wk "Linum")
+ "u f" '(:ignore t :wk "Fonts")
+ "w" '(:ignore t :wk "Windows"))
 
 (defun ev-reload-emacs-config ()
   "Tangle org file and reload the emacs config."
@@ -165,16 +171,14 @@
   (interactive)
   (find-file (expand-file-name "config.org" user-emacs-directory)))
 
-(general-define-key
- :prefix-map 'ev-leader-key-map
- "f c r" 'ev-reload-emacs-config
- "f c f" 'ev-edit-emacs-config
+(ev-leader-keys
+ "f c r" '(ev-reload-emacs-config :wk "Reload config")
+ "f c f" '(ev-edit-emacs-config :wk "Edit config")
  "f f" 'find-file
  "f l" 'load-file
  "f s" 'save-buffer)
 
-(general-define-key
- :prefix-map 'ev-leader-key-map
+(ev-leader-keys
  ;; buffers
  "b" '(nil :wk "buffers")
  "b b" 'switch-to-buffer
@@ -184,8 +188,7 @@
  "q q" 'save-buffers-kill-terminal
  "b r" 'revert-buffer-quick)
 
-(general-define-key
- :prefix-map 'ev-leader-key-map
+(ev-leader-keys
  ;; help
  "h f" 'describe-function
  "h v" 'describe-variable
@@ -194,15 +197,13 @@
  "h b" 'describe-bindings
  "h a" 'describe-face)
 
-(general-define-key
- :prefix-map 'ev-leader-key-map
+(ev-leader-keys
  ;; toggles
  "t v" '(visual-line-mode :wk "visual line mode")
  "t n" '(display-line-numbers-mode :wk "display line numbers")
  "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
 
-(general-define-key
- :prefix-map 'ev-leader-key-map
+(ev-leader-keys
  "u f v" 'variable-pitch-mode
  "u f b" 'ev-big-font-size
  "u f =" 'ev-increase-font-size
@@ -210,8 +211,7 @@
  "u f r" 'ev-reading-font-setup
  "u f 0" 'ev-reset-fonts)
 
-(general-define-key
- :prefix-map 'ev-leader-key-map
+(ev-leader-keys
  ;; emacsclient
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
@@ -226,9 +226,6 @@
   (setq evil-undo-system 'undo-fu)
   (setq evil-want-C-u-scroll t)
   (setq evil-respect-visual-line-mode t) ; Make vertical movement respect wrapped lines
-  ;; :general
-  ;; (ev-leader-key-map
-  ;;  "w" '(:keymap evil-window-map :wk "Window"))
   :config
   (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
   ;; M-. is reverse evil repeat only when previously done evil-repeat (C-.)
@@ -280,17 +277,17 @@
 
 (use-package iedit
   :general
-  (ev-leader-key-map "e" 'iedit-mode))
+  (ev-leader-keys "e" 'iedit-mode))
 
 (use-package evil-iedit-state)
 
 (require 'whitespace)
 
 (use-package expand-region
-  :general (ev-leader-key-map "=" 'er/expand-region))
+  :general (ev-leader-keys "=" 'er/expand-region))
 
 (use-package vundo
-  :general (ev-leader-key-map "c u" 'vundo))
+  :general (ev-leader-keys "c u" 'vundo))
 
 (use-package multiple-cursors
   :ensure t
@@ -365,7 +362,7 @@
           (fg-heading-1 blue-warmer)
           (fg-heading-2 yellow-cooler)
           (fg-heading-3 cyan-cooler)))
-  :general (ev-leader-key-map
+  :general (ev-leader-keys
             "t t m" 'modus-themes-toggle))
 
 (use-package ef-themes
@@ -376,7 +373,7 @@
         '((fringe unspecified)))
   (setq ef-themes-variable-pitch-ui nil)
   (setq ef-themes-to-toggle '(ef-dark ef-light))
-  :general (ev-leader-key-map
+  :general (ev-leader-keys
             "t t e" 'ef-themes-toggle))
 
 (defun ev-toggle-solarized ()
@@ -402,7 +399,7 @@
   ;; (doom-themes-treemacs-config)
   (ev-solarized-light)
   (doom-themes-org-config)
-  :general (ev-leader-key-map
+  :general (ev-leader-keys
             "t t s" 'ev-toggle-solarized
             "t t r" 'ev-toggle-rose-pine))
 
@@ -626,7 +623,7 @@
   (ligature-set-ligatures 'prog-mode liga)
   (ligature-set-ligatures 'org-mode liga)
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "u f l" 'global-ligature-mode))
 
 (defun ev-show-column-guide ()
@@ -673,7 +670,7 @@
                                                      nil
                                                      :background 'unspecified)))
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "u l h" 'ev-display-set-hidden
    "u l r" 'ev-display-set-relative
    "u l a" 'ev-display-set-absolute))
@@ -1051,7 +1048,7 @@ parses its input."
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package eglot
-  :general (ev-leader-key-map "c a" 'eglot-code-actions)
+  :general (ev-leader-keys "c a" 'eglot-code-actions)
   :config
   (setq eglot-autoshutdown t))
 
@@ -1276,7 +1273,7 @@ parses its input."
         #'magit-restore-window-configuration)
   (evil-define-key 'normal magit-mode-map "q" 'magit-mode-quit-window)
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "g g" 'magit-status
    "g i" 'magit-info
    "g l" 'magit-log))
@@ -1300,8 +1297,8 @@ parses its input."
                            ("integration" "integration/*")
                            (:exclude ".dir-locals.el" "*-tests.el")))
   :general
-  (ev-leader-key-map "` e" 'eshell)
-  (ev-leader-key-map "` a" 'eat)
+  (ev-leader-keys "` e" 'eshell)
+  (ev-leader-keys "` a" 'eat)
   :custom
   (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
@@ -1310,14 +1307,14 @@ parses its input."
 
 (use-package project
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
   :straight (:type built-in))
 
 (use-package dired
   :straight (:type built-in)
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "d d" 'dired
    "d j" '(dired-jump :wk "dired jump"))
   :config
@@ -1343,7 +1340,7 @@ parses its input."
 
 (use-package treemacs
   :defer t
-  :general (ev-leader-key-map "f e" 'treemacs))
+  :general (ev-leader-keys "f e" 'treemacs))
 
 (use-package treemacs-evil
   :after (treemacs evil))
@@ -1390,7 +1387,7 @@ any directory proferred by `consult-dir'."
 ;; Example configuration for Consult
 (use-package consult
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "s g" 'consult-git-grep
    "s s" 'consult-ripgrep
    "s l" 'consult-line
@@ -1565,7 +1562,7 @@ any directory proferred by `consult-dir'."
   ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
   ;; (org-agenda-mode . hl-line-mode)
   ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
-  :general (ev-leader-key-map "o b t" 'org-babel-tangle))
+  :general (ev-leader-keys "o b t" 'org-babel-tangle))
 
 (use-package org-modern
   :after org
@@ -1581,7 +1578,7 @@ any directory proferred by `consult-dir'."
 (use-package olivetti
   :diminish
   :general
-  (ev-leader-key-map "u o" 'olivetti-mode)
+  (ev-leader-keys "u o" 'olivetti-mode)
   :init
   (setq olivetti-body-width 120
         olivetti-minimum-body-width 72)
@@ -1597,7 +1594,7 @@ any directory proferred by `consult-dir'."
         org-appear-autokeywords t
         org-appear-inside-latex t)
   :hook (org-mode . org-appear-mode)
-  :general (ev-leader-key-map "o m a" 'org-appear-mode)) ; org->mode->appear
+  :general (ev-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
 
 (setq org-confirm-babel-evaluate nil
       org-src-fontify-natively t
@@ -1798,7 +1795,7 @@ any directory proferred by `consult-dir'."
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "E E" 'embark-act
    "E h B" 'embark-bindings)
 
@@ -1834,7 +1831,7 @@ any directory proferred by `consult-dir'."
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
-  :general (ev-leader-key-map
+  :general (ev-leader-keys
             "a c m" 'copilot-mode
             "a c n" 'copilot-next-completion
             "a c p" 'copilot-previous-completion))
@@ -1847,7 +1844,7 @@ any directory proferred by `consult-dir'."
                                 :stream t
                                 :models '("mistral:latest" "codegemma:latest" "llama3:latest")))
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "a a" 'gptel
    "a g" 'gptel-menu
    "a s" 'gptel-send)
@@ -1905,7 +1902,7 @@ any directory proferred by `consult-dir'."
    (vue-ts-mode
     . (lambda () (setq-local devdocs-current-docs '("vue~3" "javascript" "typescript")))))
   :general
-  (ev-leader-key-map
+  (ev-leader-keys
    "h d l" 'devdocs-lookup
    "h d p" 'devdocs-peruse
    "h d i" 'devdocs-install
