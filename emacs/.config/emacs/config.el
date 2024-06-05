@@ -420,8 +420,8 @@
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
-(defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "SF Mono")
+(defvar ev-linux-font "Berkeley Mono")
+(defvar ev-macos-font "Berkeley Mono")
 ;; (defvar ev-heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
