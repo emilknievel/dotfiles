@@ -19,16 +19,25 @@ return {
   -- Graphics
   enable_wayland = false,
   color_scheme = scheme_for_appearance(get_appearance()),
+  force_reverse_video_cursor = true,
 
   -- Font features
-  font = wezterm.font('NotoSansM Nerd Font'),
-  font_size = 10.0,
+  font = wezterm.font('Berkeley Mono'),
+  -- font = wezterm.font_with_fallback{'NotoSansM Nerd Font' },
+  font_size = 11.0,
   adjust_window_size_when_changing_font_size = false,
   harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
 
   -- Windows
-  initial_cols = 128,
-  initial_rows = 32,
+  initial_cols = 115,
+  initial_rows = 40,
+  enable_scroll_bar = false,
+  -- window_padding = {
+  --   left = 0,
+  --   right = 0,
+  --   top = 0,
+  --   bottom = 0,
+  -- },
 
   -- Tabs
   enable_tab_bar = true,
