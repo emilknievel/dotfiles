@@ -297,6 +297,10 @@
     ("M-d" mc/mark-next-like-this "mark next")
     ("M-D" mc/unmark-previous-like-this "mark previous")))
 
+(use-package eldoc-box
+  :config
+  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t))
+
 (setq inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)
@@ -720,6 +724,9 @@
 (use-package doom-modeline
   :config
   (doom-modeline-mode 1))
+
+(add-hook 'prog-mode-hook 'hl-line-mode)
+(add-hook 'conf-mode-hook 'hl-line-mode)
 
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)
