@@ -470,11 +470,11 @@
           ev-variable-pitch-font-weight 'normal
           ev-variable-pitch-font-width 'normal
 
-          ev-editor-font-height 130
+          ev-editor-font-height 140
           ev-editor-font-weight 'normal
           ev-editor-font-width 'normal
 
-          ev-fixed-pitch-font-height 130
+          ev-fixed-pitch-font-height 140
           ev-fixed-pitch-font-weight 'normal
           ev-fixed-pitch-font-width 'normal)
   (ev-setup-linux-fonts))
