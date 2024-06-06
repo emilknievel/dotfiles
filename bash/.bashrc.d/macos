@@ -17,9 +17,23 @@ shopt -s checkwinsize
 
 [ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
 
+# change lang to en_US but keep encoding
+export LANG=${LANG/sv_SE/en_US}
+
 export PATH="/opt/homebrew/bin:$PATH"
+
 # GNU utilities without "g" prefix. Replaces ls, cat, etc.
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+
+# use gnu-awk instead of awk on mac
+export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
+
+# dotnet from M$ website, already in path
+DOTNET_ROOT="$(dirname "$(which dotnet)")"
+export DOTNET_ROOT
+
+# Add python from pyenv to path
+export PATH="$PATH:$HOME/.pyenv/shims"
 
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 

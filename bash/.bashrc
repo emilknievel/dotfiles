@@ -5,17 +5,17 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-fi
-export PATH
+# local scripts and binaries
+export PATH="$HOME/.local/scripts:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
     for rc in ~/.bashrc.d/*; do
         if [ -f "$rc" ]; then
-            . "$rc"
+          # shellcheck source=/dev/null
+          . "$rc"
         fi
     done
 fi
@@ -24,6 +24,7 @@ unset rc
 eval "$(ssh-agent -s)" > /dev/null 2>&1
 
 # bash shell integration for emacs-eat
+# shellcheck source=/dev/null
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
     source "$EAT_SHELL_INTEGRATION_DIR/bash"
 
@@ -47,30 +48,6 @@ fi
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-case "$OSTYPE" in
-  darwin*)
-    # If you come from bash you might have to change your $PATH.
-    export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-    # dotnet from M$ website, already in path
-    export DOTNET_ROOT="$(dirname $(which dotnet))"
-
-    # Add python from pyenv to path
-    export PATH="$PATH:$HOME/.pyenv/shims"
-    # Add doom
-    export PATH="$PATH:$HOME/.emacs.d/bin"
-    # coreutils
-    export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
-    ;;
-esac
-
-case "$OSTYPE" in
-  darwin*)
-    # change lang to en_US but keep encoding
-    export LANG=${LANG/sv_SE/en_US}
-    ;;
-esac
-
 export EDITOR='vi'
 export VISUAL='nvim'
 
@@ -83,14 +60,11 @@ case "$OSTYPE" in
     export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
     ;;
   linux*)
-    export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+    GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+    export GEM_HOME
     export PATH="$PATH:$GEM_HOME/bin"
     ;;
 esac
-
-# local scripts and binaries
-export PATH="$HOME/.local/scripts:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
 
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -131,10 +105,7 @@ if [ "$USER" = "tiboemv" ]; then
     export NODE_EXTRA_CA_CERTS="$HOME/mio-self-signed.pem"
 fi
 
-# use gnu-awk instead of awk on mac
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
-fi
-
 # lua
 export PATH="$PATH:$HOME/.luarocks/bin"
+
+alias luamake="~/tools/lua/lua-language-server/3rd/luamake/luamake"
