@@ -407,7 +407,8 @@
   (doom-themes-org-config)
   :general (ev-leader-keys
             "t t s" 'ev-toggle-solarized
-            "t t r" 'ev-toggle-rose-pine))
+            "t t r" 'ev-toggle-rose-pine
+            "t t d" 'ev-doom-one))
 
 (use-package auto-dark
   :diminish
