@@ -357,6 +357,14 @@ Use Evil mode for Vim like bindings.
            (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
     :config
     (global-evil-surround-mode 1))
+
+  (use-package evil-escape
+    :diminish
+    :after evil
+    :config
+    (setq-default evil-escape-key-sequence "jj")
+    (setq-default evil-escape-delay 0.2)
+    (evil-escape-mode 1))
 #+end_src
 
 *** Surround

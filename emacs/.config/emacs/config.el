@@ -253,6 +253,14 @@
   :config
   (global-evil-surround-mode 1))
 
+(use-package evil-escape
+  :diminish
+  :after evil
+  :config
+  (setq-default evil-escape-key-sequence "jj")
+  (setq-default evil-escape-delay 0.2)
+  (evil-escape-mode 1))
+
 (use-package surround
   :ensure t
   :bind-keymap ("C-c s" . surround-keymap))
