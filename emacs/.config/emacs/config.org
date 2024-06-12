@@ -1269,7 +1269,7 @@ Highlight line when programming or editing configuration files.
 
     ;; (corfu-separator ?\s)          ;; (M-SPC) Orderless field separator
     ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-    (corfu-quit-no-match 'separator)
+    (corfu-quit-no-match t)
     ;; (corfu-preview-current nil)    ;; Disable current candidate preview
     ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
     ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
