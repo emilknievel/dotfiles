@@ -383,9 +383,9 @@ Use Evil mode for Vim like bindings.
       ("-" shrink-window-if-larger-than-buffer "fit window")))
 #+end_src
 
-*** Devil mode
+*** Devil mode (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package devil
     :config
     (setq devil-lighter " \U0001F608")
