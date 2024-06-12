@@ -424,8 +424,8 @@
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
-(defvar ev-linux-font "Berkeley Mono")
-(defvar ev-macos-font "Berkeley Mono")
+(defvar ev-linux-font "Noto Sans Mono")
+(defvar ev-macos-font "SF Mono")
 ;; (defvar ev-heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
@@ -470,11 +470,11 @@
           ev-variable-pitch-font-weight 'normal
           ev-variable-pitch-font-width 'normal
 
-          ev-editor-font-height 140
+          ev-editor-font-height 130
           ev-editor-font-weight 'normal
           ev-editor-font-width 'normal
 
-          ev-fixed-pitch-font-height 140
+          ev-fixed-pitch-font-height 130
           ev-fixed-pitch-font-weight 'normal
           ev-fixed-pitch-font-width 'normal)
   (ev-setup-linux-fonts))
