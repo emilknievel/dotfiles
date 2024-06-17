@@ -257,7 +257,7 @@
   :diminish
   :after evil
   :config
-  (setq-default evil-escape-key-sequence "jj")
+  (setq-default evil-escape-key-sequence "jk")
   (setq-default evil-escape-delay 0.2)
   (evil-escape-mode 1))
 

@@ -362,7 +362,7 @@ Use Evil mode for Vim like bindings.
     :diminish
     :after evil
     :config
-    (setq-default evil-escape-key-sequence "jj")
+    (setq-default evil-escape-key-sequence "jk")
     (setq-default evil-escape-delay 0.2)
     (evil-escape-mode 1))
 #+end_src
