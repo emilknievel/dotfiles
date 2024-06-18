@@ -428,7 +428,7 @@
   (auto-dark-mode t))
 
 (defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "SF Mono")
+(defvar ev-macos-font "MesloLGS NF")
 ;; (defvar ev-heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
@@ -1389,6 +1389,12 @@ any directory proferred by `consult-dir'."
                     (consult-dir--pick "Switch directory: ")))))
      (t (eshell/cd (if regexp (eshell-find-previous-directory regexp)
                      (completing-read "cd: " eshell-dirs)))))))
+
+(use-package zoxide
+  :hook (dired-mode . zoxide-add)
+  :general
+  (ev-leader-keys
+    "d z" '(zoxide-travel :wk "Find directory with Zoxide")))
 
 (use-package editorconfig
   :diminish

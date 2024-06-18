@@ -639,7 +639,7 @@ Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (defvar ev-linux-font "Noto Sans Mono")
-  (defvar ev-macos-font "SF Mono")
+  (defvar ev-macos-font "MesloLGS NF")
   ;; (defvar ev-heading-font "Iosevka Aile")
 
   (if (eq system-type 'darwin)
@@ -1913,6 +1913,16 @@ Jump to previously visited directory, not unlike using =zoxide=.
                       (consult-dir--pick "Switch directory: ")))))
        (t (eshell/cd (if regexp (eshell-find-previous-directory regexp)
                        (completing-read "cd: " eshell-dirs)))))))
+#+end_src
+
+*** Zoxide
+
+#+begin_src emacs-lisp
+  (use-package zoxide
+    :hook (dired-mode . zoxide-add)
+    :general
+    (ev-leader-keys
+      "d z" '(zoxide-travel :wk "Find directory with Zoxide")))
 #+end_src
 
 ** Editorconfig
