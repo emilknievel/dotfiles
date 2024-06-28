@@ -2663,11 +2663,11 @@ Package repo.
 
 ** AI
 
-*** Copilot
+*** Copilot (disabled)
 
 Copilot.el is an Emacs plugin for GitHub Copilot.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package copilot
     :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
     :hook
@@ -2847,9 +2847,9 @@ Keybindings for compilation functions.
   (global-set-key (kbd "C-<f5>") 'project-compile)
 #+end_src
 
-** IRC
+** IRC (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package circe
     :init
     (defun ev-circe-set-margin ()
