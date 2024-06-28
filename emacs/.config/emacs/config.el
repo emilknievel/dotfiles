@@ -1700,7 +1700,7 @@ any directory proferred by `consult-dir'."
    ;; If you use Markdown or plain text files you want to buttonise
    ;; existing buttons upon visiting the file (Org renders links as
    ;; buttons right away).
-   (find-file . denote-link-buttonize-buffer)))
+   (find-file . denote-fontify-links)))
 
 (use-package denote-explore
   :after denote
