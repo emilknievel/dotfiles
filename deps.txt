@@ -1,10 +1,12 @@
 direnv
 zoxide
 fzf
+ripgrep (rg)
 
 # macOS
 homebrew
 gnu coreutils
+bash-completion@2 (needed for the `bat` command to work)
 
 # tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
