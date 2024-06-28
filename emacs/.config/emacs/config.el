@@ -428,7 +428,7 @@
   (auto-dark-mode t))
 
 (defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "MesloLGS NF")
+(defvar ev-macos-font "MesloLGS Nerd Font")
 ;; (defvar ev-heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
