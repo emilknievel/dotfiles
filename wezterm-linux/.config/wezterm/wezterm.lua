@@ -9,9 +9,9 @@ end
 
 local function scheme_for_appearance(appearance)
   if appearance:find('Dark') then
-    return 'rose-pine'
+    return 'Dark'
   else
-    return 'rose-pine'
+    return 'Catppuccin Latte'
   end
 end
 
@@ -22,10 +22,9 @@ return {
   force_reverse_video_cursor = true,
 
   -- Font features
-  font = wezterm.font('Berkeley Mono'),
-  -- font = wezterm.font_with_fallback{'NotoSansM Nerd Font' },
-  font_size = 11.0,
-  adjust_window_size_when_changing_font_size = false,
+  font = wezterm.font_with_fallback({ 'NotoSansM Nerd Font' }),
+  font_size = 10.0,
+  adjust_window_size_when_changing_font_size = true,
   harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
 
   -- Windows

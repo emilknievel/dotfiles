@@ -456,7 +456,7 @@
             ev-fixed-pitch-font-weight 'normal
             ev-fixed-pitch-font-width 'normal)
 
-    (setq ev-variable-pitch-font-height 100
+    (setq ev-variable-pitch-font-height 110
           ev-variable-pitch-font-weight 'normal
           ev-variable-pitch-font-width 'normal
 
