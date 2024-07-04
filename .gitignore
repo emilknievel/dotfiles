@@ -150,10 +150,10 @@ emacs/.config/emacs/eshell/lastdir
 emacs/.config/emacs/multisession
 # ignore downloaded devdocs documentation
 emacs/.config/emacs/devdocs
+/emacs/.config/emacs/tutorial/
+/emacs/.config/emacs/recentf
+/emacs/.config/emacs/org-persist
 
 ### Vim ###
 lazy-lock.json
 vim/.config/nvim/plugin/packer_compiled.lua
-
-/emacs/.config/emacs/tutorial/
-/emacs/.config/emacs/recentf

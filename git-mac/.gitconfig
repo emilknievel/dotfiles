@@ -29,13 +29,13 @@
 	quotepath = false
 	excludesfile = .config/git/gitignore_global
 	autocrlf = input
-
 [help]
 	# Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
 	autocorrect = 1
-[includeIf "gitdir:~/stuff/"]
-	path = ~/.config/git/gitconfig-personal
-[includeIf "gitdir:~/projects/"]
+[user]
+	name = Emil Vågstedt
+	email = emil.vagstedt@icloud.com
+[includeIf "gitdir:~/repos/work/"]
 	path = ~/.config/git/gitconfig-work
 [init]
 	defaultBranch = main
