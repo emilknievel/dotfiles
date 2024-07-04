@@ -1585,7 +1585,7 @@ any directory proferred by `consult-dir'."
   :custom
   (org-modern-table nil)
   (org-modern-todo t)
-  ;; (org-modern-star '("*"))
+  (org-modern-star 'replace)
   (org-modern-hide-stars 'leading)
   (org-modern-block-fringe 8)
   :hook

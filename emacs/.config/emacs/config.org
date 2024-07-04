@@ -2133,7 +2133,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
     :custom
     (org-modern-table nil)
     (org-modern-todo t)
-    ;; (org-modern-star '("*"))
+    (org-modern-star 'replace)
     (org-modern-hide-stars 'leading)
     (org-modern-block-fringe 8)
     :hook
