@@ -378,7 +378,7 @@
   (setq ef-themes-common-palette-overrides
         '((fringe unspecified)))
   (setq ef-themes-variable-pitch-ui nil)
-  (setq ef-themes-to-toggle '(ef-dark ef-light))
+  (setq ef-themes-to-toggle '(ef-night ef-light))
   :general (ev-leader-keys
             "t t e" 'ef-themes-toggle))
 
@@ -414,8 +414,8 @@
   :diminish
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-dark-theme 'ef-dark
-        auto-dark-light-theme 'ef-light)
+  (setq auto-dark-dark-theme (car ef-themes-to-toggle)
+        auto-dark-light-theme (cadr ef-themes-to-toggle))
   :config
   (add-hook 'auto-dark-dark-mode-hook
             (lambda ()
@@ -428,7 +428,7 @@
   (auto-dark-mode t))
 
 (defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "MesloLGS Nerd Font")
+(defvar ev-macos-font "Mononoki Nerd Font")
 ;; (defvar ev-heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
