@@ -566,50 +566,6 @@
     ("=" ev-increase-font-size "increase size")
     ("-" ev-decrease-font-size "decrease size")))
 
-(custom-theme-set-faces
- 'user
- `(org-code ((t (:inherit fixed-pitch))))
- `(org-block ((t (:inherit fixed-pitch))))
- ;; `(org-block-begin-line ((t (:inherit (shadow fixed-pitch) :extend t))))
- ;; `(org-block-end-line ((t (:inherit org-block-begin-line))))
- `(org-verbatim ((t (:inherit fixed-pitch))))
-
- `(outline-1 ((t (:height 1.5))))
- `(outline-2 ((t (:height 1.4))))
- `(outline-3 ((t (:height 1.3))))
- `(outline-4 ((t (:height 1.2))))
- `(outline-5 ((t (:height 1.1))))
- `(outline-6 ((t (:height 1.0))))
- `(outline-7 ((t (:height 1.0))))
- `(outline-8 ((t (:height 1.0))))
-
- `(org-level-1 ((t (:inherit outline-1))))
- `(org-level-2 ((t (:inherit outline-2))))
- `(org-level-3 ((t (:inherit outline-3))))
- `(org-level-4 ((t (:inherit outline-4))))
- `(org-level-5 ((t (:inherit outline-5))))
- `(org-level-6 ((t (:inherit outline-6))))
- `(org-level-7 ((t (:inherit outline-7))))
- `(org-level-8 ((t (:inherit outline-8))))
-
- `(markdown-inline-code-face ((t (:inherit org-code))))
- `(markdown-code-face ((t (:inherit fixed-pitch))))
- `(markdown-header-face-1 ((t (:inherit org-level-1))))
- `(markdown-header-face-2 ((t (:inherit org-level-2))))
- `(markdown-header-face-3 ((t (:inherit org-level-3))))
- `(markdown-header-face-4 ((t (:inherit org-level-4))))
- `(markdown-header-face-5 ((t (:inherit org-level-5))))
- `(markdown-header-face-6 ((t (:inherit org-level-6))))
- `(markdown-header-face-7 ((t (:inherit org-level-7))))
- `(markdown-header-face-8 ((t (:inherit org-level-8))))
-
- `(org-meta-line ((t :inherit fixed-pitch)))
- `(org-drawer ((t :inherit fixed-pitch)))
- ;; `(org-document-title ((t (:inherit variable-pitch))))
- ;; `(org-document-info ((t (:inherit variable-pitch))))
- `(org-table ((t (:inherit fixed-pitch))))
- `(org-quote ((t :inherit italic))))
-
 (use-package ligature
   :straight
   (ligature :type git :host github :repo "mickeynp/ligature.el")
@@ -1134,7 +1090,7 @@ parses its input."
   :demand t
   :mode ("\\.md\\'" . gfm-mode)
   :init (setq markdown-command "pandoc"
-              markdown-header-scaling t
+              markdown-header-scaling nil
               markdown-enable-math t
               markdown-make-gfm-checkboxes-buttons t
               markdown-fontify-code-blocks-natively t))
@@ -1543,9 +1499,7 @@ any directory proferred by `consult-dir'."
   (org-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-startup-indented t)
-  (org-hide-emphasis-markers t)
-  ;; (org-ellipsis "…")
+  (org-startup-indented nil)
 
   ;; Add CLOSED: [timestamp] line after todo headline when marked as done
   ;; and prompt for closing note.
@@ -1574,20 +1528,22 @@ any directory proferred by `consult-dir'."
          ("C-c c" . org-capture))
   :hook
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
   ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
   ;; (org-agenda-mode . hl-line-mode)
   ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
-  :general (ev-leader-keys "o b t" 'org-babel-tangle))
+  :general (ev-leader-keys
+             "o b t" 'org-babel-tangle
+             "o l d" 'org-toggle-link-display))
 
 (use-package org-modern
   :after org
   :custom
-  (org-modern-table nil)
+  (org-modern-table t)
   (org-modern-todo t)
-  (org-modern-star 'replace)
-  (org-modern-hide-stars 'leading)
-  (org-modern-block-fringe 8)
+  (org-modern-star nil)
+  (org-modern-hide-stars nil)
+  (org-modern-block-fringe nil)
   :hook
   (org-mode . org-modern-mode))
 
@@ -1600,17 +1556,6 @@ any directory proferred by `consult-dir'."
         olivetti-minimum-body-width 72)
   :config
   :hook ((org-mode markdown-mode) . olivetti-mode))
-
-(use-package org-appear
-  :config
-  (setq org-appear-autoemphasis t
-        org-appear-autolinks t
-        org-appear-autosubmarkers t
-        org-appear-autoentities t
-        org-appear-autokeywords t
-        org-appear-inside-latex t)
-  :hook (org-mode . org-appear-mode)
-  :general (ev-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
 
 (setq org-confirm-babel-evaluate nil
       org-src-fontify-natively t

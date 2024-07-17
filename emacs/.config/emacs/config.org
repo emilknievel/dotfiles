@@ -782,9 +782,9 @@ Get rid of the annoying startup screen.
       ("-" ev-decrease-font-size "decrease size")))
 #+end_src
 
-**** Custom faces
+**** Custom faces (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (custom-theme-set-faces
    'user
    `(org-code ((t (:inherit fixed-pitch))))
@@ -1522,7 +1522,7 @@ Use prolog-mode instead of perl-mode for .pl files.
     :demand t
     :mode ("\\.md\\'" . gfm-mode)
     :init (setq markdown-command "pandoc"
-                markdown-header-scaling t
+                markdown-header-scaling nil
                 markdown-enable-math t
                 markdown-make-gfm-checkboxes-buttons t
                 markdown-fontify-code-blocks-natively t))
@@ -2087,9 +2087,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
     (org-catch-invisible-edits 'show-and-error)
     (org-special-ctrl-a/e t)
     (org-insert-heading-respect-content t)
-    (org-startup-indented t)
-    (org-hide-emphasis-markers t)
-    ;; (org-ellipsis "…")
+    (org-startup-indented nil)
 
     ;; Add CLOSED: [timestamp] line after todo headline when marked as done
     ;; and prompt for closing note.
@@ -2118,11 +2116,13 @@ Jump to previously visited directory, not unlike using =zoxide=.
            ("C-c c" . org-capture))
     :hook
     ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-    ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+    ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
     ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
     ;; (org-agenda-mode . hl-line-mode)
     ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
-    :general (ev-leader-keys "o b t" 'org-babel-tangle))
+    :general (ev-leader-keys
+               "o b t" 'org-babel-tangle
+               "o l d" 'org-toggle-link-display))
 #+end_src
 
 *** Org Modern
@@ -2131,11 +2131,11 @@ Jump to previously visited directory, not unlike using =zoxide=.
   (use-package org-modern
     :after org
     :custom
-    (org-modern-table nil)
+    (org-modern-table t)
     (org-modern-todo t)
-    (org-modern-star 'replace)
-    (org-modern-hide-stars 'leading)
-    (org-modern-block-fringe 8)
+    (org-modern-star nil)
+    (org-modern-hide-stars nil)
+    (org-modern-block-fringe nil)
     :hook
     (org-mode . org-modern-mode))
 #+end_src
@@ -2156,11 +2156,11 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
     :hook ((org-mode markdown-mode) . olivetti-mode))
 #+end_src
 
-*** Appear
+*** Appear (disabled)
 
 This package displays hidden emphasis markers while the cursor is on a rich text word.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package org-appear
     :config
     (setq org-appear-autoemphasis t
@@ -2168,7 +2168,8 @@ This package displays hidden emphasis markers while the cursor is on a rich text
           org-appear-autosubmarkers t
           org-appear-autoentities t
           org-appear-autokeywords t
-          org-appear-inside-latex t)
+          org-appear-inside-latex t
+          org-hide-emphasis-markers t)
     :hook (org-mode . org-appear-mode)
     :general (ev-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
 #+end_src
