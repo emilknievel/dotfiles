@@ -110,7 +110,7 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 
 ** Calendar
 
-*** Weeks start on Mondays
+Monday as first day of the week.
 
 #+begin_src emacs-lisp
   (setq calendar-week-start-day 1)
