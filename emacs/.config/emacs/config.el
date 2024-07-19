@@ -1567,6 +1567,18 @@ any directory proferred by `consult-dir'."
   :config
   :hook ((org-mode markdown-mode) . olivetti-mode))
 
+(use-package org-appear
+  :config
+  (setq org-appear-autoemphasis t
+        org-appear-autolinks t
+        org-appear-autosubmarkers t
+        org-appear-autoentities t
+        org-appear-autokeywords t
+        org-appear-inside-latex t
+        org-hide-emphasis-markers t)
+  :hook (org-mode . org-appear-mode)
+  :general (ev-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
+
 (setq org-confirm-babel-evaluate nil
       org-src-fontify-natively t
       org-src-tab-acts-natively t)

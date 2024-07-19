@@ -1427,7 +1427,9 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     :config (eglot-booster-mode))
 #+end_src
 
-*Deps*: [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]. I opted for cloning the git repo, building the crate, and creating a symlink to the ~emacs-lsp-booster~ binary to =$HOME /local/bin=.
+*** Dependencies
+
+- [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]: I opted for cloning the git repo, building the crate, and creating a symlink to the ~emacs-lsp-booster~ binary to =$HOME /local/bin=.
 
 ** Language configuration
 
@@ -2177,11 +2179,11 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
     :hook ((org-mode markdown-mode) . olivetti-mode))
 #+end_src
 
-*** Appear (disabled)
+*** Appear
 
 This package displays hidden emphasis markers while the cursor is on a rich text word.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package org-appear
     :config
     (setq org-appear-autoemphasis t
