@@ -1220,6 +1220,16 @@ parses its input."
 (use-package csv-mode
   :mode "\\.csv\\'")
 
+(defun ev-maybe-load-bash-ts-mode ()
+  "Load bash-ts-mode if the file starts with #!/bin/bash."
+  (when (buffer-file-name)
+    (save-excursion
+      (goto-char (point-min))
+      (when (looking-at "#!/bin/bash")
+        (bash-ts-mode)))))
+
+(add-hook 'find-file-hook 'ev-maybe-load-bash-ts-mode)
+
 (use-package flycheck
   :init (global-flycheck-mode))
 

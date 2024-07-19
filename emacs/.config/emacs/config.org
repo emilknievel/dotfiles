@@ -1678,12 +1678,19 @@ Notable keymaps:
 
 *** C#
 
+**** Eglot
+
 #+begin_src emacs-lisp
   ;; Invoke Eglot when entering a C# file
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
                  '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))))
   (add-hook 'csharp-mode-hook 'eglot-ensure)
+#+end_src
+
+**** Other
+
+#+begin_src emacs-lisp
 
   ;; C# is fairly verbose, so lines are usually longer than 80 columns
   (add-hook 'csharp-mode-hook
@@ -1724,6 +1731,20 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 #+begin_src emacs-lisp
   (use-package csv-mode
     :mode "\\.csv\\'")
+#+end_src
+
+*** Shell
+
+#+begin_src emacs-lisp
+  (defun ev-maybe-load-bash-ts-mode ()
+    "Load bash-ts-mode if the file starts with #!/bin/bash."
+    (when (buffer-file-name)
+      (save-excursion
+        (goto-char (point-min))
+        (when (looking-at "#!/bin/bash")
+          (bash-ts-mode)))))
+
+  (add-hook 'find-file-hook 'ev-maybe-load-bash-ts-mode)
 #+end_src
 
 ** Syntax checking
