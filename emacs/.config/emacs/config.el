@@ -113,26 +113,15 @@
 
 (use-package general
   :init
-  ;; (global-unset-key (kbd "C-M-SPC"))
-  ;; (global-unset-key (kbd "C-z"))
+  (keymap-global-unset "C-z")
   :after which-key
   :config
-  (general-evil-setup t)
-  ;; (general-define-key
-  ;;  :keymaps '(normal insert visual emacs)
-  ;;  :prefix "SPC"
-  ;;  :global-prefix "C-M-SPC"
-  ;;  :prefix-map 'ev-leader-key-map
-
   (general-create-definer ev-leader-keys
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-    :global-prefix "C-M-SPC"))
+    :prefix "C-z"))
 
 (ev-leader-keys
  ;; Top level functions
- "SPC" '(execute-extended-command :wk "M-x")
- ;; "C-z" '(execute-extended-command :wk "M-x")
+ "C-z" '(execute-extended-command :wk "M-x")
 
  ;; Prefixes
 
@@ -215,60 +204,13 @@
  ;; emacsclient
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
-(use-package undo-fu)
-
-(use-package evil
-  :after general
-  :bind (("<escape>" . keyboard-escape-quit))
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-undo-system 'undo-fu)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-respect-visual-line-mode t) ; Make vertical movement respect wrapped lines
-  :config
-  (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
-  ;; M-. is reverse evil repeat only when previously done evil-repeat (C-.)
-  (define-key evil-normal-state-map (kbd "M-.")
-              `(menu-item "" evil-repeat-pop :filter
-                          ,(lambda (cmd) (if (eq last-command 'evil-repeat-pop) cmd))))
-  (evil-mode 1))
-
-(use-package evil-collection
-  :after evil
-  :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
-  :config
-  (evil-collection-init)
-  :hook (vterm-mode . evil-collection-vterm-escape-stay))
-
-(use-package evil-commentary
-  :diminish
-  :hook (prog-mode . evil-commentary-mode))
-
-(use-package evil-surround
-  :diminish
-  :after evil
-  :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
-         (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
-  :config
-  (global-evil-surround-mode 1))
-
-(use-package evil-escape
-  :diminish
-  :after evil
-  :config
-  (setq-default evil-escape-key-sequence "jk")
-  (setq-default evil-escape-delay 0.2)
-  (evil-escape-mode 1))
-
 (use-package surround
   :ensure t
   :bind-keymap ("C-c s" . surround-keymap))
 
 (use-package hydra
-  :after evil
   :config
-  (defhydra hydra-window-actions (evil-normal-state-map "SPC w")
+  (defhydra hydra-window-actions (global-map "C-z w")
     "window actions"
     ("h" shrink-window-horizontally "shrink horizontally")
     ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -280,8 +222,6 @@
 (use-package iedit
   :general
   (ev-leader-keys "e" 'iedit-mode))
-
-(use-package evil-iedit-state)
 
 (require 'whitespace)
 
@@ -429,7 +369,6 @@
 
 (defvar ev-linux-font "Noto Sans Mono")
 (defvar ev-macos-font "Mononoki Nerd Font")
-;; (defvar ev-heading-font "Iosevka Aile")
 
 (if (eq system-type 'darwin)
     (defvar ev-editor-font ev-macos-font)
@@ -560,11 +499,10 @@
                       :family ev-editor-font
                       :height (face-attribute 'fixed-pitch :height)))
 
-(with-eval-after-load 'evil
-  (defhydra hydra-font-actions (evil-normal-state-map "SPC u f")
-    "font actions"
-    ("=" ev-increase-font-size "increase size")
-    ("-" ev-decrease-font-size "decrease size")))
+(defhydra hydra-font-actions (global-map "C-z u f")
+  "font actions"
+  ("=" ev-increase-font-size "increase size")
+  ("-" ev-decrease-font-size "decrease size"))
 
 (use-package ligature
   :straight
@@ -721,7 +659,7 @@
                                 vertico-unobtrusive
                                 ))
   :general
-  (:keymaps '(normal insert visual motion)
+  (:keymaps 'global
             "C-<" #'vertico-repeat ; C-S-,
             )
   (:keymaps 'vertico-map
@@ -1247,7 +1185,6 @@ parses its input."
   ;; Restore previous layout when exiting Magit.
   (setq magit-bury-buffer-function
         #'magit-restore-window-configuration)
-  (evil-define-key 'normal magit-mode-map "q" 'magit-mode-quit-window)
   :general
   (ev-leader-keys
    "g g" 'magit-status
@@ -1297,11 +1234,8 @@ parses its input."
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
           insert-directory-program "/opt/homebrew/bin/gls"))
-  (evil-define-key 'normal dired-mode-map
-    "h" 'dired-up-directory
-    "l" 'dired-find-file
-    "q" 'quit-window)
-  :hook (dired-mode . dired-hide-details-mode)
+  :hook
+  (dired-mode . dired-hide-details-mode)
   :custom
   (dired-listing-switches "-aBhl --group-directories-first"))
 
@@ -1310,16 +1244,11 @@ parses its input."
 (use-package casual-dired
   :bind (:map dired-mode-map ("C-o" . 'casual-dired-tmenu)))
 
-(use-package dired-hide-dotfiles
-  :config
-  (evil-define-key 'normal dired-mode-map "H" 'dired-hide-dotfiles-mode))
+(use-package dired-hide-dotfiles)
 
 (use-package treemacs
   :defer t
   :general (ev-leader-keys "f e" 'treemacs))
-
-(use-package treemacs-evil
-  :after (treemacs evil))
 
 (use-package treemacs-magit
   :after (treemacs magit))
@@ -1895,8 +1824,7 @@ any directory proferred by `consult-dir'."
   ;; already links to the manual, if a function is referenced there.
   (global-set-key (kbd "C-h F") #'helpful-function)
 
-  (global-set-key (kbd "C-h o") #'helpful-symbol)
-  (evil-define-key 'normal helpful-mode-map "q" 'quit-window))
+  (global-set-key (kbd "C-h o") #'helpful-symbol))
 
 (use-package hl-todo
   :hook ((prog-mode . hl-todo-mode)

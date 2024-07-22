@@ -188,26 +188,15 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+begin_src emacs-lisp
   (use-package general
     :init
-    ;; (global-unset-key (kbd "C-M-SPC"))
-    ;; (global-unset-key (kbd "C-z"))
+    (keymap-global-unset "C-z")
     :after which-key
     :config
-    (general-evil-setup t)
-    ;; (general-define-key
-    ;;  :keymaps '(normal insert visual emacs)
-    ;;  :prefix "SPC"
-    ;;  :global-prefix "C-M-SPC"
-    ;;  :prefix-map 'ev-leader-key-map
-
     (general-create-definer ev-leader-keys
-      :keymaps '(normal insert visual emacs)
-      :prefix "SPC"
-      :global-prefix "C-M-SPC"))
+      :prefix "C-z"))
 
   (ev-leader-keys
    ;; Top level functions
-   "SPC" '(execute-extended-command :wk "M-x")
-   ;; "C-z" '(execute-extended-command :wk "M-x")
+   "C-z" '(execute-extended-command :wk "M-x")
 
    ;; Prefixes
 
@@ -315,58 +304,6 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
    "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 #+end_src
 
-*** Evil
-
-Use Evil mode for Vim like bindings.
-
-#+begin_src emacs-lisp
-  (use-package undo-fu)
-
-  (use-package evil
-    :after general
-    :bind (("<escape>" . keyboard-escape-quit))
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-undo-system 'undo-fu)
-    (setq evil-want-C-u-scroll t)
-    (setq evil-respect-visual-line-mode t) ; Make vertical movement respect wrapped lines
-    :config
-    (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
-    ;; M-. is reverse evil repeat only when previously done evil-repeat (C-.)
-    (define-key evil-normal-state-map (kbd "M-.")
-                `(menu-item "" evil-repeat-pop :filter
-                            ,(lambda (cmd) (if (eq last-command 'evil-repeat-pop) cmd))))
-    (evil-mode 1))
-
-  (use-package evil-collection
-    :after evil
-    :custom (evil-collection-setup-minibuffer t) ; enable evil in the minibuffer
-    :config
-    (evil-collection-init)
-    :hook (vterm-mode . evil-collection-vterm-escape-stay))
-
-  (use-package evil-commentary
-    :diminish
-    :hook (prog-mode . evil-commentary-mode))
-
-  (use-package evil-surround
-    :diminish
-    :after evil
-    :hook ((org-mode . (lambda () (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)))
-           (org-mode . (lambda () (push '(?$ . ("\\(" . "\\)")) evil-surround-pairs-alist))))
-    :config
-    (global-evil-surround-mode 1))
-
-  (use-package evil-escape
-    :diminish
-    :after evil
-    :config
-    (setq-default evil-escape-key-sequence "jk")
-    (setq-default evil-escape-delay 0.2)
-    (evil-escape-mode 1))
-#+end_src
-
 *** Surround
 
 #+begin_src emacs-lisp
@@ -379,9 +316,8 @@ Use Evil mode for Vim like bindings.
 
 #+begin_src emacs-lisp
   (use-package hydra
-    :after evil
     :config
-    (defhydra hydra-window-actions (evil-normal-state-map "SPC w")
+    (defhydra hydra-window-actions (global-map "C-z w")
       "window actions"
       ("h" shrink-window-horizontally "shrink horizontally")
       ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -411,12 +347,6 @@ Edit multiple occurrences in the same way simultaneously.
   (use-package iedit
     :general
     (ev-leader-keys "e" 'iedit-mode))
-#+end_src
-
-Integrate iedit with evil. [[https://github.com/syl20bnr/evil-iedit-state][Keybindings]] etc.
-
-#+begin_src emacs-lisp
-  (use-package evil-iedit-state)
 #+end_src
 
 *** Whitespace
@@ -469,15 +399,13 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 ** Customization
 
-*** Disable startup screen
-
 Get rid of the annoying startup screen.
 
 #+begin_src emacs-lisp
   (setq inhibit-startup-screen t)
 #+end_src
 
-*** Confirm on exit
+Confirm exit with y/n instead of yes/no.
 
 #+begin_src emacs-lisp
   (setopt confirm-kill-emacs 'y-or-n-p)
@@ -640,7 +568,6 @@ Get rid of the annoying startup screen.
 #+begin_src emacs-lisp
   (defvar ev-linux-font "Noto Sans Mono")
   (defvar ev-macos-font "Mononoki Nerd Font")
-  ;; (defvar ev-heading-font "Iosevka Aile")
 
   (if (eq system-type 'darwin)
       (defvar ev-editor-font ev-macos-font)
@@ -775,11 +702,10 @@ Get rid of the annoying startup screen.
                         :family ev-editor-font
                         :height (face-attribute 'fixed-pitch :height)))
 
-  (with-eval-after-load 'evil
-    (defhydra hydra-font-actions (evil-normal-state-map "SPC u f")
-      "font actions"
-      ("=" ev-increase-font-size "increase size")
-      ("-" ev-decrease-font-size "decrease size")))
+  (defhydra hydra-font-actions (global-map "C-z u f")
+    "font actions"
+    ("=" ev-increase-font-size "increase size")
+    ("-" ev-decrease-font-size "decrease size"))
 #+end_src
 
 **** Custom faces (disabled)
@@ -1084,7 +1010,7 @@ Highlight line when programming or editing configuration files.
                                   vertico-unobtrusive
                                   ))
     :general
-    (:keymaps '(normal insert visual motion)
+    (:keymaps 'global
               "C-<" #'vertico-repeat ; C-S-,
               )
     (:keymaps 'vertico-map
@@ -1781,7 +1707,6 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
     ;; Restore previous layout when exiting Magit.
     (setq magit-bury-buffer-function
           #'magit-restore-window-configuration)
-    (evil-define-key 'normal magit-mode-map "q" 'magit-mode-quit-window)
     :general
     (ev-leader-keys
      "g g" 'magit-status
@@ -1862,11 +1787,8 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
     (when (string= system-type "darwin")
       (setq dired-use-ls-dired t
             insert-directory-program "/opt/homebrew/bin/gls"))
-    (evil-define-key 'normal dired-mode-map
-      "h" 'dired-up-directory
-      "l" 'dired-find-file
-      "q" 'quit-window)
-    :hook (dired-mode . dired-hide-details-mode)
+    :hook
+    (dired-mode . dired-hide-details-mode)
     :custom
     (dired-listing-switches "-aBhl --group-directories-first"))
 
@@ -1879,9 +1801,7 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 *** Hide/show hidden files
 
 #+begin_src emacs-lisp
-  (use-package dired-hide-dotfiles
-    :config
-    (evil-define-key 'normal dired-mode-map "H" 'dired-hide-dotfiles-mode))
+  (use-package dired-hide-dotfiles)
 #+end_src
 
 *** Treemacs
@@ -1892,9 +1812,6 @@ Treemacs is an Emacs package that provides a customizable, tree-style file explo
   (use-package treemacs
     :defer t
     :general (ev-leader-keys "f e" 'treemacs))
-
-  (use-package treemacs-evil
-    :after (treemacs evil))
 
   (use-package treemacs-magit
     :after (treemacs magit))
@@ -2437,7 +2354,7 @@ Display org roam database as connected nodes in the browser.
 *** TODO Super Agenda
 
 - [ ] Install [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]
-  
+
 ** Denote
 
 Use denote for note-taking. Most of this is copied from Prot's config.
@@ -2828,8 +2745,7 @@ Helpful is basically *Help* with some extra features.
     ;; already links to the manual, if a function is referenced there.
     (global-set-key (kbd "C-h F") #'helpful-function)
 
-    (global-set-key (kbd "C-h o") #'helpful-symbol)
-    (evil-define-key 'normal helpful-mode-map "q" 'quit-window))
+    (global-set-key (kbd "C-h o") #'helpful-symbol))
 #+end_src
 
 ** TODOs
