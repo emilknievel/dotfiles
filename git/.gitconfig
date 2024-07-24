@@ -45,3 +45,5 @@
 	enabled = true
 [push]
 	autoSetupRemote = true
+[sendemail]
+	annotate = yes
