@@ -298,7 +298,6 @@
   (load-theme 'doom-one t))
 
 (use-package modus-themes
-  :ensure t
   :init
   (setq modus-themes-mixed-fonts t)
   (setq modus-themes-variable-pitch-ui nil)
@@ -312,15 +311,22 @@
             "t t m" 'modus-themes-toggle))
 
 (use-package ef-themes
-  :ensure t
   :init
-  (setq ef-themes-mixed-fonts t)
-  (setq ef-themes-common-palette-overrides
-        '((fringe unspecified)))
-  (setq ef-themes-variable-pitch-ui nil)
   (setq ef-themes-to-toggle '(ef-night ef-light))
+  :config
+  (setq ef-themes-mixed-fonts t
+        ;; ef-themes-common-palette-overrides '((fringe unspecified))
+        ef-themes-variable-pitch-ui t
+        ef-themes-headings '((0 . (1.7))
+                             (1 . (1.6))
+                             (2 . (1.5))
+                             (3 . (1.4))
+                             (4 . (1.3))
+                             (5 . (1.2))
+                             (6 . (1.1))
+                             (7 . (1.0))))
   :general (ev-leader-keys
-            "t t e" 'ef-themes-toggle))
+             "t t e" 'ef-themes-toggle))
 
 (defun ev-toggle-solarized ()
   "Toggle between light and dark solarized themes."
@@ -337,18 +343,15 @@
     (ev-rose-pine)))
 
 (use-package doom-themes
-  :ensure t
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
-  ;; (setq doom-themes-treemacs-theme "doom-atom")
-  ;; (doom-themes-treemacs-config)
   (ev-solarized-light)
   (doom-themes-org-config)
   :general (ev-leader-keys
-            "t t s" 'ev-toggle-solarized
-            "t t r" 'ev-toggle-rose-pine
-            "t t d" 'ev-doom-one))
+             "t t s" 'ev-toggle-solarized
+             "t t r" 'ev-toggle-rose-pine
+             "t t d" 'ev-doom-one))
 
 (use-package auto-dark
   :diminish
@@ -368,7 +371,7 @@
   (auto-dark-mode t))
 
 (defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "Mononoki Nerd Font")
+(defvar ev-macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
     (defvar ev-editor-font ev-macos-font)
@@ -408,15 +411,15 @@
           ev-fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
-    (setq ev-variable-pitch-font-height 140
+    (setq ev-variable-pitch-font-height 150
           ev-variable-pitch-font-weight 'normal
           ev-variable-pitch-font-width 'normal
 
-          ev-editor-font-height 140
+          ev-editor-font-height 150
           ev-editor-font-weight 'normal
           ev-editor-font-width 'normal
 
-          ev-fixed-pitch-font-height 140
+          ev-fixed-pitch-font-height 150
           ev-fixed-pitch-font-weight 'normal
           ev-fixed-pitch-font-width 'normal)
   (ev-setup-linux-fonts))
@@ -503,6 +506,9 @@
   "font actions"
   ("=" ev-increase-font-size "increase size")
   ("-" ev-decrease-font-size "decrease size"))
+
+;; Use 'variable-pitch' for prose.
+(add-hook 'text-mode-hook #'variable-pitch-mode)
 
 (use-package ligature
   :straight
@@ -1536,10 +1542,6 @@ any directory proferred by `consult-dir'."
   (setq denote-directory (expand-file-name "~/Documents/notes/")
         denote-journal-extras-directory (concat denote-directory "/journal"))
   :config
-  ;; Automatically rename Denote buffers when opening them so that
-  ;; instead of their long file name they have a literal "[D]"
-  ;; followed by the file's title.  Read the doc string of
-  ;; `denote-rename-buffer-format' for how to modify this.
   (setq denote-rename-buffer-format "[D] %t")
   (denote-rename-buffer-mode 1)
   (setq denote-journal-extras-title-format nil) ; always prompt for title
@@ -1581,7 +1583,6 @@ any directory proferred by `consult-dir'."
    ("C-c n b" . denote-backlinks)
    ("C-c n f f" . denote-find-link)
    ("C-c n f b" . denote-find-backlink)
-   ;; Also see `denote-rename-file' further above.
    ("C-c n R" . denote-rename-file-using-front-matter)
    :map dired-mode-map
    ("C-c C-d C-i" . denote-link-dired-marked-notes)
@@ -1589,14 +1590,8 @@ any directory proferred by `consult-dir'."
    ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
    ("C-c C-d C-f" . denote-dired-rename-marked-files-using-front-matter))
   :hook
-  ;; Highlight Denote file names in Dired buffers.  Below is the
-  ;; generic approach, which is great if you rename files Denote-style
-  ;; in lots of places:
   ((dired-mode . denote-dired-mode)
-   ;; If you use Markdown or plain text files you want to buttonise
-   ;; existing buttons upon visiting the file (Org renders links as
-   ;; buttons right away).
-   (find-file . denote-fontify-links)))
+  (text-mode . denote-fontify-links-mode-maybe)))
 
 (use-package denote-explore
   :after denote
