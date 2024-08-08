@@ -1206,6 +1206,10 @@ parses its input."
   (magit-pre-refresh . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
+(use-package eshell-syntax-highlighting
+  :defer t
+  :hook (eshell-mode . eshell-syntax-highlighting-mode))
+
 (use-package eat
   :straight (:type git
                    :host codeberg

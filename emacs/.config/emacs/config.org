@@ -1747,6 +1747,16 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 
 ** Terminal Emulation
 
+*** Eshell
+
+**** Syntax-highlighting
+
+#+begin_src emacs-lisp
+  (use-package eshell-syntax-highlighting
+    :defer t
+    :hook (eshell-mode . eshell-syntax-highlighting-mode))
+#+end_src
+
 *** Eat
 
 #+begin_src emacs-lisp
