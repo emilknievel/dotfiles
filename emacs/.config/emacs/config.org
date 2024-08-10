@@ -2848,3 +2848,16 @@ Keybindings for compilation functions.
      `(circe-originator-face ((t (:inherit bold)))))
     :hook (lui-mode . enable-lui-track-bar))
 #+end_src
+
+** Kubernetes
+*** kubed
+
+- https://github.com/eshelyaron/kubed
+- https://eshelyaron.com/kubed.html
+
+#+begin_src emacs-lisp
+  (use-package kubed
+    :straight (:host github :repo "eshelyaron/kubed")
+    :bind-keymap ("C-c K" . kubed-prefix-map)
+    :bind (:map kubed-prefix-map ("t" . kubed-transient)))
+#+end_src

@@ -1847,3 +1847,8 @@ any directory proferred by `consult-dir'."
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "S-<f5>") 'recompile)
 (global-set-key (kbd "C-<f5>") 'project-compile)
+
+(use-package kubed
+  :straight (:host github :repo "eshelyaron/kubed")
+  :bind-keymap ("C-c K" . kubed-prefix-map)
+  :bind (:map kubed-prefix-map ("t" . kubed-transient)))
