@@ -80,7 +80,6 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 #+end_src
 
 ** Emacs system files
-
 *** Backup files
 
 #+begin_src emacs-lisp
@@ -117,7 +116,6 @@ Monday as first day of the week.
 #+end_src
 
 ** Environment variables
-
 *** Get OS shell variables
 
 #+begin_src emacs-lisp
@@ -156,7 +154,6 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 #+end_src
 
 *** Secrets
-
 **** 1Password auth source
 
 #+begin_src emacs-lisp
@@ -165,7 +162,6 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 #+end_src
 
 ** Key bindings
-
 *** Which-key
 
 #+begin_src emacs-lisp
@@ -178,9 +174,9 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
     (setq which-key-idle-delay 0.3))
 #+end_src
 
-*** general.el
+*** General.el
 
-general.el provides a more convenient, unified interface for binding keys in Emacs.
+General provides a more convenient, unified interface for binding keys in Emacs.
 Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
 
 **** Preamble
@@ -308,7 +304,6 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 
 #+begin_src emacs-lisp
   (use-package surround
-    :ensure t
     :bind-keymap ("C-c s" . surround-keymap))
 #+end_src
 
@@ -338,7 +333,6 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+end_src
 
 ** Editing
-
 *** iedit
 
 Edit multiple occurrences in the same way simultaneously.
@@ -429,7 +423,6 @@ Confirm exit with y/n instead of yes/no.
 #+end_src
 
 *** Theme
-
 **** Themes directory
 
 #+begin_src emacs-lisp
@@ -565,7 +558,6 @@ Confirm exit with y/n instead of yes/no.
 #+end_src
 
 *** Fonts
-
 **** Font variables
 
 #+begin_src emacs-lisp
@@ -578,7 +570,7 @@ Confirm exit with y/n instead of yes/no.
 
   (if (eq system-type 'darwin)
       (progn (defvar ev-default-font ev-editor-font)
-             (defvar ev-variable-pitch-font "Iosevka Comfy Wide Motion Duo"))
+             (defvar ev-variable-pitch-font "Iosevka Comfy Motion Duo"))
     (progn (defvar ev-default-font ev-editor-font)
            (defvar ev-variable-pitch-font "Noto Sans")))
 #+end_src
@@ -869,7 +861,6 @@ Show trailing whitespace in buffer.
 #+end_src
 
 *** Icons
-
 **** Nerd icons
 
 Install the icons with ~M-x nerd-icons-install-fonts~.
@@ -897,7 +888,6 @@ Install icon fonts with ~M-x all-the-icons-install-fonts~
 #+end_src
 
 *** Mode line
-
 **** Display cursor column
 
 #+begin_src emacs-lisp
@@ -974,7 +964,6 @@ Highlight line when programming or editing configuration files.
 #+end_src
 
 ** Completion
-
 *** Nerd Icons Completion
 
 #+begin_src emacs-lisp
@@ -1368,7 +1357,6 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 - [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]: I opted for cloning the git repo, building the crate, and creating a symlink to the ~emacs-lsp-booster~ binary to =$HOME /local/bin=.
 
 ** Language configuration
-
 *** Treesitter
 
 Language grammars.
@@ -1533,7 +1521,6 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 #+end_src
 
 *** HTTP
-
 **** restclient.el
 
 This package provides a simple way to interact with RESTful APIs from within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode highlights some of its features.
@@ -1615,7 +1602,6 @@ Notable keymaps:
 #+end_src
 
 *** C#
-
 **** Eglot
 
 #+begin_src emacs-lisp
@@ -1704,7 +1690,6 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 #+end_src
 
 ** Git
-
 *** Magit
 
 #+begin_src emacs-lisp
@@ -1746,9 +1731,7 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 - [ ] Research and list how I would use this package. What does it replace in my current github workflow?
 
 ** Terminal Emulation
-
 *** Eshell
-
 **** Syntax-highlighting
 
 #+begin_src emacs-lisp
@@ -1792,7 +1775,6 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 [[https://www.patrickdelliott.com/emacs.d/#org0a74aa5][source]]
 
 ** File exploration
-
 *** Dired
 
 #+begin_src emacs-lisp
@@ -1893,7 +1875,6 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+end_src
 
 ** Search
-
 *** Consult
 
 #+begin_src emacs-lisp
@@ -2025,7 +2006,6 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+end_src
 
 ** Org
-
 *** Initial config
 
 #+begin_src emacs-lisp
@@ -2495,7 +2475,6 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
 #+end_src
 
 ** Reading
-
 *** PDF
 
 Use PDF tools package to turn Emacs into a PDF viewer with annotation support etc.
@@ -2611,7 +2590,6 @@ Package repo.
 #+end_src
 
 ** AI
-
 *** Copilot (disabled)
 
 Copilot.el is an Emacs plugin for GitHub Copilot.
@@ -2698,7 +2676,6 @@ GPTel allows us to talk with different LLMs from within Emacs.
 #+end_src
 
 ** Documentation
-
 *** Devdocs
 
 #+begin_src emacs-lisp

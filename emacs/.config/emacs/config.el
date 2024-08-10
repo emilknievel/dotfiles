@@ -205,7 +205,6 @@
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
 (use-package surround
-  :ensure t
   :bind-keymap ("C-c s" . surround-keymap))
 
 (use-package hydra
@@ -379,7 +378,7 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev-default-font ev-editor-font)
-           (defvar ev-variable-pitch-font "Iosevka Comfy Wide Motion Duo"))
+           (defvar ev-variable-pitch-font "Iosevka Comfy Motion Duo"))
   (progn (defvar ev-default-font ev-editor-font)
          (defvar ev-variable-pitch-font "Noto Sans")))
 
