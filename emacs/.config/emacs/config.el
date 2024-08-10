@@ -107,7 +107,7 @@
   :diminish
   :init
   (which-key-mode)
-  (which-key-setup-minibuffer)
+  (which-key-setup-side-window-bottom)
   :config
   (setq which-key-idle-delay 0.3))
 
@@ -1710,9 +1710,9 @@ any directory proferred by `consult-dir'."
    "E E" 'embark-act
    "E h B" 'embark-bindings)
 
-  :init
+  ;; :init
   ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
+  ;; (setq prefix-help-command #'embark-prefix-help-command)
 
   ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
   ;; strategy, if you want to see the documentation from multiple providers.
