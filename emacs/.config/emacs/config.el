@@ -1237,8 +1237,9 @@ parses its input."
   :straight (:type built-in)
   :general
   (ev-leader-keys
-   "d d" 'dired
-   "d j" '(dired-jump :wk "dired jump"))
+    "d d" 'dired
+    "d j" 'dired-jump
+    "d w" '((lambda () (interactive) (dired denote-workdir)) :wk "Dired to work notes"))
   :config
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
@@ -1543,7 +1544,9 @@ any directory proferred by `consult-dir'."
   :demand t
   :init
   (setq denote-directory (expand-file-name "~/Documents/notes/")
-        denote-journal-extras-directory (concat denote-directory "/journal"))
+        denote-journal-extras-directory (concat denote-directory "journal")
+        denote-workdir (expand-file-name "~/Documents/work-notes/")
+        denote-dired-directories (list denote-directory denote-workdir))
   :config
   (setq denote-rename-buffer-format "[D] %t")
   (denote-rename-buffer-mode 1)
@@ -1594,7 +1597,7 @@ any directory proferred by `consult-dir'."
    ("C-c C-d C-f" . denote-dired-rename-marked-files-using-front-matter))
   :hook
   ((dired-mode . denote-dired-mode)
-  (text-mode . denote-fontify-links-mode-maybe)))
+   (text-mode . denote-fontify-links-mode-maybe)))
 
 (use-package denote-explore
   :after denote
