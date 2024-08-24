@@ -1854,3 +1854,10 @@ any directory proferred by `consult-dir'."
   :straight (:host github :repo "eshelyaron/kubed")
   :bind-keymap ("C-c K" . kubed-prefix-map)
   :bind (:map kubed-prefix-map ("t" . kubed-transient)))
+
+(use-package dir-config
+  :custom
+  (dir-config-file-names '(".dir-config.el"))
+  (dir-config-allowed-directories '("~/repos"))
+  :config
+  (dir-config-mode))
