@@ -216,7 +216,8 @@
     ("j" shrink-window "shrink window")
     ("k" enlarge-window "enlarge window")
     ("+" balance-windows "balance windows")
-    ("-" shrink-window-if-larger-than-buffer "fit window")))
+    ("-" shrink-window-if-larger-than-buffer "fit window")
+    ("t" transpose-frame "transpose frame")))
 
 (use-package iedit
   :general
