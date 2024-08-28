@@ -44,6 +44,8 @@
 
 (load-theme 'wheatgrass t nil)
 
-(load-file "~/.private.el")
+(if (file-exists-p "~/.private.el")
+    (load-file "~/.private.el")
+  (message "WARNING: Unable to find file ~/.private.el."))
 
 ;;; early-init.el ends here
