@@ -788,6 +788,14 @@ Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts
      "u f l" 'global-ligature-mode))
 #+end_src
 
+**** Show Font
+
+Preview fonts inside of Emacs.
+
+#+begin_src emacs-lisp
+  (use-package show-font)
+#+end_src
+
 *** Column indication
 
 Show column indicator at column 80.

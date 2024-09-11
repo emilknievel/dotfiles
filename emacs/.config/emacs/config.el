@@ -533,6 +533,8 @@
   (ev-leader-keys
    "u f l" 'global-ligature-mode))
 
+(use-package show-font)
+
 (defun ev-show-column-guide ()
   "Show a vertical column guide."
   (setq display-fill-column-indicator-column 80)
