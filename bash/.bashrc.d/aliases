@@ -49,6 +49,10 @@ alias kprod='kubectl --context MioAKSProduction -n production'
 alias kqa='kubectl --context MioAKSQAv2 -n qa'
 alias ktest='kubectl --context MioAKSQAv2 -n test'
 
+alias sternp='stern --context MioAKSProduction -n production'
+alias sternq='stern --context MioAKSQAv2 -n qa'
+alias sternt='stern --context MioAKSQAv2 -n test'
+
 # NeoVim
 alias nvimconfig='nvim ~/.config/nvim/'
 
