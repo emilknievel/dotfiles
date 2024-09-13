@@ -1549,8 +1549,9 @@ any directory proferred by `consult-dir'."
   :init
   (setq denote-directory (expand-file-name "~/Documents/notes/")
         denote-journal-extras-directory (concat denote-directory "journal")
-        denote-workdir (expand-file-name "~/Documents/work-notes/")
-        denote-dired-directories (list denote-directory denote-workdir))
+        denote-workdir (expand-file-name "~/Documents/work-notes/mio/")
+        denote-dired-directories (list denote-directory denote-workdir)
+        denote-silo-extras-directories (list denote-directory denote-workdir))
   :config
   (setq denote-rename-buffer-format "[D] %t")
   (denote-rename-buffer-mode 1)
@@ -1594,6 +1595,7 @@ any directory proferred by `consult-dir'."
    ("C-c n f f" . denote-find-link)
    ("C-c n f b" . denote-find-backlink)
    ("C-c n R" . denote-rename-file-using-front-matter)
+   ("C-c N n" . denote-silo-extras-select-silo-then-command)
    :map dired-mode-map
    ("C-c C-d C-i" . denote-link-dired-marked-notes)
    ("C-c C-d C-r" . denote-dired-rename-marked-files)
@@ -1638,11 +1640,15 @@ any directory proferred by `consult-dir'."
 (use-package consult-notes
   :commands (consult-notes
              consult-notes-search-in-all-notes)
+  :init
+  (setq denote-work-journal-dir (concat denote-workdir "journal"))
   :custom
   (consult-notes-file-dir-sources
    `(("Notes" ?n ,denote-directory)
      ("Journals" ?j ,denote-journal-extras-directory)
-     ("Agenda" ?a ,org-directory)))
+     ("Agenda" ?a ,org-directory)
+     ("Work notes" ?N ,denote-workdir)
+     ("Work journals" ?J ,denote-work-journal-dir)))
   :config
   (when (locate-library "denote")
     (consult-notes-denote-mode))
