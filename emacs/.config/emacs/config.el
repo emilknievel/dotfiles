@@ -1848,6 +1848,8 @@ any directory proferred by `consult-dir'."
 
 (use-package transpose-frame)
 
+(setq-default compilation-scroll-output t)
+
 (global-set-key (kbd "<f5>") 'compile)
 (global-set-key (kbd "S-<f5>") 'recompile)
 (global-set-key (kbd "C-<f5>") 'project-compile)

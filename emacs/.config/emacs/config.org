@@ -2777,9 +2777,9 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 ** Compilation
 
-Keybindings for compilation functions.
-
 #+begin_src emacs-lisp
+  (setq-default compilation-scroll-output t)
+
   (global-set-key (kbd "<f5>") 'compile)
   (global-set-key (kbd "S-<f5>") 'recompile)
   (global-set-key (kbd "C-<f5>") 'project-compile)
