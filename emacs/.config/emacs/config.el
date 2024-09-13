@@ -1192,9 +1192,9 @@ parses its input."
         #'magit-restore-window-configuration)
   :general
   (ev-leader-keys
-   "g g" 'magit-status
-   "g i" 'magit-info
-   "g l" 'magit-log))
+    "g g" 'magit-status
+    "g i" 'magit-info
+    "g l" 'magit-log))
 
 (use-package diff-hl
   :init

@@ -1364,12 +1364,12 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 *** Dependencies
 
-- [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]: I opted for cloning the git repo, building the crate, and creating a symlink to the ~emacs-lsp-booster~ binary to =$HOME /local/bin=.
+- [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]: I opted for cloning the git repo, building the crate, and creating a symlink to the ~emacs-lsp-booster~ binary to =$HOME/.local/bin=.
 
 ** Language configuration
 *** Treesitter
 
-Language grammars.
+Language grammars for tree-sitter.
 
 #+begin_src emacs-lisp
   (setq treesit-language-source-alist
@@ -1394,18 +1394,16 @@ Language grammars.
           (rust "https://github.com/tree-sitter/tree-sitter-rust")
           (c "https://github.com/tree-sitter/tree-sitter-c")
           (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")))
-#+end_src
 
-Install grammars from treesit-language-source-alist with ~(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))~.
-Call e.g. ~treesit-language-available-p 'python~ to determine if grammar is available for the language.
-
-#+begin_src emacs-lisp
   (defun ev-install-ts-grammars ()
     "Install grammars for tree-sitter from treesit-language-source-alist."
     (interactive)
     (mapc #'treesit-install-language-grammar
           (mapcar #'car treesit-language-source-alist)))
 #+end_src
+[[elisp:ev-install-ts-grammars]]
+
+Call e.g. ~treesit-language-available-p 'python~ to determine if grammar is available for the language.
 
 Show all existing tree-sitter major modes with the apropos help command: ~C-h a -ts-mode$~.
 
@@ -1713,9 +1711,9 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
           #'magit-restore-window-configuration)
     :general
     (ev-leader-keys
-     "g g" 'magit-status
-     "g i" 'magit-info
-     "g l" 'magit-log))
+      "g g" 'magit-status
+      "g i" 'magit-info
+      "g l" 'magit-log))
 #+end_src
 
 *** TODO magit/forge [0/2]
@@ -2856,7 +2854,7 @@ Keybindings for compilation functions.
 
 ** dir-config
 
-Alternative to =.dir-locals= that are easier to maintain as =.dir-config= files use standard elisp code instead of nested alists.
+Alternative to =.dir-locals= that allegedly is easier to maintain as =.dir-config= files use standard elisp code instead of nested alists.
 
 #+begin_src emacs-lisp
   (use-package dir-config
