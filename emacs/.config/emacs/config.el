@@ -312,11 +312,11 @@
 
 (use-package ef-themes
   :init
-  (setq ef-themes-to-toggle '(ef-night ef-light))
+  (setq ef-themes-to-toggle '(ef-dark ef-light))
   :config
   (setq ef-themes-mixed-fonts t
         ;; ef-themes-common-palette-overrides '((fringe unspecified))
-        ef-themes-variable-pitch-ui t
+        ef-themes-variable-pitch-ui nil
         ef-themes-headings '((0 . (1.7))
                              (1 . (1.6))
                              (2 . (1.5))
@@ -371,7 +371,7 @@
   (auto-dark-mode t))
 
 (defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "Iosevka Comfy")
+(defvar ev-macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar ev-editor-font ev-macos-font)
@@ -379,7 +379,7 @@
 
 (if (eq system-type 'darwin)
     (progn (defvar ev-default-font ev-editor-font)
-           (defvar ev-variable-pitch-font "Iosevka Comfy Motion Duo"))
+           (defvar ev-variable-pitch-font "SF Pro Text"))
   (progn (defvar ev-default-font ev-editor-font)
          (defvar ev-variable-pitch-font "Noto Sans")))
 
@@ -411,15 +411,15 @@
           ev-fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
-    (setq ev-variable-pitch-font-height 150
+    (setq ev-variable-pitch-font-height 140
           ev-variable-pitch-font-weight 'normal
           ev-variable-pitch-font-width 'normal
 
-          ev-editor-font-height 150
+          ev-editor-font-height 130
           ev-editor-font-weight 'normal
           ev-editor-font-width 'normal
 
-          ev-fixed-pitch-font-height 150
+          ev-fixed-pitch-font-height 130
           ev-fixed-pitch-font-weight 'normal
           ev-fixed-pitch-font-width 'normal)
   (ev-setup-linux-fonts))
@@ -506,9 +506,6 @@
   "font actions"
   ("=" ev-increase-font-size "increase size")
   ("-" ev-decrease-font-size "decrease size"))
-
-;; Use 'variable-pitch' for prose.
-(add-hook 'text-mode-hook #'variable-pitch-mode)
 
 (use-package ligature
   :straight
@@ -1451,7 +1448,7 @@ any directory proferred by `consult-dir'."
   (org-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-startup-indented nil)
+  (org-startup-indented t)
 
   ;; Add CLOSED: [timestamp] line after todo headline when marked as done
   ;; and prompt for closing note.
@@ -1506,8 +1503,10 @@ any directory proferred by `consult-dir'."
   :init
   (setq olivetti-body-width 120
         olivetti-minimum-body-width 72)
-  :config
-  :hook ((org-mode markdown-mode) . olivetti-mode))
+  :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
+         (olivetti-mode . (lambda ()
+                            (cond ((derived-mode-p 'Info-mode)
+                                   (setq-local olivetti-body-width 72)))))))
 
 (use-package org-appear
   :config
