@@ -166,7 +166,6 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 
 #+begin_src emacs-lisp
   (use-package which-key
-    :diminish
     :init
     (which-key-mode)
     (which-key-setup-side-window-bottom)
@@ -216,8 +215,9 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
    "s" '(:ignore t :wk "Search")
    "t" '(:ignore t :wk "Toggle")
    "u" '(:ignore t :wk "UI")
-   "u l" '(:ignore t :wk "Linum")
    "u f" '(:ignore t :wk "Fonts")
+   "u l" '(:ignore t :wk "Linum")
+   "u m" '(:ignore t :wk "Mode Line")
    "w" '(:ignore t :wk "Windows"))
 #+end_src
 
@@ -541,7 +541,6 @@ Confirm exit with y/n instead of yes/no.
 
 #+begin_src emacs-lisp
   (use-package auto-dark
-    :diminish
     :init
     (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
     (setq auto-dark-dark-theme (car ef-themes-to-toggle)
@@ -904,20 +903,6 @@ Install icon fonts with ~M-x all-the-icons-install-fonts~
   (column-number-mode 1)
 #+end_src
 
-**** Diminish
-
-Declutter the mode line.
-
-#+begin_src emacs-lisp
-  (use-package diminish
-    :config
-    (diminish 'visual-line-mode)
-    (diminish 'which-key-mode)
-    (diminish 'buffer-face-mode)
-    (diminish 'auto-revert-mode)
-    (diminish 'eldoc-mode))
-#+end_src
-
 **** Flash mode line instead of visual-bell
 
 #+begin_src emacs-lisp
@@ -952,8 +937,17 @@ Display the current date and time on the mode line.
 
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :config
-    (doom-modeline-mode 1))
+    :general (ev-leader-keys "u m d" 'doom-modeline-mode))
+#+end_src
+
+**** Minions
+
+=minions.el= by Jonas Bernoulli implements a nested menu that gives access to all known minor modes.
+
+#+begin_src emacs-lisp
+  (use-package minions
+    :init
+    (minions-mode))
 #+end_src
 
 *** Padding (disabled)
@@ -1879,7 +1873,6 @@ Jump to previously visited directory, not unlike using =zoxide=.
 
 #+begin_src emacs-lisp
   (use-package editorconfig
-    :diminish
     :config (editorconfig-mode 1))
 #+end_src
 
@@ -2096,7 +2089,6 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
 
 #+begin_src emacs-lisp
   (use-package olivetti
-    :diminish
     :general
     (ev-leader-keys "u o" 'olivetti-mode)
     :init

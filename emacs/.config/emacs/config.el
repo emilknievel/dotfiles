@@ -104,7 +104,6 @@
   :config (auth-source-1password-enable))
 
 (use-package which-key
-  :diminish
   :init
   (which-key-mode)
   (which-key-setup-side-window-bottom)
@@ -145,8 +144,9 @@
  "s" '(:ignore t :wk "Search")
  "t" '(:ignore t :wk "Toggle")
  "u" '(:ignore t :wk "UI")
- "u l" '(:ignore t :wk "Linum")
  "u f" '(:ignore t :wk "Fonts")
+ "u l" '(:ignore t :wk "Linum")
+ "u m" '(:ignore t :wk "Mode Line")
  "w" '(:ignore t :wk "Windows"))
 
 (defun ev-reload-emacs-config ()
@@ -354,7 +354,6 @@
              "t t d" 'ev-doom-one))
 
 (use-package auto-dark
-  :diminish
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
   (setq auto-dark-dark-theme (car ef-themes-to-toggle)
@@ -595,14 +594,6 @@
 
 (column-number-mode 1)
 
-(use-package diminish
-  :config
-  (diminish 'visual-line-mode)
-  (diminish 'which-key-mode)
-  (diminish 'buffer-face-mode)
-  (diminish 'auto-revert-mode)
-  (diminish 'eldoc-mode))
-
 (setq visible-bell nil
       ring-bell-function 'flash-mode-line)
 (defun flash-mode-line ()
@@ -624,8 +615,11 @@
 (display-time-mode 1)
 
 (use-package doom-modeline
-  :config
-  (doom-modeline-mode 1))
+  :general (ev-leader-keys "u m d" 'doom-modeline-mode))
+
+(use-package minions
+  :init
+  (minions-mode))
 
 (add-hook 'prog-mode-hook 'hl-line-mode)
 (add-hook 'conf-mode-hook 'hl-line-mode)
@@ -1302,7 +1296,6 @@ any directory proferred by `consult-dir'."
     "d z" '(zoxide-travel :wk "Find directory with Zoxide")))
 
 (use-package editorconfig
-  :diminish
   :config (editorconfig-mode 1))
 
 ;; Example configuration for Consult
@@ -1499,7 +1492,6 @@ any directory proferred by `consult-dir'."
   (org-mode . org-modern-mode))
 
 (use-package olivetti
-  :diminish
   :general
   (ev-leader-keys "u o" 'olivetti-mode)
   :init
