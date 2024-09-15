@@ -157,3 +157,6 @@ emacs/.config/emacs/devdocs
 ### Vim ###
 lazy-lock.json
 vim/.config/nvim/plugin/packer_compiled.lua
+
+### Git
+git/.config/git/gitconfig-private

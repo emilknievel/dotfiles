@@ -22,7 +22,6 @@
 	tool = nvim
 [merge]
 	tool = nvim
-
 [core]
 	precomposeunicode = true
 	# Display UTF-8 characters in filenames, if you're having problems seeing them
@@ -35,8 +34,6 @@
 [user]
 	name = Emil Vågstedt
 	email = emil.vagstedt@icloud.com
-[includeIf "gitdir:~/repos/work/"]
-	path = ~/.config/git/gitconfig-work
 [init]
 	defaultBranch = main
 [rebase]
@@ -47,3 +44,11 @@
 	autoSetupRemote = true
 [sendemail]
 	annotate = yes
+[includeIf "gitdir:~/.dotfiles/"]
+	path = ~/.config/git/gitconfig-private
+[includeIf "gitdir:~/dotfiles/"]
+	path = ~/.config/git/gitconfig-private
+[includeIf "gitdir:~/repos/personal/"]
+	path = ~/.config/git/gitconfig-private
+[includeIf "gitdir:~/repos/work/"]
+	path = ~/.config/git/gitconfig-work
