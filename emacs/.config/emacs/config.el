@@ -115,10 +115,10 @@
   (keymap-global-unset "C-z")
   :after which-key
   :config
-  (general-create-definer ev-leader-keys
+  (general-create-definer my-leader-keys
     :prefix "C-z"))
 
-(ev-leader-keys
+(my-leader-keys
  ;; Top level functions
  "C-z" '(execute-extended-command :wk "M-x")
 
@@ -149,25 +149,25 @@
  "u m" '(:ignore t :wk "Mode Line")
  "w" '(:ignore t :wk "Windows"))
 
-(defun ev-reload-emacs-config ()
+(defun my-reload-emacs-config ()
   "Tangle org file and reload the emacs config."
   (interactive)
   (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
   (load-file (expand-file-name "config.el" user-emacs-directory)))
 
-(defun ev-edit-emacs-config ()
+(defun my-edit-emacs-config ()
   "Edit Emacs literate config file."
   (interactive)
   (find-file (expand-file-name "config.org" user-emacs-directory)))
 
-(ev-leader-keys
- "f c r" '(ev-reload-emacs-config :wk "Reload config")
- "f c f" '(ev-edit-emacs-config :wk "Edit config")
+(my-leader-keys
+ "f c r" '(my-reload-emacs-config :wk "Reload config")
+ "f c f" '(my-edit-emacs-config :wk "Edit config")
  "f f" 'find-file
  "f l" 'load-file
  "f s" 'save-buffer)
 
-(ev-leader-keys
+(my-leader-keys
  ;; buffers
  "b" '(nil :wk "buffers")
  "b b" 'switch-to-buffer
@@ -177,7 +177,7 @@
  "q q" 'save-buffers-kill-terminal
  "b r" 'revert-buffer-quick)
 
-(ev-leader-keys
+(my-leader-keys
  ;; help
  "h f" 'describe-function
  "h v" 'describe-variable
@@ -186,21 +186,21 @@
  "h b" 'describe-bindings
  "h a" 'describe-face)
 
-(ev-leader-keys
+(my-leader-keys
  ;; toggles
  "t v" '(visual-line-mode :wk "visual line mode")
  "t n" '(display-line-numbers-mode :wk "display line numbers")
  "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
 
-(ev-leader-keys
+(my-leader-keys
  "u f v" 'variable-pitch-mode
- "u f b" 'ev-big-font-size
- "u f =" 'ev-increase-font-size
- "u f -" 'ev-decrease-font-size
- "u f r" 'ev-reading-font-setup
- "u f 0" 'ev-reset-fonts)
+ "u f b" 'my-big-font-size
+ "u f =" 'my-increase-font-size
+ "u f -" 'my-decrease-font-size
+ "u f r" 'my-reading-font-setup
+ "u f 0" 'my-reset-fonts)
 
-(ev-leader-keys
+(my-leader-keys
  ;; emacsclient
  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
@@ -221,15 +221,15 @@
 
 (use-package iedit
   :general
-  (ev-leader-keys "e" 'iedit-mode))
+  (my-leader-keys "e" 'iedit-mode))
 
 (require 'whitespace)
 
 (use-package expand-region
-  :general (ev-leader-keys "=" 'er/expand-region))
+  :general (my-leader-keys "=" 'er/expand-region))
 
 (use-package vundo
-  :general (ev-leader-keys "c u" 'vundo))
+  :general (my-leader-keys "c u" 'vundo))
 
 (use-package multiple-cursors
   :ensure t
@@ -262,39 +262,39 @@
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
-(defun ev-clear-theme ()
+(defun my-clear-theme ()
   "Clear current theme"
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
 
-(defun ev-solarized-light ()
+(defun my-solarized-light ()
   "Clear previous theme and load solarized light"
   (interactive)
-  (ev-clear-theme)
+  (my-clear-theme)
   (load-theme 'doom-solarized-light t))
 
-(defun ev-solarized-dark ()
+(defun my-solarized-dark ()
   "Clear previous theme and load solarized dark"
   (interactive)
-  (ev-clear-theme)
+  (my-clear-theme)
   (load-theme 'doom-solarized-dark t))
 
-(defun ev-rose-pine ()
+(defun my-rose-pine ()
   "Clear previous theme and load rosé pine."
   (interactive)
-  (ev-clear-theme)
+  (my-clear-theme)
   (load-theme 'doom-rose-pine t))
 
-(defun ev-rose-pine-dawn ()
+(defun my-rose-pine-dawn ()
   "Clear previous theme and load rosé pine dawn."
   (interactive)
-  (ev-clear-theme)
+  (my-clear-theme)
   (load-theme 'doom-rose-pine-dawn t))
 
-(defun ev-doom-one ()
+(defun my-doom-one ()
   "Clear previous theme and load doom-one."
   (interactive)
-  (ev-clear-theme)
+  (my-clear-theme)
   (load-theme 'doom-one t))
 
 (use-package modus-themes
@@ -307,7 +307,7 @@
           (fg-heading-1 blue-warmer)
           (fg-heading-2 yellow-cooler)
           (fg-heading-3 cyan-cooler)))
-  :general (ev-leader-keys
+  :general (my-leader-keys
             "t t m" 'modus-themes-toggle))
 
 (use-package ef-themes
@@ -325,33 +325,33 @@
                              (5 . (1.2))
                              (6 . (1.1))
                              (7 . (1.0))))
-  :general (ev-leader-keys
+  :general (my-leader-keys
              "t t e" 'ef-themes-toggle))
 
-(defun ev-toggle-solarized ()
+(defun my-toggle-solarized ()
   "Toggle between light and dark solarized themes."
   (interactive)
   (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-dark)
-      (ev-solarized-light)
-    (ev-solarized-dark)))
+      (my-solarized-light)
+    (my-solarized-dark)))
 
-(defun ev-toggle-rose-pine ()
+(defun my-toggle-rose-pine ()
   "Toggle between light and dark Rosé Pine themes."
   (interactive)
   (if (eq (nth 0 custom-enabled-themes) 'doom-rose-pine)
-      (ev-rose-pine-dawn)
-    (ev-rose-pine)))
+      (my-rose-pine-dawn)
+    (my-rose-pine)))
 
 (use-package doom-themes
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
-  (ev-solarized-light)
+  (my-solarized-light)
   (doom-themes-org-config)
-  :general (ev-leader-keys
-             "t t s" 'ev-toggle-solarized
-             "t t r" 'ev-toggle-rose-pine
-             "t t d" 'ev-doom-one))
+  :general (my-leader-keys
+             "t t s" 'my-toggle-solarized
+             "t t r" 'my-toggle-rose-pine
+             "t t d" 'my-doom-one))
 
 (use-package auto-dark
   :init
@@ -361,86 +361,86 @@
   :config
   (add-hook 'auto-dark-dark-mode-hook
             (lambda ()
-              (ev-clear-theme)
+              (my-clear-theme)
               (load-theme auto-dark-dark-theme t nil)))
   (add-hook 'auto-dark-light-mode-hook
             (lambda ()
-              (ev-clear-theme)
+              (my-clear-theme)
               (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
-(defvar ev-linux-font "Noto Sans Mono")
-(defvar ev-macos-font "JetBrainsMono Nerd Font")
+(defvar my-linux-font "Noto Sans Mono")
+(defvar my-macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
-    (defvar ev-editor-font ev-macos-font)
-  (defvar ev-editor-font ev-linux-font))
+    (defvar my-editor-font my-macos-font)
+  (defvar my-editor-font my-linux-font))
 
 (if (eq system-type 'darwin)
-    (progn (defvar ev-default-font ev-editor-font)
-           (defvar ev-variable-pitch-font "SF Pro Text"))
-  (progn (defvar ev-default-font ev-editor-font)
-         (defvar ev-variable-pitch-font "Noto Sans")))
+    (progn (defvar my-default-font my-editor-font)
+           (defvar my-variable-pitch-font "SF Pro Text"))
+  (progn (defvar my-default-font my-editor-font)
+         (defvar my-variable-pitch-font "Noto Sans")))
 
-(defun ev-setup-linux-fonts ()
+(defun my-setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
   (if (getenv "WSL_DISTRO_NAME")
-      (setq ev-variable-pitch-font-height 170
-            ev-variable-pitch-font-weight 'normal
-            ev-variable-pitch-font-width 'normal
+      (setq my-variable-pitch-font-height 170
+            my-variable-pitch-font-weight 'normal
+            my-variable-pitch-font-width 'normal
 
-            ev-editor-font-height 170
-            ev-editor-font-weight 'normal
-            ev-editor-font-width 'normal
+            my-editor-font-height 170
+            my-editor-font-weight 'normal
+            my-editor-font-width 'normal
 
-            ev-fixed-pitch-font-height 170
-            ev-fixed-pitch-font-weight 'normal
-            ev-fixed-pitch-font-width 'normal)
+            my-fixed-pitch-font-height 170
+            my-fixed-pitch-font-weight 'normal
+            my-fixed-pitch-font-width 'normal)
 
-    (setq ev-variable-pitch-font-height 110
-          ev-variable-pitch-font-weight 'normal
-          ev-variable-pitch-font-width 'normal
+    (setq my-variable-pitch-font-height 110
+          my-variable-pitch-font-weight 'normal
+          my-variable-pitch-font-width 'normal
 
-          ev-editor-font-height 100
-          ev-editor-font-weight 'normal
-          ev-editor-font-width 'normal
+          my-editor-font-height 100
+          my-editor-font-weight 'normal
+          my-editor-font-width 'normal
 
-          ev-fixed-pitch-font-height 100
-          ev-fixed-pitch-font-weight 'normal
-          ev-fixed-pitch-font-width 'normal)))
+          my-fixed-pitch-font-height 100
+          my-fixed-pitch-font-weight 'normal
+          my-fixed-pitch-font-width 'normal)))
 
 (if (eq system-type 'darwin)
-    (setq ev-variable-pitch-font-height 140
-          ev-variable-pitch-font-weight 'normal
-          ev-variable-pitch-font-width 'normal
+    (setq my-variable-pitch-font-height 140
+          my-variable-pitch-font-weight 'normal
+          my-variable-pitch-font-width 'normal
 
-          ev-editor-font-height 130
-          ev-editor-font-weight 'normal
-          ev-editor-font-width 'normal
+          my-editor-font-height 130
+          my-editor-font-weight 'normal
+          my-editor-font-width 'normal
 
-          ev-fixed-pitch-font-height 130
-          ev-fixed-pitch-font-weight 'normal
-          ev-fixed-pitch-font-width 'normal)
-  (ev-setup-linux-fonts))
+          my-fixed-pitch-font-height 130
+          my-fixed-pitch-font-weight 'normal
+          my-fixed-pitch-font-width 'normal)
+  (my-setup-linux-fonts))
 
 (set-face-attribute 'default nil
-                    :family ev-editor-font
-                    :weight ev-editor-font-weight
-                    :width ev-editor-font-width
-                    :height ev-editor-font-height)
+                    :family my-editor-font
+                    :weight my-editor-font-weight
+                    :width my-editor-font-width
+                    :height my-editor-font-height)
 (set-face-attribute 'fixed-pitch nil
-                    :family ev-editor-font
-                    :weight ev-fixed-pitch-font-weight
-                    :width ev-fixed-pitch-font-width
-                    :height ev-fixed-pitch-font-height)
+                    :family my-editor-font
+                    :weight my-fixed-pitch-font-weight
+                    :width my-fixed-pitch-font-width
+                    :height my-fixed-pitch-font-height)
 (set-face-attribute 'variable-pitch nil
-                    :family ev-variable-pitch-font
-                    :weight ev-variable-pitch-font-weight
-                    :width ev-variable-pitch-font-width
-                    :height ev-variable-pitch-font-height)
+                    :family my-variable-pitch-font
+                    :weight my-variable-pitch-font-weight
+                    :width my-variable-pitch-font-width
+                    :height my-variable-pitch-font-height)
 ;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
-(defun ev-big-font-size ()
+(defun my-big-font-size ()
   "Increase font height by a bigger amount."
   (interactive)
   (set-face-attribute 'fixed-pitch nil
@@ -450,7 +450,7 @@
   (set-face-attribute 'default nil
                       :height (+ (face-attribute 'default :height) 30)))
 
-(defun ev-increase-font-size ()
+(defun my-increase-font-size ()
   "Increase font height in steps of 10."
   (interactive)
   (set-face-attribute 'fixed-pitch nil
@@ -460,7 +460,7 @@
   (set-face-attribute 'default nil
                       :height (+ (face-attribute 'default :height) 10)))
 
-(defun ev-decrease-font-size ()
+(defun my-decrease-font-size ()
   "Decrease font height in steps of 10."
   (interactive)
   (set-face-attribute 'fixed-pitch nil
@@ -470,21 +470,21 @@
   (set-face-attribute 'default nil
                       :height (- (face-attribute 'default :height) 10)))
 
-(defun ev-reset-fonts ()
+(defun my-reset-fonts ()
   "Reset font settings to base values."
   (interactive)
   (set-face-attribute 'fixed-pitch nil
-                      :family ev-editor-font
-                      :height ev-fixed-pitch-font-height)
+                      :family my-editor-font
+                      :height my-fixed-pitch-font-height)
 
   (set-face-attribute 'variable-pitch nil
-                      :family ev-variable-pitch-font
-                      :height ev-variable-pitch-font-height)
+                      :family my-variable-pitch-font
+                      :height my-variable-pitch-font-height)
   (set-face-attribute 'default nil
-                      :family ev-editor-font
-                      :height ev-editor-font-height))
+                      :family my-editor-font
+                      :height my-editor-font-height))
 
-(defun ev-reading-font-setup ()
+(defun my-reading-font-setup ()
   "Font settings for reading prose."
   (interactive)
   (if (eq system-type 'darwin)
@@ -495,16 +495,16 @@
                         :family "Noto Serif"
                         :height (face-attribute 'variable-pitch :height)))
   (set-face-attribute 'default nil
-                      :family ev-editor-font
+                      :family my-editor-font
                       :height (face-attribute 'default :height))
   (set-face-attribute 'fixed-pitch nil
-                      :family ev-editor-font
+                      :family my-editor-font
                       :height (face-attribute 'fixed-pitch :height)))
 
 (defhydra hydra-font-actions (global-map "C-z u f")
   "font actions"
-  ("=" ev-increase-font-size "increase size")
-  ("-" ev-decrease-font-size "decrease size"))
+  ("=" my-increase-font-size "increase size")
+  ("-" my-decrease-font-size "decrease size"))
 
 (use-package ligature
   :straight
@@ -526,19 +526,19 @@
   (ligature-set-ligatures 'prog-mode liga)
   (ligature-set-ligatures 'org-mode liga)
   :general
-  (ev-leader-keys
+  (my-leader-keys
    "u f l" 'global-ligature-mode))
 
 (use-package show-font)
 
-(defun ev-show-column-guide ()
+(defun my-show-column-guide ()
   "Show a vertical column guide."
   (setq display-fill-column-indicator-column 80)
   (display-fill-column-indicator-mode))
 
-(add-hook 'prog-mode-hook #'ev-show-column-guide)
+(add-hook 'prog-mode-hook #'my-show-column-guide)
 
-(defun ev-display-set-relative ()
+(defun my-display-set-relative ()
   "Setup for relative line numbers."
   (interactive)
   (if (not (or (eq major-mode 'org-mode)
@@ -548,7 +548,7 @@
       (setq display-line-numbers 'visual)
     (setq display-line-numbers nil)))
 
-(defun ev-display-set-absolute ()
+(defun my-display-set-absolute ()
   "Setup for absolute line numbers."
   (interactive)
   (if (not (or (eq major-mode 'org-mode)
@@ -558,7 +558,7 @@
       (setq display-line-numbers t)
     (setq display-line-numbers nil)))
 
-(defun ev-display-set-hidden ()
+(defun my-display-set-hidden ()
   "Hide line numbers."
   (interactive)
   (setq display-line-numbers nil))
@@ -575,10 +575,10 @@
                                                      nil
                                                      :background 'unspecified)))
   :general
-  (ev-leader-keys
-   "u l h" 'ev-display-set-hidden
-   "u l r" 'ev-display-set-relative
-   "u l a" 'ev-display-set-absolute))
+  (my-leader-keys
+   "u l h" 'my-display-set-hidden
+   "u l r" 'my-display-set-relative
+   "u l a" 'my-display-set-absolute))
 
 (setq show-trailing-whitespace t)
 
@@ -615,7 +615,7 @@
 (display-time-mode 1)
 
 (use-package doom-modeline
-  :general (ev-leader-keys "u m d" 'doom-modeline-mode))
+  :general (my-leader-keys "u m d" 'doom-modeline-mode))
 
 (use-package minions
   :init
@@ -888,7 +888,7 @@ parses its input."
   ;; Alternative prefix keys: C-c p, M-p, M-+, ...
   :bind (("C-c p p" . completion-at-point) ;; capf
          ("C-c p t" . complete-tag)        ;; etags
-         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrmy-completion
          ("C-c p h" . cape-history)
          ("C-c p f" . cape-file)
          ("C-c p k" . cape-keyword)
@@ -951,7 +951,7 @@ parses its input."
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package eglot
-  :general (ev-leader-keys "c a" 'eglot-code-actions)
+  :general (my-leader-keys "c a" 'eglot-code-actions)
   :config
   (setq eglot-autoshutdown t))
 
@@ -989,7 +989,7 @@ parses its input."
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")))
 
-(defun ev-install-ts-grammars ()
+(defun my-install-ts-grammars ()
   "Install grammars for tree-sitter from treesit-language-source-alist."
   (interactive)
   (mapc #'treesit-install-language-grammar
@@ -1157,7 +1157,7 @@ parses its input."
 (use-package csv-mode
   :mode "\\.csv\\'")
 
-(defun ev-maybe-load-bash-ts-mode ()
+(defun my-maybe-load-bash-ts-mode ()
   "Load bash-ts-mode if the file starts with #!/bin/bash."
   (when (buffer-file-name)
     (save-excursion
@@ -1165,7 +1165,7 @@ parses its input."
       (when (looking-at "#!/bin/bash")
         (bash-ts-mode)))))
 
-(add-hook 'find-file-hook 'ev-maybe-load-bash-ts-mode)
+(add-hook 'find-file-hook 'my-maybe-load-bash-ts-mode)
 
 (use-package flycheck
   :init (global-flycheck-mode))
@@ -1185,7 +1185,7 @@ parses its input."
   (setq magit-bury-buffer-function
         #'magit-restore-window-configuration)
   :general
-  (ev-leader-keys
+  (my-leader-keys
     "g g" 'magit-status
     "g i" 'magit-info
     "g l" 'magit-log))
@@ -1213,8 +1213,8 @@ parses its input."
                            ("integration" "integration/*")
                            (:exclude ".dir-locals.el" "*-tests.el")))
   :general
-  (ev-leader-keys "` e" 'eshell)
-  (ev-leader-keys "` a" 'eat)
+  (my-leader-keys "` e" 'eshell)
+  (my-leader-keys "` a" 'eat)
   :custom
   (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
@@ -1223,14 +1223,14 @@ parses its input."
 
 (use-package project
   :general
-  (ev-leader-keys
+  (my-leader-keys
    "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
   :straight (:type built-in))
 
 (use-package dired
   :straight (:type built-in)
   :general
-  (ev-leader-keys
+  (my-leader-keys
     "d d" 'dired
     "d j" 'dired-jump
     "d w" '((lambda () (interactive) (dired denote-workdir)) :wk "Dired to work notes"))
@@ -1252,7 +1252,7 @@ parses its input."
 
 (use-package treemacs
   :defer t
-  :general (ev-leader-keys "f e" 'treemacs))
+  :general (my-leader-keys "f e" 'treemacs))
 
 (use-package treemacs-magit
   :after (treemacs magit))
@@ -1292,7 +1292,7 @@ any directory proferred by `consult-dir'."
 (use-package zoxide
   :hook (dired-mode . zoxide-add)
   :general
-  (ev-leader-keys
+  (my-leader-keys
     "d z" '(zoxide-travel :wk "Find directory with Zoxide")))
 
 (use-package editorconfig
@@ -1301,7 +1301,7 @@ any directory proferred by `consult-dir'."
 ;; Example configuration for Consult
 (use-package consult
   :general
-  (ev-leader-keys
+  (my-leader-keys
    "s g" 'consult-git-grep
    "s s" 'consult-ripgrep
    "s l" 'consult-line
@@ -1476,7 +1476,7 @@ any directory proferred by `consult-dir'."
   ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
   ;; (org-agenda-mode . hl-line-mode)
   ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
-  :general (ev-leader-keys
+  :general (my-leader-keys
              "o b t" 'org-babel-tangle
              "o l d" 'org-toggle-link-display))
 
@@ -1493,7 +1493,7 @@ any directory proferred by `consult-dir'."
 
 (use-package olivetti
   :general
-  (ev-leader-keys "u o" 'olivetti-mode)
+  (my-leader-keys "u o" 'olivetti-mode)
   :init
   (setq olivetti-body-width 120
         olivetti-minimum-body-width 72)
@@ -1512,7 +1512,7 @@ any directory proferred by `consult-dir'."
         org-appear-inside-latex t
         org-hide-emphasis-markers t)
   :hook (org-mode . org-appear-mode)
-  :general (ev-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
+  :general (my-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
 
 (setq org-confirm-babel-evaluate nil
       org-src-fontify-natively t
@@ -1663,7 +1663,7 @@ any directory proferred by `consult-dir'."
   :mode
   ("\\.epub\\'" . nov-mode)
   :config
-  (defun ev-nov-mode-setup ()
+  (defun my-nov-mode-setup ()
     "Tweak nov-mode to our liking."
     (setq-local line-spacing 0.2
                 next-screen-context-lines 4
@@ -1675,12 +1675,12 @@ any directory proferred by `consult-dir'."
       (visual-fill-column-mode 1))
     (when (featurep 'hl-line-mode)
       (hl-line-mode -1))
-    (ev-reading-font-setup)
+    (my-reading-font-setup)
     (olivetti-mode)
     ;; Re-render with new display settings
     (nov-render-document))
   :hook
-  (nov-mode . ev-nov-mode-setup))
+  (nov-mode . my-nov-mode-setup))
 
 (use-package org-noter
   :custom
@@ -1710,7 +1710,7 @@ any directory proferred by `consult-dir'."
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
   :general
-  (ev-leader-keys
+  (my-leader-keys
    "E E" 'embark-act
    "E h B" 'embark-bindings)
 
@@ -1742,7 +1742,7 @@ any directory proferred by `consult-dir'."
                                 :stream t
                                 :models '("llama3.1:8b" "mistral-nemo:12b")))
   :general
-  (ev-leader-keys
+  (my-leader-keys
    "a a" 'gptel
    "a g" 'gptel-menu
    "a s" 'gptel-send)
@@ -1753,7 +1753,7 @@ any directory proferred by `consult-dir'."
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
   :init
-  (defun ev-popper-window-height (window)
+  (defun my-popper-window-height (window)
     "Make popper windows cover 1/2 of frame height."
     (fit-window-to-buffer
      window
@@ -1773,18 +1773,18 @@ any directory proferred by `consult-dir'."
           "^\\*vterm.*\\*$"  vterm-mode  ; vterm as a popup
           "^\\*eat.*\\*$"    eat-mode    ; eat as a popup
           )
-        popper-window-height #'ev-popper-window-height)
+        popper-window-height #'my-popper-window-height)
   (popper-mode +1)
   (popper-echo-mode +1)) ; For echo area hints
 
-(defun ev-insert-timestamp ()
+(defun my-insert-timestamp ()
   "Insert timestamp with format [%H:%M] at point."
   (interactive)
   (insert (format-time-string "[%H:%M]")))
 
 (use-package devdocs
   :init
-  (defun ev-devdocs-lookup-thing-at-point ()
+  (defun my-devdocs-lookup-thing-at-point ()
     "Look up definition of thing at point, using Devdocs."
     (interactive)
     (devdocs-lookup nil (thing-at-point 'symbol t)))
@@ -1800,11 +1800,11 @@ any directory proferred by `consult-dir'."
    (vue-ts-mode
     . (lambda () (setq-local devdocs-current-docs '("vue~3" "javascript" "typescript")))))
   :general
-  (ev-leader-keys
+  (my-leader-keys
    "h d l" 'devdocs-lookup
    "h d p" 'devdocs-peruse
    "h d i" 'devdocs-install
-   "h d d" 'ev-devdocs-lookup-thing-at-point))
+   "h d d" 'my-devdocs-lookup-thing-at-point))
 
 (use-package helpful
   :demand t
