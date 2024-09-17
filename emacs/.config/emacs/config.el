@@ -297,6 +297,18 @@
   (my-clear-theme)
   (load-theme 'doom-one t))
 
+(defun my-naysayer-theme ()
+  "Clear previous theme and load naysayer."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'naysayer))
+
+(defun my-acme-theme ()
+  "Clear previous theme and load acme."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'acme))
+
 (use-package modus-themes
   :init
   (setq modus-themes-mixed-fonts t)
@@ -346,18 +358,25 @@
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
-  (my-solarized-light)
   (doom-themes-org-config)
   :general (my-leader-keys
              "t t s" 'my-toggle-solarized
              "t t r" 'my-toggle-rose-pine
              "t t d" 'my-doom-one))
 
+(use-package naysayer-theme)
+
+(use-package acme-theme
+  :init
+  (setq acme-theme-black-fg nil))
+
 (use-package auto-dark
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-dark-theme (car ef-themes-to-toggle)
-        auto-dark-light-theme (cadr ef-themes-to-toggle))
+  ;; (setq auto-dark-dark-theme (car ef-themes-to-toggle)
+  ;;       auto-dark-light-theme (cadr ef-themes-to-toggle))
+  (setq auto-dark-dark-theme 'doom-solarized-dark
+        auto-dark-light-theme 'doom-solarized-light)
   :config
   (add-hook 'auto-dark-dark-mode-hook
             (lambda ()
@@ -370,7 +389,7 @@
   (auto-dark-mode t))
 
 (defvar my-linux-font "Noto Sans Mono")
-(defvar my-macos-font "JetBrainsMono Nerd Font")
+(defvar my-macos-font "Menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)

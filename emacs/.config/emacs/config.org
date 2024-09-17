@@ -467,6 +467,18 @@ Confirm exit with y/n instead of yes/no.
     (interactive)
     (my-clear-theme)
     (load-theme 'doom-one t))
+
+  (defun my-naysayer-theme ()
+    "Clear previous theme and load naysayer."
+    (interactive)
+    (my-clear-theme)
+    (load-theme 'naysayer))
+
+  (defun my-acme-theme ()
+    "Clear previous theme and load acme."
+    (interactive)
+    (my-clear-theme)
+    (load-theme 'acme))
 #+end_src
 
 **** Modus themes
@@ -529,7 +541,6 @@ Confirm exit with y/n instead of yes/no.
     :config
     (setq doom-themes-enable-bold t
           doom-themes-enable-italic t)
-    (my-solarized-light)
     (doom-themes-org-config)
     :general (my-leader-keys
                "t t s" 'my-toggle-solarized
@@ -537,14 +548,35 @@ Confirm exit with y/n instead of yes/no.
                "t t d" 'my-doom-one))
 #+end_src
 
+**** Naysayer
+
+Based on theme from Jonathan Blow's livestreams.
+
+#+begin_src emacs-lisp
+  (use-package naysayer-theme)
+#+end_src
+
+**** Acme theme
+
+Inspired by Plan 9 Acme & Sam.
+
+#+begin_src emacs-lisp
+  (use-package acme-theme
+    :init
+    (setq acme-theme-black-fg nil))
+#+end_src
+
+
 **** Auto-Dark for Emacs
 
 #+begin_src emacs-lisp
   (use-package auto-dark
     :init
     (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-    (setq auto-dark-dark-theme (car ef-themes-to-toggle)
-          auto-dark-light-theme (cadr ef-themes-to-toggle))
+    ;; (setq auto-dark-dark-theme (car ef-themes-to-toggle)
+    ;;       auto-dark-light-theme (cadr ef-themes-to-toggle))
+    (setq auto-dark-dark-theme 'doom-solarized-dark
+          auto-dark-light-theme 'doom-solarized-light)
     :config
     (add-hook 'auto-dark-dark-mode-hook
               (lambda ()
@@ -562,7 +594,7 @@ Confirm exit with y/n instead of yes/no.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Noto Sans Mono")
-  (defvar my-macos-font "JetBrainsMono Nerd Font")
+  (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
