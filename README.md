@@ -1,6 +1,6 @@
 # Dotfiles
 
-Dotfiles is simply put a collection of different configuration files I want to have quick
+Dotfiles is simply put a collection of different configuration files I want to have easy
 access to.
 
 ## Prerequisites
