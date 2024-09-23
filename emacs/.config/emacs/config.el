@@ -301,13 +301,13 @@
   "Clear previous theme and load naysayer."
   (interactive)
   (my-clear-theme)
-  (load-theme 'naysayer))
+  (load-theme 'naysayer t))
 
 (defun my-acme-theme ()
   "Clear previous theme and load acme."
   (interactive)
   (my-clear-theme)
-  (load-theme 'acme))
+  (load-theme 'acme t))
 
 (use-package modus-themes
   :init
@@ -364,11 +364,13 @@
              "t t r" 'my-toggle-rose-pine
              "t t d" 'my-doom-one))
 
-(use-package naysayer-theme)
+(use-package naysayer-theme
+  :general (my-leader-keys "t t n" 'my-naysayer-theme))
 
 (use-package acme-theme
   :init
-  (setq acme-theme-black-fg nil))
+  (setq acme-theme-black-fg nil)
+  :general (my-leader-keys "t t a" 'my-acme-theme))
 
 (use-package auto-dark
   :init
@@ -389,7 +391,7 @@
   (auto-dark-mode t))
 
 (defvar my-linux-font "Noto Sans Mono")
-(defvar my-macos-font "Menlo")
+(defvar my-macos-font "MesloLGS Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -1492,7 +1494,7 @@ any directory proferred by `consult-dir'."
   :hook
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
   ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
-  ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
+  ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
   ;; (org-agenda-mode . hl-line-mode)
   ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
   :general (my-leader-keys
