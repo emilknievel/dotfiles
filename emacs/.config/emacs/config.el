@@ -1047,11 +1047,14 @@ parses its input."
 (use-package markdown-mode
   :demand t
   :mode ("\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "pandoc"
-              markdown-header-scaling nil
-              markdown-enable-math t
-              markdown-make-gfm-checkboxes-buttons t
-              markdown-fontify-code-blocks-natively t))
+  :init
+  (setq markdown-command "pandoc"
+        markdown-header-scaling nil
+        markdown-enable-math t
+        markdown-make-gfm-checkboxes-buttons t
+        markdown-fontify-code-blocks-natively t)
+  :config
+  (add-to-list 'markdown-code-lang-modes '("js" . js-ts-mode)))
 
 (use-package clojure-mode)
 
