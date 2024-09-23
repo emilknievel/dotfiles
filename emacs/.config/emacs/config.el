@@ -309,6 +309,16 @@
   (my-clear-theme)
   (load-theme 'acme t))
 
+(defun my-load-theme-in-all-frames (frame)
+  "Load the current theme in the newly created FRAME.
+When loaded after a new frame has been created with emacsclient, it ensures that
+the theme is properly applied. In particular this solves a problem with the menu
+bar not using the proper theme if the server was loaded with a different theme."
+  (with-selected-frame frame
+    (enable-theme (car custom-enabled-themes))))
+
+(add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
+
 (use-package modus-themes
   :init
   (setq modus-themes-mixed-fonts t)
