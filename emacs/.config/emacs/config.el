@@ -401,7 +401,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (auto-dark-mode t))
 
 (defvar my-linux-font "Noto Sans Mono")
-(defvar my-macos-font "MesloLGS Nerd Font")
+(defvar my-macos-font "FiraCode Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)

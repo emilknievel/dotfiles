@@ -609,7 +609,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Noto Sans Mono")
-  (defvar my-macos-font "MesloLGS Nerd Font")
+  (defvar my-macos-font "FiraCode Nerd Font")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
