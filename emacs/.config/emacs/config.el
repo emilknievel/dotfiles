@@ -1227,6 +1227,9 @@ parses its input."
     "g i" 'magit-info
     "g l" 'magit-log))
 
+(use-package forge
+  :after magit)
+
 (use-package diff-hl
   :init
   (global-diff-hl-mode)

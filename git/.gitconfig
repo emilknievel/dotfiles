@@ -52,3 +52,5 @@
 	path = ~/.config/git/gitconfig-private
 [includeIf "gitdir:~/repos/work/"]
 	path = ~/.config/git/gitconfig-work
+[github]
+	user = emilknievel
