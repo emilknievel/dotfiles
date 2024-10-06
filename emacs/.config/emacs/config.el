@@ -68,10 +68,12 @@
 (setq auto-save-list-file-prefix "/tmp/auto-saves/sessions/"
       auto-save-file-name-transforms `((".*" ,"/tmp/auto-saves/" t)))
 
-(add-hook 'kill-emacs-hook
-          (lambda ()
-            (dolist (file (directory-files temporary-file-directory t "\\`auto-save-file-name-p\\'"))
-              (delete-file file))))
+(add-hook 'kill-emacs-hook (lambda ()
+                             (dolist (file (directory-files
+                                            temporary-file-directory
+                                            t
+                                            "\\`auto-save-file-name-p\\'"))
+                               (delete-file file))))
 
 (setq create-lockfiles nil)
 
@@ -79,8 +81,8 @@
 
 (use-package exec-path-from-shell
   :config
+  ;; TODO: consider loading some of these only when needed to reduce launch time.
   (setq exec-path-from-shell-variables '("PATH"
-                                         "TERM_THEME"
                                          "WSL_DISTRO_NAME"
                                          "DOTNET_ROOT"
                                          "XDG_CONFIG_HOME"
@@ -91,7 +93,8 @@
                                          "BUN_INSTALL"
                                          "NODE_EXTRA_CA_CERTS"))
   (exec-path-from-shell-initialize)
-  :when (or (memq window-system '(mac ns x)) (daemonp)))
+  :when
+  (or (memq window-system '(mac ns x)) (daemonp)))
 
 (setenv "LANG" "en_US.UTF-8")
 
@@ -119,35 +122,35 @@
     :prefix "C-z"))
 
 (my-leader-keys
- ;; Top level functions
- "C-z" '(execute-extended-command :wk "M-x")
+  ;; Top level functions
+  "C-z" '(execute-extended-command :wk "M-x")
 
- ;; Prefixes
+  ;; Prefixes
 
- "`" '(:ignore t :wk "Term")
- "a" '(:ignore t :wk "AI")
- "a c" '(:ignore t :wk "Copilot")
- "b" '(:ignore t :wk "Buffer")
- "c" '(:ignore t :wk "Code")
- "d" '(:ignore t :wk "Directory")
- "E" '(:ignore t :wk "Embark")
- "f" '(:ignore t :wk "File")
- "f c" '(:ignore t :wk "Config")
- "g" '(:ignore t :wk "Git")
- "h" '(:ignore t :wk "Help")
- "h d" '(:ignore t :wk "Devdocs")
- "n" '(:ignore t :wk "Notes")
- "o" '(:ignore t :wk "Org")
- "o b" '(:ignore t :wk "Babel")
- "p" '(:ignore t :wk "Project")
- "q" '(:ignore t :wk "Quit")
- "s" '(:ignore t :wk "Search")
- "t" '(:ignore t :wk "Toggle")
- "u" '(:ignore t :wk "UI")
- "u f" '(:ignore t :wk "Fonts")
- "u l" '(:ignore t :wk "Linum")
- "u m" '(:ignore t :wk "Mode Line")
- "w" '(:ignore t :wk "Windows"))
+  "`" '(:ignore t :wk "Term")
+  "a" '(:ignore t :wk "AI")
+  "a c" '(:ignore t :wk "Copilot")
+  "b" '(:ignore t :wk "Buffer")
+  "c" '(:ignore t :wk "Code")
+  "d" '(:ignore t :wk "Directory")
+  "E" '(:ignore t :wk "Embark")
+  "f" '(:ignore t :wk "File")
+  "f c" '(:ignore t :wk "Config")
+  "g" '(:ignore t :wk "Git")
+  "h" '(:ignore t :wk "Help")
+  "h d" '(:ignore t :wk "Devdocs")
+  "n" '(:ignore t :wk "Notes")
+  "o" '(:ignore t :wk "Org")
+  "o b" '(:ignore t :wk "Babel")
+  "p" '(:ignore t :wk "Project")
+  "q" '(:ignore t :wk "Quit")
+  "s" '(:ignore t :wk "Search")
+  "t" '(:ignore t :wk "Toggle")
+  "u" '(:ignore t :wk "UI")
+  "u f" '(:ignore t :wk "Fonts")
+  "u l" '(:ignore t :wk "Linum")
+  "u m" '(:ignore t :wk "Mode Line")
+  "w" '(:ignore t :wk "Windows"))
 
 (defun my-reload-emacs-config ()
   "Tangle org file and reload the emacs config."
@@ -161,48 +164,48 @@
   (find-file (expand-file-name "config.org" user-emacs-directory)))
 
 (my-leader-keys
- "f c r" '(my-reload-emacs-config :wk "Reload config")
- "f c f" '(my-edit-emacs-config :wk "Edit config")
- "f f" 'find-file
- "f l" 'load-file
- "f s" 'save-buffer)
+  "f c r" '(my-reload-emacs-config :wk "Reload config")
+  "f c f" '(my-edit-emacs-config :wk "Edit config")
+  "f f" 'find-file
+  "f l" 'load-file
+  "f s" 'save-buffer)
 
 (my-leader-keys
- ;; buffers
- "b" '(nil :wk "buffers")
- "b b" 'switch-to-buffer
- "b B" 'ibuffer
- "b c" 'consult-buffer
- "b X" 'scratch-buffer
- "q q" 'save-buffers-kill-terminal
- "b r" 'revert-buffer-quick)
+  ;; buffers
+  "b" '(nil :wk "buffers")
+  "b b" 'switch-to-buffer
+  "b B" 'ibuffer
+  "b c" 'consult-buffer
+  "b X" 'scratch-buffer
+  "q q" 'save-buffers-kill-terminal
+  "b r" 'revert-buffer-quick)
 
 (my-leader-keys
- ;; help
- "h f" 'describe-function
- "h v" 'describe-variable
- "h k" 'describe-key
- "h i" 'info
- "h b" 'describe-bindings
- "h a" 'describe-face)
+  ;; help
+  "h f" 'describe-function
+  "h v" 'describe-variable
+  "h k" 'describe-key
+  "h i" 'info
+  "h b" 'describe-bindings
+  "h a" 'describe-face)
 
 (my-leader-keys
- ;; toggles
- "t v" '(visual-line-mode :wk "visual line mode")
- "t n" '(display-line-numbers-mode :wk "display line numbers")
- "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
+  ;; toggles
+  "t v" '(visual-line-mode :wk "visual line mode")
+  "t n" '(display-line-numbers-mode :wk "display line numbers")
+  "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
 
 (my-leader-keys
- "u f v" 'variable-pitch-mode
- "u f b" 'my-big-font-size
- "u f =" 'my-increase-font-size
- "u f -" 'my-decrease-font-size
- "u f r" 'my-reading-font-setup
- "u f 0" 'my-reset-fonts)
+  "u f v" 'variable-pitch-mode
+  "u f b" 'my-big-font-size
+  "u f =" 'my-increase-font-size
+  "u f -" 'my-decrease-font-size
+  "u f r" 'my-reading-font-setup
+  "u f 0" 'my-reset-fonts)
 
 (my-leader-keys
- ;; emacsclient
- "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
+  ;; emacsclient
+  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 
 (use-package surround
   :bind-keymap ("C-c s" . surround-keymap))
@@ -330,7 +333,7 @@ bar not using the proper theme if the server was loaded with a different theme."
           (fg-heading-2 yellow-cooler)
           (fg-heading-3 cyan-cooler)))
   :general (my-leader-keys
-            "t t m" 'modus-themes-toggle))
+             "t t m" 'modus-themes-toggle))
 
 (use-package ef-themes
   :init
@@ -607,9 +610,9 @@ bar not using the proper theme if the server was loaded with a different theme."
                                                      :background 'unspecified)))
   :general
   (my-leader-keys
-   "u l h" 'my-display-set-hidden
-   "u l r" 'my-display-set-relative
-   "u l a" 'my-display-set-absolute))
+    "u l h" 'my-display-set-hidden
+    "u l r" 'my-display-set-relative
+    "u l a" 'my-display-set-absolute))
 
 (setq show-trailing-whitespace t)
 
@@ -1080,7 +1083,7 @@ parses its input."
   :init (require 'smartparens-config)
   :hook (clojure-mode . smartparens-mode))
 
-;; Invoke the nREPL with M-x cider-jack when visiting a file inside a clojure
+;; Invoke the nREPL with `cider-jack-in' when visiting a file inside a clojure
 ;; project.
 (use-package cider
   :ensure t
@@ -1258,7 +1261,8 @@ parses its input."
 (use-package project
   :general
   (my-leader-keys
-   "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
+    ;; leader prefix for built-in project.el
+    "p" '(:keymap project-prefix-map :wk "project"))
   :straight (:type built-in))
 
 (use-package dired
@@ -1267,7 +1271,8 @@ parses its input."
   (my-leader-keys
     "d d" 'dired
     "d j" 'dired-jump
-    "d w" '((lambda () (interactive) (dired denote-workdir)) :wk "Dired to work notes"))
+    "d w" '((lambda () (interactive) (dired denote-workdir))
+            :wk "Dired to work notes"))
   :config
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
@@ -1336,10 +1341,10 @@ any directory proferred by `consult-dir'."
 (use-package consult
   :general
   (my-leader-keys
-   "s g" 'consult-git-grep
-   "s s" 'consult-ripgrep
-   "s l" 'consult-line
-   "s L" 'consult-line-multi)
+    "s g" 'consult-git-grep
+    "s s" 'consult-ripgrep
+    "s l" 'consult-line
+    "s L" 'consult-line-multi)
 
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
@@ -1731,11 +1736,11 @@ any directory proferred by `consult-dir'."
 (use-package calibredb
   :defer t
   :config
-  (setq calibredb-root-dir "~/Documents/calibre")
-  (setq calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
-  (setq calibredb-library-alist '(("~/Documents/calibre")))
-  (setq calibredb-format-all-the-icons t)
-  (setq calibredb-size-show t))
+  (setq calibredb-root-dir "~/Documents/calibre"
+        calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir)
+        calibredb-library-alist '(("~/Documents/calibre"))
+        calibredb-format-all-the-icons t
+        calibredb-size-show t))
 
 (use-package embark
   :bind
@@ -1745,8 +1750,8 @@ any directory proferred by `consult-dir'."
 
   :general
   (my-leader-keys
-   "E E" 'embark-act
-   "E h B" 'embark-bindings)
+    "E E" 'embark-act
+    "E h B" 'embark-bindings)
 
   ;; :init
   ;; Optionally replace the key help with a completing-read interface
@@ -1777,9 +1782,9 @@ any directory proferred by `consult-dir'."
                                 :models '("llama3.1:8b" "mistral-nemo:12b")))
   :general
   (my-leader-keys
-   "a a" 'gptel
-   "a g" 'gptel-menu
-   "a s" 'gptel-send)
+    "a a" 'gptel
+    "a g" 'gptel-menu
+    "a s" 'gptel-send)
   :hook (gptel-post-stream . gptel-auto-scroll))
 
 (use-package popper
@@ -1835,10 +1840,10 @@ any directory proferred by `consult-dir'."
     . (lambda () (setq-local devdocs-current-docs '("vue~3" "javascript" "typescript")))))
   :general
   (my-leader-keys
-   "h d l" 'devdocs-lookup
-   "h d p" 'devdocs-peruse
-   "h d i" 'devdocs-install
-   "h d d" 'my-devdocs-lookup-thing-at-point))
+    "h d l" 'devdocs-lookup
+    "h d p" 'devdocs-peruse
+    "h d i" 'devdocs-install
+    "h d d" 'my-devdocs-lookup-thing-at-point))
 
 (use-package helpful
   :demand t

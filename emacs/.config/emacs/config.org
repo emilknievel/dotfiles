@@ -95,10 +95,12 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
   (setq auto-save-list-file-prefix "/tmp/auto-saves/sessions/"
         auto-save-file-name-transforms `((".*" ,"/tmp/auto-saves/" t)))
 
-  (add-hook 'kill-emacs-hook
-            (lambda ()
-              (dolist (file (directory-files temporary-file-directory t "\\`auto-save-file-name-p\\'"))
-                (delete-file file))))
+  (add-hook 'kill-emacs-hook (lambda ()
+                               (dolist (file (directory-files
+                                              temporary-file-directory
+                                              t
+                                              "\\`auto-save-file-name-p\\'"))
+                                 (delete-file file))))
 #+end_src
 
 *** Lock files
@@ -121,8 +123,8 @@ Monday as first day of the week.
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :config
+    ;; TODO: consider loading some of these only when needed to reduce launch time.
     (setq exec-path-from-shell-variables '("PATH"
-                                           "TERM_THEME"
                                            "WSL_DISTRO_NAME"
                                            "DOTNET_ROOT"
                                            "XDG_CONFIG_HOME"
@@ -133,7 +135,8 @@ Monday as first day of the week.
                                            "BUN_INSTALL"
                                            "NODE_EXTRA_CA_CERTS"))
     (exec-path-from-shell-initialize)
-    :when (or (memq window-system '(mac ns x)) (daemonp)))
+    :when
+    (or (memq window-system '(mac ns x)) (daemonp)))
 #+end_src
 
 *** Emacs specific
@@ -190,35 +193,35 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
       :prefix "C-z"))
 
   (my-leader-keys
-   ;; Top level functions
-   "C-z" '(execute-extended-command :wk "M-x")
+    ;; Top level functions
+    "C-z" '(execute-extended-command :wk "M-x")
 
-   ;; Prefixes
+    ;; Prefixes
 
-   "`" '(:ignore t :wk "Term")
-   "a" '(:ignore t :wk "AI")
-   "a c" '(:ignore t :wk "Copilot")
-   "b" '(:ignore t :wk "Buffer")
-   "c" '(:ignore t :wk "Code")
-   "d" '(:ignore t :wk "Directory")
-   "E" '(:ignore t :wk "Embark")
-   "f" '(:ignore t :wk "File")
-   "f c" '(:ignore t :wk "Config")
-   "g" '(:ignore t :wk "Git")
-   "h" '(:ignore t :wk "Help")
-   "h d" '(:ignore t :wk "Devdocs")
-   "n" '(:ignore t :wk "Notes")
-   "o" '(:ignore t :wk "Org")
-   "o b" '(:ignore t :wk "Babel")
-   "p" '(:ignore t :wk "Project")
-   "q" '(:ignore t :wk "Quit")
-   "s" '(:ignore t :wk "Search")
-   "t" '(:ignore t :wk "Toggle")
-   "u" '(:ignore t :wk "UI")
-   "u f" '(:ignore t :wk "Fonts")
-   "u l" '(:ignore t :wk "Linum")
-   "u m" '(:ignore t :wk "Mode Line")
-   "w" '(:ignore t :wk "Windows"))
+    "`" '(:ignore t :wk "Term")
+    "a" '(:ignore t :wk "AI")
+    "a c" '(:ignore t :wk "Copilot")
+    "b" '(:ignore t :wk "Buffer")
+    "c" '(:ignore t :wk "Code")
+    "d" '(:ignore t :wk "Directory")
+    "E" '(:ignore t :wk "Embark")
+    "f" '(:ignore t :wk "File")
+    "f c" '(:ignore t :wk "Config")
+    "g" '(:ignore t :wk "Git")
+    "h" '(:ignore t :wk "Help")
+    "h d" '(:ignore t :wk "Devdocs")
+    "n" '(:ignore t :wk "Notes")
+    "o" '(:ignore t :wk "Org")
+    "o b" '(:ignore t :wk "Babel")
+    "p" '(:ignore t :wk "Project")
+    "q" '(:ignore t :wk "Quit")
+    "s" '(:ignore t :wk "Search")
+    "t" '(:ignore t :wk "Toggle")
+    "u" '(:ignore t :wk "UI")
+    "u f" '(:ignore t :wk "Fonts")
+    "u l" '(:ignore t :wk "Linum")
+    "u m" '(:ignore t :wk "Mode Line")
+    "w" '(:ignore t :wk "Windows"))
 #+end_src
 
 **** Files
@@ -236,68 +239,68 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
     (find-file (expand-file-name "config.org" user-emacs-directory)))
 
   (my-leader-keys
-   "f c r" '(my-reload-emacs-config :wk "Reload config")
-   "f c f" '(my-edit-emacs-config :wk "Edit config")
-   "f f" 'find-file
-   "f l" 'load-file
-   "f s" 'save-buffer)
+    "f c r" '(my-reload-emacs-config :wk "Reload config")
+    "f c f" '(my-edit-emacs-config :wk "Edit config")
+    "f f" 'find-file
+    "f l" 'load-file
+    "f s" 'save-buffer)
 #+end_src
 
 **** Buffers
 
 #+begin_src emacs-lisp
   (my-leader-keys
-   ;; buffers
-   "b" '(nil :wk "buffers")
-   "b b" 'switch-to-buffer
-   "b B" 'ibuffer
-   "b c" 'consult-buffer
-   "b X" 'scratch-buffer
-   "q q" 'save-buffers-kill-terminal
-   "b r" 'revert-buffer-quick)
+    ;; buffers
+    "b" '(nil :wk "buffers")
+    "b b" 'switch-to-buffer
+    "b B" 'ibuffer
+    "b c" 'consult-buffer
+    "b X" 'scratch-buffer
+    "q q" 'save-buffers-kill-terminal
+    "b r" 'revert-buffer-quick)
 #+end_src
 
 **** Help
 
 #+begin_src emacs-lisp
   (my-leader-keys
-   ;; help
-   "h f" 'describe-function
-   "h v" 'describe-variable
-   "h k" 'describe-key
-   "h i" 'info
-   "h b" 'describe-bindings
-   "h a" 'describe-face)
+    ;; help
+    "h f" 'describe-function
+    "h v" 'describe-variable
+    "h k" 'describe-key
+    "h i" 'info
+    "h b" 'describe-bindings
+    "h a" 'describe-face)
 #+end_src
 
 **** Toggles
 
 #+begin_src emacs-lisp
   (my-leader-keys
-   ;; toggles
-   "t v" '(visual-line-mode :wk "visual line mode")
-   "t n" '(display-line-numbers-mode :wk "display line numbers")
-   "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
+    ;; toggles
+    "t v" '(visual-line-mode :wk "visual line mode")
+    "t n" '(display-line-numbers-mode :wk "display line numbers")
+    "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
 #+end_src
 
 **** UI
 
 #+begin_src emacs-lisp
   (my-leader-keys
-   "u f v" 'variable-pitch-mode
-   "u f b" 'my-big-font-size
-   "u f =" 'my-increase-font-size
-   "u f -" 'my-decrease-font-size
-   "u f r" 'my-reading-font-setup
-   "u f 0" 'my-reset-fonts)
+    "u f v" 'variable-pitch-mode
+    "u f b" 'my-big-font-size
+    "u f =" 'my-increase-font-size
+    "u f -" 'my-decrease-font-size
+    "u f r" 'my-reading-font-setup
+    "u f 0" 'my-reset-fonts)
 #+end_src
 
 **** Emacs Client
 
 #+begin_src emacs-lisp
   (my-leader-keys
-   ;; emacsclient
-   "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
+    ;; emacsclient
+    "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
 #+end_src
 
 *** Surround
@@ -509,7 +512,7 @@ Confirm exit with y/n instead of yes/no.
             (fg-heading-2 yellow-cooler)
             (fg-heading-3 cyan-cooler)))
     :general (my-leader-keys
-              "t t m" 'modus-themes-toggle))
+               "t t m" 'modus-themes-toggle))
 #+end_src
 
 **** Ef themes
@@ -754,7 +757,7 @@ Inspired by Plan 9 Acme & Sam.
 ***** Text mode hook (disabled)
 
 #+begin_src emacs-lisp :tangle no
-  ;; Use 'variable-pitch' for prose.
+  ;; Use `variable-pitch' for prose.
   (add-hook 'text-mode-hook #'variable-pitch-mode)
 #+end_src
 
@@ -903,9 +906,9 @@ Turn on line numbers for program and configuration modes.
                                                        :background 'unspecified)))
     :general
     (my-leader-keys
-     "u l h" 'my-display-set-hidden
-     "u l r" 'my-display-set-relative
-     "u l a" 'my-display-set-absolute))
+      "u l h" 'my-display-set-hidden
+      "u l r" 'my-display-set-relative
+      "u l a" 'my-display-set-absolute))
 #+end_src
 
 *** Whitespace
@@ -1523,7 +1526,7 @@ Use prolog-mode instead of perl-mode for .pl files.
     :init (require 'smartparens-config)
     :hook (clojure-mode . smartparens-mode))
 
-  ;; Invoke the nREPL with M-x cider-jack when visiting a file inside a clojure
+  ;; Invoke the nREPL with `cider-jack-in' when visiting a file inside a clojure
   ;; project.
   (use-package cider
     :ensure t
@@ -1778,10 +1781,6 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
     (magit-post-refresh . diff-hl-magit-post-refresh))
 #+end_src
 
-*** TODO Consult-GH [0/1]
-
-- [ ] Research and list how I would use this package. What does it replace in my current github workflow?
-
 ** Terminal Emulation
 *** Eshell
 **** Syntax-highlighting
@@ -1820,7 +1819,8 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
   (use-package project
     :general
     (my-leader-keys
-     "p" '(:keymap project-prefix-map :wk "project")) ; leader prefix for built-in project.el
+      ;; leader prefix for built-in project.el
+      "p" '(:keymap project-prefix-map :wk "project"))
     :straight (:type built-in))
 #+end_src
 
@@ -1836,7 +1836,8 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
     (my-leader-keys
       "d d" 'dired
       "d j" 'dired-jump
-      "d w" '((lambda () (interactive) (dired denote-workdir)) :wk "Dired to work notes"))
+      "d w" '((lambda () (interactive) (dired denote-workdir))
+              :wk "Dired to work notes"))
     :config
     (when (string= system-type "darwin")
       (setq dired-use-ls-dired t
@@ -1934,10 +1935,10 @@ Jump to previously visited directory, not unlike using =zoxide=.
   (use-package consult
     :general
     (my-leader-keys
-     "s g" 'consult-git-grep
-     "s s" 'consult-ripgrep
-     "s l" 'consult-line
-     "s L" 'consult-line-multi)
+      "s g" 'consult-git-grep
+      "s s" 'consult-ripgrep
+      "s l" 'consult-line
+      "s L" 'consult-line-multi)
 
     ;; Replace bindings. Lazily loaded due by `use-package'.
     :bind (;; C-c bindings in `mode-specific-map'
@@ -2248,7 +2249,6 @@ Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-i
     :config
     (require 'org-roam-dailies)
     (org-roam-db-autosync-enable))
-
 #+end_src
 
 **** Org agenda hacks (disabled)
@@ -2608,11 +2608,11 @@ This package requires that calibredb is installed on the system (included with t
   (use-package calibredb
     :defer t
     :config
-    (setq calibredb-root-dir "~/Documents/calibre")
-    (setq calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
-    (setq calibredb-library-alist '(("~/Documents/calibre")))
-    (setq calibredb-format-all-the-icons t)
-    (setq calibredb-size-show t))
+    (setq calibredb-root-dir "~/Documents/calibre"
+          calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir)
+          calibredb-library-alist '(("~/Documents/calibre"))
+          calibredb-format-all-the-icons t
+          calibredb-size-show t))
 #+end_src
 
 ** Embark
@@ -2628,8 +2628,8 @@ Package repo.
 
     :general
     (my-leader-keys
-     "E E" 'embark-act
-     "E h B" 'embark-bindings)
+      "E E" 'embark-act
+      "E h B" 'embark-bindings)
 
     ;; :init
     ;; Optionally replace the key help with a completing-read interface
@@ -2671,9 +2671,9 @@ Copilot.el is an Emacs plugin for GitHub Copilot.
     (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
     (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
     :general (my-leader-keys
-              "a c m" 'copilot-mode
-              "a c n" 'copilot-next-completion
-              "a c p" 'copilot-previous-completion))
+               "a c m" 'copilot-mode
+               "a c n" 'copilot-next-completion
+               "a c p" 'copilot-previous-completion))
 #+end_src
 
 *** GPTel
@@ -2690,9 +2690,9 @@ GPTel allows us to talk with different LLMs from within Emacs.
                                   :models '("llama3.1:8b" "mistral-nemo:12b")))
     :general
     (my-leader-keys
-     "a a" 'gptel
-     "a g" 'gptel-menu
-     "a s" 'gptel-send)
+      "a a" 'gptel
+      "a g" 'gptel-menu
+      "a s" 'gptel-send)
     :hook (gptel-post-stream . gptel-auto-scroll))
 #+end_src
 
@@ -2761,15 +2761,15 @@ GPTel allows us to talk with different LLMs from within Emacs.
       . (lambda () (setq-local devdocs-current-docs '("vue~3" "javascript" "typescript")))))
     :general
     (my-leader-keys
-     "h d l" 'devdocs-lookup
-     "h d p" 'devdocs-peruse
-     "h d i" 'devdocs-install
-     "h d d" 'my-devdocs-lookup-thing-at-point))
+      "h d l" 'devdocs-lookup
+      "h d p" 'devdocs-peruse
+      "h d i" 'devdocs-install
+      "h d d" 'my-devdocs-lookup-thing-at-point))
 #+end_src
 
 *** Helpful
 
-Helpful is basically *Help* with some extra features.
+Helpful is basically =Help= with some extra features.
 
 #+begin_src emacs-lisp
   (use-package helpful
