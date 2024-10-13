@@ -333,12 +333,20 @@
   (setq acme-theme-black-fg nil)
   :general (my-leader-keys "t t a" 'my-acme-theme))
 
+(defun my-toggle-catppuccin ()
+  "Toggle between latte and mocha Catppuccin themes."
+  (interactive)
+  (if (eq catppuccin-flavor 'latte)
+      (my-catppuccin-theme 'mocha)
+    (my-catppuccin-theme 'latte)))
+
 (use-package catppuccin-theme
   :demand t
   :init
   (setq catppuccin-flavor 'mocha
         catppuccin-enlarge-headings nil
-        catppuccin-italic-blockquotes nil))
+        catppuccin-italic-blockquotes nil)
+  :general (my-leader-keys "t t c" 'my-toggle-catppuccin))
 
 (defun my-clear-theme ()
   "Clear current theme"
