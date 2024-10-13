@@ -315,6 +315,13 @@
       (my-rose-pine-dawn)
     (my-rose-pine)))
 
+(defun my-toggle-gruvbox ()
+  "Toggle between light and dark Gruvbox themes."
+  (interactive)
+  (if (eq (nth 0 custom-enabled-themes) 'doom-gruvbox)
+      (my-gruvbox)
+    (my-gruvbox-light)))
+
 (use-package doom-themes
   :config
   (setq doom-themes-enable-bold t
@@ -405,13 +412,25 @@
   (my-clear-theme)
   (catppuccin-load-flavor flavor))
 
-   (defun my-load-theme-in-all-frames (frame)
-     "Load the current theme in the newly created FRAME.
+(defun my-gruvbox ()
+  "Clear previous theme and load gruvbox."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'doom-gruvbox t))
+
+(defun my-gruvbox-light ()
+  "Clear previous theme and load gruvbox."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'doom-gruvbox-light t))
+
+(defun my-load-theme-in-all-frames (frame)
+  "Load the current theme in the newly created FRAME.
 When loaded after a new frame has been created with emacsclient, it ensures that
 the theme is properly applied. In particular this solves a problem with the menu
 bar not using the proper theme if the server was loaded with a different theme."
-     (with-selected-frame frame
-       (enable-theme (car custom-enabled-themes))))
+  (with-selected-frame frame
+    (enable-theme (car custom-enabled-themes))))
 
 (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
 
