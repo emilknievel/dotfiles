@@ -84,8 +84,9 @@ alias apto='sudo apt list --upgradable' # "outdated"
 alias ipecho='curl ipecho.net/plain ; echo'
 
 # ls
+alias l='ls -ah'
 alias la='ls -a'
-alias l='ls -lah'
+alias ll='ls -lah'
 
 # glow
 # alias glow='glow -s $TERM_THEME' # match vim dark/light mode
