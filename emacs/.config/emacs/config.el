@@ -257,6 +257,7 @@
   (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
+        ns-use-thin-smoothing t
         frame-resize-pixelwise t
         mac-command-modifier 'meta
         mac-right-command-modifier 'none
@@ -339,7 +340,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   :init
   (setq ef-themes-to-toggle '(ef-dark ef-light))
   :config
-  (setq ef-themes-mixed-fonts t
+  (setq ef-themes-mixed-fonts nil
         ;; ef-themes-common-palette-overrides '((fringe unspecified))
         ef-themes-variable-pitch-ui nil
         ef-themes-headings '((0 . (1.7))
@@ -404,7 +405,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (auto-dark-mode t))
 
 (defvar my-linux-font "Noto Sans Mono")
-(defvar my-macos-font "FiraCode Nerd Font")
+(defvar my-macos-font "MesloLGS Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -1528,7 +1529,7 @@ any directory proferred by `consult-dir'."
   (org-modern-table t)
   (org-modern-todo t)
   (org-modern-star nil)
-  (org-modern-hide-stars 'leading)
+  (org-modern-hide-stars nil)
   (org-modern-block-fringe nil)
   :hook
   (org-mode . org-modern-mode))

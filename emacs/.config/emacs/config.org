@@ -419,6 +419,7 @@ Confirm exit with y/n instead of yes/no.
     (setq ns-use-proxy-icon nil
           ns-use-mwheel-momentum t
           ns-use-mwheel-acceleration t
+          ns-use-thin-smoothing t
           frame-resize-pixelwise t
           mac-command-modifier 'meta
           mac-right-command-modifier 'none
@@ -522,7 +523,7 @@ Confirm exit with y/n instead of yes/no.
     :init
     (setq ef-themes-to-toggle '(ef-dark ef-light))
     :config
-    (setq ef-themes-mixed-fonts t
+    (setq ef-themes-mixed-fonts nil
           ;; ef-themes-common-palette-overrides '((fringe unspecified))
           ef-themes-variable-pitch-ui nil
           ef-themes-headings '((0 . (1.7))
@@ -612,7 +613,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Noto Sans Mono")
-  (defvar my-macos-font "FiraCode Nerd Font")
+  (defvar my-macos-font "MesloLGS Nerd Font")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -2126,7 +2127,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
     (org-modern-table t)
     (org-modern-todo t)
     (org-modern-star nil)
-    (org-modern-hide-stars 'leading)
+    (org-modern-hide-stars nil)
     (org-modern-block-fringe nil)
     :hook
     (org-mode . org-modern-mode))
