@@ -270,63 +270,6 @@
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
-(defun my-clear-theme ()
-  "Clear current theme"
-  (interactive)
-  (mapc #'disable-theme custom-enabled-themes))
-
-(defun my-solarized-light ()
-  "Clear previous theme and load solarized light"
-  (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-solarized-light t))
-
-(defun my-solarized-dark ()
-  "Clear previous theme and load solarized dark"
-  (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-solarized-dark t))
-
-(defun my-rose-pine ()
-  "Clear previous theme and load rosé pine."
-  (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-rose-pine t))
-
-(defun my-rose-pine-dawn ()
-  "Clear previous theme and load rosé pine dawn."
-  (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-rose-pine-dawn t))
-
-(defun my-doom-one ()
-  "Clear previous theme and load doom-one."
-  (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-one t))
-
-(defun my-naysayer-theme ()
-  "Clear previous theme and load naysayer."
-  (interactive)
-  (my-clear-theme)
-  (load-theme 'naysayer t))
-
-(defun my-acme-theme ()
-  "Clear previous theme and load acme."
-  (interactive)
-  (my-clear-theme)
-  (load-theme 'acme t))
-
-(defun my-load-theme-in-all-frames (frame)
-  "Load the current theme in the newly created FRAME.
-When loaded after a new frame has been created with emacsclient, it ensures that
-the theme is properly applied. In particular this solves a problem with the menu
-bar not using the proper theme if the server was loaded with a different theme."
-  (with-selected-frame frame
-    (enable-theme (car custom-enabled-themes))))
-
-(add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
-
 (use-package modus-themes
   :init
   (setq modus-themes-mixed-fonts t)
@@ -390,6 +333,80 @@ bar not using the proper theme if the server was loaded with a different theme."
   (setq acme-theme-black-fg nil)
   :general (my-leader-keys "t t a" 'my-acme-theme))
 
+(use-package catppuccin-theme
+  :demand t
+  :init
+  (setq catppuccin-flavor 'mocha
+        catppuccin-enlarge-headings nil
+        catppuccin-italic-blockquotes nil))
+
+(defun my-clear-theme ()
+  "Clear current theme"
+  (interactive)
+  (mapc #'disable-theme custom-enabled-themes))
+
+(defun my-solarized-light ()
+  "Clear previous theme and load solarized light"
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'doom-solarized-light t))
+
+(defun my-solarized-dark ()
+  "Clear previous theme and load solarized dark"
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'doom-solarized-dark t))
+
+(defun my-rose-pine ()
+  "Clear previous theme and load rosé pine."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'doom-rose-pine t))
+
+(defun my-rose-pine-dawn ()
+  "Clear previous theme and load rosé pine dawn."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'doom-rose-pine-dawn t))
+
+(defun my-doom-one ()
+  "Clear previous theme and load doom-one."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'doom-one t))
+
+(defun my-naysayer-theme ()
+  "Clear previous theme and load naysayer."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'naysayer t))
+
+(defun my-acme-theme ()
+  "Clear previous theme and load acme."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'acme t))
+
+(setq my-catppuccin-flavors (my-alist-keys catppuccin-flavor-alist))
+
+(defun my-catppuccin-theme (flavor)
+  "Clear previous theme and load selected catppuccin FLAVOR."
+  (interactive
+   (list (intern (completing-read "Choose a flavor: "
+                                  my-catppuccin-flavors))))
+  (my-clear-theme)
+  (catppuccin-load-flavor flavor))
+
+   (defun my-load-theme-in-all-frames (frame)
+     "Load the current theme in the newly created FRAME.
+When loaded after a new frame has been created with emacsclient, it ensures that
+the theme is properly applied. In particular this solves a problem with the menu
+bar not using the proper theme if the server was loaded with a different theme."
+     (with-selected-frame frame
+       (enable-theme (car custom-enabled-themes))))
+
+(add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
+
 (use-package auto-dark
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
@@ -400,12 +417,14 @@ bar not using the proper theme if the server was loaded with a different theme."
   :config
   (add-hook 'auto-dark-dark-mode-hook
             (lambda ()
-              (my-clear-theme)
-              (load-theme auto-dark-dark-theme t nil)))
+              (my-catppuccin-theme 'mocha)))
+              ;; (my-clear-theme)
+              ;; (load-theme auto-dark-dark-theme t nil)))
   (add-hook 'auto-dark-light-mode-hook
             (lambda ()
-              (my-clear-theme)
-              (load-theme auto-dark-light-theme t nil)))
+              (my-catppuccin-theme 'latte)))
+              ;; (my-clear-theme)
+              ;; (load-theme auto-dark-light-theme t nil)))
   (auto-dark-mode t))
 
 (defvar my-linux-font "Noto Sans Mono")
