@@ -261,7 +261,7 @@
   (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
-        ns-use-thin-smoothing t
+        ns-use-thin-smoothing nil ; kör `defaults write org.gnu.Emacs AppleFontSmoothing -int 0' istället
         frame-resize-pixelwise t
         mac-command-modifier 'meta
         mac-right-command-modifier 'none
