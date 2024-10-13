@@ -164,6 +164,15 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
     :config (auth-source-1password-enable))
 #+end_src
 
+** Utility
+*** Functions
+
+#+begin_src emacs-lisp
+  (defun my-alist-keys (alist)
+    "Return a list of all keys in ALIST."
+    (mapcar #'car alist))
+#+end_src
+
 ** Key bindings
 *** Which-key
 
