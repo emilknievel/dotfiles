@@ -153,6 +153,7 @@ emacs/.config/emacs/devdocs
 /emacs/.config/emacs/tutorial/
 /emacs/.config/emacs/recentf
 /emacs/.config/emacs/org-persist
+/emacs/.config/emacs/forge-database.sqlite
 
 ### Vim ###
 lazy-lock.json
