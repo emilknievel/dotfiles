@@ -2474,9 +2474,29 @@ Use denote for note-taking. Most of this is copied from Prot's config.
     (setq denote-directory (expand-file-name "~/Documents/notes/")
           denote-journal-extras-directory (concat denote-directory "journal")
           denote-workdir (expand-file-name "~/Documents/work-notes/mio/")
-          denote-dired-directories (list denote-directory denote-workdir)
-          denote-silo-extras-directories (list denote-directory denote-workdir))
+          denote-silo-extras-directories (list denote-workdir)
+          my-denote-silo-directories denote-silo-extras-directories)
     :config
+    (defvar my-denote-commands-for-silos
+      '(denote
+        denote-date
+        denote-subdirectory
+        denote-template
+        denote-type
+        denote-journal-extras-new-or-existing-entry))
+
+    (defun my-denote-pick-silo-then-command (silo command)
+      "Select SILO and run Denote COMMAND in it.
+    SILO is a file path from `my-denote-silo-directories', while
+    COMMAND is one among `my-denote-commands-for-silos'."
+      (interactive
+       (list (completing-read "Select a silo: " my-denote-silo-directories nil t)
+             (intern (completing-read
+                      "Run command in silo: "
+                      my-denote-commands-for-silos nil t))))
+      (let ((denote-directory silo))
+        (call-interactively command)))
+
     (setq denote-rename-buffer-format "[D] %t")
     (denote-rename-buffer-mode 1)
     (setq denote-journal-extras-title-format nil) ; always prompt for title
@@ -2519,7 +2539,7 @@ Use denote for note-taking. Most of this is copied from Prot's config.
      ("C-c n f f" . denote-find-link)
      ("C-c n f b" . denote-find-backlink)
      ("C-c n R" . denote-rename-file-using-front-matter)
-     ("C-c N n" . denote-silo-extras-select-silo-then-command)
+     ("C-c N n" . my-denote-pick-silo-then-command)
      :map dired-mode-map
      ("C-c C-d C-i" . denote-link-dired-marked-notes)
      ("C-c C-d C-r" . denote-dired-rename-marked-files)
