@@ -2727,29 +2727,6 @@ Package repo.
 #+end_src
 
 ** AI
-*** Copilot (disabled)
-
-Copilot.el is an Emacs plugin for GitHub Copilot.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package copilot
-    :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
-    :hook
-    ;; (prog-mode . (lambda ()
-    ;;                (unless (string-match-p "*temp*" (buffer-name))
-    ;;                  (copilot-mode))))
-    (emacs-lisp-mode . (lambda ()
-                         (setq-local copilot--indent-warning-printed-p t)))
-    :config
-    (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-    (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-    (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word)
-    :general (my-leader-keys
-               "a c m" 'copilot-mode
-               "a c n" 'copilot-next-completion
-               "a c p" 'copilot-previous-completion))
-#+end_src
-
 *** GPTel
 
 GPTel allows us to talk with different LLMs from within Emacs.
@@ -2757,17 +2734,17 @@ GPTel allows us to talk with different LLMs from within Emacs.
 #+begin_src emacs-lisp
   (use-package gptel
     :config
-    (setq-default gptel-model "llama3.1:8b"
+    (setq-default gptel-model "llama3.2:3b"
                   gptel-backend (gptel-make-ollama "Ollama"
                                   :host "localhost:11434"
                                   :stream t
-                                  :models '("llama3.1:8b" "mistral-nemo:12b")))
+                                  :models '("llama3.2:3b"))
+                  gptel-default-mode 'org-mode)
     :general
     (my-leader-keys
       "a a" 'gptel
       "a g" 'gptel-menu
-      "a s" 'gptel-send)
-    :hook (gptel-post-stream . gptel-auto-scroll))
+      "a s" 'gptel-send))
 #+end_src
 
 ** Popper

@@ -1842,17 +1842,17 @@ any directory proferred by `consult-dir'."
 
 (use-package gptel
   :config
-  (setq-default gptel-model "llama3.1:8b"
+  (setq-default gptel-model "llama3.2:3b"
                 gptel-backend (gptel-make-ollama "Ollama"
                                 :host "localhost:11434"
                                 :stream t
-                                :models '("llama3.1:8b" "mistral-nemo:12b")))
+                                :models '("llama3.2:3b"))
+                gptel-default-mode 'org-mode)
   :general
   (my-leader-keys
     "a a" 'gptel
     "a g" 'gptel-menu
-    "a s" 'gptel-send)
-  :hook (gptel-post-stream . gptel-auto-scroll))
+    "a s" 'gptel-send))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle)
