@@ -227,10 +227,6 @@ if.app-id = 'com.microsoft.teams2'
 run = 'move-node-to-workspace T'
 
 [[on-window-detected]]
-if.app-id = 'org.gnu.Emacs'
-run = 'move-node-to-workspace E'
-
-[[on-window-detected]]
 if.app-id = 'com.jetbrains.rider'
 run = 'move-node-to-workspace R'
 
@@ -245,6 +241,10 @@ run = 'move-node-to-workspace M'
 [[on-window-detected]]
 if.app-id = 'com.apple.Music'
 run = 'move-node-to-workspace I' # iTunes mnemonic
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace I' # Same as Apple Music
 
 [[on-window-detected]]
 if.app-id = 'com.electron.pocket-casts'
