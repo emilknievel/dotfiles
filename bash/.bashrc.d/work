@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # cert workaround to make gh copilot work within corporate network
 if [ "$USER" = "vagstedt" ]; then

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -e /etc/os-release ]; then
     if [ -n "$$(grep -Ei 'debian|ubuntu' /etc/os-release)" ]; then

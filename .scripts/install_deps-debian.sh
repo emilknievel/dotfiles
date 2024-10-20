@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function install_build_deps() {
     echo "Installing build dependencies..."
