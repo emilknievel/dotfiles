@@ -258,7 +258,8 @@
   (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
-        ns-use-thin-smoothing nil ; kör `defaults write org.gnu.Emacs AppleFontSmoothing -int 0' istället
+        ns-use-thin-smoothing nil ; using `defaults write org.gnu.Emacs AppleFontSmoothing -int 0' instead
+        ;; ns-antialias-text nil
         frame-resize-pixelwise t
         mac-command-modifier 'meta
         mac-right-command-modifier 'none
@@ -286,15 +287,15 @@
   :config
   (setq ef-themes-mixed-fonts nil
         ;; ef-themes-common-palette-overrides '((fringe unspecified))
-        ef-themes-variable-pitch-ui nil
-        ef-themes-headings '((0 . (1.7))
-                             (1 . (1.6))
-                             (2 . (1.5))
-                             (3 . (1.4))
-                             (4 . (1.3))
-                             (5 . (1.2))
-                             (6 . (1.1))
-                             (7 . (1.0))))
+        ef-themes-variable-pitch-ui nil)
+  ;;       ef-themes-headings '((0 . (1.7))
+  ;;                            (1 . (1.6))
+  ;;                            (2 . (1.5))
+  ;;                            (3 . (1.4))
+  ;;                            (4 . (1.3))
+  ;;                            (5 . (1.2))
+  ;;                            (6 . (1.1))
+  ;;                            (7 . (1.0))))
   :general (my-leader-keys
              "t t e" 'ef-themes-toggle))
 
@@ -434,22 +435,17 @@ bar not using the proper theme if the server was loaded with a different theme."
 (use-package auto-dark
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  ;; (setq auto-dark-dark-theme (car ef-themes-to-toggle)
-  ;;       auto-dark-light-theme (cadr ef-themes-to-toggle))
-  (setq auto-dark-dark-theme 'doom-solarized-dark
-        auto-dark-light-theme 'doom-solarized-light)
-  :config
-  (add-hook 'auto-dark-dark-mode-hook
-            (lambda ()
-              (my-catppuccin-theme 'mocha)))
-              ;; (my-clear-theme)
-              ;; (load-theme auto-dark-dark-theme t nil)))
-  (add-hook 'auto-dark-light-mode-hook
-            (lambda ()
-              (my-catppuccin-theme 'latte)))
-              ;; (my-clear-theme)
-              ;; (load-theme auto-dark-light-theme t nil)))
-  (auto-dark-mode t))
+  (setq auto-dark-themes '((doom-solarized-dark) (doom-solarized-light)))
+  (auto-dark-mode t)
+  :custom
+  (custom-safe-themes t)
+  :hook
+  (auto-dark-dark-mode
+   . (lambda ()
+       (my-solarized-dark)))
+  (auto-dark-light-mode
+   . (lambda ()
+       (my-solarized-light))))
 
 (defvar my-linux-font "Noto Sans Mono")
 (defvar my-macos-font "MesloLGS Nerd Font")
