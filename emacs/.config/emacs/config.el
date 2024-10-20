@@ -103,9 +103,6 @@
   :custom
   (gnutls-verify-error nil))
 
-(use-package auth-source-1password
-  :config (auth-source-1password-enable))
-
 (defun my-alist-keys (alist)
   "Return a list of all keys in ALIST."
   (mapcar #'car alist))
