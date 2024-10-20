@@ -2,9 +2,11 @@ local wezterm = require('wezterm')
 
 local function scheme_for_appearance(appearance)
   if appearance:find('Dark') then
-    return 'Catppuccin Mocha'
+    -- return 'Ef-dark'
+    return 'Builtin Solarized Dark'
   else
-    return 'Catppuccin Latte'
+    -- return 'Ef-Light'
+    return 'Builtin Solarized Light'
   end
 end
 
@@ -19,8 +21,8 @@ wezterm.on('window-config-reloaded', function(window, _)
 end)
 
 return {
-  window_background_opacity = 0.9,
-  macos_window_background_blur = 20,
+  -- window_background_opacity = 0.90,
+  -- macos_window_background_blur = 20,
   font = wezterm.font('MesloLGS Nerd Font'),
   font_size = 13.0,
 
@@ -31,4 +33,6 @@ return {
   hide_tab_bar_if_only_one_tab = true,
 
   window_decorations = 'RESIZE',
+
+  scrollback_lines = 5000,
 }
