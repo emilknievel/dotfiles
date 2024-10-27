@@ -2,11 +2,10 @@ local wezterm = require('wezterm')
 
 local function scheme_for_appearance(appearance)
   if appearance:find('Dark') then
-    -- return 'Ef-dark'
-    return 'Builtin Solarized Dark'
+    return 'Solarized (dark) (terminal.sexy)'
+    -- return 'Builtin Solarized Dark'
   else
-    -- return 'Ef-Light'
-    return 'Builtin Solarized Light'
+    return 'Solarized (light) (terminal.sexy)'
   end
 end
 
@@ -23,7 +22,7 @@ end)
 return {
   -- window_background_opacity = 0.90,
   -- macos_window_background_blur = 20,
-  font = wezterm.font('MesloLGS Nerd Font'),
+  font = wezterm.font('JetBrainsMono Nerd Font'),
   font_size = 13.0,
 
   harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
