@@ -448,7 +448,7 @@ bar not using the proper theme if the server was loaded with a different theme."
        (my-solarized-light))))
 
 (defvar my-linux-font "Noto Sans Mono")
-(defvar my-macos-font "MesloLGS Nerd Font")
+(defvar my-macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -492,11 +492,11 @@ bar not using the proper theme if the server was loaded with a different theme."
           my-variable-pitch-font-weight 'normal
           my-variable-pitch-font-width 'normal
 
-          my-editor-font-height 130
+          my-editor-font-height 150
           my-editor-font-weight 'normal
           my-editor-font-width 'normal
 
-          my-fixed-pitch-font-height 130
+          my-fixed-pitch-font-height 150
           my-fixed-pitch-font-weight 'normal
           my-fixed-pitch-font-width 'normal)
   (my-setup-linux-fonts))
