@@ -5,6 +5,7 @@ ripgrep (rg)
 
 # macOS
 ## homebrew
+aerospace
 autoconf
 automake
 azure-cli

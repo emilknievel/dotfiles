@@ -50,12 +50,12 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = 10
-inner.vertical   = 20
-outer.left       = 20
-outer.bottom     = 10
-outer.top        = 10
-outer.right      = 20
+inner.horizontal = 2
+inner.vertical   = 2
+outer.left       = 0
+outer.bottom     = 0
+outer.top        = 0
+outer.right      = 0
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -248,6 +248,14 @@ run = 'move-node-to-workspace I' # Same as Apple Music
 
 [[on-window-detected]]
 if.app-id = 'com.electron.pocket-casts'
+run = 'move-node-to-workspace R'
+
+[[on-window-detected]]
+if.app-id = 'fm.overcast.overcast'
+run = 'move-node-to-workspace R'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Photos'
 run = 'move-node-to-workspace P'
 
 [[on-window-detected]]
@@ -256,6 +264,10 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.MobileSMS'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.jordanbaird.Ice'
 run = 'layout floating'
 
 ## Tile Emacs only if launched from workspace 'E'
