@@ -435,17 +435,17 @@ bar not using the proper theme if the server was loaded with a different theme."
 (use-package auto-dark
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-themes '((doom-solarized-dark) (doom-solarized-light)))
+  (setq auto-dark-themes '((modus-vivendi) (modus-operandi)))
   (auto-dark-mode t)
   :custom
   (custom-safe-themes t)
   :hook
   (auto-dark-dark-mode
    . (lambda ()
-       (my-solarized-dark)))
+       (modus-themes-select 'modus-vivendi)))
   (auto-dark-light-mode
    . (lambda ()
-       (my-solarized-light))))
+       (modus-themes-select 'modus-operandi))))
 
 (defvar my-linux-font "Noto Sans Mono")
 (defvar my-macos-font "Iosevka Comfy")
