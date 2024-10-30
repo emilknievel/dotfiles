@@ -228,11 +228,7 @@ run = 'move-node-to-workspace T'
 
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.rider'
-run = 'move-node-to-workspace R'
-
-[[on-window-detected]]
-if.app-id = 'com.microsoft.VSCode'
-run = 'move-node-to-workspace C'
+run = 'move-node-to-workspace C' # (C)ode
 
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
@@ -240,7 +236,7 @@ run = 'move-node-to-workspace M'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Music'
-run = 'move-node-to-workspace I' # iTunes mnemonic
+run = 'move-node-to-workspace I' # (i)Tunes
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
@@ -248,7 +244,7 @@ run = 'move-node-to-workspace I' # Same as Apple Music
 
 [[on-window-detected]]
 if.app-id = 'com.electron.pocket-casts'
-run = 'move-node-to-workspace R'
+run = 'move-node-to-workspace R' # (R)adio
 
 [[on-window-detected]]
 if.app-id = 'fm.overcast.overcast'
@@ -268,6 +264,10 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.jordanbaird.Ice'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
 run = 'layout floating'
 
 ## Tile Emacs only if launched from workspace 'E'
