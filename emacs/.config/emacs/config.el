@@ -1367,9 +1367,6 @@ parses its input."
 
 (use-package dired-single)
 
-(use-package casual-dired
-  :bind (:map dired-mode-map ("C-o" . 'casual-dired-tmenu)))
-
 (use-package dired-hide-dotfiles)
 
 (use-package treemacs

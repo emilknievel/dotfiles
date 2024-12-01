@@ -1961,9 +1961,6 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
     (dired-listing-switches "-aBhl --group-directories-first"))
 
   (use-package dired-single)
-
-  (use-package casual-dired
-    :bind (:map dired-mode-map ("C-o" . 'casual-dired-tmenu)))
 #+end_src
 
 *** Hide/show hidden files
