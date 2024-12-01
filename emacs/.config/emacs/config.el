@@ -270,34 +270,42 @@
 
 (use-package modus-themes
   :init
-  (setq modus-themes-mixed-fonts t)
-  (setq modus-themes-variable-pitch-ui nil)
-  (setq modus-themes-common-palette-overrides
-        '((fringe unspecified)
-          (bg-paren-match bg-magenta-intense)
-          (fg-heading-1 blue-warmer)
-          (fg-heading-2 yellow-cooler)
-          (fg-heading-3 cyan-cooler)))
+  (setq modus-themes-mixed-fonts t
+        modus-themes-variable-pitch-ui nil
+        modus-themes-common-palette-overrides '((bg-paren-match bg-magenta-intense)
+                                                (fg-heading-1 blue-warmer)
+                                                (fg-heading-2 yellow-cooler)
+                                                (fg-heading-3 cyan-cooler))
+        modus-themes-headings '((0 . (1.7))
+                                (1 . (1.6))
+                                (2 . (1.5))
+                                (3 . (1.4))
+                                (4 . (1.3))
+                                (5 . (1.2))
+                                (6 . (1.1))
+                                (7 . (1.0))))
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
 
 (use-package ef-themes
   :init
-  (setq ef-themes-to-toggle '(ef-dark ef-light))
+  (setq ef-themes-to-toggle '(ef-owl ef-light))
   :config
-  (setq ef-themes-mixed-fonts nil
+  (setq ef-themes-mixed-fonts t
         ;; ef-themes-common-palette-overrides '((fringe unspecified))
-        ef-themes-variable-pitch-ui nil)
-  ;;       ef-themes-headings '((0 . (1.7))
-  ;;                            (1 . (1.6))
-  ;;                            (2 . (1.5))
-  ;;                            (3 . (1.4))
-  ;;                            (4 . (1.3))
-  ;;                            (5 . (1.2))
-  ;;                            (6 . (1.1))
-  ;;                            (7 . (1.0))))
+        ef-themes-variable-pitch-ui nil
+        ef-themes-headings '((0 . (1.7))
+                             (1 . (1.6))
+                             (2 . (1.5))
+                             (3 . (1.4))
+                             (4 . (1.3))
+                             (5 . (1.2))
+                             (6 . (1.1))
+                             (7 . (1.0))))
   :general (my-leader-keys
              "t t e" 'ef-themes-toggle))
+
+(use-package standard-themes)
 
 (defun my-toggle-solarized ()
   "Toggle between light and dark solarized themes."
@@ -352,6 +360,12 @@
         catppuccin-enlarge-headings nil
         catppuccin-italic-blockquotes nil)
   :general (my-leader-keys "t t c" 'my-toggle-catppuccin))
+
+(use-package leuven-theme)
+
+(use-package kaolin-themes)
+
+(use-package miasma-theme)
 
 (defun my-clear-theme ()
   "Clear current theme"
@@ -422,6 +436,30 @@
   (my-clear-theme)
   (load-theme 'doom-gruvbox-light t))
 
+(defun my-kaolin-dark ()
+  "Clear previous theme and load kaolin dark."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'kaolin-dark t))
+
+(defun my-kaolin-light ()
+  "Clear previous theme and load kaolin light."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'kaolin-light t))
+
+(defun my-kaolin-mono-dark ()
+  "Clear previous theme and load kaolin mono dark."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'kaolin-mono-dark t))
+
+(defun my-kaolin-mono-light ()
+  "Clear previous theme and load kaolin mono light."
+  (interactive)
+  (my-clear-theme)
+  (load-theme 'kaolin-mono-light t))
+
 (defun my-load-theme-in-all-frames (frame)
   "Load the current theme in the newly created FRAME.
 When loaded after a new frame has been created with emacsclient, it ensures that
@@ -435,20 +473,16 @@ bar not using the proper theme if the server was loaded with a different theme."
 (use-package auto-dark
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-themes '((modus-vivendi) (modus-operandi)))
+  (setq auto-dark-themes '((ef-owl) (modus-operandi)))
   (auto-dark-mode t)
   :custom
   (custom-safe-themes t)
   :hook
-  (auto-dark-dark-mode
-   . (lambda ()
-       (modus-themes-select 'modus-vivendi)))
-  (auto-dark-light-mode
-   . (lambda ()
-       (modus-themes-select 'modus-operandi))))
+  (auto-dark-dark-mode . (lambda () (ef-themes-select 'ef-owl)))
+  (auto-dark-light-mode . (lambda () (ef-themes-select 'modus-operandi))))
 
 (defvar my-linux-font "Noto Sans Mono")
-(defvar my-macos-font "Iosevka Comfy")
+(defvar my-macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -492,11 +526,11 @@ bar not using the proper theme if the server was loaded with a different theme."
           my-variable-pitch-font-weight 'normal
           my-variable-pitch-font-width 'normal
 
-          my-editor-font-height 150
+          my-editor-font-height 130
           my-editor-font-weight 'normal
           my-editor-font-width 'normal
 
-          my-fixed-pitch-font-height 150
+          my-fixed-pitch-font-height 130
           my-fixed-pitch-font-weight 'normal
           my-fixed-pitch-font-width 'normal)
   (my-setup-linux-fonts))
@@ -1546,8 +1580,8 @@ any directory proferred by `consult-dir'."
   :config
   ;; Agenda
   (setq org-refile-targets
-        '((org-agenda-files . (:maxlevel . 3))
-          (nil . (:maxlevel . 3))))
+        '((org-agenda-files :maxlevel . 3)
+          (nil :maxlevel . 3)))
   (setq org-refile-use-outline-path t)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (setq org-refile-use-cache t)
@@ -1558,7 +1592,7 @@ any directory proferred by `consult-dir'."
          ("C-c c" . org-capture))
   :hook
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
   ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
   ;; (org-agenda-mode . hl-line-mode)
   ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
@@ -1590,13 +1624,13 @@ any directory proferred by `consult-dir'."
 
 (use-package org-appear
   :config
-  (setq org-appear-autoemphasis t
+  (setq org-appear-autoemphasis nil
+        org-hide-emphasis-markers nil
         org-appear-autolinks t
         org-appear-autosubmarkers t
         org-appear-autoentities t
         org-appear-autokeywords t
-        org-appear-inside-latex t
-        org-hide-emphasis-markers t)
+        org-appear-inside-latex t)
   :hook (org-mode . org-appear-mode)
   :general (my-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
 
