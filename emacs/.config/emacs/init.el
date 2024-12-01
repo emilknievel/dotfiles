@@ -1,5 +1,9 @@
 (setq vc-follow-symlinks t) ; edit real file when opening symbolic link
 
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
 (setq straight-repository-branch "develop")
 (defvar bootstrap-version)
 (let ((bootstrap-file
