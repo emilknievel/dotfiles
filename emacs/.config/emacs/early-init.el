@@ -28,7 +28,7 @@
 
 ;; Sensible default height/width
 (setq default-frame-alist (list '(min-height . 1)
-                                '(height . 30)
+                                '(height . 40)
                                 '(min-width . 1)
                                 '(width . 110)))
 ;; override above and make it fullscreen
