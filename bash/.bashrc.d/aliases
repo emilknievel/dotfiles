@@ -101,3 +101,5 @@ alias et='exa --tree --icons'
 # exercism
 alias exs='exercism submit'
 alias ext='exercism test'
+
+alias '?'='ollama run llama3.2:3b'
