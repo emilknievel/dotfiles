@@ -643,13 +643,6 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (use-package show-font)
 
-(defun my-show-column-guide ()
-  "Show a vertical column guide."
-  (setq display-fill-column-indicator-column 80)
-  (display-fill-column-indicator-mode))
-
-(add-hook 'prog-mode-hook #'my-show-column-guide)
-
 (defun my-display-set-relative ()
   "Setup for relative line numbers."
   (interactive)
@@ -674,6 +667,9 @@ bar not using the proper theme if the server was loaded with a different theme."
   "Hide line numbers."
   (interactive)
   (setq display-line-numbers nil))
+
+(setq display-line-width 4
+      display-line-numbers-grow-only t)
 
 (use-package display-line-numbers
   :custom

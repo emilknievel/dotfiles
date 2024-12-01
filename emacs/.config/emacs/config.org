@@ -952,11 +952,11 @@ Preview fonts inside of Emacs.
   (use-package show-font)
 #+end_src
 
-*** Column indication
+*** Column indication (disabled)
 
 Show column indicator at column 80.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (defun my-show-column-guide ()
     "Show a vertical column guide."
     (setq display-fill-column-indicator-column 80)
@@ -994,6 +994,9 @@ Hooks for relative and absolute line numbers.
     "Hide line numbers."
     (interactive)
     (setq display-line-numbers nil))
+
+  (setq display-line-width 4
+        display-line-numbers-grow-only t)
 #+end_src
 
 Turn on line numbers for program and configuration modes.
