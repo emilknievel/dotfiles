@@ -8,6 +8,11 @@
 --theme="ansi"
 # --theme="base16-256"
 # --theme="base16"
+# --theme="OneHalfDark"
+# --theme="OneHalfLight"
+# --theme="TwoDark"
+# --theme="gruvbox-dark"
+# --theme="zenburn"
 
 # Enable this to use italic text on the terminal. This is not supported on all
 # terminal emulators (like tmux, by default):
