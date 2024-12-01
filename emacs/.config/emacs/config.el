@@ -1093,7 +1093,6 @@ parses its input."
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")
         (ocaml "https://github.com/tree-sitter/tree-sitter-ocaml" "master" "grammars/ocaml/src")
         (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-        (rust "https://github.com/tree-sitter/tree-sitter-rust")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")))
 
@@ -1120,7 +1119,6 @@ parses its input."
         (yaml-mode . yaml-ts-mode)
         (ocaml-mode . ocaml-ts-mode)
         ;; (csharp-mode . csharp-ts-mode)
-        (rust-mode . rust-ts-mode)
         (c-mode . c-ts-mode)
         (c++-mode . c++-ts-mode)))
 
@@ -1225,7 +1223,15 @@ parses its input."
                `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
   (add-hook 'vue-mode-hook 'eglot-ensure))
 
-(add-to-list 'auto-mode-alist '("\\.rs?\\'" . rust-ts-mode))
+(use-package rust-mode
+  :init
+  (setq rust-mode-treesitter-derive t) ; mode-native treesitter mode
+  :mode ("\\.rs\\'" . rust-mode)
+  :custom
+  (rust-format-on-save t)
+  :hook
+  ;; prefer spaces over tabs to conform with language standard.
+  (rust-mode . (lambda () (setq indent-tabs-mode nil))))
 
 (use-package mermaid-mode :mode "\\.mmd$")
 
