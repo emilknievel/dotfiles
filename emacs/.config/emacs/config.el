@@ -271,11 +271,14 @@
 (use-package modus-themes
   :init
   (setq modus-themes-mixed-fonts t
-        modus-themes-variable-pitch-ui nil
-        modus-themes-common-palette-overrides '((bg-paren-match bg-magenta-intense)
-                                                (fg-heading-1 blue-warmer)
-                                                (fg-heading-2 yellow-cooler)
-                                                (fg-heading-3 cyan-cooler))
+        modus-themes-variable-pitch-ui t
+        modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
+        modus-themes-common-palette-overrides '((fringe unspecified))
+        ;; (bg-paren-match bg-magenta-intense)
+        ;; (fg-heading-1 blue-warmer)
+        ;; (fg-heading-2 yellow-cooler)
+        ;; (fg-heading-3 cyan-cooler))
         modus-themes-headings '((0 . (1.7))
                                 (1 . (1.6))
                                 (2 . (1.5))
@@ -289,11 +292,10 @@
 
 (use-package ef-themes
   :init
-  (setq ef-themes-to-toggle '(ef-owl ef-light))
+  (setq ef-themes-to-toggle '(ef-dark ef-light))
   :config
   (setq ef-themes-mixed-fonts t
-        ;; ef-themes-common-palette-overrides '((fringe unspecified))
-        ef-themes-variable-pitch-ui nil
+        ef-themes-variable-pitch-ui t
         ef-themes-headings '((0 . (1.7))
                              (1 . (1.6))
                              (2 . (1.5))
@@ -473,13 +475,13 @@ bar not using the proper theme if the server was loaded with a different theme."
 (use-package auto-dark
   :init
   (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-themes '((ef-owl) (modus-operandi)))
+  (setq auto-dark-themes '((ef-dark) (ef-light)))
   (auto-dark-mode t)
   :custom
   (custom-safe-themes t)
   :hook
-  (auto-dark-dark-mode . (lambda () (ef-themes-select 'ef-owl)))
-  (auto-dark-light-mode . (lambda () (ef-themes-select 'modus-operandi))))
+  (auto-dark-dark-mode . (lambda () (ef-themes-select 'ef-dark)))
+  (auto-dark-light-mode . (lambda () (ef-themes-select 'ef-light))))
 
 (defvar my-linux-font "Noto Sans Mono")
 (defvar my-macos-font "JetBrainsMono Nerd Font")
@@ -490,7 +492,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "SF Pro Text"))
+           (defvar my-variable-pitch-font "SF Pro"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "Noto Sans")))
 
@@ -676,7 +678,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (display-line-numbers-widen t)
   (display-line-numbers-type 'visual)
   :hook
-  ((prog-mode conf-mode) . display-line-numbers-mode)
+  ;; ((prog-mode conf-mode) . display-line-numbers-mode)
   ;; Remove highlighted background on current line.
   (display-line-numbers-mode . (lambda ()
                                  (set-face-attribute 'line-number-current-line
@@ -708,29 +710,12 @@ bar not using the proper theme if the server was loaded with a different theme."
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
 
-(setq display-time-format " %H:%M ")
-(setq display-time-interval 60)
-(setq display-time-default-load-average nil)
-
-;; Only display current date and time, not email stuff
-(setq display-time-string-forms
-      '((propertize
-         (format-time-string display-time-format now)
-         ;; 'face 'display-time-date-and-time
-         'help-echo (format-time-string "%a %b %e, %Y" now))
-        " "))
-
-(display-time-mode 1)
-
 (use-package doom-modeline
   :general (my-leader-keys "u m d" 'doom-modeline-mode))
 
 (use-package minions
   :init
   (minions-mode))
-
-(add-hook 'prog-mode-hook 'hl-line-mode)
-(add-hook 'conf-mode-hook 'hl-line-mode)
 
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)
@@ -1604,7 +1589,7 @@ any directory proferred by `consult-dir'."
   :custom
   (org-modern-table t)
   (org-modern-todo t)
-  (org-modern-star nil)
+  (org-modern-star 'fold)
   (org-modern-hide-stars nil)
   (org-modern-block-fringe nil)
   :hook
