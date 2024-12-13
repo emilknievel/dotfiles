@@ -391,6 +391,14 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
       ("M-D" mc/unmark-previous-like-this "mark previous")))
 #+end_src
 
+*** Delete selected text upon insertion
+
+#+begin_src emacs-lisp
+  (use-package delsel
+    :ensure nil ; no need to install it as it is built-in
+    :hook (after-init . delete-selection-mode))
+#+end_src
+
 ** Eldoc
 
 #+begin_src emacs-lisp
@@ -1404,6 +1412,16 @@ Highlight line when programming or editing configuration files.
     ;;       #'command-completion-default-include-p)
 
     (setq tab-always-indent t))
+#+end_src
+
+**** Nerd icons for Corfu
+
+#+begin_src emacs-lisp
+  (use-package nerd-icons-corfu
+    :ensure t
+    :after corfu
+    :config
+    (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 #+end_src
 
 *** Cape
