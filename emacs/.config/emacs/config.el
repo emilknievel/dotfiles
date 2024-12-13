@@ -265,6 +265,14 @@
         mac-option-modifier 'super
         mac-control-modifier 'control))
 
+(when (getenv "WSL_DISTRO_NAME")
+  (defun copy-selected-text (start end)
+    (interactive "r")
+    (if (use-region-p)
+        (let ((text (buffer-substring-no-properties start end)))
+          (shell-command (concat "echo '" text "' | clip.exe")))))
+  (pixel-scroll-precision-mode))
+
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
 (use-package modus-themes
@@ -481,18 +489,20 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
 
-(use-package auto-dark
-  :init
-  (setq auto-dark-allow-osascript t) ; needed for it to work with emacsclient on macOS.
-  (setq auto-dark-themes '((ef-dark) (ef-light)))
-  (auto-dark-mode t)
-  :custom
-  (custom-safe-themes t)
-  :hook
-  (auto-dark-dark-mode . (lambda () (ef-themes-select 'ef-dark)))
-  (auto-dark-light-mode . (lambda () (ef-themes-select 'ef-light))))
+(if (not (getenv "WSL_DISTRO_NAME")) ; Doesn't recognize dark/light mode in WSL.
+    (use-package auto-dark
+      :init
+      (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
+            setq auto-dark-themes '((ef-dark) (ef-light)))
+      (auto-dark-mode t)
+      :custom
+      (custom-safe-themes t)
+      :hook
+      (auto-dark-dark-mode . (lambda () (ef-themes-select 'ef-dark)))
+      (auto-dark-light-mode . (lambda () (ef-themes-select 'ef-light))))
+  (ef-themes-select 'ef-winter))
 
-(defvar my-linux-font "Noto Sans Mono")
+(defvar my-linux-font "CaskaydiaCove Nerd Font")
 (defvar my-macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
@@ -504,17 +514,17 @@ bar not using the proper theme if the server was loaded with a different theme."
            (defvar my-variable-pitch-font "SF Pro")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "Noto Sans")
+         (defvar my-variable-pitch-font "Sans")
          (defvar my-serif-font "Serif")))
 
 (defun my-setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
   (if (getenv "WSL_DISTRO_NAME")
-      (setq my-font-height 170
-            my-small-font-height 150
-            my-medium-font-height 180
-            my-large-font-height 190
-            my-presentation-font-height 200)
+      (setq my-font-height 110
+            my-small-font-height 90
+            my-medium-font-height 120
+            my-large-font-height 130
+            my-presentation-font-height 150)
     (setq my-font-height 100
           my-small-font-height 90
           my-medium-font-height 110
