@@ -1401,7 +1401,7 @@ any directory proferred by `consult-dir'."
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-startup-indented t)
+  (org-startup-indented nil)
 
   ;; Add CLOSED: [timestamp] line after todo headline when marked as done
   ;; and prompt for closing note.
@@ -1445,7 +1445,7 @@ any directory proferred by `consult-dir'."
   :custom
   (org-modern-table t)
   (org-modern-todo t)
-  (org-modern-star 'fold)
+  (org-modern-star nil)
   (org-modern-hide-stars nil)
   (org-modern-block-fringe nil)
   :hook
@@ -1455,7 +1455,7 @@ any directory proferred by `consult-dir'."
   :general
   (my-leader-keys "u o" 'olivetti-mode)
   :init
-  (setq olivetti-body-width 120
+  (setq olivetti-body-width 100
         olivetti-minimum-body-width 72)
   :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
          (olivetti-mode . (lambda ()
@@ -1511,7 +1511,8 @@ any directory proferred by `consult-dir'."
       denote-subdirectory
       denote-template
       denote-type
-      denote-journal-extras-new-or-existing-entry))
+      denote-journal-extras-new-or-existing-entry
+      denote-link-or-create))
 
   (defun my-denote-pick-silo-then-command (silo command)
     "Select SILO and run Denote COMMAND in it.
