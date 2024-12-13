@@ -1543,7 +1543,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 Language grammars for tree-sitter.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (setq treesit-language-source-alist
         '((bash "https://github.com/tree-sitter/tree-sitter-bash")
           (cmake "https://github.com/uyha/tree-sitter-cmake")
@@ -1580,7 +1580,7 @@ Show all existing tree-sitter major modes with the apropos help command: ~C-h a 
 
 Make Emacs use ts mode when opening the corresponding filetype.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (setq major-mode-remap-alist
         '((bash-mode . bash-ts-mode)
           (cmake-mode . cmake-ts-mode)
@@ -1600,6 +1600,19 @@ Make Emacs use ts mode when opening the corresponding filetype.
           ;; (csharp-mode . csharp-ts-mode)
           (c-mode . c-ts-mode)
           (c++-mode . c++-ts-mode)))
+#+end_src
+
+**** treesit-auto
+
+Trying out =treesit-auto= instead of the above config.
+
+#+begin_src emacs-lisp
+  (use-package treesit-auto
+    :custom
+    (treesit-auto-install 'prompt)
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode))
 #+end_src
 
 *** Prolog
@@ -1724,39 +1737,6 @@ Notable keymaps:
     :config (require 'restclient-jq))
 #+end_src
 
-*** Vue
-
-#+begin_src emacs-lisp
-  ;; web-mode setup
-  (define-derived-mode vue-mode web-mode "Vue")
-  (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
-
-  (defun vue-eglot-init-options ()
-    ;; requires that typescript is installed globally
-    (let ((tsdk-path (expand-file-name
-                      "lib"
-                      (string-trim-right (shell-command-to-string "npm list --global --parseable typescript | head -n1")))))
-      `(:typescript (:tsdk ,tsdk-path
-                           :languageFeatures (:completion
-                                              (:defaultTagNameCase "both"
-                                                                   :defaultAttrNameCase "kebabCase"
-                                                                   :getDocumentNameCasesRequest nil
-                                                                   :getDocumentSelectionRequest nil)
-                                              :diagnostics
-                                              (:getDocumentVersionRequest nil))
-                           :documentFeatures (:documentFormatting
-                                              (:defaultPrintWidth 100
-                                                                  :getDocumentPrintWidthRequest nil)
-                                              :documentSymbol t
-                                              :documentColor t)))))
-
-  ;; vue-ls
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
-    (add-hook 'vue-mode-hook 'eglot-ensure))
-#+end_src
-
 *** Rust
 
 #+begin_src emacs-lisp
@@ -1788,26 +1768,6 @@ Notable keymaps:
                    '((lua-mode lua-ts-mode) . ("lua-language-server"))))
     (add-to-list 'project-vc-extra-root-markers ".busted")
     :hook (lua-mode . eglot-ensure))
-#+end_src
-
-*** C#
-**** Eglot
-
-#+begin_src emacs-lisp
-  ;; Invoke Eglot when entering a C# file
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))))
-  (add-hook 'csharp-mode-hook 'eglot-ensure)
-#+end_src
-
-**** Misc.
-
-#+begin_src emacs-lisp
-  ;; C# is fairly verbose, so lines are usually longer than 80 columns
-  (add-hook 'csharp-mode-hook
-            (lambda () (when (not (= display-fill-column-indicator-column 120))
-                         (setq display-fill-column-indicator-column 120))))
 #+end_src
 
 *** OCaml

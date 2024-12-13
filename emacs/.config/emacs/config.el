@@ -1073,35 +1073,6 @@ parses its input."
   :after restclient
   :config (require 'restclient-jq))
 
-;; web-mode setup
-(define-derived-mode vue-mode web-mode "Vue")
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
-
-(defun vue-eglot-init-options ()
-  ;; requires that typescript is installed globally
-  (let ((tsdk-path (expand-file-name
-                    "lib"
-                    (string-trim-right (shell-command-to-string "npm list --global --parseable typescript | head -n1")))))
-    `(:typescript (:tsdk ,tsdk-path
-                         :languageFeatures (:completion
-                                            (:defaultTagNameCase "both"
-                                                                 :defaultAttrNameCase "kebabCase"
-                                                                 :getDocumentNameCasesRequest nil
-                                                                 :getDocumentSelectionRequest nil)
-                                            :diagnostics
-                                            (:getDocumentVersionRequest nil))
-                         :documentFeatures (:documentFormatting
-                                            (:defaultPrintWidth 100
-                                                                :getDocumentPrintWidthRequest nil)
-                                            :documentSymbol t
-                                            :documentColor t)))))
-
-;; vue-ls
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
-  (add-hook 'vue-mode-hook 'eglot-ensure))
-
 (use-package rust-mode
   :init
   (setq rust-mode-treesitter-derive t) ; mode-native treesitter mode
@@ -1122,17 +1093,6 @@ parses its input."
                  '((lua-mode lua-ts-mode) . ("lua-language-server"))))
   (add-to-list 'project-vc-extra-root-markers ".busted")
   :hook (lua-mode . eglot-ensure))
-
-;; Invoke Eglot when entering a C# file
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               '((csharp-mode csharp-ts-mode) . ("omnisharp" "-lsp"))))
-(add-hook 'csharp-mode-hook 'eglot-ensure)
-
-;; C# is fairly verbose, so lines are usually longer than 80 columns
-(add-hook 'csharp-mode-hook
-          (lambda () (when (not (= display-fill-column-indicator-column 120))
-                       (setq display-fill-column-indicator-column 120))))
 
 (use-package tuareg)
 
