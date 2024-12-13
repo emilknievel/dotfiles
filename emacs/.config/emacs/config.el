@@ -1206,6 +1206,8 @@ parses its input."
 
 (use-package dired-single)
 
+(define-key dired-mode-map "`" (lambda () (interactive) (eshell)))
+
 (use-package dired-hide-dotfiles)
 
 (use-package treemacs
@@ -1825,6 +1827,17 @@ any directory proferred by `consult-dir'."
      ("BUG" error bold))))
 
 (use-package transpose-frame)
+
+(defun nuke-all-buffers ()
+  "Kill all buffers, leaving *scratch* only."
+  (interactive)
+  (mapc
+   (lambda (buffer)
+     (kill-buffer buffer))
+   (buffer-list))
+  (delete-other-windows))
+
+(my-leader-keys "b K" 'nuke-all-buffers)
 
 (setq-default compilation-scroll-output t)
 
