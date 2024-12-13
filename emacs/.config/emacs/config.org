@@ -296,12 +296,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 
 #+begin_src emacs-lisp
   (my-leader-keys
-    "u f v" 'variable-pitch-mode
-    "u f b" 'my-big-font-size
-    "u f =" 'my-increase-font-size
-    "u f -" 'my-decrease-font-size
-    "u f r" 'my-reading-font-setup
-    "u f 0" 'my-reset-fonts)
+    "u f v" 'variable-pitch-mode)
 #+end_src
 
 **** Emacs Client
@@ -720,7 +715,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Noto Sans Mono")
-  (defvar my-macos-font "JetBrainsMono Nerd Font")
+  (defvar my-macos-font "SF Mono")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -728,9 +723,11 @@ Inspired by Plan 9 Acme & Sam.
 
   (if (eq system-type 'darwin)
       (progn (defvar my-default-font my-editor-font)
-             (defvar my-variable-pitch-font "SF Pro"))
+             (defvar my-variable-pitch-font "SF Pro")
+             (defvar my-serif-font "New York"))
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "Noto Sans")))
+           (defvar my-variable-pitch-font "Noto Sans")
+           (defvar my-serif-font "Serif")))
 #+end_src
 
 **** Setup editor fonts
@@ -739,126 +736,44 @@ Inspired by Plan 9 Acme & Sam.
   (defun my-setup-linux-fonts ()
     "Separate setups for fonts in WSL and regular GNU/Linux."
     (if (getenv "WSL_DISTRO_NAME")
-        (setq my-variable-pitch-font-height 170
-              my-variable-pitch-font-weight 'normal
-              my-variable-pitch-font-width 'normal
-
-              my-editor-font-height 170
-              my-editor-font-weight 'normal
-              my-editor-font-width 'normal
-
-              my-fixed-pitch-font-height 170
-              my-fixed-pitch-font-weight 'normal
-              my-fixed-pitch-font-width 'normal)
-
-      (setq my-variable-pitch-font-height 110
-            my-variable-pitch-font-weight 'normal
-            my-variable-pitch-font-width 'normal
-
-            my-editor-font-height 100
-            my-editor-font-weight 'normal
-            my-editor-font-width 'normal
-
-            my-fixed-pitch-font-height 100
-            my-fixed-pitch-font-weight 'normal
-            my-fixed-pitch-font-width 'normal)))
+        (setq my-font-height 170
+              my-small-font-height 150
+              my-medium-font-height 180
+              my-large-font-height 190
+              my-presentation-font-height 200)
+      (setq my-font-height 100
+            my-small-font-height 90
+            my-medium-font-height 110
+            my-large-font-height 130
+            my-presentation-font-height 140)))
 
   (if (eq system-type 'darwin)
-      (setq my-variable-pitch-font-height 140
-            my-variable-pitch-font-weight 'normal
-            my-variable-pitch-font-width 'normal
-
-            my-editor-font-height 130
-            my-editor-font-weight 'normal
-            my-editor-font-width 'normal
-
-            my-fixed-pitch-font-height 130
-            my-fixed-pitch-font-weight 'normal
-            my-fixed-pitch-font-width 'normal)
+      (setq my-font-height 130
+            my-small-font-height 120
+            my-medium-font-height 140
+            my-large-font-height 150
+            my-presentation-font-height 160)
     (my-setup-linux-fonts))
 
   (set-face-attribute 'default nil
-                      :family my-editor-font
-                      :weight my-editor-font-weight
-                      :width my-editor-font-width
-                      :height my-editor-font-height)
+                      :family my-default-font
+                      :height my-font-height)
   (set-face-attribute 'fixed-pitch nil
                       :family my-editor-font
-                      :weight my-fixed-pitch-font-weight
-                      :width my-fixed-pitch-font-width
-                      :height my-fixed-pitch-font-height)
+                      :height 1.0)
   (set-face-attribute 'variable-pitch nil
                       :family my-variable-pitch-font
-                      :weight my-variable-pitch-font-weight
-                      :width my-variable-pitch-font-width
-                      :height my-variable-pitch-font-height)
+                      :height 1.0)
   ;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
-  (defun my-big-font-size ()
-    "Increase font height by a bigger amount."
+  (defun my-reading-mode ()
     (interactive)
-    (set-face-attribute 'fixed-pitch nil
-                        :height (+ (face-attribute 'fixed-pitch :height) 30))
     (set-face-attribute 'variable-pitch nil
-                        :height (+ (face-attribute 'variable-pitch :height) 30))
-    (set-face-attribute 'default nil
-                        :height (+ (face-attribute 'default :height) 30)))
-
-  (defun my-increase-font-size ()
-    "Increase font height in steps of 10."
+                        :family my-serif-font))
+  (defun my-quit-reading-mode ()
     (interactive)
-    (set-face-attribute 'fixed-pitch nil
-                        :height (+ (face-attribute 'fixed-pitch :height) 10))
     (set-face-attribute 'variable-pitch nil
-                        :height (+ (face-attribute 'variable-pitch :height) 10))
-    (set-face-attribute 'default nil
-                        :height (+ (face-attribute 'default :height) 10)))
-
-  (defun my-decrease-font-size ()
-    "Decrease font height in steps of 10."
-    (interactive)
-    (set-face-attribute 'fixed-pitch nil
-                        :height (- (face-attribute 'fixed-pitch :height) 10))
-    (set-face-attribute 'variable-pitch nil
-                        :height (- (face-attribute 'variable-pitch :height) 10))
-    (set-face-attribute 'default nil
-                        :height (- (face-attribute 'default :height) 10)))
-
-  (defun my-reset-fonts ()
-    "Reset font settings to base values."
-    (interactive)
-    (set-face-attribute 'fixed-pitch nil
-                        :family my-editor-font
-                        :height my-fixed-pitch-font-height)
-
-    (set-face-attribute 'variable-pitch nil
-                        :family my-variable-pitch-font
-                        :height my-variable-pitch-font-height)
-    (set-face-attribute 'default nil
-                        :family my-editor-font
-                        :height my-editor-font-height))
-
-  (defun my-reading-font-setup ()
-    "Font settings for reading prose."
-    (interactive)
-    (if (eq system-type 'darwin)
-        (set-face-attribute 'variable-pitch nil
-                            :family "Georgia"
-                            :height (face-attribute 'variable-pitch :height))
-      (set-face-attribute 'variable-pitch nil
-                          :family "Noto Serif"
-                          :height (face-attribute 'variable-pitch :height)))
-    (set-face-attribute 'default nil
-                        :family my-editor-font
-                        :height (face-attribute 'default :height))
-    (set-face-attribute 'fixed-pitch nil
-                        :family my-editor-font
-                        :height (face-attribute 'fixed-pitch :height)))
-
-  (defhydra hydra-font-actions (global-map "C-z u f")
-    "font actions"
-    ("=" my-increase-font-size "increase size")
-    ("-" my-decrease-font-size "decrease size"))
+                        :family my-variable-pitch-font))
 #+end_src
 
 **** Hooks
@@ -952,6 +867,80 @@ Preview fonts inside of Emacs.
 
 #+begin_src emacs-lisp
   (use-package show-font)
+#+end_src
+
+**** Fontaine (disabled)
+
+#+begin_src emacs-lisp :tangle no
+  (use-package fontaine
+    :config
+    (setq fontaine-latest-state-file
+          (locate-user-emacs-file "fontaine-latest-state.eld"))
+    (setq fontaine-presets
+          '((small :default-height my-small-font-height)
+            (regular) ; like this it uses all the fallback values and is named `regular'
+            (medium :default-height my-medium-font-height)
+            (large :default-height my-large-font-height)
+            (presentation :default-height my-presentation-font-height)
+            (t
+             ;; I keep all properties for didactic purposes, but most can be
+             ;; omitted.  See the fontaine manual for the technicalities:
+             ;; <https://protesilaos.com/emacs/fontaine>.
+             :default-family my-default-font
+             :default-weight regular
+             :default-height my-font-height
+
+             :fixed-pitch-family nil ; falls back to :default-family
+             :fixed-pitch-weight nil ; falls back to :default-weight
+             :fixed-pitch-height 1.0
+
+             :fixed-pitch-serif-family nil ; falls back to :default-family
+             :fixed-pitch-serif-weight nil ; falls back to :default-weight
+             :fixed-pitch-serif-height 1.0
+
+             :variable-pitch-family my-variable-pitch-font
+             :variable-pitch-weight nil
+             :variable-pitch-height 1.1
+
+             :mode-line-active-family nil ; falls back to :default-family
+             :mode-line-active-weight nil ; falls back to :default-weight
+             :mode-line-active-height 1.0
+
+             :mode-line-inactive-family nil ; falls back to :default-family
+             :mode-line-inactive-weight nil ; falls back to :default-weight
+             :mode-line-inactive-height 1.0
+
+             :header-line-family nil ; falls back to :default-family
+             :header-line-weight nil ; falls back to :default-weight
+             :header-line-height 1.0
+
+             :line-number-family nil ; falls back to :default-family
+             :line-number-weight nil ; falls back to :default-weight
+             :line-number-height 1.0
+
+             :tab-bar-family nil ; falls back to :default-family
+             :tab-bar-weight nil ; falls back to :default-weight
+             :tab-bar-height 1.0
+
+             :tab-line-family nil ; falls back to :default-family
+             :tab-line-weight nil ; falls back to :default-weight
+             :tab-line-height 1.0
+
+             :bold-family nil ; use whatever the underlying face has
+             :bold-weight bold
+
+             :italic-family nil
+             :italic-slant italic
+
+             :line-spacing nil)))
+
+    ;; Set the last preset or fall back to desired style from `fontaine-presets'
+    ;; (the `regular' in this case).
+    (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
+
+    ;; Persist the latest font preset when closing/starting Emacs and
+    ;; while switching between themes.
+    (fontaine-mode 1))
 #+end_src
 
 *** Column indication (disabled)

@@ -197,12 +197,7 @@
   "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
 
 (my-leader-keys
-  "u f v" 'variable-pitch-mode
-  "u f b" 'my-big-font-size
-  "u f =" 'my-increase-font-size
-  "u f -" 'my-decrease-font-size
-  "u f r" 'my-reading-font-setup
-  "u f 0" 'my-reset-fonts)
+  "u f v" 'variable-pitch-mode)
 
 (my-leader-keys
   ;; emacsclient
@@ -484,7 +479,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (auto-dark-light-mode . (lambda () (ef-themes-select 'ef-light))))
 
 (defvar my-linux-font "Noto Sans Mono")
-(defvar my-macos-font "JetBrainsMono Nerd Font")
+(defvar my-macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -492,133 +487,53 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "SF Pro"))
+           (defvar my-variable-pitch-font "SF Pro")
+           (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "Noto Sans")))
+         (defvar my-variable-pitch-font "Noto Sans")
+         (defvar my-serif-font "Serif")))
 
 (defun my-setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
   (if (getenv "WSL_DISTRO_NAME")
-      (setq my-variable-pitch-font-height 170
-            my-variable-pitch-font-weight 'normal
-            my-variable-pitch-font-width 'normal
-
-            my-editor-font-height 170
-            my-editor-font-weight 'normal
-            my-editor-font-width 'normal
-
-            my-fixed-pitch-font-height 170
-            my-fixed-pitch-font-weight 'normal
-            my-fixed-pitch-font-width 'normal)
-
-    (setq my-variable-pitch-font-height 110
-          my-variable-pitch-font-weight 'normal
-          my-variable-pitch-font-width 'normal
-
-          my-editor-font-height 100
-          my-editor-font-weight 'normal
-          my-editor-font-width 'normal
-
-          my-fixed-pitch-font-height 100
-          my-fixed-pitch-font-weight 'normal
-          my-fixed-pitch-font-width 'normal)))
+      (setq my-font-height 170
+            my-small-font-height 150
+            my-medium-font-height 180
+            my-large-font-height 190
+            my-presentation-font-height 200)
+    (setq my-font-height 100
+          my-small-font-height 90
+          my-medium-font-height 110
+          my-large-font-height 130
+          my-presentation-font-height 140)))
 
 (if (eq system-type 'darwin)
-    (setq my-variable-pitch-font-height 140
-          my-variable-pitch-font-weight 'normal
-          my-variable-pitch-font-width 'normal
-
-          my-editor-font-height 130
-          my-editor-font-weight 'normal
-          my-editor-font-width 'normal
-
-          my-fixed-pitch-font-height 130
-          my-fixed-pitch-font-weight 'normal
-          my-fixed-pitch-font-width 'normal)
+    (setq my-font-height 130
+          my-small-font-height 120
+          my-medium-font-height 140
+          my-large-font-height 150
+          my-presentation-font-height 160)
   (my-setup-linux-fonts))
 
 (set-face-attribute 'default nil
-                    :family my-editor-font
-                    :weight my-editor-font-weight
-                    :width my-editor-font-width
-                    :height my-editor-font-height)
+                    :family my-default-font
+                    :height my-font-height)
 (set-face-attribute 'fixed-pitch nil
                     :family my-editor-font
-                    :weight my-fixed-pitch-font-weight
-                    :width my-fixed-pitch-font-width
-                    :height my-fixed-pitch-font-height)
+                    :height 1.0)
 (set-face-attribute 'variable-pitch nil
                     :family my-variable-pitch-font
-                    :weight my-variable-pitch-font-weight
-                    :width my-variable-pitch-font-width
-                    :height my-variable-pitch-font-height)
+                    :height 1.0)
 ;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
-(defun my-big-font-size ()
-  "Increase font height by a bigger amount."
+(defun my-reading-mode ()
   (interactive)
-  (set-face-attribute 'fixed-pitch nil
-                      :height (+ (face-attribute 'fixed-pitch :height) 30))
   (set-face-attribute 'variable-pitch nil
-                      :height (+ (face-attribute 'variable-pitch :height) 30))
-  (set-face-attribute 'default nil
-                      :height (+ (face-attribute 'default :height) 30)))
-
-(defun my-increase-font-size ()
-  "Increase font height in steps of 10."
+                      :family my-serif-font))
+(defun my-quit-reading-mode ()
   (interactive)
-  (set-face-attribute 'fixed-pitch nil
-                      :height (+ (face-attribute 'fixed-pitch :height) 10))
   (set-face-attribute 'variable-pitch nil
-                      :height (+ (face-attribute 'variable-pitch :height) 10))
-  (set-face-attribute 'default nil
-                      :height (+ (face-attribute 'default :height) 10)))
-
-(defun my-decrease-font-size ()
-  "Decrease font height in steps of 10."
-  (interactive)
-  (set-face-attribute 'fixed-pitch nil
-                      :height (- (face-attribute 'fixed-pitch :height) 10))
-  (set-face-attribute 'variable-pitch nil
-                      :height (- (face-attribute 'variable-pitch :height) 10))
-  (set-face-attribute 'default nil
-                      :height (- (face-attribute 'default :height) 10)))
-
-(defun my-reset-fonts ()
-  "Reset font settings to base values."
-  (interactive)
-  (set-face-attribute 'fixed-pitch nil
-                      :family my-editor-font
-                      :height my-fixed-pitch-font-height)
-
-  (set-face-attribute 'variable-pitch nil
-                      :family my-variable-pitch-font
-                      :height my-variable-pitch-font-height)
-  (set-face-attribute 'default nil
-                      :family my-editor-font
-                      :height my-editor-font-height))
-
-(defun my-reading-font-setup ()
-  "Font settings for reading prose."
-  (interactive)
-  (if (eq system-type 'darwin)
-      (set-face-attribute 'variable-pitch nil
-                          :family "Georgia"
-                          :height (face-attribute 'variable-pitch :height))
-    (set-face-attribute 'variable-pitch nil
-                        :family "Noto Serif"
-                        :height (face-attribute 'variable-pitch :height)))
-  (set-face-attribute 'default nil
-                      :family my-editor-font
-                      :height (face-attribute 'default :height))
-  (set-face-attribute 'fixed-pitch nil
-                      :family my-editor-font
-                      :height (face-attribute 'fixed-pitch :height)))
-
-(defhydra hydra-font-actions (global-map "C-z u f")
-  "font actions"
-  ("=" my-increase-font-size "increase size")
-  ("-" my-decrease-font-size "decrease size"))
+                      :family my-variable-pitch-font))
 
 (use-package ligature
   :straight
