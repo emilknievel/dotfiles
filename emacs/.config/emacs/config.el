@@ -299,6 +299,14 @@
                              (5 . (1.2))
                              (6 . (1.1))
                              (7 . (1.0))))
+  :hook
+  (ef-themes-post-load . (lambda ()
+                           (set-face-attribute
+                            'mode-line nil
+                            :background (face-background 'org-block-begin-line))
+                           (set-face-attribute
+                            'mode-line-inactive nil
+                            :background (face-background 'mode-line))))
   :general (my-leader-keys
              "t t e" 'ef-themes-toggle))
 
@@ -463,7 +471,9 @@ When loaded after a new frame has been created with emacsclient, it ensures that
 the theme is properly applied. In particular this solves a problem with the menu
 bar not using the proper theme if the server was loaded with a different theme."
   (with-selected-frame frame
-    (enable-theme (car custom-enabled-themes))))
+    (enable-theme (car custom-enabled-themes))
+    (when (string-prefix-p "ef-" (symbol-name (car custom-enabled-themes)))
+      (ef-themes-load-theme (car custom-enabled-themes)))))
 
 (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
 
