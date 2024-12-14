@@ -493,7 +493,7 @@ bar not using the proper theme if the server was loaded with a different theme."
     (use-package auto-dark
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            setq auto-dark-themes '((ef-dark) (ef-light)))
+            auto-dark-themes '((ef-dark) (ef-light)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
