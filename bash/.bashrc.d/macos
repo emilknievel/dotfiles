@@ -13,9 +13,6 @@ fi
 # Simple default prompt
 PS1="\[\e[0;32m\]\u@\h \[\e[0;34m\]\w\[\e[0m\]\$ "
 
-# Make bash check its window size after a process completes
-shopt -s checkwinsize
-
 [ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
 
 # change lang to en_US but keep encoding

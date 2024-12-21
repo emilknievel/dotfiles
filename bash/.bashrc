@@ -22,6 +22,9 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# Make bash check its window size after a process completes
+shopt -s checkwinsize
+
 eval "$(ssh-agent -s)" > /dev/null 2>&1
 
 # disable .net telemetry
@@ -48,3 +51,5 @@ eval "$(direnv hook bash)"
 # asdf
 . "$HOME/.asdf/asdf.sh"
 . "$HOME/.asdf/completions/asdf.bash"
+
+[ -x "$(command -v most)" ] && export PAGER="most"
