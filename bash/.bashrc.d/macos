@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# Exit early if not macos
-if [[ "$OSTYPE" != "darwin"* ]]; then
+# macOS
+# -----
+if [[ "$(uname)" != "Darwin" ]]; then
   return
 fi
 
@@ -9,7 +10,8 @@ if [ -z "$PS1" ]; then
   return
 fi
 
-# PS1='\h:\W \u\$ '
+# Simple default prompt
+PS1="\[\e[0;32m\]\u@\h \[\e[0;34m\]\w\[\e[0m\]\$ "
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
@@ -19,6 +21,8 @@ shopt -s checkwinsize
 # change lang to en_US but keep encoding
 export LANG=${LANG/sv_SE/en_US}
 
+## Homebrew
+## --------
 export PATH="/opt/homebrew/bin:$PATH"
 
 # GNU utilities without "g" prefix. Replaces ls, cat, etc.
@@ -27,13 +31,7 @@ export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 # use gnu-awk instead of awk on mac
 export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
 
-# dotnet from M$ website, already in path
-DOTNET_ROOT="$(dirname "$(which dotnet)")"
-export DOTNET_ROOT
-
-# Add python from pyenv to path
-export PATH="$PATH:$HOME/.pyenv/shims"
-
+# Add bash completion for brew packages
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 if type brew &>/dev/null
@@ -50,7 +48,11 @@ then
   fi
 fi
 
-alias ls="ls --color"
-alias grep="grep --color"
+# dotnet from M$ website, already in path
+DOTNET_ROOT="$(dirname "$(which dotnet)")"
+export DOTNET_ROOT
 
-eval "$(starship init bash)"
+export EDITOR=nvim
+
+alias vi=nvim
+alias vim=nvim

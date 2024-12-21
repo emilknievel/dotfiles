@@ -53,14 +53,7 @@ alias sternp='stern --context MioAKSProduction -n production'
 alias sternq='stern --context MioAKSQAv2 -n qa'
 alias sternt='stern --context MioAKSQAv2 -n test'
 
-# NeoVim
-alias nvimconfig='nvim ~/.config/nvim/'
-
 alias lsofp='lsof -i tcp:' # List open files using specified port
-
-# Vue
-alias qd='quasar dev'
-alias qb='quasar build'
 
 # tmux
 alias t='tmux'
@@ -84,9 +77,10 @@ alias apto='sudo apt list --upgradable' # "outdated"
 alias ipecho='curl ipecho.net/plain ; echo'
 
 # ls
-alias l='ls -ah'
-alias la='ls -a'
-alias ll='ls -lah'
+alias ls="ls --color -F"
+alias grep="grep --color"
+alias l='ls -a'
+alias ll='ls -al'
 
 # glow
 # alias glow='glow -s $TERM_THEME' # match vim dark/light mode
