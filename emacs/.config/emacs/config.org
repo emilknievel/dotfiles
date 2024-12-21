@@ -748,7 +748,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "CaskaydiaCove Nerd Font")
-  (defvar my-macos-font "SF Mono")
+  (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
