@@ -250,6 +250,8 @@
 
 (setopt confirm-kill-emacs 'y-or-n-p)
 
+(pixel-scroll-precision-mode)
+
 (when (eq system-type 'darwin)
   (use-package ns-auto-titlebar
     :demand t
@@ -270,8 +272,7 @@
     (interactive "r")
     (if (use-region-p)
         (let ((text (buffer-substring-no-properties start end)))
-          (shell-command (concat "echo '" text "' | clip.exe")))))
-  (pixel-scroll-precision-mode))
+          (shell-command (concat "echo '" text "' | clip.exe"))))))
 
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
@@ -281,7 +282,7 @@
         modus-themes-variable-pitch-ui t
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
-        modus-themes-common-palette-overrides '((fringe unspecified))
+        ;; modus-themes-common-palette-overrides '((fringe unspecified))
         ;; (bg-paren-match bg-magenta-intense)
         ;; (fg-heading-1 blue-warmer)
         ;; (fg-heading-2 yellow-cooler)
@@ -294,6 +295,14 @@
                                 (5 . (1.2))
                                 (6 . (1.1))
                                 (7 . (1.0))))
+  :hook
+  (modus-themes-post-load . (lambda ()
+                              (set-face-attribute
+                               'mode-line nil
+                               :background (face-background 'org-block-begin-line))
+                              (set-face-attribute
+                               'mode-line-inactive nil
+                               :background (face-background 'mode-line))))
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
 
@@ -322,7 +331,20 @@
   :general (my-leader-keys
              "t t e" 'ef-themes-toggle))
 
-(use-package standard-themes)
+(use-package standard-themes
+  :init
+  (setq standard-themes-mixed-fonts t
+        standard-themes-variable-pitch-ui t
+        standard-themes-bold-constructs t
+        standard-themes-italic-constructs t
+        standard-themes-headings '((0 . (1.7))
+                                   (1 . (1.6))
+                                   (2 . (1.5))
+                                   (3 . (1.4))
+                                   (4 . (1.3))
+                                   (5 . (1.2))
+                                   (6 . (1.1))
+                                   (7 . (1.0)))))
 
 (defun my-toggle-solarized ()
   "Toggle between light and dark solarized themes."
