@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: weather report
+# key: weather
+# --
+=${+8}℃. ${Molnigt}. ${NO} ${N:5} m/s. Sikt: ${N:10} km.=
+$0
