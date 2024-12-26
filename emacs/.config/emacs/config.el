@@ -81,17 +81,7 @@
 
 (use-package exec-path-from-shell
   :config
-  ;; TODO: consider loading some of these only when needed to reduce launch time.
-  (setq exec-path-from-shell-variables '("PATH"
-                                         "WSL_DISTRO_NAME"
-                                         "DOTNET_ROOT"
-                                         "XDG_CONFIG_HOME"
-                                         "FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT"
-                                         "OPAM_SWITCH_PREFIX"
-                                         "CAML_LD_LIBRARY"
-                                         "OCAML_TOPLEVEL_PATH"
-                                         "BUN_INSTALL"
-                                         "NODE_EXTRA_CA_CERTS"))
+  (setq exec-path-from-shell-variables '("PATH" "WSL_DISTRO_NAME" "XDG_CONFIG_HOME"))
   (exec-path-from-shell-initialize)
   :when
   (or (memq window-system '(mac ns x)) (daemonp)))
