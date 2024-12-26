@@ -269,14 +269,14 @@
 (use-package modus-themes
   :init
   (setq modus-themes-mixed-fonts t
-        modus-themes-variable-pitch-ui t
+        modus-themes-variable-pitch-ui nil
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
-        ;; modus-themes-common-palette-overrides '((fringe unspecified))
-        ;; (bg-paren-match bg-magenta-intense)
-        ;; (fg-heading-1 blue-warmer)
-        ;; (fg-heading-2 yellow-cooler)
-        ;; (fg-heading-3 cyan-cooler))
+        modus-themes-common-palette-overrides '((fringe unspecified)
+                                                (bg-paren-match bg-magenta-intense)
+                                                (fg-heading-1 blue-warmer)
+                                                (fg-heading-2 yellow-cooler)
+                                                (fg-heading-3 cyan-cooler))
         modus-themes-headings '((0 . (1.7))
                                 (1 . (1.6))
                                 (2 . (1.5))
@@ -285,14 +285,6 @@
                                 (5 . (1.2))
                                 (6 . (1.1))
                                 (7 . (1.0))))
-  :hook
-  (modus-themes-post-load . (lambda ()
-                              (set-face-attribute
-                               'mode-line nil
-                               :background (face-background 'org-block-begin-line))
-                              (set-face-attribute
-                               'mode-line-inactive nil
-                               :background (face-background 'mode-line))))
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
 
@@ -301,7 +293,7 @@
   (setq ef-themes-to-toggle '(ef-dark ef-light))
   :config
   (setq ef-themes-mixed-fonts t
-        ef-themes-variable-pitch-ui t
+        ef-themes-variable-pitch-ui nil
         ef-themes-headings '((0 . (1.7))
                              (1 . (1.6))
                              (2 . (1.5))
@@ -324,9 +316,10 @@
 (use-package standard-themes
   :init
   (setq standard-themes-mixed-fonts t
-        standard-themes-variable-pitch-ui t
+        standard-themes-variable-pitch-ui nil
         standard-themes-bold-constructs t
         standard-themes-italic-constructs t
+        standard-themes-common-palette-overrides '((fringe unspecified))
         standard-themes-headings '((0 . (1.7))
                                    (1 . (1.6))
                                    (2 . (1.5))
@@ -505,14 +498,14 @@ bar not using the proper theme if the server was loaded with a different theme."
     (use-package auto-dark
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            auto-dark-themes '((ef-dark) (ef-light)))
+            auto-dark-themes '((modus-vivendi) (modus-operandi)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (ef-themes-select 'ef-dark)))
-      (auto-dark-light-mode . (lambda () (ef-themes-select 'ef-light))))
-  (ef-themes-select 'ef-winter))
+      (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi)))
+      (auto-dark-light-mode . (lambda () (modus-themes-selet 'modus-operandi))))
+  (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "CaskaydiaCove Nerd Font")
 (defvar my-macos-font "Menlo")
