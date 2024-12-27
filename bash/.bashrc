@@ -47,3 +47,9 @@ eval "$(direnv hook bash)"
 eval "$(~/.local/bin/mise activate bash)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+if [[ -x "$(command -v nvim)" ]]; then
+  alias vi=nvim
+  alias vim=nvim
+  export EDITOR=nvim
+fi
