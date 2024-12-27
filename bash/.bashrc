@@ -51,5 +51,3 @@ eval "$(direnv hook bash)"
 # asdf
 . "$HOME/.asdf/asdf.sh"
 . "$HOME/.asdf/completions/asdf.bash"
-
-[ -x "$(command -v most)" ] && export PAGER="most"
