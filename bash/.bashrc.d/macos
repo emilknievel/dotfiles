@@ -48,8 +48,3 @@ fi
 # dotnet from M$ website, already in path
 DOTNET_ROOT="$(dirname "$(which dotnet)")"
 export DOTNET_ROOT
-
-export EDITOR=nvim
-
-alias vi=nvim
-alias vim=nvim
