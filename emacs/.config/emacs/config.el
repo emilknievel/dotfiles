@@ -88,6 +88,9 @@
 
 (setenv "LANG" "en_US.UTF-8")
 
+(use-package mise
+  :hook (after-init . global-mise-mode))
+
 (use-package gnutls
   :defer t
   :custom

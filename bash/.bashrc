@@ -44,10 +44,6 @@ alias luamake="~/tools/lua/lua-language-server/3rd/luamake/luamake"
 
 eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
+eval "$(~/.local/bin/mise activate bash)"
 
-# fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-# asdf
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"

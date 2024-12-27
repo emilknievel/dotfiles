@@ -135,6 +135,13 @@ Monday as first day of the week.
   (setenv "LANG" "en_US.UTF-8")
 #+end_src
 
+*** mise.el
+
+#+begin_src emacs-lisp
+  (use-package mise
+    :hook (after-init . global-mise-mode))
+#+end_src
+
 ** Security
 
 Integrate Emacs with GnuTLS to ensure trusted connections.
