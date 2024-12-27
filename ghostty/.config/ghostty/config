@@ -1,0 +1,5 @@
+font-family = Menlo
+theme = Wez
+window-padding-color = extend
+macos-auto-secure-input = true
+macos-secure-input-indication = true
