@@ -161,3 +161,6 @@ vim/.config/nvim/plugin/packer_compiled.lua
 
 ### Git
 git/.config/git/gitconfig-private
+
+# vale
+styles/
