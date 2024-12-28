@@ -540,8 +540,8 @@ bar not using the proper theme if the server was loaded with a different theme."
           my-presentation-font-height 140)))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height 130
-          my-small-font-height 120
+    (setq my-font-height 120
+          my-small-font-height 100
           my-medium-font-height 140
           my-large-font-height 150
           my-presentation-font-height 160)
