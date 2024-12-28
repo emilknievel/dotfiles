@@ -246,13 +246,17 @@
 (pixel-scroll-precision-mode)
 
 (when (eq system-type 'darwin)
-  (use-package ns-auto-titlebar
-    :demand t
-    :config (ns-auto-titlebar-mode))
+  ;; (use-package ns-auto-titlebar
+  ;;   :demand t
+  ;;   :config (ns-auto-titlebar-mode))
   (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
-        ns-use-thin-smoothing nil ; using `defaults write org.gnu.Emacs AppleFontSmoothing -int 0' instead
+
+        ;; using `defaults write org.gnu.Emacs AppleFontSmoothing -int 0'
+        ;; instead of below. For now.
+        ;; ns-use-thin-smoothing t
+
         ;; ns-antialias-text nil
         frame-resize-pixelwise t
         mac-command-modifier 'meta
