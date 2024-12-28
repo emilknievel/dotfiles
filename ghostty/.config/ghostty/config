@@ -1,5 +1,7 @@
 font-family = Menlo
-theme = Wez
-window-padding-color = extend
+theme = dark:xcodedark,light:xcodelight
+cursor-invert-fg-bg = true
+window-padding-color = extend-always
+macos-titlebar-style = native
 macos-auto-secure-input = true
 macos-secure-input-indication = true
