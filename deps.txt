@@ -1,36 +1,34 @@
+# General dependencies
 direnv
 zoxide
 fzf
 ripgrep (rg)
+mise
+autoconf
+automake
+bat
+btop
+exercism
+fd
+bash
+git
+gnupg
+jq
+neovim
+pkg-config
+coreutils
+poppler
+ripgrep
+stow
+tealdeer
 
 # macOS
 ## homebrew
 aerospace
-autoconf
-automake
 azure-cli
-bash
 bash-completion@2
-bat
-btop
-coreutils
-direnv
 emacs-plus@30
-exercism
-fd
 gawk
-git
-gnupg
-go
-jq
-neovim
-pkg-config
-poppler
-ripgrep
-starship
-stow
-tealdeer
-zoxide
 
 # tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
