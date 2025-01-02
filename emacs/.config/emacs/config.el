@@ -396,6 +396,8 @@
 
 (use-package miasma-theme)
 
+(use-package tao-theme)
+
 (defun my-clear-theme ()
   "Clear current theme"
   (interactive)
@@ -497,7 +499,9 @@ bar not using the proper theme if the server was loaded with a different theme."
   (with-selected-frame frame
     (enable-theme (car custom-enabled-themes))
     (when (string-prefix-p "ef-" (symbol-name (car custom-enabled-themes)))
-      (ef-themes-load-theme (car custom-enabled-themes)))))
+      (ef-themes-load-theme (car custom-enabled-themes)))
+    (when (string-prefix-p "modus-" (symbol-name (car custom-enabled-themes)))
+      (modus-themes-load-theme (car custom-enabled-themes)))))
 
 (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
 
@@ -505,17 +509,17 @@ bar not using the proper theme if the server was loaded with a different theme."
     (use-package auto-dark
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            auto-dark-themes '((modus-vivendi) (modus-operandi)))
+            auto-dark-themes '((doom-solarized-dark) (doom-solarized-light)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi)))
-      (auto-dark-light-mode . (lambda () (modus-themes-selet 'modus-operandi))))
-  (modus-themes-select 'modus-vivendi))
+      (auto-dark-dark-mode . (lambda () (my-solarized-dark)))
+      (auto-dark-light-mode . (lambda () (my-solarized-light))))
+  (my-solarized-dark))
 
 (defvar my-linux-font "CaskaydiaCove Nerd Font")
-(defvar my-macos-font "Menlo")
+(defvar my-macos-font "MesloLGS Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -544,7 +548,7 @@ bar not using the proper theme if the server was loaded with a different theme."
           my-presentation-font-height 140)))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height 120
+    (setq my-font-height 130
           my-small-font-height 100
           my-medium-font-height 140
           my-large-font-height 150
