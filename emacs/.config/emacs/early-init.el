@@ -35,8 +35,8 @@
 ;; '(fullscreen . maximized)))
 
 ;; Customize titlebar
-;; (cond ((eq system-type 'darwin)
-;;        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))))
+(cond ((eq system-type 'darwin)
+       (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))))
 ;; ((and (eq system-type 'gnu/linux)
 ;;       ;; TODO: replace obsolete operating-system-release variable
 ;;       (not (string-match "-[Mm]icrosoft" operating-system-release)))

@@ -246,9 +246,9 @@
 (pixel-scroll-precision-mode)
 
 (when (eq system-type 'darwin)
-  ;; (use-package ns-auto-titlebar
-  ;;   :demand t
-  ;;   :config (ns-auto-titlebar-mode))
+  (use-package ns-auto-titlebar
+    :demand t
+    :config (ns-auto-titlebar-mode))
   (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
