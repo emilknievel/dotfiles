@@ -60,6 +60,12 @@
 ;; Revert Dired and other buffers
 (setq global-auto-revert-non-file-buffers t)
 
+;; Insert matching paren, bracket, etc. Surrounds active region with bracket.
+(electric-pair-mode 1)
+
+;; Single space after a period is considered "end of sentence".
+(set-default 'sentence-end-double-space nil)
+
 (unless backup-directory-alist
   (setq backup-directory-alist `(("." . "/tmp/backups/"))))
 
