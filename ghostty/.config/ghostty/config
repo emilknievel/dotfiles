@@ -1,8 +1,13 @@
-font-family = DejaVuSansM Nerd Font
+font-family = Cousine Nerd Font
 font-size = 13
-theme = dark:xcodedark,light:xcodelight
-cursor-invert-fg-bg = true
+theme = Wez
+cursor-invert-fg-bg =
 window-padding-color = extend-always
 macos-titlebar-style = native
 macos-auto-secure-input = true
 macos-secure-input-indication = true
+window-height = 24
+window-width = 80
+cursor-style =
+cursor-style-blink = false
+shell-integration-features = no-cursor
