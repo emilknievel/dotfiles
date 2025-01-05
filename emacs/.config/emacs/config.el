@@ -515,17 +515,17 @@ bar not using the proper theme if the server was loaded with a different theme."
     (use-package auto-dark
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            auto-dark-themes '((doom-solarized-dark) (doom-solarized-light)))
+            auto-dark-themes '((ef-dark) (ef-light)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (my-solarized-dark)))
-      (auto-dark-light-mode . (lambda () (my-solarized-light))))
+      (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-dark)))
+      (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (my-solarized-dark))
 
 (defvar my-linux-font "CaskaydiaCove Nerd Font")
-(defvar my-macos-font "MesloLGS Nerd Font")
+(defvar my-macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -554,7 +554,7 @@ bar not using the proper theme if the server was loaded with a different theme."
           my-presentation-font-height 140)))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height 130
+    (setq my-font-height 140
           my-small-font-height 100
           my-medium-font-height 140
           my-large-font-height 150
@@ -1433,7 +1433,7 @@ any directory proferred by `consult-dir'."
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-startup-indented nil)
+  (org-startup-indented t)
 
   ;; Add CLOSED: [timestamp] line after todo headline when marked as done
   ;; and prompt for closing note.
@@ -1476,7 +1476,7 @@ any directory proferred by `consult-dir'."
   :custom
   (org-modern-table t)
   (org-modern-todo t)
-  (org-modern-star nil)
+  (org-modern-star 'replace)
   (org-modern-hide-stars nil)
   (org-modern-block-fringe nil)
   :hook
