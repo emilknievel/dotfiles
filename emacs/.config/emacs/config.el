@@ -315,14 +315,14 @@
                              (5 . (1.2))
                              (6 . (1.1))
                              (7 . (1.0))))
-  :hook
-  (ef-themes-post-load . (lambda ()
-                           (set-face-attribute
-                            'mode-line nil
-                            :background (face-background 'org-block-begin-line))
-                           (set-face-attribute
-                            'mode-line-inactive nil
-                            :background (face-background 'mode-line))))
+  ;; :hook
+  ;; (ef-themes-post-load . (lambda ()
+  ;;                          (set-face-attribute
+  ;;                           'mode-line nil
+  ;;                           :background (face-background 'org-block-begin-line))
+  ;;                          (set-face-attribute
+  ;;                           'mode-line-inactive nil
+  ;;                           :background (face-background 'mode-line))))
   :general (my-leader-keys
              "t t e" 'ef-themes-toggle))
 
@@ -524,7 +524,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (my-solarized-dark))
 
-(defvar my-linux-font "CaskaydiaCove Nerd Font")
+(defvar my-linux-font "Source Code Pro")
 (defvar my-macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
