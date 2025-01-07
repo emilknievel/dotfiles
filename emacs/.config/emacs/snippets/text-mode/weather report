@@ -2,5 +2,5 @@
 # name: weather report
 # key: wttr
 # --
-=${1:+8}℃. ${2:Molnigt}. ${3:0,0} mm. ${4:NO} ${5:10} m/s. Sikt: ${6:10} km.=
+=${1:+8(5)} ℃. ${2:Molnigt}. ${3:0,0} mm. ${4:NO} ${5:10} m/s. Sikt: ${6:10} km.=
 $0
