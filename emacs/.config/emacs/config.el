@@ -1416,6 +1416,10 @@ any directory proferred by `consult-dir'."
   ;; (setq consult-project-function nil)
   )
 
+(use-package anzu
+  :config
+  (global-anzu-mode))
+
 (use-package org
   :init
   (setq org-directory (expand-file-name "~/Documents/org")

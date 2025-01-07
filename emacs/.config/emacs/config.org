@@ -2199,6 +2199,16 @@ Jump to previously visited directory, not unlike using =zoxide=.
     )
 #+end_src
 
+*** Anzu
+
+Display number of matches in modeline when searching.
+
+#+begin_src emacs-lisp
+  (use-package anzu
+    :config
+    (global-anzu-mode))
+#+end_src
+
 ** Org
 *** Initial config
 
