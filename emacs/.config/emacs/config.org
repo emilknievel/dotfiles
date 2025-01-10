@@ -1694,6 +1694,20 @@ Use prolog-mode instead of perl-mode for .pl files.
     (add-to-list 'markdown-code-lang-modes '("js" . js-ts-mode)))
 #+end_src
 
+**** Convert Markdown to Org
+
+#+begin_src emacs-lisp
+  (defun cc/markdown-to-org-region (start end)
+    "Convert Markdown formatted text in region (START, END) to Org.
+
+  This command requires that pandoc (man page `pandoc(1)') be
+  installed."
+    (interactive "r")
+    (shell-command-on-region
+     start end
+     "pandoc -f markdown -t org --wrap=preserve" t t))
+#+end_src
+
 *** Clojure
 
 #+begin_src emacs-lisp

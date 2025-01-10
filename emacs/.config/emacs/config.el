@@ -1052,6 +1052,16 @@ parses its input."
   :config
   (add-to-list 'markdown-code-lang-modes '("js" . js-ts-mode)))
 
+(defun cc/markdown-to-org-region (start end)
+  "Convert Markdown formatted text in region (START, END) to Org.
+
+This command requires that pandoc (man page `pandoc(1)') be
+installed."
+  (interactive "r")
+  (shell-command-on-region
+   start end
+   "pandoc -f markdown -t org --wrap=preserve" t t))
+
 (use-package clojure-mode)
 
 (use-package aggressive-indent-mode
