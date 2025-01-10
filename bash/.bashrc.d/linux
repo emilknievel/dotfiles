@@ -5,5 +5,3 @@
 if [[ "$(uname)" != "Linux" ]]; then
   return
 fi
-
-# Linux specific configurations go here
