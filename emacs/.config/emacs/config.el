@@ -524,7 +524,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (my-solarized-dark))
 
-(defvar my-linux-font "Source Code Pro")
+(defvar my-linux-font "DejaVuSansM Nerd Font")
 (defvar my-macos-font "Iosevka Comfy")
 
 (if (eq system-type 'darwin)
