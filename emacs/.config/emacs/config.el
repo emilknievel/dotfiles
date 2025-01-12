@@ -1786,11 +1786,11 @@ any directory proferred by `consult-dir'."
          ("C-M-`" . popper-toggle-type))
   :init
   (defun my-popper-window-height (window)
-    "Make popper windows cover 1/2 of frame height."
+    "Make popper windows cover 2/3 of frame height."
     (fit-window-to-buffer
      window
-     (floor (frame-height) 2)
-     (floor (frame-height) 2)))
+     (floor (* (frame-height) 2) 3)
+     (floor (* (frame-height) 2) 3)))
 
   (setq popper-reference-buffers
         '("\\*Messages\\*"
