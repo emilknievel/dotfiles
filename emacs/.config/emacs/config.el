@@ -1210,6 +1210,11 @@ installed."
   :defer t
   :hook (eshell-mode . eshell-syntax-highlighting-mode))
 
+(add-hook 'eshell-first-time-mode-hook
+          (lambda ()
+            (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
+            (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))))
+
 (use-package eat
   :straight (:type git
                    :host codeberg
