@@ -360,8 +360,15 @@
   "Toggle between light and dark Gruvbox themes."
   (interactive)
   (if (eq (nth 0 custom-enabled-themes) 'doom-gruvbox)
-      (my-gruvbox)
-    (my-gruvbox-light)))
+      (my-gruvbox-light)
+    (my-gruvbox)))
+
+(defun my-toggle-tomorrow ()
+  "Toggle between light and dark Tomorrow themes."
+  (interactive)
+  (if (eq (nth 0 custom-enabled-themes) 'doom-tomorrow-night)
+      (my-load-theme 'doom-tomorrow-day)
+    (my-load-theme 'doom-tomorrow-night)))
 
 (use-package doom-themes
   :config
@@ -371,14 +378,16 @@
   :general (my-leader-keys
              "t t s" 'my-toggle-solarized
              "t t r" 'my-toggle-rose-pine
-             "t t d" 'my-doom-one))
+             "t t d" 'my-doom-one
+             "t t g" 'my-toggle-gruvbox
+             "t t t" 'my-toggle-tomorrow))
 
 (use-package naysayer-theme
   :general (my-leader-keys "t t n" 'my-naysayer-theme))
 
 (use-package acme-theme
   :init
-  (setq acme-theme-black-fg nil)
+  (setq acme-theme-black-fg t)
   :general (my-leader-keys "t t a" 'my-acme-theme))
 
 (defun my-toggle-catppuccin ()
@@ -409,47 +418,50 @@
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
 
+(defun my-load-theme (&optional theme)
+  "Load THEME after clearing the previous one.
+If called interactively, prompt for a theme name.
+If THEME is provided as an argument, load that theme directly."
+  (interactive)
+  (my-clear-theme)
+  (if theme
+      (load-theme theme t)
+    (call-interactively 'load-theme)))
+
 (defun my-solarized-light ()
   "Clear previous theme and load solarized light"
   (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-solarized-light t))
+  (my-load-theme 'doom-solarized-light))
 
 (defun my-solarized-dark ()
   "Clear previous theme and load solarized dark"
   (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-solarized-dark t))
+  (my-load-theme 'doom-solarized-dark))
 
 (defun my-rose-pine ()
   "Clear previous theme and load rosé pine."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-rose-pine t))
+  (my-load-theme 'doom-rose-pine))
 
 (defun my-rose-pine-dawn ()
   "Clear previous theme and load rosé pine dawn."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-rose-pine-dawn t))
+  (my-load-theme 'doom-rose-pine-dawn))
 
 (defun my-doom-one ()
   "Clear previous theme and load doom-one."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-one t))
+  (my-load-theme 'doom-one))
 
 (defun my-naysayer-theme ()
   "Clear previous theme and load naysayer."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'naysayer t))
+  (my-load-theme 'naysayer))
 
 (defun my-acme-theme ()
   "Clear previous theme and load acme."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'acme t))
+  (my-load-theme 'acme))
 
 (setq my-catppuccin-flavors (my-alist-keys catppuccin-flavor-alist))
 
@@ -464,38 +476,32 @@
 (defun my-gruvbox ()
   "Clear previous theme and load gruvbox."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-gruvbox t))
+  (my-load-theme 'doom-gruvbox))
 
 (defun my-gruvbox-light ()
   "Clear previous theme and load gruvbox."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'doom-gruvbox-light t))
+  (my-load-theme 'doom-gruvbox-light))
 
 (defun my-kaolin-dark ()
   "Clear previous theme and load kaolin dark."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'kaolin-dark t))
+  (my-load-theme 'kaolin-dark))
 
 (defun my-kaolin-light ()
   "Clear previous theme and load kaolin light."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'kaolin-light t))
+  (my-load-theme 'kaolin-light))
 
 (defun my-kaolin-mono-dark ()
   "Clear previous theme and load kaolin mono dark."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'kaolin-mono-dark t))
+  (my-load-theme 'kaolin-mono-dark))
 
 (defun my-kaolin-mono-light ()
   "Clear previous theme and load kaolin mono light."
   (interactive)
-  (my-clear-theme)
-  (load-theme 'kaolin-mono-light t))
+  (my-load-theme 'kaolin-mono-light))
 
 (defun my-load-theme-in-all-frames (frame)
   "Load the current theme in the newly created FRAME.
@@ -515,14 +521,14 @@ bar not using the proper theme if the server was loaded with a different theme."
     (use-package auto-dark
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            auto-dark-themes '((ef-dark) (ef-light)))
+            auto-dark-themes '((doom-one) (doom-solarized-light)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-dark)))
-      (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
-  (my-solarized-dark))
+      (auto-dark-dark-mode . (lambda () (my-doom-one)))
+      (auto-dark-light-mode . (lambda () (my-solarized-light))))
+  (my-doom-one))
 
 (defvar my-linux-font "DejaVuSansM Nerd Font")
 (defvar my-macos-font "Iosevka Comfy")
