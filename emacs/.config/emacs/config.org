@@ -1579,7 +1579,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (global-flycheck-eglot-mode 1))
 #+end_src
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package eglot-booster
     :straight (:host github :repo "jdtsmith/eglot-booster")
     :after eglot

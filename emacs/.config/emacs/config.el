@@ -1027,11 +1027,6 @@ parses its input."
   :config
   (global-flycheck-eglot-mode 1))
 
-(use-package eglot-booster
-  :straight (:host github :repo "jdtsmith/eglot-booster")
-  :after eglot
-  :config (eglot-booster-mode))
-
 (use-package treesit-auto
   :custom
   (treesit-auto-install 'prompt)
