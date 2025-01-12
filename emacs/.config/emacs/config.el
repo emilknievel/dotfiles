@@ -531,7 +531,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (my-doom-one))
 
 (defvar my-linux-font "DejaVuSansM Nerd Font")
-(defvar my-macos-font "Iosevka Comfy")
+(defvar my-macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -560,7 +560,7 @@ bar not using the proper theme if the server was loaded with a different theme."
           my-presentation-font-height 140)))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height 140
+    (setq my-font-height 130
           my-small-font-height 100
           my-medium-font-height 140
           my-large-font-height 150
