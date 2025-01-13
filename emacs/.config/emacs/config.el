@@ -1201,6 +1201,15 @@ installed."
   (magit-pre-refresh . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
+(require 'eshell)
+(require 'em-smart)
+
+(setq eshell-where-to-jump 'begin)
+(setq eshell-review-quick-commands nil)
+(setq eshell-smart-space-goes-to-end t)
+
+(add-to-list 'eshell-modules-list 'eshell-smart)
+
 (use-package eshell-syntax-highlighting
   :defer t
   :hook (eshell-mode . eshell-syntax-highlighting-mode))
@@ -1224,9 +1233,13 @@ installed."
   (my-leader-keys "` a" 'eat)
   :custom
   (eat-term-name "xterm-256color")
-  (eat-kill-buffer-on-exit t)
-  :hook ((eshell-load . eat-eshell-mode)
-         (eshell-load . eat-eshell-visual-command-mode)))
+  (eat-kill-buffer-on-exit t))
+
+;; The mode hooks below integrate eat with eshell. I'm currently testing out
+;; what I can do using only eshell so for now they are disabled.
+
+;; :hook ((eshell-load . eat-eshell-mode)
+;;        (eshell-load . eat-eshell-visual-command-mode)))
 
 (use-package project
   :general
