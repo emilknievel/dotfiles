@@ -1941,9 +1941,9 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 
 ** Shell
 *** Eshell
-**** Plan 9 Smart Shell
+**** Plan 9 Smart Shell (disabled, not compatible with eat)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (require 'eshell)
   (require 'em-smart)
 
@@ -1990,13 +1990,13 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     (my-leader-keys "` a" 'eat)
     :custom
     (eat-term-name "xterm-256color")
-    (eat-kill-buffer-on-exit t))
+    (eat-kill-buffer-on-exit t)
 
-  ;; The mode hooks below integrate eat with eshell. I'm currently testing out
-  ;; what I can do using only eshell so for now they are disabled.
+    ;; The mode hooks below integrate eat with eshell. I'm currently testing out
+    ;; what I can do using only eshell so for now they are disabled.
 
-  ;; :hook ((eshell-load . eat-eshell-mode)
-  ;;        (eshell-load . eat-eshell-visual-command-mode)))
+    :hook ((eshell-load . eat-eshell-mode)
+           (eshell-load . eat-eshell-visual-command-mode)))
 #+end_src
 
 ** Project
