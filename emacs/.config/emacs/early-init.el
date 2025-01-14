@@ -31,18 +31,17 @@
                                 '(height . 40)
                                 '(min-width . 1)
                                 '(width . 110)))
-;; override above and make it fullscreen
 ;; '(fullscreen . maximized)))
 
 ;; Customize titlebar
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))))
-;; ((and (eq system-type 'gnu/linux)
-;;       (not (getenv "WSL_DISTRO_NAME")))
-;;  (add-to-list 'default-frame-alist '(undecorated . t))))
+       (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
+      ((and (eq system-type 'gnu/linux)
+            (not (getenv "WSL_DISTRO_NAME")))
+       (add-to-list 'default-frame-alist '(internal-border-width . 8))))
 
 ;; Load dark theme early to avoid getting flashed when launching Emacs.
-(load-theme 'wheatgrass t nil)
+(load-theme 'modus-vivendi t nil)
 
 (if (file-exists-p "~/.private.el")
     (load-file "~/.private.el")
