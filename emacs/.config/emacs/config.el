@@ -290,13 +290,13 @@
                                                 (fg-heading-1 blue-warmer)
                                                 (fg-heading-2 yellow-cooler)
                                                 (fg-heading-3 cyan-cooler))
-        modus-themes-headings '((0 . (1.7))
-                                (1 . (1.6))
-                                (2 . (1.5))
-                                (3 . (1.4))
-                                (4 . (1.3))
-                                (5 . (1.2))
-                                (6 . (1.1))
+        modus-themes-headings '((0 . (1.5))
+                                (1 . (1.4))
+                                (2 . (1.3))
+                                (3 . (1.2))
+                                (4 . (1.1))
+                                (5 . (1.1))
+                                (6 . (1.0))
                                 (7 . (1.0))))
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
@@ -307,13 +307,13 @@
   :config
   (setq ef-themes-mixed-fonts t
         ef-themes-variable-pitch-ui nil
-        ef-themes-headings '((0 . (1.7))
-                             (1 . (1.6))
-                             (2 . (1.5))
-                             (3 . (1.4))
-                             (4 . (1.3))
-                             (5 . (1.2))
-                             (6 . (1.1))
+        ef-themes-headings '((0 . (1.5))
+                             (1 . (1.4))
+                             (2 . (1.3))
+                             (3 . (1.2))
+                             (4 . (1.1))
+                             (5 . (1.1))
+                             (6 . (1.0))
                              (7 . (1.0))))
   ;; :hook
   ;; (ef-themes-post-load . (lambda ()
@@ -332,15 +332,7 @@
         standard-themes-variable-pitch-ui nil
         standard-themes-bold-constructs t
         standard-themes-italic-constructs t
-        standard-themes-common-palette-overrides '((fringe unspecified))
-        standard-themes-headings '((0 . (1.7))
-                                   (1 . (1.6))
-                                   (2 . (1.5))
-                                   (3 . (1.4))
-                                   (4 . (1.3))
-                                   (5 . (1.2))
-                                   (6 . (1.1))
-                                   (7 . (1.0)))))
+        standard-themes-common-palette-overrides '((fringe unspecified))))
 
 (defun my-toggle-solarized ()
   "Toggle between light and dark solarized themes."
