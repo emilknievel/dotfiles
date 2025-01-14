@@ -2249,6 +2249,12 @@ Display number of matches in modeline when searching.
     (global-anzu-mode))
 #+end_src
 
+*** Avy
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-:") 'avy-goto-char-timer)
+#+end_src
+
 ** Org
 *** Initial config
 
