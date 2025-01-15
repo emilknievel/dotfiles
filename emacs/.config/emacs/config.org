@@ -86,6 +86,7 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 #+end_src
 
 ** Emacs system files
+
 *** Backup files
 
 #+begin_src emacs-lisp
@@ -124,6 +125,7 @@ Monday as first day of the week.
 #+end_src
 
 ** Environment variables
+
 *** Get OS shell variables
 
 #+begin_src emacs-lisp
@@ -168,6 +170,7 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 #+end_src
 
 ** Utility
+
 *** Functions
 
 #+begin_src emacs-lisp
@@ -177,6 +180,7 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 #+end_src
 
 ** Key bindings
+
 *** Which-key
 
 #+begin_src emacs-lisp
@@ -344,6 +348,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+end_src
 
 ** Editing
+
 *** iedit
 
 Edit multiple occurrences in the same way simultaneously.
@@ -463,6 +468,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
 #+end_src
 
 *** Theme
+
 **** Themes directory
 
 #+begin_src emacs-lisp
@@ -773,6 +779,7 @@ Inspired by Plan 9 Acme & Sam.
 #+end_src
 
 *** Fonts
+
 **** Font variables
 
 #+begin_src emacs-lisp
@@ -839,6 +846,7 @@ Inspired by Plan 9 Acme & Sam.
 #+end_src
 
 **** Hooks
+
 ***** Text mode hook (disabled)
 
 #+begin_src emacs-lisp :tangle no
@@ -1082,6 +1090,7 @@ Show trailing whitespace in buffer.
 #+end_src
 
 *** Icons
+
 **** Nerd icons
 
 Install the icons with ~M-x nerd-icons-install-fonts~.
@@ -1109,6 +1118,7 @@ Install icon fonts with ~M-x all-the-icons-install-fonts~
 #+end_src
 
 *** Mode line
+
 **** Display cursor column
 
 #+begin_src emacs-lisp
@@ -1180,6 +1190,7 @@ Highlight line when programming or editing configuration files.
 #+end_src
 
 ** Completion
+
 *** Nerd Icons Completion
 
 #+begin_src emacs-lisp
@@ -1583,6 +1594,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 - [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]: I opted for cloning the git repo, building the crate, and creating a symlink to the ~emacs-lsp-booster~ binary to =$HOME/.local/bin=.
 
 ** Language configuration
+
 *** Treesitter
 
 Language grammars for tree-sitter.
@@ -1773,16 +1785,17 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 #+end_src
 
 *** HTTP
+
 **** restclient.el
 
 This package provides a simple way to interact with RESTful APIs from within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode highlights some of its features.
 
 Notable keymaps:
 
-| Keymap    | Command description                                     |
-|-----------+---------------------------------------------------------|
-| =C-c C-c= | Send request at point                                   |
-| =C-c C-j= | Run jq interactively on restclient json response buffer |
+| Keymap  | Command description                                     |
+|---------+---------------------------------------------------------|
+| C-c C-c | Send request at point                                   |
+| C-c C-j | Run jq interactively on restclient json response buffer |
 
 #+begin_src emacs-lisp
   (use-package restclient
@@ -1897,6 +1910,7 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 #+end_src
 
 ** Git
+
 *** Magit
 
 #+begin_src emacs-lisp
@@ -1932,7 +1946,9 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 #+end_src
 
 ** Shell
+
 *** Eshell
+
 **** Plan 9 Smart Shell (disabled, not compatible with eat)
 
 #+begin_src emacs-lisp :tangle no
@@ -2005,6 +2021,7 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 [[https://www.patrickdelliott.com/emacs.d/#org0a74aa5][source]]
 
 ** File exploration
+
 *** Dired
 
 #+begin_src emacs-lisp
@@ -2109,6 +2126,7 @@ Jump to previously visited directory, not unlike using =zoxide=.
 #+end_src
 
 ** Search
+
 *** Consult
 
 #+begin_src emacs-lisp
@@ -2256,6 +2274,7 @@ Display number of matches in modeline when searching.
 #+end_src
 
 ** Org
+
 *** Initial config
 
 #+begin_src emacs-lisp
@@ -2755,6 +2774,7 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
 #+end_src
 
 ** Reading
+
 *** PDF
 
 Use PDF tools package to turn Emacs into a PDF viewer with annotation support etc.
@@ -2870,6 +2890,7 @@ Package repo.
 #+end_src
 
 ** AI
+
 *** GPTel
 
 GPTel allows us to talk with different LLMs from within Emacs.
@@ -2933,6 +2954,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
 #+end_src
 
 ** Documentation
+
 *** Devdocs
 
 #+begin_src emacs-lisp
@@ -3044,61 +3066,8 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
   (global-set-key (kbd "C-<f5>") 'project-compile)
 #+end_src
 
-** IRC (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package circe
-    :init
-    (defun my-circe-set-margin ()
-      (setq left-margin-width 5))
-    (setq lui-logging-directory "~/.circe-logs.d")
-    :config
-    (require 'circe-chanop)
-    (require 'circe-lagmon)
-    (ignore-errors
-      (require 'circe-rainbow)
-      (require 'circe-probe))
-    (require 'circe-color-nicks)
-    (require 'circe-new-day-notifier)
-    (require 'lui-irc-colors)
-    (require 'circe-display-images)
-
-    (setq circe-network-options
-          `(("ZNC: Libera"
-             :tls t
-             :host ,libera-host
-             :port 1337
-             :user ,libera-user
-             :pass ,libera-pass
-             :logging t)))
-
-    (setq circe-reduce-lurker-spam t)
-    (setq circe-format-say "{nick} {body}")
-
-    (setq lui-time-stamp-position 'left-margin
-          lui-time-stamp-format "%H:%M")
-
-    (add-hook 'lui-mode-hook 'my-circe-set-margin)
-
-    ;; (setq circe-color-nicks-everywhere t)
-    (enable-circe-color-nicks)
-    (enable-circe-display-images)
-    (enable-circe-new-day-notifier)
-
-    (add-to-list 'lui-pre-output-hook 'lui-irc-colors)
-
-    (defun circe-command-ZNC (what)
-      "Send a message to ZNC incorporated by user '*status'."
-      (circe-command-MSG "*status" what))
-
-    (setq lui-track-bar-behavior 'before-switch-to-buffer)
-    (custom-theme-set-faces
-     'user
-     `(circe-originator-face ((t (:inherit bold)))))
-    :hook (lui-mode . enable-lui-track-bar))
-#+end_src
-
 ** Kubernetes
+
 *** kubed
 
 - https://github.com/eshelyaron/kubed
