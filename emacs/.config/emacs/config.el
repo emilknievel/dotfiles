@@ -522,7 +522,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (my-doom-one))
 
-(defvar my-linux-font "DejaVuSansM Nerd Font")
+(defvar my-linux-font "Liberation Mono")
 (defvar my-macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
@@ -669,12 +669,31 @@ bar not using the proper theme if the server was loaded with a different theme."
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
 
-(use-package doom-modeline
-  :general (my-leader-keys "u m d" 'doom-modeline-mode))
+(setq display-time-format " %H:%M ")
+(setq display-time-interval 60)
+(setq display-time-default-load-average nil)
+
+;; Only display current date and time, not email stuff
+(setq display-time-string-forms
+      '((propertize
+         (format-time-string display-time-format now)
+         ;; 'face 'display-time-date-and-time
+         'help-echo (format-time-string "%a %b %e, %Y" now))
+        " "))
+
+(display-time-mode 1)
 
 (use-package minions
   :init
   (minions-mode))
+
+(require 'battery)
+(when (and battery-status-function
+           (not(string-match-p "N/A"
+                               (battery-format
+                                "%B"
+                                (funcall battery-status-function)))))
+  (display-battery-mode 1))
 
 (use-package nerd-icons-completion
   :after (marginalia nerd-icons)

@@ -783,7 +783,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar my-linux-font "DejaVuSansM Nerd Font")
+  (defvar my-linux-font "Liberation Mono")
   (defvar my-macos-font "SF Mono")
 
   (if (eq system-type 'darwin)
@@ -1135,11 +1135,11 @@ Install icon fonts with ~M-x all-the-icons-install-fonts~
     (run-with-timer 0.1 nil #'invert-face 'mode-line))
 #+end_src
 
-**** Display current date and time on the mode line (disabled)
+**** Display current date and time on the mode line
 
 Display the current date and time on the mode line.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (setq display-time-format " %H:%M ")
   (setq display-time-interval 60)
   (setq display-time-default-load-average nil)
@@ -1155,11 +1155,12 @@ Display the current date and time on the mode line.
   (display-time-mode 1)
 #+end_src
 
-**** Doom Modeline
+**** Doom Modeline (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package doom-modeline
-    :general (my-leader-keys "u m d" 'doom-modeline-mode))
+    :general (my-leader-keys "u m d" 'doom-modeline-mode)
+    :config (doom-modeline))
 #+end_src
 
 **** Minions
@@ -1170,6 +1171,18 @@ Display the current date and time on the mode line.
   (use-package minions
     :init
     (minions-mode))
+#+end_src
+
+**** Display battery charge if battery information is available
+
+#+begin_src emacs-lisp
+  (require 'battery)
+  (when (and battery-status-function
+             (not(string-match-p "N/A"
+                                 (battery-format
+                                  "%B"
+                                  (funcall battery-status-function)))))
+    (display-battery-mode 1))
 #+end_src
 
 *** Padding (disabled)
