@@ -249,7 +249,15 @@
 
 (setopt confirm-kill-emacs 'y-or-n-p)
 
-(pixel-scroll-precision-mode)
+;; (pixel-scroll-precision-mode)
+
+(use-package ultra-scroll
+  :straight (:host github :repo "jdtsmith/ultra-scroll")
+  :init
+  (setq scroll-conservatively 101 ; important!
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
 
 (when (eq system-type 'darwin)
   (use-package ns-auto-titlebar
