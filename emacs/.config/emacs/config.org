@@ -791,7 +791,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar my-linux-font "Liberation Mono")
+  (defvar my-linux-font "Source Code Pro")
   (defvar my-macos-font "SF Mono")
 
   (if (eq system-type 'darwin)

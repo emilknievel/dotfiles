@@ -530,7 +530,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (my-doom-one))
 
-(defvar my-linux-font "Liberation Mono")
+(defvar my-linux-font "Source Code Pro")
 (defvar my-macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
