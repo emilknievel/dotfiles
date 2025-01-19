@@ -521,16 +521,16 @@ bar not using the proper theme if the server was loaded with a different theme."
     (use-package auto-dark
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            auto-dark-themes '((ef-dark) (ef-light)))
+            auto-dark-themes '((modus-vivendi) (modus-operandi)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-dark)))
-      (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
-  (my-doom-one))
+      (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi)))
+      (auto-dark-light-mode . (lambda () (modus-themes-select 'modus-operandi))))
+  (modus-themes-select 'modus-vivendi))
 
-(defvar my-linux-font "Source Code Pro")
+(defvar my-linux-font "DejaVuSansM Nerd Font")
 (defvar my-macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
