@@ -1143,11 +1143,11 @@ Install icon fonts with ~M-x all-the-icons-install-fonts~
     (run-with-timer 0.1 nil #'invert-face 'mode-line))
 #+end_src
 
-**** Display current date and time on the mode line
+**** Display current date and time on the mode line (disabled)
 
 Display the current date and time on the mode line.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (setq display-time-format " %H:%M ")
   (setq display-time-interval 60)
   (setq display-time-default-load-average nil)
@@ -1181,9 +1181,9 @@ Display the current date and time on the mode line.
     (minions-mode))
 #+end_src
 
-**** Display battery charge if battery information is available
+**** Display battery charge if battery information is available (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (require 'battery)
   (when (and battery-status-function
              (not(string-match-p "N/A"
