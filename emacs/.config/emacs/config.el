@@ -1444,7 +1444,7 @@ any directory proferred by `consult-dir'."
   (setq org-directory (expand-file-name "~/Documents/org")
         org-agenda-files `(,org-directory)
         org-default-notes-file (concat org-directory "/inbox.org"))
-  (require 'org-indent)
+  ;; (require 'org-indent)
   :custom
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
@@ -1456,7 +1456,7 @@ any directory proferred by `consult-dir'."
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-startup-indented t)
+  ;; (org-startup-indented t)
 
   ;; Add CLOSED: [timestamp] line after todo headline when marked as done
   ;; and prompt for closing note.
@@ -1499,7 +1499,7 @@ any directory proferred by `consult-dir'."
   :custom
   (org-modern-table t)
   (org-modern-todo t)
-  (org-modern-star 'replace)
+  (org-modern-star nil)
   (org-modern-hide-stars nil)
   (org-modern-block-fringe nil)
   :hook
