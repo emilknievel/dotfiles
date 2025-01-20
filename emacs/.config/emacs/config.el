@@ -542,8 +542,8 @@ bar not using the proper theme if the server was loaded with a different theme."
            (defvar my-variable-pitch-font "SF Pro")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "Sans")
-         (defvar my-serif-font "Serif")))
+         (defvar my-variable-pitch-font "DejaVu Sans")
+         (defvar my-serif-font "DejaVu Serif")))
 
 (defun my-setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
@@ -1444,7 +1444,7 @@ any directory proferred by `consult-dir'."
   (setq org-directory (expand-file-name "~/Documents/org")
         org-agenda-files `(,org-directory)
         org-default-notes-file (concat org-directory "/inbox.org"))
-  ;; (require 'org-indent)
+  (require 'org-indent)
   :custom
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
@@ -1456,7 +1456,7 @@ any directory proferred by `consult-dir'."
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  ;; (org-startup-indented t)
+  (org-startup-indented t)
 
   ;; Add CLOSED: [timestamp] line after todo headline when marked as done
   ;; and prompt for closing note.
