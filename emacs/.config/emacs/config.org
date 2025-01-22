@@ -324,7 +324,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+begin_src emacs-lisp
   (use-package hydra
     :config
-    (defhydra hydra-window-actions (global-map "<f8>")
+    (defhydra hydra-window-actions (global-map "<f8> w")
       "window actions"
       ("h" shrink-window-horizontally "shrink horizontally")
       ("l" enlarge-window-horizontally "enlarge horizontally")

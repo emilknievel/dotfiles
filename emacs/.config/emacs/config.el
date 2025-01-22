@@ -205,7 +205,7 @@
 
 (use-package hydra
   :config
-  (defhydra hydra-window-actions (global-map "<f8>")
+  (defhydra hydra-window-actions (global-map "<f8> w")
     "window actions"
     ("h" shrink-window-horizontally "shrink horizontally")
     ("l" enlarge-window-horizontally "enlarge horizontally")
