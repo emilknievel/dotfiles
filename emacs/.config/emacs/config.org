@@ -202,15 +202,13 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+begin_src emacs-lisp
   (use-package general
     :init
-    (keymap-global-unset "C-z")
     :after which-key
     :config
-    (general-create-definer my-leader-keys
-      :prefix "C-z"))
+    (general-create-definer my-leader-keys :prefix "<f8>"))
 
   (my-leader-keys
     ;; Top level functions
-    "C-z" '(execute-extended-command :wk "M-x")
+    "<f8>" '(execute-extended-command :wk "M-x")
 
     ;; Prefixes
 
@@ -326,7 +324,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+begin_src emacs-lisp
   (use-package hydra
     :config
-    (defhydra hydra-window-actions (global-map "C-z w")
+    (defhydra hydra-window-actions (global-map "<f8>")
       "window actions"
       ("h" shrink-window-horizontally "shrink horizontally")
       ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -792,7 +790,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "DejaVuSansM Nerd Font")
-  (defvar my-macos-font "SF Mono")
+  (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)

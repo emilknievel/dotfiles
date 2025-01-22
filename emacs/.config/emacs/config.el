@@ -115,15 +115,13 @@
 
 (use-package general
   :init
-  (keymap-global-unset "C-z")
   :after which-key
   :config
-  (general-create-definer my-leader-keys
-    :prefix "C-z"))
+  (general-create-definer my-leader-keys :prefix "<f8>"))
 
 (my-leader-keys
   ;; Top level functions
-  "C-z" '(execute-extended-command :wk "M-x")
+  "<f8>" '(execute-extended-command :wk "M-x")
 
   ;; Prefixes
 
@@ -207,7 +205,7 @@
 
 (use-package hydra
   :config
-  (defhydra hydra-window-actions (global-map "C-z w")
+  (defhydra hydra-window-actions (global-map "<f8>")
     "window actions"
     ("h" shrink-window-horizontally "shrink horizontally")
     ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -531,7 +529,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "DejaVuSansM Nerd Font")
-(defvar my-macos-font "SF Mono")
+(defvar my-macos-font "Menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
