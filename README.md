@@ -31,3 +31,120 @@ stow emacs
 Now everything in the Emacs directory has been created in the home directory as
 symlinks. Note that everything has the exact same structure as in the Emacs
 directory.
+
+## macOS software
+
+Below is a list of essential apps I use on macOS-based systems (not preinstalled). In the future I want to automate the installation process. Should be easy since I already use [Homebrew](https://brew.sh/) for installing apps and CLI tools.
+
+### Ad-blocking
+
+  * AdGuard
+
+### Window Management
+
+  * AeroSpace
+
+### Battery Health
+
+  * AlDente
+
+### Launcher
+
+  * Alfred
+
+### Prevent Sleep
+
+  * Amphetamine
+
+### Memory Retention
+
+  * Anki
+
+### Multimedia
+
+  * Balance Lock
+  * IINA
+
+### Display Management
+
+  * BetterDisplay
+
+### Browser
+
+#### Chromium
+
+  * Brave
+  * UnGoogled Chromium
+
+#### Gecko
+
+  * LibreWolf
+  * Zen Browser
+
+#### WebKit
+
+  * Orion
+
+#### Utility
+
+  * Default Browser
+
+### Books
+
+  * Calibre
+  * Kindle
+
+### Social
+
+  * Discord
+  * Ivory
+  * Signal
+
+### Software Development
+
+  * Emacs (d12frosted/emacs-plus)
+
+### Creativity
+
+  * GIMP
+  * Krita
+
+### Terminal Emulator
+
+  * iTerm
+
+### Security
+
+  * 1Password
+  * GPG Suite
+  * Little Snitch
+
+Honorable mention: Bitwarden
+
+### Keyboard
+
+  * Homerow
+  * Hyperkey
+  * KeyboardCleanTool
+
+### Menu Bar
+
+  * Hand Mirror
+  * Ice
+
+### File Transfer
+
+  * LocalSend
+  * Syncthing
+
+### RSS
+
+  * NetNewsWire
+
+### Bookmark Management
+
+  * Raindrop.io
+
+### VPN
+
+  * Tailscale
