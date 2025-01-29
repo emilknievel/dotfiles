@@ -10,8 +10,15 @@ if [ -z "$PS1" ]; then
   return
 fi
 
-# Simple default prompt
-PS1="\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ "
+. /opt/homebrew/etc/bash_completion.d/git-prompt.sh
+
+GIT_PS1_SHOWCOLORHINTS=1
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUPSTREAM="auto"
+
+export PROMPT_COMMAND='history -a'
+export PS1='\[\e[0;32m\]\u@\h\[\e[0m\]:\[\e[0;34m\]\w\[\e[0m\]$(__git_ps1 " (%s)")\$ '
 
 [ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
 
