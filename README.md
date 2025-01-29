@@ -148,3 +148,7 @@ Honorable mention: Bitwarden
 ### VPN
 
   * Tailscale
+
+### Utility
+
+  * GrandPerspective
