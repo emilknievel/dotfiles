@@ -295,7 +295,9 @@
                                                 (bg-paren-match bg-magenta-intense)
                                                 (fg-heading-1 blue-warmer)
                                                 (fg-heading-2 yellow-cooler)
-                                                (fg-heading-3 cyan-cooler))
+                                                (fg-heading-3 cyan-cooler)
+                                                (border-mode-line-active unspecified)
+                                                (border-mode-line-inactive unspecified))
         modus-themes-headings '((0 . (1.5))
                                 (1 . (1.4))
                                 (2 . (1.3))
@@ -321,14 +323,6 @@
                              (5 . (1.1))
                              (6 . (1.0))
                              (7 . (1.0))))
-  ;; :hook
-  ;; (ef-themes-post-load . (lambda ()
-  ;;                          (set-face-attribute
-  ;;                           'mode-line nil
-  ;;                           :background (face-background 'org-block-begin-line))
-  ;;                          (set-face-attribute
-  ;;                           'mode-line-inactive nil
-  ;;                           :background (face-background 'mode-line))))
   :general (my-leader-keys
              "t t e" 'ef-themes-toggle))
 
@@ -519,13 +513,13 @@ bar not using the proper theme if the server was loaded with a different theme."
     (use-package auto-dark
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            auto-dark-themes '((modus-vivendi) (modus-operandi)))
+            auto-dark-themes '((ef-dark) (ef-light)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi)))
-      (auto-dark-light-mode . (lambda () (modus-themes-select 'modus-operandi))))
+      (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-dark)))
+      (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "DejaVuSansM Nerd Font")
