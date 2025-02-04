@@ -2911,11 +2911,11 @@ GPTel allows us to talk with different LLMs from within Emacs.
 #+begin_src emacs-lisp
   (use-package gptel
     :config
-    (setq-default gptel-model "llama3.2:3b"
+    (setq-default gptel-model 'deepseek-r1:8b
                   gptel-backend (gptel-make-ollama "Ollama"
                                   :host "localhost:11434"
                                   :stream t
-                                  :models '("llama3.2:3b"))
+                                  :models '(deepseek-r1:8b))
                   gptel-default-mode 'org-mode)
     :general
     (my-leader-keys

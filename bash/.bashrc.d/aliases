@@ -96,4 +96,4 @@ alias et='exa --tree --icons'
 alias exs='exercism submit'
 alias ext='exercism test'
 
-alias '?'='ollama run llama3.2:3b'
+alias '?'='ollama run deepseek-r1:8b'
