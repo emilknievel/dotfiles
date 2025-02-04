@@ -1,7 +1,7 @@
 :DOC-CONFIG:
 #+PROPERTY: header-args:emacs-lisp :tangle (concat (file-name-sans-extension (buffer-file-name)) ".el")
 #+PROPERTY: header-args :mkdirp yes :comments no
-#+startup: fold
+#+STARTUP: fold
 :END:
 
 #+begin_src emacs-lisp :exports none
@@ -134,7 +134,7 @@ Monday as first day of the week.
     (setq exec-path-from-shell-variables '("PATH" "WSL_DISTRO_NAME" "XDG_CONFIG_HOME"))
     (exec-path-from-shell-initialize)
     :when
-    (or (memq window-system '(mac ns x)) (daemonp)))
+    (or (memq window-system '(mac ns x pgtk)) (daemonp)))
 #+end_src
 
 *** Emacs specific
@@ -783,7 +783,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar my-linux-font "DejaVuSansM Nerd Font")
+  (defvar my-linux-font "LiterationMono Nerd Font")
   (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)

@@ -90,7 +90,7 @@
   (setq exec-path-from-shell-variables '("PATH" "WSL_DISTRO_NAME" "XDG_CONFIG_HOME"))
   (exec-path-from-shell-initialize)
   :when
-  (or (memq window-system '(mac ns x)) (daemonp)))
+  (or (memq window-system '(mac ns x pgtk)) (daemonp)))
 
 (setenv "LANG" "en_US.UTF-8")
 
@@ -522,7 +522,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (modus-themes-select 'modus-vivendi))
 
-(defvar my-linux-font "DejaVuSansM Nerd Font")
+(defvar my-linux-font "LiterationMono Nerd Font")
 (defvar my-macos-font "Menlo")
 
 (if (eq system-type 'darwin)
