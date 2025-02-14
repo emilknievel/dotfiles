@@ -783,7 +783,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar my-linux-font "LiterationMono Nerd Font")
+  (defvar my-linux-font "Monospace")
   (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)

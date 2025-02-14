@@ -522,7 +522,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (modus-themes-select 'modus-vivendi))
 
-(defvar my-linux-font "LiterationMono Nerd Font")
+(defvar my-linux-font "Monospace")
 (defvar my-macos-font "Menlo")
 
 (if (eq system-type 'darwin)
