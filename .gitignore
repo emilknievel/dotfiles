@@ -133,6 +133,7 @@ flycheck_*.el
 eln-cache/
 elpa/
 straight/
+elpaca/
 history
 ido.last
 places

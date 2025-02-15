@@ -86,6 +86,7 @@
 (setq calendar-week-start-day 1)
 
 (use-package exec-path-from-shell
+  :ensure t
   :config
   (setq exec-path-from-shell-variables '("PATH" "WSL_DISTRO_NAME" "XDG_CONFIG_HOME"))
   (exec-path-from-shell-initialize)
@@ -95,6 +96,7 @@
 (setenv "LANG" "en_US.UTF-8")
 
 (use-package mise
+  :ensure t
   :hook (after-init . global-mise-mode))
 
 (use-package gnutls
@@ -107,48 +109,46 @@
   (mapcar #'car alist))
 
 (use-package which-key
+  ;; :ensure (:wait t)
+  :demand t
+  :ensure t
   :init
   (which-key-mode)
   (which-key-setup-side-window-bottom)
   :config
   (setq which-key-idle-delay 0.3))
 
-(use-package general
-  :init
-  :after which-key
-  :config
-  (general-create-definer my-leader-keys :prefix "<f8>"))
+(with-eval-after-load 'general
+  (my-leader-keys
+    ;; Top level functions
+    "<f8>" '(execute-extended-command :wk "M-x")
 
-(my-leader-keys
-  ;; Top level functions
-  "<f8>" '(execute-extended-command :wk "M-x")
+    ;; Prefixes
 
-  ;; Prefixes
-
-  "`" '(:ignore t :wk "Term")
-  "a" '(:ignore t :wk "AI")
-  "a c" '(:ignore t :wk "Copilot")
-  "b" '(:ignore t :wk "Buffer")
-  "c" '(:ignore t :wk "Code")
-  "d" '(:ignore t :wk "Directory")
-  "E" '(:ignore t :wk "Embark")
-  "f" '(:ignore t :wk "File")
-  "f c" '(:ignore t :wk "Config")
-  "g" '(:ignore t :wk "Git")
-  "h" '(:ignore t :wk "Help")
-  "h d" '(:ignore t :wk "Devdocs")
-  "n" '(:ignore t :wk "Notes")
-  "o" '(:ignore t :wk "Org")
-  "o b" '(:ignore t :wk "Babel")
-  "p" '(:ignore t :wk "Project")
-  "q" '(:ignore t :wk "Quit")
-  "s" '(:ignore t :wk "Search")
-  "t" '(:ignore t :wk "Toggle")
-  "u" '(:ignore t :wk "UI")
-  "u f" '(:ignore t :wk "Fonts")
-  "u l" '(:ignore t :wk "Linum")
-  "u m" '(:ignore t :wk "Mode Line")
-  "w" '(:ignore t :wk "Windows"))
+    "`" '(:ignore t :wk "Term")
+    "a" '(:ignore t :wk "AI")
+    "a c" '(:ignore t :wk "Copilot")
+    "b" '(:ignore t :wk "Buffer")
+    "c" '(:ignore t :wk "Code")
+    "d" '(:ignore t :wk "Directory")
+    "E" '(:ignore t :wk "Embark")
+    "f" '(:ignore t :wk "File")
+    "f c" '(:ignore t :wk "Config")
+    "g" '(:ignore t :wk "Git")
+    "h" '(:ignore t :wk "Help")
+    "h d" '(:ignore t :wk "Devdocs")
+    "n" '(:ignore t :wk "Notes")
+    "o" '(:ignore t :wk "Org")
+    "o b" '(:ignore t :wk "Babel")
+    "p" '(:ignore t :wk "Project")
+    "q" '(:ignore t :wk "Quit")
+    "s" '(:ignore t :wk "Search")
+    "t" '(:ignore t :wk "Toggle")
+    "u" '(:ignore t :wk "UI")
+    "u f" '(:ignore t :wk "Fonts")
+    "u l" '(:ignore t :wk "Linum")
+    "u m" '(:ignore t :wk "Mode Line")
+    "w" '(:ignore t :wk "Windows")))
 
 (defun my-reload-emacs-config ()
   "Tangle org file and reload the emacs config."
@@ -161,49 +161,57 @@
   (interactive)
   (find-file (expand-file-name "config.org" user-emacs-directory)))
 
-(my-leader-keys
-  "f c r" '(my-reload-emacs-config :wk "Reload config")
-  "f c f" '(my-edit-emacs-config :wk "Edit config")
-  "f f" 'find-file
-  "f l" 'load-file
-  "f s" 'save-buffer)
+(with-eval-after-load 'general
+  (my-leader-keys
+    "f c r" '(my-reload-emacs-config :wk "Reload config")
+    "f c f" '(my-edit-emacs-config :wk "Edit config")
+    "f f" 'find-file
+    "f l" 'load-file
+    "f s" 'save-buffer))
 
-(my-leader-keys
-  ;; buffers
-  "b" '(nil :wk "buffers")
-  "b b" 'switch-to-buffer
-  "b B" 'ibuffer
-  "b c" 'consult-buffer
-  "b X" 'scratch-buffer
-  "q q" 'save-buffers-kill-terminal
-  "b r" 'revert-buffer-quick)
+(with-eval-after-load 'general
+  (my-leader-keys
+    ;; buffers
+    "b" '(nil :wk "buffers")
+    "b b" 'switch-to-buffer
+    "b B" 'ibuffer
+    "b c" 'consult-buffer
+    "b X" 'scratch-buffer
+    "q q" 'save-buffers-kill-terminal
+    "b r" 'revert-buffer-quick))
 
-(my-leader-keys
-  ;; help
-  "h f" 'describe-function
-  "h v" 'describe-variable
-  "h k" 'describe-key
-  "h i" 'info
-  "h b" 'describe-bindings
-  "h a" 'describe-face)
+(with-eval-after-load 'general
+  (my-leader-keys
+    ;; help
+    "h f" 'describe-function
+    "h v" 'describe-variable
+    "h k" 'describe-key
+    "h i" 'info
+    "h b" 'describe-bindings
+    "h a" 'describe-face))
 
-(my-leader-keys
-  ;; toggles
-  "t v" '(visual-line-mode :wk "visual line mode")
-  "t n" '(display-line-numbers-mode :wk "display line numbers")
-  "t c" '(visual-fill-column-mode :wk "visual fill column mode"))
+(with-eval-after-load 'general
+  (my-leader-keys
+    ;; toggles
+    "t v" '(visual-line-mode :wk "visual line mode")
+    "t n" '(display-line-numbers-mode :wk "display line numbers")
+    "t c" '(visual-fill-column-mode :wk "visual fill column mode")))
 
-(my-leader-keys
-  "u f v" 'variable-pitch-mode)
+(with-eval-after-load 'general
+  (my-leader-keys
+    "u f v" 'variable-pitch-mode))
 
-(my-leader-keys
-  ;; emacsclient
-  "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process"))
+(with-eval-after-load 'general
+  (my-leader-keys
+    ;; emacsclient
+    "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process")))
 
 (use-package surround
+  :ensure t
   :bind-keymap ("C-c s" . surround-keymap))
 
 (use-package hydra
+  :ensure t
   :config
   (defhydra hydra-window-actions (global-map "<f8> w")
     "window actions"
@@ -216,15 +224,21 @@
     ("t" transpose-frame "transpose frame")))
 
 (use-package iedit
+  :ensure t
+  ;; :after general
   :general
   (my-leader-keys "e" 'iedit-mode))
 
 (require 'whitespace)
 
 (use-package expand-region
+  :ensure t
+  :after general
   :general (my-leader-keys "=" 'er/expand-region))
 
 (use-package vundo
+  :ensure t
+  :after general
   :general (my-leader-keys "c u" 'vundo))
 
 (use-package multiple-cursors
@@ -240,6 +254,7 @@
   :hook (after-init . delete-selection-mode))
 
 (use-package eldoc-box
+  :ensure t
   :config
   (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t))
 
@@ -250,7 +265,7 @@
 ;; (pixel-scroll-precision-mode)
 
 (use-package ultra-scroll
-  :straight (:host github :repo "jdtsmith/ultra-scroll")
+  :ensure (:host github :repo "jdtsmith/ultra-scroll")
   :init
   (setq scroll-conservatively 101 ; important!
         scroll-margin 0)
@@ -259,6 +274,7 @@
 
 (when (eq system-type 'darwin)
   (use-package ns-auto-titlebar
+    :ensure t
     :demand t
     :config (ns-auto-titlebar-mode))
   (setq ns-use-proxy-icon nil
@@ -286,6 +302,8 @@
 (setq custom-theme-directory "~/.config/emacs/themes/")
 
 (use-package modus-themes
+  :ensure t
+  :after general
   :init
   (setq modus-themes-mixed-fonts t
         modus-themes-variable-pitch-ui nil
@@ -310,6 +328,8 @@
              "t t m" 'modus-themes-toggle))
 
 (use-package ef-themes
+  :ensure t
+  :after general
   :init
   (setq ef-themes-to-toggle '(ef-dark ef-light))
   :config
@@ -327,6 +347,7 @@
              "t t e" 'ef-themes-toggle))
 
 (use-package standard-themes
+  :ensure t
   :init
   (setq standard-themes-mixed-fonts t
         standard-themes-variable-pitch-ui nil
@@ -363,6 +384,8 @@
     (my-load-theme 'doom-tomorrow-night)))
 
 (use-package doom-themes
+  :ensure t
+  :after general
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
@@ -375,35 +398,24 @@
              "t t t" 'my-toggle-tomorrow))
 
 (use-package naysayer-theme
+  :ensure t
+  :after general
   :general (my-leader-keys "t t n" 'my-naysayer-theme))
 
 (use-package acme-theme
+  :ensure t
+  :after general
   :init
   (setq acme-theme-black-fg t)
   :general (my-leader-keys "t t a" 'my-acme-theme))
 
-(defun my-toggle-catppuccin ()
-  "Toggle between latte and mocha Catppuccin themes."
-  (interactive)
-  (if (eq catppuccin-flavor 'latte)
-      (my-catppuccin-theme 'mocha)
-    (my-catppuccin-theme 'latte)))
+(use-package leuven-theme :ensure t)
 
-(use-package catppuccin-theme
-  :demand t
-  :init
-  (setq catppuccin-flavor 'mocha
-        catppuccin-enlarge-headings nil
-        catppuccin-italic-blockquotes nil)
-  :general (my-leader-keys "t t c" 'my-toggle-catppuccin))
+(use-package kaolin-themes :ensure t)
 
-(use-package leuven-theme)
+(use-package miasma-theme :ensure t)
 
-(use-package kaolin-themes)
-
-(use-package miasma-theme)
-
-(use-package tao-theme)
+(use-package tao-theme :ensure t)
 
 (defun my-clear-theme ()
   "Clear current theme"
@@ -455,15 +467,15 @@ If THEME is provided as an argument, load that theme directly."
   (interactive)
   (my-load-theme 'acme))
 
-(setq my-catppuccin-flavors (my-alist-keys catppuccin-flavor-alist))
+;; (setq my-catppuccin-flavors (my-alist-keys catppuccin-flavor-alist))
 
-(defun my-catppuccin-theme (flavor)
-  "Clear previous theme and load selected catppuccin FLAVOR."
-  (interactive
-   (list (intern (completing-read "Choose a flavor: "
-                                  my-catppuccin-flavors))))
-  (my-clear-theme)
-  (catppuccin-load-flavor flavor))
+;; (defun my-catppuccin-theme (flavor)
+;;   "Clear previous theme and load selected catppuccin FLAVOR."
+;;   (interactive
+;;    (list (intern (completing-read "Choose a flavor: "
+;;                                   my-catppuccin-flavors))))
+;;   (my-clear-theme)
+;;   (catppuccin-load-flavor flavor))
 
 (defun my-gruvbox ()
   "Clear previous theme and load gruvbox."
@@ -511,6 +523,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (not (getenv "WSL_DISTRO_NAME")) ; Doesn't recognize dark/light mode in WSL.
     (use-package auto-dark
+      :ensure t
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
             auto-dark-themes '((ef-dark) (ef-light)))
@@ -580,8 +593,8 @@ bar not using the proper theme if the server was loaded with a different theme."
                       :family my-variable-pitch-font))
 
 (use-package ligature
-  :straight
-  (ligature :type git :host github :repo "mickeynp/ligature.el")
+  :ensure (:host github :repo "mickeynp/ligature.el")
+  :after general
   :config
   (setq liga '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
                ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
@@ -602,7 +615,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (my-leader-keys
    "u f l" 'global-ligature-mode))
 
-(use-package show-font)
+(use-package show-font :ensure t)
 
 (defun my-display-set-relative ()
   "Setup for relative line numbers."
@@ -633,6 +646,8 @@ bar not using the proper theme if the server was loaded with a different theme."
       display-line-numbers-grow-only t)
 
 (use-package display-line-numbers
+  :ensure nil
+  :after general
   :custom
   (display-line-numbers-widen t)
   (display-line-numbers-type 'visual)
@@ -651,14 +666,16 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (setq show-trailing-whitespace t)
 
-(use-package nerd-icons)
+(use-package nerd-icons :ensure t)
 
 (use-package nerd-icons-dired
+  :ensure t
   :hook ((dired-mode . nerd-icons-dired-mode)
          ;; prevent icons from overlapping vertically
          (dired-mode . (lambda () (setq line-spacing 0.25)))))
 
 (use-package all-the-icons
+  :ensure t
   :if (display-graphic-p))
 
 (column-number-mode 1)
@@ -670,17 +687,21 @@ bar not using the proper theme if the server was loaded with a different theme."
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
 
 (use-package minions
+  :ensure t
+  :after general
   :init
   (minions-mode))
 
 (use-package nerd-icons-completion
+  :ensure t
   :after (marginalia nerd-icons)
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
   :init
   (nerd-icons-completion-mode))
 
 (use-package marginalia
-  :after vertico
+  :ensure t
+  :after (vertico general)
   :general
   (:keymaps 'minibuffer-local-map
             "M-a" 'marginalia-cycle)
@@ -692,20 +713,9 @@ bar not using the proper theme if the server was loaded with a different theme."
   (marginalia-mode))
 
 (use-package vertico
-  :demand t                             ; Otherwise won't get loaded immediately
-  :straight (vertico :files (:defaults "extensions/*") ; Special recipe to load extensions conveniently
-                     :includes (vertico-indexed
-                                vertico-flat
-                                vertico-grid
-                                vertico-mouse
-                                vertico-quick
-                                vertico-buffer
-                                vertico-repeat
-                                vertico-reverse
-                                vertico-directory
-                                vertico-multiform
-                                vertico-unobtrusive
-                                ))
+  :ensure t
+  :demand t ; Otherwise won't get loaded immediately
+  :after general
   :general
   (:keymaps 'global
             "C-<" #'vertico-repeat ; C-S-,
@@ -784,6 +794,20 @@ bar not using the proper theme if the server was loaded with a different theme."
                '(basic-remote           ; Name of `completion-style'
                  kb/basic-remote-try-completion kb/basic-remote-all-completions nil))
   :config
+  ;; Manually load extension files
+  (dolist (module '(vertico-indexed
+                    vertico-flat
+                    vertico-grid
+                    vertico-mouse
+                    vertico-quick
+                    vertico-buffer
+                    vertico-repeat
+                    vertico-reverse
+                    vertico-directory
+                    vertico-multiform
+                    vertico-unobtrusive))
+    (require module))
+
   (vertico-mode)
   ;; Extensions
   (vertico-multiform-mode)
@@ -800,6 +824,7 @@ bar not using the proper theme if the server was loaded with a different theme."
                  cand))))
 
 (use-package orderless
+  :ensure t
   :custom
   (completion-styles '(orderless))
   (completion-category-defaults nil)    ; I want to be in control!
@@ -876,6 +901,7 @@ parses its input."
   )
 
 (use-package corfu
+  :ensure t
   ;; Optional customizations
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
@@ -939,6 +965,7 @@ parses its input."
 
 ;; Add extensions
 (use-package cape
+  :ensure t
   ;; Bind dedicated completion commands
   ;; Alternative prefix keys: C-c p, M-p, M-+, ...
   :bind (("C-c p p" . completion-at-point) ;; capf
@@ -974,6 +1001,7 @@ parses its input."
   )
 
 (use-package kind-icon
+  :ensure t
   :after corfu
   :custom
   (kind-icon-use-icons t)
@@ -987,6 +1015,7 @@ parses its input."
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package yasnippet
+  :ensure t
   :init
   (setq yas-snippet-dirs
         `(,(concat user-emacs-directory (file-name-as-directory "snippets"))))
@@ -1001,11 +1030,14 @@ parses its input."
   :ensure t)
 
 (use-package yasnippet-capf
+  :ensure t
   :after cape
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package eglot
+  :ensure t
+  :after general
   :general (my-leader-keys "c a" 'eglot-code-actions)
   :config
   (setq eglot-autoshutdown t))
@@ -1017,6 +1049,7 @@ parses its input."
   (global-flycheck-eglot-mode 1))
 
 (use-package treesit-auto
+  :ensure t
   :custom
   (treesit-auto-install 'prompt)
   :config
@@ -1026,11 +1059,13 @@ parses its input."
 (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
 
 (use-package yaml-mode
+  :ensure t
   :hook
   (yaml-mode . (lambda ()
                  (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 
 (use-package markdown-mode
+  :ensure t
   :demand t
   :mode ("\\.md\\'" . gfm-mode)
   :init
@@ -1052,9 +1087,10 @@ installed."
    start end
    "pandoc -f markdown -t org --wrap=preserve" t t))
 
-(use-package clojure-mode)
+(use-package clojure-mode :ensure t)
 
-(use-package aggressive-indent-mode
+(use-package aggressive-indent
+  :ensure t
   :hook '(clojure-mode
           elisp-mode
           emacs-lisp-mode
@@ -1063,6 +1099,7 @@ installed."
           scheme-mode))
 
 (use-package smartparens
+  :ensure t
   :init (require 'smartparens-config)
   :hook (clojure-mode . smartparens-mode))
 
@@ -1082,6 +1119,7 @@ installed."
                        (setq scroll-conservatively 101))))
 
 (use-package sly
+  :ensure t
   :init (setq inferior-lisp-program (executable-find "sbcl"))
   :mode ("\\.lisp?\\'" . common-lisp-mode)
   :hook
@@ -1091,21 +1129,25 @@ installed."
 
 (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . tsx-ts-mode))
 
-(use-package web-mode)
+(use-package web-mode :ensure t)
 
 (use-package jq-mode
+  :ensure t
   :mode ("\\.jq\\'" . jq-mode))
 
 (use-package restclient
+  :ensure t
   :mode ("\\.http\\'" . restclient-mode))
 
 ;; Below makes sure that restclient-jq can be required which
 ;; is a must if we want to be able to use jq related tasks.
 (use-package restclient-jq
+  :ensure t
   :after restclient
   :config (require 'restclient-jq))
 
 (use-package rust-mode
+  :ensure t
   :init
   (setq rust-mode-treesitter-derive t) ; mode-native treesitter mode
   :mode ("\\.rs\\'" . rust-mode)
@@ -1115,9 +1157,10 @@ installed."
   ;; prefer spaces over tabs to conform with language standard.
   (rust-mode . (lambda () (setq indent-tabs-mode nil))))
 
-(use-package mermaid-mode :mode "\\.mmd$")
+(use-package mermaid-mode :ensure t :mode "\\.mmd$")
 
 (use-package lua-mode
+  :ensure t
   :mode "\\.lua\\'"
   :config
   (with-eval-after-load 'eglot
@@ -1126,7 +1169,7 @@ installed."
   (add-to-list 'project-vc-extra-root-markers ".busted")
   :hook (lua-mode . eglot-ensure))
 
-(use-package tuareg)
+(use-package tuareg :ensure t)
 
 ;; OCaml configuration
 ;;  - better error and backtrace matching
@@ -1140,9 +1183,10 @@ installed."
 (add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
 (add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
 
-(use-package dockerfile-mode)
+(use-package dockerfile-mode :ensure t)
 
 (use-package csv-mode
+  :ensure t
   :mode "\\.csv\\'")
 
 (defun my-maybe-load-bash-ts-mode ()
@@ -1156,15 +1200,19 @@ installed."
 (add-hook 'find-file-hook 'my-maybe-load-bash-ts-mode)
 
 (use-package flycheck
+  :ensure t
   :init (global-flycheck-mode))
 
-(use-package consult-flycheck)
+(use-package consult-flycheck :ensure t)
 
 (use-package apheleia
+  :ensure t
   :config
   (apheleia-global-mode +1))
 
 (use-package magit
+  :ensure t
+  :after general
   :config
   ;; Make Magit the only window in the frame when invoked.
   (setq magit-display-buffer-function
@@ -1179,9 +1227,11 @@ installed."
     "g l" 'magit-log))
 
 (use-package forge
-  :after magit)
+  :ensure t
+  :after (general magit))
 
 (use-package diff-hl
+  :ensure t
   :init
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode) ; update diff-hl on the fly
@@ -1191,6 +1241,7 @@ installed."
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
 (use-package eshell-syntax-highlighting
+  :ensure t
   :defer t
   :hook (eshell-mode . eshell-syntax-highlighting-mode))
 
@@ -1200,14 +1251,15 @@ installed."
             (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))))
 
 (use-package eat
-  :straight (:type git
-                   :host codeberg
-                   :repo "akib/emacs-eat"
-                   :files ("*.el" ("term" "term/*.el") "*.texi"
-                           "*.ti" ("terminfo/e" "terminfo/e/*")
-                           ("terminfo/65" "terminfo/65/*")
-                           ("integration" "integration/*")
-                           (:exclude ".dir-locals.el" "*-tests.el")))
+  :ensure (
+           :host codeberg
+           :repo "akib/emacs-eat"
+           :files ("*.el" ("term" "term/*.el") "*.texi"
+                   "*.ti" ("terminfo/e" "terminfo/e/*")
+                   ("terminfo/65" "terminfo/65/*")
+                   ("integration" "integration/*")
+                   (:exclude ".dir-locals.el" "*-tests.el")))
+  :after general
   :general
   (my-leader-keys "` e" 'eshell)
   (my-leader-keys "` a" 'eat)
@@ -1226,10 +1278,10 @@ installed."
   (my-leader-keys
     ;; leader prefix for built-in project.el
     "p" '(:keymap project-prefix-map :wk "project"))
-  :straight (:type built-in))
+  :ensure nil)
 
 (use-package dired
-  :straight (:type built-in)
+  :ensure nil ; built-in
   :general
   (my-leader-keys
     "d d" 'dired
@@ -1245,20 +1297,26 @@ installed."
   :custom
   (dired-listing-switches "-aBhl --group-directories-first"))
 
-(use-package dired-single)
+(use-package dired-single
+  :ensure (:host github :repo "emacsattic/dired-single"))
 
-(define-key dired-mode-map "`" (lambda () (interactive) (eshell)))
+(with-eval-after-load 'dired
+  (define-key dired-mode-map "`" (lambda () (interactive) (eshell))))
 
-(use-package dired-hide-dotfiles)
+(use-package dired-hide-dotfiles :ensure t)
 
 (use-package treemacs
+  :ensure t
+  :after general
   :defer t
   :general (my-leader-keys "f e" 'treemacs))
 
 (use-package treemacs-magit
+  :ensure t
   :after (treemacs magit))
 
 (use-package treemacs-nerd-icons
+  :ensure t
   :after (treemacs nerd-icons)
   :config (treemacs-load-theme "nerd-icons"))
 
@@ -1291,16 +1349,21 @@ any directory proferred by `consult-dir'."
                      (completing-read "cd: " eshell-dirs)))))))
 
 (use-package zoxide
+  :ensure t
+  :after general
   :hook (dired-mode . zoxide-add)
   :general
   (my-leader-keys
     "d z" '(zoxide-travel :wk "Find directory with Zoxide")))
 
 (use-package editorconfig
+  :ensure t
   :config (editorconfig-mode 1))
 
 ;; Example configuration for Consult
 (use-package consult
+  :ensure t
+  :after general
   :general
   (my-leader-keys
     "s g" 'consult-git-grep
@@ -1426,67 +1489,14 @@ any directory proferred by `consult-dir'."
   )
 
 (use-package anzu
+  :ensure t
   :config
   (global-anzu-mode))
 
 (global-set-key (kbd "C-:") 'avy-goto-char-timer)
 
-(use-package org
-  :init
-  (setq org-directory (expand-file-name "~/Documents/org")
-        org-agenda-files `(,org-directory)
-        org-default-notes-file (concat org-directory "/inbox.org"))
-  (require 'org-indent)
-  :custom
-  (org-return-follows-link t)
-  (org-startup-with-inline-images t)
-  (org-fontify-quote-and-verse-blocks t)
-  (org-image-actual-width '(300))
-  (org-pretty-entities t)
-  ;; (org-auto-align-tags nil)
-  ;; (org-tags-column 0)
-  (org-fold-catch-invisible-edits 'show-and-error)
-  (org-special-ctrl-a/e t)
-  (org-insert-heading-respect-content t)
-  (org-startup-indented t)
-
-  ;; Add CLOSED: [timestamp] line after todo headline when marked as done
-  ;; and prompt for closing note.
-  (org-log-done 'note)
-
-  ;; Ask how many minutes to keep if idle for at least 15 minutes.
-  (org-clock-idle-time 15)
-
-  (org-capture-templates
-   '(("f" "Fleeting note" item
-      (file+headline org-default-notes-file "Notes")
-      "- %?")
-     ("t" "New task" entry
-      (file+headline org-default-notes-file "Tasks")
-      "* TODO %i%?")))
-  :config
-  ;; Agenda
-  (setq org-refile-targets
-        '((org-agenda-files :maxlevel . 3)
-          (nil :maxlevel . 3)))
-  (setq org-refile-use-outline-path t)
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
-  (setq org-refile-use-cache t)
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-  :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
-  :hook
-  ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
-  ;; (org-agenda-mode . hl-line-mode)
-  ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
-  :general (my-leader-keys
-             "o b t" 'org-babel-tangle
-             "o l d" 'org-toggle-link-display))
-
 (use-package org-modern
+  :ensure t
   :after org
   :custom
   (org-modern-table t)
@@ -1498,6 +1508,8 @@ any directory proferred by `consult-dir'."
   (org-mode . org-modern-mode))
 
 (use-package olivetti
+  :ensure t
+  :after general
   :general
   (my-leader-keys "u o" 'olivetti-mode)
   :init
@@ -1509,6 +1521,8 @@ any directory proferred by `consult-dir'."
                                    (setq-local olivetti-body-width 72)))))))
 
 (use-package org-appear
+  :ensure t
+  :after general
   :config
   (setq org-appear-autoemphasis nil
         org-hide-emphasis-markers nil
@@ -1543,6 +1557,7 @@ any directory proferred by `consult-dir'."
                              load-language-alist)
 
 (use-package denote
+  :ensure t
   :demand t
   :init
   (setq denote-directory (expand-file-name "~/Documents/notes/")
@@ -1625,6 +1640,7 @@ any directory proferred by `consult-dir'."
    (text-mode . denote-fontify-links-mode-maybe)))
 
 (use-package denote-explore
+  :ensure t
   :after denote
   :custom
   ;; Where to store network data and in which format
@@ -1657,6 +1673,7 @@ any directory proferred by `consult-dir'."
    ("C-c n e D" . denote-explore-degree-barchart)))
 
 (use-package consult-notes
+  :ensure t
   :commands (consult-notes
              consult-notes-search-in-all-notes)
   :init
@@ -1676,6 +1693,7 @@ any directory proferred by `consult-dir'."
    ("C-c n C" . consult-notes-search-in-all-notes)))
 
 (use-package pdf-tools
+  :ensure t
   :commands (pdf-loader-install)
   :mode "\\.pdf\\'"
   :bind (:map pdf-view-mode-map
@@ -1687,6 +1705,7 @@ any directory proferred by `consult-dir'."
                            (display-line-numbers-mode -1))))
 
 (use-package nov
+  :ensure t
   :mode
   ("\\.epub\\'" . nov-mode)
   :config
@@ -1710,6 +1729,7 @@ any directory proferred by `consult-dir'."
   (nov-mode . my-nov-mode-setup))
 
 (use-package org-noter
+  :ensure t
   :custom
   ;; Directory where org-noter will look for note files if invoked in a
   ;; non-org-roam buffer
@@ -1722,6 +1742,7 @@ any directory proferred by `consult-dir'."
   (org-noter-auto-save-last-location t))
 
 (use-package calibredb
+  :ensure t
   :defer t
   :config
   (setq calibredb-root-dir "~/Documents/calibre"
@@ -1731,6 +1752,8 @@ any directory proferred by `consult-dir'."
         calibredb-size-show t))
 
 (use-package embark
+  :ensure t
+  :after general
   :bind
   (("C->" . embark-act)         ;; C-S-.
    ("M-." . embark-dwim)        ;; M-. also is "go-to-definition but embark-dwim does just that in that context
@@ -1758,10 +1781,13 @@ any directory proferred by `consult-dir'."
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
+  :ensure t
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package gptel
+  :ensure t
+  :after general
   :config
   (setq-default gptel-model 'deepseek-r1:8b
                 gptel-backend (gptel-make-ollama "Ollama"
@@ -1776,6 +1802,7 @@ any directory proferred by `consult-dir'."
     "a s" 'gptel-send))
 
 (use-package popper
+  :ensure t
   :bind (("C-`"   . popper-toggle)
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
@@ -1810,6 +1837,8 @@ any directory proferred by `consult-dir'."
   (insert (format-time-string "[%H:%M]")))
 
 (use-package devdocs
+  :ensure t
+  :after general
   :init
   (defun my-devdocs-lookup-thing-at-point ()
     "Look up definition of thing at point, using Devdocs."
@@ -1834,6 +1863,7 @@ any directory proferred by `consult-dir'."
     "h d d" 'my-devdocs-lookup-thing-at-point))
 
 (use-package helpful
+  :ensure t
   :demand t
   :config
   ;; Note that the built-in `describe-function' includes both functions
@@ -1857,6 +1887,7 @@ any directory proferred by `consult-dir'."
   (global-set-key (kbd "C-h o") #'helpful-symbol))
 
 (use-package hl-todo
+  :ensure t
   :hook ((prog-mode . hl-todo-mode)
          (conf-mode . hl-todo-mode)
          (org-mode . hl-todo-mode))
@@ -1873,7 +1904,7 @@ any directory proferred by `consult-dir'."
      ;; ("INFO" font-lock-keyword-face bold)
      ("BUG" error bold))))
 
-(use-package transpose-frame)
+(use-package transpose-frame :ensure t)
 
 (defun nuke-all-buffers ()
   "Kill all buffers, leaving *scratch* only."
@@ -1893,11 +1924,12 @@ any directory proferred by `consult-dir'."
 (global-set-key (kbd "C-<f5>") 'project-compile)
 
 (use-package kubed
-  :straight (:host github :repo "eshelyaron/kubed")
+  :ensure (:host github :repo "eshelyaron/kubed")
   :bind-keymap ("C-c K" . kubed-prefix-map)
   :bind (:map kubed-prefix-map ("t" . kubed-transient)))
 
 (use-package dir-config
+  :ensure t
   :custom
   (dir-config-file-names '(".dir-config.el"))
   (dir-config-allowed-directories '("~/repos"))
