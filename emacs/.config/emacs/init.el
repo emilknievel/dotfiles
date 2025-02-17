@@ -108,6 +108,7 @@
          ("C-c c" . org-capture))
   :hook
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
+  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
   ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
   ;; (org-agenda-mode . hl-line-mode)
   ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)

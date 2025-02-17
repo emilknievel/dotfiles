@@ -816,7 +816,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar my-linux-font "Monospace")
+  (defvar my-linux-font "Hack Nerd Font")
   (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)
@@ -828,7 +828,7 @@ Inspired by Plan 9 Acme & Sam.
              (defvar my-variable-pitch-font "SF Pro")
              (defvar my-serif-font "New York"))
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "DejaVu Sans")
+           (defvar my-variable-pitch-font "Inter")
            (defvar my-serif-font "DejaVu Serif")))
 #+end_src
 

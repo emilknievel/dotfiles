@@ -535,7 +535,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
   (modus-themes-select 'modus-vivendi))
 
-(defvar my-linux-font "Monospace")
+(defvar my-linux-font "Hack Nerd Font")
 (defvar my-macos-font "Menlo")
 
 (if (eq system-type 'darwin)
@@ -547,7 +547,7 @@ bar not using the proper theme if the server was loaded with a different theme."
            (defvar my-variable-pitch-font "SF Pro")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "DejaVu Sans")
+         (defvar my-variable-pitch-font "Inter")
          (defvar my-serif-font "DejaVu Serif")))
 
 (defun my-setup-linux-fonts ()
