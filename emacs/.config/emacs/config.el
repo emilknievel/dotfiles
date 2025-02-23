@@ -575,22 +575,22 @@ bar not using the proper theme if the server was loaded with a different theme."
 (set-face-attribute 'default nil
                     :family my-default-font
                     :height my-font-height)
-(set-face-attribute 'fixed-pitch nil
-                    :family my-editor-font
-                    :height 1.0)
-(set-face-attribute 'variable-pitch nil
-                    :family my-variable-pitch-font
-                    :height 1.0)
+;; (set-face-attribute 'fixed-pitch nil
+;;                     :family my-editor-font
+;;                     :height 1.0)
+;; (set-face-attribute 'variable-pitch nil
+;;                     :family my-variable-pitch-font
+;;                     :height 1.0)
 ;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
 
-(defun my-reading-mode ()
-  (interactive)
-  (set-face-attribute 'variable-pitch nil
-                      :family my-serif-font))
-(defun my-quit-reading-mode ()
-  (interactive)
-  (set-face-attribute 'variable-pitch nil
-                      :family my-variable-pitch-font))
+;; (defun my-reading-mode ()
+;;   (interactive)
+;;   (set-face-attribute 'variable-pitch nil
+;;                       :family my-serif-font))
+;; (defun my-quit-reading-mode ()
+;;   (interactive)
+;;   (set-face-attribute 'variable-pitch nil
+;;                       :family my-variable-pitch-font))
 
 (use-package ligature
   :ensure (:host github :repo "mickeynp/ligature.el")
@@ -616,6 +616,78 @@ bar not using the proper theme if the server was loaded with a different theme."
    "u f l" 'global-ligature-mode))
 
 (use-package show-font :ensure t)
+
+(use-package fontaine
+  :ensure t
+  :general (my-leader-keys "u f p" 'fontaine-set-preset)
+  :init
+  ;; Persist the latest font preset when closing/starting Emacs and
+  ;; while switching between themes.
+  (fontaine-mode 1)
+  :config
+  (setq fontaine-latest-state-file
+        (locate-user-emacs-file "fontaine-latest-state.eld"))
+  (setq fontaine-presets
+        `((small :default-height ,my-small-font-height)
+          (regular) ; like this it uses all the fallback values and is named `regular'
+          (medium :default-height ,my-medium-font-height)
+          (large :default-height ,my-large-font-height)
+          (presentation :default-height ,my-presentation-font-height)
+          (t
+           ;; I keep all properties for didactic purposes, but most can be
+           ;; omitted.  See the fontaine manual for the technicalities:
+           ;; <https://protesilaos.com/emacs/fontaine>.
+           :default-family ,my-default-font
+           :default-weight regular
+           :default-height ,my-font-height
+
+           :fixed-pitch-family nil ; falls back to :default-family
+           :fixed-pitch-weight nil ; falls back to :default-weight
+           :fixed-pitch-height 1.0
+
+           :fixed-pitch-serif-family nil ; falls back to :default-family
+           :fixed-pitch-serif-weight nil ; falls back to :default-weight
+           :fixed-pitch-serif-height 1.0
+
+           :variable-pitch-family ,my-variable-pitch-font
+           :variable-pitch-weight nil
+           :variable-pitch-height 1.0
+
+           :mode-line-active-family nil ; falls back to :default-family
+           :mode-line-active-weight nil ; falls back to :default-weight
+           :mode-line-active-height 1.0
+
+           :mode-line-inactive-family nil ; falls back to :default-family
+           :mode-line-inactive-weight nil ; falls back to :default-weight
+           :mode-line-inactive-height 1.0
+
+           :header-line-family nil ; falls back to :default-family
+           :header-line-weight nil ; falls back to :default-weight
+           :header-line-height 1.0
+
+           :line-number-family nil ; falls back to :default-family
+           :line-number-weight nil ; falls back to :default-weight
+           :line-number-height 1.0
+
+           :tab-bar-family nil ; falls back to :default-family
+           :tab-bar-weight nil ; falls back to :default-weight
+           :tab-bar-height 1.0
+
+           :tab-line-family nil ; falls back to :default-family
+           :tab-line-weight nil ; falls back to :default-weight
+           :tab-line-height 1.0
+
+           :bold-family nil ; use whatever the underlying face has
+           :bold-weight bold
+
+           :italic-family nil
+           :italic-slant italic
+
+           :line-spacing nil)))
+
+  ;; Set the last preset or fall back to desired style from `fontaine-presets'
+  ;; (the `regular' in this case).
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
 
 (defun my-display-set-relative ()
   "Setup for relative line numbers."
