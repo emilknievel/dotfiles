@@ -6,8 +6,11 @@
 	# Undo the last commit, leaving your staging area the same as just before you committed
 	undo = reset --soft HEAD^
 	adog = log --all --decorate --oneline --graph
-	agda = log --graph --abbrev-commit --decorate --all
-	cc = commit
+	agda = log --all --graph --decorate --abbrev-commit
+	c = commit
+	cA = commit -a
+	ca = commit --amend
+	cp = commit -p
 	co = checkout
 	f = fetch
 	F = pull
@@ -16,9 +19,11 @@
 	fa = fetch --all
 	st = status
 	rb = rebase
+	rbi = rebase -i
 	sts = status --short
 	d = diff
 	ds = diff --staged
+	cob = checkout -b
 [diff]
 	tool = nvim
 [merge]
