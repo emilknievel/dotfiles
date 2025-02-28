@@ -850,7 +850,7 @@ Inspired by Plan 9 Acme & Sam.
             my-presentation-font-height 140)))
 
   (if (eq system-type 'darwin)
-      (setq my-font-height 130
+      (setq my-font-height 120
             my-small-font-height 100
             my-medium-font-height 140
             my-large-font-height 150
@@ -3106,10 +3106,23 @@ Helpful is basically =Help= with some extra features.
 
 ** Window management
 
+*** Transpose frame
+
 Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 #+begin_src emacs-lisp
   (use-package transpose-frame :ensure t)
+#+end_src
+
+*** Golden ratio
+
+#+begin_src emacs-lisp
+  (use-package golden-ratio
+    :ensure t
+    :custom
+    (golden-ratio-auto-scale t)
+    :config
+    (golden-ratio-mode 1))
 #+end_src
 
 ** Buffers

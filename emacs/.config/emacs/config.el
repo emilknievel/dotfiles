@@ -565,7 +565,7 @@ bar not using the proper theme if the server was loaded with a different theme."
           my-presentation-font-height 140)))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height 130
+    (setq my-font-height 120
           my-small-font-height 100
           my-medium-font-height 140
           my-large-font-height 150
@@ -1977,6 +1977,13 @@ any directory proferred by `consult-dir'."
      ("BUG" error bold))))
 
 (use-package transpose-frame :ensure t)
+
+(use-package golden-ratio
+  :ensure t
+  :custom
+  (golden-ratio-auto-scale t)
+  :config
+  (golden-ratio-mode 1))
 
 (defun nuke-all-buffers ()
   "Kill all buffers, leaving *scratch* only."
