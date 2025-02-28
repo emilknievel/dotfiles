@@ -17,8 +17,19 @@ GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUPSTREAM="auto"
 
-export PROMPT_COMMAND='history -a'
-export PS1='\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1 " (%s)")\$ '
+jobs_count() {
+  local job_count
+  job_count=$(jobs | grep -cv "Done")
+  if [ "$job_count" -gt 0 ]; then
+    echo " [$job_count]"
+  else
+    echo ""
+  fi
+}
+
+export PROMPT_COMMAND='history -a; JOB_COUNT=$(jobs_count)'
+# shellcheck disable=SC2153
+export PS1='\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1 " (%s)")${JOB_COUNT}\$ '
 
 [ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
 
