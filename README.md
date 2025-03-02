@@ -85,10 +85,6 @@ Below is a list of essential apps I use on macOS-based systems (not preinstalled
 
   * Orion
 
-#### Utility
-
-  * Default Browser
-
 ### Books
 
   * Calibre
