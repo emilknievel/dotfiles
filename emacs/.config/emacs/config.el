@@ -1567,18 +1567,6 @@ any directory proferred by `consult-dir'."
 
 (global-set-key (kbd "C-:") 'avy-goto-char-timer)
 
-(use-package org-modern
-  :ensure t
-  :after org
-  :custom
-  (org-modern-table t)
-  (org-modern-todo t)
-  (org-modern-star nil)
-  (org-modern-hide-stars nil)
-  (org-modern-block-fringe nil)
-  :hook
-  (org-mode . org-modern-mode))
-
 (use-package olivetti
   :ensure t
   :after general

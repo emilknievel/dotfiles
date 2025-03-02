@@ -2377,9 +2377,9 @@ Display number of matches in modeline when searching.
 
 ** Org
 
-*** Org Modern
+*** Org Modern (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package org-modern
     :ensure t
     :after org
