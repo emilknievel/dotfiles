@@ -6,12 +6,15 @@ if [[ "$(uname)" != "Linux" ]]; then
   return
 fi
 
-. /usr/share/git-core/contrib/completion/git-prompt.sh
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
 
-GIT_PS1_SHOWCOLORHINTS=1
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWSTASHSTATE=1
-GIT_PS1_SHOWUPSTREAM="auto"
-
-export PROMPT_COMMAND='history -a'
-export PS1='\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1 " (%s)")\$ '
+# find git-prompt file to be used in main bash file
+if [[ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]]; then
+  . /usr/share/git-core/contrib/completion/git-prompt.sh
+fi

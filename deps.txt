@@ -18,7 +18,6 @@ neovim
 pkg-config
 coreutils
 poppler
-ripgrep
 stow
 tealdeer
 
