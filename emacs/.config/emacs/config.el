@@ -689,52 +689,42 @@ bar not using the proper theme if the server was loaded with a different theme."
   ;; (the `regular' in this case).
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
 
-(defun my-display-set-relative ()
-  "Setup for relative line numbers."
-  (interactive)
-  (if (not (or (eq major-mode 'org-mode)
-               (eq major-mode 'vterm-mode)
-               (eq major-mode 'markdown-mode)
-               (eq major-mode 'gfm-mode)))
-      (setq display-line-numbers 'visual)
-    (setq display-line-numbers nil)))
-
-(defun my-display-set-absolute ()
-  "Setup for absolute line numbers."
-  (interactive)
-  (if (not (or (eq major-mode 'org-mode)
-               (eq major-mode 'vterm-mode)
-               (eq major-mode 'markdown-mode)
-               (eq major-mode 'gfm-mode)))
-      (setq display-line-numbers t)
-    (setq display-line-numbers nil)))
-
-(defun my-display-set-hidden ()
-  "Hide line numbers."
-  (interactive)
-  (setq display-line-numbers nil))
-
-(setq display-line-width 4
-      display-line-numbers-grow-only t)
-
 (use-package display-line-numbers
   :ensure nil
   :after general
+  :config
+  (defun my-display-line-numbers-absolute ()
+    "Setup for absolute line numbers."
+    (interactive)
+    (setq display-line-numbers-type t)
+    (display-line-numbers-mode))
+
+  (defun my-display-line-numbers-relative ()
+    "Setup for relative line numbers."
+    (interactive)
+    (setq display-line-numbers-type 'relative)
+    (display-line-numbers-mode))
+
+  (defun my-display-line-numbers-visual ()
+    "Setup for relative line numbers."
+    (interactive)
+    (setq display-line-numbers-type 'visual)
+    (display-line-numbers-mode))
+
+  (defun my-display-line-numbers-hidden ()
+    "Hide line numbers."
+    (interactive)
+    (display-line-numbers-mode -1))
   :custom
+  (display-line-numbers-width 5)
   (display-line-numbers-widen t)
-  (display-line-numbers-type 'visual)
-  :hook
-  ;; ((prog-mode conf-mode) . display-line-numbers-mode)
-  ;; Remove highlighted background on current line.
-  (display-line-numbers-mode . (lambda ()
-                                 (set-face-attribute 'line-number-current-line
-                                                     nil
-                                                     :background 'unspecified)))
+  (display-line-numbers-grow-only t)
   :general
   (my-leader-keys
-    "u l h" 'my-display-set-hidden
-    "u l r" 'my-display-set-relative
-    "u l a" 'my-display-set-absolute))
+    "u l a" 'my-display-line-numbers-absolute
+    "u l r" 'my-display-line-numbers-relative
+    "u l v" 'my-display-line-numbers-visual
+    "u l h" 'my-display-line-numbers-hidden))
 
 (setq show-trailing-whitespace t)
 
