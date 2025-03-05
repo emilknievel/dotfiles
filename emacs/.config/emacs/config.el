@@ -254,11 +254,6 @@
   :ensure nil ; no need to install it as it is built-in
   :hook (after-init . delete-selection-mode))
 
-(use-package eldoc-box
-  :ensure t
-  :config
-  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t))
-
 (setq inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)
