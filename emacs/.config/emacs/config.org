@@ -1224,11 +1224,11 @@ Display the current date and time on the mode line.
     (spacious-padding-mode 1))
 #+end_src
 
-*** Highlight line
+*** Highlight line (disabled)
 
 Highlight line when programming or editing configuration files.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (add-hook 'conf-mode-hook 'hl-line-mode)
 #+end_src
@@ -1982,7 +1982,6 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
           '(ruff-isort ruff))
     (setf (alist-get 'python-ts-mode apheleia-mode-alist)
           '(ruff-isort ruff))
-    
     (apheleia-global-mode +1))
 #+end_src
 
