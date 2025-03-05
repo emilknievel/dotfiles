@@ -34,6 +34,8 @@ directory.
 
 ## macOS software
 
+<!-- TODO: Move this section into its own file and reference from main README. -->
+
 Below is a list of essential apps I use on macOS-based systems (not preinstalled). In the future I want to automate the installation process. Should be easy since I already use [Homebrew](https://brew.sh/) for installing apps and CLI tools.
 
 ### Ad-blocking
@@ -148,3 +150,4 @@ Honorable mention: Bitwarden
 ### Utility
 
   * GrandPerspective
+  * AppCleaner
