@@ -149,7 +149,8 @@ Monday as first day of the week.
 #+begin_src emacs-lisp
   (use-package mise
     :ensure t
-    :hook (after-init . global-mise-mode))
+    :config
+    (global-mise-mode))
 #+end_src
 
 ** Security
@@ -424,7 +425,7 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 ** Eldoc
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package eldoc-box
     :ensure t
     :config
@@ -1223,11 +1224,11 @@ Display the current date and time on the mode line.
     (spacious-padding-mode 1))
 #+end_src
 
-*** Highlight line (disabled)
+*** Highlight line
 
 Highlight line when programming or editing configuration files.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (add-hook 'conf-mode-hook 'hl-line-mode)
 #+end_src
@@ -1976,6 +1977,12 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
   (use-package apheleia
     :ensure t
     :config
+    ;; Python
+    (setf (alist-get 'python-mode apheleia-mode-alist)
+          '(ruff-isort ruff))
+    (setf (alist-get 'python-ts-mode apheleia-mode-alist)
+          '(ruff-isort ruff))
+    
     (apheleia-global-mode +1))
 #+end_src
 

@@ -97,7 +97,8 @@
 
 (use-package mise
   :ensure t
-  :hook (after-init . global-mise-mode))
+  :config
+  (global-mise-mode))
 
 (use-package gnutls
   :defer t
