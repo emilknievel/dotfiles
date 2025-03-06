@@ -6,3 +6,6 @@ insert_final_newline = true
 
 [{*.gitconfig,gitconfig-personal,gitconfig-work}]
 indent_style = tab
+
+[*.md]
+trim_trailing_whitespace = false

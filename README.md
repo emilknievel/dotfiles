@@ -17,10 +17,7 @@ More info about GNU Stow and how to use it can be found [here](https://www.gnu.o
 
 ## Usage
 
-I feel the best way to explain how something works is to do it with an example.
-Let's say we have done some changes to our Emacs configurations and want to
-apply them to our system. All Emacs related stuff is contained in the emacs
-directory in the project, let's check out how to *stow* it:
+I feel the best way to explain how something works is to do it with an example. Let's say we have done some changes to our Emacs configurations and want to apply them to our system. All Emacs related stuff is contained in the emacs directory in the project, let's check out how to _stow_ it:
 
 ```bash
 # cwd: ~/
@@ -40,114 +37,114 @@ Below is a list of essential apps I use on macOS-based systems (not preinstalled
 
 ### Ad-blocking
 
-  * AdGuard
+- AdGuard
 
 ### Window Management
 
-  * AeroSpace
+- AeroSpace
 
 ### Battery Health
 
-  * AlDente
+- AlDente
 
 ### Launcher
 
-  * Alfred
+- Alfred
 
 ### Prevent Sleep
 
-  * Amphetamine
+- Amphetamine
 
 ### Memory Retention
 
-  * Anki
+- Anki
 
 ### Multimedia
 
-  * Balance Lock
-  * IINA
+- Balance Lock
+- IINA
 
 ### Display Management
 
-  * BetterDisplay
+- BetterDisplay
 
 ### Browser
 
 #### Chromium
 
-  * Brave
-  * UnGoogled Chromium
+- Brave
+- UnGoogled Chromium
 
 #### Gecko
 
-  * LibreWolf
-  * Zen Browser
+- LibreWolf
+- Zen Browser
 
 #### WebKit
 
-  * Orion
+- Orion
 
 ### Books
 
-  * Calibre
-  * Kindle
+- Calibre
+- Kindle
 
 ### Social
 
-  * Discord
-  * Ivory
-  * Signal
+- Discord
+- Ivory
+- Signal
 
 ### Software Development
 
-  * Emacs (d12frosted/emacs-plus)
+- Emacs (d12frosted/emacs-plus)
 
 ### Creativity
 
-  * GIMP
-  * Krita
+- GIMP
+- Krita
 
 ### Terminal Emulator
 
-  * iTerm
+- iTerm
 
 ### Security
 
-  * 1Password
-  * GPG Suite
-  * Little Snitch
+- 1Password
+- GPG Suite
+- Little Snitch
 
 Honorable mention: Bitwarden
 
 ### Keyboard
 
-  * Homerow
-  * Hyperkey
-  * KeyboardCleanTool
+- Homerow
+- Hyperkey
+- KeyboardCleanTool
 
 ### Menu Bar
 
-  * Hand Mirror
-  * Ice
+- Hand Mirror
+- Ice
 
 ### File Transfer
 
-  * LocalSend
-  * Syncthing
+- LocalSend
+- Syncthing
 
 ### RSS
 
-  * NetNewsWire
+- NetNewsWire
 
 ### Bookmark Management
 
-  * Raindrop.io
+- Raindrop.io
 
 ### VPN
 
-  * Tailscale
+- Tailscale
 
 ### Utility
 
-  * GrandPerspective
-  * AppCleaner
+- GrandPerspective
+- AppCleaner
