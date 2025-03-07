@@ -83,3 +83,8 @@ if [[ -x "$(command -v nvim)" ]]; then
     alias vim=nvim
     export EDITOR=nvim
 fi
+
+. "$HOME/.atuin/bin/env"
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"

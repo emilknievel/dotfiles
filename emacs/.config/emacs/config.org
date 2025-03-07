@@ -2095,6 +2095,18 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
            (eshell-load . eat-eshell-visual-command-mode)))
 #+end_src
 
+*** Atuin
+
+=atuin= stores shell history in a database, which allows for having the same history across multiple shells, sessions, and optionally across different machines.
+
+#+begin_src emacs-lisp
+  (use-package eshell-atuin
+    :ensure t
+    :after eshell
+    :hook
+    (eshell-mode . eshell-atuin-mode))
+#+end_src
+
 ** Project
 
 #+begin_src emacs-lisp

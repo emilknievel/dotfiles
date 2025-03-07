@@ -1338,6 +1338,12 @@ installed."
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode)))
 
+(use-package eshell-atuin
+  :ensure t
+  :after eshell
+  :hook
+  (eshell-mode . eshell-atuin-mode))
+
 (use-package project
   :general
   (my-leader-keys
