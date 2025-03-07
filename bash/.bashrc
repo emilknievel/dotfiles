@@ -33,19 +33,19 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-GIT_PS1_SHOWCOLORHINTS=1
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWSTASHSTATE=1
-GIT_PS1_SHOWUPSTREAM="auto"
+export GIT_PS1_SHOWCOLORHINTS=1
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUPSTREAM="auto"
 
 jobs_count() {
-  local job_count
-  job_count=$(jobs | grep -cv "Done")
-  if [ "$job_count" -gt 0 ]; then
-    echo " [$job_count]"
-  else
-    echo ""
-  fi
+    local job_count
+    job_count=$(jobs | grep -cv "Done")
+    if [ "$job_count" -gt 0 ]; then
+        echo " [$job_count]"
+    else
+        echo ""
+    fi
 }
 
 export PROMPT_COMMAND='history -a; JOB_COUNT=$(jobs_count)'
@@ -79,7 +79,7 @@ eval "$(~/.local/bin/mise activate bash)"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 if [[ -x "$(command -v nvim)" ]]; then
-  alias vi=nvim
-  alias vim=nvim
-  export EDITOR=nvim
+    alias vi=nvim
+    alias vim=nvim
+    export EDITOR=nvim
 fi
