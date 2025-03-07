@@ -2062,6 +2062,12 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
               (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))))
 #+end_src
 
+**** History
+
+#+begin_src emacs-lisp
+  (setq eshell-history-size 10000)
+#+end_src
+
 *** Eat
 
 #+begin_src emacs-lisp

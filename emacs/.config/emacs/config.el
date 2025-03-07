@@ -1313,6 +1313,8 @@ installed."
             (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
             (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))))
 
+(setq eshell-history-size 10000)
+
 (use-package eat
   :ensure (
            :host codeberg
