@@ -1165,7 +1165,7 @@ Install icon fonts with ~M-x all-the-icons-install-fonts~
 
 Display the current date and time on the mode line.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (setq display-time-format " %H:%M ")
   (setq display-time-interval 60)
   (setq display-time-default-load-average nil)
