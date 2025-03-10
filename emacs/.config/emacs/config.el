@@ -1353,6 +1353,8 @@ installed."
 
 (setq eshell-history-size 10000)
 
+(global-set-key (kbd "<f12>") 'eshell)
+
 (use-package eat
   :ensure (
            :host codeberg
