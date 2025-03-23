@@ -122,7 +122,7 @@
 (with-eval-after-load 'general
   (my-leader-keys
     ;; Top level functions
-    "<f8>" '(execute-extended-command :wk "M-x")
+    "C-z" '(execute-extended-command :wk "M-x")
 
     ;; Prefixes
 
@@ -214,7 +214,7 @@
 (use-package hydra
   :ensure t
   :config
-  (defhydra hydra-window-actions (global-map "<f8> w")
+  (defhydra hydra-window-actions (global-map "C-z w")
     "window actions"
     ("h" shrink-window-horizontally "shrink horizontally")
     ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -532,7 +532,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "FiraCode Nerd Font")
+(defvar my-macos-font "SauceCodePro Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)

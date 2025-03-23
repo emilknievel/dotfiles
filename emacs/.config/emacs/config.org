@@ -210,7 +210,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
   (with-eval-after-load 'general
     (my-leader-keys
       ;; Top level functions
-      "<f8>" '(execute-extended-command :wk "M-x")
+      "C-z" '(execute-extended-command :wk "M-x")
 
       ;; Prefixes
 
@@ -335,7 +335,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
   (use-package hydra
     :ensure t
     :config
-    (defhydra hydra-window-actions (global-map "<f8> w")
+    (defhydra hydra-window-actions (global-map "C-z w")
       "window actions"
       ("h" shrink-window-horizontally "shrink horizontally")
       ("l" enlarge-window-horizontally "enlarge horizontally")
@@ -818,7 +818,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Hack Nerd Font")
-  (defvar my-macos-font "FiraCode Nerd Font")
+  (defvar my-macos-font "SauceCodePro Nerd Font")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)

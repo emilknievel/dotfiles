@@ -52,8 +52,9 @@
 ;;; Load below packages early
 (use-package general
   :ensure (:wait t)
+  :init (keymap-global-unset "C-z")
   :demand t)
-(general-create-definer my-leader-keys :prefix "<f8>")
+(general-create-definer my-leader-keys :prefix "C-z")
 
 ;; Makes sure that we use the latest transient version
 (use-package transient :ensure (:wait t))
