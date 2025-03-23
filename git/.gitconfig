@@ -50,11 +50,7 @@
 	autoSetupRemote = true
 [sendemail]
 	annotate = yes
-[includeIf "gitdir:~/.dotfiles/"]
-	path = ~/.config/git/gitconfig-private
-[includeIf "gitdir:~/dotfiles/"]
-	path = ~/.config/git/gitconfig-private
-[includeIf "gitdir:~/repos/personal/"]
+[include]
 	path = ~/.config/git/gitconfig-private
 [includeIf "gitdir:~/repos/work/"]
 	path = ~/.config/git/gitconfig-work

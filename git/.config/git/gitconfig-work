@@ -1,2 +1,6 @@
 [user]
 	email = emil.vagstedt@mio.se
+[commit]
+	gpgsign = false
+[user]
+	signingkey =
