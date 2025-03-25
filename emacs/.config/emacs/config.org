@@ -2735,36 +2735,12 @@ Use denote for note-taking. Most of this is copied from Prot's config.
     :demand t
     :init
     (setq denote-directory (expand-file-name "~/Documents/notes/")
-          denote-journal-extras-directory (concat denote-directory "journal")
           denote-workdir (expand-file-name "~/Documents/work-notes/mio/")
           denote-silo-extras-directories (list denote-workdir)
           my-denote-silo-directories denote-silo-extras-directories)
     :config
-    (defvar my-denote-commands-for-silos
-      '(denote
-        denote-date
-        denote-subdirectory
-        denote-template
-        denote-type
-        denote-journal-extras-new-or-existing-entry
-        denote-link-or-create))
-
-    (defun my-denote-pick-silo-then-command (silo command)
-      "Select SILO and run Denote COMMAND in it.
-    SILO is a file path from `my-denote-silo-directories', while
-    COMMAND is one among `my-denote-commands-for-silos'."
-      (interactive
-       (list (completing-read "Select a silo: " my-denote-silo-directories nil t)
-             (intern (completing-read
-                      "Run command in silo: "
-                      my-denote-commands-for-silos nil t))))
-      (let ((denote-directory silo))
-        (call-interactively command)))
-
     (setq denote-rename-buffer-format "[D] %t")
     (denote-rename-buffer-mode 1)
-    (setq denote-journal-extras-title-format nil) ; always prompt for title
-    (setq denote-journal-extras-keyword "journal")
     (with-eval-after-load 'org-capture
       (setq denote-org-capture-specifiers "%l\n%i\n%?")
       (add-to-list 'org-capture-templates
@@ -2794,8 +2770,6 @@ Use denote for note-taking. Most of this is copied from Prot's config.
      ("C-c n z" . denote-signature) ; "zettelkasten" mnemonic
      ("C-c n s" . denote-subdirectory)
      ("C-c n o" . denote-sort-dired) ; "order" mnemonic
-     ("C-c n j" . denote-journal-extras-new-entry)
-     ("C-c n J" . denote-journal-extras-new-or-existing-entry)
      ("C-c n r" . denote-rename-file)
      ("C-c n i" . denote-link) ; "insert" mnemonic
      ("C-c n I" . denote-add-links)
@@ -2803,7 +2777,6 @@ Use denote for note-taking. Most of this is copied from Prot's config.
      ("C-c n f f" . denote-find-link)
      ("C-c n f b" . denote-find-backlink)
      ("C-c n R" . denote-rename-file-using-front-matter)
-     ("C-c N n" . my-denote-pick-silo-then-command)
      :map dired-mode-map
      ("C-c C-d C-i" . denote-link-dired-marked-notes)
      ("C-c C-d C-r" . denote-dired-rename-marked-files)
@@ -2812,6 +2785,31 @@ Use denote for note-taking. Most of this is copied from Prot's config.
     :hook
     ((dired-mode . denote-dired-mode)
      (text-mode . denote-fontify-links-mode-maybe)))
+#+end_src
+
+*** Journal
+
+#+begin_src emacs-lisp
+  (use-package denote-journal
+    :ensure (:host github :repo "protesilaos/denote-journal")
+    :demand t
+    :after denote
+    :config
+    (setq denote-journal-directory
+          (expand-file-name "journal" denote-directory)
+          denote-journal-title-format 'day-date-month-year
+          denote-journal-keyword "journal")
+
+    (with-eval-after-load 'org-capture
+      (add-to-list 'org-capture-templates
+                   '("j" "Journal" entry
+                     (file denote-journal-path-to-new-or-existing-entry)
+                     "* %U %?\n%i\n%a"
+                     :kill-buffer t
+                     :empty-lines 1)))
+    :bind
+    (("C-c n j" . denote-journal-new-entry)
+     ("C-c n J" . denote-journal-new-or-existing-entry)))
 #+end_src
 
 *** Denote explore
