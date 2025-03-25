@@ -1775,7 +1775,7 @@ any directory proferred by `consult-dir'."
   :custom
   (consult-notes-file-dir-sources
    `(("Notes" ?n ,denote-directory)
-     ("Journals" ?j ,denote-journal-extras-directory)
+     ("Journals" ?j ,denote-journal-directory)
      ("Agenda" ?a ,org-directory)
      ("Work notes" ?N ,denote-workdir)
      ("Work journals" ?J ,denote-work-journal-dir)))
