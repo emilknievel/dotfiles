@@ -28,6 +28,9 @@ export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 # use gnu-awk instead of awk on mac
 export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
 
+# go back to using BSD provided stty instead of GNU coreutils version
+export PATH="$HOME/.local/bin:$PATH"
+
 # Add bash completion for brew packages
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
@@ -48,3 +51,11 @@ fi
 # dotnet from M$ website, already in path
 DOTNET_ROOT="$(dirname "$(which dotnet)")"
 export DOTNET_ROOT
+
+# gnu coreutils version of stty doesn't work well with a lot of tools, so
+# for now we make sure that the built-in BSD provided stty is used instead by
+# creating a symbolic link into our .local/bin dir:
+#
+# mkdir -p ~/.local/bin
+# cd ~/.local/bin
+# ln -sf /bin/stty stty
