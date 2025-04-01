@@ -86,6 +86,12 @@ fi
 
 . "$HOME/.atuin/bin/env"
 
-# [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-source ~/.local/share/blesh/ble.sh
+if [[ -f ~/.bash-preexec.sh ]]; then
+    source ~/.bash-preexec.sh
+else
+    echo "WARNING: ~/.bash-preexec.sh not found!"
+    echo "Install it with:"
+    echo "curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh"
+fi
+
 eval "$(atuin init bash)"
