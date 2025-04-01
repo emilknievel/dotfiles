@@ -9,10 +9,16 @@
         evil-next-visual-line
         evil-previous-visual-line
         evil-undo
+        markdown-electric-backquote
+        markdown-outdent-or-delete
+        org-beginning-of-line
         org-delete-char
+        org-end-of-line
         org-force-self-insert
         org-self-insert-command
         org-yank
+        surround-insert
+        ultra-scroll
         ))
 
 (setq mc/cmds-to-run-once
