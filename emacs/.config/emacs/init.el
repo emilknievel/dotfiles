@@ -71,7 +71,8 @@
   :init
   (setq org-directory (expand-file-name "~/Documents/org")
         org-agenda-files `(,org-directory)
-        org-default-notes-file (concat org-directory "/inbox.org"))
+        org-default-notes-file (concat org-directory "/inbox.org")
+        org-mio-notes-file (concat org-directory "/mio.org"))
   (require 'org-indent)
   :custom
   (org-return-follows-link t)
@@ -97,9 +98,20 @@
    '(("f" "Fleeting note" item
       (file+headline org-default-notes-file "Notes")
       "- %?")
-     ("t" "New task" entry
+     ("n" "Notes")
+     ("nd" "Denote")
+     ("t" "Tasks")
+     ("ti" "New inbox task" entry
       (file+headline org-default-notes-file "Tasks")
-      "* TODO %i%?")))
+      "* TODO %i%?")
+     ("tw" "Work tasks")
+     ("twm" "New Mio task" entry
+      (file+headline org-mio-notes-file "Uppgifter")
+      "* TODO %i%?")
+     ("l" "New journe(l)ly note (only on macOS)" entry
+      (file "~/Library/Mobile Documents/iCloud~com~xenodium~Journelly/Documents/Journelly.org")
+      "* %U @ -\n%?"
+      :prepend t)))
   :config
   ;; Agenda
   (setq org-refile-targets

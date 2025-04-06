@@ -1696,7 +1696,7 @@ any directory proferred by `consult-dir'."
   (with-eval-after-load 'org-capture
     (setq denote-org-capture-specifiers "%l\n%i\n%?")
     (add-to-list 'org-capture-templates
-                 '("n" "New note (with denote.el)" plain
+                 '("ndo" "New note" plain
                    (file denote-last-path)
                    #'denote-org-capture
                    :no-save t
@@ -1706,7 +1706,7 @@ any directory proferred by `consult-dir'."
 
     ;; This prompts for TITLE, KEYWORDS, and SUBDIRECTORY
     (add-to-list 'org-capture-templates
-                 '("N" "New note with prompts (with denote.el)" plain
+                 '("ndp" "New note with prompts" plain
                    (file denote-last-path)
                    (function
                     (lambda ()
@@ -1749,9 +1749,9 @@ any directory proferred by `consult-dir'."
 
   (with-eval-after-load 'org-capture
     (add-to-list 'org-capture-templates
-                 '("j" "Journal" entry
+                 '("ndj" "Journal" entry
                    (file denote-journal-path-to-new-or-existing-entry)
-                   "* %U %?\n%i\n%a"
+                   "* %U %?"
                    :kill-buffer t
                    :empty-lines 1)))
   :bind
