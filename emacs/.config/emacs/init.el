@@ -2,6 +2,9 @@
 
 
 ;;; Bootstrap Elpaca
+
+;; `elpaca-core-date' needs to be set if Emacs is built from source. In my case
+;; this is true on my Linux setups.
 (when (eq system-type 'gnu/linux)
   (setq elpaca-core-date '(20250224)))
 
