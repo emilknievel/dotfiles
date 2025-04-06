@@ -149,12 +149,14 @@ emacs/.config/emacs/bookmarks
 emacs/.config/emacs/eshell/history
 emacs/.config/emacs/eshell/lastdir
 emacs/.config/emacs/multisession
+
 # ignore downloaded devdocs documentation
 emacs/.config/emacs/devdocs
+
 /emacs/.config/emacs/tutorial/
 /emacs/.config/emacs/recentf
 /emacs/.config/emacs/org-persist
-/emacs/.config/emacs/forge-database.sqlite
+/emacs/.config/emacs/forge-database*.sqlite
 /emacs/.config/emacs/fontaine-latest-state.eld
 
 ### Vim ###
