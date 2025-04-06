@@ -305,6 +305,7 @@
         modus-themes-variable-pitch-ui nil
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
+        modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
         modus-themes-common-palette-overrides '((fringe unspecified)
                                                 (bg-paren-match bg-magenta-intense)
                                                 (fg-heading-1 blue-warmer)
@@ -327,7 +328,7 @@
   :ensure t
   :after general
   :init
-  (setq ef-themes-to-toggle '(ef-dark ef-light))
+  (setq ef-themes-to-toggle '(ef-maris-light ef-night))
   :config
   (setq ef-themes-mixed-fonts t
         ef-themes-variable-pitch-ui nil
@@ -349,7 +350,15 @@
         standard-themes-variable-pitch-ui nil
         standard-themes-bold-constructs t
         standard-themes-italic-constructs t
-        standard-themes-common-palette-overrides '((fringe unspecified))))
+        standard-themes-common-palette-overrides '((fringe unspecified))
+        standard-themes-headings '((0 . (1.5))
+                                   (1 . (1.4))
+                                   (2 . (1.3))
+                                   (3 . (1.2))
+                                   (4 . (1.1))
+                                   (5 . (1.1))
+                                   (6 . (1.0))
+                                   (7 . (1.0)))))
 
 (defun my-toggle-solarized ()
   "Toggle between light and dark solarized themes."
@@ -522,17 +531,17 @@ bar not using the proper theme if the server was loaded with a different theme."
       :ensure t
       :init
       (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            auto-dark-themes '((ef-dark) (ef-light)))
+            auto-dark-themes '((ef-night) (ef-maris-light)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-dark)))
-      (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-light))))
-  (modus-themes-select 'modus-vivendi))
+      (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-night)))
+      (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-maris-light))))
+  (modus-themes-select 'modus-vivendi-tinted))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "SauceCodePro Nerd Font")
+(defvar my-macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -540,7 +549,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "SF Pro")
+           (defvar my-variable-pitch-font "Verdana")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "Inter")
@@ -561,11 +570,11 @@ bar not using the proper theme if the server was loaded with a different theme."
           my-presentation-font-height 140)))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height 120
-          my-small-font-height 100
+    (setq my-font-height 130
+          my-small-font-height 120
           my-medium-font-height 140
-          my-large-font-height 150
-          my-presentation-font-height 160)
+          my-large-font-height 160
+          my-presentation-font-height 200)
   (my-setup-linux-fonts))
 
 (set-face-attribute 'default nil
@@ -764,6 +773,22 @@ bar not using the proper theme if the server was loaded with a different theme."
   :after general
   :init
   (minions-mode))
+
+(use-package spacious-padding
+  :ensure t
+  :config
+  (setq spacious-padding-widths
+        '( :internal-border-width 15
+           :header-line-width 4
+           :mode-line-width 6
+           :tab-width 4
+           :right-divider-width 30
+           :scroll-bar-width 8
+           :fringe-width 8))
+
+  (setq spacious-padding-subtle-mode-line t)
+
+  (spacious-padding-mode 1))
 
 (use-package nerd-icons-completion
   :ensure t
@@ -1613,7 +1638,7 @@ any directory proferred by `consult-dir'."
   :general
   (my-leader-keys "u o" 'olivetti-mode)
   :init
-  (setq olivetti-body-width 100
+  (setq olivetti-body-width 120
         olivetti-minimum-body-width 72)
   :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
          (olivetti-mode . (lambda ()
@@ -1624,8 +1649,8 @@ any directory proferred by `consult-dir'."
   :ensure t
   :after general
   :config
-  (setq org-appear-autoemphasis nil
-        org-hide-emphasis-markers nil
+  (setq org-appear-autoemphasis t
+        org-hide-emphasis-markers t
         org-appear-autolinks t
         org-appear-autosubmarkers t
         org-appear-autoentities t
@@ -1663,7 +1688,8 @@ any directory proferred by `consult-dir'."
   (setq denote-directory (expand-file-name "~/Documents/notes/")
         denote-workdir (expand-file-name "~/Documents/work-notes/mio/")
         denote-silo-extras-directories (list denote-workdir)
-        my-denote-silo-directories denote-silo-extras-directories)
+        my-denote-silo-directories denote-silo-extras-directories
+        denote-date-prompt-use-org-read-date t)
   :config
   (setq denote-rename-buffer-format "[D] %t")
   (denote-rename-buffer-mode 1)
@@ -1717,8 +1743,7 @@ any directory proferred by `consult-dir'."
   :demand t
   :after denote
   :config
-  (setq denote-journal-directory
-        (expand-file-name "journal" denote-directory)
+  (setq denote-journal-directory (expand-file-name "journal" denote-directory)
         denote-journal-title-format 'day-date-month-year
         denote-journal-keyword "journal")
 
@@ -1999,13 +2024,6 @@ any directory proferred by `consult-dir'."
      ("BUG" error bold))))
 
 (use-package transpose-frame :ensure t)
-
-(use-package golden-ratio
-  :ensure t
-  :custom
-  (golden-ratio-auto-scale t)
-  :config
-  (golden-ratio-mode 1))
 
 (defun nuke-all-buffers ()
   "Kill all buffers, leaving *scratch* only."
