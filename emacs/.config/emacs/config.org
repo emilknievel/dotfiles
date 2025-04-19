@@ -2756,11 +2756,10 @@ Use denote for note-taking. Most of this is copied from Prot's config.
     :init
     (setq denote-directory (expand-file-name "~/Documents/notes/")
           denote-workdir (expand-file-name "~/Documents/work-notes/mio/")
-          denote-silo-extras-directories (list denote-workdir)
-          my-denote-silo-directories denote-silo-extras-directories
           denote-date-prompt-use-org-read-date t)
     :config
     (setq denote-rename-buffer-format "[D] %t")
+    (setopt denote-file-type 'org)
     (denote-rename-buffer-mode 1)
     (with-eval-after-load 'org-capture
       (setq denote-org-capture-specifiers "%l\n%i\n%?")
@@ -2812,7 +2811,7 @@ Use denote for note-taking. Most of this is copied from Prot's config.
 
 #+begin_src emacs-lisp
   (use-package denote-journal
-    :ensure (:host github :repo "protesilaos/denote-journal")
+    :ensure t
     :demand t
     :after denote
     :config
@@ -2832,17 +2831,37 @@ Use denote for note-taking. Most of this is copied from Prot's config.
      ("C-c n J" . denote-journal-new-or-existing-entry)))
 #+end_src
 
-*** Markdown (disabled until denote 4)
+*** Org
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
+  (use-package denote-org
+    :ensure t
+    :demand t
+    :after denote)
+#+end_src
+
+*** Markdown
+
+#+begin_src emacs-lisp
   (use-package denote-markdown
     ;; TODO There is apparently Obsidian support. Maybe I could create a Silo or
     ;; something that is located at the Obsidian directory. Having the ability
     ;; to link my Obsidian notes with my denote(s) would be really nice.
     ;; Definitely going to look into this.
-    :ensure (:host github :repo "protesilaos/denote-markdown")
+    :ensure t
     :demand t
     :after denote)
+#+end_src
+
+*** Silo
+
+#+begin_src emacs-lisp
+  (use-package denote-silo
+    :ensure t
+    :demand t
+    :after denote
+    :custom
+    (denote-silo-directories (list denote-directory denote-workdir)))
 #+end_src
 
 *** Denote explore
@@ -2884,9 +2903,9 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
      ("C-c n e D" . denote-explore-degree-barchart)))
 #+end_src
 
-*** Consult notes
+*** Consult notes (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package consult-notes
     :ensure t
     :commands (consult-notes
@@ -2906,6 +2925,20 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     :bind
     (("C-c n c" . consult-notes)
      ("C-c n C" . consult-notes-search-in-all-notes)))
+#+end_src
+
+*** Consult dired
+
+#+begin_src emacs-lisp
+  (use-package consult-denote
+    :ensure t
+    :bind
+    (("C-c n c f" . consult-denote-find)
+     ("C-c n c g" . consult-denote-grep))
+    :config
+    (setq consult-denote-find-command 'consult-fd
+          consult-denote-grep-command 'consult-ripgrep)
+    (consult-denote-mode 1))
 #+end_src
 
 ** Reading

@@ -1687,11 +1687,10 @@ any directory proferred by `consult-dir'."
   :init
   (setq denote-directory (expand-file-name "~/Documents/notes/")
         denote-workdir (expand-file-name "~/Documents/work-notes/mio/")
-        denote-silo-extras-directories (list denote-workdir)
-        my-denote-silo-directories denote-silo-extras-directories
         denote-date-prompt-use-org-read-date t)
   :config
   (setq denote-rename-buffer-format "[D] %t")
+  (setopt denote-file-type 'org)
   (denote-rename-buffer-mode 1)
   (with-eval-after-load 'org-capture
     (setq denote-org-capture-specifiers "%l\n%i\n%?")
@@ -1739,7 +1738,7 @@ any directory proferred by `consult-dir'."
    (text-mode . denote-fontify-links-mode-maybe)))
 
 (use-package denote-journal
-  :ensure (:host github :repo "protesilaos/denote-journal")
+  :ensure t
   :demand t
   :after denote
   :config
@@ -1757,6 +1756,27 @@ any directory proferred by `consult-dir'."
   :bind
   (("C-c n j" . denote-journal-new-entry)
    ("C-c n J" . denote-journal-new-or-existing-entry)))
+
+(use-package denote-org
+  :ensure t
+  :demand t
+  :after denote)
+
+(use-package denote-markdown
+  ;; TODO There is apparently Obsidian support. Maybe I could create a Silo or
+  ;; something that is located at the Obsidian directory. Having the ability
+  ;; to link my Obsidian notes with my denote(s) would be really nice.
+  ;; Definitely going to look into this.
+  :ensure t
+  :demand t
+  :after denote)
+
+(use-package denote-silo
+  :ensure t
+  :demand t
+  :after denote
+  :custom
+  (denote-silo-directories (list denote-directory denote-workdir)))
 
 (use-package denote-explore
   :ensure t
@@ -1791,25 +1811,15 @@ any directory proferred by `consult-dir'."
    ("C-c n e v" . denote-explore-network-regenerate)
    ("C-c n e D" . denote-explore-degree-barchart)))
 
-(use-package consult-notes
+(use-package consult-denote
   :ensure t
-  :commands (consult-notes
-             consult-notes-search-in-all-notes)
-  :init
-  (setq denote-work-journal-dir (concat denote-workdir "journal"))
-  :custom
-  (consult-notes-file-dir-sources
-   `(("Notes" ?n ,denote-directory)
-     ("Journals" ?j ,denote-journal-directory)
-     ("Agenda" ?a ,org-directory)
-     ("Work notes" ?N ,denote-workdir)
-     ("Work journals" ?J ,denote-work-journal-dir)))
-  :config
-  (when (locate-library "denote")
-    (consult-notes-denote-mode))
   :bind
-  (("C-c n c" . consult-notes)
-   ("C-c n C" . consult-notes-search-in-all-notes)))
+  (("C-c n c f" . consult-denote-find)
+   ("C-c n c g" . consult-denote-grep))
+  :config
+  (setq consult-denote-find-command 'consult-fd
+        consult-denote-grep-command 'consult-ripgrep)
+  (consult-denote-mode 1))
 
 (use-package pdf-tools
   :ensure t
