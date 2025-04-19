@@ -98,6 +98,10 @@
    '(("f" "Fleeting note" item
       (file+headline org-default-notes-file "Notes")
       "- %?")
+     ("m" "Meetings")
+     ("mm" "Meetings - Mio" entry
+      (file+headline org-mio-notes-file "Möten")
+      "* %^{Please specify time of meeting}U %?")
      ("n" "Notes")
      ("nd" "Denote")
      ("t" "Tasks")
