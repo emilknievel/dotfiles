@@ -512,14 +512,14 @@ Workaround for copying text from Emacs to the Windows clipboard:
           modus-themes-variable-pitch-ui nil
           modus-themes-bold-constructs t
           modus-themes-italic-constructs t
-          modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
+          modus-themes-to-toggle '(modus-operandi modus-vivendi-tinted)
           modus-themes-common-palette-overrides '((fringe unspecified)
                                                   (bg-paren-match bg-magenta-intense)
                                                   (fg-heading-1 blue-warmer)
                                                   (fg-heading-2 yellow-cooler)
-                                                  (fg-heading-3 cyan-cooler)
-                                                  (border-mode-line-active unspecified)
-                                                  (border-mode-line-inactive unspecified))
+                                                  (fg-heading-3 cyan-cooler))
+          ;; (border-mode-line-active unspecified)
+          ;; (border-mode-line-inactive unspecified))
           modus-themes-headings '((0 . (1.5))
                                   (1 . (1.4))
                                   (2 . (1.3))
@@ -811,13 +811,13 @@ Inspired by Plan 9 Acme & Sam.
         :ensure t
         :init
         (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-              auto-dark-themes '((ef-night) (ef-maris-light)))
+              auto-dark-themes '((modus-vivendi-tinted) (modus-operandi)))
         (auto-dark-mode t)
         :custom
         (custom-safe-themes t)
         :hook
-        (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-night)))
-        (auto-dark-light-mode . (lambda () (ef-themes-select-light 'ef-maris-light))))
+        (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi-tinted)))
+        (auto-dark-light-mode . (lambda () (modus-themes-select 'modus-operandi))))
     (modus-themes-select 'modus-vivendi-tinted))
 #+end_src
 
@@ -827,7 +827,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Hack Nerd Font")
-  (defvar my-macos-font "JetBrainsMono Nerd Font")
+  (defvar my-macos-font "SF Mono")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
