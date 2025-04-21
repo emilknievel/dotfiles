@@ -1634,9 +1634,8 @@ any directory proferred by `consult-dir'."
 
 (use-package org
   :ensure nil
-  :after general
   :init
-  (setq org-directory (expand-file-name "~/Documents/org")
+  (setopt org-directory (expand-file-name "~/Documents/org")
         org-agenda-files `(,org-directory)
         org-default-notes-file (concat org-directory "/inbox.org")
         org-mio-notes-file (concat org-directory "/mio.org"))
@@ -1678,20 +1677,25 @@ any directory proferred by `consult-dir'."
      ("tw" "Work tasks")
      ("twm" "New Mio task" entry
       (file+headline org-mio-notes-file "Uppgifter")
-      "* TODO %i%?")
-     ("l" "New journe(l)ly note (only on macOS)" entry
-      (file "~/Library/Mobile Documents/iCloud~com~xenodium~Journelly/Documents/Journelly.org")
-      "* %U @ -\n%?"
-      :prepend t)))
+      "* TODO %i%?")))
   :config
+  ;; NOTE Only available on macOS until I have figured out a better way, using syncthing.
+  (with-eval-after-load 'org-capture
+    (when (eq system-type 'darwin)
+      (add-to-list 'org-capture-templates
+                   '("l" "New journe(l)ly note" entry
+                     (file "~/Library/Mobile Documents/iCloud~com~xenodium~Journelly/Documents/Journelly.org")
+                     "* %U @ -\n%?"
+                     :prepend t))))
+
   ;; Agenda
-  (setq org-refile-targets
+  (setopt org-refile-targets
         '((org-agenda-files :maxlevel . 3)
           (nil :maxlevel . 3)))
-  (setq org-refile-use-outline-path t)
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
-  (setq org-refile-use-cache t)
-  (setq org-todo-keywords
+  (setopt org-refile-use-outline-path t)
+  (setopt org-refile-allow-creating-parent-nodes 'confirm)
+  (setopt org-refile-use-cache t)
+  (setopt org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
@@ -1712,8 +1716,8 @@ any directory proferred by `consult-dir'."
   :general
   (my-leader-keys "u o" 'olivetti-mode)
   :init
-  (setq olivetti-body-width 120
-        olivetti-minimum-body-width 72)
+  (setopt olivetti-body-width 120
+          olivetti-minimum-body-width 72)
   :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
          (olivetti-mode . (lambda ()
                             (cond ((derived-mode-p 'Info-mode)
@@ -1723,19 +1727,19 @@ any directory proferred by `consult-dir'."
   :ensure t
   :after general
   :config
-  (setq org-appear-autoemphasis t
-        org-hide-emphasis-markers t
-        org-appear-autolinks t
-        org-appear-autosubmarkers t
-        org-appear-autoentities t
-        org-appear-autokeywords t
-        org-appear-inside-latex t)
+  (setopt org-appear-autoemphasis t
+          org-hide-emphasis-markers t
+          org-appear-autolinks t
+          org-appear-autosubmarkers t
+          org-appear-autoentities t
+          org-appear-autokeywords t
+          org-appear-inside-latex t)
   :hook (org-mode . org-appear-mode)
   :general (my-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
 
-(setq org-confirm-babel-evaluate nil
-      org-src-fontify-natively t
-      org-src-tab-acts-natively t)
+(setopt org-confirm-babel-evaluate nil
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t)
 
 (defconst load-language-alist
   '((emacs-lisp . t)
