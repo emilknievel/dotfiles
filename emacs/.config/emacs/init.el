@@ -5,8 +5,11 @@
 
 ;; `elpaca-core-date' needs to be set if Emacs is built from source. In my case
 ;; this is true on my Linux setups.
-(when (eq system-type 'gnu/linux)
-  (setq elpaca-core-date '(20250224)))
+;;
+;; NOTE: as of <2025-04-21 Mon 15:22> this is no longer the case.
+;; I'm now using the pre-built binary for the distro.
+;; (when (eq system-type 'gnu/linux)
+;;   (setq elpaca-core-date '(20250224)))
 
 (defvar elpaca-installer-version 0.11)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
@@ -59,7 +62,7 @@
   :demand t)
 (general-create-definer my-leader-keys :prefix "C-z")
 
-;; Makes sure that we use the latest transient version
+;; Make sure that we use the latest version of `transient'.
 (use-package transient :ensure (:wait t))
 
 ;; Needs to be loaded outside of org config file
