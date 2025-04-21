@@ -26,13 +26,6 @@
 ;; Prevent package.el loading packages prior to their init-file loading
 (setq package-enable-at-startup nil)
 
-;; Sensible default height/width
-(setq default-frame-alist (list '(min-height . 1)
-                                '(height . 40)
-                                '(min-width . 1)
-                                '(width . 110)))
-;; '(fullscreen . maximized)))
-
 ;; Customize titlebar
 (cond ((eq system-type 'darwin)
        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))))
