@@ -65,83 +65,10 @@
 ;; Make sure that we use the latest version of `transient'.
 (use-package transient :ensure (:wait t))
 
-;; Needs to be loaded outside of org config file
-;; TODO: I believe it's possible to only use the `:ensure' part here and
-;; use `:ensure nil' inside the org config with all the configurations.
+;; Use latest version of Org rather than the older one built into Emacs.
+;; Configuration resides in the main `config.org' file.
 (use-package org
-  :ensure (:wait t)
-  :after general
-  :init
-  (setq org-directory (expand-file-name "~/Documents/org")
-        org-agenda-files `(,org-directory)
-        org-default-notes-file (concat org-directory "/inbox.org")
-        org-mio-notes-file (concat org-directory "/mio.org"))
-  (require 'org-indent)
-  :custom
-  (org-return-follows-link t)
-  (org-startup-with-inline-images t)
-  (org-fontify-quote-and-verse-blocks t)
-  (org-image-actual-width '(300))
-  (org-pretty-entities t)
-  ;; (org-auto-align-tags nil)
-  ;; (org-tags-column 0)
-  (org-fold-catch-invisible-edits 'show-and-error)
-  (org-special-ctrl-a/e t)
-  (org-insert-heading-respect-content t)
-  (org-startup-indented t)
-
-  ;; Add CLOSED: [timestamp] line after todo headline when marked as done
-  ;; and prompt for closing note.
-  (org-log-done 'note)
-
-  ;; Ask how many minutes to keep if idle for at least 15 minutes.
-  (org-clock-idle-time 15)
-
-  (org-capture-templates
-   '(("f" "Fleeting note" item
-      (file+headline org-default-notes-file "Notes")
-      "- %?")
-     ("m" "Meetings")
-     ("mm" "Meetings - Mio" entry
-      (file+headline org-mio-notes-file "Möten")
-      "* %^{Please specify time of meeting}U %?")
-     ("n" "Notes")
-     ("nd" "Denote")
-     ("t" "Tasks")
-     ("ti" "New inbox task" entry
-      (file+headline org-default-notes-file "Tasks")
-      "* TODO %i%?")
-     ("tw" "Work tasks")
-     ("twm" "New Mio task" entry
-      (file+headline org-mio-notes-file "Uppgifter")
-      "* TODO %i%?")
-     ("l" "New journe(l)ly note (only on macOS)" entry
-      (file "~/Library/Mobile Documents/iCloud~com~xenodium~Journelly/Documents/Journelly.org")
-      "* %U @ -\n%?"
-      :prepend t)))
-  :config
-  ;; Agenda
-  (setq org-refile-targets
-        '((org-agenda-files :maxlevel . 3)
-          (nil :maxlevel . 3)))
-  (setq org-refile-use-outline-path t)
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
-  (setq org-refile-use-cache t)
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-  :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
-  :hook
-  ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
-  ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
-  ;; (org-agenda-mode . hl-line-mode)
-  ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
-  :general (my-leader-keys
-             "o b t" 'org-babel-tangle
-             "o l d" 'org-toggle-link-display))
-
+  :ensure (:wait t))
 
 (if (file-exists-p (expand-file-name "config.elc" user-emacs-directory))
     (load (expand-file-name "config.elc" user-emacs-directory))
