@@ -2017,21 +2017,8 @@ any directory proferred by `consult-dir'."
 
 (use-package hl-todo
   :ensure t
-  :hook ((prog-mode . hl-todo-mode)
-         (conf-mode . hl-todo-mode)
-         (org-mode . hl-todo-mode))
-
-  :custom
-  (hl-todo-highlight-punctuation ":")
-  (hl-todo-keyword-faces
-   '(("TODO" warning bold)
-     ("FIXME" error bold)
-     ("REVIEW" font-lock-keyword-face bold)
-     ("HACK" font-lock-constant-face bold)
-     ("DEPRECATED" font-lock-doc-face bold)
-     ("NOTE" shr-code bold)
-     ;; ("INFO" font-lock-keyword-face bold)
-     ("BUG" error bold))))
+  :config
+  (global-hl-todo-mode 1))
 
 (use-package transpose-frame :ensure t)
 
