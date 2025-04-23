@@ -2451,10 +2451,13 @@ Display number of matches in modeline when searching.
     :ensure nil
     :init
     (setopt org-directory (expand-file-name "~/Documents/org")
-          org-agenda-files `(,org-directory)
-          org-default-notes-file (concat org-directory "/inbox.org")
-          org-mio-notes-file (concat org-directory "/mio.org"))
+            org-agenda-files `(,org-directory)
+            org-default-notes-file (concat org-directory "/inbox.org")
+            org-mio-notes-file (concat org-directory "/mio.org")
+            org-journelly-file (concat org-directory "/Journelly.org"))
+
     (require 'org-indent)
+
     :custom
     (org-return-follows-link t)
     (org-startup-with-inline-images t)
@@ -2479,12 +2482,20 @@ Display number of matches in modeline when searching.
      '(("f" "Fleeting note" item
         (file+headline org-default-notes-file "Notes")
         "- %?")
+
+       ("l" "New journe(l)ly note" entry
+        (file org-journelly-file)
+        "* %U @ -\n%?"
+        :prepend t)
+
        ("m" "Meetings")
        ("mm" "Meetings - Mio" entry
         (file+headline org-mio-notes-file "Möten")
         "* %^{Please specify time of meeting}U %?")
+
        ("n" "Notes")
        ("nd" "Denote")
+
        ("t" "Tasks")
        ("ti" "New inbox task" entry
         (file+headline org-default-notes-file "Tasks")
@@ -2493,34 +2504,28 @@ Display number of matches in modeline when searching.
        ("twm" "New Mio task" entry
         (file+headline org-mio-notes-file "Uppgifter")
         "* TODO %i%?")))
-    :config
-    ;; NOTE Only available on macOS until I have figured out a better way, using syncthing.
-    (with-eval-after-load 'org-capture
-      (when (eq system-type 'darwin)
-        (add-to-list 'org-capture-templates
-                     '("l" "New journe(l)ly note" entry
-                       (file "~/Library/Mobile Documents/iCloud~com~xenodium~Journelly/Documents/Journelly.org")
-                       "* %U @ -\n%?"
-                       :prepend t))))
 
+    :config
     ;; Agenda
     (setopt org-refile-targets
-          '((org-agenda-files :maxlevel . 3)
-            (nil :maxlevel . 3)))
-    (setopt org-refile-use-outline-path t)
-    (setopt org-refile-allow-creating-parent-nodes 'confirm)
-    (setopt org-refile-use-cache t)
+            '((org-agenda-files :maxlevel . 3)
+              (nil :maxlevel . 3)))
+
+    (setopt org-refile-use-outline-path t
+            org-refile-allow-creating-parent-nodes 'confirm
+            org-refile-use-cache t)
+
     (setopt org-todo-keywords
-          '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+            '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
            ("C-c c" . org-capture))
+
     :hook
     ((org-mode gfm-mode markdown-mode) . visual-line-mode)
     ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
-    ;; ((org-mode gfm-mode markdown-mode) . (lambda () (setq-local line-spacing 0.2)))
-    ;; (org-agenda-mode . hl-line-mode)
-    ;; ((org-mode gfm-mode markdown-mode) . hl-line-mode)
+
     :general (my-leader-keys
                "o b t" 'org-babel-tangle
                "o l d" 'org-toggle-link-display))
