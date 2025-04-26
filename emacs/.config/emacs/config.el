@@ -547,7 +547,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (modus-themes-select 'modus-vivendi-tinted))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "SF Mono")
+(defvar my-macos-font "JetBrainsMono Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -602,6 +602,8 @@ bar not using the proper theme if the server was loaded with a different theme."
 ;;   (interactive)
 ;;   (set-face-attribute 'variable-pitch nil
 ;;                       :family my-variable-pitch-font))
+
+(global-set-key (kbd "<f9>") 'variable-pitch-mode)
 
 (use-package ligature
   :ensure (:host github :repo "mickeynp/ligature.el")
@@ -782,19 +784,20 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (use-package spacious-padding
   :ensure t
-  :config
-  (setq spacious-padding-widths
-        '( :internal-border-width 15
-           :header-line-width 4
-           :mode-line-width 6
-           :tab-width 4
-           :right-divider-width 30
-           :scroll-bar-width 8
-           :fringe-width 8))
+  :defer nil
+  :custom
+  (spacious-padding-widths
+   '( :internal-border-width 15
+      :header-line-width 4
+      :mode-line-width 6
+      :tab-width 4
+      :right-divider-width 30
+      :scroll-bar-width 8
+      :fringe-width 8))
 
-  (setq spacious-padding-subtle-mode-line t)
+  (spacious-padding-subtle-mode-line t)
 
-  (spacious-padding-mode 1))
+  :bind ("<f8>" . spacious-padding-mode))
 
 (use-package nerd-icons-completion
   :ensure t
@@ -1721,7 +1724,7 @@ any directory proferred by `consult-dir'."
 
   :hook
   ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
+  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
 
   :general (my-leader-keys
              "o b t" 'org-babel-tangle
