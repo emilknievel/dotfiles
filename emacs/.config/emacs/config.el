@@ -254,6 +254,12 @@
   :ensure nil ; no need to install it as it is built-in
   :hook (after-init . delete-selection-mode))
 
+(use-package eldoc
+  :ensure nil
+  :config
+  ;; Prevent long eldoc doc strings from resizing the echo area display.
+  (setq eldoc-echo-area-use-multiline-p nil))
+
 (setq inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)
@@ -1138,7 +1144,13 @@ parses its input."
   :after general
   :general (my-leader-keys "c a" 'eglot-code-actions)
   :config
-  (setq eglot-autoshutdown t))
+  (setq eglot-autoshutdown t
+
+        ;; Hide code-action indicators to reduce noise.
+        eglot-code-action-indications '()
+
+        ;; Disables highlighting of the symbol at point.
+        eglot-ignored-server-capabilities '(:documentHighlightProvider)))
 
 (use-package flycheck-eglot
   :ensure t

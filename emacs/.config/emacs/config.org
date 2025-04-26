@@ -425,6 +425,21 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 ** Eldoc
 
+*** Base
+
+#+begin_src emacs-lisp
+  (use-package eldoc
+    :ensure nil
+    :config
+    ;; Prevent long eldoc doc strings from resizing the echo area display.
+    (setq eldoc-echo-area-use-multiline-p nil))
+#+end_src
+
+
+*** eldoc-box (disabled)
+
+This package moves eldoc documentation into a childframe.
+
 #+begin_src emacs-lisp :tangle no
   (use-package eldoc-box
     :ensure t
@@ -1649,7 +1664,13 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     :after general
     :general (my-leader-keys "c a" 'eglot-code-actions)
     :config
-    (setq eglot-autoshutdown t))
+    (setq eglot-autoshutdown t
+
+          ;; Hide code-action indicators to reduce noise.
+          eglot-code-action-indications '()
+
+          ;; Disables highlighting of the symbol at point.
+          eglot-ignored-server-capabilities '(:documentHighlightProvider)))
 #+end_src
 
 #+begin_src emacs-lisp
