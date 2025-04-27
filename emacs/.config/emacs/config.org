@@ -164,15 +164,6 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
     (gnutls-verify-error nil))
 #+end_src
 
-*** Secrets
-**** 1Password auth source (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package auth-source-1password
-    :ensure t
-    :config (auth-source-1password-enable))
-#+end_src
-
 ** Utility
 
 *** Functions
@@ -346,17 +337,6 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
       ("t" transpose-frame "transpose frame")))
 #+end_src
 
-*** Devil mode (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package devil
-    :ensure t
-    :config
-    (setq devil-lighter " \U0001F608")
-    (setq devil-prompt "\U0001F608 %t")
-    (global-devil-mode))
-#+end_src
-
 ** Editing
 
 *** iedit
@@ -425,26 +405,12 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 ** Eldoc
 
-*** Base
-
 #+begin_src emacs-lisp
   (use-package eldoc
     :ensure nil
     :config
     ;; Prevent long eldoc doc strings from resizing the echo area display.
     (setq eldoc-echo-area-use-multiline-p nil))
-#+end_src
-
-
-*** eldoc-box (disabled)
-
-This package moves eldoc documentation into a childframe.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package eldoc-box
-    :ensure t
-    :config
-    (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t))
 #+end_src
 
 ** Customization
@@ -659,27 +625,6 @@ Inspired by Plan 9 Acme & Sam.
     :init
     (setq acme-theme-black-fg t)
     :general (my-leader-keys "t t a" 'my-acme-theme))
-#+end_src
-
-**** Catppuccin theme (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (defun my-toggle-catppuccin ()
-    "Toggle between latte and mocha Catppuccin themes."
-    (interactive)
-    (if (eq catppuccin-flavor 'latte)
-        (my-catppuccin-theme 'mocha)
-      (my-catppuccin-theme 'latte)))
-
-  (use-package catppuccin-theme
-    :ensure t
-    ;; :demand t
-    :after general
-    :init
-    (setq catppuccin-flavor 'mocha
-          catppuccin-enlarge-headings nil
-          catppuccin-italic-blockquotes nil)
-    :general (my-leader-keys "t t c" 'my-toggle-catppuccin))
 #+end_src
 
 **** Leuven
@@ -903,67 +848,10 @@ Inspired by Plan 9 Acme & Sam.
   ;;                       :family my-variable-pitch-font))
 #+end_src
 
-**** Hooks
-
-***** Text mode hook (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  ;; Use `variable-pitch' for prose.
-  (add-hook 'text-mode-hook #'variable-pitch-mode)
-#+end_src
-
 **** Variable pitch
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "<f9>") 'variable-pitch-mode)
-#+end_src
-
-**** Custom faces (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (custom-theme-set-faces
-   'user
-   `(org-code ((t (:inherit fixed-pitch))))
-   `(org-block ((t (:inherit fixed-pitch))))
-   ;; `(org-block-begin-line ((t (:inherit (shadow fixed-pitch) :extend t))))
-   ;; `(org-block-end-line ((t (:inherit org-block-begin-line))))
-   `(org-verbatim ((t (:inherit fixed-pitch))))
-
-   ;; `(outline-1 ((t (:height 1.5))))
-   ;; `(outline-2 ((t (:height 1.4))))
-   ;; `(outline-3 ((t (:height 1.3))))
-   ;; `(outline-4 ((t (:height 1.2))))
-   ;; `(outline-5 ((t (:height 1.1))))
-   ;; `(outline-6 ((t (:height 1.0))))
-   ;; `(outline-7 ((t (:height 1.0))))
-   ;; `(outline-8 ((t (:height 1.0))))
-
-   ;; `(org-level-1 ((t (:inherit outline-1))))
-   ;; `(org-level-2 ((t (:inherit outline-2))))
-   ;; `(org-level-3 ((t (:inherit outline-3))))
-   ;; `(org-level-4 ((t (:inherit outline-4))))
-   ;; `(org-level-5 ((t (:inherit outline-5))))
-   ;; `(org-level-6 ((t (:inherit outline-6))))
-   ;; `(org-level-7 ((t (:inherit outline-7))))
-   ;; `(org-level-8 ((t (:inherit outline-8))))
-
-   `(markdown-inline-code-face ((t (:inherit org-code))))
-   `(markdown-code-face ((t (:inherit fixed-pitch))))
-   ;; `(markdown-header-face-1 ((t (:inherit org-level-1))))
-   ;; `(markdown-header-face-2 ((t (:inherit org-level-2))))
-   ;; `(markdown-header-face-3 ((t (:inherit org-level-3))))
-   ;; `(markdown-header-face-4 ((t (:inherit org-level-4))))
-   ;; `(markdown-header-face-5 ((t (:inherit org-level-5))))
-   ;; `(markdown-header-face-6 ((t (:inherit org-level-6))))
-   ;; `(markdown-header-face-7 ((t (:inherit org-level-7))))
-   ;; `(markdown-header-face-8 ((t (:inherit org-level-8))))
-
-   ;; `(org-meta-line ((t :inherit fixed-pitch)))
-   ;; `(org-drawer ((t :inherit fixed-pitch)))
-   ;; `(org-document-title ((t (:inherit variable-pitch))))
-   ;; `(org-document-info ((t (:inherit variable-pitch))))
-   `(org-table ((t (:inherit fixed-pitch)))))
-  ;; `(org-quote ((t :inherit italic))))
 #+end_src
 
 **** Ligatures
@@ -1080,19 +968,6 @@ Preview fonts inside of Emacs.
     (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
 #+end_src
 
-*** Column indication (disabled)
-
-Show column indicator at column 80.
-
-#+begin_src emacs-lisp :tangle no
-  (defun my-show-column-guide ()
-    "Show a vertical column guide."
-    (setq display-fill-column-indicator-column 80)
-    (display-fill-column-indicator-mode))
-
-  (add-hook 'prog-mode-hook #'my-show-column-guide)
-#+end_src
-
 *** Display line numbers
 
 Turn on line numbers for program and configuration modes.
@@ -1192,7 +1067,7 @@ Install icon fonts with ~M-x all-the-icons-install-fonts~
     (run-with-timer 0.1 nil #'invert-face 'mode-line))
 #+end_src
 
-**** Display current date and time on the mode line (disabled)
+**** Display current date and time on the mode line
 
 Display the current date and time on the mode line.
 
@@ -1212,16 +1087,6 @@ Display the current date and time on the mode line.
   (display-time-mode 1)
 #+end_src
 
-**** Doom Modeline (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package doom-modeline
-    :ensure t
-    :after general
-    :general (my-leader-keys "u m d" 'doom-modeline-mode)
-    :config (doom-modeline))
-#+end_src
-
 **** Minions
 
 =minions.el= by Jonas Bernoulli implements a nested menu that gives access to all known minor modes.
@@ -1232,18 +1097,6 @@ Display the current date and time on the mode line.
     :after general
     :init
     (minions-mode))
-#+end_src
-
-**** Display battery charge if battery information is available (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (require 'battery)
-  (when (and battery-status-function
-             (not(string-match-p "N/A"
-                                 (battery-format
-                                  "%B"
-                                  (funcall battery-status-function)))))
-    (display-battery-mode 1))
 #+end_src
 
 *** Padding
@@ -1265,15 +1118,6 @@ Display the current date and time on the mode line.
     (spacious-padding-subtle-mode-line t)
 
     :bind ("<f8>" . spacious-padding-mode))
-#+end_src
-
-*** Highlight line (disabled)
-
-Highlight line when programming or editing configuration files.
-
-#+begin_src emacs-lisp :tangle no
-  (add-hook 'prog-mode-hook 'hl-line-mode)
-  (add-hook 'conf-mode-hook 'hl-line-mode)
 #+end_src
 
 ** Completion
@@ -1688,85 +1532,11 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (global-flycheck-eglot-mode 1))
 #+end_src
 
-#+begin_src emacs-lisp :tangle no
-  (use-package eglot-booster
-    :ensure (:host github :repo "jdtsmith/eglot-booster")
-    :after eglot
-    :config (eglot-booster-mode))
-#+end_src
-
-*** Dependencies
-
-- [[https://github.com/blahgeek/emacs-lsp-booster][emacs-lsp-booster]]: I opted for cloning the git repo, building the crate, and creating a symlink to the ~emacs-lsp-booster~ binary to =$HOME/.local/bin=.
-
 ** Language configuration
 
 *** Treesitter
 
-Language grammars for tree-sitter.
-
-#+begin_src emacs-lisp :tangle no
-  (setq treesit-language-source-alist
-        '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-          (cmake "https://github.com/uyha/tree-sitter-cmake")
-          (css "https://github.com/tree-sitter/tree-sitter-css")
-          (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-          (go "https://github.com/tree-sitter/tree-sitter-go")
-          (html "https://github.com/tree-sitter/tree-sitter-html")
-          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-          (json "https://github.com/tree-sitter/tree-sitter-json")
-          (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua")
-          (make "https://github.com/alemuller/tree-sitter-make")
-          (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-          (python "https://github.com/tree-sitter/tree-sitter-python")
-          (toml "https://github.com/tree-sitter/tree-sitter-toml")
-          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-          (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-          (ocaml "https://github.com/tree-sitter/tree-sitter-ocaml" "master" "grammars/ocaml/src")
-          (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
-          (c "https://github.com/tree-sitter/tree-sitter-c")
-          (cpp "https://github.com/tree-sitter/tree-sitter-cpp/" "master" "src")))
-
-  (defun my-install-ts-grammars ()
-    "Install grammars for tree-sitter from treesit-language-source-alist."
-    (interactive)
-    (mapc #'treesit-install-language-grammar
-          (mapcar #'car treesit-language-source-alist)))
-#+end_src
-[[elisp:my-install-ts-grammars]]
-
-Call e.g. ~treesit-language-available-p 'python~ to determine if grammar is available for the language.
-
-Show all existing tree-sitter major modes with the apropos help command: ~C-h a -ts-mode$~.
-
-Make Emacs use ts mode when opening the corresponding filetype.
-
-#+begin_src emacs-lisp :tangle no
-  (setq major-mode-remap-alist
-        '((bash-mode . bash-ts-mode)
-          (cmake-mode . cmake-ts-mode)
-          (css-mode . css-ts-mode)
-          (elisp-mode . elisp-ts-mode)
-          (go-mode . go-ts-mode)
-          (html-mode . html-ts-mode)
-          (javascript-mode . js-ts-mode)
-          (json-mode . json-ts-mode)
-          (make-mode . make-ts-mode)
-          (python-mode . python-ts-mode)
-          (toml-mode . toml-ts-mode)
-          (tsx-mode . tsx-ts-mode)
-          (typescript-mode . typescript-ts-mode)
-          (yaml-mode . yaml-ts-mode)
-          (ocaml-mode . ocaml-ts-mode)
-          ;; (csharp-mode . csharp-ts-mode)
-          (c-mode . c-ts-mode)
-          (c++-mode . c++-ts-mode)))
-#+end_src
-
 **** treesit-auto
-
-Trying out =treesit-auto= instead of the above config.
 
 #+begin_src emacs-lisp
   (use-package treesit-auto
@@ -2107,19 +1877,6 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 ** Shell
 
 *** Eshell
-
-**** Plan 9 Smart Shell (disabled, not compatible with eat)
-
-#+begin_src emacs-lisp :tangle no
-  (require 'eshell)
-  (require 'em-smart)
-
-  (setq eshell-where-to-jump 'begin)
-  (setq eshell-review-quick-commands nil)
-  (setq eshell-smart-space-goes-to-end t)
-
-  (add-to-list 'eshell-modules-list 'eshell-smart)
-#+end_src
 
 https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 
@@ -2559,22 +2316,6 @@ Display number of matches in modeline when searching.
                "o l d" 'org-toggle-link-display))
 #+end_src
 
-*** Org Modern (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package org-modern
-    :ensure t
-    :after org
-    :custom
-    (org-modern-table t)
-    (org-modern-todo t)
-    (org-modern-star nil)
-    (org-modern-hide-stars nil)
-    (org-modern-block-fringe nil)
-    :hook
-    (org-mode . org-modern-mode))
-#+end_src
-
 *** Olivetti
 
 Olivetti is a minor mode that provides a nice writing environment by setting comfortable window margins etc.
@@ -2614,218 +2355,6 @@ This package displays hidden emphasis markers while the cursor is on a rich text
     :general (my-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
 #+end_src
 
-*** Org Roam (disabled)
-
-Personal wiki. Org files are synced through [[https://syncthing.net][Syncthing]] and the db is stored locally.
-Based on the System Crafters [[https://systemcrafters.net/build-a-second-brain-in-emacs/][Build a Second Brain in Emacs]] show notes.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package org-roam
-    :ensure t
-    :demand t
-    :after general
-    :custom
-    (org-roam-directory "~/org-roam")
-    (org-roam-dailies-directory "journal/")
-    (org-roam-completion-everywhere t)
-
-    ;; display tags when searching nodes
-    (org-roam-node-display-template
-     (concat "${title:*} "
-             (propertize "${tags}" 'face 'org-tag)))
-
-    ;; file templates
-    (org-roam-capture-templates
-
-     '(("d" "default" plain "%?"
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-        :unnarrowed t)
-
-       ("l" "programming language" plain
-        (file "~/org-roam/templates/programming-language-note-template.org")
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+filetags: :programming_language:")
-        :unnarrowed t)
-
-       ("b" "book notes" plain
-        (file "~/org-roam/templates/book-note-template.org")
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+filetags: :literature:book:")
-        :unnarrowed t)
-
-       ("a" "author notes" plain
-        (file "~/org-roam/templates/author-notes-template.org")
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+filetags: :literature:author:")
-        :unnarrowed t)
-
-       ("p" "project" plain
-        (file "~/org-roam/templates/project-template.org")
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+category: ${title}\n#+filetags: :project:")
-        :unnarrowed t)
-       ))
-
-    ;; Daily note templates
-    (org-roam-dailies-capture-templates
-     '(("d" "default" entry "* %<%H:%M> %?"
-        :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))
-
-       ("t" "task" entry "* TODO %?"
-        :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))
-       ))
-
-    :bind
-    (("C-c n l" . org-roam-buffer-toggle) ; Backlinks buffer
-     ("C-c n f" . org-roam-node-find)
-     ("C-c n i" . org-roam-node-insert)
-     ("C-c n I" . my-org-roam-node-insert-immediate)
-     :map org-mode-map
-     ("C-M-i" . completion-at-point)
-     :map org-roam-dailies-map
-     ("Y" . org-roam-dailies-capture-yesterday)
-     ("T" . org-roam-dailies-capture-tomorrow))
-    :bind-keymap
-    ("C-c n d" . org-roam-dailies-map)
-    :general
-    (my-leader-keys
-     "n r r" 'org-roam-buffer-toggle
-     "n r f" 'org-roam-node-find
-     "n r i" 'org-roam-node-insert)
-
-    :config
-    (require 'org-roam-dailies)
-    (org-roam-db-autosync-enable))
-#+end_src
-
-**** Org agenda hacks (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (defun my-org-roam-node-insert-immediate (arg &rest args)
-    "Fast node insertion based on first item in org-roam-capture-templates"
-    (interactive "P")
-    (let ((args (cons arg args))
-          (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-                                                    '(:immediate-finish t)))))
-      (apply #'org-roam-node-insert args)))
-
-  (defun my-org-roam-filter-by-tag (tag-name)
-    (lambda (node)
-      (member tag-name (org-roam-node-tags node))))
-
-  (defun my-org-roam-list-notes-by-tag (tag-name)
-    (cl-remove-duplicates
-     (mapcar
-      #'org-roam-node-file
-      (seq-filter (my-org-roam-filter-by-tag tag-name) (org-roam-node-list)))
-     :test #'string=))
-
-  (defun my-org-roam-refresh-agenda-list ()
-    (interactive)
-    (setq org-agenda-files (my-org-roam-list-notes-by-tag "project")))
-
-  (my-org-roam-refresh-agenda-list)
-#+end_src
-
-**** Select notes based on tag (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (defun my-org-roam-project-finalize-hook ()
-    "Adds the captured project file to `org-agenda-files' if the
-    capture was not aborted."
-    ;; Remove the hook since it was added temporarily
-    (remove-hook 'org-capture-after-finalize-hook #'my-org-roam-project-finalize-hook)
-
-    ;; Add project file to the agenda list if the capture was confirmed
-    (unless org-note-abort
-      (with-current-buffer (org-capture-get :buffer)
-        (add-to-list 'org-agenda-files (buffer-file-name)))))
-
-  (defun my-org-roam-find-project ()
-    (interactive)
-    ;; Add the project file to the agenda after capture is finished
-    (add-hook 'org-capture-after-finalize-hook #'my-org-roam-project-finalize-hook)
-
-    ;; Select a project file to open, creating it if necessary
-    (org-roam-node-find
-     nil
-     nil
-     (my-org-roam-filter-by-tag "project")
-     nil
-     :templates
-     '(("p" "project" plain
-        (file "~/org-roam/templates/project-template.org")
-        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n#+category: ${title}\n#+filetags: :project:")
-        :unnarrowed t))))
-
-  (global-set-key (kbd "C-c n p") #'my-org-roam-find-project)
-#+end_src
-
-**** Custom capture tasks (disabled)
-
-Quickly capture new notes and tasks for later review in the ~Inbox.org~ file.
-
-#+begin_src emacs-lisp :tangle no
-  (defun my-org-roam-capture-inbox ()
-    "Capture a note into inbox."
-    (interactive)
-    (org-roam-capture- :node (org-roam-node-create)
-                       :templates '(("i" "inbox" plain "* %?"
-                                     :if-new (file+head "inbox.org" "#+title: Inbox\n")))))
-
-  (global-set-key (kbd "C-c n x") #'my-org-roam-capture-inbox)
-#+end_src
-
-Capture a task directly into a specific project.
-
-#+begin_src emacs-lisp :tangle no
-  (defun my-org-roam-capture-task ()
-    (interactive)
-    ;; Add the project file to the agenda after capture is finished
-    (add-hook 'org-capture-after-finalize-hook #'my-org-roam-project-finalize-hook)
-
-    ;; Capture the new task, creating the project file if necessary
-    (org-roam-capture- :node (org-roam-node-read
-                              nil
-                              (my-org-roam-filter-by-tag "project"))
-                       :templates
-                       '(("p" "project" plain "** TODO %?"
-                          :if-new
-                          (file+head+olp "%<%Y%m%d%H%M%S>-${slug}.org"
-                                         "#+title: ${title}\n#+category: ${title}\n#+filetags: project"
-                                         ("Tasks"))))))
-
-  (global-set-key (kbd "C-c n t") #'my-org-roam-capture-task)
-#+end_src
-
-**** org-roam-ui (disabled)
-
-Display org roam database as connected nodes in the browser.
-
-#+begin_src emacs-lisp :tangle no
-  (use-package org-roam-ui
-    :ensure (
-             :host github
-             :repo "org-roam/org-roam-ui"
-             :branch "main"
-             :files ("*.el" "out"))
-    :after org-roam
-    ;;  :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
-  (use-package websocket
-    :ensure t
-    :straight t
-    :after org-roam)
-#+end_src
-
 *** Babel
 
 #+begin_src emacs-lisp
@@ -2851,14 +2380,6 @@ Display org roam database as connected nodes in the browser.
   (org-babel-do-load-languages 'org-babel-load-languages
                                load-language-alist)
 #+end_src
-
-*** TODO Transclusion
-
-- [ ] Install [[https://github.com/nobiot/org-transclusion][org-transclusion]]
-
-*** TODO Super Agenda
-
-- [ ] Install [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]]
 
 ** Denote
 
@@ -3016,30 +2537,6 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
      ("C-c n e n" . denote-explore-network)
      ("C-c n e v" . denote-explore-network-regenerate)
      ("C-c n e D" . denote-explore-degree-barchart)))
-#+end_src
-
-*** Consult notes (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package consult-notes
-    :ensure t
-    :commands (consult-notes
-               consult-notes-search-in-all-notes)
-    :init
-    (setq denote-work-journal-dir (concat denote-workdir "journal"))
-    :custom
-    (consult-notes-file-dir-sources
-     `(("Notes" ?n ,denote-directory)
-       ("Journals" ?j ,denote-journal-directory)
-       ("Agenda" ?a ,org-directory)
-       ("Work notes" ?N ,denote-workdir)
-       ("Work journals" ?J ,denote-work-journal-dir)))
-    :config
-    (when (locate-library "denote")
-      (consult-notes-denote-mode))
-    :bind
-    (("C-c n c" . consult-notes)
-     ("C-c n C" . consult-notes-search-in-all-notes)))
 #+end_src
 
 *** Consult dired
@@ -3329,17 +2826,6 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 #+begin_src emacs-lisp
   (use-package transpose-frame :ensure t)
-#+end_src
-
-*** Golden ratio (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package golden-ratio
-    :ensure t
-    :custom
-    (golden-ratio-auto-scale t)
-    :config
-    (golden-ratio-mode 1))
 #+end_src
 
 ** Buffers
