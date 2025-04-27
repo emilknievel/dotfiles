@@ -256,6 +256,10 @@
   :ensure nil ; no need to install it as it is built-in
   :hook (after-init . delete-selection-mode))
 
+(add-hook 'magit-diff-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'markdown-mode-hook 'visual-line-mode)
+
 (use-package eldoc
   :ensure nil
   :custom
@@ -1704,10 +1708,6 @@ any directory proferred by `consult-dir'."
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
-
-  :hook
-  ((org-mode gfm-mode markdown-mode) . visual-line-mode)
-  ;; ((org-mode gfm-mode markdown-mode) . variable-pitch-mode)
 
   :general (my-leader-keys
              "o b t" 'org-babel-tangle
