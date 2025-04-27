@@ -1163,40 +1163,19 @@ parses its input."
 
 (use-package treesit-auto
   :ensure t
-  :init
-  ;; Add a language to this list to make it automatically install and invoke its
-  ;; `ts-mode'.
-  ;;
-  ;; Note: The reason for `rust' not being in this list is described in the
-  ;; `rust-mode' package configuration.
-  (setq treesit-auto-langs
-        '(awk bash bibtex blueprint c c-sharp clojure cmake commonlisp cpp css
-              dart dockerfile elixir glsl go gomod heex html janet java
-              javascript json julia kotlin latex lua magik make markdown nix nu
-              org perl proto python r ruby scala sql surface toml tsx
-              typescript typst verilog vhdl vue wast wat wgsl yaml))
   :custom
   (treesit-auto-install 'prompt)
   :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
 (use-package rust-mode
   :ensure t
   :init
-  ;; For this to work properly `treesit-auto' has to be disabled for Rust.
-  ;; This is because `rust-mode' is derived from `rust-ts-mode' when
-  ;; `rust-mode-treesitter-derive-t' is set to `t', i.e. it is still `rust-mode'
-  ;; that should be invoked. `treesit-auto' makes it so that the `*-ts-mode'
-  ;; gets invoked instead, which breaks everything.
-  ;;
-  ;; My current workaround is to either temporarily add `rust' to
-  ;; `treesit-auto-langs' and then remove it again, or to install the grammar
-  ;; manually with `treesit-install-language-grammar'.
-  (setq rust-mode-treesitter-derive t)
-
-  (setq rust-format-on-save t)
+  (setq rust-mode-treesitter-derive t
+        rust-format-on-save t)
   :mode ("\\.rs\\'" . rust-mode)
-  :hook ((rust-mode . (lambda () (setq indent-tabs-mode nil)))
+  :hook ((rust-mode . (lambda () (setopt indent-tabs-mode nil)))
          (rust-mode . eglot-ensure)))
 
 (use-package flycheck-rust
