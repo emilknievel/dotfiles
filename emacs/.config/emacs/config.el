@@ -11,7 +11,7 @@
 
 (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
   (ido-mode t)
-  (setq ido-enable-flex-matching t))
+  (setopt ido-enable-flex-matching t))
 
 (unless (memq window-system '(mac ns))
   (menu-bar-mode -1))
@@ -26,7 +26,7 @@
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 
 (require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
+(setopt uniquify-buffer-name-style 'forward)
 
 ;; https://www.emacswiki.org/emacs/SavePlace
 (save-place-mode 1)
@@ -43,22 +43,24 @@
 (show-paren-mode 1)
 (setq-default indent-tabs-mode nil)
 (savehist-mode 1)
-(setq save-interprogram-paste-before-kill t
-      apropos-do-all t
-      mouse-yank-at-point t
-      require-final-newline t
-      ;; visible-bell t
-      load-prefer-newer t
-      backup-by-copying t
-      frame-inhibit-implied-resize t
-      ediff-window-setup-function 'ediff-setup-windows-plain
-      custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+(setq apropos-do-all t
+      ediff-window-setup-function 'ediff-setup-windows-plain)
+
+(setopt save-interprogram-paste-before-kill t
+        apropos-do-all t
+        mouse-yank-at-point t
+        require-final-newline t
+        load-prefer-newer t
+        backup-by-copying t
+        frame-inhibit-implied-resize t
+        custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1)
 
 ;; Revert Dired and other buffers
-(setq global-auto-revert-non-file-buffers t)
+(setopt global-auto-revert-non-file-buffers t)
 
 ;; Insert matching paren, bracket, etc. Surrounds active region with bracket.
 (electric-pair-mode 1)
@@ -67,12 +69,12 @@
 (set-default 'sentence-end-double-space nil)
 
 (unless backup-directory-alist
-  (setq backup-directory-alist `(("." . "/tmp/backups/"))))
+  (setopt backup-directory-alist `(("." . "/tmp/backups/"))))
 
 (make-directory "/tmp/auto-saves/" t)
 
-(setq auto-save-list-file-prefix "/tmp/auto-saves/sessions/"
-      auto-save-file-name-transforms `((".*" ,"/tmp/auto-saves/" t)))
+(setopt auto-save-list-file-prefix "/tmp/auto-saves/sessions/"
+        auto-save-file-name-transforms `((".*" ,"/tmp/auto-saves/" t)))
 
 (add-hook 'kill-emacs-hook (lambda ()
                              (dolist (file (directory-files
@@ -81,15 +83,16 @@
                                             "\\`auto-save-file-name-p\\'"))
                                (delete-file file))))
 
-(setq create-lockfiles nil)
+(setopt create-lockfiles nil)
 
-(setq calendar-week-start-day 1)
+(setopt calendar-week-start-day 1)
 
 (use-package exec-path-from-shell
   :ensure t
-  :config
-  (setq exec-path-from-shell-variables '("PATH" "WSL_DISTRO_NAME" "XDG_CONFIG_HOME"))
-  (exec-path-from-shell-initialize)
+  :custom (exec-path-from-shell-variables '("PATH"
+                                            "WSL_DISTRO_NAME"
+                                            "XDG_CONFIG_HOME"))
+  :config (exec-path-from-shell-initialize)
   :when
   (or (memq window-system '(mac ns x pgtk)) (daemonp)))
 
@@ -110,14 +113,13 @@
   (mapcar #'car alist))
 
 (use-package which-key
-  ;; :ensure (:wait t)
   :demand t
   :ensure t
   :init
   (which-key-mode)
   (which-key-setup-side-window-bottom)
-  :config
-  (setq which-key-idle-delay 0.3))
+  :custom
+  (which-key-idle-delay 0.3))
 
 (with-eval-after-load 'general
   (my-leader-keys
@@ -256,11 +258,11 @@
 
 (use-package eldoc
   :ensure nil
-  :config
+  :custom
   ;; Prevent long eldoc doc strings from resizing the echo area display.
-  (setq eldoc-echo-area-use-multiline-p nil))
+  (eldoc-echo-area-use-multiline-p nil))
 
-(setq inhibit-startup-screen t)
+(setopt inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)
 
@@ -269,8 +271,8 @@
 (use-package ultra-scroll
   :ensure (:host github :repo "jdtsmith/ultra-scroll")
   :init
-  (setq scroll-conservatively 101 ; important!
-        scroll-margin 0)
+  (setopt scroll-conservatively 101 ; important!
+          scroll-margin 0)
   :config
   (ultra-scroll-mode 1))
 
@@ -279,6 +281,7 @@
     :ensure t
     :demand t
     :config (ns-auto-titlebar-mode))
+  (setopt frame-resize-pixelwise t)
   (setq ns-use-proxy-icon nil
         ns-use-mwheel-momentum t
         ns-use-mwheel-acceleration t
@@ -288,7 +291,6 @@
         ;; ns-use-thin-smoothing t
 
         ;; ns-antialias-text nil
-        frame-resize-pixelwise t
         mac-command-modifier 'meta
         mac-right-command-modifier 'none
         mac-option-modifier 'super
@@ -301,32 +303,32 @@
         (let ((text (buffer-substring-no-properties start end)))
           (shell-command (concat "echo '" text "' | clip.exe"))))))
 
-(setq custom-theme-directory "~/.config/emacs/themes/")
+(setopt custom-theme-directory "~/.config/emacs/themes/")
 
 (use-package modus-themes
   :ensure t
   :after general
   :init
-  (setq modus-themes-mixed-fonts t
-        modus-themes-variable-pitch-ui nil
-        modus-themes-bold-constructs t
-        modus-themes-italic-constructs t
-        modus-themes-to-toggle '(modus-operandi modus-vivendi-tinted)
-        modus-themes-common-palette-overrides '((fringe unspecified)
-                                                (bg-paren-match bg-magenta-intense)
-                                                (fg-heading-1 blue-warmer)
-                                                (fg-heading-2 yellow-cooler)
-                                                (fg-heading-3 cyan-cooler))
-        ;; (border-mode-line-active unspecified)
-        ;; (border-mode-line-inactive unspecified))
-        modus-themes-headings '((0 . (1.5))
-                                (1 . (1.4))
-                                (2 . (1.3))
-                                (3 . (1.2))
-                                (4 . (1.1))
-                                (5 . (1.1))
-                                (6 . (1.0))
-                                (7 . (1.0))))
+  (setopt modus-themes-mixed-fonts t
+          modus-themes-variable-pitch-ui nil
+          modus-themes-bold-constructs t
+          modus-themes-italic-constructs t
+          modus-themes-to-toggle '(modus-operandi modus-vivendi-tinted)
+          modus-themes-common-palette-overrides '((fringe unspecified)
+                                                  (bg-paren-match bg-magenta-intense)
+                                                  (fg-heading-1 blue-warmer)
+                                                  (fg-heading-2 yellow-cooler)
+                                                  (fg-heading-3 cyan-cooler))
+          ;; (border-mode-line-active unspecified)
+          ;; (border-mode-line-inactive unspecified))
+          modus-themes-headings '((0 . (1.5))
+                                  (1 . (1.4))
+                                  (2 . (1.3))
+                                  (3 . (1.2))
+                                  (4 . (1.1))
+                                  (5 . (1.1))
+                                  (6 . (1.0))
+                                  (7 . (1.0))))
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
 
@@ -334,37 +336,37 @@
   :ensure t
   :after general
   :init
-  (setq ef-themes-to-toggle '(ef-maris-light ef-night))
-  :config
-  (setq ef-themes-mixed-fonts t
-        ef-themes-variable-pitch-ui nil
-        ef-themes-headings '((0 . (1.5))
-                             (1 . (1.4))
-                             (2 . (1.3))
-                             (3 . (1.2))
-                             (4 . (1.1))
-                             (5 . (1.1))
-                             (6 . (1.0))
-                             (7 . (1.0))))
+  (setopt ef-themes-to-toggle '(ef-maris-light ef-night))
+  :custom
+  (ef-themes-mixed-fonts t)
+  (ef-themes-variable-pitch-ui nil)
+  (ef-themes-headings '((0 . (1.5))
+                        (1 . (1.4))
+                        (2 . (1.3))
+                        (3 . (1.2))
+                        (4 . (1.1))
+                        (5 . (1.1))
+                        (6 . (1.0))
+                        (7 . (1.0))))
   :general (my-leader-keys
              "t t e" 'ef-themes-toggle))
 
 (use-package standard-themes
   :ensure t
   :init
-  (setq standard-themes-mixed-fonts t
-        standard-themes-variable-pitch-ui nil
-        standard-themes-bold-constructs t
-        standard-themes-italic-constructs t
-        standard-themes-common-palette-overrides '((fringe unspecified))
-        standard-themes-headings '((0 . (1.5))
-                                   (1 . (1.4))
-                                   (2 . (1.3))
-                                   (3 . (1.2))
-                                   (4 . (1.1))
-                                   (5 . (1.1))
-                                   (6 . (1.0))
-                                   (7 . (1.0)))))
+  (setopt standard-themes-mixed-fonts t
+          standard-themes-variable-pitch-ui nil
+          standard-themes-bold-constructs t
+          standard-themes-italic-constructs t
+          standard-themes-common-palette-overrides '((fringe unspecified))
+          standard-themes-headings '((0 . (1.5))
+                                     (1 . (1.4))
+                                     (2 . (1.3))
+                                     (3 . (1.2))
+                                     (4 . (1.1))
+                                     (5 . (1.1))
+                                     (6 . (1.0))
+                                     (7 . (1.0)))))
 
 (defun my-toggle-solarized ()
   "Toggle between light and dark solarized themes."
@@ -397,9 +399,10 @@
 (use-package doom-themes
   :ensure t
   :after general
+  :custom
+  (doom-themes-enable-bold t)
+  (doom-themes-enable-italic t)
   :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
   (doom-themes-org-config)
   :general (my-leader-keys
              "t t s" 'my-toggle-solarized
@@ -536,8 +539,8 @@ bar not using the proper theme if the server was loaded with a different theme."
     (use-package auto-dark
       :ensure t
       :init
-      (setq auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-            auto-dark-themes '((modus-vivendi-tinted) (modus-operandi)))
+      (setopt auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
+              auto-dark-themes '((modus-vivendi-tinted) (modus-operandi)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
@@ -547,7 +550,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (modus-themes-select 'modus-vivendi-tinted))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "JetBrainsMono Nerd Font")
+(defvar my-macos-font "FiraCode Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -638,67 +641,68 @@ bar not using the proper theme if the server was loaded with a different theme."
   ;; Persist the latest font preset when closing/starting Emacs and
   ;; while switching between themes.
   (fontaine-mode 1)
+  :custom
+  (fontaine-latest-state-file
+   (locate-user-emacs-file "fontaine-latest-state.eld"))
+  (fontaine-presets
+   `((small :default-height ,my-small-font-height)
+     (regular) ; like this it uses all the fallback values and is named `regular'
+     (medium :default-height ,my-medium-font-height)
+     (large :default-height ,my-large-font-height)
+     (presentation :default-height ,my-presentation-font-height)
+     (t
+      ;; I keep all properties for didactic purposes, but most can be
+      ;; omitted.  See the fontaine manual for the technicalities:
+      ;; <https://protesilaos.com/emacs/fontaine>.
+      :default-family ,my-default-font
+      :default-weight regular
+      :default-height ,my-font-height
+
+      :fixed-pitch-family nil ; falls back to :default-family
+      :fixed-pitch-weight nil ; falls back to :default-weight
+      :fixed-pitch-height 1.0
+
+      :fixed-pitch-serif-family nil ; falls back to :default-family
+      :fixed-pitch-serif-weight nil ; falls back to :default-weight
+      :fixed-pitch-serif-height 1.0
+
+      :variable-pitch-family ,my-variable-pitch-font
+      :variable-pitch-weight nil
+      :variable-pitch-height 1.0
+
+      :mode-line-active-family nil ; falls back to :default-family
+      :mode-line-active-weight nil ; falls back to :default-weight
+      :mode-line-active-height 1.0
+
+      :mode-line-inactive-family nil ; falls back to :default-family
+      :mode-line-inactive-weight nil ; falls back to :default-weight
+      :mode-line-inactive-height 1.0
+
+      :header-line-family nil ; falls back to :default-family
+      :header-line-weight nil ; falls back to :default-weight
+      :header-line-height 1.0
+
+      :line-number-family nil ; falls back to :default-family
+      :line-number-weight nil ; falls back to :default-weight
+      :line-number-height 1.0
+
+      :tab-bar-family nil ; falls back to :default-family
+      :tab-bar-weight nil ; falls back to :default-weight
+      :tab-bar-height 1.0
+
+      :tab-line-family nil ; falls back to :default-family
+      :tab-line-weight nil ; falls back to :default-weight
+      :tab-line-height 1.0
+
+      :bold-family nil ; use whatever the underlying face has
+      :bold-weight bold
+
+      :italic-family nil
+      :italic-slant italic
+
+      :line-spacing nil)))
+
   :config
-  (setq fontaine-latest-state-file
-        (locate-user-emacs-file "fontaine-latest-state.eld"))
-  (setq fontaine-presets
-        `((small :default-height ,my-small-font-height)
-          (regular) ; like this it uses all the fallback values and is named `regular'
-          (medium :default-height ,my-medium-font-height)
-          (large :default-height ,my-large-font-height)
-          (presentation :default-height ,my-presentation-font-height)
-          (t
-           ;; I keep all properties for didactic purposes, but most can be
-           ;; omitted.  See the fontaine manual for the technicalities:
-           ;; <https://protesilaos.com/emacs/fontaine>.
-           :default-family ,my-default-font
-           :default-weight regular
-           :default-height ,my-font-height
-
-           :fixed-pitch-family nil ; falls back to :default-family
-           :fixed-pitch-weight nil ; falls back to :default-weight
-           :fixed-pitch-height 1.0
-
-           :fixed-pitch-serif-family nil ; falls back to :default-family
-           :fixed-pitch-serif-weight nil ; falls back to :default-weight
-           :fixed-pitch-serif-height 1.0
-
-           :variable-pitch-family ,my-variable-pitch-font
-           :variable-pitch-weight nil
-           :variable-pitch-height 1.0
-
-           :mode-line-active-family nil ; falls back to :default-family
-           :mode-line-active-weight nil ; falls back to :default-weight
-           :mode-line-active-height 1.0
-
-           :mode-line-inactive-family nil ; falls back to :default-family
-           :mode-line-inactive-weight nil ; falls back to :default-weight
-           :mode-line-inactive-height 1.0
-
-           :header-line-family nil ; falls back to :default-family
-           :header-line-weight nil ; falls back to :default-weight
-           :header-line-height 1.0
-
-           :line-number-family nil ; falls back to :default-family
-           :line-number-weight nil ; falls back to :default-weight
-           :line-number-height 1.0
-
-           :tab-bar-family nil ; falls back to :default-family
-           :tab-bar-weight nil ; falls back to :default-weight
-           :tab-bar-height 1.0
-
-           :tab-line-family nil ; falls back to :default-family
-           :tab-line-weight nil ; falls back to :default-weight
-           :tab-line-height 1.0
-
-           :bold-family nil ; use whatever the underlying face has
-           :bold-weight bold
-
-           :italic-family nil
-           :italic-slant italic
-
-           :line-spacing nil)))
-
   ;; Set the last preset or fall back to desired style from `fontaine-presets'
   ;; (the `regular' in this case).
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
@@ -710,19 +714,19 @@ bar not using the proper theme if the server was loaded with a different theme."
   (defun my-display-line-numbers-absolute ()
     "Setup for absolute line numbers."
     (interactive)
-    (setq display-line-numbers-type t)
+    (setopt display-line-numbers-type t)
     (display-line-numbers-mode))
 
   (defun my-display-line-numbers-relative ()
     "Setup for relative line numbers."
     (interactive)
-    (setq display-line-numbers-type 'relative)
+    (setopt display-line-numbers-type 'relative)
     (display-line-numbers-mode))
 
   (defun my-display-line-numbers-visual ()
     "Setup for relative line numbers."
     (interactive)
-    (setq display-line-numbers-type 'visual)
+    (setopt display-line-numbers-type 'visual)
     (display-line-numbers-mode))
 
   (defun my-display-line-numbers-hidden ()
@@ -740,7 +744,7 @@ bar not using the proper theme if the server was loaded with a different theme."
     "u l v" 'my-display-line-numbers-visual
     "u l h" 'my-display-line-numbers-hidden))
 
-(setq show-trailing-whitespace t)
+(setopt show-trailing-whitespace t)
 
 (use-package nerd-icons :ensure t)
 
@@ -748,7 +752,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   :ensure t
   :hook ((dired-mode . nerd-icons-dired-mode)
          ;; prevent icons from overlapping vertically
-         (dired-mode . (lambda () (setq line-spacing 0.25)))))
+         (dired-mode . (lambda () (setopt line-spacing 0.25)))))
 
 (use-package all-the-icons
   :ensure t
@@ -756,23 +760,22 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (column-number-mode 1)
 
-(setq visible-bell nil
-      ring-bell-function 'flash-mode-line)
+(setopt visible-bell nil
+        ring-bell-function 'flash-mode-line)
 (defun flash-mode-line ()
   (invert-face 'mode-line)
   (run-with-timer 0.1 nil #'invert-face 'mode-line))
 
-(setq display-time-format " %H:%M ")
-(setq display-time-interval 60)
-(setq display-time-default-load-average nil)
+(setopt display-time-format " %H:%M "
+        display-time-interval 60
+        display-time-default-load-average nil)
 
 ;; Only display current date and time, not email stuff
-(setq display-time-string-forms
-      '((propertize
-         (format-time-string display-time-format now)
-         ;; 'face 'display-time-date-and-time
-         'help-echo (format-time-string "%a %b %e, %Y" now))
-        " "))
+(setopt display-time-string-forms
+        '((propertize (format-time-string display-time-format now)
+                      ;; 'face 'display-time-date-and-time
+                      'help-echo (format-time-string "%a %b %e, %Y" now))
+          " "))
 
 (display-time-mode 1)
 
@@ -1031,7 +1034,7 @@ parses its input."
 
   ;; Popup info
   ;; Display information about current completion item after 0.2 seconds.
-  (setq corfu-popupinfo-delay 0.2)
+  (corfu-popupinfo-delay 0.2)
 
   ;; Keybindings
   (global-set-key (kbd "C-M-i") #'corfu-complete) ; To invoke completion manually.
@@ -1055,14 +1058,14 @@ parses its input."
   :ensure nil
   :init
   ;; TAB cycle if there are only few candidates
-  (setq completion-cycle-threshold 3)
+  (setopt completion-cycle-threshold 3)
 
   ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
   ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
   ;; (setq read-extended-command-predicate
   ;;       #'command-completion-default-include-p)
 
-  (setq tab-always-indent t))
+  (setopt tab-always-indent t))
 
 (use-package nerd-icons-corfu
   :ensure t
@@ -1124,8 +1127,10 @@ parses its input."
 (use-package yasnippet
   :ensure t
   :init
-  (setq yas-snippet-dirs
-        `(,(concat user-emacs-directory (file-name-as-directory "snippets"))))
+  (setopt yas-snippet-dirs
+          `(,(concat user-emacs-directory
+                     (file-name-as-directory "snippets"))))
+
   :hook
   ;; still have to manually activate the mode for some reason...
   (snippet-mode . (lambda () (set (make-local-variable 'require-final-newline) nil)))
@@ -1146,14 +1151,14 @@ parses its input."
   :ensure t
   :after general
   :general (my-leader-keys "c a" 'eglot-code-actions)
-  :config
-  (setq eglot-autoshutdown t
+  :custom
+  (eglot-autoshutdown t)
 
-        ;; Hide code-action indicators to reduce noise.
-        eglot-code-action-indications '()
+  ;; Hide code-action indicators to reduce noise.
+  (eglot-code-action-indications '())
 
-        ;; Disables highlighting of the symbol at point.
-        eglot-ignored-server-capabilities '(:documentHighlightProvider)))
+  ;; Disables highlighting of the symbol at point.
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
 
 (use-package flycheck-eglot
   :ensure t
@@ -1196,11 +1201,11 @@ parses its input."
   :demand t
   :mode ("\\.md\\'" . gfm-mode)
   :init
-  (setq markdown-command "pandoc"
-        markdown-header-scaling nil
-        markdown-enable-math t
-        markdown-make-gfm-checkboxes-buttons t
-        markdown-fontify-code-blocks-natively t)
+  (setopt markdown-command "pandoc"
+          markdown-header-scaling nil
+          markdown-enable-math t
+          markdown-make-gfm-checkboxes-buttons t
+          markdown-fontify-code-blocks-natively t)
   :config
   (add-to-list 'markdown-code-lang-modes '("js" . js-ts-mode)))
 
@@ -1236,14 +1241,14 @@ installed."
   :ensure t
   :init
   ;; Open a REPL buffer without switching focus to it when Cider is invoked.
-  (setq cider-repl-pop-to-buffer-on-connect 'display-only)
+  (setopt cider-repl-pop-to-buffer-on-connect 'display-only)
 
   ;; Auto-trim REPL large buffer.
-  (setq cider-repl-buffer-size-limit 100000)
+  (setopt cider-repl-buffer-size-limit 100000)
   :hook
   ;; Keep prompt on bottom line when output is printed.
   (cider-repl-mode . (lambda ()
-                       (setq scroll-conservatively 101))))
+                       (setopt scroll-conservatively 101))))
 
 (use-package sly
   :ensure t
@@ -1333,14 +1338,13 @@ installed."
 
 (use-package magit
   :ensure t
-  :after general
-  :config
+  :custom
   ;; Make Magit the only window in the frame when invoked.
-  (setq magit-display-buffer-function
-        #'magit-display-buffer-fullframe-status-v1)
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+
   ;; Restore previous layout when exiting Magit.
-  (setq magit-bury-buffer-function
-        #'magit-restore-window-configuration)
+  (magit-bury-buffer-function #'magit-restore-window-configuration)
+
   :general
   (my-leader-keys
     "g g" 'magit-status
@@ -1371,7 +1375,7 @@ installed."
             (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
             (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))))
 
-(setq eshell-history-size 10000)
+(setopt eshell-history-size 10000)
 
 (global-set-key (kbd "<f12>") 'eshell)
 
@@ -1421,8 +1425,8 @@ installed."
             :wk "Dired to work notes"))
   :config
   (when (string= system-type "darwin")
-    (setq dired-use-ls-dired t
-          insert-directory-program "/opt/homebrew/bin/gls"))
+    (setopt dired-use-ls-dired t
+            insert-directory-program "/opt/homebrew/bin/gls"))
   :hook
   (dired-mode . dired-hide-details-mode)
   :custom
@@ -1565,16 +1569,16 @@ any directory proferred by `consult-dir'."
   ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
   ;; `consult-register-store' and the Emacs built-ins.
-  (setq register-preview-delay 0.5
-        register-preview-function #'consult-register-format)
+  (setopt register-preview-delay 0.5)
+  (setq register-preview-function #'consult-register-format)
 
   ;; Optionally tweak the register preview window.
   ;; This adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
 
   ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
+  (setopt xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref)
 
   ;; Configure other variables and modes in the :config section,
   ;; after lazily loading the package.
@@ -1598,7 +1602,7 @@ any directory proferred by `consult-dir'."
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
+  (setopt consult-narrow-key "<") ;; "C-+"
 
   ;; Optionally make narrowing help available in the minibuffer.
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
@@ -1762,15 +1766,18 @@ any directory proferred by `consult-dir'."
   :ensure t
   :demand t
   :init
-  (setq denote-directory (expand-file-name "~/Documents/notes/")
-        denote-workdir (expand-file-name "~/Documents/work-notes/mio/")
-        denote-date-prompt-use-org-read-date t)
+  (setopt denote-directory (expand-file-name "~/Documents/notes/")
+          denote-date-prompt-use-org-read-date t)
+
+  (setq denote-workdir (expand-file-name "~/Documents/work-notes/mio/"))
+
   :config
-  (setq denote-rename-buffer-format "[D] %t")
+  (setopt denote-rename-buffer-format "[D] %t")
   (setopt denote-file-type 'org)
   (denote-rename-buffer-mode 1)
+
   (with-eval-after-load 'org-capture
-    (setq denote-org-capture-specifiers "%l\n%i\n%?")
+    (setopt denote-org-capture-specifiers "%l\n%i\n%?")
     (add-to-list 'org-capture-templates
                  '("ndo" "New note" plain
                    (file denote-last-path)
@@ -1791,6 +1798,7 @@ any directory proferred by `consult-dir'."
                    :immediate-finish nil
                    :kill-buffer t
                    :jump-to-captured t)))
+
   :bind
   (("C-c n n" . denote)
    ("C-c n N" . denote-type)
@@ -1818,11 +1826,12 @@ any directory proferred by `consult-dir'."
   :ensure t
   :demand t
   :after denote
-  :config
-  (setq denote-journal-directory (expand-file-name "journal" denote-directory)
-        denote-journal-title-format 'day-date-month-year
-        denote-journal-keyword "journal")
+  :custom
+  (denote-journal-directory (expand-file-name "journal" denote-directory))
+  (denote-journal-title-format 'day-date-month-year)
+  (denote-journal-keyword "journal")
 
+  :config
   (with-eval-after-load 'org-capture
     (add-to-list 'org-capture-templates
                  '("ndj" "Journal" entry
@@ -1830,6 +1839,7 @@ any directory proferred by `consult-dir'."
                    "* %U %?"
                    :kill-buffer t
                    :empty-lines 1)))
+
   :bind
   (("C-c n j" . denote-journal-new-entry)
    ("C-c n J" . denote-journal-new-or-existing-entry)))
@@ -1893,9 +1903,12 @@ any directory proferred by `consult-dir'."
   :bind
   (("C-c n c f" . consult-denote-find)
    ("C-c n c g" . consult-denote-grep))
+
+  :custom
+  (consult-denote-find-command 'consult-fd)
+  (consult-denote-grep-command 'consult-ripgrep)
+
   :config
-  (setq consult-denote-find-command 'consult-fd
-        consult-denote-grep-command 'consult-ripgrep)
   (consult-denote-mode 1))
 
 (use-package pdf-tools
@@ -2020,20 +2033,20 @@ any directory proferred by `consult-dir'."
      (floor (* (frame-height) 2) 3)
      (floor (* (frame-height) 2) 3)))
 
-  (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "Output\\*$"
-          "\\*Async Shell Command\\*"
-          help-mode
-          helpful-mode
-          compilation-mode
-          "^\\*eshell.*\\*$" eshell-mode ; eshell as a popup
-          "^\\*shell.*\\*$"  shell-mode  ; shell as a popup
-          "^\\*term.*\\*$"   term-mode   ; term as a popup
-          "^\\*vterm.*\\*$"  vterm-mode  ; vterm as a popup
-          "^\\*eat.*\\*$"    eat-mode    ; eat as a popup
-          )
-        popper-window-height #'my-popper-window-height)
+  (setopt popper-reference-buffers
+          '("\\*Messages\\*"
+            "Output\\*$"
+            "\\*Async Shell Command\\*"
+            help-mode
+            helpful-mode
+            compilation-mode
+            "^\\*eshell.*\\*$" eshell-mode ; eshell as a popup
+            "^\\*shell.*\\*$"  shell-mode  ; shell as a popup
+            "^\\*term.*\\*$"   term-mode   ; term as a popup
+            "^\\*vterm.*\\*$"  vterm-mode  ; vterm as a popup
+            "^\\*eat.*\\*$"    eat-mode    ; eat as a popup
+            )
+          popper-window-height #'my-popper-window-height)
   (popper-mode +1)
   (popper-echo-mode +1)) ; For echo area hints
 
