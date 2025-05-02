@@ -1,0 +1,45 @@
+* Dotfiles
+
+Dotfiles is simply put a collection of different configuration files I want to have easy access to.
+
+** Prerequisites
+
++No installation needed in most POSIX style systems. The only requirement to apply the different configurations is to make sure to have GNU Stow installed.+ Not exactly true at this point. Will elaborate at some point. In the meantime, check =deps.txt=.
+
+*** Gnu Stow
+
+This project makes use of GNU Stow which basically is a "symlink farm manager". More info about GNU Stow and how to use it can be found [[https://www.gnu.org/software/stow/][here]].
+
+** Usage
+
+I feel the best way to explain how something works is to do it with an example. Let's say we have done some changes to our Emacs configurations and want to apply them to our system. All Emacs related stuff is contained in the emacs directory in the project, let's check out how to /stow/ it:
+
+#+begin_src sh
+# cwd: ~/
+cd dotfiles
+stow emacs
+#+end_src
+
+Now everything in the Emacs directory has been created in the home directory as symlinks. Note that everything has the exact same structure as in the Emacs directory.
+
+** Homebrew
+
+Most of the software I use is installed with the [[https://brew.sh/][Homebrew]] package manager. One cool feature of this is what's called =brew bundle=. With the =brew bundle= command I can track the packages through version control.
+
+To create a Brewfile from installed packages:
+
+#+begin_src sh
+  brew bundle dump --global --force
+#+end_src
+
+Since I have =$XDG_CONFIG_HOME= set, it will place the Brewfile in =~/.config/homebrew/= and as I have touched the file in this repo, the changes will be tracked.
+
+Then, if I want to ensure that another system installs the same packages, I simply call:
+
+#+begin_src sh
+  brew bundle --global
+#+end_src
+
+to install the packages defined in the Brewfile.
+
+More info about =brew bundle= can be found [[https://docs.brew.sh/Brew-Bundle-and-Brewfile][here]].
