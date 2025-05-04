@@ -503,7 +503,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
             modus-themes-variable-pitch-ui nil
             modus-themes-bold-constructs t
             modus-themes-italic-constructs t
-            modus-themes-to-toggle '(modus-operandi modus-vivendi-tinted)
+            modus-themes-to-toggle '(modus-operandi modus-vivendi)
             modus-themes-common-palette-overrides '((fringe unspecified)
                                                     (bg-paren-match bg-magenta-intense)
                                                     (fg-heading-1 blue-warmer)
@@ -530,7 +530,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
     :ensure t
     :after general
     :init
-    (setopt ef-themes-to-toggle '(ef-maris-light ef-night))
+    (setopt ef-themes-to-toggle '(ef-maris-light ef-owl))
     :custom
     (ef-themes-mixed-fonts t)
     (ef-themes-variable-pitch-ui nil)
@@ -782,14 +782,14 @@ Inspired by Plan 9 Acme & Sam.
         :ensure t
         :init
         (setopt auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-                auto-dark-themes '((modus-vivendi-tinted) (modus-operandi)))
+                auto-dark-themes '((modus-vivendi) (modus-operandi)))
         (auto-dark-mode t)
         :custom
         (custom-safe-themes t)
         :hook
-        (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi-tinted)))
+        (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi)))
         (auto-dark-light-mode . (lambda () (modus-themes-select 'modus-operandi))))
-    (modus-themes-select 'modus-vivendi-tinted))
+    (modus-themes-select 'modus-vivendi))
 #+end_src
 
 *** Fonts
@@ -798,7 +798,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Hack Nerd Font")
-  (defvar my-macos-font "FiraCode Nerd Font")
+  (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -806,7 +806,7 @@ Inspired by Plan 9 Acme & Sam.
 
   (if (eq system-type 'darwin)
       (progn (defvar my-default-font my-editor-font)
-             (defvar my-variable-pitch-font "Verdana")
+             (defvar my-variable-pitch-font "DejaVu Sans")
              (defvar my-serif-font "New York"))
     (progn (defvar my-default-font my-editor-font)
            (defvar my-variable-pitch-font "Inter")

@@ -317,7 +317,7 @@
           modus-themes-variable-pitch-ui nil
           modus-themes-bold-constructs t
           modus-themes-italic-constructs t
-          modus-themes-to-toggle '(modus-operandi modus-vivendi-tinted)
+          modus-themes-to-toggle '(modus-operandi modus-vivendi)
           modus-themes-common-palette-overrides '((fringe unspecified)
                                                   (bg-paren-match bg-magenta-intense)
                                                   (fg-heading-1 blue-warmer)
@@ -340,7 +340,7 @@
   :ensure t
   :after general
   :init
-  (setopt ef-themes-to-toggle '(ef-maris-light ef-night))
+  (setopt ef-themes-to-toggle '(ef-maris-light ef-owl))
   :custom
   (ef-themes-mixed-fonts t)
   (ef-themes-variable-pitch-ui nil)
@@ -544,17 +544,17 @@ bar not using the proper theme if the server was loaded with a different theme."
       :ensure t
       :init
       (setopt auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-              auto-dark-themes '((modus-vivendi-tinted) (modus-operandi)))
+              auto-dark-themes '((modus-vivendi) (modus-operandi)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi-tinted)))
+      (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi)))
       (auto-dark-light-mode . (lambda () (modus-themes-select 'modus-operandi))))
-  (modus-themes-select 'modus-vivendi-tinted))
+  (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "FiraCode Nerd Font")
+(defvar my-macos-font "Menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -562,7 +562,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "Verdana")
+           (defvar my-variable-pitch-font "DejaVu Sans")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "Inter")
