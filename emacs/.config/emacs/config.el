@@ -1773,7 +1773,6 @@ any directory proferred by `consult-dir'."
   (setq denote-workdir (expand-file-name "~/Documents/work-notes/mio/"))
 
   :config
-  (setopt denote-rename-buffer-format "[D] %t")
   (setopt denote-file-type 'org)
   (denote-rename-buffer-mode 1)
 
