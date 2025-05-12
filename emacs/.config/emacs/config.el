@@ -275,7 +275,7 @@
 (use-package ultra-scroll
   :ensure (:host github :repo "jdtsmith/ultra-scroll")
   :init
-  (setopt scroll-conservatively 101 ; important!
+  (setopt scroll-conservatively 3
           scroll-margin 0)
   :config
   (ultra-scroll-mode 1))
@@ -340,7 +340,7 @@
   :ensure t
   :after general
   :init
-  (setopt ef-themes-to-toggle '(ef-maris-light ef-owl))
+  (setopt ef-themes-to-toggle '(ef-reverie ef-owl))
   :custom
   (ef-themes-mixed-fonts t)
   (ef-themes-variable-pitch-ui nil)
@@ -554,7 +554,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "Menlo")
+(defvar my-macos-font "Aporetic Sans Mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -562,7 +562,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "DejaVu Sans")
+           (defvar my-variable-pitch-font "Aporetic Serif")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "Inter")
@@ -611,6 +611,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 ;;                       :family my-variable-pitch-font))
 
 (global-set-key (kbd "<f9>") 'variable-pitch-mode)
+(add-hook 'text-mode-hook 'variable-pitch-mode)
 
 (use-package ligature
   :ensure (:host github :repo "mickeynp/ligature.el")

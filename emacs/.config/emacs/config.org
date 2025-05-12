@@ -442,7 +442,7 @@ Smooth scrolling:
   (use-package ultra-scroll
     :ensure (:host github :repo "jdtsmith/ultra-scroll")
     :init
-    (setopt scroll-conservatively 101 ; important!
+    (setopt scroll-conservatively 3
             scroll-margin 0)
     :config
     (ultra-scroll-mode 1))
@@ -530,7 +530,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
     :ensure t
     :after general
     :init
-    (setopt ef-themes-to-toggle '(ef-maris-light ef-owl))
+    (setopt ef-themes-to-toggle '(ef-reverie ef-owl))
     :custom
     (ef-themes-mixed-fonts t)
     (ef-themes-variable-pitch-ui nil)
@@ -798,7 +798,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Hack Nerd Font")
-  (defvar my-macos-font "Menlo")
+  (defvar my-macos-font "Aporetic Sans Mono")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -806,7 +806,7 @@ Inspired by Plan 9 Acme & Sam.
 
   (if (eq system-type 'darwin)
       (progn (defvar my-default-font my-editor-font)
-             (defvar my-variable-pitch-font "DejaVu Sans")
+             (defvar my-variable-pitch-font "Aporetic Serif")
              (defvar my-serif-font "New York"))
     (progn (defvar my-default-font my-editor-font)
            (defvar my-variable-pitch-font "Inter")
@@ -863,6 +863,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "<f9>") 'variable-pitch-mode)
+  (add-hook 'text-mode-hook 'variable-pitch-mode)
 #+end_src
 
 **** Ligatures
