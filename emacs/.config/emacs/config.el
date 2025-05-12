@@ -340,7 +340,7 @@
   :ensure t
   :after general
   :init
-  (setopt ef-themes-to-toggle '(ef-reverie ef-owl))
+  (setopt ef-themes-to-toggle '(ef-maris-light ef-duo-dark))
   :custom
   (ef-themes-mixed-fonts t)
   (ef-themes-variable-pitch-ui nil)
@@ -544,12 +544,12 @@ bar not using the proper theme if the server was loaded with a different theme."
       :ensure t
       :init
       (setopt auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-              auto-dark-themes '((modus-vivendi) (modus-operandi)))
+              auto-dark-themes '((ef-duo-dark) (modus-operandi)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (modus-themes-select 'modus-vivendi)))
+      (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-duo-dark)))
       (auto-dark-light-mode . (lambda () (modus-themes-select 'modus-operandi))))
   (modus-themes-select 'modus-vivendi))
 
