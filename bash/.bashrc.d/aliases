@@ -52,6 +52,7 @@ alias ktest='kubectl --context MioAKSQAv2 -n test'
 alias sternp='stern --context MioAKSProduction -n production'
 alias sternq='stern --context MioAKSQAv2 -n qa'
 alias sternt='stern --context MioAKSQAv2 -n test'
+alias sterni='stern --context MioAKSProduction -n ingress-nginx ingress-nginx'
 
 alias lsofp='lsof -i tcp:' # List open files using specified port
 
