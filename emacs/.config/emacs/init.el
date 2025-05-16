@@ -76,6 +76,5 @@
       (org-babel-load-file (expand-file-name "config.el" user-emacs-directory))
     (org-babel-load-file (expand-file-name "config.org" user-emacs-directory))))
 
-
-(setq calendar-latitude  58.38959
-      calendar-longitude 13.83725)
+(put 'upcase-region 'disabled nil)
+(load-file (expand-file-name "lisp/journelly.el" user-emacs-directory))
