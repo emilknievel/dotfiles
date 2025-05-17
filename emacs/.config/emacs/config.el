@@ -2101,8 +2101,8 @@ any directory proferred by `consult-dir'."
 
 (use-package hl-todo
   :ensure t
-  :config
-  (global-hl-todo-mode 1))
+  :hook ((prog-mode . hl-todo-mode)
+         (conf-mode . hl-todo-mode)))
 
 (use-package transpose-frame :ensure t)
 

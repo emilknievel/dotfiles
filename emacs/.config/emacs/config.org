@@ -2808,8 +2808,8 @@ Highlights common "TODO" keywords.
 #+begin_src emacs-lisp
   (use-package hl-todo
     :ensure t
-    :config
-    (global-hl-todo-mode 1))
+    :hook ((prog-mode . hl-todo-mode)
+           (conf-mode . hl-todo-mode)))
 #+end_src
 
 ** Window management
