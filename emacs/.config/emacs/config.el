@@ -1642,7 +1642,7 @@ any directory proferred by `consult-dir'."
   (setopt org-directory (expand-file-name "~/Documents/org")
           org-agenda-files `(,org-directory)
           org-default-notes-file (concat org-directory "/inbox.org")
-          org-mio-notes-file (concat org-directory "/mio.org")
+          org-work-notes-file (concat org-directory "/work.org")
           org-journelly-file (concat org-directory "/Journelly.org"))
 
   (require 'org-indent)
@@ -1659,53 +1659,46 @@ any directory proferred by `consult-dir'."
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
   (org-startup-indented t)
+  (org-M-RET-may-split-line '((default . nil)))
 
-  ;; Add CLOSED: [timestamp] line after todo headline when marked as done
-  ;; and prompt for closing note.
-  (org-log-done 'note)
+  (org-log-done 'time)
+  (org-log-into-drawer t)
 
   ;; Ask how many minutes to keep if idle for at least 15 minutes.
   (org-clock-idle-time 15)
 
   (org-capture-templates
-   '(("f" "Fleeting note" item
-      (file+headline org-default-notes-file "Notes")
-      "- %?")
-
-     ("l" "New journe(l)ly note" entry
+   '(("l" "New journe(l)ly note" entry
       (file org-journelly-file)
-      "* %U @ -\n%?"
-      :prepend t)
+      "* %U @ %(journelly-generate-metadata)\n%?" :prepend t)
 
      ("m" "Meetings")
      ("mm" "Meetings - Mio" entry
-      (file+headline org-mio-notes-file "Möten")
-      "* %^{Please specify time of meeting}U %?")
+      (file+olp org-work-notes-file "Mio" "Meetings")
+      "* %^T %?" :empty-lines 1)
 
      ("n" "Notes")
      ("nd" "Denote")
 
      ("t" "Tasks")
-     ("ti" "New inbox task" entry
+     ("tt" "New inbox task" entry
       (file+headline org-default-notes-file "Tasks")
-      "* TODO %i%?")
+      "* TODO %i%?" :empty-lines 1)
      ("tw" "Work tasks")
      ("twm" "New Mio task" entry
-      (file+headline org-mio-notes-file "Uppgifter")
-      "* TODO %i%?")))
+      (file+olp org-work-notes-file "Mio" "Tasks")
+      "* TODO %i%?" :empty-lines 1)))
 
-  :config
-  ;; Agenda
-  (setopt org-refile-targets
-          '((org-agenda-files :maxlevel . 3)
-            (nil :maxlevel . 3)))
+  (org-refile-targets
+   '((org-agenda-files :maxlevel . 4)
+     (nil :maxlevel . 4)))
 
-  (setopt org-refile-use-outline-path t
-          org-refile-allow-creating-parent-nodes 'confirm
-          org-refile-use-cache t)
+  (org-refile-use-outline-path t)
+  (org-refile-allow-creating-parent-nodes 'confirm)
+  (org-refile-use-cache t)
 
-  (setopt org-todo-keywords
-          '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+  (org-todo-keywords
+   '((sequence "TODO(t)" "NEXT(n!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
 
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
