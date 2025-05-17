@@ -1974,13 +1974,18 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     :hook
     (dired-mode . dired-hide-details-mode)
     :custom
-    (dired-listing-switches "-aBhl --group-directories-first"))
+    (dired-listing-switches "-aBhl --group-directories-first")
+    (dired-create-destination-dirs t))
+#+end_src
 
+**** Dired-single
+
+#+begin_src emacs-lisp
   (use-package dired-single
     :ensure (:host github :repo "emacsattic/dired-single"))
 #+end_src
 
-**** Open current dir in eshell
+**** Open eshell in Dired directory
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'dired

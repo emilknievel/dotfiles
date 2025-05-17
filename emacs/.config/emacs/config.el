@@ -1435,7 +1435,8 @@ installed."
   :hook
   (dired-mode . dired-hide-details-mode)
   :custom
-  (dired-listing-switches "-aBhl --group-directories-first"))
+  (dired-listing-switches "-aBhl --group-directories-first")
+  (dired-create-destination-dirs t))
 
 (use-package dired-single
   :ensure (:host github :repo "emacsattic/dired-single"))
