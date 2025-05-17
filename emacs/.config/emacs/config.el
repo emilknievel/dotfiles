@@ -1682,7 +1682,7 @@ any directory proferred by `consult-dir'."
 
      ("t" "Tasks")
      ("tt" "New inbox task" entry
-      (file+headline org-default-notes-file "Tasks")
+      (file org-default-notes-file)
       "* TODO %i%?" :empty-lines 1)
      ("tw" "Work tasks")
      ("twm" "New Mio task" entry
