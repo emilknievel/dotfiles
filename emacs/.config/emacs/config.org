@@ -567,6 +567,13 @@ Workaround for copying text from Emacs to the Windows clipboard:
                                        (7 . (1.0)))))
 #+end_src
 
+**** Doric themes
+
+#+begin_src emacs-lisp
+  (use-package doric-themes
+    :ensure (:host github :repo "protesilaos/doric-themes"))
+#+end_src
+
 **** Doom
 
 #+begin_src emacs-lisp

@@ -372,6 +372,9 @@
                                      (6 . (1.0))
                                      (7 . (1.0)))))
 
+(use-package doric-themes
+  :ensure (:host github :repo "protesilaos/doric-themes"))
+
 (defun my-toggle-solarized ()
   "Toggle between light and dark solarized themes."
   (interactive)
