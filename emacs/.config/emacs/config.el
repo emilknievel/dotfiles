@@ -260,6 +260,8 @@
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 
+(add-hook 'org-agenda-mode-hook 'hl-line-mode)
+
 (use-package eldoc
   :ensure nil
   :custom

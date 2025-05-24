@@ -413,6 +413,12 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
   (add-hook 'markdown-mode-hook 'visual-line-mode)
 #+end_src
 
+*** Highlight line
+
+#+begin_src emacs-lisp
+  (add-hook 'org-agenda-mode-hook 'hl-line-mode)
+#+end_src
+
 ** Eldoc
 
 #+begin_src emacs-lisp
