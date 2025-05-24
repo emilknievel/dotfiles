@@ -24,7 +24,7 @@ Now everything in the Emacs directory has been created in the home directory as 
 
 ** Homebrew
 
-Most of the software I use is installed with the [[https://brew.sh/][Homebrew]] package manager. One cool feature of this is what's called =brew bundle=. With the =brew bundle= command I can track the packages through version control.
+Most of the software I use on macOS is installed with the [[https://brew.sh/][Homebrew]] package manager. With the =brew bundle= command I can track the packages through version control.
 
 To create a Brewfile from installed packages:
 
@@ -34,12 +34,12 @@ To create a Brewfile from installed packages:
 
 Since I have =$XDG_CONFIG_HOME= set, it will place the Brewfile in =~/.config/homebrew/= and as I have touched the file in this repo, the changes will be tracked.
 
-Then, if I want to ensure that another system installs the same packages, I simply call:
+Then, if I want to ensure that another system installs the same packages, I simply call...
 
 #+begin_src sh
   brew bundle --global
 #+end_src
 
-to install the packages defined in the Brewfile.
+...to install the packages defined in the Brewfile.
 
 More info about =brew bundle= can be found [[https://docs.brew.sh/Brew-Bundle-and-Brewfile][here]].
