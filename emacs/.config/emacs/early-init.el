@@ -6,8 +6,21 @@
 
 ;;; Code:
 
+;; Garbage collection
+
+(defun my-minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun my-minibuffer-exit-hook ()
+  (setq gc-cons-threshold 800000000))
+
 (setq gc-cons-threshold most-positive-fixnum)
-(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold (expt 2 23))))
+
+(run-with-idle-timer 1.2 t 'garbage-collect)
+
+(add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
+
 
 (setq native-comp-jit-compilation nil)
 (setq load-prefer-newer noninteractive)
