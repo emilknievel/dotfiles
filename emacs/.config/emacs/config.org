@@ -2008,6 +2008,17 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     (define-key dired-mode-map "`" (lambda () (interactive) (eshell))))
 #+end_src
 
+**** Open file when pressing enter during search
+
+#+begin_src emacs-lisp
+  (defadvice isearch-exit (after dired-enter-directory-or-file activate)
+    "In dired mode, enter directory or open file after isearch."
+    (when (eq major-mode 'dired-mode)
+      (let ((file (dired-get-file-for-visit)))
+        (when file
+          (dired-find-file)))))
+#+end_src
+
 *** Hide/show hidden files
 
 #+begin_src emacs-lisp

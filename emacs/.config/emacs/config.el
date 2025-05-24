@@ -1448,6 +1448,13 @@ installed."
 (with-eval-after-load 'dired
   (define-key dired-mode-map "`" (lambda () (interactive) (eshell))))
 
+(defadvice isearch-exit (after dired-enter-directory-or-file activate)
+  "In dired mode, enter directory or open file after isearch."
+  (when (eq major-mode 'dired-mode)
+    (let ((file (dired-get-file-for-visit)))
+      (when file
+        (dired-find-file)))))
+
 (use-package dired-hide-dotfiles :ensure t)
 
 (use-package treemacs
