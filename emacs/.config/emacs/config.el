@@ -288,19 +288,15 @@
     :demand t
     :config (ns-auto-titlebar-mode))
   (setopt frame-resize-pixelwise t)
-  (setq ns-use-proxy-icon nil
-        ns-use-mwheel-momentum t
-        ns-use-mwheel-acceleration t
-
-        ;; using `defaults write org.gnu.Emacs AppleFontSmoothing -int 0'
-        ;; instead of below. For now.
-        ;; ns-use-thin-smoothing t
-
-        ;; ns-antialias-text nil
-        mac-command-modifier 'meta
-        mac-right-command-modifier 'none
-        mac-option-modifier 'super
-        mac-control-modifier 'control))
+  (setq-default ns-use-proxy-icon nil
+                ns-use-mwheel-momentum t
+                ns-use-mwheel-acceleration t
+                ns-use-thin-smoothing t
+                ;; ns-antialias-text nil
+                mac-command-modifier 'meta
+                mac-right-command-modifier 'none
+                mac-option-modifier 'super
+                mac-control-modifier 'control))
 
 (when (getenv "WSL_DISTRO_NAME")
   (defun copy-selected-text (start end)
@@ -362,8 +358,8 @@
   :init
   (setopt standard-themes-mixed-fonts t
           standard-themes-variable-pitch-ui nil
-          standard-themes-bold-constructs t
-          standard-themes-italic-constructs t
+          standard-themes-bold-constructs nil
+          standard-themes-italic-constructs nil
           standard-themes-common-palette-overrides '((fringe unspecified))
           standard-themes-headings '((0 . (1.5))
                                      (1 . (1.4))
@@ -559,7 +555,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "Aporetic Sans Mono")
+(defvar my-macos-font "DejaVuSansM Nerd Font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -567,7 +563,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "Aporetic Serif")
+           (defvar my-variable-pitch-font "Verdana")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "Inter")
@@ -616,7 +612,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 ;;                       :family my-variable-pitch-font))
 
 (global-set-key (kbd "<f9>") 'variable-pitch-mode)
-(add-hook 'text-mode-hook 'variable-pitch-mode)
+;; (add-hook 'text-mode-hook 'variable-pitch-mode)
 
 (use-package ligature
   :ensure (:host github :repo "mickeynp/ligature.el")
@@ -668,9 +664,9 @@ bar not using the proper theme if the server was loaded with a different theme."
       :default-weight regular
       :default-height ,my-font-height
 
-      :fixed-pitch-family nil ; falls back to :default-family
+      :fixed-pitch-family ,my-default-font ; falls back to :default-family
       :fixed-pitch-weight nil ; falls back to :default-weight
-      :fixed-pitch-height 1.0
+      :fixed-pitch-height 1.0 ;,(/ 1 1.1)
 
       :fixed-pitch-serif-family nil ; falls back to :default-family
       :fixed-pitch-serif-weight nil ; falls back to :default-weight
@@ -678,7 +674,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
       :variable-pitch-family ,my-variable-pitch-font
       :variable-pitch-weight nil
-      :variable-pitch-height 1.0
+      :variable-pitch-height 1.0 ; 1.1
 
       :mode-line-active-family nil ; falls back to :default-family
       :mode-line-active-weight nil ; falls back to :default-weight
@@ -705,10 +701,10 @@ bar not using the proper theme if the server was loaded with a different theme."
       :tab-line-height 1.0
 
       :bold-family nil ; use whatever the underlying face has
-      :bold-weight bold
+      :bold-weight nil
 
       :italic-family nil
-      :italic-slant italic
+      :italic-slant nil
 
       :line-spacing nil)))
 
@@ -1175,6 +1171,8 @@ parses its input."
   :after (flycheck eglot)
   :config
   (global-flycheck-eglot-mode 1))
+
+(setopt treesit-font-lock-level 2) ; default: 3
 
 (use-package treesit-auto
   :ensure t
