@@ -1413,8 +1413,9 @@ installed."
 (use-package eshell-atuin
   :ensure t
   :after eshell
-  :hook
-  (eshell-mode . eshell-atuin-mode))
+  :bind (:map eshell-mode-map
+              ("C-r" . eshell-atuin-history))
+  :hook (eshell-mode . eshell-atuin-mode))
 
 (use-package project
   :general
