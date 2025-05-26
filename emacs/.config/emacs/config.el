@@ -555,7 +555,7 @@ bar not using the proper theme if the server was loaded with a different theme."
   (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "DejaVuSansM Nerd Font")
+(defvar my-macos-font "Menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -2116,6 +2116,9 @@ any directory proferred by `consult-dir'."
          (conf-mode . hl-todo-mode)))
 
 (use-package transpose-frame :ensure t)
+
+(use-package ace-window
+  :bind (("C-x o" . ace-window)))
 
 (defun nuke-all-buffers ()
   "Kill all buffers, leaving *scratch* only."

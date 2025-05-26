@@ -807,7 +807,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Hack Nerd Font")
-  (defvar my-macos-font "DejaVuSansM Nerd Font")
+  (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -2847,6 +2847,13 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 #+begin_src emacs-lisp
   (use-package transpose-frame :ensure t)
+#+end_src
+
+*** ace-window
+
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :bind (("C-x o" . ace-window)))
 #+end_src
 
 ** Buffers
