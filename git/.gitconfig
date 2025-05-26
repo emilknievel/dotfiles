@@ -24,6 +24,7 @@
 	d = diff
 	ds = diff --staged
 	cob = checkout -b
+	sh = show
 [diff]
 	tool = nvim
 [merge]
