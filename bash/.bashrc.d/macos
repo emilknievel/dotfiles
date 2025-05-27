@@ -28,6 +28,9 @@ export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 # use gnu-awk instead of awk on mac
 export PATH="/opt/homebrew/opt/gawk/libexec/gnubin:$PATH"
 
+# use gnu-sed instead of bsd sed
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+
 # go back to using BSD provided stty instead of GNU coreutils version
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -47,6 +50,8 @@ then
     done
   fi
 fi
+
+eval "$(brew shellenv)"
 
 # dotnet from M$ website, already in path
 DOTNET_ROOT="$(dirname "$(which dotnet)")"
