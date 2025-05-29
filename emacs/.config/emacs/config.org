@@ -2720,9 +2720,9 @@ GPTel allows us to talk with different LLMs from within Emacs.
       "a s" 'gptel-send))
 #+end_src
 
-** Popper
+** Popper (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package popper
     :ensure t
     :bind (("C-`"   . popper-toggle)

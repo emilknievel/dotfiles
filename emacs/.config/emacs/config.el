@@ -2024,36 +2024,6 @@ any directory proferred by `consult-dir'."
     "a g" 'gptel-menu
     "a s" 'gptel-send))
 
-(use-package popper
-  :ensure t
-  :bind (("C-`"   . popper-toggle)
-         ("M-`"   . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
-  :init
-  (defun my-popper-window-height (window)
-    "Make popper windows cover 2/3 of frame height."
-    (fit-window-to-buffer
-     window
-     (floor (* (frame-height) 2) 3)
-     (floor (* (frame-height) 2) 3)))
-
-  (setopt popper-reference-buffers
-          '("\\*Messages\\*"
-            "Output\\*$"
-            "\\*Async Shell Command\\*"
-            help-mode
-            helpful-mode
-            compilation-mode
-            "^\\*eshell.*\\*$" eshell-mode ; eshell as a popup
-            "^\\*shell.*\\*$"  shell-mode  ; shell as a popup
-            "^\\*term.*\\*$"   term-mode   ; term as a popup
-            "^\\*vterm.*\\*$"  vterm-mode  ; vterm as a popup
-            "^\\*eat.*\\*$"    eat-mode    ; eat as a popup
-            )
-          popper-window-height #'my-popper-window-height)
-  (popper-mode +1)
-  (popper-echo-mode +1)) ; For echo area hints
-
 (defun my-insert-timestamp ()
   "Insert timestamp with format [%H:%M] at point."
   (interactive)
