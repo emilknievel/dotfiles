@@ -197,7 +197,7 @@
   (my-leader-keys
     ;; toggles
     "t v" '(visual-line-mode :wk "visual line mode")
-    "t n" '(display-line-numbers-mode :wk "display line numbers")
+    "t n" '(global-display-line-numbers-mode :wk "display line numbers")
     "t c" '(visual-fill-column-mode :wk "visual fill column mode")))
 
 (with-eval-after-load 'general
