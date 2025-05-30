@@ -1034,10 +1034,15 @@ Turn on line numbers for program and configuration modes.
 
 *** Whitespace
 
-Show trailing whitespace in buffer.
+**** Toggle trailing whitespace highlight
 
 #+begin_src emacs-lisp
-  (setopt show-trailing-whitespace t)
+  (defun my-toggle-show-trailing-whitespace ()
+    "Toggle whether or not to show trailing whitespace in buffer."
+    (interactive)
+    (if (eq show-trailing-whitespace nil)
+        (setopt show-trailing-whitespace t)
+      (setopt show-trailing-whitespace nil)))
 #+end_src
 
 *** Icons

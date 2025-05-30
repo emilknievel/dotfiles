@@ -749,7 +749,12 @@ bar not using the proper theme if the server was loaded with a different theme."
     "u l v" 'my-display-line-numbers-visual
     "u l h" 'my-display-line-numbers-hidden))
 
-(setopt show-trailing-whitespace t)
+(defun my-toggle-show-trailing-whitespace ()
+  "Toggle whether or not to show trailing whitespace in buffer."
+  (interactive)
+  (if (eq show-trailing-whitespace nil)
+      (setopt show-trailing-whitespace t)
+    (setopt show-trailing-whitespace nil)))
 
 (use-package nerd-icons :ensure t)
 
