@@ -35,6 +35,7 @@
 	quotepath = false
 	excludesfile = .config/git/gitignore_global
 	autocrlf = input
+	whitespace = error
 [help]
 	# Auto-corrects typos, with a short delay and a warning message (e.g. git commit)
 	autocorrect = 1
