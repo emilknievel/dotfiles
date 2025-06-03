@@ -756,6 +756,10 @@ bar not using the proper theme if the server was loaded with a different theme."
       (setopt show-trailing-whitespace t)
     (setopt show-trailing-whitespace nil)))
 
+(with-eval-after-load 'general
+  (my-leader-keys
+    "t w" 'my-toggle-show-trailing-whitespace))
+
 (use-package nerd-icons :ensure t)
 
 (use-package nerd-icons-dired
