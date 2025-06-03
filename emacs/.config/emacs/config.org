@@ -1087,6 +1087,14 @@ Install icon fonts with ~M-x all-the-icons-install-fonts~
   (column-number-mode 1)
 #+end_src
 
+**** Inherit active face from base
+
+This ensures that =mode-line-active= face inherits =mode-line=.
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'mode-line-active nil :inherit 'mode-line)
+#+end_src
+
 **** Flash mode line instead of visual-bell
 
 #+begin_src emacs-lisp
@@ -1130,7 +1138,7 @@ Display the current date and time on the mode line.
 
 *** Padding
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package spacious-padding
     :ensure t
     :defer nil

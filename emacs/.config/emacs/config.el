@@ -774,6 +774,8 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (column-number-mode 1)
 
+(set-face-attribute 'mode-line-active nil :inherit 'mode-line)
+
 (setopt visible-bell nil
         ring-bell-function 'flash-mode-line)
 (defun flash-mode-line ()
@@ -798,23 +800,6 @@ bar not using the proper theme if the server was loaded with a different theme."
   :after general
   :init
   (minions-mode))
-
-(use-package spacious-padding
-  :ensure t
-  :defer nil
-  :custom
-  (spacious-padding-widths
-   '( :internal-border-width 15
-      :header-line-width 4
-      :mode-line-width 6
-      :tab-width 4
-      :right-divider-width 30
-      :scroll-bar-width 8
-      :fringe-width 8))
-
-  (spacious-padding-subtle-mode-line t)
-
-  :bind ("<f8>" . spacious-padding-mode))
 
 (use-package nerd-icons-completion
   :ensure t
