@@ -544,17 +544,17 @@ bar not using the proper theme if the server was loaded with a different theme."
       :ensure t
       :init
       (setopt auto-dark-allow-osascript t ; needed for it to work with emacsclient on macOS.
-              auto-dark-themes '((ef-duo-dark) (modus-operandi)))
+              auto-dark-themes '((doric-obsidian) (doric-marble)))
       (auto-dark-mode t)
       :custom
       (custom-safe-themes t)
       :hook
-      (auto-dark-dark-mode . (lambda () (ef-themes-select-dark 'ef-duo-dark)))
-      (auto-dark-light-mode . (lambda () (modus-themes-select 'modus-operandi))))
+      (auto-dark-dark-mode . (lambda () (doric-themes-select 'doric-obsidian)))
+      (auto-dark-light-mode . (lambda () (doric-themes-select 'doric-marble))))
   (modus-themes-select 'modus-vivendi))
 
 (defvar my-linux-font "Hack Nerd Font")
-(defvar my-macos-font "Menlo")
+(defvar my-macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
