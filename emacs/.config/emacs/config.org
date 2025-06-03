@@ -1832,6 +1832,13 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
   (add-hook 'find-file-hook 'my-maybe-load-bash-ts-mode)
 #+end_src
 
+*** C
+
+#+begin_src emacs-lisp
+  (setopt c-ts-mode-indent-style 'k&r
+          c-ts-mode-indent-offset 4)
+#+end_src
+
 ** Syntax checking
 
 #+begin_src emacs-lisp

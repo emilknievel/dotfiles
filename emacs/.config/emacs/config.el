@@ -1321,6 +1321,9 @@ installed."
 
 (add-hook 'find-file-hook 'my-maybe-load-bash-ts-mode)
 
+(setopt c-ts-mode-indent-style 'k&r
+        c-ts-mode-indent-offset 4)
+
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
