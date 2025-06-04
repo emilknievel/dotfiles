@@ -15,6 +15,6 @@ if ! shopt -oq posix; then
 fi
 
 # find git-prompt file to be used in main bash file
-if [[ -e /usr/share/git-core/contrib/completion/git-prompt.sh ]]; then
-  . /usr/share/git-core/contrib/completion/git-prompt.sh
+if [[ -e /usr/share/git/git-prompt.sh ]]; then
+  . /usr/share/git/git-prompt.sh
 fi
