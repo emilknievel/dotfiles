@@ -553,7 +553,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (auto-dark-light-mode . (lambda () (doric-themes-select 'doric-marble))))
   (modus-themes-select 'modus-vivendi))
 
-(defvar my-linux-font "Hack Nerd Font")
+(defvar my-linux-font "Hack")
 (defvar my-macos-font "SF Mono")
 
 (if (eq system-type 'darwin)
@@ -565,7 +565,7 @@ bar not using the proper theme if the server was loaded with a different theme."
            (defvar my-variable-pitch-font "Verdana")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "Inter")
+         (defvar my-variable-pitch-font "DejaVu Sans")
          (defvar my-serif-font "DejaVu Serif")))
 
 (defun my-setup-linux-fonts ()
