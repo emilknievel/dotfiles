@@ -2883,7 +2883,7 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 #+begin_src emacs-lisp
   (defun nuke-all-buffers ()
-    "Kill all buffers, leaving *scratch* only."
+    "Kill all buffers except for *scratch*."
     (interactive)
     (mapc
      (lambda (buffer)
@@ -2892,6 +2892,16 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
     (delete-other-windows))
 
   (my-leader-keys "b K" 'nuke-all-buffers)
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun my-kill-buffer-and-delete-window ()
+    "Kill the active buffer and delete the containing window."
+    (interactive)
+    (kill-buffer)
+    (delete-window))
+
+  (global-set-key (kbd "C-x M-k") 'my-kill-buffer-and-delete-window)
 #+end_src
 
 ** Compilation

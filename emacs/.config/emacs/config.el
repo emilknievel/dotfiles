@@ -2087,7 +2087,7 @@ any directory proferred by `consult-dir'."
   :bind (("C-x o" . ace-window)))
 
 (defun nuke-all-buffers ()
-  "Kill all buffers, leaving *scratch* only."
+  "Kill all buffers except for *scratch*."
   (interactive)
   (mapc
    (lambda (buffer)
@@ -2096,6 +2096,14 @@ any directory proferred by `consult-dir'."
   (delete-other-windows))
 
 (my-leader-keys "b K" 'nuke-all-buffers)
+
+(defun my-kill-buffer-and-delete-window ()
+  "Kill the active buffer and delete the containing window."
+  (interactive)
+  (kill-buffer)
+  (delete-window))
+
+(global-set-key (kbd "C-x M-k") 'my-kill-buffer-and-delete-window)
 
 (setq-default compilation-scroll-output t)
 
