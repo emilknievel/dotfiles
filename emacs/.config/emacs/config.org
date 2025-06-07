@@ -578,13 +578,6 @@ Workaround for copying text from Emacs to the Windows clipboard:
 **** Doom
 
 #+begin_src emacs-lisp
-  (defun my-toggle-solarized ()
-    "Toggle between light and dark solarized themes."
-    (interactive)
-    (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-dark)
-        (my-solarized-light)
-      (my-solarized-dark)))
-
   (defun my-toggle-rose-pine ()
     "Toggle between light and dark Rosé Pine themes."
     (interactive)
@@ -615,7 +608,6 @@ Workaround for copying text from Emacs to the Windows clipboard:
     :config
     (doom-themes-org-config)
     :general (my-leader-keys
-               "t t s" 'my-toggle-solarized
                "t t r" 'my-toggle-rose-pine
                "t t d" 'my-doom-one
                "t t g" 'my-toggle-gruvbox
@@ -670,6 +662,24 @@ Inspired by Plan 9 Acme & Sam.
   (use-package tao-theme :ensure t)
 #+end_src
 
+**** Solarized
+
+#+begin_src emacs-lisp
+  (use-package solarized-theme
+    :ensure t
+    :custom
+    (solarized-use-variable-pitch nil)
+    :general (my-leader-keys
+               "t t s" 'my-toggle-solarized))
+
+  (defun my-toggle-solarized ()
+    "Toggle between light and dark solarized themes."
+    (interactive)
+    (if (eq (nth 0 custom-enabled-themes) 'solarized-dark)
+        (my-solarized-light)
+      (my-solarized-dark)))
+#+end_src
+
 **** Functions
 
 #+begin_src emacs-lisp
@@ -691,12 +701,12 @@ Inspired by Plan 9 Acme & Sam.
   (defun my-solarized-light ()
     "Clear previous theme and load solarized light"
     (interactive)
-    (my-load-theme 'doom-solarized-light))
+    (my-load-theme 'solarized-light))
 
   (defun my-solarized-dark ()
     "Clear previous theme and load solarized dark"
     (interactive)
-    (my-load-theme 'doom-solarized-dark))
+    (my-load-theme 'solarized-dark))
 
   (defun my-rose-pine ()
     "Clear previous theme and load rosé pine."
@@ -1549,9 +1559,11 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 ** Eglot
 
 #+begin_src emacs-lisp
+  (use-package flymake :ensure t)
+
   (use-package eglot
     :ensure t
-    :after general
+    :after (general flymake)
     :general (my-leader-keys "c a" 'eglot-code-actions)
     :custom
     (eglot-autoshutdown t)
