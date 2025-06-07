@@ -1345,8 +1345,7 @@ installed."
   (setf (alist-get 'python-mode apheleia-mode-alist)
         '(ruff-isort ruff))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist)
-        '(ruff-isort ruff))
-  (apheleia-global-mode +1))
+        '(ruff-isort ruff)))
 
 (use-package magit
   :ensure t

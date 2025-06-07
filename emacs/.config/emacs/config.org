@@ -1873,8 +1873,7 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
     (setf (alist-get 'python-mode apheleia-mode-alist)
           '(ruff-isort ruff))
     (setf (alist-get 'python-ts-mode apheleia-mode-alist)
-          '(ruff-isort ruff))
-    (apheleia-global-mode +1))
+          '(ruff-isort ruff)))
 #+end_src
 
 ** Git
