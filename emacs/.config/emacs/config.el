@@ -316,7 +316,7 @@
           modus-themes-variable-pitch-ui nil
           modus-themes-bold-constructs nil
           modus-themes-italic-constructs nil
-          modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)f
+          modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
           modus-themes-common-palette-overrides '((fringe unspecified)
                                                   (bg-paren-match bg-magenta-intense)
                                                   (fg-heading-1 blue-warmer)
