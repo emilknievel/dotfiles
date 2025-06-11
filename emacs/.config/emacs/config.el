@@ -545,7 +545,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
 
-(if (not (getenv "WSL_DISTRO_NAME")) ; Doesn't recognize dark/light mode in WSL.
+(when (not (getenv "WSL_DISTRO_NAME")) ; Doesn't recognize dark/light mode in WSL.
     (use-package auto-dark
       :ensure t
       :init
@@ -556,8 +556,7 @@ bar not using the proper theme if the server was loaded with a different theme."
       (custom-safe-themes t)
       :hook
       (auto-dark-dark-mode . (lambda () (doric-themes-select 'doric-obsidian)))
-      (auto-dark-light-mode . (lambda () (doric-themes-select 'doric-marble))))
-  (modus-themes-select 'modus-vivendi))
+      (auto-dark-light-mode . (lambda () (doric-themes-select 'doric-marble)))))
 
 (defvar my-linux-font "Hack")
 (defvar my-macos-font "SF Mono")

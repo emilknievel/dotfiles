@@ -795,7 +795,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Auto-Dark for Emacs
 
 #+begin_src emacs-lisp
-  (if (not (getenv "WSL_DISTRO_NAME")) ; Doesn't recognize dark/light mode in WSL.
+  (when (not (getenv "WSL_DISTRO_NAME")) ; Doesn't recognize dark/light mode in WSL.
       (use-package auto-dark
         :ensure t
         :init
@@ -806,8 +806,7 @@ Inspired by Plan 9 Acme & Sam.
         (custom-safe-themes t)
         :hook
         (auto-dark-dark-mode . (lambda () (doric-themes-select 'doric-obsidian)))
-        (auto-dark-light-mode . (lambda () (doric-themes-select 'doric-marble))))
-    (modus-themes-select 'modus-vivendi))
+        (auto-dark-light-mode . (lambda () (doric-themes-select 'doric-marble)))))
 #+end_src
 
 *** Fonts
