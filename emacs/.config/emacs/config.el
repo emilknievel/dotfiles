@@ -287,7 +287,8 @@
     :ensure t
     :demand t
     :config (ns-auto-titlebar-mode))
-  (setopt frame-resize-pixelwise t)
+  (setopt frame-resize-pixelwise t
+          x-underline-at-descent-line t)
   (setq-default ns-use-proxy-icon nil
                 ns-use-mwheel-momentum t
                 ns-use-mwheel-acceleration t
