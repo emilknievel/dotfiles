@@ -427,19 +427,26 @@
 
 (use-package tao-theme :ensure t)
 
-(use-package solarized-theme
-  :ensure t
-  :custom
-  (solarized-use-variable-pitch nil)
-  :general (my-leader-keys
-             "t t s" 'my-toggle-solarized))
+(with-eval-after-load 'general
+  (my-leader-keys
+    "t t s" 'my-toggle-solarized))
 
 (defun my-toggle-solarized ()
   "Toggle between light and dark solarized themes."
   (interactive)
-  (if (eq (nth 0 custom-enabled-themes) 'solarized-dark)
+  (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-dark)
       (my-solarized-light)
     (my-solarized-dark)))
+
+(defun my-solarized-light ()
+  "Clear previous theme and load solarized light"
+  (interactive)
+  (my-load-theme 'doom-solarized-light))
+
+(defun my-solarized-dark ()
+  "Clear previous theme and load solarized dark"
+  (interactive)
+  (my-load-theme 'doom-solarized-dark))
 
 (defun my-clear-theme ()
   "Clear current theme"
@@ -455,16 +462,6 @@ If THEME is provided as an argument, load that theme directly."
   (if theme
       (load-theme theme t)
     (call-interactively 'load-theme)))
-
-(defun my-solarized-light ()
-  "Clear previous theme and load solarized light"
-  (interactive)
-  (my-load-theme 'solarized-light))
-
-(defun my-solarized-dark ()
-  "Clear previous theme and load solarized dark"
-  (interactive)
-  (my-load-theme 'solarized-dark))
 
 (defun my-rose-pine ()
   "Clear previous theme and load rosé pine."
