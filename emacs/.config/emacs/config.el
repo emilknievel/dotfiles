@@ -287,8 +287,7 @@
     :ensure t
     :demand t
     :config (ns-auto-titlebar-mode))
-  (setopt frame-resize-pixelwise t
-          x-underline-at-descent-line t)
+  (setopt frame-resize-pixelwise t)
   (setq-default ns-use-proxy-icon nil
                 ns-use-mwheel-momentum t
                 ns-use-mwheel-acceleration t
@@ -561,7 +560,7 @@ bar not using the proper theme if the server was loaded with a different theme."
                               (modus-themes-select 'modus-operandi-tinted)))))
 
 (defvar my-linux-font "Hack")
-(defvar my-macos-font "SF Mono")
+(defvar my-macos-font "Menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)

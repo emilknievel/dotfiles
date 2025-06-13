@@ -462,8 +462,7 @@ Smooth scrolling:
       :ensure t
       :demand t
       :config (ns-auto-titlebar-mode))
-    (setopt frame-resize-pixelwise t
-            x-underline-at-descent-line t)
+    (setopt frame-resize-pixelwise t)
     (setq-default ns-use-proxy-icon nil
                   ns-use-mwheel-momentum t
                   ns-use-mwheel-acceleration t
@@ -817,7 +816,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "Hack")
-  (defvar my-macos-font "SF Mono")
+  (defvar my-macos-font "Menlo")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
