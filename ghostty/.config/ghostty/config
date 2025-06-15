@@ -1,0 +1,15 @@
+font-family = menlo
+font-size = 12
+theme = wez
+cursor-invert-fg-bg = true
+window-padding-color = extend-always
+macos-titlebar-style = transparent
+macos-auto-secure-input = true
+macos-secure-input-indication = true
+window-height = 32
+window-width = 96
+cursor-style =
+cursor-style-blink = false
+shell-integration-features = no-cursor
+mouse-hide-while-typing = true
+background-opacity =
