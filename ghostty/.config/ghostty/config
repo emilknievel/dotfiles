@@ -1,6 +1,6 @@
 font-family = menlo
 font-size = 12
-theme = wez
+theme = vague
 cursor-invert-fg-bg = true
 window-padding-color = extend-always
 macos-titlebar-style = transparent
