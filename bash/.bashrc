@@ -76,7 +76,33 @@ eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
 eval "$(~/.local/bin/mise activate bash)"
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [[ -f ~/.fzf.bash ]]; then
+    . "$HOME/.fzf.bash"
+    if grep -q "theme = vague" "$XDG_CONFIG_HOME/ghostty/config"; then
+        export FZF_DEFAULT_OPTS="
+        --height=99% 
+        --layout=reverse 
+        --pointer='█'
+        --scrollbar='▌'
+        --highlight-line
+        --color=hl:#f3be7c
+        --color=bg:-1
+        --color=gutter:-1
+        --color=bg+:#252530
+        --color=fg+:#aeaed1
+        --color=hl+:#f3be7c
+        --color=border:#606079
+        --color=prompt:#bb9dbd
+        --color=query:#aeaed1:bold
+        --color=pointer:#aeaed1
+        --color=scrollbar:#aeaed1
+        --color=info:#f3be7c
+        --color=spinner:#7fa563
+        "
+    fi
+else
+    echo "WARNING: Unable to find ~/.fzf.bash. Is fzf installed?"
+fi
 
 if [[ -x "$(command -v nvim)" ]]; then
     alias vi=nvim
