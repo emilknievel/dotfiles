@@ -84,14 +84,19 @@ if [[ -x "$(command -v nvim)" ]]; then
     export EDITOR=nvim
 fi
 
-. "$HOME/.atuin/bin/env"
-
 if [[ -f ~/.bash-preexec.sh ]]; then
-    source ~/.bash-preexec.sh
+    source "$HOME/.bash-preexec.sh"
 else
     echo "WARNING: ~/.bash-preexec.sh not found!"
     echo "Install it with:"
     echo "curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh"
 fi
 
-eval "$(atuin init bash)"
+if [[ -f ~/.atuin/bin/env ]]; then
+    . "$HOME/.atuin/bin/env"
+    eval "$(atuin init bash)"
+else
+    echo "WARNING: ~/.atuin/bin/env not found!"
+    echo "Install atuin with:"
+    echo "curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh"
+fi
