@@ -33,11 +33,13 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# Git prompt settings
 export GIT_PS1_SHOWCOLORHINTS=1
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUPSTREAM="auto"
 
+# List number of session jobs in prompt
 jobs_count() {
     local job_count
     job_count=$(jobs | grep -cv "Done")

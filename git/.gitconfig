@@ -11,6 +11,7 @@
 	cA = commit -a
 	ca = commit --amend
 	cp = commit -p
+	cv = commit -v
 	co = checkout
 	f = fetch
 	F = pull
@@ -25,6 +26,10 @@
 	ds = diff --staged
 	cob = checkout -b
 	sh = show
+	w = worktree
+	wls = worktree list
+	wrm = worktree remove
+	wa = worktree add
 [diff]
 	tool = nvim
 [merge]
