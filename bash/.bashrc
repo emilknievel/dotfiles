@@ -98,8 +98,9 @@ else
     echo "curl https://mise.run | sh"
 fi
 
-if [[ -f ~/.fzf.bash ]]; then
-    . "$HOME/.fzf.bash"
+
+[[ -f ~/.fzf.bash ]] && . "$HOME/.fzf.bash"
+if [[ -x "$(command -v fzf)" ]]; then
     if grep -q "theme = vague" "$XDG_CONFIG_HOME/ghostty/config"; then
         export FZF_DEFAULT_OPTS="
         --height=99% 
@@ -123,7 +124,7 @@ if [[ -f ~/.fzf.bash ]]; then
         "
     fi
 else
-    echo "WARNING: Unable to find ~/.fzf.bash. Is fzf installed?"
+    echo "WARNING: Unable to find fzf! Is it installed?"
 fi
 
 if [[ -x "$(command -v nvim)" ]]; then
