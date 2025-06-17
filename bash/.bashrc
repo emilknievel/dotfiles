@@ -72,9 +72,29 @@ alias luamake="~/tools/lua/lua-language-server/3rd/luamake/luamake"
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
     source "$EAT_SHELL_INTEGRATION_DIR/bash"
 
-eval "$(zoxide init bash)"
-eval "$(direnv hook bash)"
-eval "$(~/.local/bin/mise activate bash)"
+if [[ -x "$(command -v zoxide)" ]]; then
+    eval "$(zoxide init bash)"
+else
+    echo "WARNING: zoxide not found!"
+    echo "Install it with:"
+    echo "curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash"
+fi
+
+if [[ -x "$(command -v direnv)" ]]; then
+    eval "$(direnv hook bash)"
+else
+    echo "WARNING: direnv not found!"
+    echo "Install it with:"
+    echo "curl -sfL https://direnv.net/install.sh | bash"
+fi
+
+if [[ -x "$(command -v mise)" ]]; then
+    eval "$(~/.local/bin/mise activate bash)"
+else
+    echo "WARNING: mise not found!"
+    echo "Install it with:"
+    echo "curl https://mise.run | sh"
+fi
 
 if [[ -f ~/.fzf.bash ]]; then
     . "$HOME/.fzf.bash"
