@@ -1668,7 +1668,7 @@ any directory proferred by `consult-dir'."
   (org-image-actual-width '(300))
   (org-pretty-entities t)
   ;; (org-auto-align-tags nil)
-  ;; (org-tags-column 0)
+  (org-tags-column 0) ; Place tags directly after headline text.
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
