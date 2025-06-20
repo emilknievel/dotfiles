@@ -501,7 +501,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
     :ensure t
     :after general
     :init
-    (setopt modus-themes-mixed-fonts t
+    (setopt modus-themes-mixed-fonts nil
             modus-themes-variable-pitch-ui nil
             modus-themes-bold-constructs nil
             modus-themes-italic-constructs nil
@@ -535,7 +535,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
     :init
     (setopt ef-themes-to-toggle '(ef-maris-light ef-duo-dark))
     :custom
-    (ef-themes-mixed-fonts t)
+    (ef-themes-mixed-fonts nil)
     (ef-themes-variable-pitch-ui nil)
     (ef-themes-headings '((0 . (1.5))
                           (1 . (1.4))
@@ -555,7 +555,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
   (use-package standard-themes
     :ensure t
     :init
-    (setopt standard-themes-mixed-fonts t
+    (setopt standard-themes-mixed-fonts nil
             standard-themes-variable-pitch-ui nil
             standard-themes-bold-constructs nil
             standard-themes-italic-constructs nil
@@ -880,8 +880,10 @@ Inspired by Plan 9 Acme & Sam.
 **** Variable pitch
 
 #+begin_src emacs-lisp
-  (global-set-key (kbd "<f9>") 'variable-pitch-mode)
-  ;; (add-hook 'text-mode-hook 'variable-pitch-mode)
+  (use-package mixed-pitch
+    :ensure t
+    :bind ("<f9>" . mixed-pitch-mode)
+    :hook (text-mode . mixed-pitch-mode))
 #+end_src
 
 **** Ligatures

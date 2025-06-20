@@ -311,7 +311,7 @@
   :ensure t
   :after general
   :init
-  (setopt modus-themes-mixed-fonts t
+  (setopt modus-themes-mixed-fonts nil
           modus-themes-variable-pitch-ui nil
           modus-themes-bold-constructs nil
           modus-themes-italic-constructs nil
@@ -341,7 +341,7 @@
   :init
   (setopt ef-themes-to-toggle '(ef-maris-light ef-duo-dark))
   :custom
-  (ef-themes-mixed-fonts t)
+  (ef-themes-mixed-fonts nil)
   (ef-themes-variable-pitch-ui nil)
   (ef-themes-headings '((0 . (1.5))
                         (1 . (1.4))
@@ -357,7 +357,7 @@
 (use-package standard-themes
   :ensure t
   :init
-  (setopt standard-themes-mixed-fonts t
+  (setopt standard-themes-mixed-fonts nil
           standard-themes-variable-pitch-ui nil
           standard-themes-bold-constructs nil
           standard-themes-italic-constructs nil
@@ -616,8 +616,10 @@ bar not using the proper theme if the server was loaded with a different theme."
 ;;   (set-face-attribute 'variable-pitch nil
 ;;                       :family my-variable-pitch-font))
 
-(global-set-key (kbd "<f9>") 'variable-pitch-mode)
-;; (add-hook 'text-mode-hook 'variable-pitch-mode)
+(use-package mixed-pitch
+  :ensure t
+  :bind ("<f9>" . mixed-pitch-mode)
+  :hook (text-mode . mixed-pitch-mode))
 
 (use-package ligature
   :ensure (:host github :repo "mickeynp/ligature.el")
