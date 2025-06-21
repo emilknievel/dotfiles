@@ -14,7 +14,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 export PROMPT_DIRTRIM=1
 
-# append append commands to history file instead of overwriting
+# append commands to history file instead of overwriting
 shopt -s histappend
 
 # Use reasonable history size, don't keep duplicate consecutive commands, and
