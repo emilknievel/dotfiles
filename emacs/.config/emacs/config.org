@@ -2064,6 +2064,18 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
                 (")" . dired-git-info-mode)))
 #+end_src
 
+**** Dired subtree
+
+Drill down subdirectories in dired.
+
+#+begin_src emacs-lisp
+  (use-package dired-subtree :ensure t
+    :after dired
+    :bind (:map dired-mode-map
+                ("<tab>" . dired-subtree-toggle)
+                ("<backtab>" . dired-subtree-cycle)))
+#+end_src
+
 *** Hide/show hidden files
 
 #+begin_src emacs-lisp

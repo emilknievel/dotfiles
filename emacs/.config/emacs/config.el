@@ -1465,6 +1465,12 @@ installed."
   :bind (:map dired-mode-map
               (")" . dired-git-info-mode)))
 
+(use-package dired-subtree :ensure t
+  :after dired
+  :bind (:map dired-mode-map
+              ("<tab>" . dired-subtree-toggle)
+              ("<backtab>" . dired-subtree-cycle)))
+
 (use-package dired-hide-dotfiles :ensure t)
 
 (use-package treemacs
