@@ -1460,6 +1460,11 @@ installed."
       (when file
         (dired-find-file)))))
 
+(use-package dired-git-info
+  :ensure t
+  :bind (:map dired-mode-map
+              (")" . dired-git-info-mode)))
+
 (use-package dired-hide-dotfiles :ensure t)
 
 (use-package treemacs

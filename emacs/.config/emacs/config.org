@@ -2055,6 +2055,15 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
           (dired-find-file)))))
 #+end_src
 
+**** Display git logs in dired
+
+#+begin_src emacs-lisp
+  (use-package dired-git-info
+    :ensure t
+    :bind (:map dired-mode-map
+                (")" . dired-git-info-mode)))
+#+end_src
+
 *** Hide/show hidden files
 
 #+begin_src emacs-lisp
