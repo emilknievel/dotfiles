@@ -1857,7 +1857,7 @@ any directory proferred by `consult-dir'."
     (add-to-list 'org-capture-templates
                  '("ndj" "Journal" entry
                    (file denote-journal-path-to-new-or-existing-entry)
-                   "* %U %?"
+                   "* %U\n\n%?"
                    :kill-buffer t
                    :empty-lines 1)))
 
