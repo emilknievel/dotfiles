@@ -112,6 +112,8 @@
   "Return a list of all keys in ALIST."
   (mapcar #'car alist))
 
+(setq system-time-locale "C")
+
 (use-package which-key
   :demand t
   :ensure t

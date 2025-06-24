@@ -177,6 +177,16 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
     (mapcar #'car alist))
 #+end_src
 
+*** Time
+
+**** Ensure consistent time locale
+
+#+begin_src emacs-lisp
+  (setq system-time-locale "C")
+#+end_src
+
+Mainly used for making sure that org timestamps are consistent.
+
 ** Key bindings
 
 *** Which-key
