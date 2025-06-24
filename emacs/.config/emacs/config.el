@@ -1700,9 +1700,13 @@ any directory proferred by `consult-dir'."
   (org-clock-idle-time 15)
 
   (org-capture-templates
-   '(("l" "New journe(l)ly note" entry
+   '(("l" "Journelly")
+     ("lm" "New journe(l)ly note with metadata" entry
       (file org-journelly-file)
       "* %U @ %(journelly-generate-metadata)\n%?" :prepend t)
+     ("lp" "New plain journe(l)ly note" entry
+      (file org-journelly-file)
+      "* %U @ -\n%?" :prepend t)
 
      ("m" "Meetings")
      ("mm" "Meetings - Mio" entry
