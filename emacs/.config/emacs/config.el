@@ -562,7 +562,7 @@ bar not using the proper theme if the server was loaded with a different theme."
     (auto-dark-dark-mode . (lambda ()
                              (modus-themes-select 'modus-vivendi)))
     (auto-dark-light-mode . (lambda ()
-                              (modus-themes-select modus-operandi)))))
+                              (modus-themes-select 'modus-operandi)))))
 
 (defvar my-linux-font "liberation mono")
 (defvar my-macos-font "meslolgs nerd font")

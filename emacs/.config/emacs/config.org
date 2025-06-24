@@ -820,7 +820,7 @@ Inspired by Plan 9 Acme & Sam.
       (auto-dark-dark-mode . (lambda ()
                                (modus-themes-select 'modus-vivendi)))
       (auto-dark-light-mode . (lambda ()
-                                (modus-themes-select modus-operandi)))))
+                                (modus-themes-select 'modus-operandi)))))
 #+end_src
 
 *** Fonts
