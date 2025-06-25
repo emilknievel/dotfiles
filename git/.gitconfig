@@ -32,9 +32,9 @@
 	wrm = worktree remove
 	wa = worktree add
 [diff]
-	tool = nvim
+	tool = vi
 [merge]
-	tool = nvim
+	tool = vi
 [core]
 	precomposeunicode = true
 	# Display UTF-8 characters in filenames, if you're having problems seeing them
