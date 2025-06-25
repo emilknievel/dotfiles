@@ -3,6 +3,7 @@
 	lga = lg --all
 	count = shortlog -sn
 	gone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D; }; f"
+	lsgone = "!f() { git fetch --all --prune; git branch -vv | awk '/: gone]/{print $1}'; }; f"
 	# Undo the last commit, leaving your staging area the same as just before you committed
 	undo = reset --soft HEAD^
 	adog = log --all --decorate --oneline --graph
