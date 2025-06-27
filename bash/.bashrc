@@ -93,9 +93,10 @@ else
 fi
 
 
-[[ -f ~/.fzf.bash ]] && . "$HOME/.fzf.bash"
-if [[ -x "$(command -v fzf)" ]]; then
-    if [[ -f "$XDG_CONFIG_HOME/ghostty/config" ]] && grep -q "theme = vague" "$XDG_CONFIG_HOME/ghostty/config"; then
+[[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
+
+if command -v fzf >/dev/null 2>&1; then
+    if grep -q "theme = vague" "$XDG_CONFIG_HOME/ghostty/config" 2>/dev/null; then
         export FZF_DEFAULT_OPTS="
         --height=99% 
         --layout=reverse 
