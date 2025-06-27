@@ -77,25 +77,25 @@ alias luamake="~/tools/lua/lua-language-server/3rd/luamake/luamake"
 if [[ -x "$(command -v zoxide)" ]]; then
     eval "$(zoxide init bash)"
 else
-    echo "WARNING: zoxide not found!"
-    echo "Install it with:"
-    echo "curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash"
+    printf "WARNING: zoxide not found!
+    Install it with:
+    curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash\n\n" >&2
 fi
 
 if [[ -x "$(command -v direnv)" ]]; then
     eval "$(direnv hook bash)"
 else
-    echo "WARNING: direnv not found!"
-    echo "Install it with:"
-    echo "curl -sfL https://direnv.net/install.sh | bash"
+    printf "WARNING: direnv not found!
+    Install it with:
+    curl -sfL https://direnv.net/install.sh | bash\n\n" >&2
 fi
 
 if [[ -x "$(command -v mise)" ]]; then
     eval "$(~/.local/bin/mise activate bash)"
 else
-    echo "WARNING: mise not found!"
-    echo "Install it with:"
-    echo "curl https://mise.run | sh"
+    printf "WARNING: mise not found!
+    Install it with:
+    curl https://mise.run | sh\n\n" >&2
 fi
 
 
@@ -124,7 +124,7 @@ if [[ -x "$(command -v fzf)" ]]; then
         "
     fi
 else
-    echo "WARNING: Unable to find fzf! Is it installed?"
+    printf "WARNING: fzf not found in PATH\n\n" >&2
 fi
 
 if [[ -x "$(command -v nvim)" ]]; then
@@ -136,16 +136,16 @@ fi
 if [[ -f ~/.bash-preexec.sh ]]; then
     source "$HOME/.bash-preexec.sh"
 else
-    echo "WARNING: ~/.bash-preexec.sh not found!"
-    echo "Install it with:"
-    echo "curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh"
+    printf "WARNING: ~/.bash-preexec.sh not found!
+    Install it with:
+    curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh\n\n" >&2
 fi
 
 if [[ -f ~/.atuin/bin/env ]]; then
     . "$HOME/.atuin/bin/env"
     eval "$(atuin init bash)"
 else
-    echo "WARNING: ~/.atuin/bin/env not found!"
-    echo "Install atuin with:"
-    echo "curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh"
+    printf "WARNING: ~/.atuin/bin/env not found!
+    Install atuin with:
+    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh\n\n" >&2
 fi
