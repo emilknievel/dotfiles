@@ -312,7 +312,7 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
 #+begin_src emacs-lisp
   (with-eval-after-load 'general
     (my-leader-keys
-      "u f v" 'variable-pitch-mode))
+      "u f v" 'mixed-pitch-mode))
 #+end_src
 
 **** Emacs Client

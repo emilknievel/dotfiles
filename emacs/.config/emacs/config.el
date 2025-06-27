@@ -204,7 +204,7 @@
 
 (with-eval-after-load 'general
   (my-leader-keys
-    "u f v" 'variable-pitch-mode))
+    "u f v" 'mixed-pitch-mode))
 
 (with-eval-after-load 'general
   (my-leader-keys
