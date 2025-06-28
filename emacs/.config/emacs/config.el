@@ -1680,7 +1680,7 @@ any directory proferred by `consult-dir'."
   (require 'org-indent)
 
   :custom
-  (org-return-follows-link t)
+  (org-return-follows-link nil)
   (org-startup-with-inline-images t)
   (org-fontify-quote-and-verse-blocks t)
   (org-image-actual-width '(300))
@@ -1693,7 +1693,7 @@ any directory proferred by `consult-dir'."
   (org-startup-indented t)
   (org-M-RET-may-split-line '((default . nil)))
 
-  (org-log-done 'time)
+  (org-log-done 'note)
   (org-log-into-drawer t)
 
   ;; Ask how many minutes to keep if idle for at least 15 minutes.
