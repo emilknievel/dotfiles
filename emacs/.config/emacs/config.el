@@ -746,9 +746,9 @@ bar not using the proper theme if the server was loaded with a different theme."
     (interactive)
     (display-line-numbers-mode -1))
   :custom
-  (display-line-numbers-width 5)
-  (display-line-numbers-widen t)
-  (display-line-numbers-grow-only t)
+  (display-line-numbers-width nil)
+  (display-line-numbers-widen nil)
+  (display-line-numbers-grow-only nil)
   :general
   (my-leader-keys
     "u l a" 'my-display-line-numbers-absolute
