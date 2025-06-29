@@ -425,13 +425,7 @@
   (setq acme-theme-black-fg t)
   :general (my-leader-keys "t t a" 'my-acme-theme))
 
-(use-package leuven-theme :ensure t)
-
 (use-package kaolin-themes :ensure t)
-
-(use-package miasma-theme :ensure t)
-
-(use-package tao-theme :ensure t)
 
 (with-eval-after-load 'general
   (my-leader-keys

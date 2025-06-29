@@ -652,28 +652,10 @@ Inspired by Plan 9 Acme & Sam.
     :general (my-leader-keys "t t a" 'my-acme-theme))
 #+end_src
 
-**** Leuven
-
-#+begin_src emacs-lisp
-  (use-package leuven-theme :ensure t)
-#+end_src
-
 **** Kaolin
 
 #+begin_src emacs-lisp
   (use-package kaolin-themes :ensure t)
-#+end_src
-
-**** Miasma
-
-#+begin_src emacs-lisp
-  (use-package miasma-theme :ensure t)
-#+end_src
-
-**** Tao
-
-#+begin_src emacs-lisp
-  (use-package tao-theme :ensure t)
 #+end_src
 
 **** Solarized
