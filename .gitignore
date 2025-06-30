@@ -168,3 +168,6 @@ git/.config/git/gitconfig-private
 
 # vale
 styles/
+
+# helix
+helix/.config/helix/themes/
