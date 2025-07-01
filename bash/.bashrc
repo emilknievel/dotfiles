@@ -12,7 +12,7 @@ export PATH="$HOME/bin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-export PROMPT_DIRTRIM=1 # shorten directory path in prompt
+export PROMPT_DIRTRIM=1
 
 # append commands to history file instead of overwriting
 shopt -s histappend
@@ -33,6 +33,12 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# Git prompt settings
+export GIT_PS1_SHOWCOLORHINTS=1
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUPSTREAM="auto"
+
 # List number of session jobs in prompt
 jobs_count() {
     local job_count
@@ -46,7 +52,7 @@ jobs_count() {
 
 export PROMPT_COMMAND='history -a; JOB_COUNT=$(jobs_count)'
 # shellcheck disable=SC2153
-export PS1='\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]${JOB_COUNT}\$ '
+export PS1='\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]$(__git_ps1 " (%s)")${JOB_COUNT}\$ '
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
