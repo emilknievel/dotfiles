@@ -10,9 +10,6 @@ if [ -z "$PS1" ]; then
     return
 fi
 
-# source git prompt script. Used in main bashrc file
-. /opt/homebrew/etc/bash_completion.d/git-prompt.sh
-
 [ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
 
 # change lang to en_US but keep encoding
