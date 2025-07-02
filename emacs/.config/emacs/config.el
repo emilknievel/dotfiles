@@ -264,6 +264,9 @@
 
 (add-hook 'org-agenda-mode-hook 'hl-line-mode)
 
+(add-hook 'prog-mode-hook 'kill-ring-deindent-mode)
+(add-hook 'conf-mode-hook 'kill-ring-deindent-mode)
+
 (use-package eldoc
   :ensure nil
   :custom

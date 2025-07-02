@@ -429,6 +429,13 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
   (add-hook 'org-agenda-mode-hook 'hl-line-mode)
 #+end_src
 
+*** Deindent text saved to kill-ring
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook 'kill-ring-deindent-mode)
+  (add-hook 'conf-mode-hook 'kill-ring-deindent-mode)
+#+end_src
+
 ** Eldoc
 
 #+begin_src emacs-lisp
