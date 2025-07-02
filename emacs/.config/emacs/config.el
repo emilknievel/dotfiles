@@ -1425,11 +1425,13 @@ installed."
   :hook (eshell-mode . eshell-atuin-mode))
 
 (use-package project
+  :ensure nil
   :general
   (my-leader-keys
     ;; leader prefix for built-in project.el
     "p" '(:keymap project-prefix-map :wk "project"))
-  :ensure nil)
+  :custom
+  (project-mode-line t))
 
 (use-package dired
   :ensure nil ; built-in
