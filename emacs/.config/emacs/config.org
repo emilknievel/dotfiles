@@ -1946,7 +1946,8 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 **** History
 
 #+begin_src emacs-lisp
-  (setopt eshell-history-size 10000)
+  (setopt eshell-history-size 10000
+          eshell-history-append t)
 #+end_src
 
 **** Keybinds

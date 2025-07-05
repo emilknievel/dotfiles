@@ -1390,7 +1390,8 @@ installed."
             (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
             (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))))
 
-(setopt eshell-history-size 10000)
+(setopt eshell-history-size 10000
+        eshell-history-append t)
 
 (global-set-key (kbd "<f12>") 'eshell)
 
