@@ -12,16 +12,16 @@ after-login-command = []
 after-startup-command = []
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
-enable-normalization-flatten-containers = true
+enable-normalization-flatten-containers                         = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
-accordion-padding = 30
+accordion-padding = 0
 
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
@@ -42,6 +42,13 @@ key-mapping.preset = 'qwerty'
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+## PiP windows are "sticky", i.e. they move with workspace changes.
+
+exec-on-workspace-change = [
+    '/bin/bash', '-c',
+    '~/.config/aerospace/pip-move.sh',
+]
+
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
@@ -50,12 +57,12 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = 16
-inner.vertical   = 16
-outer.left       = 16
-outer.bottom     = 16
-outer.top        = 16
-outer.right      = 16
+inner.horizontal = 8
+inner.vertical   = 8
+outer.left       = 0
+outer.bottom     = 0
+outer.top        = 0
+outer.right      = 0
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -117,28 +124,6 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
-alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
-alt-b = 'workspace B'
-alt-c = 'workspace C'
-alt-d = 'workspace D'
-alt-e = 'workspace E'
-# alt-f = 'workspace F'
-alt-g = 'workspace G'
-alt-i = 'workspace I'
-alt-m = 'workspace M'
-alt-n = 'workspace N'
-alt-o = 'workspace O'
-alt-p = 'workspace P'
-alt-q = 'workspace Q'
-alt-r = 'workspace R'
-alt-s = 'workspace S'
-alt-t = 'workspace T'
-alt-u = 'workspace U'
-alt-v = 'workspace V'
-alt-w = 'workspace W'
-alt-x = 'workspace X'
-alt-y = 'workspace Y'
-alt-z = 'workspace Z'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -150,28 +135,6 @@ alt-shift-6 = 'move-node-to-workspace 6'
 alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
-alt-shift-a = 'move-node-to-workspace A'
-alt-shift-b = 'move-node-to-workspace B'
-alt-shift-c = 'move-node-to-workspace C'
-alt-shift-d = 'move-node-to-workspace D'
-alt-shift-e = 'move-node-to-workspace E'
-# alt-shift-f = 'move-node-to-workspace F'
-alt-shift-g = 'move-node-to-workspace G'
-alt-shift-i = 'move-node-to-workspace I'
-alt-shift-m = 'move-node-to-workspace M'
-alt-shift-n = 'move-node-to-workspace N'
-alt-shift-o = 'move-node-to-workspace O'
-alt-shift-p = 'move-node-to-workspace P'
-alt-shift-q = 'move-node-to-workspace Q'
-alt-shift-r = 'move-node-to-workspace R'
-alt-shift-s = 'move-node-to-workspace S'
-alt-shift-t = 'move-node-to-workspace T'
-alt-shift-u = 'move-node-to-workspace U'
-alt-shift-v = 'move-node-to-workspace V'
-alt-shift-w = 'move-node-to-workspace W'
-alt-shift-x = 'move-node-to-workspace X'
-alt-shift-y = 'move-node-to-workspace Y'
-alt-shift-z = 'move-node-to-workspace Z'
 
 alt-shift-f = 'fullscreen'
 
@@ -186,9 +149,9 @@ alt-shift-semicolon = 'mode service'
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
-esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main'] # reset layout
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+esc       = ['reload-config', 'mode main']
+r         = ['flatten-workspace-tree', 'mode main'] # reset layout
+f         = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
 
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
@@ -203,81 +166,89 @@ alt-shift-l = ['join-with right', 'mode main']
 # currently running app-ids can be listed with `aerospace list-apps`
 
 [[on-window-detected]]
-if.app-id = 'com.github.wez.wezterm'
-run = 'move-node-to-workspace W'
+if.app-id = 'org.mozilla.librewolf'
+run       = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
-if.app-id = 'org.mozilla.librewolf'
-run = 'move-node-to-workspace B'
+if.app-id = 'com.brave.Browser'
+run       = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
 if.app-id = 'org.chromium.Chromium'
-run = 'move-node-to-workspace B'
-
-[[on-window-detected]]
-if.app-id = 'com.microsoft.Outlook'
-run = 'move-node-to-workspace O'
-
-[[on-window-detected]]
-if.app-id = 'com.tinyspeck.slackmacgap'
-run = 'move-node-to-workspace S'
-
-[[on-window-detected]]
-if.app-id = 'com.microsoft.teams2'
-run = 'move-node-to-workspace T'
+run       = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.rider'
-run = 'move-node-to-workspace C' # (C)ode
+run       = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run       = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run       = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+run       = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run       = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+run       = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
-run = 'move-node-to-workspace M'
+run       = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Music'
-run = 'move-node-to-workspace I' # (i)Tunes
+run       = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
-run = 'move-node-to-workspace I' # Same as Apple Music
+run       = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
 if.app-id = 'com.electron.pocket-casts'
-run = 'move-node-to-workspace R' # (R)adio
+run       = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
 if.app-id = 'fm.overcast.overcast'
-run = 'move-node-to-workspace R'
+run       = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Photos'
-run = 'move-node-to-workspace P'
+run       = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.AppStore'
-run = 'layout floating'
+run       = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.MobileSMS'
-run = 'layout floating'
+run       = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.jordanbaird.Ice'
-run = 'layout floating'
+run       = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
-run = 'layout floating'
+run       = 'layout floating'
 
-## Tile Emacs only if launched from workspace 'E'
+## Tile Emacs only if launched from workspace 2
 
 [[on-window-detected]]
-if.app-id = 'org.gnu.Emacs'
+if.app-id               = 'org.gnu.Emacs'
 check-further-callbacks = true
-run = 'layout floating'
+run                     = 'layout floating'
 
 [[on-window-detected]]
-if.app-id = 'org.gnu.Emacs'
-if.workspace = 'E'
-run = 'layout tiling'
+if.app-id    = 'org.gnu.Emacs'
+if.workspace = '2'
+run          = 'layout tiling'
