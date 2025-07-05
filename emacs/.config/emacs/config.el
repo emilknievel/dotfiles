@@ -126,7 +126,7 @@
 (with-eval-after-load 'general
   (my-leader-keys
     ;; Top level functions
-    "C-z" '(execute-extended-command :wk "M-x")
+    "C-," '(execute-extended-command :wk "M-x")
 
     ;; Prefixes
 
@@ -218,7 +218,7 @@
 (use-package hydra
   :ensure t
   :config
-  (defhydra hydra-window-actions (global-map "C-z w")
+  (defhydra hydra-window-actions (global-map "C-, w")
     "window actions"
     ("h" shrink-window-horizontally "shrink horizontally")
     ("l" enlarge-window-horizontally "enlarge horizontally")

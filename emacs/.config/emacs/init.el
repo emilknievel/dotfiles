@@ -50,17 +50,23 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
-;; Install use-package support
+;;; Install use-package support
 (elpaca elpaca-use-package
   ;; Enable use-package :ensure support for Elpaca.
   (elpaca-use-package-mode))
 
+
 ;;; Load below packages early
+
+;; Remove org-mode's C-, binding to avoid conflict with general
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-,") nil))
+
 (use-package general
   :ensure (:wait t)
-  :init (keymap-global-unset "C-z")
+  ;; :init (keymap-global-unset "C-,")
   :demand t)
-(general-create-definer my-leader-keys :prefix "C-z")
+(general-create-definer my-leader-keys :prefix "C-,")
 
 ;; Make sure that we use the latest version of `transient'.
 (use-package transient :ensure (:wait t))
