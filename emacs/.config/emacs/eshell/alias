@@ -1,7 +1,8 @@
-alias ktest kubectl --context MioAKSQAv2 -n test $@*
-alias kqa kubectl --context MioAKSQAv2 -n qa $@*
-alias kprod kubectl --context MioAKSProduction -n production $@*
-alias d dired $1
-alias ff find-file $1
-alias ll ls -al
+alias k kubectl $@*
 alias l ls -a
+alias ll ls -al
+alias ff find-file $1
+alias d dired $1
+alias kprod kubectl --context MioAKSProduction -n production $@*
+alias kqa kubectl --context MioAKSQAv2 -n qa $@*
+alias ktest kubectl --context MioAKSQAv2 -n test $@*
