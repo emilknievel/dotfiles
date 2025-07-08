@@ -11,6 +11,10 @@
         evil-undo
         markdown-electric-backquote
         markdown-outdent-or-delete
+        meow-change
+        meow-insert-exit
+        meow-next
+        meow-prev
         org-beginning-of-line
         org-delete-char
         org-end-of-line

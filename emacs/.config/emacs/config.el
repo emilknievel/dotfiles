@@ -232,6 +232,11 @@
   :ensure t
   :init
   (defun meow-setup ()
+    (setopt meow-replace-state-name-list '((normal . "<N>")
+                                           (motion . "<M>")
+                                           (keypad . "<K>")
+                                           (insert . "<I>")
+                                           (beacon . "<B>")))
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
     (meow-motion-define-key
      '("j" . meow-next)
