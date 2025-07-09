@@ -47,7 +47,7 @@
 ;;  (add-to-list 'default-frame-alist '(internal-border-width . 8))))
 
 ;; Load dark theme early to avoid getting flashed when launching Emacs.
-(load-theme 'wombat t nil)
+(load-theme 'modus-vivendi t nil)
 
 (if (file-exists-p "~/.private.el")
     (load-file "~/.private.el")
