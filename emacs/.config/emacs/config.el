@@ -716,7 +716,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 (use-package mixed-pitch
   :ensure t
   :bind ("<f9>" . mixed-pitch-mode)
-  :hook (text-mode . mixed-pitch-mode))
+  :hook ((org-mode markdown-mode) . mixed-pitch-mode))
 
 (use-package ligature
   :ensure (:host github :repo "mickeynp/ligature.el")

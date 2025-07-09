@@ -986,7 +986,7 @@ Inspired by Plan 9 Acme & Sam.
   (use-package mixed-pitch
     :ensure t
     :bind ("<f9>" . mixed-pitch-mode)
-    :hook (text-mode . mixed-pitch-mode))
+    :hook ((org-mode markdown-mode) . mixed-pitch-mode))
 #+end_src
 
 **** Ligatures
