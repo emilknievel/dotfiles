@@ -1386,6 +1386,10 @@ installed."
   :after restclient
   :config (require 'restclient-jq))
 
+(use-package hurl-mode
+  :ensure (:host github :repo "jaszhe/hurl-mode")
+  :mode "\\.hurl\\'")
+
 (use-package mermaid-mode :ensure t :mode "\\.mmd$")
 
 (use-package lua-mode

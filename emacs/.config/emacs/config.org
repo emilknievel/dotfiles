@@ -1879,6 +1879,14 @@ Notable keymaps:
     :config (require 'restclient-jq))
 #+end_src
 
+**** Hurl
+
+#+begin_src emacs-lisp
+  (use-package hurl-mode
+    :ensure (:host github :repo "jaszhe/hurl-mode")
+    :mode "\\.hurl\\'")
+#+end_src
+
 *** Mermaid
 
 #+begin_src emacs-lisp
