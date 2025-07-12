@@ -665,7 +665,7 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "Verdana")
+           (defvar my-variable-pitch-font "DejaVu Sans")
            (defvar my-serif-font "New York"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "DejaVu Sans")

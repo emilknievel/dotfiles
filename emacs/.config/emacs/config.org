@@ -927,7 +927,7 @@ Inspired by Plan 9 Acme & Sam.
 
   (if (eq system-type 'darwin)
       (progn (defvar my-default-font my-editor-font)
-             (defvar my-variable-pitch-font "Verdana")
+             (defvar my-variable-pitch-font "DejaVu Sans")
              (defvar my-serif-font "New York"))
     (progn (defvar my-default-font my-editor-font)
            (defvar my-variable-pitch-font "DejaVu Sans")
