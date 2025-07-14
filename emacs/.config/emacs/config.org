@@ -564,7 +564,7 @@ Smooth scrolling:
   ;; (pixel-scroll-precision-mode)
 
   (use-package ultra-scroll
-    :ensure (:host github :repo "jdtsmith/ultra-scroll")
+    :ensure t
     :init
     (setopt scroll-conservatively 3
             scroll-margin 0)
@@ -2732,7 +2732,7 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
      ("C-c n e D" . denote-explore-degree-barchart)))
 #+end_src
 
-*** Consult dired
+*** Consult denote
 
 #+begin_src emacs-lisp
   (use-package consult-denote

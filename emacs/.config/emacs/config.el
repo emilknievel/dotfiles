@@ -375,7 +375,7 @@
 ;; (pixel-scroll-precision-mode)
 
 (use-package ultra-scroll
-  :ensure (:host github :repo "jdtsmith/ultra-scroll")
+  :ensure t
   :init
   (setopt scroll-conservatively 3
           scroll-margin 0)
