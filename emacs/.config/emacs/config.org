@@ -1692,9 +1692,9 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 *** Treesitter
 
-**** Lower font lock level to reduce the fruit salad
+**** Lower font lock level to reduce the fruit salad (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (setopt treesit-font-lock-level 2) ; default: 3
 #+end_src
 

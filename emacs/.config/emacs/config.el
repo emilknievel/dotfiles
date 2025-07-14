@@ -1272,8 +1272,6 @@ parses its input."
   :config
   (global-flycheck-eglot-mode 1))
 
-(setopt treesit-font-lock-level 2) ; default: 3
-
 (use-package treesit-auto
   :ensure t
   :custom
