@@ -2569,6 +2569,32 @@ This package displays hidden emphasis markers while the cursor is on a rich text
                                load-language-alist)
 #+end_src
 
+*** Add timestamp
+
+#+begin_src emacs-lisp
+  (defun my-org-timestamp-inactive (&optional arg)
+    "Insert current time as inactive timestamp without prompting.
+  With prefix argument, insert as heading at current org heading level.
+  With two prefix arguments, insert as top-level heading."
+    (interactive "P")
+    (cond
+     ((equal arg '(16))  ; C-u C-u - top level heading
+      (beginning-of-line)
+      (insert "* ")
+      (org-timestamp-inactive '(16))
+      (newline))
+     ((equal arg '(4))   ; C-u - current level heading
+      (let ((level (or (org-current-level) 1)))
+        (beginning-of-line)
+        (insert (make-string level ?*) " ")
+        (org-timestamp-inactive '(16))
+        (newline)))
+     (t  ; No prefix - inline timestamp
+      (org-timestamp-inactive '(16)))))
+
+  (global-set-key (kbd "<f8>") 'my-org-timestamp-inactive)
+#+end_src
+
 ** Denote
 
 Use denote for note-taking. Most of this is copied from Prot's config.

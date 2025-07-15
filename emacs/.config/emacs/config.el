@@ -1890,6 +1890,28 @@ any directory proferred by `consult-dir'."
 (org-babel-do-load-languages 'org-babel-load-languages
                              load-language-alist)
 
+(defun my-org-timestamp-inactive (&optional arg)
+  "Insert current time as inactive timestamp without prompting.
+With prefix argument, insert as heading at current org heading level.
+With two prefix arguments, insert as top-level heading."
+  (interactive "P")
+  (cond
+   ((equal arg '(16))  ; C-u C-u - top level heading
+    (beginning-of-line)
+    (insert "* ")
+    (org-timestamp-inactive '(16))
+    (newline))
+   ((equal arg '(4))   ; C-u - current level heading
+    (let ((level (or (org-current-level) 1)))
+      (beginning-of-line)
+      (insert (make-string level ?*) " ")
+      (org-timestamp-inactive '(16))
+      (newline)))
+   (t  ; No prefix - inline timestamp
+    (org-timestamp-inactive '(16)))))
+
+(global-set-key (kbd "<f8>") 'my-org-timestamp-inactive)
+
 (use-package denote
   :ensure t
   :demand t
