@@ -1,8 +1,9 @@
-alias k kubectl $@*
-alias l ls -a
-alias ll ls -al
-alias ff find-file $1
-alias d dired $1
-alias kprod kubectl --context MioAKSProduction -n production $@*
-alias kqa kubectl --context MioAKSQAv2 -n qa $@*
+alias httpcheck curl -s -o /dev/null -w "HTTP: %{http_code} | Time: %{time_total}s | Size: %{size_download} bytes\n" --max-time 10 -L "$1"
 alias ktest kubectl --context MioAKSQAv2 -n test $@*
+alias kqa kubectl --context MioAKSQAv2 -n qa $@*
+alias kprod kubectl --context MioAKSProduction -n production $@*
+alias d dired $1
+alias ff find-file $1
+alias ll ls -al
+alias l ls -a
+alias k kubectl $@*
