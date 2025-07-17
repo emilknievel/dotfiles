@@ -56,6 +56,8 @@
         frame-inhibit-implied-resize t
         custom-file (expand-file-name "custom.el" user-emacs-directory))
 
+(load custom-file 'noerror)
+
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1)
 
@@ -201,10 +203,6 @@
     "t v" '(visual-line-mode :wk "visual line mode")
     "t n" '(global-display-line-numbers-mode :wk "display line numbers")
     "t c" '(visual-fill-column-mode :wk "visual fill column mode")))
-
-(with-eval-after-load 'general
-  (my-leader-keys
-    "u f v" 'mixed-pitch-mode))
 
 (with-eval-after-load 'general
   (my-leader-keys
@@ -713,10 +711,40 @@ bar not using the proper theme if the server was loaded with a different theme."
 ;;   (set-face-attribute 'variable-pitch nil
 ;;                       :family my-variable-pitch-font))
 
+;; Persistent flag for mixed-pitch mode
+(defcustom my-enable-mixed-pitch t
+  "Enable mixed-pitch mode in org and markdown buffers."
+  :type 'boolean
+  :group 'editing
+  :set (lambda (symbol value)
+         (set-default symbol value)
+         ;; Apply to existing buffers when changed
+         (dolist (buffer (buffer-list))
+           (with-current-buffer buffer
+             (when (or (derived-mode-p 'org-mode)
+                       (derived-mode-p 'markdown-mode))
+               (if value
+                   (mixed-pitch-mode 1)
+                 (mixed-pitch-mode -1)))))))
+
+;; Function to conditionally enable mixed-pitch
+(defun my-maybe-enable-mixed-pitch ()
+  "Enable mixed-pitch-mode if enabled."
+  (when my-enable-mixed-pitch
+    (mixed-pitch-mode 1)))
+
+;; Toggle function for convenience
+(defun my-toggle-mixed-pitch ()
+  "Toggle mixed-pitch mode setting."
+  (interactive)
+  (customize-set-variable 'my-enable-mixed-pitch (not my-enable-mixed-pitch))
+  (customize-save-variable 'my-enable-mixed-pitch my-enable-mixed-pitch)
+  (message "Mixed-pitch %s" (if my-enable-mixed-pitch "enabled" "disabled")))
+
 (use-package mixed-pitch
   :ensure t
-  :bind ("<f9>" . mixed-pitch-mode)
-  :hook ((org-mode markdown-mode) . mixed-pitch-mode))
+  :bind ("<f9>" . my-toggle-mixed-pitch)
+  :hook ((org-mode markdown-mode) . my-maybe-enable-mixed-pitch))
 
 (use-package ligature
   :ensure (:host github :repo "mickeynp/ligature.el")
@@ -1859,7 +1887,7 @@ any directory proferred by `consult-dir'."
   :after general
   :config
   (setopt org-appear-autoemphasis t
-          org-hide-emphasis-markers t
+          ;; org-hide-emphasis-markers t
           org-appear-autolinks t
           org-appear-autosubmarkers t
           org-appear-autoentities t
