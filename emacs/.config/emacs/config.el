@@ -1802,7 +1802,8 @@ any directory proferred by `consult-dir'."
           org-agenda-files `(,org-directory)
           org-default-notes-file (concat org-directory "/inbox.org")
           org-work-notes-file (concat org-directory "/work.org")
-          org-journelly-file (concat org-directory "/Journelly.org"))
+          org-journelly-file (concat org-directory "/Journelly.org")
+          org-links-file (concat org-directory "/links.org"))
 
   (require 'org-indent)
 
@@ -1850,7 +1851,21 @@ any directory proferred by `consult-dir'."
      ("tw" "Work tasks")
      ("twm" "New Mio task" entry
       (file+olp org-work-notes-file "Mio" "Tasks")
-      "* TODO %i%?" :empty-lines 1)))
+      "* TODO %i%?" :empty-lines 1)
+
+     ("w" "Web link" plain
+      (file+function org-links-file
+                     (lambda () (goto-char (point-min))))
+      "* %^{Title}
+    :PROPERTIES:
+    :TITLE: %\\1
+    :AUTHOR: %^{Author}
+    :URL: %^{URL}
+    :DATE_CAPTURED: %U
+    :END:
+    %?
+
+    ")))
 
   (org-refile-targets
    '((org-agenda-files :maxlevel . 4)
