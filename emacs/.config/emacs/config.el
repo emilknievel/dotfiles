@@ -1341,7 +1341,8 @@ parses its input."
           markdown-header-scaling nil
           markdown-enable-math t
           markdown-make-gfm-checkboxes-buttons t
-          markdown-fontify-code-blocks-natively t)
+          markdown-fontify-code-blocks-natively t
+          markdown-asymmetric-header t)
   :config
   (add-to-list 'markdown-code-lang-modes '("js" . js-ts-mode)))
 
