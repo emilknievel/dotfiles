@@ -656,7 +656,7 @@ bar not using the proper theme if the server was loaded with a different theme."
     (auto-dark-light-mode . (lambda ()
                               (modus-themes-select 'modus-operandi)))))
 
-(defvar my-linux-font "liberation mono")
+(defvar my-linux-font "dejavu sans mono")
 (defvar my-macos-font "meslolgs nerd font")
 
 (if (eq system-type 'darwin)
@@ -665,11 +665,11 @@ bar not using the proper theme if the server was loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "DejaVu Sans")
-           (defvar my-serif-font "New York"))
+           (defvar my-variable-pitch-font "dejavu sans")
+           (defvar my-serif-font "new york"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "DejaVu Sans")
-         (defvar my-serif-font "DejaVu Serif")))
+         (defvar my-variable-pitch-font "dejavu sans")
+         (defvar my-serif-font "dejavu serif")))
 
 (defun my-setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
