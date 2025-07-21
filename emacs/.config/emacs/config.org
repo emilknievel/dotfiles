@@ -444,6 +444,14 @@ Check [[https://github.com/noctuid/general.el#reading-recommendations][this sect
     (meow-global-mode 1))
 #+end_src
 
+*** Repeat mode
+
+Repeat commands by typing a single character.
+
+#+begin_src emacs-lisp
+  (repeat-mode 1)
+#+end_src
+
 ** Editing
 
 *** iedit
