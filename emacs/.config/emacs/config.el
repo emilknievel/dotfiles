@@ -238,6 +238,8 @@
                                            (insert . "<I>")
                                            (beacon . "<B>")))
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
+    (add-to-list 'meow-mode-state-list '(magit-mode . insert))
     (meow-motion-define-key
      '("j" . meow-next)
      '("k" . meow-prev)
