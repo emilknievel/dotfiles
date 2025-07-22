@@ -588,7 +588,6 @@ Smooth scrolling:
       :ensure t
       :demand t
       :config (ns-auto-titlebar-mode))
-    (setopt frame-resize-pixelwise t)
     (setq-default ns-use-proxy-icon nil
                   ns-use-mwheel-momentum t
                   ns-use-mwheel-acceleration t
@@ -3152,6 +3151,12 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 #+begin_src emacs-lisp
   (use-package transpose-frame :ensure t)
+#+end_src
+
+*** Resize pixelwise
+
+#+begin_src emacs-lisp
+  (setopt frame-resize-pixelwise t)
 #+end_src
 
 ** Buffers

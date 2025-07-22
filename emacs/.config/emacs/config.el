@@ -389,7 +389,6 @@
     :ensure t
     :demand t
     :config (ns-auto-titlebar-mode))
-  (setopt frame-resize-pixelwise t)
   (setq-default ns-use-proxy-icon nil
                 ns-use-mwheel-momentum t
                 ns-use-mwheel-acceleration t
@@ -2310,6 +2309,8 @@ With two prefix arguments, insert as top-level heading."
          (conf-mode . hl-todo-mode)))
 
 (use-package transpose-frame :ensure t)
+
+(setopt frame-resize-pixelwise t)
 
 (defun nuke-all-buffers ()
   "Kill all buffers except for *scratch*."
