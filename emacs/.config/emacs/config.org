@@ -2576,7 +2576,7 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
     :general
     (my-leader-keys "u o" 'olivetti-mode)
     :init
-    (setopt olivetti-body-width 120
+    (setopt olivetti-body-width 82
             olivetti-minimum-body-width 72)
     :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
            (olivetti-mode . (lambda ()

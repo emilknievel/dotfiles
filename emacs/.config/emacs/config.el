@@ -1906,7 +1906,7 @@ any directory proferred by `consult-dir'."
   :general
   (my-leader-keys "u o" 'olivetti-mode)
   :init
-  (setopt olivetti-body-width 120
+  (setopt olivetti-body-width 82
           olivetti-minimum-body-width 72)
   :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
          (olivetti-mode . (lambda ()
