@@ -1871,15 +1871,15 @@ any directory proferred by `consult-dir'."
       (file+function org-links-file
                      (lambda () (goto-char (point-min))))
       "* %^{Title}
-    :PROPERTIES:
-    :TITLE: %\\1
-    :AUTHOR: %^{Author}
-    :URL: %^{URL}
-    :DATE_CAPTURED: %U
-    :END:
-    %?
+:PROPERTIES:
+:TITLE: %\\1
+:AUTHOR: %^{Author}
+:URL: %^{URL}
+:DATE_CAPTURED: %U
+:END:
+%?
 
-    ")))
+")))
 
   (org-refile-targets
    '((org-agenda-files :maxlevel . 4)
