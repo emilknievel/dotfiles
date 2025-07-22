@@ -413,17 +413,18 @@
   :init
   (setopt modus-themes-mixed-fonts nil
           modus-themes-variable-pitch-ui nil
-          modus-themes-bold-constructs nil
-          modus-themes-italic-constructs nil
+          modus-themes-bold-constructs t
+          modus-themes-italic-constructs t
           modus-themes-to-toggle '(modus-operandi modus-vivendi)
-          modus-themes-common-palette-overrides '((fringe unspecified)
-                                                  (bg-paren-match bg-magenta-intense)
-                                                  (fg-heading-1 blue-warmer)
-                                                  (fg-heading-2 yellow-cooler)
-                                                  (fg-heading-3 cyan-cooler)
-                                                  (bg-prose-block-delimiter bg-mode-line-inactive))
-          ;; (border-mode-line-active unspecified)
-          ;; (border-mode-line-inactive unspecified))
+
+          modus-themes-common-palette-overrides
+          '((fringe unspecified)
+            (bg-paren-match bg-magenta-intense)
+            (fg-heading-1 blue-warmer)
+            (fg-heading-2 yellow-cooler)
+            (fg-heading-3 cyan-cooler)
+            (bg-prose-block-delimiter bg-mode-line-inactive))
+
           modus-themes-headings '((0 . (1.5))
                                   (1 . (1.4))
                                   (2 . (1.3))
@@ -439,7 +440,7 @@
   :ensure t
   :after general
   :init
-  (setopt ef-themes-to-toggle '(ef-light ef-dark))
+  (setopt ef-themes-to-toggle '(ef-light ef-night))
   :custom
   (ef-themes-mixed-fonts nil)
   (ef-themes-variable-pitch-ui nil)
