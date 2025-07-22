@@ -3111,13 +3111,6 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
   (use-package transpose-frame :ensure t)
 #+end_src
 
-*** ace-window
-
-#+begin_src emacs-lisp
-  (use-package ace-window
-    :bind (("C-x o" . ace-window)))
-#+end_src
-
 ** Buffers
 
 #+begin_src emacs-lisp

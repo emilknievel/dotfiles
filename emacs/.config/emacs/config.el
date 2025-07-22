@@ -2290,9 +2290,6 @@ With two prefix arguments, insert as top-level heading."
 
 (use-package transpose-frame :ensure t)
 
-(use-package ace-window
-  :bind (("C-x o" . ace-window)))
-
 (defun nuke-all-buffers ()
   "Kill all buffers except for *scratch*."
   (interactive)
