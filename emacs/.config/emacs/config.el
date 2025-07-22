@@ -509,8 +509,7 @@
   :general (my-leader-keys
              "t t r" 'my-toggle-rose-pine
              "t t d" 'my-doom-one
-             "t t g" 'my-toggle-gruvbox
-             "t t t" 'my-toggle-tomorrow))
+             "t t g" 'my-toggle-gruvbox))
 
 (use-package naysayer-theme
   :ensure t
@@ -645,17 +644,30 @@ bar not using the proper theme if the server was loaded with a different theme."
   (use-package auto-dark
     :ensure t
     :init
-    (setopt auto-dark-allow-osascript t ; Needed to make it work with emacsclient
-                                        ; on macOS.
-            auto-dark-themes '((modus-vivendi) (modus-operandi)))
+    (defconst my-dark-theme  'ef-night)
+    (defconst my-light-theme 'modus-operandi)
+
+    (setopt auto-dark-allow-osascript t ; Needed to make it work with
+                                        ; emacsclient on macOS.
+            auto-dark-themes `((,my-dark-theme) (,my-light-theme)))
+
     (auto-dark-mode t)
+
+    (defun my-toggle-auto-theme ()
+      (interactive)
+      (if (eq (nth 0 custom-enabled-themes) my-dark-theme)
+          (my-load-theme my-light-theme)
+        (my-load-theme my-dark-theme)))
+
     :custom
     (custom-safe-themes t)
     :hook
     (auto-dark-dark-mode . (lambda ()
-                             (modus-themes-select 'modus-vivendi)))
+                             (my-load-theme my-dark-theme)))
     (auto-dark-light-mode . (lambda ()
-                              (modus-themes-select 'modus-operandi)))))
+                              (my-load-theme my-light-theme)))
+
+    :general (my-leader-keys "t t t" 'my-toggle-auto-theme)))
 
 (defvar my-linux-font "dejavu sans mono")
 (defvar my-macos-font "meslolgs nerd font")
