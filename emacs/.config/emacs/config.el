@@ -1832,7 +1832,7 @@ any directory proferred by `consult-dir'."
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-startup-indented t)
+  ;; (org-startup-indented t)
   (org-M-RET-may-split-line '((default . nil)))
 
   (org-log-done 'note)
