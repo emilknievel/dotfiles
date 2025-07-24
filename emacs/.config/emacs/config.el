@@ -215,19 +215,6 @@
   :ensure t
   :bind-keymap ("C-c s" . surround-keymap))
 
-(use-package hydra
-  :ensure t
-  :config
-  (defhydra hydra-window-actions (global-map "C-, w")
-    "window actions"
-    ("h" shrink-window-horizontally "shrink horizontally")
-    ("l" enlarge-window-horizontally "enlarge horizontally")
-    ("j" shrink-window "shrink window")
-    ("k" enlarge-window "enlarge window")
-    ("+" balance-windows "balance windows")
-    ("-" shrink-window-if-larger-than-buffer "fit window")
-    ("t" transpose-frame "transpose frame")))
-
 (use-package meow
   :ensure t
   :init
@@ -2313,6 +2300,24 @@ With two prefix arguments, insert as top-level heading."
 (use-package transpose-frame :ensure t)
 
 (setopt frame-resize-pixelwise t)
+
+(defvar-keymap window-actions-repeat-map
+  :repeat t
+  "h" #'shrink-window-horizontally
+  "l" #'enlarge-window-horizontally
+  "j" #'shrink-window
+  "k" #'enlarge-window
+  "+" #'balance-windows
+  "-" #'shrink-window-if-larger-than-buffer
+  "t" #'transpose-frame)
+
+(global-set-key (kbd "C-, w h") 'shrink-window-horizontally)
+(global-set-key (kbd "C-, w l") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-, w j") 'shrink-window)
+(global-set-key (kbd "C-, w k") 'enlarge-window)
+(global-set-key (kbd "C-, w +") 'balance-windows)
+(global-set-key (kbd "C-, w -") 'shrink-window-if-larger-than-buffer)
+(global-set-key (kbd "C-, w t") 'transpose-frame)
 
 (defun nuke-all-buffers ()
   "Kill all buffers except for *scratch*."
