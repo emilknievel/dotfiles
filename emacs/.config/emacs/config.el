@@ -2194,6 +2194,16 @@ With two prefix arguments, insert as top-level heading."
         calibredb-format-all-the-icons t
         calibredb-size-show t))
 
+(use-package wombag
+  :ensure (:host github :repo "karthink/wombag")
+  :defer t
+  :config
+  (setq wombag-host (my-get-auth-keyword "wallabag" :domain)
+        wombag-username (my-get-auth-keyword "wallabag" :user)
+        wombag-password (my-get-auth-keyword "wallabag" :secret)
+        wombag-client-id (my-get-auth-keyword "wallabag" :clientid)
+        wombag-client-secret (my-get-auth-keyword "wallabag" :client-secret)))
+
 (use-package embark
   :ensure t
   :after general

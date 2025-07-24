@@ -2957,6 +2957,20 @@ the Calibre app) as well as sqlite3.
           calibredb-size-show t))
 #+end_src
 
+*** Wallabag
+
+#+begin_src emacs-lisp
+  (use-package wombag
+    :ensure (:host github :repo "karthink/wombag")
+    :defer t
+    :config
+    (setq wombag-host (my-get-auth-keyword "wallabag" :domain)
+          wombag-username (my-get-auth-keyword "wallabag" :user)
+          wombag-password (my-get-auth-keyword "wallabag" :secret)
+          wombag-client-id (my-get-auth-keyword "wallabag" :clientid)
+          wombag-client-secret (my-get-auth-keyword "wallabag" :client-secret)))
+#+end_src
+
 ** Embark
 
 Package repo.
