@@ -112,6 +112,16 @@
   :custom
   (gnutls-verify-error nil))
 
+(defun my-get-auth-keyword (machine keyword)
+  "Get KEYWORD value from auth-source for MACHINE.
+Example usage: \(get-auth-keyword \"test\" :secret)"
+  (let ((result (auth-source-search :host machine :max 1)))
+    (when result
+      (let ((entry (car result)))
+        (if (eq keyword :secret)
+            (funcall (plist-get entry :secret))
+          (plist-get entry keyword))))))
+
 (defun my-alist-keys (alist)
   "Return a list of all keys in ALIST."
   (mapcar #'car alist))
