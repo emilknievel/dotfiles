@@ -2587,6 +2587,8 @@ Display number of matches in modeline when searching.
     (org-todo-keywords
      '((sequence "TODO(t)" "NEXT(n!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
 
+    (org-preview-latex-default-process 'dvisvgm)
+
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
            ("C-c c" . org-capture))

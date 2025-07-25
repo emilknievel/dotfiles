@@ -1909,6 +1909,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
 
+  (org-preview-latex-default-process 'dvisvgm)
+
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture))
