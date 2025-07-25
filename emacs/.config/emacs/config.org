@@ -2608,7 +2608,7 @@ comfortable window margins etc.
     :general
     (my-leader-keys "u o" 'olivetti-mode)
     :init
-    (setopt olivetti-body-width 82
+    (setopt olivetti-body-width 90
             olivetti-minimum-body-width 72)
     :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
            (olivetti-mode . (lambda ()
