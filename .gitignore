@@ -158,6 +158,8 @@ emacs/.config/emacs/devdocs
 /emacs/.config/emacs/org-persist
 /emacs/.config/emacs/forge-database*.sqlite
 /emacs/.config/emacs/fontaine-latest-state.eld
+/emacs/.config/emacs/wombag/
+/emacs/.config/emacs/request/
 
 ### Vim ###
 lazy-lock.json
