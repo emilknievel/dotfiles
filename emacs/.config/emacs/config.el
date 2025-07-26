@@ -236,6 +236,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
                                            (beacon . "<B>")))
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
     (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
+    (add-to-list 'meow-mode-state-list '(eat-mode . insert))
     (add-to-list 'meow-mode-state-list '(magit-mode . insert))
     (meow-motion-define-key
      '("j" . meow-next)
@@ -1572,6 +1573,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode)))
+
+(global-set-key (kbd "S-<f12>") 'eat)
 
 (use-package eshell-atuin
   :ensure t
