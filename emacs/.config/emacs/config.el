@@ -2092,7 +2092,12 @@ With two prefix arguments, insert as top-level heading."
   :demand t
   :after denote
   :custom
-  (denote-silo-directories (list denote-directory denote-workdir)))
+  (denote-silo-directories (list denote-directory denote-workdir))
+  :bind
+  (("C-c N d" . denote-silo-dired)
+   ("C-c N n" . denote-silo-open-or-create)
+   ("C-c N N" . denote-silo-select-silo-then-command)
+   ("C-c N c" . denote-silo-cd)))
 
 (use-package denote-explore
   :ensure t
