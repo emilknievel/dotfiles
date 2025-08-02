@@ -1922,19 +1922,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
              "o b t" 'org-babel-tangle
              "o l d" 'org-toggle-link-display))
 
-(use-package olivetti
-  :ensure t
-  :after general
-  :general
-  (my-leader-keys "u o" 'olivetti-mode)
-  :init
-  (setopt olivetti-body-width 90
-          olivetti-minimum-body-width 72)
-  :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
-         (olivetti-mode . (lambda ()
-                            (cond ((derived-mode-p 'Info-mode)
-                                   (setq-local olivetti-body-width 72)))))))
-
 (use-package org-appear
   :ensure t
   :after general
@@ -1992,6 +1979,19 @@ With two prefix arguments, insert as top-level heading."
     (org-timestamp-inactive '(16)))))
 
 (global-set-key (kbd "<f8>") 'my-org-timestamp-inactive)
+
+(use-package olivetti
+  :ensure t
+  :after general
+  :general
+  (my-leader-keys "u o" 'olivetti-mode)
+  :init
+  (setopt olivetti-body-width 90
+          olivetti-minimum-body-width 72)
+  :hook (;; ((org-mode markdown-mode Info-mode) . olivetti-mode)
+         (olivetti-mode . (lambda ()
+                            (cond ((derived-mode-p 'Info-mode)
+                                   (setq-local olivetti-body-width 72)))))))
 
 (use-package denote
   :ensure t

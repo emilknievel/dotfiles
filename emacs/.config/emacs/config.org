@@ -2601,26 +2601,6 @@ Display number of matches in modeline when searching.
                "o l d" 'org-toggle-link-display))
 #+end_src
 
-*** Olivetti
-
-Olivetti is a minor mode that provides a nice writing environment by setting
-comfortable window margins etc.
-
-#+begin_src emacs-lisp
-  (use-package olivetti
-    :ensure t
-    :after general
-    :general
-    (my-leader-keys "u o" 'olivetti-mode)
-    :init
-    (setopt olivetti-body-width 90
-            olivetti-minimum-body-width 72)
-    :hook (((org-mode markdown-mode Info-mode) . olivetti-mode)
-           (olivetti-mode . (lambda ()
-                              (cond ((derived-mode-p 'Info-mode)
-                                     (setq-local olivetti-body-width 72)))))))
-#+end_src
-
 *** Appear
 
 This package displays hidden emphasis markers while the cursor is on a rich
@@ -2692,6 +2672,26 @@ text word.
       (org-timestamp-inactive '(16)))))
 
   (global-set-key (kbd "<f8>") 'my-org-timestamp-inactive)
+#+end_src
+
+** Olivetti
+
+Olivetti is a minor mode that provides a nice writing environment by setting
+comfortable window margins etc.
+
+#+begin_src emacs-lisp
+  (use-package olivetti
+    :ensure t
+    :after general
+    :general
+    (my-leader-keys "u o" 'olivetti-mode)
+    :init
+    (setopt olivetti-body-width 90
+            olivetti-minimum-body-width 72)
+    :hook (;; ((org-mode markdown-mode Info-mode) . olivetti-mode)
+           (olivetti-mode . (lambda ()
+                              (cond ((derived-mode-p 'Info-mode)
+                                     (setq-local olivetti-body-width 72)))))))
 #+end_src
 
 ** Denote
