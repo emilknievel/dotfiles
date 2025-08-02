@@ -416,7 +416,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
           modus-themes-variable-pitch-ui nil
           modus-themes-bold-constructs t
           modus-themes-italic-constructs t
-          modus-themes-to-toggle '(modus-operandi modus-vivendi)
+          modus-themes-to-toggle '(modus-operandi modus-vivendi-tinted)
 
           modus-themes-common-palette-overrides
           '((fringe unspecified)
@@ -441,7 +441,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :ensure t
   :after general
   :init
-  (setopt ef-themes-to-toggle '(ef-light ef-night))
+  (setopt ef-themes-to-toggle '(ef-light ef-owl))
   :custom
   (ef-themes-mixed-fonts nil)
   (ef-themes-variable-pitch-ui nil)
@@ -646,7 +646,7 @@ loaded with a different theme."
   (use-package auto-dark
     :ensure t
     :init
-    (defconst my-dark-theme  'ef-night)
+    (defconst my-dark-theme  'modus-vivendi-tinted)
     (defconst my-light-theme 'modus-operandi)
 
     (setopt auto-dark-allow-osascript t ; Needed to make it work with
