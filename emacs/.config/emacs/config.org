@@ -2141,14 +2141,7 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 
 #+begin_src emacs-lisp
   (use-package eat
-    :ensure (
-             :host codeberg
-             :repo "akib/emacs-eat"
-             :files ("*.el" ("term" "term/*.el") "*.texi"
-                     "*.ti" ("terminfo/e" "terminfo/e/*")
-                     ("terminfo/65" "terminfo/65/*")
-                     ("integration" "integration/*")
-                     (:exclude ".dir-locals.el" "*-tests.el")))
+    :ensure t
     :after general
     :general
     (my-leader-keys "` e" 'eshell)

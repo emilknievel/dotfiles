@@ -1552,14 +1552,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (global-set-key (kbd "<f12>") 'eshell)
 
 (use-package eat
-  :ensure (
-           :host codeberg
-           :repo "akib/emacs-eat"
-           :files ("*.el" ("term" "term/*.el") "*.texi"
-                   "*.ti" ("terminfo/e" "terminfo/e/*")
-                   ("terminfo/65" "terminfo/65/*")
-                   ("integration" "integration/*")
-                   (:exclude ".dir-locals.el" "*-tests.el")))
+  :ensure t
   :after general
   :general
   (my-leader-keys "` e" 'eshell)
