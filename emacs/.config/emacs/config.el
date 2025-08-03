@@ -1982,12 +1982,10 @@ With two prefix arguments, insert as top-level heading."
   :general
   (my-leader-keys "u o" 'olivetti-mode)
   :init
-  (setopt olivetti-body-width 90
+  (setopt olivetti-body-width 82
           olivetti-minimum-body-width 72)
-  :hook (;; ((org-mode markdown-mode Info-mode) . olivetti-mode)
-         (olivetti-mode . (lambda ()
-                            (cond ((derived-mode-p 'Info-mode)
-                                   (setq-local olivetti-body-width 72)))))))
+  :hook ((org-mode markdown-mode) . olivetti-mode)
+  :bind ("S-<f9>" . olivetti-mode))
 
 (use-package denote
   :ensure t

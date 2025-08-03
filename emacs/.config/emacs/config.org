@@ -27,8 +27,7 @@
 
 ** Better defaults
 
-Opinionated default
-[[https://git.sr.ht/~technomancy/better-defaults][settings]].
+Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]].
 
 #+begin_src emacs-lisp
   (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
@@ -226,10 +225,7 @@ Mainly used for making sure that org timestamps are consistent.
 
 *** General.el
 
-General provides a more convenient, unified interface for binding keys in
-Emacs. Check
-[[https://github.com/noctuid/general.el#reading-recommendations][this section]]
-in the repo for recommended reading before configuring with general.el.
+General provides a more convenient, unified interface for binding keys in Emacs. Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
 
 **** Preamble
 
@@ -493,8 +489,7 @@ Increase selected region by /semantic units/.
 
 *** Vundo
 
-Visual undo. Displays the undo history as a tree and lets you move in the tree
-to go back to previous buffer states.
+Visual undo. Displays the undo history as a tree and lets you move in the tree to go back to previous buffer states.
 
 Invoked with ~M-x vundo~ or ~<leader> c u~.
 
@@ -1043,8 +1038,7 @@ Inspired by Plan 9 Acme & Sam.
 
 **** Ligatures
 
-Display ligatures. Disabled by default. Enable with ~<leader> u f l~
-=(ui->fonts->ligatures)=.
+Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts->ligatures)=.
 
 #+begin_src emacs-lisp
   (use-package ligature
@@ -1295,8 +1289,7 @@ Display the current date and time on the mode line.
 
 **** Minions
 
-=minions.el= by Jonas Bernoulli implements a nested menu that gives access to
-all known minor modes.
+=minions.el= by Jonas Bernoulli implements a nested menu that gives access to all known minor modes.
 
 #+begin_src emacs-lisp
   (use-package minions
@@ -1677,9 +1670,7 @@ all known minor modes.
 
 *** Kind-icon
 
-Note: See
-[[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560185][this]]
-post for handling theme changes.
+Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560185][this]] post for handling theme changes.
 
 #+begin_src emacs-lisp
   (use-package kind-icon
@@ -1915,8 +1906,7 @@ Use prolog-mode instead of perl-mode for .pl files.
 
 *** jq
 
-Info about interactive use in a JSON buffer, Org-babel support and how to use
-with yq for yaml provided [[https://github.com/ljos/jq-mode][here]].
+Info about interactive use in a JSON buffer, Org-babel support and how to use with yq for yaml provided [[https://github.com/ljos/jq-mode][here]].
 
 #+begin_src emacs-lisp
   (use-package jq-mode
@@ -1928,9 +1918,7 @@ with yq for yaml provided [[https://github.com/ljos/jq-mode][here]].
 
 **** restclient.el
 
-This package provides a simple way to interact with RESTful APIs from within
-Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode
-highlights some of its features.
+This package provides a simple way to interact with RESTful APIs from within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode highlights some of its features.
 
 Notable keymaps:
 
@@ -2170,9 +2158,7 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 
 *** Atuin
 
-=atuin= stores shell history in a database, which allows for having the same
-history across multiple shells, sessions, and optionally across different
-machines.
+=atuin= stores shell history in a database, which allows for having the same history across multiple shells, sessions, and optionally across different machines.
 
 #+begin_src emacs-lisp
   (use-package eshell-atuin
@@ -2276,8 +2262,7 @@ Drill down subdirectories in dired.
 
 *** Treemacs
 
-Treemacs is an Emacs package that provides a customizable, tree-style file
-explorer and project manager, streamlining file navigation and organization.
+Treemacs is an Emacs package that provides a customizable, tree-style file explorer and project manager, streamlining file navigation and organization.
 
 #+begin_src emacs-lisp
   (use-package treemacs
@@ -2605,8 +2590,7 @@ Display number of matches in modeline when searching.
 
 *** Appear
 
-This package displays hidden emphasis markers while the cursor is on a rich
-text word.
+This package displays hidden emphasis markers while the cursor is on a rich text word.
 
 #+begin_src emacs-lisp
   (use-package org-appear
@@ -2688,12 +2672,10 @@ comfortable window margins etc.
     :general
     (my-leader-keys "u o" 'olivetti-mode)
     :init
-    (setopt olivetti-body-width 90
+    (setopt olivetti-body-width 82
             olivetti-minimum-body-width 72)
-    :hook (;; ((org-mode markdown-mode Info-mode) . olivetti-mode)
-           (olivetti-mode . (lambda ()
-                              (cond ((derived-mode-p 'Info-mode)
-                                     (setq-local olivetti-body-width 72)))))))
+    :hook ((org-mode markdown-mode) . olivetti-mode)
+    :bind ("S-<f9>" . olivetti-mode))
 #+end_src
 
 ** Denote
@@ -2826,8 +2808,7 @@ Use denote for note-taking. Most of this is copied from Prot's config.
 
 *** Denote explore
 
-Auxiliary functions to manage and explore denote files:
-https://lucidmanager.org/productivity/denote-explore/.
+Auxiliary functions to manage and explore denote files: https://lucidmanager.org/productivity/denote-explore/.
 
 #+begin_src emacs-lisp
   (use-package denote-explore
@@ -2885,8 +2866,7 @@ https://lucidmanager.org/productivity/denote-explore/.
 
 *** PDF
 
-Use PDF tools package to turn Emacs into a PDF viewer with annotation support
-etc.
+Use PDF tools package to turn Emacs into a PDF viewer with annotation support etc.
 
 #+begin_src emacs-lisp
   (use-package pdf-tools
@@ -2949,13 +2929,9 @@ etc.
 
 *** Organizing Literature
 
-My main source of literature is the calibre folder in my file system. Calibre
-is the software I use for organizing and maintaining my digital library.
-Calibredb is a package that allows us to manage the Calibre library from within
-Emacs.
+My main source of literature is the calibre folder in my file system. Calibre is the software I use for organizing and maintaining my digital library. Calibredb is a package that allows us to manage the Calibre library from within Emacs.
 
-This package requires that calibredb is installed on the system (included with
-the Calibre app) as well as sqlite3.
+This package requires that calibredb is installed on the system (included with the Calibre app) as well as sqlite3.
 
 #+begin_src emacs-lisp
   (use-package calibredb
@@ -3257,8 +3233,7 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 ** dir-config
 
-Alternative to =.dir-locals= that allegedly is easier to maintain as
-=.dir-config= files use standard elisp code instead of nested alists.
+Alternative to =.dir-locals= that allegedly is easier to maintain as =.dir-config= files use standard elisp code instead of nested alists.
 
 #+begin_src emacs-lisp
   (use-package dir-config
