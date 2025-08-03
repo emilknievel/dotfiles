@@ -417,7 +417,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
           modus-themes-variable-pitch-ui nil
           modus-themes-bold-constructs t
           modus-themes-italic-constructs t
-          modus-themes-to-toggle '(modus-operandi modus-vivendi-tinted)
+          modus-themes-to-toggle '(modus-operandi modus-vivendi)
 
           modus-themes-common-palette-overrides
           '((fringe unspecified)
@@ -442,7 +442,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :ensure t
   :after general
   :init
-  (setopt ef-themes-to-toggle '(ef-light ef-owl))
+  (setopt ef-themes-to-toggle '(ef-light ef-dark))
   :custom
   (ef-themes-mixed-fonts nil)
   (ef-themes-variable-pitch-ui nil)
@@ -647,7 +647,7 @@ loaded with a different theme."
   (use-package auto-dark
     :ensure t
     :init
-    (defconst my-dark-theme  'modus-vivendi-tinted)
+    (defconst my-dark-theme  'ef-duo-dark)
     (defconst my-light-theme 'modus-operandi)
 
     (setopt auto-dark-allow-osascript t ; Needed to make it work with
@@ -672,7 +672,7 @@ loaded with a different theme."
 
     :general (my-leader-keys "t t t" 'my-toggle-auto-theme)))
 
-(defvar my-linux-font "dejavu sans mono")
+(defvar my-linux-font "noto sans mono")
 (defvar my-macos-font "meslolgs nerd font")
 
 (if (eq system-type 'darwin)
@@ -684,8 +684,8 @@ loaded with a different theme."
            (defvar my-variable-pitch-font "dejavu sans")
            (defvar my-serif-font "new york"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "dejavu sans")
-         (defvar my-serif-font "dejavu serif")))
+         (defvar my-variable-pitch-font "noto sans")
+         (defvar my-serif-font "noto serif")))
 
 (defun my-setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
