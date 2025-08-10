@@ -188,6 +188,16 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
             (plist-get entry keyword))))))
 #+end_src
 
+*** GPG
+
+**** Loopback pinentry mode
+
+Use minibuffer for passphrase queries instead of using an external Pinentry program.
+
+#+begin_src emacs-lisp
+  (setopt epg-pinentry-mode 'loopback)
+#+end_src
+
 ** Utility
 
 *** Functions

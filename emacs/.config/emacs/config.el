@@ -123,6 +123,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
             (funcall (plist-get entry :secret))
           (plist-get entry keyword))))))
 
+(setopt epg-pinentry-mode 'loopback)
+
 (defun my-alist-keys (alist)
   "Return a list of all keys in ALIST."
   (mapcar #'car alist))
