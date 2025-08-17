@@ -1755,6 +1755,8 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
   (use-package flycheck-eglot
     :ensure t
     :after (flycheck eglot)
+    :custom (flycheck-eglot-exclusive nil) ; cooperate with checkers in addition
+                                           ; to eglot
     :config
     (global-flycheck-eglot-mode 1))
 #+end_src

@@ -1331,6 +1331,8 @@ its input."
 (use-package flycheck-eglot
   :ensure t
   :after (flycheck eglot)
+  :custom (flycheck-eglot-exclusive nil) ; cooperate with checkers in addition
+                                         ; to eglot
   :config
   (global-flycheck-eglot-mode 1))
 
