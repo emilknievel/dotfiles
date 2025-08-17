@@ -323,8 +323,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
      '("<escape>" . ignore)))
   :config
   (meow-setup)
-  (meow-setup-indicator)
-  (meow-global-mode 1))
+  (meow-setup-indicator))
+;;(meow-global-mode 1))
 
 (repeat-mode 1)
 
