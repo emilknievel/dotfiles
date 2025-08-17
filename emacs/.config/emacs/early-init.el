@@ -41,10 +41,10 @@
 
 ;; Customize titlebar
 (cond ((eq system-type 'darwin)
-       (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))))
-;; ((and (eq system-type 'gnu/linux)
-;;       (not (getenv "WSL_DISTRO_NAME")))
-;;  (add-to-list 'default-frame-alist '(internal-border-width . 8))))
+       (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
+      ((and (eq system-type 'gnu/linux)
+            (not (getenv "WSL_DISTRO_NAME")))
+       (add-to-list 'default-frame-alist '(fullscreen . maximized))))
 
 ;; Load dark theme early to avoid getting flashed when launching Emacs.
 (load-theme 'wombat t)
