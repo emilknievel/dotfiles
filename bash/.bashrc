@@ -122,12 +122,6 @@ else
     printf "WARNING: fzf not found in PATH\n\n" >&2
 fi
 
-if [[ -x "$(command -v nvim)" ]]; then
-    alias vi=nvim
-    alias vim=nvim
-    export EDITOR=nvim
-fi
-
 if [[ -f ~/.bash-preexec.sh ]]; then
     source "$HOME/.bash-preexec.sh"
 else
