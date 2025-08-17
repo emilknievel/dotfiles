@@ -767,7 +767,7 @@ loaded with a different theme."
   :hook ((org-mode markdown-mode) . my-maybe-enable-mixed-pitch))
 
 (use-package ligature
-  :ensure (:host github :repo "mickeynp/ligature.el")
+  :ensure t
   :after general
   :config
   (setq liga '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "||=" "||>" ":::" "::="
@@ -2371,7 +2371,7 @@ With two prefix arguments, insert as top-level heading."
 (global-set-key (kbd "C-<f5>") 'project-compile)
 
 (use-package kubed
-  :ensure (:host github :repo "eshelyaron/kubed")
+  :ensure t
   :bind-keymap ("C-c K" . kubed-prefix-map)
   :bind (:map kubed-prefix-map ("t" . kubed-transient)))
 

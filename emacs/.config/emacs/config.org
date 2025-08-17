@@ -1052,7 +1052,7 @@ Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts
 
 #+begin_src emacs-lisp
   (use-package ligature
-    :ensure (:host github :repo "mickeynp/ligature.el")
+    :ensure t
     :after general
     :config
     (setq liga '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "||=" "||>" ":::" "::="
@@ -3236,7 +3236,7 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 #+begin_src emacs-lisp
   (use-package kubed
-    :ensure (:host github :repo "eshelyaron/kubed")
+    :ensure t
     :bind-keymap ("C-c K" . kubed-prefix-map)
     :bind (:map kubed-prefix-map ("t" . kubed-transient)))
 #+end_src
