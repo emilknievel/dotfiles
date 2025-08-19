@@ -675,7 +675,7 @@ loaded with a different theme."
     :general (my-leader-keys "t t t" 'my-toggle-auto-theme)))
 
 (defvar my-linux-font "noto sans mono")
-(defvar my-macos-font "meslolgs nerd font")
+(defvar my-macos-font "sf mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -764,7 +764,8 @@ loaded with a different theme."
 (use-package mixed-pitch
   :ensure t
   :bind ("<f9>" . my-toggle-mixed-pitch)
-  :hook ((org-mode markdown-mode) . my-maybe-enable-mixed-pitch))
+  :hook ((org-mode markdown-mode) . my-maybe-enable-mixed-pitch)
+  :custom (mixed-pitch-variable-pitch-cursor nil))
 
 (use-package ligature
   :ensure t
