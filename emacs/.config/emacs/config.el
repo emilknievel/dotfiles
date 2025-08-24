@@ -645,34 +645,33 @@ loaded with a different theme."
 
 (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
 
-(when (not (getenv "WSL_DISTRO_NAME"))
-  (use-package auto-dark
-    :ensure t
-    :init
-    (defconst my-dark-theme  'ef-duo-dark)
-    (defconst my-light-theme 'modus-operandi)
+(use-package auto-dark
+  :ensure t
+  :init
+  (defconst my-dark-theme  'ef-duo-dark)
+  (defconst my-light-theme 'modus-operandi)
 
-    (setopt auto-dark-allow-osascript t ; Needed to make it work with
+  (setopt auto-dark-allow-osascript t   ; Needed to make it work with
                                         ; emacsclient on macOS.
-            auto-dark-themes `((,my-dark-theme) (,my-light-theme)))
+          auto-dark-themes `((,my-dark-theme) (,my-light-theme)))
 
-    (auto-dark-mode t)
+  (auto-dark-mode t)
 
-    (defun my-toggle-auto-theme ()
-      (interactive)
-      (if (eq (nth 0 custom-enabled-themes) my-dark-theme)
-          (my-load-theme my-light-theme)
-        (my-load-theme my-dark-theme)))
+  (defun my-toggle-auto-theme ()
+    (interactive)
+    (if (eq (nth 0 custom-enabled-themes) my-dark-theme)
+        (my-load-theme my-light-theme)
+      (my-load-theme my-dark-theme)))
 
-    :custom
-    (custom-safe-themes t)
-    :hook
-    (auto-dark-dark-mode . (lambda ()
-                             (my-load-theme my-dark-theme)))
-    (auto-dark-light-mode . (lambda ()
-                              (my-load-theme my-light-theme)))
+  :custom
+  (custom-safe-themes t)
+  :hook
+  (auto-dark-dark-mode . (lambda ()
+                           (my-load-theme my-dark-theme)))
+  (auto-dark-light-mode . (lambda ()
+                            (my-load-theme my-light-theme)))
 
-    :general (my-leader-keys "t t t" 'my-toggle-auto-theme)))
+  :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "noto sans mono")
 (defvar my-macos-font "sf mono")
