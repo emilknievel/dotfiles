@@ -3,6 +3,12 @@ nnoremap U <C-R>
 filetype plugin indent on
 autocmd FileType gitcommit setlocal colorcolumn=51,73
 
+set tabstop     =8
+set softtabstop =4
+set shiftwidth  =4
+set expandtab
+"Note: Explicitly enter a <Tab> character with <Ctrl> + v <Tab>
+
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
