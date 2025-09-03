@@ -452,8 +452,8 @@ General provides a more convenient, unified interface for binding keys in Emacs.
        '("<escape>" . ignore)))
     :config
     (meow-setup)
-    (meow-setup-indicator))
-  ;;(meow-global-mode 1))
+    (meow-setup-indicator)
+    (meow-global-mode 1))
 #+end_src
 
 *** Repeat mode
