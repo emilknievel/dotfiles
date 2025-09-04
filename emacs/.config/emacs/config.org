@@ -628,6 +628,54 @@ Workaround for copying text from Emacs to the Windows clipboard:
   (setopt custom-theme-directory "~/.config/emacs/themes/")
 #+end_src
 
+**** Functions
+
+#+begin_src emacs-lisp
+  (defun my-clear-theme ()
+    "Clear current theme"
+    (interactive)
+    (mapc #'disable-theme custom-enabled-themes))
+
+  (defun my-load-theme (&optional theme)
+    "Load THEME after clearing the previous one.
+  If called interactively, prompt for a theme name. If THEME is provided
+  as an argument, load that theme directly."
+    (interactive)
+    (my-clear-theme)
+    (if theme
+        (load-theme theme t)
+      (call-interactively 'load-theme)))
+
+  ;; (setq my-catppuccin-flavors (my-alist-keys catppuccin-flavor-alist))
+
+  ;; (defun my-catppuccin-theme (flavor)
+  ;;   "Clear previous theme and load selected catppuccin FLAVOR."
+  ;;   (interactive
+  ;;    (list (intern (completing-read "Choose a flavor: "
+  ;;                                   my-catppuccin-flavors))))
+  ;;   (my-clear-theme)
+  ;;   (catppuccin-load-flavor flavor))
+
+  (defun my-load-theme-in-all-frames (frame)
+    "Load the current theme in the newly created FRAME.
+  When loaded after a new frame has been created with emacsclient, it
+  ensures that the theme is properly applied. In particular this solves a
+  problem with the menu bar not using the proper theme if the server was
+  loaded with a different theme."
+    (with-selected-frame frame
+      (enable-theme (car custom-enabled-themes))
+      (when (string-prefix-p "ef-" (symbol-name (car custom-enabled-themes)))
+        (ef-themes-load-theme (car custom-enabled-themes)))
+      (when (string-prefix-p "modus-" (symbol-name (car custom-enabled-themes)))
+        (modus-themes-load-theme (car custom-enabled-themes)))))
+#+end_src
+
+**** Hooks
+
+#+begin_src emacs-lisp
+  (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
+#+end_src
+
 **** Modus themes
 
 #+begin_src emacs-lisp
@@ -717,30 +765,55 @@ Workaround for copying text from Emacs to the Windows clipboard:
 **** Doom
 
 #+begin_src emacs-lisp
-  (defun my-toggle-rose-pine ()
-    "Toggle between light and dark Rosé Pine themes."
-    (interactive)
-    (if (eq (nth 0 custom-enabled-themes) 'doom-rose-pine)
-        (my-rose-pine-dawn)
-      (my-rose-pine)))
-
-  (defun my-toggle-gruvbox ()
-    "Toggle between light and dark Gruvbox themes."
-    (interactive)
-    (if (eq (nth 0 custom-enabled-themes) 'doom-gruvbox)
-        (my-gruvbox-light)
-      (my-gruvbox)))
-
-  (defun my-toggle-tomorrow ()
-    "Toggle between light and dark Tomorrow themes."
-    (interactive)
-    (if (eq (nth 0 custom-enabled-themes) 'doom-tomorrow-night)
-        (my-load-theme 'doom-tomorrow-day)
-      (my-load-theme 'doom-tomorrow-night)))
-
   (use-package doom-themes
     :ensure t
     :after general
+    :init
+    (defun my-rose-pine ()
+      "Clear previous theme and load rosé pine."
+      (interactive)
+      (my-load-theme 'doom-rose-pine))
+
+    (defun my-rose-pine-dawn ()
+      "Clear previous theme and load rosé pine dawn."
+      (interactive)
+      (my-load-theme 'doom-rose-pine-dawn))
+
+    (defun my-doom-one ()
+      "Clear previous theme and load doom-one."
+      (interactive)
+      (my-load-theme 'doom-one))
+
+    (defun my-gruvbox ()
+      "Clear previous theme and load gruvbox."
+      (interactive)
+      (my-load-theme 'doom-gruvbox))
+
+    (defun my-gruvbox-light ()
+      "Clear previous theme and load gruvbox."
+      (interactive)
+      (my-load-theme 'doom-gruvbox-light))
+
+    (defun my-toggle-rose-pine ()
+      "Toggle between light and dark Rosé Pine themes."
+      (interactive)
+      (if (eq (nth 0 custom-enabled-themes) 'doom-rose-pine)
+          (my-rose-pine-dawn)
+        (my-rose-pine)))
+
+    (defun my-toggle-gruvbox ()
+      "Toggle between light and dark Gruvbox themes."
+      (interactive)
+      (if (eq (nth 0 custom-enabled-themes) 'doom-gruvbox)
+          (my-gruvbox-light)
+        (my-gruvbox)))
+
+    (defun my-toggle-tomorrow ()
+      "Toggle between light and dark Tomorrow themes."
+      (interactive)
+      (if (eq (nth 0 custom-enabled-themes) 'doom-tomorrow-night)
+          (my-load-theme 'doom-tomorrow-day)
+        (my-load-theme 'doom-tomorrow-night)))
     :custom
     (doom-themes-enable-bold t)
     (doom-themes-enable-italic t)
@@ -760,6 +833,11 @@ Based on theme from Jonathan Blow's livestreams.
   (use-package naysayer-theme
     :ensure t
     :after general
+    :init
+    (defun my-naysayer-theme ()
+      "Clear previous theme and load naysayer."
+      (interactive)
+      (my-load-theme 'naysayer))
     :general (my-leader-keys "t t n" 'my-naysayer-theme))
 #+end_src
 
@@ -773,13 +851,41 @@ Inspired by Plan 9 Acme & Sam.
     :after general
     :init
     (setq acme-theme-black-fg t)
+
+    (defun my-acme-theme ()
+      "Clear previous theme and load acme."
+      (interactive)
+      (my-load-theme 'acme))
     :general (my-leader-keys "t t a" 'my-acme-theme))
 #+end_src
 
 **** Kaolin
 
 #+begin_src emacs-lisp
-  (use-package kaolin-themes :ensure t)
+  (use-package kaolin-themes
+    :ensure t
+    :init
+    (defun my-kaolin-dark ()
+      "Clear previous theme and load kaolin dark."
+      (interactive)
+      (my-load-theme 'kaolin-dark))
+
+    (defun my-kaolin-light ()
+      "Clear previous theme and load kaolin light."
+      (interactive)
+      (my-load-theme 'kaolin-light))
+
+    (defun my-kaolin-mono-dark ()
+      "Clear previous theme and load kaolin mono dark."
+      (interactive)
+      (my-load-theme 'kaolin-mono-dark))
+
+    (defun my-kaolin-mono-light ()
+      "Clear previous theme and load kaolin mono light."
+      (interactive)
+      (my-load-theme 'kaolin-mono-light))
+
+    :general (my-leader-keys "t t k" 'my-kaolin-dark))
 #+end_src
 
 **** Solarized
@@ -805,109 +911,6 @@ Inspired by Plan 9 Acme & Sam.
     "Clear previous theme and load solarized dark"
     (interactive)
     (my-load-theme 'doom-solarized-dark))
-#+end_src
-
-**** Functions
-
-#+begin_src emacs-lisp
-  (defun my-clear-theme ()
-    "Clear current theme"
-    (interactive)
-    (mapc #'disable-theme custom-enabled-themes))
-
-  (defun my-load-theme (&optional theme)
-    "Load THEME after clearing the previous one.
-  If called interactively, prompt for a theme name. If THEME is provided
-  as an argument, load that theme directly."
-    (interactive)
-    (my-clear-theme)
-    (if theme
-        (load-theme theme t)
-      (call-interactively 'load-theme)))
-
-  (defun my-rose-pine ()
-    "Clear previous theme and load rosé pine."
-    (interactive)
-    (my-load-theme 'doom-rose-pine))
-
-  (defun my-rose-pine-dawn ()
-    "Clear previous theme and load rosé pine dawn."
-    (interactive)
-    (my-load-theme 'doom-rose-pine-dawn))
-
-  (defun my-doom-one ()
-    "Clear previous theme and load doom-one."
-    (interactive)
-    (my-load-theme 'doom-one))
-
-  (defun my-naysayer-theme ()
-    "Clear previous theme and load naysayer."
-    (interactive)
-    (my-load-theme 'naysayer))
-
-  (defun my-acme-theme ()
-    "Clear previous theme and load acme."
-    (interactive)
-    (my-load-theme 'acme))
-
-  ;; (setq my-catppuccin-flavors (my-alist-keys catppuccin-flavor-alist))
-
-  ;; (defun my-catppuccin-theme (flavor)
-  ;;   "Clear previous theme and load selected catppuccin FLAVOR."
-  ;;   (interactive
-  ;;    (list (intern (completing-read "Choose a flavor: "
-  ;;                                   my-catppuccin-flavors))))
-  ;;   (my-clear-theme)
-  ;;   (catppuccin-load-flavor flavor))
-
-  (defun my-gruvbox ()
-    "Clear previous theme and load gruvbox."
-    (interactive)
-    (my-load-theme 'doom-gruvbox))
-
-  (defun my-gruvbox-light ()
-    "Clear previous theme and load gruvbox."
-    (interactive)
-    (my-load-theme 'doom-gruvbox-light))
-
-  (defun my-kaolin-dark ()
-    "Clear previous theme and load kaolin dark."
-    (interactive)
-    (my-load-theme 'kaolin-dark))
-
-  (defun my-kaolin-light ()
-    "Clear previous theme and load kaolin light."
-    (interactive)
-    (my-load-theme 'kaolin-light))
-
-  (defun my-kaolin-mono-dark ()
-    "Clear previous theme and load kaolin mono dark."
-    (interactive)
-    (my-load-theme 'kaolin-mono-dark))
-
-  (defun my-kaolin-mono-light ()
-    "Clear previous theme and load kaolin mono light."
-    (interactive)
-    (my-load-theme 'kaolin-mono-light))
-
-  (defun my-load-theme-in-all-frames (frame)
-    "Load the current theme in the newly created FRAME.
-  When loaded after a new frame has been created with emacsclient, it
-  ensures that the theme is properly applied. In particular this solves a
-  problem with the menu bar not using the proper theme if the server was
-  loaded with a different theme."
-    (with-selected-frame frame
-      (enable-theme (car custom-enabled-themes))
-      (when (string-prefix-p "ef-" (symbol-name (car custom-enabled-themes)))
-        (ef-themes-load-theme (car custom-enabled-themes)))
-      (when (string-prefix-p "modus-" (symbol-name (car custom-enabled-themes)))
-        (modus-themes-load-theme (car custom-enabled-themes)))))
-#+end_src
-
-**** Hooks
-
-#+begin_src emacs-lisp
-  (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
 #+end_src
 
 **** Auto-Dark for Emacs
