@@ -45,9 +45,11 @@ alias yqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' #
 alias yqwm='yabai -m query --windows --window mouse | jq' # Query window under mouse
 
 # Kubernetes
-alias kprod='kubectl --context MioAKSProduction -n production'
-alias kqa='kubectl --context MioAKSQAv2 -n qa'
-alias ktest='kubectl --context MioAKSQAv2 -n test'
+alias k=kubectl
+alias kprod='kubectl config use-context MioAKSProduction'
+alias kqa='kubectl config use-context MioAKSQAv2'
+alias kns='kubectl get namespaces'
+alias kdeps='kubectl get deploy'
 
 alias sternp='stern --context MioAKSProduction -n production'
 alias sternq='stern --context MioAKSQAv2 -n qa'
