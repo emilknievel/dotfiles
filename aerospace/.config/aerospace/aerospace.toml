@@ -245,14 +245,6 @@ run       = 'layout floating'
 if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
 run       = 'layout floating'
 
-## Tile Emacs only if launched from workspace 2
-
-[[on-window-detected]]
-if.app-id               = 'org.gnu.Emacs'
-check-further-callbacks = true
-run                     = 'layout floating'
-
 [[on-window-detected]]
 if.app-id    = 'org.gnu.Emacs'
-if.workspace = '2'
 run          = 'layout tiling'
