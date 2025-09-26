@@ -9,6 +9,7 @@
         evil-next-visual-line
         evil-previous-visual-line
         evil-undo
+        indent-for-tab-command
         markdown-electric-backquote
         markdown-outdent-or-delete
         meow-change
@@ -27,5 +28,6 @@
 
 (setq mc/cmds-to-run-once
       '(
+        electric-pair-delete-pair
         hydra-multiple-cursors/mc/mark-next-like-this
         ))
