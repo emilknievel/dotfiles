@@ -545,6 +545,15 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 #+begin_src emacs-lisp
   (add-hook 'org-agenda-mode-hook 'hl-line-mode)
+
+  (defun my-toggle-global-hl-line-mode ()
+    "Toggle `global-hl-line-mode'."
+    (interactive)
+    (global-hl-line-mode 'toggle))
+
+  (with-eval-after-load 'general
+    (my-leader-keys
+      "t h" 'my-toggle-global-hl-line-mode))
 #+end_src
 
 *** Deindent text saved to kill-ring

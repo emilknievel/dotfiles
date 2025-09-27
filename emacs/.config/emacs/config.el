@@ -367,6 +367,15 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (add-hook 'org-agenda-mode-hook 'hl-line-mode)
 
+(defun my-toggle-global-hl-line-mode ()
+  "Toggle `global-hl-line-mode'."
+  (interactive)
+  (global-hl-line-mode 'toggle))
+
+(with-eval-after-load 'general
+  (my-leader-keys
+    "t h" 'my-toggle-global-hl-line-mode))
+
 (add-hook 'prog-mode-hook 'kill-ring-deindent-mode)
 (add-hook 'conf-mode-hook 'kill-ring-deindent-mode)
 
