@@ -171,6 +171,5 @@ git/.config/git/gitconfig-private
 # vale
 styles/
 
-# helix
-helix/.config/helix/themes/
+helix/.config/helix/themes/lugh*
 /bash/.bashrc.d/work_alias
