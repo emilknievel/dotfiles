@@ -31,19 +31,24 @@ export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 # go back to using BSD provided stty instead of GNU coreutils version
 export PATH="$HOME/.local/bin:$PATH"
 
+# add docker desktop's docker cli bin dir to PATH, if it exists
+[[ -d "/Applications/Docker.app/Contents/Resources/bin" ]] &&
+    export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
+
 # Add bash completion for brew packages
-[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] &&
+    . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 if type brew &>/dev/null
 then
     HOMEBREW_PREFIX="$(brew --prefix)"
     if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
     then
-        source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+        . "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
     else
         for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
         do
-            [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+            [[ -r "${COMPLETION}" ]] && . "${COMPLETION}"
         done
     fi
 fi
