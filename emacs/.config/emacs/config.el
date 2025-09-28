@@ -689,7 +689,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "iosevka nerd font")
+(defvar my-macos-font "menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -697,8 +697,8 @@ loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "sf pro")
-           (defvar my-serif-font "new york"))
+           (defvar my-variable-pitch-font "dejavu sans")
+           (defvar my-serif-font "georgia"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "noto sans")
          (defvar my-serif-font "noto serif")))
@@ -718,9 +718,9 @@ loaded with a different theme."
           my-presentation-font-height 140)))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height 130
-          my-small-font-height 120
-          my-medium-font-height 140
+    (setq my-font-height 120
+          my-small-font-height 110
+          my-medium-font-height 130
           my-large-font-height 160
           my-presentation-font-height 200)
   (my-setup-linux-fonts))
