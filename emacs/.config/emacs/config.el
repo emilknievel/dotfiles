@@ -1851,6 +1851,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
           org-agenda-files `(,org-directory)
           org-default-notes-file (concat org-directory "/inbox.org")
           org-work-notes-file (concat org-directory "/work.org")
+          org-projects-file (concat org-directory "/projects.org")
           org-journelly-file (concat org-directory "/Journelly.org")
           org-links-file (concat org-directory "/links.org"))
 
@@ -1888,7 +1889,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
      ("m" "Meetings")
      ("mm" "Meetings - Mio" entry
       (file+olp org-work-notes-file "Mio" "Meetings")
-      "* %^T %?" :empty-lines 1)
+      "* %^T %?" :empty-lines 1 :prepend t)
 
      ("n" "Notes")
      ("nd" "Denote")
@@ -1896,11 +1897,26 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
      ("t" "Tasks")
      ("tt" "New inbox task" entry
       (file org-default-notes-file)
-      "* TODO %i%?" :empty-lines 1)
+      "* TODO %i%?" :empty-lines 1 :prepend t)
+     ("te" "New Emacs task" entry
+      (file+olp org-projects-file "Emacs")
+      "* TODO %i%?" :empty-lines 1 :prepend t)
+     ("tl" "New Learn task" entry
+      (file+olp org-projects-file "Learn")
+      "* TODO %i%?" :empty-lines 1 :prepend t)
+     ("td" "New Dev task" entry
+      (file+olp org-projects-file "Dev")
+      "* TODO %i%?" :empty-lines 1 :prepend t)
+     ("th" "New Homelab task" entry
+      (file+olp org-projects-file "Homelab")
+      "* TODO %i%?" :empty-lines 1 :prepend t)
+     ("td" "New Other task" entry
+      (file+olp org-projects-file "Other")
+      "* TODO %i%?" :empty-lines 1 :prepend t)
      ("tw" "Work tasks")
      ("twm" "New Mio task" entry
       (file+olp org-work-notes-file "Mio" "Tasks")
-      "* TODO %i%?" :empty-lines 1)
+      "* TODO %i%?\n%a\n" :empty-lines 1 :prepend t)
 
      ("w" "Web link" plain
       (file+function org-links-file
@@ -1914,7 +1930,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 :END:
 %?
 
-")))
+" :prepend t)))
 
   (org-refile-targets
    '((org-agenda-files :maxlevel . 4)
