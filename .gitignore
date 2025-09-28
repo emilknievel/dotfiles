@@ -173,3 +173,4 @@ styles/
 
 # helix
 helix/.config/helix/themes/
+/bash/.bashrc.d/work_alias

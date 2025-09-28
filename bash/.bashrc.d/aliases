@@ -46,15 +46,20 @@ alias yqwm='yabai -m query --windows --window mouse | jq' # Query window under m
 
 # Kubernetes
 alias k=kubectl
-alias kprod='kubectl config use-context MioAKSProduction'
-alias kqa='kubectl config use-context MioAKSQAv2'
-alias kns='kubectl get namespaces'
-alias kdeps='kubectl get deploy'
+alias kls-ns='kubectl get ns'
+alias kls-deploy='kubectl get deploy'
+alias kls-ctx='kubectl config get-contexts'
+alias kls-hpa='kubectl get hpa'
+alias kls-pod='kubectl get pod'
+alias kls-svc='kubectl get svc'
 
-alias sternp='stern --context MioAKSProduction -n production'
-alias sternq='stern --context MioAKSQAv2 -n qa'
-alias sternt='stern --context MioAKSQAv2 -n test'
-alias sterni='stern --context MioAKSProduction -n ingress-nginx ingress-nginx'
+alias kdesc-ns='kubectl describe ns'
+alias kdesc-deploy='kubectl describe deploy'
+alias kdesc-hpa='kubectl describe hpa'
+alias kdesc-pod='kubectl describe pod'
+alias kdesc-svc='kubectl describe svc'
+
+alias kport='kubectl port-forward'
 
 alias lsofp='lsof -i tcp:' # List open files using specified port
 
@@ -99,5 +104,5 @@ alias et='exa --tree --icons'
 alias exs='exercism submit'
 alias ext='exercism test'
 
-alias '?'='ollama run deepseek-r1:8b'
+alias '?'='ollama run gpt-oss:20b'
 alias gdbt='gdb --batch --ex run --ex bt --ex q --args'
