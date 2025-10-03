@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 alias sorc="source ~/.bashrc"
 
 alias dotnet64="/usr/local/share/dotnet/x64/dotnet"

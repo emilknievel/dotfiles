@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # WSL
 # ---
 # Exit early if not in WSL
