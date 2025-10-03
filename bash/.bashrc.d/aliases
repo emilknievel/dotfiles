@@ -44,23 +44,6 @@ alias kktd='kitty +kitten themes --reload-in=all Catppuccin-mocha'
 alias yqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' # Query info about open windows
 alias yqwm='yabai -m query --windows --window mouse | jq' # Query window under mouse
 
-# Kubernetes
-alias k=kubectl
-alias kls-ns='kubectl get ns'
-alias kls-deploy='kubectl get deploy'
-alias kls-ctx='kubectl config get-contexts'
-alias kls-hpa='kubectl get hpa'
-alias kls-pod='kubectl get pod'
-alias kls-svc='kubectl get svc'
-
-alias kdesc-ns='kubectl describe ns'
-alias kdesc-deploy='kubectl describe deploy'
-alias kdesc-hpa='kubectl describe hpa'
-alias kdesc-pod='kubectl describe pod'
-alias kdesc-svc='kubectl describe svc'
-
-alias kport='kubectl port-forward'
-
 alias lsofp='lsof -i tcp:' # List open files using specified port
 
 # tmux
