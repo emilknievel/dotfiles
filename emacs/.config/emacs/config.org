@@ -2183,6 +2183,12 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     :hook (eshell-mode . eshell-atuin-mode))
 #+end_src
 
+*** Ansi-term
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-<f12>") 'ansi-term)
+#+end_src
+
 ** Project
 
 #+begin_src emacs-lisp

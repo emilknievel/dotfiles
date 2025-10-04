@@ -1473,6 +1473,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
               ("C-r" . eshell-atuin-history))
   :hook (eshell-mode . eshell-atuin-mode))
 
+(global-set-key (kbd "C-<f12>") 'ansi-term)
+
 (use-package project
   :ensure nil
   :general
