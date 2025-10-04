@@ -2016,9 +2016,10 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 
 *** Shell
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (defun my-maybe-load-bash-ts-mode ()
-    "Load bash-ts-mode if the file starts with #!/bin/bash."
+    "Load bash-ts-mode if the file starts with #!/bin/bash or #!/bin/env
+  bash."
     (when (buffer-file-name)
       (save-excursion
         (goto-char (point-min))
@@ -2026,6 +2027,12 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
           (bash-ts-mode)))))
 
   (add-hook 'find-file-hook 'my-maybe-load-bash-ts-mode)
+#+end_src
+
+**** Indentation of 2 spaces is good practice in modern shell scripts
+
+#+begin_src emacs-lisp
+  (setopt sh-basic-offset 2)
 #+end_src
 
 *** C

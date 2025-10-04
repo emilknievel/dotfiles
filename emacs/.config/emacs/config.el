@@ -1385,15 +1385,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :ensure t
   :mode "\\.csv\\'")
 
-(defun my-maybe-load-bash-ts-mode ()
-  "Load bash-ts-mode if the file starts with #!/bin/bash."
-  (when (buffer-file-name)
-    (save-excursion
-      (goto-char (point-min))
-      (when (looking-at "#!/bin/bash")
-        (bash-ts-mode)))))
-
-(add-hook 'find-file-hook 'my-maybe-load-bash-ts-mode)
+(setopt sh-basic-offset 2)
 
 (setopt c-ts-mode-indent-style 'k&r
         c-ts-mode-indent-offset 4)
