@@ -2154,22 +2154,6 @@ With two prefix arguments, insert as top-level heading."
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package gptel
-  :ensure t
-  :after general
-  :config
-  (setq-default gptel-model 'deepseek-r1:8b
-                gptel-backend (gptel-make-ollama "Ollama"
-                                :host "localhost:11434"
-                                :stream t
-                                :models '(deepseek-r1:8b))
-                gptel-default-mode 'org-mode)
-  :general
-  (my-leader-keys
-    "a a" 'gptel
-    "a g" 'gptel-menu
-    "a s" 'gptel-send))
-
 (defun my-insert-timestamp ()
   "Insert timestamp with format [%H:%M] at point."
   (interactive)
