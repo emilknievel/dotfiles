@@ -607,6 +607,12 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
     (ultra-scroll-mode 1))
 #+end_src
 
+*** Make cursor not blink
+
+#+begin_src emacs-lisp
+  (blink-cursor-mode 0)
+#+end_src
+
 *** macOS
 
 #+begin_src emacs-lisp
