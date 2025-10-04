@@ -311,7 +311,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
                 ns-use-thin-smoothing t
                 ;; ns-antialias-text nil
                 mac-command-modifier 'meta
-                mac-right-command-modifier 'none
+                mac-right-command-modifier 'meta
                 mac-option-modifier 'super
                 mac-control-modifier 'control))
 
