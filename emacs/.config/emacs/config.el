@@ -839,6 +839,23 @@ loaded with a different theme."
   :init
   (minions-mode))
 
+(use-package spacious-padding
+  :ensure t
+  :defer nil
+  :custom
+  (spacious-padding-widths
+   '( :internal-border-width 15
+      :header-line-width 4
+      :mode-line-width 6
+      :tab-width 4
+      :right-divider-width 30
+      :scroll-bar-width 8
+      :fringe-width 8))
+  (spacious-padding-subtle-frame-lines t)
+
+  :config
+  (spacious-padding-mode))
+
 (use-package nerd-icons-completion
   :ensure t
   :after (marginalia nerd-icons)
