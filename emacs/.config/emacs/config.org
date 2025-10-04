@@ -1309,7 +1309,7 @@ Display the current date and time on the mode line.
 
 *** Padding
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package spacious-padding
     :ensure t
     :defer nil
@@ -1322,10 +1322,10 @@ Display the current date and time on the mode line.
         :right-divider-width 30
         :scroll-bar-width 8
         :fringe-width 8))
+    (spacious-padding-subtle-frame-lines t)
 
-    (spacious-padding-subtle-mode-line t)
-
-    :bind ("<f8>" . spacious-padding-mode))
+    :config
+    (spacious-padding-mode))
 #+end_src
 
 ** Completion
