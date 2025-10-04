@@ -1747,7 +1747,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
   ;; (org-startup-indented t)
-  (org-M-RET-may-split-line '((default . nil)))
+  ;; (org-M-RET-may-split-line '((default . nil)))
 
   (org-log-done 'note)
   (org-log-into-drawer t)
