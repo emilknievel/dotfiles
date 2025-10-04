@@ -798,6 +798,8 @@ loaded with a different theme."
   (my-leader-keys
     "t w" 'my-toggle-show-trailing-whitespace))
 
+(setq-default show-trailing-whitespace t)
+
 (use-package nerd-icons :ensure t)
 
 (use-package nerd-icons-dired
@@ -1738,7 +1740,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :custom
   (org-return-follows-link nil)
   (org-startup-with-inline-images t)
-  (org-fontify-quote-and-verse-blocks t)
+  ;; (org-fontify-quote-and-verse-blocks t)
   (org-image-actual-width '(300))
   (org-pretty-entities t)
   ;; (org-auto-align-tags nil)
@@ -1746,7 +1748,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  ;; (org-startup-indented t)
+  (org-startup-indented t)
   ;; (org-M-RET-may-split-line '((default . nil)))
 
   (org-log-done 'note)

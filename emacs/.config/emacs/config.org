@@ -1220,6 +1220,12 @@ Turn on line numbers for program and configuration modes.
       "t w" 'my-toggle-show-trailing-whitespace))
 #+end_src
 
+**** Show trailing whitespace by default
+
+#+begin_src emacs-lisp
+  (setq-default show-trailing-whitespace t)
+#+end_src
+
 *** Icons
 
 **** Nerd icons
@@ -2531,7 +2537,7 @@ Display number of matches in modeline when searching.
     :custom
     (org-return-follows-link nil)
     (org-startup-with-inline-images t)
-    (org-fontify-quote-and-verse-blocks t)
+    ;; (org-fontify-quote-and-verse-blocks t)
     (org-image-actual-width '(300))
     (org-pretty-entities t)
     ;; (org-auto-align-tags nil)
@@ -2539,7 +2545,7 @@ Display number of matches in modeline when searching.
     (org-fold-catch-invisible-edits 'show-and-error)
     (org-special-ctrl-a/e t)
     (org-insert-heading-respect-content t)
-    ;; (org-startup-indented t)
+    (org-startup-indented t)
     ;; (org-M-RET-may-split-line '((default . nil)))
 
     (org-log-done 'note)
