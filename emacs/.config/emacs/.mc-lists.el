@@ -23,7 +23,6 @@
         org-self-insert-command
         org-yank
         surround-insert
-        ultra-scroll
         ))
 
 (setq mc/cmds-to-run-once
