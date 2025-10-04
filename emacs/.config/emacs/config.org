@@ -354,9 +354,9 @@ General provides a more convenient, unified interface for binding keys in Emacs.
     :bind-keymap ("C-c s" . surround-keymap))
 #+end_src
 
-*** Meow
+*** Meow (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package meow
     :ensure t
     :init
