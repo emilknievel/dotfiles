@@ -558,7 +558,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "menlo")
+(defvar my-macos-font "jetbrainsmono nerd font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -566,7 +566,7 @@ loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "dejavu sans")
+           (defvar my-variable-pitch-font "sf pro")
            (defvar my-serif-font "georgia"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "noto sans")
