@@ -575,12 +575,14 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 ** Customization
 
-Get rid of the annoying startup screen:
+*** Get rid of the annoying startup screen
+
 #+begin_src emacs-lisp
   (setopt inhibit-startup-screen t)
 #+end_src
 
-Confirm exit with y/n instead of yes/no:
+*** Confirm exit with y/n instead of yes/no
+
 #+begin_src emacs-lisp
   (setopt confirm-kill-emacs 'y-or-n-p)
 #+end_src
@@ -2174,9 +2176,6 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     (eat-term-name "xterm-256color")
     (eat-kill-buffer-on-exit t)
 
-    ;; The mode hooks below integrate eat with eshell. I'm currently testing out
-    ;; what I can do using only eshell so for now they are disabled.
-
     :hook ((eshell-load . eat-eshell-mode)
            (eshell-load . eat-eshell-visual-command-mode)))
 
@@ -2274,7 +2273,8 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 Drill down subdirectories in dired.
 
 #+begin_src emacs-lisp
-  (use-package dired-subtree :ensure t
+  (use-package dired-subtree
+    :ensure t
     :after dired
     :bind (:map dired-mode-map
                 ("<tab>" . dired-subtree-toggle)

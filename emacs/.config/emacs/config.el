@@ -1583,9 +1583,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
 
-  ;; The mode hooks below integrate eat with eshell. I'm currently testing out
-  ;; what I can do using only eshell so for now they are disabled.
-
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode)))
 
@@ -1643,7 +1640,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :bind (:map dired-mode-map
               (")" . dired-git-info-mode)))
 
-(use-package dired-subtree :ensure t
+(use-package dired-subtree
+  :ensure t
   :after dired
   :bind (:map dired-mode-map
               ("<tab>" . dired-subtree-toggle)
