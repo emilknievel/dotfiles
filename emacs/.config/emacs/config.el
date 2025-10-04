@@ -288,13 +288,13 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (setopt confirm-kill-emacs 'y-or-n-p)
 
+(setopt scroll-conservatively 3
+        scroll-margin 0)
+
 ;; (pixel-scroll-precision-mode)
 
 (use-package ultra-scroll
   :ensure t
-  :init
-  (setopt scroll-conservatively 3
-          scroll-margin 0)
   :config
   (ultra-scroll-mode 1))
 

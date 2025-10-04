@@ -587,15 +587,22 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
   (setopt confirm-kill-emacs 'y-or-n-p)
 #+end_src
 
-Smooth scrolling:
+*** Scrolling
+
+**** Defaults
+
+#+begin_src emacs-lisp
+  (setopt scroll-conservatively 3
+          scroll-margin 0)
+#+end_src
+
+**** Smooth scrolling
+
 #+begin_src emacs-lisp
   ;; (pixel-scroll-precision-mode)
 
   (use-package ultra-scroll
     :ensure t
-    :init
-    (setopt scroll-conservatively 3
-            scroll-margin 0)
     :config
     (ultra-scroll-mode 1))
 #+end_src
