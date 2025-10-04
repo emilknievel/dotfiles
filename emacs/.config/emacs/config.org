@@ -627,7 +627,7 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
                   ns-use-thin-smoothing t
                   ;; ns-antialias-text nil
                   mac-command-modifier 'meta
-                  mac-right-command-modifier 'none
+                  mac-right-command-modifier 'meta
                   mac-option-modifier 'super
                   mac-control-modifier 'control))
 #+end_src
