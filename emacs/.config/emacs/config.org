@@ -3194,21 +3194,36 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 *** Window actions
 
 #+begin_src emacs-lisp
+  (defun my-shrink-window-horizontally ()
+    (interactive)
+    (shrink-window-horizontally 8))
+  (defun my-enlarge-window-horizontally ()
+    (interactive)
+    (enlarge-window-horizontally 8))
+  (defun my-shrink-window ()
+    (interactive)
+    (shrink-window 8))
+  (defun my-enlarge-window ()
+    (interactive)
+    (enlarge-window 8))
+
   (defvar-keymap window-actions-repeat-map
     :repeat t
-    "h" #'shrink-window-horizontally
-    "l" #'enlarge-window-horizontally
-    "j" #'shrink-window
-    "k" #'enlarge-window
-    "+" #'balance-windows
+    "h" #'my-shrink-window-horizontally
+    "l" #'my-enlarge-window-horizontally
+    "j" #'my-shrink-window
+    "k" #'my-enlarge-window
+    "=" #'balance-windows
     "-" #'shrink-window-if-larger-than-buffer
-    "t" #'transpose-frame)
+    "t" #'transpose-frame
+    "0" #'delete-window
+    "1" #'delete-other-windows)
 
-  (global-set-key (kbd "C-, w h") 'shrink-window-horizontally)
-  (global-set-key (kbd "C-, w l") 'enlarge-window-horizontally)
-  (global-set-key (kbd "C-, w j") 'shrink-window)
-  (global-set-key (kbd "C-, w k") 'enlarge-window)
-  (global-set-key (kbd "C-, w +") 'balance-windows)
+  (global-set-key (kbd "C-, w h") 'my-shrink-window-horizontally)
+  (global-set-key (kbd "C-, w l") 'my-enlarge-window-horizontally)
+  (global-set-key (kbd "C-, w j") 'my-shrink-window)
+  (global-set-key (kbd "C-, w k") 'my-enlarge-window)
+  (global-set-key (kbd "C-, w =") 'balance-windows)
   (global-set-key (kbd "C-, w -") 'shrink-window-if-larger-than-buffer)
   (global-set-key (kbd "C-, w t") 'transpose-frame)
 #+end_src
