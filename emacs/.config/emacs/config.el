@@ -357,16 +357,20 @@ problem with the menu bar not using the proper theme if the server was
 loaded with a different theme."
   (with-selected-frame frame
     (enable-theme (car custom-enabled-themes))
-    (when (string-prefix-p "ef-" (symbol-name (car custom-enabled-themes)))
-      (ef-themes-load-theme (car custom-enabled-themes)))
-    (when (string-prefix-p "modus-" (symbol-name (car custom-enabled-themes)))
+    (when (string-prefix-p "ef-" (symbol-name
+                                  (car custom-enabled-themes)))
+      (modus-themes-load-theme (car custom-enabled-themes)))
+    (when (string-prefix-p "standard-" (symbol-name
+                                        (car custom-enabled-themes)))
+      (modus-themes-load-theme (car custom-enabled-themes)))
+    (when (string-prefix-p "modus-" (symbol-name
+                                     (car custom-enabled-themes)))
       (modus-themes-load-theme (car custom-enabled-themes)))))
 
 (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
 
 (use-package modus-themes
   :ensure t
-  :after general
   :init
   (setopt modus-themes-mixed-fonts nil
           modus-themes-variable-pitch-ui nil
@@ -376,10 +380,6 @@ loaded with a different theme."
 
           modus-themes-common-palette-overrides
           '((fringe unspecified)
-            (bg-paren-match bg-magenta-intense)
-            (fg-heading-1 blue-warmer)
-            (fg-heading-2 yellow-cooler)
-            (fg-heading-3 cyan-cooler)
             (bg-prose-block-delimiter bg-mode-line-inactive))
 
           modus-themes-headings '((0 . (1.5))
@@ -390,44 +390,14 @@ loaded with a different theme."
                                   (5 . (1.1))
                                   (6 . (1.0))
                                   (7 . (1.0))))
+
+  (modus-themes-include-derivatives-mode 1)
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
 
-(use-package ef-themes
-  :ensure t
-  :after general
-  :init
-  (setopt ef-themes-to-toggle '(ef-light ef-dark))
-  :custom
-  (ef-themes-mixed-fonts nil)
-  (ef-themes-variable-pitch-ui nil)
-  (ef-themes-headings '((0 . (1.5))
-                        (1 . (1.4))
-                        (2 . (1.3))
-                        (3 . (1.2))
-                        (4 . (1.1))
-                        (5 . (1.1))
-                        (6 . (1.0))
-                        (7 . (1.0))))
-  :general (my-leader-keys
-             "t t e" 'ef-themes-toggle))
+(use-package ef-themes :ensure t)
 
-(use-package standard-themes
-  :ensure t
-  :init
-  (setopt standard-themes-mixed-fonts nil
-          standard-themes-variable-pitch-ui nil
-          standard-themes-bold-constructs nil
-          standard-themes-italic-constructs nil
-          standard-themes-common-palette-overrides '((fringe unspecified))
-          standard-themes-headings '((0 . (1.5))
-                                     (1 . (1.4))
-                                     (2 . (1.3))
-                                     (3 . (1.2))
-                                     (4 . (1.1))
-                                     (5 . (1.1))
-                                     (6 . (1.0))
-                                     (7 . (1.0)))))
+(use-package standard-themes :ensure t)
 
 (use-package doric-themes
   :ensure t
@@ -564,28 +534,26 @@ loaded with a different theme."
 (use-package auto-dark
   :ensure t
   :init
-  (defconst my-dark-theme  'ef-duo-dark)
+  (defconst my-dark-theme 'ef-duo-dark)
   (defconst my-light-theme 'modus-operandi)
 
   (setopt auto-dark-allow-osascript t   ; Needed to make it work with
                                         ; emacsclient on macOS.
-          auto-dark-themes `((,my-dark-theme) (,my-light-theme)))
+          auto-dark-themes `((,my-dark-theme) (,my-light-theme))
+          custom-safe-themes t)
 
-  (auto-dark-mode t)
+  (auto-dark-mode 1)
 
   (defun my-toggle-auto-theme ()
     (interactive)
     (if (eq (nth 0 custom-enabled-themes) my-dark-theme)
         (my-load-theme my-light-theme)
       (my-load-theme my-dark-theme)))
-
-  :custom
-  (custom-safe-themes t)
   :hook
   (auto-dark-dark-mode . (lambda ()
-                           (my-load-theme my-dark-theme)))
+                             (my-load-theme my-dark-theme)))
   (auto-dark-light-mode . (lambda ()
-                            (my-load-theme my-light-theme)))
+                              (my-load-theme my-light-theme)))
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
