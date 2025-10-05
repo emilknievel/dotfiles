@@ -238,6 +238,25 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (require 'whitespace)
 
+(defun my-toggle-show-trailing-whitespace ()
+  "Toggle whether or not to show trailing whitespace in buffer."
+  (interactive)
+  (if (eq show-trailing-whitespace nil)
+      (setopt show-trailing-whitespace t)
+    (setopt show-trailing-whitespace nil)))
+
+(with-eval-after-load 'general
+  (my-leader-keys
+    "t w" 'my-toggle-show-trailing-whitespace))
+
+(defun my-show-trailing-whitespace ()
+  "Activates `show-trailing-whitespace'."
+  (setopt show-trailing-whitespace t))
+
+(add-hook 'prog-mode-hook 'my-show-trailing-whitespace)
+(add-hook 'conf-mode-hook 'my-show-trailing-whitespace)
+(add-hook 'text-mode-hook 'my-show-trailing-whitespace)
+
 (use-package expand-region
   :ensure t
   :after general
@@ -786,19 +805,6 @@ loaded with a different theme."
     "u l r" 'my-display-line-numbers-relative
     "u l v" 'my-display-line-numbers-visual
     "u l h" 'my-display-line-numbers-hidden))
-
-(defun my-toggle-show-trailing-whitespace ()
-  "Toggle whether or not to show trailing whitespace in buffer."
-  (interactive)
-  (if (eq show-trailing-whitespace nil)
-      (setopt show-trailing-whitespace t)
-    (setopt show-trailing-whitespace nil)))
-
-(with-eval-after-load 'general
-  (my-leader-keys
-    "t w" 'my-toggle-show-trailing-whitespace))
-
-(setq-default show-trailing-whitespace t)
 
 (use-package nerd-icons :ensure t)
 
