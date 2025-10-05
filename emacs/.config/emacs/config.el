@@ -396,11 +396,7 @@ loaded with a different theme."
           modus-themes-bold-constructs t
           modus-themes-italic-constructs t
           modus-themes-to-toggle '(modus-operandi modus-vivendi)
-
-          modus-themes-common-palette-overrides
-          '((fringe unspecified)
-            (bg-prose-block-delimiter bg-mode-line-inactive))
-
+          modus-themes-common-palette-overrides '((fringe unspecified))
           modus-themes-headings '((0 . (1.5))
                                   (1 . (1.4))
                                   (2 . (1.3))
