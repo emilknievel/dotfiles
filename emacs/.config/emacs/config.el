@@ -577,7 +577,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "jetbrainsmono nerd font")
+(defvar my-macos-font "sf mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
