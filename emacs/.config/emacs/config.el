@@ -251,7 +251,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (defun my-show-trailing-whitespace ()
   "Activates `show-trailing-whitespace'."
-  (setopt show-trailing-whitespace t))
+  (setq show-trailing-whitespace t))
 
 (add-hook 'prog-mode-hook 'my-show-trailing-whitespace)
 (add-hook 'conf-mode-hook 'my-show-trailing-whitespace)
