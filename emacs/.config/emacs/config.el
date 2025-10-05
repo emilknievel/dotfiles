@@ -549,7 +549,7 @@ loaded with a different theme."
 (use-package auto-dark
   :ensure t
   :init
-  (defconst my-dark-theme 'ef-duo-dark)
+  (defconst my-dark-theme 'ef-autumn)
   (defconst my-light-theme 'modus-operandi)
 
   (setopt auto-dark-allow-osascript t   ; Needed to make it work with
