@@ -3267,12 +3267,28 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 ** Compilation
 
+*** Scroll *compilation* buffer window as output appears
+
 #+begin_src emacs-lisp
   (setq-default compilation-scroll-output t)
+#+end_src
 
+*** Keybindings
+
+#+begin_src emacs-lisp
   (global-set-key (kbd "<f5>") 'compile)
   (global-set-key (kbd "S-<f5>") 'recompile)
   (global-set-key (kbd "C-<f5>") 'project-compile)
+#+end_src
+
+*** Enable ANSI color support
+
+#+begin_src emacs-lisp
+  (defun my-colorize-compilation-buffer ()
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region (point-min) (point-max))))
+
+  (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)
 #+end_src
 
 ** Kubernetes

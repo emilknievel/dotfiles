@@ -2284,6 +2284,12 @@ With two prefix arguments, insert as top-level heading."
 (global-set-key (kbd "S-<f5>") 'recompile)
 (global-set-key (kbd "C-<f5>") 'project-compile)
 
+(defun my-colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
+(add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer)
+
 (use-package kubed
   :ensure t
   :bind-keymap ("C-c K" . kubed-prefix-map)
