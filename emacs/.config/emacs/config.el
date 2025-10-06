@@ -550,7 +550,7 @@ loaded with a different theme."
   :ensure t
   :init
   (defconst my-dark-theme 'ef-autumn)
-  (defconst my-light-theme 'modus-operandi)
+  (defconst my-light-theme 'modus-operandi-tinted)
 
   (setopt auto-dark-allow-osascript t   ; Needed to make it work with
                                         ; emacsclient on macOS.
@@ -1758,6 +1758,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   ;; Ask how many minutes to keep if idle for at least 15 minutes.
   (org-clock-idle-time 15)
+
+  (org-reverse-note-order t)
 
   (org-capture-templates
    '(("l" "Journelly")

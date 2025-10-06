@@ -937,7 +937,7 @@ Inspired by Plan 9 Acme & Sam.
     :ensure t
     :init
     (defconst my-dark-theme 'ef-autumn)
-    (defconst my-light-theme 'modus-operandi)
+    (defconst my-light-theme 'modus-operandi-tinted)
 
     (setopt auto-dark-allow-osascript t   ; Needed to make it work with
                                           ; emacsclient on macOS.
@@ -2553,6 +2553,8 @@ Display number of matches in modeline when searching.
 
     ;; Ask how many minutes to keep if idle for at least 15 minutes.
     (org-clock-idle-time 15)
+
+    (org-reverse-note-order t)
 
     (org-capture-templates
      '(("l" "Journelly")
