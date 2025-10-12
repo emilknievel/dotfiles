@@ -650,7 +650,8 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
                   mac-command-modifier 'meta
                   mac-right-command-modifier 'meta
                   mac-option-modifier 'super
-                  mac-control-modifier 'control))
+                  mac-control-modifier 'control
+                  frame-title-format ""))
 #+end_src
 
 *** WSL

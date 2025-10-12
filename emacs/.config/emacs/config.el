@@ -330,7 +330,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
                 mac-command-modifier 'meta
                 mac-right-command-modifier 'meta
                 mac-option-modifier 'super
-                mac-control-modifier 'control))
+                mac-control-modifier 'control
+                frame-title-format ""))
 
 (when (getenv "WSL_DISTRO_NAME")
   (defun copy-selected-text (start end)
