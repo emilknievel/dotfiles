@@ -317,8 +317,6 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :config
   (ultra-scroll-mode 1))
 
-(blink-cursor-mode 0)
-
 (when (eq system-type 'darwin)
   (use-package ns-auto-titlebar
     :ensure t
