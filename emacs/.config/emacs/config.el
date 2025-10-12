@@ -1775,7 +1775,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
       "* %^T %?" :empty-lines 1 :prepend t)
 
      ("n" "Notes")
-     ("nd" "Denote")
 
      ("t" "Tasks")
      ("tt" "New inbox task" entry
@@ -1920,8 +1919,9 @@ With two prefix arguments, insert as top-level heading."
 
   (with-eval-after-load 'org-capture
     (setopt denote-org-capture-specifiers "%l\n%i\n%?")
+    (add-to-list 'org-capture-templates '("nd" "Denote"))
     (add-to-list 'org-capture-templates
-                 '("ndo" "New note" plain
+                 '("ndn" "New note" plain
                    (file denote-last-path)
                    #'denote-org-capture
                    :no-save t
@@ -1974,12 +1974,17 @@ With two prefix arguments, insert as top-level heading."
 
   :config
   (with-eval-after-load 'org-capture
+    (add-to-list 'org-capture-templates '("ndj" "Journal"))
     (add-to-list 'org-capture-templates
-                 '("ndj" "Journal" entry
+                 '("ndjd" "Daily" entry
                    (file denote-journal-path-to-new-or-existing-entry)
                    "* %U\n\n%?"
                    :kill-buffer t
-                   :empty-lines 1)))
+                   :empty-lines 1))
+    (add-to-list 'org-capture-templates
+                 '("ndjw" "Weekly (Not implemented)"))
+    (add-to-list 'org-capture-templates
+                 '("ndjm" "Monthly (Not implemented)")))
 
   :bind
   (("C-c n j" . denote-journal-new-entry)
