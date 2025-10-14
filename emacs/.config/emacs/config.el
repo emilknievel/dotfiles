@@ -1899,7 +1899,7 @@ With two prefix arguments, insert as top-level heading."
   :general
   (my-leader-keys "u o" 'olivetti-mode)
   :init
-  (setopt olivetti-body-width 82
+  (setopt olivetti-body-width 90
           olivetti-minimum-body-width 72)
   :hook ((org-mode markdown-mode) . olivetti-mode)
   :bind ("S-<f9>" . olivetti-mode))
