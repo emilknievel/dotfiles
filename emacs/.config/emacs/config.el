@@ -398,8 +398,6 @@ loaded with a different theme."
   :init
   (setopt modus-themes-mixed-fonts nil
           modus-themes-variable-pitch-ui nil
-          modus-themes-bold-constructs t
-          modus-themes-italic-constructs t
           modus-themes-to-toggle '(modus-operandi modus-vivendi)
           modus-themes-common-palette-overrides '((fringe unspecified))
           modus-themes-headings '((0 . (1.5))
