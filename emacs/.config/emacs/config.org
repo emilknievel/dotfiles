@@ -2695,8 +2695,6 @@ This package displays hidden emphasis markers while the cursor is on a rich text
         (newline)))
      (t  ; No prefix - inline timestamp
       (org-timestamp-inactive '(16)))))
-
-  (global-set-key (kbd "<f8>") 'my-org-timestamp-inactive)
 #+end_src
 
 ** Olivetti
@@ -2792,7 +2790,7 @@ Use denote for note-taking. Most of this is copied from Prot's config.
     :demand t
     :after denote
     :custom
-    (denote-journal-directory (expand-file-name "journal" denote-directory))
+    (denote-journal-directory (expand-file-name "journal" denote-workdir))
     (denote-journal-title-format 'day-date-month-year)
     (denote-journal-keyword "journal")
 
@@ -2812,7 +2810,10 @@ Use denote for note-taking. Most of this is copied from Prot's config.
 
     :bind
     (("C-c n j" . denote-journal-new-entry)
-     ("C-c n J" . denote-journal-new-or-existing-entry)))
+     ("C-c n J" . denote-journal-new-or-existing-entry)
+     ("<f8>" . (lambda ()
+                 (interactive)
+                 (org-capture nil "ndjd")))))
 #+end_src
 
 *** Org

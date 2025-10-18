@@ -1895,8 +1895,6 @@ With two prefix arguments, insert as top-level heading."
    (t  ; No prefix - inline timestamp
     (org-timestamp-inactive '(16)))))
 
-(global-set-key (kbd "<f8>") 'my-org-timestamp-inactive)
-
 (use-package olivetti
   :ensure t
   :after general
@@ -1972,7 +1970,7 @@ With two prefix arguments, insert as top-level heading."
   :demand t
   :after denote
   :custom
-  (denote-journal-directory (expand-file-name "journal" denote-directory))
+  (denote-journal-directory (expand-file-name "journal" denote-workdir))
   (denote-journal-title-format 'day-date-month-year)
   (denote-journal-keyword "journal")
 
@@ -1992,7 +1990,10 @@ With two prefix arguments, insert as top-level heading."
 
   :bind
   (("C-c n j" . denote-journal-new-entry)
-   ("C-c n J" . denote-journal-new-or-existing-entry)))
+   ("C-c n J" . denote-journal-new-or-existing-entry)
+   ("<f8>" . (lambda ()
+               (interactive)
+               (org-capture nil "ndjd")))))
 
 (use-package denote-org
   :ensure t
