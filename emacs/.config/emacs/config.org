@@ -483,37 +483,39 @@ Edit multiple occurrences in the same way simultaneously.
 
 *** Whitespace
 
-Show trailing whitespace.
+**** Show trailing whitespace by default, except in specific modes
 
 #+begin_src emacs-lisp
   (require 'whitespace)
+  (setq-default show-trailing-whitespace t)
+
+  (dolist (hook '(shell-mode-hook
+                  eshell-mode-hook
+                  term-mode-hook
+                  vterm-mode-hook
+                  eat-mode-hook
+                  compilation-mode-hook
+                  Info-mode-hook
+                  calendar-mode-hook
+                  elpaca-log-mode-hook
+                  ))
+    (add-hook hook (lambda ()
+                     (setq show-trailing-whitespace nil))))
 #+end_src
 
-**** Toggle trailing whitespace highlight
+**** Interactive toggle for trailing whitespace highlight
 
 #+begin_src emacs-lisp
   (defun my-toggle-show-trailing-whitespace ()
     "Toggle whether or not to show trailing whitespace in buffer."
     (interactive)
     (if (eq show-trailing-whitespace nil)
-        (setopt show-trailing-whitespace t)
-      (setopt show-trailing-whitespace nil)))
+        (setq show-trailing-whitespace t)
+      (setq show-trailing-whitespace nil)))
 
   (with-eval-after-load 'general
     (my-leader-keys
       "t w" 'my-toggle-show-trailing-whitespace))
-#+end_src
-
-**** Show trailing whitespace in specific or derived modes
-
-#+begin_src emacs-lisp
-  (defun my-show-trailing-whitespace ()
-    "Activates `show-trailing-whitespace'."
-    (setq show-trailing-whitespace t))
-
-  (add-hook 'prog-mode-hook 'my-show-trailing-whitespace)
-  (add-hook 'conf-mode-hook 'my-show-trailing-whitespace)
-  (add-hook 'text-mode-hook 'my-show-trailing-whitespace)
 #+end_src
 
 *** Expand region
