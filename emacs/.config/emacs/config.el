@@ -555,7 +555,7 @@ loaded with a different theme."
   :ensure t
   :init
   (defconst my-dark-theme 'ef-autumn)
-  (defconst my-light-theme 'modus-operandi-tinted)
+  (defconst my-light-theme 'modus-operandi)
 
   (setopt auto-dark-allow-osascript t   ; Needed to make it work with
                                         ; emacsclient on macOS.
@@ -578,7 +578,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "sf mono")
+(defvar my-macos-font "menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -1850,7 +1850,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :after general
   :config
   (setopt org-appear-autoemphasis t
-          ;; org-hide-emphasis-markers t
+          org-hide-emphasis-markers t
           org-appear-autolinks t
           org-appear-autosubmarkers t
           org-appear-autoentities t
