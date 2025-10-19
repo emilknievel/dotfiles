@@ -1731,6 +1731,10 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (global-set-key (kbd "C-:") 'avy-goto-char-timer)
 
+(use-package deadgrep
+  :ensure t
+  :bind ("M-s M-s" . deadgrep))
+
 (use-package org
   :ensure nil
   :init

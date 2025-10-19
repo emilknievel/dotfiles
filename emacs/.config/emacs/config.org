@@ -2513,6 +2513,16 @@ Display number of matches in modeline when searching.
   (global-set-key (kbd "C-:") 'avy-goto-char-timer)
 #+end_src
 
+*** Deadgrep
+
+Starts an interactive ripgrep session.
+
+#+begin_src emacs-lisp
+  (use-package deadgrep
+    :ensure t
+    :bind ("M-s M-s" . deadgrep))
+#+end_src
+
 ** Org
 
 *** Base
