@@ -1180,6 +1180,22 @@ Preview fonts inside of Emacs.
     (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
 #+end_src
 
+**** Line spacing
+
+Increase line spacing slightly in buffers containing prose.
+
+#+begin_src emacs-lisp
+  (dolist (hook '(
+                  org-mode-hook
+                  markdown-mode-hook
+                  eww-mode-hook
+                  devdocs-mode-hook
+                  Info-mode-hook
+                  ))
+    (add-hook hook (lambda ()
+                     (setq-local line-spacing .25))))
+#+end_src
+
 *** Display line numbers
 
 Turn on line numbers for program and configuration modes.
@@ -1240,7 +1256,7 @@ Nerd icons for dired.
     :ensure t
     :hook ((dired-mode . nerd-icons-dired-mode)
            ;; prevent icons from overlapping vertically
-           (dired-mode . (lambda () (setopt line-spacing 0.25)))))
+           (dired-mode . (lambda () (setq-local line-spacing 0.25)))))
 #+end_src
 
 **** All the icons

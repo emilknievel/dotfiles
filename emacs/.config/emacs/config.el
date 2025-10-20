@@ -770,6 +770,16 @@ loaded with a different theme."
   ;; (the `regular' in this case).
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular)))
 
+(dolist (hook '(
+                org-mode-hook
+                markdown-mode-hook
+                eww-mode-hook
+                devdocs-mode-hook
+                Info-mode-hook
+                ))
+  (add-hook hook (lambda ()
+                   (setq-local line-spacing .25))))
+
 (use-package display-line-numbers
   :ensure nil
   :after general
@@ -813,7 +823,7 @@ loaded with a different theme."
   :ensure t
   :hook ((dired-mode . nerd-icons-dired-mode)
          ;; prevent icons from overlapping vertically
-         (dired-mode . (lambda () (setopt line-spacing 0.25)))))
+         (dired-mode . (lambda () (setq-local line-spacing 0.25)))))
 
 (use-package all-the-icons
   :ensure t
