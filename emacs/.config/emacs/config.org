@@ -2059,6 +2059,8 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 #+begin_src emacs-lisp
   (setopt c-ts-mode-indent-style 'k&r
           c-ts-mode-indent-offset 4)
+  (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
+  (add-hook 'c-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
 #+end_src
 
 ** Syntax checking

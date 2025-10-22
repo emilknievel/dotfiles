@@ -1408,6 +1408,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (setopt c-ts-mode-indent-style 'k&r
         c-ts-mode-indent-offset 4)
+(add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
+(add-hook 'c-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
 
 (use-package flycheck
   :ensure t
