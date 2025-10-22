@@ -31,10 +31,6 @@
 	wls = worktree list
 	wrm = worktree remove
 	wa = worktree add
-[diff]
-	tool = vi
-[merge]
-	tool = vi
 [core]
 	precomposeunicode = true
 	# Display UTF-8 characters in filenames, if you're having problems seeing them
