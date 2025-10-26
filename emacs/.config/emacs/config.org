@@ -2304,7 +2304,9 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     (dired-mode . dired-hide-details-mode)
     :custom
     (dired-listing-switches "-aBhl --group-directories-first")
-    (dired-create-destination-dirs t))
+    (dired-create-destination-dirs t)
+    ;; Rename files using `vc-rename-file' if files are under version control.
+    (dired-vc-rename-file t))
 #+end_src
 
 **** Dired-single

@@ -1567,7 +1567,9 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (dired-mode . dired-hide-details-mode)
   :custom
   (dired-listing-switches "-aBhl --group-directories-first")
-  (dired-create-destination-dirs t))
+  (dired-create-destination-dirs t)
+  ;; Rename files using `vc-rename-file' if files are under version control.
+  (dired-vc-rename-file t))
 
 (use-package dired-single
   :ensure (:host github :repo "emacsattic/dired-single"))
