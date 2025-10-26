@@ -1457,6 +1457,17 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (magit-pre-refresh . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
+(setq eshell-banner-message ""
+      eshell-cmpl-cycle-completions t
+      eshell-cmpl-ignore-case t
+      eshell-destroy-buffer-when-process-dies nil
+      eshell-error-if-no-glob t
+      eshell-glob-case-insensitive t
+      eshell-kill-processes-on-exit t
+      eshell-scroll-to-bottom-on-input 'all
+      eshell-scroll-to-bottom-on-output 'all
+      eshell-scroll-show-maximum-output nil)
+
 (use-package eshell-syntax-highlighting
   :ensure t
   :defer t
@@ -1464,13 +1475,48 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (add-hook 'eshell-first-time-mode-hook
           (lambda ()
-            (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
-            (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show"))))
+            (add-to-list 'eshell-visual-options
+                         '("git" "--help" "--paginate"))
+            (add-to-list 'eshell-visual-subcommands
+                         '("git" "log" "diff" "show"))))
 
 (setopt eshell-history-size 10000
+        eshell-hist-ignoredups t
+        ;; Ignore input beginning with whitespace.
+        eshell-input-filter (lambda (input)
+                              (not (string-match-p "\\`\\s-+" input)))
         eshell-history-append t)
 
 (global-set-key (kbd "<f12>") 'eshell)
+
+(defun my-eshell-recenter-to-top ()
+  "Recenter eshell so the prompt is at the top of the window."
+  (interactive)
+  (recenter 0))
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (define-key eshell-mode-map (kbd "C-a") 'eshell-bol)
+            ;; (define-key eshell-mode-map
+            ;;             (kbd "C-l")
+            ;;             'my-eshell-recenter-to-top)
+            (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)))
+
+(setq system-name (car (split-string system-name "\\.")))
+(setq eshell-prompt-regexp "^.+@.+:.+> ")
+(setq eshell-prompt-function
+      (lambda ()
+        (concat
+         (propertize (user-login-name) 'face 'font-lock-keyword-face)
+         (propertize (format "@%s" (system-name)) 'face 'default)
+         (propertize ":" 'face 'font-lock-doc-face)
+         (propertize (abbreviate-file-name (eshell/pwd)) 'face 'font-lock-type-face)
+         (propertize "$" 'face 'font-lock-doc-face)
+         (propertize " " 'face 'default))))
+
+(add-hook 'eshell-mode-hook
+        (lambda ()
+          (setq-local scroll-margin 1)))
 
 (use-package eat
   :ensure t
