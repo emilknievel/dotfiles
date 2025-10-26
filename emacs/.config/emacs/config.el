@@ -554,7 +554,7 @@ loaded with a different theme."
 (use-package auto-dark
   :ensure t
   :init
-  (defconst my-dark-theme 'ef-autumn)
+  (defconst my-dark-theme 'ef-dark)
   (defconst my-light-theme 'modus-operandi)
 
   (setopt auto-dark-allow-osascript t   ; Needed to make it work with
@@ -578,7 +578,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "menlo")
+(defvar my-macos-font "sf mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
