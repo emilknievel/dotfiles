@@ -551,6 +551,27 @@ loaded with a different theme."
   (interactive)
   (my-load-theme 'doom-solarized-dark))
 
+(use-package catppuccin-theme
+  :ensure t
+  :init
+  (setq catppuccin-flavor 'mocha)
+  (defun my-load-catppuccin-latte ()
+    (interactive)
+    (when (not (eq catppuccin-flavor 'latte)) (setq catppuccin-flavor 'latte))
+    (my-load-theme 'catppuccin))
+
+  (defun my-load-catppuccin-mocha ()
+    (interactive)
+    (when (not (eq catppuccin-flavor 'mocha)) (setq catppuccin-flavor 'mocha))
+    (my-load-theme 'catppuccin))
+
+  (defun my-catppuccin-toggle ()
+    (interactive)
+    (if (not (eq catppuccin-flavor 'mocha))
+        (my-load-catppuccin-mocha)
+      (my-load-catppuccin-latte)))
+  :general (my-leader-keys "t t c" 'my-catppuccin-toggle))
+
 (use-package auto-dark
   :ensure t
   :init
@@ -578,7 +599,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "sf mono")
+(defvar my-macos-font "menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -1247,10 +1268,10 @@ its input."
   (eglot-autoshutdown t)
 
   ;; Hide code-action indicators to reduce noise.
-  (eglot-code-action-indications '())
+  (eglot-code-action-indications '()))
 
   ;; Disables highlighting of the symbol at point.
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
+  ;; (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
 
 (use-package flycheck-eglot
   :ensure t

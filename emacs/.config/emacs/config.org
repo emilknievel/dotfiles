@@ -927,6 +927,31 @@ Inspired by Plan 9 Acme & Sam.
     (my-load-theme 'doom-solarized-dark))
 #+end_src
 
+**** Catppuccin
+
+#+begin_src emacs-lisp
+  (use-package catppuccin-theme
+    :ensure t
+    :init
+    (setq catppuccin-flavor 'mocha)
+    (defun my-load-catppuccin-latte ()
+      (interactive)
+      (when (not (eq catppuccin-flavor 'latte)) (setq catppuccin-flavor 'latte))
+      (my-load-theme 'catppuccin))
+
+    (defun my-load-catppuccin-mocha ()
+      (interactive)
+      (when (not (eq catppuccin-flavor 'mocha)) (setq catppuccin-flavor 'mocha))
+      (my-load-theme 'catppuccin))
+
+    (defun my-catppuccin-toggle ()
+      (interactive)
+      (if (not (eq catppuccin-flavor 'mocha))
+          (my-load-catppuccin-mocha)
+        (my-load-catppuccin-latte)))
+    :general (my-leader-keys "t t c" 'my-catppuccin-toggle))
+#+end_src
+
 **** Auto-Dark for Emacs
 
 #+begin_src emacs-lisp
@@ -963,7 +988,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "dejavu sans mono")
-  (defvar my-macos-font "sf mono")
+  (defvar my-macos-font "menlo")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -1766,10 +1791,10 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (eglot-autoshutdown t)
 
     ;; Hide code-action indicators to reduce noise.
-    (eglot-code-action-indications '())
+    (eglot-code-action-indications '()))
 
     ;; Disables highlighting of the symbol at point.
-    (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
+    ;; (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -2793,8 +2818,7 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 
 ** Olivetti
 
-Olivetti is a minor mode that provides a nice writing environment by setting
-comfortable window margins etc.
+Olivetti is a minor mode that provides a nice writing environment by setting comfortable window margins etc.
 
 #+begin_src emacs-lisp
   (use-package olivetti
