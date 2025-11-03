@@ -3297,6 +3297,16 @@ Helpful is basically =Help= with some extra features.
     (global-set-key (kbd "C-h o") #'helpful-symbol))
 #+end_src
 
+*** shortdoc
+
+#+begin_src emacs-lisp
+  (use-package shortdoc
+    :ensure nil
+    :general
+    (my-leader-keys
+      "h s" 'shortdoc))
+#+end_src
+
 ** TODOs
 
 *** hl-todo

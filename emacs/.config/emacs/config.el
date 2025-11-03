@@ -2319,6 +2319,12 @@ With two prefix arguments, insert as top-level heading."
 
   (global-set-key (kbd "C-h o") #'helpful-symbol))
 
+(use-package shortdoc
+  :ensure nil
+  :general
+  (my-leader-keys
+    "h s" 'shortdoc))
+
 (use-package hl-todo
   :ensure t
   :hook ((prog-mode . hl-todo-mode)
