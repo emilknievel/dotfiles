@@ -1365,10 +1365,9 @@ Display the current date and time on the mode line.
         :right-divider-width 30
         :scroll-bar-width 8
         :fringe-width 8))
-    (spacious-padding-subtle-frame-lines t)
-
-    :config
-    (spacious-padding-mode))
+    (spacious-padding-subtle-frame-lines t))
+  ;; :config
+  ;; (spacious-padding-mode))
 #+end_src
 
 ** Completion
@@ -3172,7 +3171,7 @@ Package repo.
 
 GPTel allows us to talk with different LLMs from within Emacs.
 
-#+begin_src emacs-lisp:tangle no
+#+begin_src emacs-lisp :tangle no
   (use-package gptel
     :ensure t
     :after general
