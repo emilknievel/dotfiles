@@ -250,6 +250,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
                 elpaca-log-mode-hook
                 devdocs-mode-hook
                 eww-mode-hook
+                modus-themes-preview-mode-hook
                 ))
   (add-hook hook (lambda ()
                    (setq show-trailing-whitespace nil))))
