@@ -1514,17 +1514,9 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (global-set-key (kbd "<f12>") 'eshell)
 
-(defun my-eshell-recenter-to-top ()
-  "Recenter eshell so the prompt is at the top of the window."
-  (interactive)
-  (recenter 0))
-
 (add-hook 'eshell-mode-hook
           (lambda ()
             (define-key eshell-mode-map (kbd "C-a") 'eshell-bol)
-            ;; (define-key eshell-mode-map
-            ;;             (kbd "C-l")
-            ;;             'my-eshell-recenter-to-top)
             (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)))
 
 (setq system-name (car (split-string system-name "\\.")))
