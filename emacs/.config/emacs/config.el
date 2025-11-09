@@ -903,34 +903,34 @@ loaded with a different theme."
     "Setup for absolute line numbers."
     (interactive)
     (setopt display-line-numbers-type t)
-    (display-line-numbers-mode))
+    (global-display-line-numbers-mode 1))
 
   (defun my-display-line-numbers-relative ()
     "Setup for relative line numbers."
     (interactive)
     (setopt display-line-numbers-type 'relative)
-    (display-line-numbers-mode))
+    (global-display-line-numbers-mode 1))
 
   (defun my-display-line-numbers-visual ()
     "Setup for relative line numbers."
     (interactive)
     (setopt display-line-numbers-type 'visual)
-    (display-line-numbers-mode))
+    (global-display-line-numbers-mode 1))
 
   (defun my-display-line-numbers-hidden ()
     "Hide line numbers."
     (interactive)
-    (display-line-numbers-mode -1))
+    (global-display-line-numbers-mode -1))
   :custom
-  (display-line-numbers-width nil)
+  (display-line-numbers-width 4)
   (display-line-numbers-widen nil)
   (display-line-numbers-grow-only nil)
   :general
   (my-leader-keys
-    "u l a" 'my-display-line-numbers-absolute
-    "u l r" 'my-display-line-numbers-relative
-    "u l v" 'my-display-line-numbers-visual
-    "u l h" 'my-display-line-numbers-hidden))
+    "u l a" '(my-display-line-numbers-absolute :wk "Line Numbers: Absolute")
+    "u l r" '(my-display-line-numbers-relative :wk "Line Numbers: Relative")
+    "u l v" '(my-display-line-numbers-visual :wk "Line Numbers: Visual")
+    "u l h" '(my-display-line-numbers-hidden :wk "Line Numbers: Hidden")))
 
 (use-package nerd-icons :ensure t)
 
