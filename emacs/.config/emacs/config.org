@@ -1058,6 +1058,13 @@ Inspired by Plan 9 Acme & Sam.
           (my-load-catppuccin-mocha)
         (my-load-catppuccin-latte)))
     :general (my-leader-keys "t t c" 'my-catppuccin-toggle))
+
+  ;; Still missing features. Not ready for use:
+  ;;  (use-package modus-catppuccin
+  ;;    :ensure (:host "www.gitlab.com"
+  ;;                   :repo "magus/modus-catppuccin"
+  ;;                   :branch "main"
+  ;;                   :main "modus-catppuccin.el"))
 #+end_src
 
 **** Auto-Dark for Emacs

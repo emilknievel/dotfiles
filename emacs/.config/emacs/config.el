@@ -660,6 +660,13 @@ loaded with a different theme."
       (my-load-catppuccin-latte)))
   :general (my-leader-keys "t t c" 'my-catppuccin-toggle))
 
+;; Still missing features. Not ready for use:
+;;  (use-package modus-catppuccin
+;;    :ensure (:host "www.gitlab.com"
+;;                   :repo "magus/modus-catppuccin"
+;;                   :branch "main"
+;;                   :main "modus-catppuccin.el"))
+
 (use-package auto-dark
   :ensure t
   :init
