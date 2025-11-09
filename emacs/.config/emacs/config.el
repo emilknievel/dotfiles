@@ -223,6 +223,10 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :custom
   (which-key-idle-delay 0.3))
 
+(add-hook 'elpaca-log-mode-hook
+          (lambda ()
+            (evil-local-set-key 'normal (kbd "gd") 'elpaca-log-view-diff)))
+
 (with-eval-after-load 'general
   (my-leader-keys
     ;; Top level functions

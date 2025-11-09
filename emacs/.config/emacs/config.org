@@ -328,6 +328,18 @@ Mainly used for making sure that org timestamps are consistent.
       (which-key-idle-delay 0.3))
 #+end_src
 
+**** Custom bindings
+
+***** Elpaca-log-mode
+
+Restores binding from Evil so that it doesn't try to "Goto definition" in the elpaca log buffer.
+
+#+begin_src emacs-lisp
+  (add-hook 'elpaca-log-mode-hook
+            (lambda ()
+              (evil-local-set-key 'normal (kbd "gd") 'elpaca-log-view-diff)))
+#+end_src
+
 *** General.el
 
 General provides a more convenient, unified interface for binding keys in Emacs. Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
