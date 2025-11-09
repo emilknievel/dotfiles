@@ -1375,6 +1375,8 @@ its input."
   :config
   (global-flycheck-eglot-mode 1))
 
+(use-package jsonrpc :ensure t)
+
 (use-package treesit-auto
   :ensure t
   :custom

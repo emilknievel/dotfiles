@@ -1921,6 +1921,12 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (global-flycheck-eglot-mode 1))
 #+end_src
 
+*** Dependencies
+
+#+begin_src emacs-lisp
+  (use-package jsonrpc :ensure t)
+#+end_src
+
 ** Language configuration
 
 *** Treesitter
