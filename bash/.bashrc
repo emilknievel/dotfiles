@@ -33,10 +33,6 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-if command -v hx &> /dev/null; then
-    export EDITOR=hx
-fi
-
 # List number of session jobs in prompt
 jobs_count() {
     local job_count
