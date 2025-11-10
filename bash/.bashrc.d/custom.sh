@@ -26,3 +26,13 @@ pasta() {
     echo ''
   fi
 }
+
+cdls() {
+  if [ $# -eq 0 ]; then
+    cd && ls --color=auto
+  else
+    local dir="${1}"
+    shift
+    cd "${dir}" && ls --color=auto "$@"
+  fi
+}
