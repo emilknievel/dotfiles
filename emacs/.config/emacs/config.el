@@ -319,7 +319,6 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (use-package iedit
   :ensure t
-  ;; :after general
   :general
   (my-leader-keys "e" 'iedit-mode))
 
@@ -485,6 +484,7 @@ loaded with a different theme."
 
 (use-package modus-themes
   :ensure t
+  :demand t
   :init
   (setopt modus-themes-mixed-fonts nil
           modus-themes-variable-pitch-ui nil
@@ -985,9 +985,9 @@ loaded with a different theme."
       :right-divider-width 30
       :scroll-bar-width 8
       :fringe-width 8))
-  (spacious-padding-subtle-frame-lines t))
-;; :config
-;; (spacious-padding-mode))
+  (spacious-padding-subtle-frame-lines t)
+  :config
+  (spacious-padding-mode))
 
 (use-package nerd-icons-completion
   :ensure t
