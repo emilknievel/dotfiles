@@ -223,6 +223,11 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :custom
   (which-key-idle-delay 0.3))
 
+(use-package evil-commentary
+  :ensure t
+  :config
+  (evil-commentary-mode))
+
 (add-hook 'elpaca-log-mode-hook
           (lambda ()
             (evil-local-set-key 'normal (kbd "gd") 'elpaca-log-view-diff)))

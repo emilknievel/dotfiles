@@ -327,6 +327,14 @@ Mainly used for making sure that org timestamps are consistent.
     :custom
     (which-key-idle-delay 0.3))
 #+end_src
+
+**** Evil-commentary
+
+#+begin_src emacs-lisp
+  (use-package evil-commentary
+    :ensure t
+    :config
+    (evil-commentary-mode))
 #+end_src
 
 **** Custom bindings
