@@ -507,6 +507,45 @@ loaded with a different theme."
 
 (use-package standard-themes :ensure t)
 
+(use-package catppuccin-theme
+  :ensure t
+  :init
+  (setq catppuccin-flavor 'mocha)
+  ;; (defun my-load-catppuccin-latte ()
+  ;;   (interactive)
+  ;;   (when (not (eq catppuccin-flavor 'latte)) (setq catppuccin-flavor 'latte))
+  ;;   (my-load-theme 'catppuccin))
+
+  ;; (defun my-load-catppuccin-mocha ()
+  ;;   (interactive)
+  ;;   (when (not (eq catppuccin-flavor 'mocha)) (setq catppuccin-flavor 'mocha))
+  ;;   (my-load-theme 'catppuccin))
+
+  ;; (defun my-catppuccin-toggle ()
+  ;;   (interactive)
+  ;;   (if (not (eq catppuccin-flavor 'mocha))
+  ;;       (my-load-catppuccin-mocha)
+  ;;     (my-load-catppuccin-latte)))
+
+  (defun my-catppuccin-toggle ()
+    (interactive)
+    (my-load-theme 'catppuccin))
+  :general (my-leader-keys "t t c" 'my-catppuccin-toggle))
+
+;; (use-package modus-catppuccin
+;;   :ensure (:host "www.gitlab.com"
+;;                  :repo "magus/modus-catppuccin"
+;;                  :branch "main"
+;;                  :main "modus-catppuccin.el")
+;;   :demand t
+;;   :init
+;;   (defun my-catppuccin-mocha ()
+;;     (interactive)
+;;     (modus-themes-load-theme 'catppuccin-mocha))
+;;   (setopt catppuccin-mocha-palette-overrides '((cursor rosewater)
+;;                                                (org-code mauve)))
+;;   :general (my-leader-keys "t t c" 'my-catppuccin-mocha))
+
 (use-package doric-themes
   :ensure t
   :custom
@@ -638,34 +677,6 @@ loaded with a different theme."
   "Clear previous theme and load solarized dark"
   (interactive)
   (my-load-theme 'doom-solarized-dark))
-
-(use-package catppuccin-theme
-  :ensure t
-  :init
-  (setq catppuccin-flavor 'mocha)
-  (defun my-load-catppuccin-latte ()
-    (interactive)
-    (when (not (eq catppuccin-flavor 'latte)) (setq catppuccin-flavor 'latte))
-    (my-load-theme 'catppuccin))
-
-  (defun my-load-catppuccin-mocha ()
-    (interactive)
-    (when (not (eq catppuccin-flavor 'mocha)) (setq catppuccin-flavor 'mocha))
-    (my-load-theme 'catppuccin))
-
-  (defun my-catppuccin-toggle ()
-    (interactive)
-    (if (not (eq catppuccin-flavor 'mocha))
-        (my-load-catppuccin-mocha)
-      (my-load-catppuccin-latte)))
-  :general (my-leader-keys "t t c" 'my-catppuccin-toggle))
-
-;; Still missing features. Not ready for use:
-;;  (use-package modus-catppuccin
-;;    :ensure (:host "www.gitlab.com"
-;;                   :repo "magus/modus-catppuccin"
-;;                   :branch "main"
-;;                   :main "modus-catppuccin.el"))
 
 (use-package auto-dark
   :ensure t
