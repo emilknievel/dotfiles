@@ -166,27 +166,31 @@ alt-shift-l = ['join-with right', 'mode main']
 # currently running app-ids can be listed with `aerospace list-apps`
 
 [[on-window-detected]]
-if.app-id = 'org.mozilla.librewolf'
-run       = 'move-node-to-workspace 1'
-
-[[on-window-detected]]
-if.app-id = 'com.brave.Browser'
-run       = 'move-node-to-workspace 1'
-
-[[on-window-detected]]
-if.app-id = 'org.chromium.Chromium'
+if.app-id = 'org.gnu.Emacs'
 run       = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.rider'
-run       = 'move-node-to-workspace 2'
+run       = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.VSCode'
+run       = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'org.mozilla.librewolf'
 run       = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
-if.app-id = 'com.mitchellh.ghostty'
+if.app-id = 'com.brave.Browser'
+run       = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'org.chromium.Chromium'
+run       = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'app.zen-browser.zen'
 run       = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
@@ -206,8 +210,12 @@ if.app-id = 'com.hnc.Discord'
 run       = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
+if.app-id = 'dev.vencord.vesktop'
+run       = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
 if.app-id = 'com.apple.mail'
-run       = 'move-node-to-workspace 1'
+run       = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Music'
@@ -246,5 +254,9 @@ if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
 run       = 'layout floating'
 
 [[on-window-detected]]
-if.app-id    = 'org.gnu.Emacs'
-run          = 'layout tiling'
+if.app-id = 'com.mitchellh.ghostty'
+run       = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+run       = 'layout floating'
