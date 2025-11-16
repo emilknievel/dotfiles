@@ -938,7 +938,7 @@ loaded with a different theme."
     (interactive)
     (global-display-line-numbers-mode -1))
   :custom
-  (display-line-numbers-width 4)
+  (display-line-numbers-width 3)
   (display-line-numbers-widen nil)
   (display-line-numbers-grow-only nil)
   :general
@@ -2032,7 +2032,10 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   :general (my-leader-keys
              "o b t" 'org-babel-tangle
-             "o l d" 'org-toggle-link-display))
+             "o l d" 'org-toggle-link-display)
+  :hook
+  ((org-mode markdown-mode) . (lambda ()
+                                (display-line-numbers-mode -1))))
 
 (use-package org-appear
   :ensure t

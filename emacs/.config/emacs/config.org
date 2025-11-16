@@ -1387,7 +1387,7 @@ Turn on line numbers for program and configuration modes.
       (interactive)
       (global-display-line-numbers-mode -1))
     :custom
-    (display-line-numbers-width 4)
+    (display-line-numbers-width 3)
     (display-line-numbers-widen nil)
     (display-line-numbers-grow-only nil)
     :general
@@ -2875,7 +2875,10 @@ Starts an interactive ripgrep session.
 
     :general (my-leader-keys
                "o b t" 'org-babel-tangle
-               "o l d" 'org-toggle-link-display))
+               "o l d" 'org-toggle-link-display)
+    :hook
+    ((org-mode markdown-mode) . (lambda ()
+                                  (display-line-numbers-mode -1))))
 #+end_src
 
 *** Appear
