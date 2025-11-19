@@ -710,6 +710,22 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
   (add-hook 'conf-mode-hook 'kill-ring-deindent-mode)
 #+end_src
 
+*** Text Folding
+
+**** Kirigami.el
+
+#+begin_src emacs-lisp
+  (use-package kirigami
+    :ensure (:host github :repo "jamescherti/kirigami.el")
+    :config
+    (define-key evil-normal-state-map "zo" 'kirigami-open-fold)
+    (define-key evil-normal-state-map "zO" 'kirigami-open-fold-rec)
+    (define-key evil-normal-state-map "zc" 'kirigami-close-fold)
+    (define-key evil-normal-state-map "za" 'kirigami-toggle-fold)
+    (define-key evil-normal-state-map "zr" 'kirigami-open-folds)
+    (define-key evil-normal-state-map "zm" 'kirigami-close-folds))
+#+end_src
+
 ** Eldoc
 
 #+begin_src emacs-lisp

@@ -397,6 +397,16 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 (add-hook 'prog-mode-hook 'kill-ring-deindent-mode)
 (add-hook 'conf-mode-hook 'kill-ring-deindent-mode)
 
+(use-package kirigami
+  :ensure (:host github :repo "jamescherti/kirigami.el")
+  :config
+  (define-key evil-normal-state-map "zo" 'kirigami-open-fold)
+  (define-key evil-normal-state-map "zO" 'kirigami-open-fold-rec)
+  (define-key evil-normal-state-map "zc" 'kirigami-close-fold)
+  (define-key evil-normal-state-map "za" 'kirigami-toggle-fold)
+  (define-key evil-normal-state-map "zr" 'kirigami-open-folds)
+  (define-key evil-normal-state-map "zm" 'kirigami-close-folds))
+
 (use-package eldoc
   :ensure nil
   :custom
