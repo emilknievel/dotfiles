@@ -720,7 +720,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "menlo")
+(defvar my-macos-font "iosevka ss14")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -734,26 +734,33 @@ loaded with a different theme."
          (defvar my-variable-pitch-font "noto sans")
          (defvar my-serif-font "noto serif")))
 
+(defvar my-use-iosevka
+  (string-match-p "iosevka" (downcase my-editor-font))
+  "Whether to use Iosevka font.")
+
+(defvar my-font-offset (if my-use-iosevka 10 0)
+  "Font size offset.")
+
 (defun my-setup-linux-fonts ()
   "Separate setups for fonts in WSL and regular GNU/Linux."
   (if (getenv "WSL_DISTRO_NAME")
-      (setq my-font-height 110
-            my-small-font-height 90
-            my-medium-font-height 120
-            my-large-font-height 130
-            my-presentation-font-height 150)
-    (setq my-font-height 100
-          my-small-font-height 90
-          my-medium-font-height 110
-          my-large-font-height 130
-          my-presentation-font-height 140)))
+      (setq my-font-height (+ 110 my-font-offset)
+            my-small-font-height (+ 90 my-font-offset)
+            my-medium-font-height (+ 120 my-font-offset)
+            my-large-font-height (+ 130 my-font-offset)
+            my-presentation-font-height (+ 150 my-font-offset))
+    (setq my-font-height (+ 100 my-font-offset)
+          my-small-font-height (+ 90 my-font-offset)
+          my-medium-font-height (+ 110 my-font-offset)
+          my-large-font-height (+ 130 my-font-offset)
+          my-presentation-font-height (+ 140 my-font-offset))))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height 120
-          my-small-font-height 110
-          my-medium-font-height 130
-          my-large-font-height 160
-          my-presentation-font-height 200)
+    (setq my-font-height (+ 120 my-font-offset)
+          my-small-font-height (+ 110 my-font-offset)
+          my-medium-font-height (+ 130 my-font-offset)
+          my-large-font-height (+ 140 my-font-offset)
+          my-presentation-font-height (+ 200 my-font-offset))
   (my-setup-linux-fonts))
 
 (set-face-attribute 'default nil
