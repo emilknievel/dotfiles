@@ -720,7 +720,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "iosevka ss14")
+(defvar my-macos-font "menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -759,7 +759,7 @@ loaded with a different theme."
     (setq my-font-height (+ 120 my-font-offset)
           my-small-font-height (+ 110 my-font-offset)
           my-medium-font-height (+ 130 my-font-offset)
-          my-large-font-height (+ 140 my-font-offset)
+          my-large-font-height (+ 150 my-font-offset)
           my-presentation-font-height (+ 200 my-font-offset))
   (my-setup-linux-fonts))
 
@@ -846,7 +846,9 @@ loaded with a different theme."
 
 (use-package fontaine
   :ensure t
+  :demand t
   :general (my-leader-keys "u f p" 'fontaine-set-preset)
+  :bind ("<f7>" . fontaine-toggle-preset)
   :init
   ;; Persist the latest font preset when closing/starting Emacs and
   ;; while switching between themes.
