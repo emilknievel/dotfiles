@@ -2197,7 +2197,7 @@ With two prefix arguments, insert as top-level heading."
     (add-to-list 'org-capture-templates
                  '("ndjd" "Daily" entry
                    (file denote-journal-path-to-new-or-existing-entry)
-                   "* %U\n\n%?"
+                   "* %U\n%?"
                    :kill-buffer t
                    :empty-lines 1))
     (add-to-list 'org-capture-templates
