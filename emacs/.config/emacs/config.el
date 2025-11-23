@@ -1947,12 +1947,16 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :ensure nil
   :init
   (setopt org-directory (expand-file-name "~/Documents/org")
-          org-agenda-files `(,org-directory)
           org-default-notes-file (concat org-directory "/inbox.org")
           org-work-notes-file (concat org-directory "/work.org")
           org-projects-file (concat org-directory "/projects.org")
           org-journelly-file (concat org-directory "/Journelly.org")
-          org-links-file (concat org-directory "/links.org"))
+          org-links-file (concat org-directory "/links.org")
+          org-agenda-files (list org-default-notes-file
+                                 org-work-notes-file
+                                 org-projects-file
+                                 (concat org-directory "/calendar-beorg.org")
+                                 (concat org-directory "/home.org")))
 
   (require 'org-indent)
 
