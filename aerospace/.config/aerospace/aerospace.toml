@@ -241,6 +241,11 @@ run       = 'move-node-to-workspace 4'
 if.app-id = 'fm.overcast.overcast'
 run       = 'move-node-to-workspace 4'
 
+# Prologue (audiobookshelf client)
+[[on-window-detected]]
+if.app-id = 'me.charlick.prismbooks'
+run       = 'move-node-to-workspace 4'
+
 [[on-window-detected]]
 if.app-id = 'com.apple.Photos'
 run       = 'layout floating'
