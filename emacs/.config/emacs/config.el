@@ -386,7 +386,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 
-(add-hook 'org-agenda-mode-hook 'hl-line-mode)
+;; (add-hook 'org-agenda-mode-hook 'hl-line-mode)
 
 (defun my-toggle-global-hl-line-mode ()
   "Toggle `global-hl-line-mode'."
@@ -925,6 +925,7 @@ loaded with a different theme."
 
 (dolist (hook '(
                 org-mode-hook
+                org-agenda-mode-hook
                 markdown-mode-hook
                 eww-mode-hook
                 devdocs-mode-hook
@@ -1971,6 +1972,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-pretty-entities t)
   ;; (org-auto-align-tags nil)
   (org-tags-column 0) ; Place tags directly after headline text.
+  (org-agenda-tags-column 0)
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
