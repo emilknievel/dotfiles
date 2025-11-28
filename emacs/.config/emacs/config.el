@@ -442,7 +442,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
                 ;; ns-antialias-text nil
                 mac-command-modifier 'meta
                 mac-right-command-modifier 'meta
-                mac-option-modifier 'super
+                mac-option-modifier 'none
                 mac-control-modifier 'control
                 frame-title-format ""))
 
