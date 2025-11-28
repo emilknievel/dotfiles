@@ -331,18 +331,20 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 (require 'whitespace)
 (setq-default show-trailing-whitespace t)
 
-(dolist (hook '(shell-mode-hook
-                eshell-mode-hook
-                term-mode-hook
-                vterm-mode-hook
-                eat-mode-hook
-                compilation-mode-hook
+(dolist (hook '(
+                Buffer-menu-mode-hook
                 Info-mode-hook
                 calendar-mode-hook
-                elpaca-log-mode-hook
+                compilation-mode-hook
                 devdocs-mode-hook
+                eat-mode-hook
+                elpaca-log-mode-hook
+                eshell-mode-hook
                 eww-mode-hook
                 modus-themes-preview-mode-hook
+                shell-mode-hook
+                term-mode-hook
+                vterm-mode-hook
                 ))
   (add-hook hook (lambda ()
                    (setq show-trailing-whitespace nil))))
