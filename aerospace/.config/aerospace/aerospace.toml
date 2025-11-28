@@ -43,11 +43,10 @@ key-mapping.preset = 'qwerty'
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 ## PiP windows are "sticky", i.e. they move with workspace changes.
-
-exec-on-workspace-change = [
-    '/bin/bash', '-c',
-    '~/.config/aerospace/pip-move.sh',
-]
+# exec-on-workspace-change = [
+#     '/bin/bash', '-c',
+#     '~/.config/aerospace/pip-move.sh',
+# ]
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
@@ -57,8 +56,8 @@ exec-on-workspace-change = [
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = 8
-inner.vertical   = 8
+inner.horizontal = 4
+inner.vertical   = 4
 outer.left       = 0
 outer.bottom     = 0
 outer.top        = 0
@@ -199,6 +198,10 @@ run       = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
 if.app-id = 'net.imput.helium'
+run       = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.kagi.kagimacOS.RC'
 run       = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
