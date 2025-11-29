@@ -341,6 +341,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
                 elpaca-log-mode-hook
                 eshell-mode-hook
                 eww-mode-hook
+                help-mode-hook
+                helpful-mode-hook
                 modus-themes-preview-mode-hook
                 shell-mode-hook
                 term-mode-hook
