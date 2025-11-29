@@ -2810,6 +2810,16 @@ This package displays hidden emphasis markers while the cursor is on a rich text
       (org-timestamp-inactive '(16)))))
 #+end_src
 
+*** Org-modern
+#+begin_src emacs-lisp
+  (use-package org-modern
+    :ensure t
+    :custom
+    (org-modern-star 'replace)
+    :config
+    (global-org-modern-mode))
+#+end_src
+
 ** Olivetti
 Olivetti is a minor mode that provides a nice writing environment by setting comfortable window margins etc.
 
@@ -3144,7 +3154,7 @@ Package repo.
     (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
-** AI
+** AI (disabled)
 *** GPTel
 GPTel allows us to talk with different LLMs from within Emacs.
 

@@ -2123,6 +2123,13 @@ With two prefix arguments, insert as top-level heading."
    (t  ; No prefix - inline timestamp
     (org-timestamp-inactive '(16)))))
 
+(use-package org-modern
+  :ensure t
+  :custom
+  (org-modern-star 'replace)
+  :config
+  (global-org-modern-mode))
+
 (use-package olivetti
   :ensure t
   :after general
