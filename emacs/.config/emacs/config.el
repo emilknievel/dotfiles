@@ -567,8 +567,10 @@ loaded with a different theme."
 
 (use-package doric-themes
   :ensure t
+  :general
+  (my-leader-keys "t t o" 'doric-themes-toggle)
   :custom
-  (doric-themes-toggle '(doric-light doric-obsidian)))
+  (doric-themes-to-toggle '(doric-marble doric-obsidian)))
 
 (use-package doom-themes
   :ensure t
