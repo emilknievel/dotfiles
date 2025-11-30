@@ -574,16 +574,6 @@ loaded with a different theme."
   :ensure t
   :after general
   :init
-  (defun my-rose-pine ()
-    "Clear previous theme and load rosé pine."
-    (interactive)
-    (my-load-theme 'doom-rose-pine))
-
-  (defun my-rose-pine-dawn ()
-    "Clear previous theme and load rosé pine dawn."
-    (interactive)
-    (my-load-theme 'doom-rose-pine-dawn))
-
   (defun my-doom-one ()
     "Clear previous theme and load doom-one."
     (interactive)
@@ -598,13 +588,6 @@ loaded with a different theme."
     "Clear previous theme and load gruvbox."
     (interactive)
     (my-load-theme 'doom-gruvbox-light))
-
-  (defun my-toggle-rose-pine ()
-    "Toggle between light and dark Rosé Pine themes."
-    (interactive)
-    (if (eq (nth 0 custom-enabled-themes) 'doom-rose-pine)
-        (my-rose-pine-dawn)
-      (my-rose-pine)))
 
   (defun my-toggle-gruvbox ()
     "Toggle between light and dark Gruvbox themes."
@@ -625,7 +608,6 @@ loaded with a different theme."
   :config
   (doom-themes-org-config)
   :general (my-leader-keys
-             "t t r" 'my-toggle-rose-pine
              "t t d" 'my-doom-one
              "t t g" 'my-toggle-gruvbox))
 
