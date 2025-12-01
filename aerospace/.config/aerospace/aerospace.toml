@@ -250,6 +250,14 @@ if.app-id = 'me.charlick.prismbooks'
 run       = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
+if.app-id = 'com.ranchero.NetNewsWire-Evergreen'
+run       = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+if.app-id = 'app.readkit.universal'
+run       = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
 if.app-id = 'com.apple.Photos'
 run       = 'layout floating'
 
@@ -275,4 +283,12 @@ run       = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.googlecode.iterm2'
+run       = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run       = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.1password.1password'
 run       = 'layout floating'
