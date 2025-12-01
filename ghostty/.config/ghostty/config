@@ -1,11 +1,14 @@
-font-family = sf mono
-font-size = 11
+font-family =
+font-size = 12
 
 # thickens the font, but only minimally
 font-thicken = true
 font-thicken-strength = 0
 
-theme = dark:arthur,light:apple system colors light
+# disable ligatures
+font-feature= -calt
+
+theme = dark:wez,light:apple system colors light
 
 # extends program bg color to window edges
 window-padding-color = extend
