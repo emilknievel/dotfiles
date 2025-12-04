@@ -684,7 +684,7 @@ loaded with a different theme."
 (use-package auto-dark
   :ensure t
   :init
-  (defconst my-dark-theme 'modus-vivendi)
+  (defconst my-dark-theme 'ef-dark)
   (defconst my-light-theme 'modus-operandi)
 
   (setopt auto-dark-allow-osascript t   ; Needed to make it work with
@@ -708,7 +708,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "menlo")
+(defvar my-macos-font "hack")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -722,11 +722,12 @@ loaded with a different theme."
          (defvar my-variable-pitch-font "noto sans")
          (defvar my-serif-font "noto serif")))
 
-(defvar my-use-iosevka
-  (string-match-p "iosevka" (downcase my-editor-font))
-  "Whether to use Iosevka font.")
+(defvar my-active-font-narrow-p
+  (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
+                  (downcase my-editor-font))
+  "`t' if font is narrow, i.e. appears smaller.")
 
-(defvar my-font-offset (if my-use-iosevka 10 0)
+(defvar my-font-offset (if my-active-font-narrow-p 10 0)
   "Font size offset.")
 
 (defun my-setup-linux-fonts ()
@@ -899,7 +900,7 @@ loaded with a different theme."
            :italic-family nil
            :italic-slant nil
 
-           :line-spacing nil)))
+           :line-spacing .2)))
 
   ;; Set the last preset or fall back to desired style from `fontaine-presets'
   ;; (the `regular' in this case).
@@ -908,17 +909,6 @@ loaded with a different theme."
   ;; Persist the latest font preset when closing/starting Emacs and while
   ;; switching between themes.
   (fontaine-mode 1))
-
-(dolist (hook '(
-                org-mode-hook
-                org-agenda-mode-hook
-                markdown-mode-hook
-                eww-mode-hook
-                devdocs-mode-hook
-                Info-mode-hook
-                ))
-  (add-hook hook (lambda ()
-                   (setq-local line-spacing .25))))
 
 (use-package display-line-numbers
   :ensure nil

@@ -1021,7 +1021,7 @@ Inspired by Plan 9 Acme & Sam.
   (use-package auto-dark
     :ensure t
     :init
-    (defconst my-dark-theme 'modus-vivendi)
+    (defconst my-dark-theme 'ef-dark)
     (defconst my-light-theme 'modus-operandi)
 
     (setopt auto-dark-allow-osascript t   ; Needed to make it work with
@@ -1049,7 +1049,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Font variables
 #+begin_src emacs-lisp
   (defvar my-linux-font "dejavu sans mono")
-  (defvar my-macos-font "menlo")
+  (defvar my-macos-font "hack")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -1066,11 +1066,12 @@ Inspired by Plan 9 Acme & Sam.
 
 **** Setup editor fonts
 #+begin_src emacs-lisp
-  (defvar my-use-iosevka
-    (string-match-p "iosevka" (downcase my-editor-font))
-    "Whether to use Iosevka font.")
+  (defvar my-active-font-narrow-p
+    (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
+                    (downcase my-editor-font))
+    "`t' if font is narrow, i.e. appears smaller.")
 
-  (defvar my-font-offset (if my-use-iosevka 10 0)
+  (defvar my-font-offset (if my-active-font-narrow-p 10 0)
     "Font size offset.")
 
   (defun my-setup-linux-fonts ()
@@ -1184,7 +1185,7 @@ Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts
 #+end_src
 
 **** Show Font
-Preview fonts inside of Emacs.
+Preview fonts in Emacs.
 
 #+begin_src emacs-lisp
   (use-package show-font :ensure t)
@@ -1259,7 +1260,7 @@ Preview fonts inside of Emacs.
              :italic-family nil
              :italic-slant nil
 
-             :line-spacing nil)))
+             :line-spacing .2)))
 
     ;; Set the last preset or fall back to desired style from `fontaine-presets'
     ;; (the `regular' in this case).
@@ -1270,10 +1271,10 @@ Preview fonts inside of Emacs.
     (fontaine-mode 1))
 #+end_src
 
-**** Line spacing
+**** Line spacing (disabled)
 Increase line spacing slightly in buffers containing prose.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (dolist (hook '(
                   org-mode-hook
                   org-agenda-mode-hook
