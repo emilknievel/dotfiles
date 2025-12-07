@@ -708,7 +708,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "hack")
+(defvar my-macos-font "menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -748,7 +748,7 @@ loaded with a different theme."
     (setq my-font-height (+ 120 my-font-offset)
           my-small-font-height (+ 110 my-font-offset)
           my-medium-font-height (+ 130 my-font-offset)
-          my-large-font-height (+ 150 my-font-offset)
+          my-large-font-height (+ 160 my-font-offset)
           my-presentation-font-height (+ 200 my-font-offset))
   (my-setup-linux-fonts))
 
