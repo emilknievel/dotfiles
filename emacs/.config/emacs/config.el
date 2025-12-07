@@ -988,21 +988,6 @@ loaded with a different theme."
   :init
   (minions-mode))
 
-(use-package spacious-padding
-  :ensure t
-  :config
-  (setq spacious-padding-widths
-   '( :internal-border-width 15
-      :header-line-width 4
-      :mode-line-width 6
-      :tab-width 4
-      :right-divider-width 30
-      :scroll-bar-width 8
-      :fringe-width 8))
-  (setq spacious-padding-subtle-frame-lines t)
-  :config
-  (spacious-padding-mode 1))
-
 (use-package nerd-icons-completion
   :ensure t
   :after (marginalia nerd-icons)

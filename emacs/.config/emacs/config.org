@@ -1406,8 +1406,8 @@ Display the current date and time on the mode line.
     (minions-mode))
 #+end_src
 
-*** Padding
-#+begin_src emacs-lisp
+*** Padding (disabled)
+#+begin_src emacs-lisp :tangle no
   (use-package spacious-padding
     :ensure t
     :config
