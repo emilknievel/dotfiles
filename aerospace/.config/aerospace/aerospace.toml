@@ -205,6 +205,10 @@ if.app-id = 'com.kagi.kagimacOS.RC'
 run       = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run       = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
 if.app-id = 'com.microsoft.Outlook'
 run       = 'move-node-to-workspace 3'
 
