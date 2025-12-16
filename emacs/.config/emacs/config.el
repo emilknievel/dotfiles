@@ -604,6 +604,11 @@ loaded with a different theme."
     (if (eq (nth 0 custom-enabled-themes) 'doom-tomorrow-night)
         (my-load-theme 'doom-tomorrow-day)
       (my-load-theme 'doom-tomorrow-night)))
+
+  (defun my-zenburn ()
+    "Clear previous theme and load zenburn."
+    (interactive)
+    (my-load-theme 'doom-zenburn))
   :custom
   (doom-themes-enable-bold nil)
   (doom-themes-enable-italic nil)
@@ -611,7 +616,8 @@ loaded with a different theme."
   (doom-themes-org-config)
   :general (my-leader-keys
              "t t d" 'my-doom-one
-             "t t g" 'my-toggle-gruvbox))
+             "t t g" 'my-toggle-gruvbox
+             "t t z" 'my-zenburn))
 
 (use-package naysayer-theme
   :ensure t
@@ -708,7 +714,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "menlo")
+(defvar my-macos-font "jetbrains mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
