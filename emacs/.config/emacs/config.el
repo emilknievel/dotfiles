@@ -414,9 +414,11 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (use-package eldoc
   :ensure nil
-  :custom
-  ;; Prevent long eldoc doc strings from resizing the echo area display.
-  (eldoc-echo-area-use-multiline-p nil))
+  :config
+  (setq-default eldoc-idle-delay 0.2
+                ;; eldoc-echo-area-use-multiline-p t
+                eldoc-echo-area-prefer-doc-buffer t
+                eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 
 (setopt inhibit-startup-screen t)
 
