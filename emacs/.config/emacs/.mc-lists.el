@@ -4,9 +4,18 @@
 (setq mc/cmds-to-run-for-all
       '(
         complete-symbol
+        evil-backward-char
         evil-backward-word-begin
+        evil-change
         evil-delete
+        evil-delete-char
+        evil-force-normal-state
+        evil-forward-char
+        evil-forward-word-begin
+        evil-forward-word-end
+        evil-next-line
         evil-next-visual-line
+        evil-previous-line
         evil-previous-visual-line
         evil-undo
         indent-for-tab-command
