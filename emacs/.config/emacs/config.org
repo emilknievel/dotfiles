@@ -323,6 +323,13 @@ Restores binding from Evil so that it doesn't try to "Goto definition" in the el
               (evil-local-set-key 'normal (kbd "gd") 'elpaca-log-view-diff)))
 #+end_src
 
+**** Use "Emacs" initial state in terminal modes
+#+begin_src emacs-lisp
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'eshell-mode 'emacs)
+    (evil-set-initial-state 'term-mode 'emacs))
+#+end_src
+
 *** General.el
 General provides a more convenient, unified interface for binding keys in Emacs. Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
 

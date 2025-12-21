@@ -233,6 +233,10 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
           (lambda ()
             (evil-local-set-key 'normal (kbd "gd") 'elpaca-log-view-diff)))
 
+(with-eval-after-load 'evil
+  (evil-set-initial-state 'eshell-mode 'emacs)
+  (evil-set-initial-state 'term-mode 'emacs))
+
 (with-eval-after-load 'general
   (my-leader-keys
     ;; Top level functions
