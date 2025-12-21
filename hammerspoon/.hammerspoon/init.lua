@@ -13,8 +13,8 @@ PaperWM:bindHotkeys({
     swap_down  = {{"alt", "shift"}, "j"},
 
     -- position and resize focused window
-    center_window        = {{"alt"}, "c"},
-    full_width           = {{"alt"}, "f"},
+    center_window        = {{"alt", "shift"}, "c"},
+    full_width           = {{"alt", "shift"}, "f"},
     cycle_width          = {{"alt"}, "r"},
     -- reverse_cycle_width  = {{"ctrl", "alt", "cmd"}, "r"},
     cycle_height         = {{"alt", "shift"}, "r"},
