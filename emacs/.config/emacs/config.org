@@ -294,17 +294,6 @@ Mainly used for making sure that org timestamps are consistent.
     :config (evil-collection-init))
 #+end_src
 
-#+begin_src emacs-lisp
-  (use-package which-key
-    :demand t
-    :ensure t
-    :init
-    (which-key-mode)
-    (which-key-setup-side-window-bottom)
-    :custom
-    (which-key-idle-delay 0.3))
-#+end_src
-
 **** Evil-commentary
 #+begin_src emacs-lisp
   (use-package evil-commentary
@@ -552,6 +541,18 @@ Repeat commands by typing a single character.
 
 #+begin_src emacs-lisp
   (repeat-mode 1)
+#+end_src
+
+*** Which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :demand t
+    :ensure t
+    :init
+    (which-key-mode)
+    (which-key-setup-side-window-bottom)
+    :custom
+    (which-key-idle-delay 0.3))
 #+end_src
 
 ** Editing

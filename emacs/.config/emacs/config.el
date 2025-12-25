@@ -215,15 +215,6 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :ensure t
   :config (evil-collection-init))
 
-(use-package which-key
-  :demand t
-  :ensure t
-  :init
-  (which-key-mode)
-  (which-key-setup-side-window-bottom)
-  :custom
-  (which-key-idle-delay 0.3))
-
 (use-package evil-commentary
   :ensure t
   :config
@@ -326,6 +317,15 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :bind-keymap ("C-c s" . surround-keymap))
 
 (repeat-mode 1)
+
+(use-package which-key
+  :demand t
+  :ensure t
+  :init
+  (which-key-mode)
+  (which-key-setup-side-window-bottom)
+  :custom
+  (which-key-idle-delay 0.3))
 
 (use-package iedit
   :ensure t
