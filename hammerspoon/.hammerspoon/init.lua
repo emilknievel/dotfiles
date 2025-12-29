@@ -68,6 +68,7 @@ PaperWM:bindHotkeys({
 })
 
 PaperWM.window_ratios = { 1/3, 1/2, 2/3 }
+PaperWM.window_gap = 4
 
 -- ignore a specific app
 -- PaperWM.window_filter:rejectApp("iStat Menus Status")
