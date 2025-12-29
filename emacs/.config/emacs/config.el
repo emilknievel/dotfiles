@@ -132,102 +132,6 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (setq system-time-locale "C")
 
-(use-package evil
-  :ensure t
-  :init
-  ;; https://evil.readthedocs.io/en/latest/settings.html
-  (setq evil-want-integration t
-        evil-want-keybinding nil
-        evil-toggle-key "C-z"
-        evil-want-C-i-jump t
-        evil-want-C-u-delete nil
-        evil-want-C-u-scroll t ; default `nil'
-        evil-want-C-d-scroll t
-        evil-want-C-w-delete t
-        evil-want-C-w-in-emacs-state nil
-        evil-want-Y-yank-to-eol nil
-        evil-disable-insert-state-bindings nil
-
-        ;; Search
-        evil-search-module 'isearch
-        evil-regexp-search t
-        evil-search-wrap t
-        evil-flash-delay 2
-        evil-ex-hl-update-delay 0.02
-        evil-ex-search-incremental t
-
-        ;; Indentation
-        evil-auto-indent t
-        evil-shift-width 4
-        evil-shift-round t
-        evil-indent-convert-tabs nil ; default `t'
-
-        ;; Cursor movement
-        evil-repeat-move-cursor t
-        evil-move-cursor-back t
-        evil-move-beyond-eol nil
-        evil-v$-excludes-newline nil
-        evil-cross-lines nil
-        evil-respect-visual-line-mode t ; default `nil'
-        evil-track-eol t
-        evil-start-of-line nil
-
-        ;; Cursor display
-        evil-default-cursor t
-
-        ;; Window management
-        evil-auto-balance-windows t
-        evil-split-window-below nil
-        evil-vsplit-window-right nil
-
-        ;; Parenthesis highlighting
-        evil-show-paren-range 0
-        evil-highlight-closing-paren-at-point-states '(not
-                                                       emacs
-                                                       insert
-                                                       replace)
-
-        ;; Miscellaneous
-        evil-want-fine-undo nil
-        evil-undo-system 'undo-redo ; default `nil'
-        evil-backspace-join-lines t
-        evil-kbd-macro-suppress-motion-error nil
-        evil-mode-line-format 'before
-        evil-mouse-word 'evil-word
-        evil-transient-mouse-selection nil
-        ;; evil-bigword default value used
-        evil-esc-delay 0.01
-        evil-intercept-esc 'always
-        evil-kill-on-visual-paste t
-        evil-echo-state t
-        evil-complete-all-buffers t
-        evil-want-empty-ex-last-command t
-        )
-  :config
-  (evil-mode 1))
-
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
-(use-package evil-collection
-  :ensure t
-  :config (evil-collection-init))
-
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode))
-
-(add-hook 'elpaca-log-mode-hook
-          (lambda ()
-            (evil-local-set-key 'normal (kbd "gd") 'elpaca-log-view-diff)))
-
-(with-eval-after-load 'evil
-  (evil-set-initial-state 'eshell-mode 'emacs)
-  (evil-set-initial-state 'term-mode 'emacs))
-
 (with-eval-after-load 'general
   (my-leader-keys
     ;; Top level functions
@@ -405,16 +309,6 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (add-hook 'prog-mode-hook 'kill-ring-deindent-mode)
 (add-hook 'conf-mode-hook 'kill-ring-deindent-mode)
-
-(use-package kirigami
-  :ensure (:host github :repo "jamescherti/kirigami.el")
-  :config
-  (define-key evil-normal-state-map "zo" 'kirigami-open-fold)
-  (define-key evil-normal-state-map "zO" 'kirigami-open-fold-rec)
-  (define-key evil-normal-state-map "zc" 'kirigami-close-fold)
-  (define-key evil-normal-state-map "za" 'kirigami-toggle-fold)
-  (define-key evil-normal-state-map "zr" 'kirigami-open-folds)
-  (define-key evil-normal-state-map "zm" 'kirigami-close-folds))
 
 (use-package eldoc
   :ensure nil
@@ -912,7 +806,7 @@ loaded with a different theme."
            :italic-family nil
            :italic-slant nil
 
-           :line-spacing .2)))
+           :line-spacing nil)))
 
   ;; Set the last preset or fall back to desired style from `fontaine-presets'
   ;; (the `regular' in this case).

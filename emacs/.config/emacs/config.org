@@ -201,7 +201,10 @@ Use minibuffer for passphrase queries instead of using an external Pinentry prog
 Mainly used for making sure that org timestamps are consistent.
 
 ** Key bindings
-*** Evil
+*** Evil (disabled)
+:PROPERTIES:
+:header-args:emacs-lisp: tangle no
+:END:
 **** Base package
 #+begin_src emacs-lisp
   (use-package evil
@@ -674,8 +677,8 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 #+end_src
 
 *** Text Folding
-**** Kirigami.el
-#+begin_src emacs-lisp
+**** Kirigami.el (disabled)
+#+begin_src emacs-lisp :tangle no
   (use-package kirigami
     :ensure (:host github :repo "jamescherti/kirigami.el")
     :config
@@ -1276,7 +1279,7 @@ Preview fonts in Emacs.
              :italic-family nil
              :italic-slant nil
 
-             :line-spacing .2)))
+             :line-spacing nil)))
 
     ;; Set the last preset or fall back to desired style from `fontaine-presets'
     ;; (the `regular' in this case).
