@@ -834,6 +834,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
             ;;                         (6 . (1.0))
             ;;                         (7 . (1.0))))
     (modus-themes-include-derivatives-mode 1)
+    (my-load-theme 'modus-vivendi)
     :general (my-leader-keys
                "t t m" 'modus-themes-toggle))
 #+end_src
@@ -1038,6 +1039,7 @@ Inspired by Plan 9 Acme & Sam.
 #+begin_src emacs-lisp
   (use-package auto-dark
     :ensure t
+    :if (eq system-type 'darwin)
     :init
     (defconst my-dark-theme 'ef-dark)
     (defconst my-light-theme 'modus-operandi)

@@ -418,6 +418,7 @@ loaded with a different theme."
           ;;                         (6 . (1.0))
           ;;                         (7 . (1.0))))
   (modus-themes-include-derivatives-mode 1)
+  (my-load-theme 'modus-vivendi)
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
 
@@ -588,6 +589,7 @@ loaded with a different theme."
 
 (use-package auto-dark
   :ensure t
+  :if (eq system-type 'darwin)
   :init
   (defconst my-dark-theme 'ef-dark)
   (defconst my-light-theme 'modus-operandi)
