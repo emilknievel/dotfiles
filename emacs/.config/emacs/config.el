@@ -1264,12 +1264,8 @@ its input."
   :general (my-leader-keys "c a" 'eglot-code-actions)
   :custom
   (eglot-autoshutdown t)
-
-  ;; Hide code-action indicators to reduce noise.
-  (eglot-code-action-indications '()))
-
-  ;; Disables highlighting of the symbol at point.
-  ;; (eglot-ignored-server-capabilities '(:documentHighlightProvider)))
+  (eglot-ignored-server-capabilities '(:inlayHintProvider
+                                       :documentOnTypeFormattingProvider)))
 
 (use-package flycheck-eglot
   :ensure t
