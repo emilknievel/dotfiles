@@ -408,16 +408,15 @@ loaded with a different theme."
   (setopt modus-themes-mixed-fonts nil
           modus-themes-variable-pitch-ui nil
           modus-themes-to-toggle '(modus-operandi modus-vivendi)
-          modus-themes-common-palette-overrides '((fringe unspecified))
-          modus-themes-headings '((0 . (1.5))
-                                  (1 . (1.4))
-                                  (2 . (1.3))
-                                  (3 . (1.2))
-                                  (4 . (1.1))
-                                  (5 . (1.1))
-                                  (6 . (1.0))
-                                  (7 . (1.0))))
-
+          modus-themes-common-palette-overrides '((fringe unspecified)))
+          ;; modus-themes-headings '((0 . (1.5))
+          ;;                         (1 . (1.4))
+          ;;                         (2 . (1.3))
+          ;;                         (3 . (1.2))
+          ;;                         (4 . (1.1))
+          ;;                         (5 . (1.1))
+          ;;                         (6 . (1.0))
+          ;;                         (7 . (1.0))))
   (modus-themes-include-derivatives-mode 1)
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
@@ -614,7 +613,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "dejavu sans mono")
-(defvar my-macos-font "jetbrains mono")
+(defvar my-macos-font "menlo")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
