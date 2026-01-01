@@ -201,10 +201,7 @@ Use minibuffer for passphrase queries instead of using an external Pinentry prog
 Mainly used for making sure that org timestamps are consistent.
 
 ** Key bindings
-*** Evil (disabled)
-:PROPERTIES:
-:header-args:emacs-lisp: tangle no
-:END:
+*** Evil
 **** Base package
 #+begin_src emacs-lisp
   (use-package evil
@@ -677,8 +674,8 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 #+end_src
 
 *** Text Folding
-**** Kirigami.el (disabled)
-#+begin_src emacs-lisp :tangle no
+**** Kirigami.el
+#+begin_src emacs-lisp
   (use-package kirigami
     :ensure (:host github :repo "jamescherti/kirigami.el")
     :config
