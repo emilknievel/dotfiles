@@ -1968,33 +1968,33 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
      ("m" "Meetings")
      ("mm" "Meetings - Mio" entry
       (file+olp org-work-notes-file "Mio" "Meetings")
-      "* %^T %?" :prepend t)
+      "* %^T %?" :empty-lines 1 :prepend t)
 
      ("n" "Notes")
 
      ("t" "Tasks")
      ("tt" "New inbox task" entry
       (file org-default-notes-file)
-      "* TODO %i%?" :prepend t)
+      "* TODO %i%?" :empty-lines 1 :prepend t)
      ("te" "New Emacs task" entry
       (file+olp org-projects-file "Emacs")
-      "* TODO %i%?" :prepend t)
+      "* TODO %i%?" :empty-lines 1 :prepend t)
      ("tl" "New Learn task" entry
       (file+olp org-projects-file "Learn")
-      "* TODO %i%?" :prepend t)
+      "* TODO %i%?" :empty-lines 1 :prepend t)
      ("td" "New Dev task" entry
       (file+olp org-projects-file "Dev")
-      "* TODO %i%?" :prepend t)
+      "* TODO %i%?" :empty-lines 1 :prepend t)
      ("th" "New Homelab task" entry
       (file+olp org-projects-file "Homelab")
-      "* TODO %i%?" :prepend t)
+      "* TODO %i%?" :empty-lines 1 :prepend t)
      ("td" "New Other task" entry
       (file+olp org-projects-file "Other")
-      "* TODO %i%?" :prepend t)
+      "* TODO %i%?" :empty-lines 1 :prepend t)
      ("tw" "Work tasks")
      ("twm" "New Mio task" entry
       (file+olp org-work-notes-file "Mio" "Tasks")
-      "* TODO %i%?\n%a\n" :prepend t)
+      "* TODO %i%?\n%a\n" :empty-lines 1 :prepend t)
 
      ("w" "Web link" plain
       (file+function org-links-file
@@ -2007,7 +2007,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 :DATE_CAPTURED: %U
 :END:
 %?
-" :prepend t)))
+" :empty-lines 1 :prepend t)))
 
   (org-refile-targets
    '((org-agenda-files :maxlevel . 4)
