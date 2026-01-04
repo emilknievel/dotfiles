@@ -209,7 +209,15 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 (use-package evil-surround
   :ensure t
   :config
-  (global-evil-surround-mode 1))
+  (global-evil-surround-mode 1)
+  (with-eval-after-load 'evil-surround
+    (defun my-org-surround-pairs ()
+      "Add Org markup pairs in org-mode buffers."
+      (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)
+      (push '(?= . ("=" . "=")) evil-surround-pairs-alist)
+      (push '(?* . ("*" . "*")) evil-surround-pairs-alist)
+      (push '(?/ . ("/" . "/")) evil-surround-pairs-alist))
+    (add-hook 'org-mode-hook #'my-org-surround-pairs)))
 
 (use-package evil-collection
   :ensure t

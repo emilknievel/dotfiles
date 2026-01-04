@@ -284,7 +284,15 @@ Mainly used for making sure that org timestamps are consistent.
   (use-package evil-surround
     :ensure t
     :config
-    (global-evil-surround-mode 1))
+    (global-evil-surround-mode 1)
+    (with-eval-after-load 'evil-surround
+      (defun my-org-surround-pairs ()
+        "Add Org markup pairs in org-mode buffers."
+        (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)
+        (push '(?= . ("=" . "=")) evil-surround-pairs-alist)
+        (push '(?* . ("*" . "*")) evil-surround-pairs-alist)
+        (push '(?/ . ("/" . "/")) evil-surround-pairs-alist))
+      (add-hook 'org-mode-hook #'my-org-surround-pairs)))
 #+end_src
 
 **** Evil collection
