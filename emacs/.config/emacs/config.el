@@ -1388,14 +1388,6 @@ its input."
 
 (use-package jsonrpc :ensure t)
 
-(use-package treesit-auto
-  :ensure t
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-
 (use-package rust-mode
   :ensure t
   :init

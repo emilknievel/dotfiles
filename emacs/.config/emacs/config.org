@@ -1877,8 +1877,8 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
   (setopt treesit-font-lock-level 2) ; default: 3
 #+end_src
 
-**** treesit-auto
-#+begin_src emacs-lisp
+**** treesit-auto (disabled)
+#+begin_src emacs-lisp :tangle no
   (use-package treesit-auto
     :ensure t
     :custom
