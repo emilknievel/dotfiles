@@ -1371,11 +1371,6 @@ its input."
 
 (use-package eglot
   :ensure t
-  :init
-  ;; Fixes wrong arch found for OmniSharp on apple silicon macs.
-  (when (string= system-type "darwin")
-    (setenv "DOTNET_ROOT" "/usr/local/share/dotnet/"))
-
   :after (general flymake)
   :general (my-leader-keys "c a" 'eglot-code-actions)
   :custom
