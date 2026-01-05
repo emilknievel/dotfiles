@@ -1841,7 +1841,8 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 #+end_src
 
-** Eglot
+** LSP
+*** Eglot
 #+begin_src emacs-lisp
   (use-package flymake :ensure t)
 
@@ -1865,7 +1866,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (global-flycheck-eglot-mode 1))
 #+end_src
 
-*** Dependencies
+**** Dependencies
 #+begin_src emacs-lisp
   (use-package jsonrpc :ensure t)
 #+end_src
