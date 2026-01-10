@@ -58,6 +58,8 @@
 
 ;;; Load below packages early
 
+(use-package project :ensure (:wait t))
+
 ;; Remove org-mode's C-, binding to avoid conflict with general
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-,") nil))
