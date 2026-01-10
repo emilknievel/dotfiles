@@ -134,6 +134,9 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (use-package evil
   :ensure t
+  :hook (elpaca-log-mode . (lambda ()
+                             (evil-local-set-key 'normal (kbd "gd")
+                                                 'elpaca-log-view-diff)))
   :init
   ;; https://evil.readthedocs.io/en/latest/settings.html
   (setq evil-want-integration t
@@ -227,10 +230,6 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :ensure t
   :config
   (evil-commentary-mode))
-
-(add-hook 'elpaca-log-mode-hook
-          (lambda ()
-            (evil-local-set-key 'normal (kbd "gd") 'elpaca-log-view-diff)))
 
 (with-eval-after-load 'evil
   (evil-set-initial-state 'eshell-mode 'emacs)
@@ -416,6 +415,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (use-package kirigami
   :ensure (:host github :repo "jamescherti/kirigami.el")
+  :after evil
   :config
   (define-key evil-normal-state-map "zo" 'kirigami-open-fold)
   (define-key evil-normal-state-map "zO" 'kirigami-open-fold-rec)

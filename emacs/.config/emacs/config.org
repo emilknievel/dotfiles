@@ -228,6 +228,9 @@ Mainly used for making sure that org timestamps are consistent.
 #+begin_src emacs-lisp
   (use-package evil
     :ensure t
+    :hook (elpaca-log-mode . (lambda ()
+                               (evil-local-set-key 'normal (kbd "gd")
+                                                   'elpaca-log-view-diff)))
     :init
     ;; https://evil.readthedocs.io/en/latest/settings.html
     (setq evil-want-integration t
@@ -333,18 +336,6 @@ Mainly used for making sure that org timestamps are consistent.
     :ensure t
     :config
     (evil-commentary-mode))
-#+end_src
-
-**** Custom bindings
-
-***** Elpaca-log-mode
-
-Restores binding from Evil so that it doesn't try to "Goto definition" in the elpaca log buffer.
-
-#+begin_src emacs-lisp
-  (add-hook 'elpaca-log-mode-hook
-            (lambda ()
-              (evil-local-set-key 'normal (kbd "gd") 'elpaca-log-view-diff)))
 #+end_src
 
 **** Use "Emacs" initial state in terminal modes
@@ -740,6 +731,7 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 #+begin_src emacs-lisp
   (use-package kirigami
     :ensure (:host github :repo "jamescherti/kirigami.el")
+    :after evil
     :config
     (define-key evil-normal-state-map "zo" 'kirigami-open-fold)
     (define-key evil-normal-state-map "zO" 'kirigami-open-fold-rec)
