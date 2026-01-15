@@ -1530,10 +1530,15 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (setopt sh-basic-offset 2)
 
-(setopt c-ts-mode-indent-style 'k&r
-        c-ts-mode-indent-offset 4)
+;; (setopt c-ts-mode-indent-style 'linux
+;;         c-ts-mode-indent-offset 4)
+;; (add-hook 'c-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
+(setq c-default-style '((java-mode . "java")
+                        (awk-mode . "awk")
+                        (other . "linux")))
+(setq-default c-basic-offset 4)
+(add-hook 'c-mode-hook (lambda () (setq indent-tabs-mode nil)))
 (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
-(add-hook 'c-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
 
 (use-package flycheck
   :ensure t
