@@ -728,7 +728,7 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-(defvar my-linux-font "monospace")
+(defvar my-linux-font "hack")
 (defvar my-macos-font "menlo")
 
 (if (eq system-type 'darwin)

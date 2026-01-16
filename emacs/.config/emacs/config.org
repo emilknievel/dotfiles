@@ -1145,7 +1145,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar my-linux-font "monospace")
+  (defvar my-linux-font "hack")
   (defvar my-macos-font "menlo")
 
   (if (eq system-type 'darwin)
