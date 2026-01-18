@@ -705,11 +705,10 @@ loaded with a different theme."
   :ensure t
   :if (eq system-type 'darwin)
   :init
-  (defconst my-dark-theme 'ef-dark)
+  (defconst my-dark-theme 'modus-vivendi)
   (defconst my-light-theme 'modus-operandi)
 
-  (setopt auto-dark-allow-osascript t   ; Needed to make it work with
-                                        ; emacsclient on macOS.
+  (setopt auto-dark-allow-osascript t
           auto-dark-themes `((,my-dark-theme) (,my-light-theme))
           custom-safe-themes t)
 
