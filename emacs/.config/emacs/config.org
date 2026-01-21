@@ -221,7 +221,10 @@ Mainly used for making sure that org timestamps are consistent.
 
 ** Key bindings
 
-*** Evil
+*** Evil (disabled)
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle no
+:END:
 
 **** Base package
 
