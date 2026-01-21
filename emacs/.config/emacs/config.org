@@ -608,31 +608,19 @@ Edit multiple occurrences in the same way simultaneously.
 
 *** Whitespace
 
-**** Show trailing whitespace by default, except in specific modes
+**** Show trailing whitespace
 
 #+begin_src emacs-lisp
   (require 'whitespace)
-  (setq-default show-trailing-whitespace t)
+  (setq-default show-trailing-whitespace nil)
 
-  (dolist (hook '(
-                  Buffer-menu-mode-hook
-                  Info-mode-hook
-                  calendar-mode-hook
-                  compilation-mode-hook
-                  devdocs-mode-hook
-                  eat-mode-hook
-                  elpaca-log-mode-hook
-                  eshell-mode-hook
-                  eww-mode-hook
-                  help-mode-hook
-                  helpful-mode-hook
-                  modus-themes-preview-mode-hook
-                  shell-mode-hook
-                  term-mode-hook
-                  vterm-mode-hook
-                  ))
+  (dolist (hook '(prog-mode-hook
+                  conf-mode-hook
+                  org-mode-hook
+                  markdown-mode-hook
+                  tex-mode-hook))
     (add-hook hook (lambda ()
-                     (setq show-trailing-whitespace nil))))
+                     (setq show-trailing-whitespace t))))
 #+end_src
 
 **** Interactive toggle for trailing whitespace highlight
