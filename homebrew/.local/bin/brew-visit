@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# Script: brew-visit
+# Description: Extract and open the first URL from brew info output
+
+# Check if package name is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <package-name>"
+    echo "Example: $0 git"
+    exit 1
+fi
+
+PACKAGE_NAME="$1"
+
+# Check if brew is installed
+if ! command -v brew &> /dev/null; then
+    echo "Error: Homebrew is not installed or not in PATH"
+    exit 1
+fi
+
+# Get brew info output and check if package exists
+BREW_INFO=$(brew info "$PACKAGE_NAME" 2>&1)
+if [ $? -ne 0 ]; then
+    echo "Error: Package '$PACKAGE_NAME' not found or brew info failed"
+    echo "$BREW_INFO"
+    exit 1
+fi
+
+# Extract the first URL from the output
+# This regex looks for http:// or https:// URLs
+FIRST_URL=$(echo "$BREW_INFO" | grep -oE 'https?://[^[:space:]]+' | head -n 1)
+
+if [ -z "$FIRST_URL" ]; then
+    echo "No URL found in brew info output for package '$PACKAGE_NAME'"
+    exit 1
+fi
+
+echo "Found URL: $FIRST_URL"
+echo "Opening URL in default browser..."
+
+# Open URL in default browser (works on macOS, Linux, and WSL)
+if command -v open &> /dev/null; then
+    # macOS
+    open "$FIRST_URL"
+elif command -v xdg-open &> /dev/null; then
+    # Linux
+    xdg-open "$FIRST_URL"
+elif command -v wslview &> /dev/null; then
+    # WSL (Windows Subsystem for Linux)
+    wslview "$FIRST_URL"
+else
+    echo "Could not determine how to open URLs on this system"
+    echo "Please manually visit: $FIRST_URL"
+    exit 1
+fi
+
+echo "URL opened successfully!"
