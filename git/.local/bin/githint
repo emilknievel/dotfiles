@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+echo "Character | Meaning                | Triggered When"
+echo "----------|------------------------|-----------------------------------"
+echo "*         | Unstaged changes       | Files modified but not staged"
+echo "+         | Staged changes         | Files staged for commit"
+echo "%         | Untracked files        | New files not added to repo"
+echo "\$       | Stashed changes        | Stash exists (requires config)"
+echo "<         | Behind upstream        | Local branch trails remote"
+echo ">         | Ahead upstream         | Local branch leads remote"
+echo "<>        | Diverged from upstream | Both ahead and behind remote"
+echo "=         | Up-to-date             | Synced with upstream branch"
