@@ -3,7 +3,9 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        beginning-of-visual-line
         complete-symbol
+        end-of-visual-line
         evil-backward-char
         evil-backward-word-begin
         evil-change
