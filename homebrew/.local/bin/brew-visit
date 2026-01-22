@@ -1,39 +1,20 @@
 #!/usr/bin/env bash
-
-# Script: brew-visit
-# Description: Extract and open the first URL from brew info output
-
-show_help() {
-    echo "$(basename "$0") - Extract and open the first URL from brew info output"
-    echo ""
-    echo "Usage: $(basename "$0") [OPTIONS] <package-name>"
-    echo ""
-    echo "OPTIONS:"
-    echo "  -h, --help    Show this help message and exit"
-    echo ""
-    echo "ARGUMENTS:"
-    echo "  package-name  The name of the Homebrew package to get info for"
-    echo ""
-    echo "EXAMPLES:"
-    echo "  $(basename "$0") git"
-    echo "  $(basename "$0") node"
-    echo "  $(basename "$0") python"
-    echo ""
-    echo "DESCRIPTION:"
-    echo "  This script runs 'brew info <package-name>', extracts the first URL"
-    echo "  found in the output, and opens it in your default web browser."
-}
-
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    show_help
-    exit 0
-fi
+#: Extract and open the first URL from brew info output
+#:
+#: Usage: brew visit <package-name>
+#:
+#: Examples:
+#:   brew visit git
+#:   brew visit node
+#:   brew visit python
+#:
+#: Opens the first URL found in 'brew info <package>' output in your default browser.
 
 if [ $# -eq 0 ]; then
-    echo "Usage: $(basename "$0") <package-name>"
-    echo "Example: $(basename "$0") git"
+    echo "Usage: brew visit <package-name>"
+    echo "Example: brew visit git"
     echo ""
-    echo "Use -h or --help for more information"
+    echo "use -h or --help for more information"
     exit 1
 fi
 
