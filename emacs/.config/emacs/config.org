@@ -91,6 +91,10 @@ Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]]
 
   ;; Single space after a period is considered "end of sentence".
   (set-default 'sentence-end-double-space nil)
+
+  ;; Turn off the bell by using the visual bell and setting it to `ignore'.
+  (setopt visible-bell nil
+          ring-bell-function 'ignore)
 #+end_src
 
 ** Emacs system files
@@ -1468,16 +1472,6 @@ This ensures that =mode-line-active= face inherits =mode-line=.
 
 #+begin_src emacs-lisp
   (set-face-attribute 'mode-line-active nil :inherit 'mode-line)
-#+end_src
-
-**** Flash mode line instead of visual-bell
-
-#+begin_src emacs-lisp
-  (setopt visible-bell nil
-          ring-bell-function 'flash-mode-line)
-  (defun flash-mode-line ()
-    (invert-face 'mode-line)
-    (run-with-timer 0.1 nil #'invert-face 'mode-line))
 #+end_src
 
 **** Display current date and time on the mode line

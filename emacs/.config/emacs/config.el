@@ -74,6 +74,10 @@
 ;; Single space after a period is considered "end of sentence".
 (set-default 'sentence-end-double-space nil)
 
+;; Turn off the bell by using the visual bell and setting it to `ignore'.
+(setopt visible-bell nil
+        ring-bell-function 'ignore)
+
 (unless backup-directory-alist
   (setopt backup-directory-alist `(("." . "/tmp/backups/"))))
 
@@ -868,12 +872,6 @@ loaded with a different theme."
 (column-number-mode 1)
 
 (set-face-attribute 'mode-line-active nil :inherit 'mode-line)
-
-(setopt visible-bell nil
-        ring-bell-function 'flash-mode-line)
-(defun flash-mode-line ()
-  (invert-face 'mode-line)
-  (run-with-timer 0.1 nil #'invert-face 'mode-line))
 
 (setopt display-time-format " %H:%M "
         display-time-interval 60
