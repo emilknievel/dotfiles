@@ -601,15 +601,6 @@ Repeat commands by typing a single character.
     (which-key-idle-delay 0.3))
 #+end_src
 
-*** Frame
-
-#+begin_src emacs-lisp
-  ;; Toggle between maximized and normal
-  (global-set-key (kbd "C-c f m") 'toggle-frame-maximized)
-  ;; Toggle fullscreen
-  (global-set-key (kbd "C-c f f") 'toggle-frame-fullscreen)
-#+end_src
-
 ** Editing
 
 *** iedit
@@ -3465,6 +3456,20 @@ Highlights common "TODO" keywords.
 
 ** Window management
 
+*** Frame actions
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-c f m") 'toggle-frame-maximized)
+  (global-set-key (kbd "C-c f f") 'toggle-frame-fullscreen)
+  (global-set-key (kbd "C-c f t") 'transpose-frame)
+
+  (defvar-keymap frame-actions-repeat-map
+    :repeat t
+    "m" #'toggle-frame-maximized
+    "f" #'toggle-frame-fullscreen
+    "t" #'transpose-frame)
+#+end_src
+
 *** Transpose frame
 
 Transpose arrangement of frame windows (eg. horizontal to vertical).
@@ -3503,7 +3508,6 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
     "k" #'my-enlarge-window
     "=" #'balance-windows
     "-" #'shrink-window-if-larger-than-buffer
-    "t" #'transpose-frame
     "0" #'delete-window
     "1" #'delete-other-windows)
 
@@ -3513,7 +3517,6 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
   (global-set-key (kbd "C-, w k") 'my-enlarge-window)
   (global-set-key (kbd "C-, w =") 'balance-windows)
   (global-set-key (kbd "C-, w -") 'shrink-window-if-larger-than-buffer)
-  (global-set-key (kbd "C-, w t") 'transpose-frame)
 #+end_src
 
 ** Buffers

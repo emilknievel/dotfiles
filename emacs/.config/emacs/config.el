@@ -236,11 +236,6 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :custom
   (which-key-idle-delay 0.3))
 
-;; Toggle between maximized and normal
-(global-set-key (kbd "C-c f m") 'toggle-frame-maximized)
-;; Toggle fullscreen
-(global-set-key (kbd "C-c f f") 'toggle-frame-fullscreen)
-
 (use-package iedit
   :ensure t
   :general
@@ -2301,6 +2296,16 @@ With two prefix arguments, insert as top-level heading."
   :hook ((prog-mode . hl-todo-mode)
          (conf-mode . hl-todo-mode)))
 
+(global-set-key (kbd "C-c f m") 'toggle-frame-maximized)
+(global-set-key (kbd "C-c f f") 'toggle-frame-fullscreen)
+(global-set-key (kbd "C-c f t") 'transpose-frame)
+
+(defvar-keymap frame-actions-repeat-map
+  :repeat t
+  "m" #'toggle-frame-maximized
+  "f" #'toggle-frame-fullscreen
+  "t" #'transpose-frame)
+
 (use-package transpose-frame :ensure t)
 
 (setopt frame-resize-pixelwise t)
@@ -2326,7 +2331,6 @@ With two prefix arguments, insert as top-level heading."
   "k" #'my-enlarge-window
   "=" #'balance-windows
   "-" #'shrink-window-if-larger-than-buffer
-  "t" #'transpose-frame
   "0" #'delete-window
   "1" #'delete-other-windows)
 
@@ -2336,7 +2340,6 @@ With two prefix arguments, insert as top-level heading."
 (global-set-key (kbd "C-, w k") 'my-enlarge-window)
 (global-set-key (kbd "C-, w =") 'balance-windows)
 (global-set-key (kbd "C-, w -") 'shrink-window-if-larger-than-buffer)
-(global-set-key (kbd "C-, w t") 'transpose-frame)
 
 (defun nuke-all-buffers ()
   "Kill all buffers except for *scratch*."
