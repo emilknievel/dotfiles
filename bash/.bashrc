@@ -36,7 +36,8 @@ unset rc
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
 
-eval "$(ssh-agent -s)" > /dev/null 2>&1
+export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
+# eval "$(ssh-agent -s)" > /dev/null 2>&1
 
 # disable .net telemetry
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
