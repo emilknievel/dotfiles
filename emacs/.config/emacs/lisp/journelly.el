@@ -33,6 +33,7 @@
 ;;; Code:
 
 (defun journelly-generate-metadata ()
+  "Generate metadata for journelly, including weather info, location."
   (let* ((location (journelly-get-location))
          (weather (journelly-fetch-weather-summary
                    (map-elt location 'lat)
@@ -64,10 +65,10 @@ Signals an error if the location cannot be retrieved."
   (unless (executable-find "CoreLocationCLI")
     (error "Needs CoreLocationCLI (try brew install corelocationcli)"))
   (with-temp-buffer
-    (if-let ((exit-code (call-process "CoreLocationCLI" nil t nil
-                                      "--format" "%latitude\t%longitude\t%thoroughfare"))
-             (success (eq exit-code 0))
-             (parts (split-string (buffer-string) "\t")))
+    (if-let* ((exit-code (call-process "CoreLocationCLI" nil t nil
+                                       "--format" "%latitude\t%longitude\t%thoroughfare"))
+              (success (eq exit-code 0))
+              (parts (split-string (buffer-string) "\t")))
         `((lat . ,(string-to-number (nth 0 parts)))
           (lon . ,(string-to-number (nth 1 parts)))
           (description . ,(string-trim (nth 2 parts))))
