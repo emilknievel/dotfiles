@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (setq vc-follow-symlinks t) ; edit real file when opening symbolic link
 
 
