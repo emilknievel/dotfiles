@@ -40,7 +40,7 @@
 (setq package-enable-at-startup nil)
 
 ;; Customize titlebar
-(setq default-frame-alist '((width . 100) (height . 45)))
+(setq default-frame-alist '((width . 110) (height . 35)))
 (cond ((eq system-type 'darwin)
        ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
