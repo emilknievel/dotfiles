@@ -601,6 +601,15 @@ Repeat commands by typing a single character.
     (which-key-idle-delay 0.3))
 #+end_src
 
+*** Frame
+
+#+begin_src emacs-lisp
+  ;; Toggle between maximized and normal
+  (global-set-key (kbd "C-c f m") 'toggle-frame-maximized)
+  ;; Toggle fullscreen
+  (global-set-key (kbd "C-c f f") 'toggle-frame-fullscreen)
+#+end_src
+
 ** Editing
 
 *** iedit

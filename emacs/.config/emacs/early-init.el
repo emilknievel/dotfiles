@@ -39,7 +39,7 @@
 ;; Prevent package.el loading packages prior to their init-file loading
 (setq package-enable-at-startup nil)
 
-;; Customize titlebar
+;; Customize frame size and titlebar
 (setq default-frame-alist '((width . 110) (height . 35)))
 (cond ((eq system-type 'darwin)
        ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))

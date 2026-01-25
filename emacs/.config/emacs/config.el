@@ -236,6 +236,11 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :custom
   (which-key-idle-delay 0.3))
 
+;; Toggle between maximized and normal
+(global-set-key (kbd "C-c f m") 'toggle-frame-maximized)
+;; Toggle fullscreen
+(global-set-key (kbd "C-c f f") 'toggle-frame-fullscreen)
+
 (use-package iedit
   :ensure t
   :general
