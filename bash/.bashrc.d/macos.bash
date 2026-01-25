@@ -64,3 +64,6 @@ export DOTNET_ROOT
 # mkdir -p ~/.local/bin
 # cd ~/.local/bin
 # ln -sf /bin/stty stty
+
+# Bitwarden SSH agent
+export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock

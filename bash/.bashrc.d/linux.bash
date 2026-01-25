@@ -13,3 +13,6 @@ if ! shopt -oq posix; then
 fi
 
 alias hx=helix
+
+# Bitwarden SSH agent
+export SSH_AUTH_SOCK=$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock
