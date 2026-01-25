@@ -1448,16 +1448,6 @@ Install the icons with ~M-x nerd-icons-install-fonts~.
            (dired-mode . (lambda () (setq-local line-spacing 0.25)))))
 #+end_src
 
-**** All the icons
-
-Install icon fonts with ~M-x all-the-icons-install-fonts~
-
-#+begin_src emacs-lisp
-  (use-package all-the-icons
-    :ensure t
-    :if (display-graphic-p))
-#+end_src
-
 *** Mode line
 
 **** Display cursor column

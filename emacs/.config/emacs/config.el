@@ -865,10 +865,6 @@ loaded with a different theme."
          ;; prevent icons from overlapping vertically
          (dired-mode . (lambda () (setq-local line-spacing 0.25)))))
 
-(use-package all-the-icons
-  :ensure t
-  :if (display-graphic-p))
-
 (column-number-mode 1)
 
 (set-face-attribute 'mode-line-active nil :inherit 'mode-line)
