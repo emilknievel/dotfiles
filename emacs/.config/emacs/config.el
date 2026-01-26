@@ -1947,7 +1947,7 @@ With two prefix arguments, insert as top-level heading."
 (use-package org-modern
   :ensure t
   :custom
-  (org-modern-star 'replace)
+  (org-modern-star nil)
   :config
   (global-org-modern-mode))
 

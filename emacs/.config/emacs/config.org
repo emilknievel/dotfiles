@@ -2944,7 +2944,7 @@ This package displays hidden emphasis markers while the cursor is on a rich text
   (use-package org-modern
     :ensure t
     :custom
-    (org-modern-star 'replace)
+    (org-modern-star nil)
     :config
     (global-org-modern-mode))
 #+end_src
