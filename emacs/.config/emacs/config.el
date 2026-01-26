@@ -2384,3 +2384,12 @@ With two prefix arguments, insert as top-level heading."
   (dir-config-allowed-directories '("~/repos"))
   :config
   (dir-config-mode))
+
+(global-set-key (kbd "C-c P b")   'elpaca-browse)
+(global-set-key (kbd "C-c P f f") 'elpaca-fetch)
+(global-set-key (kbd "C-c P f a") 'elpaca-fetch-all)
+(global-set-key (kbd "C-c P i")   'elpaca-info)
+(global-set-key (kbd "C-c P l")   'elpaca-log)
+(global-set-key (kbd "C-c P F f") 'elpaca-pull)
+(global-set-key (kbd "C-c P F a") 'elpaca-pull-all)
+(global-set-key (kbd "C-c P t")   'elpaca-try)
