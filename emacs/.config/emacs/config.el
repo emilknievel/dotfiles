@@ -2384,11 +2384,30 @@ With two prefix arguments, insert as top-level heading."
   :config
   (dir-config-mode))
 
-(global-set-key (kbd "C-c P b")   'elpaca-browse)
-(global-set-key (kbd "C-c P f f") 'elpaca-fetch)
-(global-set-key (kbd "C-c P f a") 'elpaca-fetch-all)
-(global-set-key (kbd "C-c P i")   'elpaca-info)
-(global-set-key (kbd "C-c P l")   'elpaca-log)
-(global-set-key (kbd "C-c P F f") 'elpaca-pull)
-(global-set-key (kbd "C-c P F a") 'elpaca-pull-all)
-(global-set-key (kbd "C-c P t")   'elpaca-try)
+(defvar-keymap elpaca-fetch-prefix-map
+  :doc "Elpaca fetch prefix map."
+  "f" #'elpaca-fetch
+  "a" #'elpaca-fetch-all)
+
+(defvar-keymap elpaca-pull-prefix-map
+  :doc "Elpaca pull prefix map."
+  "f" #'elpaca-pull
+  "a" #'elpaca-pull-all)
+
+(defvar-keymap elpaca-prefix-map
+  :doc "Elpaca prefix map."
+  "b" #'elpaca-browse
+  "f" elpaca-fetch-prefix-map
+  "F" elpaca-pull-prefix-map
+  "i" #'elpaca-info
+  "l" #'elpaca-log
+  "t" #'elpaca-try)
+
+(keymap-set global-map "C-c P" elpaca-prefix-map)
+
+(which-key-add-keymap-based-replacements global-map
+  "C-c P" `("Elpaca" . ,elpaca-prefix-map))
+
+(which-key-add-keymap-based-replacements elpaca-prefix-map
+  "f" `("Fetch" . ,elpaca-fetch-prefix-map)
+  "F" `("Pull" . ,elpaca-pull-prefix-map))
