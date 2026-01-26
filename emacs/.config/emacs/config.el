@@ -228,8 +228,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 (repeat-mode 1)
 
 (use-package which-key
-  :demand t
-  :ensure t
+  :ensure nil
   :init
   (which-key-mode)
   (which-key-setup-side-window-bottom)

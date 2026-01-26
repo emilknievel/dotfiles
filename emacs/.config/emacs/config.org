@@ -592,8 +592,7 @@ Repeat commands by typing a single character.
 
 #+begin_src emacs-lisp
   (use-package which-key
-    :demand t
-    :ensure t
+    :ensure nil
     :init
     (which-key-mode)
     (which-key-setup-side-window-bottom)
