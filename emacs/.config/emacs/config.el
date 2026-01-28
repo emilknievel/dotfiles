@@ -292,6 +292,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (use-package visual-fill-column
   :ensure t
+  :custom
+  (visual-fill-column-width 80)
   :hook (visual-line-mode . visual-fill-column-mode))
 
 ;; (add-hook 'org-agenda-mode-hook 'hl-line-mode)
