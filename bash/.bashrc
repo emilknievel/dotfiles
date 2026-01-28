@@ -116,11 +116,3 @@ else
     curl https://raw.githubusercontent.com/rcaloras/bash-preexec/master/bash-preexec.sh -o ~/.bash-preexec.sh\n\n" >&2
 fi
 
-if [[ -f ~/.atuin/bin/env ]]; then
-    . "$HOME/.atuin/bin/env"
-    eval "$(atuin init bash)"
-else
-    printf "WARNING: ~/.atuin/bin/env not found!
-    Install atuin with:
-    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh\n\n" >&2
-fi

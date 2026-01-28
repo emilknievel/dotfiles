@@ -2426,19 +2426,6 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
   (global-set-key (kbd "S-<f12>") 'eat)
 #+end_src
 
-*** Atuin
-
-=atuin= stores shell history in a database, which allows for having the same history across multiple shells, sessions, and optionally across different machines.
-
-#+begin_src emacs-lisp
-  (use-package eshell-atuin
-    :ensure t
-    :after eshell
-    :bind (:map eshell-mode-map
-                ("C-r" . eshell-atuin-history))
-    :hook (eshell-mode . eshell-atuin-mode))
-#+end_src
-
 *** Ansi-term
 
 #+begin_src emacs-lisp

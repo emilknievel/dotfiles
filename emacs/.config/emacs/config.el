@@ -1538,13 +1538,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (global-set-key (kbd "S-<f12>") 'eat)
 
-(use-package eshell-atuin
-  :ensure t
-  :after eshell
-  :bind (:map eshell-mode-map
-              ("C-r" . eshell-atuin-history))
-  :hook (eshell-mode . eshell-atuin-mode))
-
 (global-set-key (kbd "C-<f12>") 'ansi-term)
 
 (use-package project
