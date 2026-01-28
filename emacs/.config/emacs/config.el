@@ -1806,7 +1806,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-fold-catch-invisible-edits 'show-and-error)
   (org-special-ctrl-a/e t)
   (org-insert-heading-respect-content t)
-  (org-startup-indented t)
+  (org-startup-indented nil)
   ;; (org-M-RET-may-split-line '((default . nil)))
 
   (org-log-done 'note)
