@@ -290,6 +290,10 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 
+(use-package visual-fill-column
+  :ensure t
+  :hook (visual-line-mode . visual-fill-column-mode))
+
 ;; (add-hook 'org-agenda-mode-hook 'hl-line-mode)
 
 (defun my-toggle-global-hl-line-mode ()
@@ -1961,7 +1965,6 @@ With two prefix arguments, insert as top-level heading."
   :init
   (setopt olivetti-body-width 90
           olivetti-minimum-body-width 72)
-  :hook ((org-mode markdown-mode) . olivetti-mode)
   :bind ("S-<f9>" . olivetti-mode))
 
 (use-package denote

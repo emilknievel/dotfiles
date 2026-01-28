@@ -699,6 +699,14 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
   (add-hook 'markdown-mode-hook 'visual-line-mode)
 #+end_src
 
+**** Wrap at a set column when visual-line-mode is active
+
+#+begin_src emacs-lisp
+  (use-package visual-fill-column
+    :ensure t
+    :hook (visual-line-mode . visual-fill-column-mode))
+#+end_src
+
 *** Highlight line
 
 #+begin_src emacs-lisp
@@ -2964,7 +2972,6 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
     :init
     (setopt olivetti-body-width 90
             olivetti-minimum-body-width 72)
-    :hook ((org-mode markdown-mode) . olivetti-mode)
     :bind ("S-<f9>" . olivetti-mode))
 #+end_src
 
