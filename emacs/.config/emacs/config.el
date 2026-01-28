@@ -1424,6 +1424,9 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (add-hook 'c-mode-hook (lambda () (setq indent-tabs-mode nil)))
 (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
 
+(use-package simpc-mode
+  :ensure (:host github :repo "rexim/simpc-mode"))
+
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))

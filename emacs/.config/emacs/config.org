@@ -2236,6 +2236,8 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 
 *** C
 
+**** C mode
+
 #+begin_src emacs-lisp
   ;; (setopt c-ts-mode-indent-style 'linux
   ;;         c-ts-mode-indent-offset 4)
@@ -2246,6 +2248,15 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
   (setq-default c-basic-offset 4)
   (add-hook 'c-mode-hook (lambda () (setq indent-tabs-mode nil)))
   (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
+#+end_src
+
+**** Simple C mode
+
+Lightweight alternative mode that is useful when working with very large C files.
+
+#+begin_src emacs-lisp
+  (use-package simpc-mode
+    :ensure (:host github :repo "rexim/simpc-mode"))
 #+end_src
 
 ** Syntax checking
