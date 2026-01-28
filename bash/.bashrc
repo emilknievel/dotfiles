@@ -19,8 +19,8 @@ shopt -s histappend
 
 # Use reasonable history size, don't keep duplicate consecutive commands, and
 # don't save space-prefixed commands in history.
-export HISTSIZE=10000
-export HISTFILESIZE=10000
+export HISTSIZE=20000
+export HISTFILESIZE=20000
 export HISTCONTROL=ignoreboth
 
 # User specific aliases and functions
