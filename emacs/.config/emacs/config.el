@@ -625,7 +625,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "hack")
-(defvar my-macos-font "sf mono")
+(defvar my-macos-font "jetbrains mono")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -894,6 +894,21 @@ loaded with a different theme."
   :after general
   :init
   (minions-mode))
+
+(use-package spacious-padding
+  :ensure t
+  :config
+  (setq spacious-padding-widths
+   '( :internal-border-width 15
+      :header-line-width 4
+      :mode-line-width 6
+      :tab-width 4
+      :right-divider-width 30
+      :scroll-bar-width 8
+      :fringe-width 8))
+  (setq spacious-padding-subtle-frame-lines t)
+  :config
+  (spacious-padding-mode 1))
 
 (use-package nerd-icons-completion
   :ensure t

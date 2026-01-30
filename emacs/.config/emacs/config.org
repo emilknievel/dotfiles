@@ -1152,7 +1152,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "hack")
-  (defvar my-macos-font "sf mono")
+  (defvar my-macos-font "jetbrains mono")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -1506,9 +1506,9 @@ Display the current date and time on the mode line.
     (minions-mode))
 #+end_src
 
-*** Padding (disabled)
+*** Padding
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package spacious-padding
     :ensure t
     :config
