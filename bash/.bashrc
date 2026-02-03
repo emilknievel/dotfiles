@@ -12,7 +12,8 @@ export PATH="$HOME/bin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-export EDITOR=vim
+command -v vim >/dev/null 2>&1 && alias vi=vim
+export EDITOR=vi
 
 # append commands to history file instead of overwriting
 shopt -s histappend
