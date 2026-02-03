@@ -705,7 +705,7 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
   (use-package visual-fill-column
     :ensure t
     :custom
-    (visual-fill-column-width 80)
+    (visual-fill-column-width 72)
     :hook (visual-line-mode . visual-fill-column-mode))
 #+end_src
 
