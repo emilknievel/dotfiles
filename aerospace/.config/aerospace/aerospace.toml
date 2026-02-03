@@ -12,10 +12,10 @@ after-login-command = []
 after-startup-command = []
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
-enable-normalization-flatten-containers                         = true
+enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
@@ -278,6 +278,10 @@ if.app-id = 'com.jordanbaird.Ice'
 run       = 'layout floating'
 
 [[on-window-detected]]
+if.app-id = 'com.vscodium'
+run       = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
 if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
 run       = 'layout floating'
 
@@ -295,4 +299,8 @@ run       = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.1password.1password'
+run       = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.bitwarden.desktop'
 run       = 'layout floating'
