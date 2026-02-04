@@ -308,3 +308,7 @@ run       = 'layout floating'
 [[on-window-detected]]
 if.app-id = 'com.bitwarden.desktop'
 run       = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.HyperartFlow.Barbee'
+run       = 'layout floating'
