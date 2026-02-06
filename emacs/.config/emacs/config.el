@@ -479,9 +479,7 @@ loaded with a different theme."
 (use-package doric-themes
   :ensure t
   :general
-  (my-leader-keys "t t o" 'doric-themes-toggle)
-  :custom
-  (doric-themes-to-toggle '(doric-marble doric-obsidian)))
+  (my-leader-keys "t t o" 'doric-themes-toggle))
 
 (use-package doom-themes
   :ensure t
