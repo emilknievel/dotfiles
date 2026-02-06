@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+PATTERN="$1"
+
+extract_guid() {
+    if [ -n "$PATTERN" ]; then
+        grep -i "$PATTERN" | grep -oE '[^ ]*-[^ ]*-[^ ]*-[^ ]*'
+    else
+        grep -oE '[^ ]*-[^ ]*-[^ ]*-[^ ]*'
+    fi
+}
+
+if [ $# -eq 0 ]; then
+    printf "Usage: %s \"book title or pattern\"\n" "$0"
+    printf "   or: kobodl book list | %s \"pattern\"\n" "$0"
+    printf "\n"
+    printf "Showing all available books:\n"
+    kobodl book list | extract_guid
+    exit 0
+fi
+
+if [ -t 0 ]; then
+    # stdin is a terminal (no pipe), run kobodl book list
+    kobodl book list | extract_guid
+else
+    # stdin is not a terminal (piped input), read from stdin
+    extract_guid
+fi
