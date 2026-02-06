@@ -418,7 +418,7 @@ loaded with a different theme."
   :init
   (setopt modus-themes-mixed-fonts nil
           modus-themes-variable-pitch-ui nil
-          modus-themes-to-toggle '(modus-operandi modus-vivendi)
+          modus-themes-to-toggle '(modus-vivendi modus-operandi)
           modus-themes-common-palette-overrides '((fringe unspecified)))
           ;; modus-themes-headings '((0 . (1.5))
           ;;                         (1 . (1.4))
@@ -478,6 +478,8 @@ loaded with a different theme."
 
 (use-package doric-themes
   :ensure t
+  :init
+  (setopt doric-themes-to-toggle '(doric-dark doric-light))
   :general
   (my-leader-keys "t t o" 'doric-themes-toggle))
 
