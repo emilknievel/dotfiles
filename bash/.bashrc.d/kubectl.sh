@@ -28,24 +28,24 @@ alias kport='kubectl port-forward'
 ## Functions
 
 kroll() {
-  if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    echo "Usage: kroll <resource_type/name> [namespace]"
-    echo "Example: kroll deployment/myapp"
-    echo "Example: kroll deployment/myapp mynamespace"
-    return 1
-  fi
+	if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+		echo "Usage: kroll <resource_type/name> [namespace]"
+		echo "Example: kroll deployment/myapp"
+		echo "Example: kroll deployment/myapp mynamespace"
+		return 1
+	fi
 
-  resource=$1
-  namespace=${2:-}
-  ns_flag=""
+	resource=$1
+	namespace=${2:-}
+	ns_flag=""
 
-  if [ -n "$namespace" ]; then
-    ns_flag="-n $namespace"
-  fi
+	if [ -n "$namespace" ]; then
+		ns_flag="-n $namespace"
+	fi
 
-  echo "Restarting $resource..."
-  kubectl rollout restart "$resource" "$ns_flag" || return 1
+	echo "Restarting $resource..."
+	kubectl rollout restart "$resource" "$ns_flag" || return 1
 
-  echo "Watching rollout status..."
-  kubectl rollout status "$resource" "$ns_flag" -w
+	echo "Watching rollout status..."
+	kubectl rollout status "$resource" "$ns_flag" -w
 }

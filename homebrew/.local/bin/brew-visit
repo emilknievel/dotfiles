@@ -11,49 +11,49 @@
 #: Opens the first URL found in 'brew info <package>' output in your default browser.
 
 if [ $# -eq 0 ]; then
-    echo "Usage: brew visit <package-name>"
-    echo "Example: brew visit git"
-    echo ""
-    echo "use -h or --help for more information"
-    exit 1
+	echo "Usage: brew visit <package-name>"
+	echo "Example: brew visit git"
+	echo ""
+	echo "use -h or --help for more information"
+	exit 1
 fi
 
 PACKAGE_NAME="$1"
 
 if ! command -v brew &> /dev/null; then
-    echo "Error: Homebrew is not installed or not in PATH"
-    exit 1
+	echo "Error: Homebrew is not installed or not in PATH"
+	exit 1
 fi
 
 if ! brew_info=$(brew info "$PACKAGE_NAME" 2>&1); then
-    echo "Error: Package '$PACKAGE_NAME' not found or brew info failed"
-    echo "$brew_info"
-    exit 1
+	echo "Error: Package '$PACKAGE_NAME' not found or brew info failed"
+	echo "$brew_info"
+	exit 1
 fi
 
 FIRST_URL=$(echo "$brew_info" | grep -oE 'https?://[^[:space:]]+' | head -n 1)
 
 if [ -z "$FIRST_URL" ]; then
-    echo "No URL found in brew info output for package '$PACKAGE_NAME'"
-    exit 1
+	echo "No URL found in brew info output for package '$PACKAGE_NAME'"
+	exit 1
 fi
 
 echo "Found URL: $FIRST_URL"
 echo "Opening URL in default browser..."
 
 if command -v open &> /dev/null; then
-    # macOS
-    open "$FIRST_URL"
+	# macOS
+	open "$FIRST_URL"
 elif command -v xdg-open &> /dev/null; then
-    # Linux
-    xdg-open "$FIRST_URL"
+	# Linux
+	xdg-open "$FIRST_URL"
 elif command -v wslview &> /dev/null; then
-    # WSL (Windows Subsystem for Linux)
-    wslview "$FIRST_URL"
+	# WSL (Windows Subsystem for Linux)
+	wslview "$FIRST_URL"
 else
-    echo "Could not determine how to open URLs on this system"
-    echo "Please manually visit: $FIRST_URL"
-    exit 1
+	echo "Could not determine how to open URLs on this system"
+	echo "Please manually visit: $FIRST_URL"
+	exit 1
 fi
 
 echo "URL opened successfully!"
