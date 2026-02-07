@@ -1295,8 +1295,7 @@ its input."
   (setq rust-mode-treesitter-derive t
         rust-format-on-save t)
   :mode ("\\.rs\\'" . rust-mode)
-  :hook ((rust-mode . (lambda () (setopt indent-tabs-mode nil)))
-         (rust-mode . eglot-ensure)))
+  :hook (rust-mode . eglot-ensure))
 
 (use-package flycheck-rust
   :ensure t
@@ -1429,7 +1428,10 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :ensure t
   :mode "\\.csv\\'")
 
-(setopt sh-basic-offset 2)
+;; Use tab for indentation in shell scripts
+(add-hook 'sh-mode-hook (lambda ()
+                          (setq indent-tabs-mode t
+                                sh-basic-offset 8)))
 
 ;; (setopt c-ts-mode-indent-style 'linux
 ;;         c-ts-mode-indent-offset 4)
@@ -1438,7 +1440,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
                         (awk-mode . "awk")
                         (other . "linux")))
 (setq-default c-basic-offset 4)
-(add-hook 'c-mode-hook (lambda () (setq indent-tabs-mode nil)))
 (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
 
 (use-package simpc-mode

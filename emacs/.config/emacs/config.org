@@ -1993,8 +1993,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (setq rust-mode-treesitter-derive t
           rust-format-on-save t)
     :mode ("\\.rs\\'" . rust-mode)
-    :hook ((rust-mode . (lambda () (setopt indent-tabs-mode nil)))
-           (rust-mode . eglot-ensure)))
+    :hook (rust-mode . eglot-ensure))
 #+end_src
 
 **** Flycheck
@@ -2217,23 +2216,11 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
 
 *** Shell
 
-#+begin_src emacs-lisp :tangle no
-  (defun my-maybe-load-bash-ts-mode ()
-    "Load bash-ts-mode if the file starts with #!/bin/bash or #!/bin/env
-  bash."
-    (when (buffer-file-name)
-      (save-excursion
-        (goto-char (point-min))
-        (when (looking-at "#!/bin/bash")
-          (bash-ts-mode)))))
-
-  (add-hook 'find-file-hook 'my-maybe-load-bash-ts-mode)
-#+end_src
-
-**** Indentation of 2 spaces is good practice in modern shell scripts
-
 #+begin_src emacs-lisp
-  (setopt sh-basic-offset 2)
+  ;; Use tab for indentation in shell scripts
+  (add-hook 'sh-mode-hook (lambda ()
+                            (setq indent-tabs-mode t
+                                  sh-basic-offset 8)))
 #+end_src
 
 *** C
@@ -2248,7 +2235,6 @@ Tuareg is a mode for Emacs that improves the OCaml editing experience.
                           (awk-mode . "awk")
                           (other . "linux")))
   (setq-default c-basic-offset 4)
-  (add-hook 'c-mode-hook (lambda () (setq indent-tabs-mode nil)))
   (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
 #+end_src
 
