@@ -1,3 +1,4 @@
+# -*- visual-fill-column-width: 90; -*-
 :DOC-CONFIG:
 #+PROPERTY: header-args:emacs-lisp :tangle (concat (file-name-sans-extension (buffer-file-name)) ".el")
 #+PROPERTY: header-args :mkdirp yes :comments no
