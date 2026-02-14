@@ -383,16 +383,6 @@ as an argument, load that theme directly."
       (load-theme theme t)
     (call-interactively 'load-theme)))
 
-;; (setq my-catppuccin-flavors (my-alist-keys catppuccin-flavor-alist))
-
-;; (defun my-catppuccin-theme (flavor)
-;;   "Clear previous theme and load selected catppuccin FLAVOR."
-;;   (interactive
-;;    (list (intern (completing-read "Choose a flavor: "
-;;                                   my-catppuccin-flavors))))
-;;   (my-clear-theme)
-;;   (catppuccin-load-flavor flavor))
-
 (defun my-load-theme-in-all-frames (frame)
   "Load the current theme in the newly created FRAME.
 When loaded after a new frame has been created with emacsclient, it
@@ -437,44 +427,16 @@ loaded with a different theme."
 
 (use-package standard-themes :ensure t)
 
-(use-package catppuccin-theme
-  :ensure t
+(use-package modus-catppuccin
+  :ensure (:host "www.gitlab.com"
+                 :repo "magus/modus-catppuccin"
+                 :branch "main"
+                 :main "modus-catppuccin.el")
   :init
-  (setq catppuccin-flavor 'mocha)
-  ;; (defun my-load-catppuccin-latte ()
-  ;;   (interactive)
-  ;;   (when (not (eq catppuccin-flavor 'latte)) (setq catppuccin-flavor 'latte))
-  ;;   (my-load-theme 'catppuccin))
-
-  ;; (defun my-load-catppuccin-mocha ()
-  ;;   (interactive)
-  ;;   (when (not (eq catppuccin-flavor 'mocha)) (setq catppuccin-flavor 'mocha))
-  ;;   (my-load-theme 'catppuccin))
-
-  ;; (defun my-catppuccin-toggle ()
-  ;;   (interactive)
-  ;;   (if (not (eq catppuccin-flavor 'mocha))
-  ;;       (my-load-catppuccin-mocha)
-  ;;     (my-load-catppuccin-latte)))
-
-  (defun my-catppuccin-toggle ()
+  (defun my-catppuccin-mocha ()
     (interactive)
-    (my-load-theme 'catppuccin))
-  :general (my-leader-keys "t t c" 'my-catppuccin-toggle))
-
-;; (use-package modus-catppuccin
-;;   :ensure (:host "www.gitlab.com"
-;;                  :repo "magus/modus-catppuccin"
-;;                  :branch "main"
-;;                  :main "modus-catppuccin.el")
-;;   :demand t
-;;   :init
-;;   (defun my-catppuccin-mocha ()
-;;     (interactive)
-;;     (modus-themes-load-theme 'catppuccin-mocha))
-;;   (setopt catppuccin-mocha-palette-overrides '((cursor rosewater)
-;;                                                (org-code mauve)))
-;;   :general (my-leader-keys "t t c" 'my-catppuccin-mocha))
+    (my-load-theme 'catppuccin-mocha))
+  :general (my-leader-keys "t t c" 'my-catppuccin-mocha))
 
 (use-package doric-themes
   :ensure t
