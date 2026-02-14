@@ -177,6 +177,10 @@ if.app-id = 'com.microsoft.VSCode'
 run       = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
+if.app-id = 'com.vscodium'
+run       = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
 if.app-id = 'org.mozilla.librewolf'
 run       = 'move-node-to-workspace 2'
 
@@ -284,10 +288,6 @@ run       = 'layout floating'
 [[on-window-detected]]
 if.app-id = 'com.jordanbaird.Ice'
 run       = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.vscodium'
-run       = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
 if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
