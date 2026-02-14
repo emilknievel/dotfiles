@@ -2102,6 +2102,48 @@ With two prefix arguments, insert as top-level heading."
   :config
   (consult-denote-mode 1))
 
+(use-package vulpea
+  :ensure t
+  :demand t
+  :bind (("C-c v i" . vulpea-insert)
+         ("C-c v f" . vulpea-find))
+  :init
+  (setq vulpea-db-sync-directories '("~/Documents/org/"
+                                     "~/Documents/notes"
+                                     "~/Documents/work-notes")
+        vulpea-default-notes-directory "~/Documents/notes")
+  :config
+  (vulpea-db-autosync-mode +1)
+  :hook
+  (org-mode . vulpea-title-change-detection-mode))
+
+(use-package consult-vulpea
+  :ensure t
+  :after vulpea
+  :bind (("C-c v F" . consult-vulpea-find)
+         ("C-c v g" . consult-vulpea-grep))
+  :config
+  (consult-vulpea-mode 1))
+
+(use-package vulpea-ui
+  :ensure t
+  :after vulpea
+  :bind ("C-c v s" . vulpea-ui-sidebar-toggle))
+
+(use-package vulpea-journal
+  :ensure t
+  :after (vulpea vulpea-ui)
+  :custom (vulpea-journal-default-template
+           '(:file-name "journal/%Y-%m-%d.org"
+                        :title "%Y-%m-%d %A"
+                        :tags ("journal" "daily")
+                        :head "#+created: %<[%Y-%m-%d]>"
+                        :body "* Work\n\n* Personal\n"))
+  :config (vulpea-journal-setup))
+
+;; NOTE: Only placed here because `:bind' doesn't work with it.
+(global-set-key (kbd "C-c v j") #'vulpea-journal)
+
 (use-package pdf-tools
   :ensure t
   :commands (pdf-loader-install)
