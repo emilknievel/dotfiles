@@ -1771,7 +1771,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (require 'org-indent)
 
   :custom
-  (org-return-follows-link nil)
+  (org-return-follows-link t)
   (org-startup-with-inline-images t)
   ;; (org-fontify-quote-and-verse-blocks t)
   (org-image-actual-width '(300))
@@ -1861,7 +1861,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
+         ("C-c c" . org-capture)
+         ("<f8>" . my-org-timestamp-inactive))
 
   :general (my-leader-keys
              "o b t" 'org-babel-tangle
@@ -2027,10 +2028,7 @@ With two prefix arguments, insert as top-level heading."
 
   :bind
   (("C-c n j" . denote-journal-new-entry)
-   ("C-c n J" . denote-journal-new-or-existing-entry)
-   ("<f8>" . (lambda ()
-               (interactive)
-               (org-capture nil "ndjd")))))
+   ("C-c n J" . denote-journal-new-or-existing-entry)))
 
 (use-package denote-org
   :ensure t
