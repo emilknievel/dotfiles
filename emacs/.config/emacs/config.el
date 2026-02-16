@@ -1476,12 +1476,18 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
             (add-to-list 'eshell-visual-subcommands
                          '("git" "log" "diff" "show"))))
 
-(setopt eshell-history-size 10000
+(setopt eshell-history-size 20000
         eshell-hist-ignoredups t
         ;; Ignore input beginning with whitespace.
         eshell-input-filter (lambda (input)
                               (not (string-match-p "\\`\\s-+" input)))
         eshell-history-append t)
+
+;; Enable Bash-style `!' history expansion in Eshell
+;; (e.g. `!!', `!n', `!command', `!?command').
+(with-eval-after-load 'eshell
+  (add-to-list 'eshell-expand-input-functions
+               #'eshell-expand-history-references))
 
 (global-set-key (kbd "<f12>") 'eshell)
 
