@@ -286,7 +286,6 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :ensure nil ; no need to install it as it is built-in
   :hook (after-init . delete-selection-mode))
 
-(add-hook 'magit-diff-mode-hook 'visual-line-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 

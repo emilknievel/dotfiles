@@ -695,7 +695,6 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 *** Wrap lines exceeding window size where appropriate
 
 #+begin_src emacs-lisp
-  (add-hook 'magit-diff-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'markdown-mode-hook 'visual-line-mode)
 #+end_src
