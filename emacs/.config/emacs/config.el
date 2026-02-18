@@ -1880,15 +1880,15 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :ensure t
   :after general
   :config
-  (setopt org-appear-autoemphasis t
-          org-hide-emphasis-markers t
+  (setopt org-appear-autoemphasis nil
+          org-hide-emphasis-markers nil
           org-appear-autolinks t
           org-appear-autosubmarkers t
           org-appear-autoentities t
           org-appear-autokeywords t
           org-appear-inside-latex t)
   :hook (org-mode . org-appear-mode)
-  :general (my-leader-keys "o m a" 'org-appear-mode)) ; org->mode->appear
+  :general (my-leader-keys "o m a" 'org-appear-mode))
 
 (setopt org-confirm-babel-evaluate nil
         org-src-fontify-natively t
@@ -1936,6 +1936,8 @@ With two prefix arguments, insert as top-level heading."
   :ensure t
   :custom
   (org-modern-star nil)
+  (org-modern-block-fringe nil)
+  (org-modern-block-name nil)
   :config
   (global-org-modern-mode))
 
