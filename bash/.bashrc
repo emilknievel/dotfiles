@@ -12,7 +12,6 @@ export PATH="$HOME/bin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-command -v vim >/dev/null 2>&1 && alias vi=vim
 export EDITOR=vi
 
 # append commands to history file instead of overwriting
@@ -33,6 +32,9 @@ if [ -d ~/.bashrc.d ]; then
 	done
 fi
 unset rc
+
+command -v vim >/dev/null 2>&1 && alias vi=vim
+command -v nvim >/dev/null 2>&1 && alias vi=nvim
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
