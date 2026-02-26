@@ -1635,6 +1635,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (my-leader-keys
     "d z" '(zoxide-travel :wk "Find directory with Zoxide")))
 
+(setopt delete-by-moving-to-trash t)
+
 (use-package editorconfig
   :ensure t
   :config (editorconfig-mode 1))

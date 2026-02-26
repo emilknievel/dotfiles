@@ -2560,6 +2560,14 @@ Jump to previously visited directory, not unlike using =zoxide=.
       "d z" '(zoxide-travel :wk "Find directory with Zoxide")))
 #+end_src
 
+*** Delete by moving into trash
+
+Makes it so that certain file deletion commands move the deleted file/directory to the system trashcan instead of permanently deleting it.
+
+#+begin_src emacs-lisp
+  (setopt delete-by-moving-to-trash t)
+#+end_src
+
 ** Editorconfig
 
 #+begin_src emacs-lisp
