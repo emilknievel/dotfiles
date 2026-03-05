@@ -316,3 +316,7 @@ run       = 'layout floating'
 [[on-window-detected]]
 if.app-id = 'com.HyperartFlow.Barbee'
 run       = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claudefordesktop'
+run       = 'layout floating'
