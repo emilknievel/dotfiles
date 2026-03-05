@@ -297,6 +297,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (add-hook 'org-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
+(add-hook 'visual-line-mode-hook 'visual-wrap-prefix-mode)
 
 (use-package visual-fill-column
   :ensure t

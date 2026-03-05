@@ -706,6 +706,7 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'markdown-mode-hook 'visual-line-mode)
+  (add-hook 'visual-line-mode-hook 'visual-wrap-prefix-mode)
 #+end_src
 
 **** Wrap at a set column when visual-line-mode is active
