@@ -264,10 +264,19 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   (my-leader-keys
     "t w" 'my-toggle-show-trailing-whitespace))
 
-(use-package expand-region
+;; (use-package expand-region
+;;   :ensure t
+;;   :after general
+;;   :bind (("C-=" . er/expand-region)
+;;          ("C--" . er/contract-region)))
+
+;; https://emacsredux.com/blog/2026/03/03/expreg-expand-region-reborn/
+(use-package expreg
   :ensure t
-  :after general
-  :general (my-leader-keys "=" 'er/expand-region))
+  :bind (("C-=" . expreg-expand)
+         ("C--" . expreg-contract))
+  :hook (text-mode . (lambda ()
+                       (add-to-list 'expreg-functions #'expreg--sentence))))
 
 (use-package vundo
   :ensure t
