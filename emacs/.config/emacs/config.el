@@ -273,6 +273,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 ;; https://emacsredux.com/blog/2026/03/03/expreg-expand-region-reborn/
 (use-package expreg
   :ensure t
+  :demand t
   :bind (("C-=" . expreg-expand)
          ("C--" . expreg-contract))
   :hook (text-mode . (lambda ()
