@@ -2131,7 +2131,10 @@ With two prefix arguments, insert as top-level heading."
   (setq vulpea-db-sync-directories '("~/Documents/org/"
                                      "~/Documents/notes"
                                      "~/Documents/work-notes")
-        vulpea-default-notes-directory "~/Documents/notes")
+        vulpea-default-notes-directory "~/Documents/notes"
+        vulpea-db-extra-extensions '(".org.age" ".org.gpg"))
+  :custom
+  (vulpea-db-sync-scan-on-enable 'async)
   :config
   (vulpea-db-autosync-mode +1)
   :hook
