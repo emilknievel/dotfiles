@@ -3346,9 +3346,9 @@ Package repo.
     (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
-** AI (disabled)
+** AI
 
-*** GPTel
+*** GPTel (disabled)
 
 GPTel allows us to talk with different LLMs from within Emacs.
 
@@ -3368,6 +3368,18 @@ GPTel allows us to talk with different LLMs from within Emacs.
       "a a" 'gptel
       "a g" 'gptel-menu
       "a s" 'gptel-send))
+#+end_src
+
+*** Agent-shell
+
+#+begin_src emacs-lisp
+  (use-package agent-shell
+    :ensure t
+    :config
+    (setq agent-shell-anthropic-claude-environment
+          (agent-shell-make-environment-variables :inherit-env t)
+          agent-shell-anthropic-authentication
+          (agent-shell-anthropic-make-authentication :login t)))
 #+end_src
 
 ** Popper (disabled)

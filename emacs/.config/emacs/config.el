@@ -2271,6 +2271,14 @@ With two prefix arguments, insert as top-level heading."
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package agent-shell
+  :ensure t
+  :config
+  (setq agent-shell-anthropic-claude-environment
+        (agent-shell-make-environment-variables :inherit-env t)
+        agent-shell-anthropic-authentication
+        (agent-shell-anthropic-make-authentication :login t)))
+
 (defun my-insert-timestamp ()
   "Insert timestamp with format [%H:%M] at point."
   (interactive)
