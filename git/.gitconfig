@@ -44,6 +44,7 @@
 [user]
 	name = Emil Vågstedt
 	email = emil.vagstedt@icloud.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICm0Ct3xIXalqZVMrhqrjSBIWtruWZXa/Qgom8aOmI6W
 [init]
 	defaultBranch = main
 [rebase]
@@ -54,9 +55,13 @@
 	autoSetupRemote = true
 [sendemail]
 	annotate = yes
-[include]
-	path = ~/.config/git/gitconfig-private
 [includeIf "gitdir:~/repos/work/"]
 	path = ~/.config/git/gitconfig-work
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.config/git/allowed_signers
 [github]
 	user = emilknievel
