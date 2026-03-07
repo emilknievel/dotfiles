@@ -3379,7 +3379,8 @@ GPTel allows us to talk with different LLMs from within Emacs.
     (setq agent-shell-anthropic-claude-environment
           (agent-shell-make-environment-variables :inherit-env t)
           agent-shell-anthropic-authentication
-          (agent-shell-anthropic-make-authentication :login t)))
+          (agent-shell-anthropic-make-authentication :login t)
+          agent-shell-session-strategy 'prompt))
 #+end_src
 
 ** Popper (disabled)
