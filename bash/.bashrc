@@ -33,8 +33,8 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-command -v vim >/dev/null 2>&1 && alias vi=vim
-command -v nvim >/dev/null 2>&1 && alias vi=nvim
+command -v vim >/dev/null 2>&1 && alias vi=vim && export EDITOR=vim
+command -v nvim >/dev/null 2>&1 && alias vi=nvim && export EDITOR=nvim
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
