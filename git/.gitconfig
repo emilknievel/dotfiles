@@ -55,8 +55,6 @@
 	autoSetupRemote = true
 [sendemail]
 	annotate = yes
-[includeIf "gitdir:~/repos/work/"]
-	path = ~/.config/git/gitconfig-work
 [commit]
 	gpgsign = true
 [gpg]
@@ -65,3 +63,5 @@
 	allowedSignersFile = ~/.config/git/allowed_signers
 [github]
 	user = emilknievel
+[includeIf "gitdir:~/repos/work/"]
+	path = ~/.config/git/gitconfig-work
