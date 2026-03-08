@@ -1,4 +1,4 @@
-font-family =
+font-family = sf mono
 font-size = 12
 
 # thickens the font, but only minimally
@@ -10,6 +10,8 @@ font-feature= -calt
 
 theme = dark:wez,light:apple system colors light
 
+# minimum-contrast = 1.1
+
 # extends program bg color to window edges
 window-padding-color = extend
 
@@ -17,9 +19,11 @@ macos-titlebar-style = transparent
 macos-auto-secure-input = true
 macos-secure-input-indication = true
 macos-icon =
+macos-option-as-alt = true
 window-height = 32
-window-width = 96
+window-width = 120
 cursor-style =
+adjust-cursor-thickness = 125%
 shell-integration-features = no-cursor, sudo, ssh-env
 mouse-hide-while-typing = true
 background-opacity =
