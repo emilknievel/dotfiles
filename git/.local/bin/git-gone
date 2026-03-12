@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# git-gone: Delete local branches whose remote tracking branch has been deleted.
+# Usage: git gone [-n | --dry-run]
+#
+# Run with -n first to preview what would be deleted, then without to clean up.
+
+set -euo pipefail
+
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+if [[ ! -t 1 ]]; then
+	RED=''
+	YELLOW=''
+	GREEN=''
+	BOLD=''
+	RESET=''
+fi
+
+usage() {
+	echo "Usage: git gone [-n | --dry-run]"
+	echo ""
+	echo "  -n, --dry-run  Preview branches that would be deleted without deleting them"
+}
+
+die() {
+	echo -e "${RED}error:${RESET} $*" >&2
+	exit 1
+}
+
+dry_run=0
+
+while [[ "$#" -gt 0 ]]; do
+	case "$1" in
+		-n|--dry-run)
+			dry_run=1
+			shift
+			;;
+		-h|--help)
+			usage
+			exit 0
+			;;
+		*)
+			die "Unknown option: $1\n$(usage)"
+			;;
+	esac
+done
+
+echo -e "${BOLD}Fetching and pruning remotes...${RESET}"
+git fetch --all --prune
+
+branches=$(git branch -vv | awk '/\[.*: gone\]/{if ($1 != "*") print $1}')
+
+if [[ -z "$branches" ]]; then
+	echo -e "${GREEN}No gone branches found.${RESET}"
+	exit 0
+fi
+
+if [[ "$dry_run" -eq 1 ]]; then
+	echo -e "${YELLOW}Branches that would be deleted (dry run):${RESET}"
+	echo "$branches"
+else
+	echo -e "${RED}Deleting gone branches:${RESET}"
+	echo "$branches"
+	echo "$branches" | xargs git branch -D
+	echo -e "${GREEN}Done.${RESET}"
+fi
