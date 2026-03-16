@@ -1747,10 +1747,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
   )
 
-(use-package anzu
-  :ensure t
-  :config
-  (global-anzu-mode))
+(setopt isearch-lazy-count t)
 
 (global-set-key (kbd "C-:") 'avy-goto-char-timer)
 

@@ -2707,15 +2707,10 @@ Makes it so that certain file deletion commands move the deleted file/directory 
     )
 #+end_src
 
-*** Anzu
-
-Display number of matches in modeline when searching.
+*** Display number of matches
 
 #+begin_src emacs-lisp
-  (use-package anzu
-    :ensure t
-    :config
-    (global-anzu-mode))
+  (setopt isearch-lazy-count t)
 #+end_src
 
 *** Avy
