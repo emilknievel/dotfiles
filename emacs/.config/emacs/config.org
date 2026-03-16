@@ -759,6 +759,12 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
     (define-key evil-normal-state-map "zm" 'kirigami-close-folds))
 #+end_src
 
+*** Delete matching pair
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-D") #'delete-pair)
+#+end_src
+
 ** Eldoc
 
 #+begin_src emacs-lisp

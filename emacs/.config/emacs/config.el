@@ -331,6 +331,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   (define-key evil-normal-state-map "zr" 'kirigami-open-folds)
   (define-key evil-normal-state-map "zm" 'kirigami-close-folds))
 
+(global-set-key (kbd "M-D") #'delete-pair)
+
 (use-package eldoc
   :ensure nil
   :config
