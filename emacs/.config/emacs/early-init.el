@@ -46,7 +46,8 @@
        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
       ((and (eq system-type 'gnu/linux)
             (not (getenv "WSL_DISTRO_NAME")))
-       (add-to-list 'default-frame-alist '(fullscreen . maximized))))
+       (add-to-list 'default-frame-alist '(fullscreen . maximized))
+       (add-to-list 'default-frame-alist '(undecorated . t))))
 
 ;; Load dark theme early to avoid getting flashed when launching Emacs.
 (load-theme 'wombat t)
