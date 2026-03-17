@@ -344,6 +344,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 (setopt inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)
+(setopt use-short-answers t)
 
 (setopt scroll-conservatively 3
         scroll-margin 0)
