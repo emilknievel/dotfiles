@@ -1,6 +1,6 @@
 # macOS
 # -----
-if [[ "$(uname)" != "Darwin" ]]; then
+if [ "$(uname)" != "Darwin" ]; then
 	return
 fi
 
@@ -30,23 +30,20 @@ export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # add docker desktop's docker cli bin dir to PATH, if it exists
-[[ -d "/Applications/Docker.app/Contents/Resources/bin" ]] &&
+[ -d "/Applications/Docker.app/Contents/Resources/bin" ] &&
 	export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
 
 # Add bash completion for brew packages
-[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] &&
+[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ] &&
 	. "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
-if type brew &>/dev/null
-then
+if type brew >/dev/null 2>&1; then
 	HOMEBREW_PREFIX="$(brew --prefix)"
-	if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
-	then
+	if [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]; then
 		. "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 	else
-		for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
-		do
-			[[ -r "${COMPLETION}" ]] && . "${COMPLETION}"
+		for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+			[ -r "${COMPLETION}" ] && . "${COMPLETION}"
 		done
 	fi
 fi
