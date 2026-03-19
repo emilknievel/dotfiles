@@ -1,17 +1,13 @@
-## Prompt configuration
-
-# List number of session jobs in prompt
-jobs_count() {
-	local job_count
-	job_count=$(jobs | grep -cv "Done")
-	if [ "$job_count" -gt 0 ]; then
-		echo "[$job_count]"
+error_display() {
+	local exit_status=$1
+	if [ $exit_status -eq 1 ]; then
+		echo " ◍"
 	else
 		echo ""
 	fi
 }
 
 export PROMPT_DIRTRIM=1
-export PROMPT_COMMAND='history -a; JOB_COUNT=$(jobs_count)'
+export PROMPT_COMMAND='ERROR_DISPLAY=$(error_display $?); history -a'
 # shellcheck disable=SC2153
-export PS1='\[\e[32m\]\u@\h\[\e[0m\]:\[\e[34m\]\w\[\e[0m\]${JOB_COUNT}\$ '
+export PS1='\[\e[32;1m\]\u@\h\[\e[0m\]:\[\e[34;1m\]\w\[\e[0m\]\$\[\e[31m\]$ERROR_DISPLAY\[\e[0m\] '
