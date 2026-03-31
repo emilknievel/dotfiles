@@ -1776,7 +1776,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :custom
   (org-return-follows-link t)
   (org-startup-with-inline-images t)
-  ;; (org-fontify-quote-and-verse-blocks t)
+  (org-fontify-quote-and-verse-blocks t)
   (org-image-actual-width '(300))
   (org-pretty-entities t)
   ;; (org-auto-align-tags nil)
