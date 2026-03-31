@@ -1939,6 +1939,31 @@ With two prefix arguments, insert as top-level heading."
   :config
   (global-org-modern-mode))
 
+(defun my-set-heading-heights ()
+  "Set heading face heights for org and markdown modes."
+  (dolist (face '((org-document-title . 1.5)
+                  (org-level-1 . 1.4)
+                  (org-level-2 . 1.3)
+                  (org-level-3 . 1.2)
+                  (org-level-4 . 1.1)
+                  (org-level-5 . 1.0)
+                  (org-level-6 . 1.0)
+                  (org-level-7 . 1.0)
+                  (org-level-8 . 1.0)))
+    (set-face-attribute (car face) nil :height (cdr face)))
+  (when (facep 'markdown-header-face-1)
+    (dolist (face '((markdown-header-face-1 . 1.4)
+                    (markdown-header-face-2 . 1.3)
+                    (markdown-header-face-3 . 1.2)
+                    (markdown-header-face-4 . 1.1)
+                    (markdown-header-face-5 . 1.0)
+                    (markdown-header-face-6 . 1.0)))
+      (set-face-attribute (car face) nil :height (cdr face)))))
+
+(add-hook 'enable-theme-functions (lambda (_theme) (my-set-heading-heights)))
+(add-hook 'markdown-mode-hook #'my-set-heading-heights)
+(my-set-heading-heights)
+
 (use-package olivetti
   :ensure t
   :after general
