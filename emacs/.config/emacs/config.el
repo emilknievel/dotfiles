@@ -440,16 +440,34 @@ loaded with a different theme."
 
 (use-package standard-themes :ensure t)
 
-(use-package modus-catppuccin
-  :ensure (:host "www.gitlab.com"
-                 :repo "magus/modus-catppuccin"
+(use-package batppuccin-themes
+  :ensure (:host "www.github.com"
+                 :repo "bbatsov/batppuccin-emacs"
                  :branch "main"
-                 :main "modus-catppuccin.el")
+                 :main "batppuccin-themes.el")
   :init
-  (defun my-catppuccin-mocha ()
+  (defun my-batppuccin-mocha ()
     (interactive)
-    (my-load-theme 'catppuccin-mocha))
-  :general (my-leader-keys "t t c" 'my-catppuccin-mocha))
+    (my-load-theme 'batppuccin-mocha))
+
+  (defun my-batppuccin-macchiato ()
+    (interactive)
+    (my-load-theme 'batppuccin-macchiato))
+
+  (defun my-batppuccin-frappe ()
+    (interactive)
+    (my-load-theme 'batppuccin-frappe))
+
+  (defun my-batppuccin-latte ()
+    (interactive)
+    (my-load-theme 'batppuccin-latte))
+  :custom
+  (batppuccin-scale-headings nil)
+  :general
+  (my-leader-keys "t t b m" 'my-batppuccin-mocha)
+  (my-leader-keys "t t b M" 'my-batppuccin-macchiato)
+  (my-leader-keys "t t b f" 'my-batppuccin-frappe)
+  (my-leader-keys "t t b l" 'my-batppuccin-latte))
 
 (use-package doric-themes
   :ensure t

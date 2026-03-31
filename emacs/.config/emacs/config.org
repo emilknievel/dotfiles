@@ -933,7 +933,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
 
 **** Catppuccin
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package modus-catppuccin
     :ensure (:host "www.gitlab.com"
                    :repo "magus/modus-catppuccin"
@@ -944,6 +944,37 @@ Workaround for copying text from Emacs to the Windows clipboard:
       (interactive)
       (my-load-theme 'catppuccin-mocha))
     :general (my-leader-keys "t t c" 'my-catppuccin-mocha))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package batppuccin-themes
+    :ensure (:host "www.github.com"
+                   :repo "bbatsov/batppuccin-emacs"
+                   :branch "main"
+                   :main "batppuccin-themes.el")
+    :init
+    (defun my-batppuccin-mocha ()
+      (interactive)
+      (my-load-theme 'batppuccin-mocha))
+
+    (defun my-batppuccin-macchiato ()
+      (interactive)
+      (my-load-theme 'batppuccin-macchiato))
+
+    (defun my-batppuccin-frappe ()
+      (interactive)
+      (my-load-theme 'batppuccin-frappe))
+
+    (defun my-batppuccin-latte ()
+      (interactive)
+      (my-load-theme 'batppuccin-latte))
+    :custom
+    (batppuccin-scale-headings nil)
+    :general
+    (my-leader-keys "t t b m" 'my-batppuccin-mocha)
+    (my-leader-keys "t t b M" 'my-batppuccin-macchiato)
+    (my-leader-keys "t t b f" 'my-batppuccin-frappe)
+    (my-leader-keys "t t b l" 'my-batppuccin-latte))
 #+end_src
 
 **** Doric themes
