@@ -225,7 +225,7 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 
 (use-package surround
   :ensure t
-  :bind-keymap ("C-c s" . surround-keymap))
+  :bind-keymap ("M-'" . surround-keymap))
 
 (repeat-mode 1)
 
@@ -1667,9 +1667,9 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
          ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
          ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
          ;; Custom M-# bindings for fast register access
-         ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-         ("C-M-#" . consult-register)
+         ;; ("M-#" . consult-register-load)
+         ;; ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ;; ("C-M-#" . consult-register)
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ;; M-g bindings in `goto-map'
