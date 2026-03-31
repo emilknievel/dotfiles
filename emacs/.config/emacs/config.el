@@ -104,7 +104,8 @@
   :custom (exec-path-from-shell-variables '("PATH"
                                             "WSL_DISTRO_NAME"
                                             "XDG_CONFIG_HOME"
-                                            "SSH_AUTH_SOCK"))
+                                            "SSH_AUTH_SOCK"
+                                            "DOTNET_ROOT"))
   :config (exec-path-from-shell-initialize)
   :when
   (or (memq window-system '(mac ns x pgtk)) (daemonp)))
