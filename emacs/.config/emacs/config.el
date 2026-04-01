@@ -1581,12 +1581,14 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (with-eval-after-load 'dired
   (define-key dired-mode-map "`" (lambda () (interactive) (eshell))))
 
-(defadvice isearch-exit (after dired-enter-directory-or-file activate)
-  "In dired mode, enter directory or open file after isearch."
+(defun my-dired-isearch-exit ()
+  "In Dired mode, enter directory or open file after isearch."
   (when (eq major-mode 'dired-mode)
     (let ((file (dired-get-file-for-visit)))
       (when file
         (dired-find-file)))))
+
+(advice-add 'isearch-exit :after #'my-dired-isearch-exit)
 
 (use-package dired-git-info
   :ensure t
