@@ -12,90 +12,20 @@
 
 ;;; Code:
 
-(unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
-  (ido-mode t)
-  (setopt ido-enable-flex-matching t))
-
-(unless (memq window-system '(mac ns))
-  (menu-bar-mode -1))
-
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-
-(when (fboundp 'scroll-bar-mode)
-  (scroll-bar-mode -1))
-
-(when (fboundp 'horizontal-scroll-bar-mode)
-  (horizontal-scroll-bar-mode -1))
-
-(autoload 'zap-up-to-char "misc"
-  "Kill up to, but not including ARGth occurrence of CHAR." t)
-
-(require 'uniquify)
-(setopt uniquify-buffer-name-style 'forward)
-
-;; https://www.emacswiki.org/emacs/SavePlace
 (save-place-mode 1)
 
-(global-set-key (kbd "M-/") 'hippie-expand)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "M-z") 'zap-up-to-char)
-
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
-
-(show-paren-mode 1)
-(setq-default indent-tabs-mode nil)
 (savehist-mode 1)
-(recentf-mode 1)
 
-(setq apropos-do-all t
-      ediff-window-setup-function 'ediff-setup-windows-plain)
-
-(setopt save-interprogram-paste-before-kill t
-        apropos-do-all t
-        mouse-yank-at-point t
-        require-final-newline t
-        load-prefer-newer t
-        backup-by-copying t
-        frame-inhibit-implied-resize t
-        custom-file (expand-file-name "custom.el" user-emacs-directory))
-
+(setopt custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1)
-
-;; Revert Dired and other buffers
 (setopt global-auto-revert-non-file-buffers t)
-
-;; Insert matching paren, bracket, etc. Surrounds active region with bracket.
-(electric-pair-mode 1)
-
-;; Single space after a period is considered "end of sentence".
-(set-default 'sentence-end-double-space nil)
-
-;; Turn off the bell by using the visual bell and setting it to `ignore'.
-(setopt visible-bell nil
-        ring-bell-function 'ignore)
-
-(setopt imenu-auto-rescan t
-        view-read-only t)
-
-(setopt dired-auto-revert-buffer t
-        dired-mouse-drag-files t
-        shell-command-prompt-show-cwd t)
-
-(etags-regen-mode 1)
-(vc-auto-revert-mode 1)
-(setopt vc-dir-save-some-buffers-on-revert t
-        vc-find-revision-no-save t
-        vc-use-incoming-outgoing-prefixes t)
 
 (unless backup-directory-alist
   (setopt backup-directory-alist `(("." . "/tmp/backups/"))))
+
+(setopt backup-by-copying t)
 
 (make-directory "/tmp/auto-saves/" t)
 
@@ -153,6 +83,18 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   (mapcar #'car alist))
 
 (setq system-time-locale "C")
+
+(autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR." t)
+
+(global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "M-z") 'zap-up-to-char)
+
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
 
 (with-eval-after-load 'general
   (my-leader-keys
@@ -252,10 +194,23 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :custom
   (which-key-idle-delay 0.3))
 
+(setopt save-interprogram-paste-before-kill t
+        mouse-yank-at-point t)
+
+(show-paren-mode 1)
+(electric-pair-mode 1)
+
+(set-default 'sentence-end-double-space nil)
+
+(setopt view-read-only t)
+
 (use-package iedit
   :ensure t
   :general
   (my-leader-keys "e" 'iedit-mode))
+
+(setq-default indent-tabs-mode nil)
+(setopt require-final-newline t)
 
 (require 'whitespace)
 (setq-default show-trailing-whitespace nil)
@@ -356,10 +311,25 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
                 eldoc-echo-area-prefer-doc-buffer t
                 eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 
+(unless (memq window-system '(mac ns))
+  (menu-bar-mode -1))
+
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
+
+(when (fboundp 'scroll-bar-mode)
+  (scroll-bar-mode -1))
+
+(when (fboundp 'horizontal-scroll-bar-mode)
+  (horizontal-scroll-bar-mode -1))
+
 (setopt inhibit-startup-screen t)
 
 (setopt confirm-kill-emacs 'y-or-n-p)
 (setopt use-short-answers t)
+
+(setopt visible-bell nil
+        ring-bell-function 'ignore)
 
 (setopt scroll-conservatively 3
         scroll-margin 0)
@@ -370,6 +340,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   :ensure t
   :config
   (ultra-scroll-mode 1))
+
+(setopt frame-inhibit-implied-resize t)
 
 (when (eq system-type 'darwin)
   (use-package ns-auto-titlebar
@@ -903,6 +875,10 @@ loaded with a different theme."
   :init
   (minions-mode))
 
+(unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
+  (ido-mode t)
+  (setopt ido-enable-flex-matching t))
+
 (use-package nerd-icons-completion
   :ensure t
   :after (marginalia nerd-icons)
@@ -1261,6 +1237,8 @@ its input."
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
+(etags-regen-mode 1)
+
 (use-package flymake :ensure t)
 
 (use-package eglot
@@ -1470,6 +1448,13 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (magit-pre-refresh . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
+(vc-auto-revert-mode 1)
+(setopt vc-dir-save-some-buffers-on-revert t
+        vc-find-revision-no-save t
+        vc-use-incoming-outgoing-prefixes t)
+
+(setopt shell-command-prompt-show-cwd t)
+
 (setq eshell-banner-message ""
       eshell-cmpl-cycle-completions t
       eshell-cmpl-ignore-case t
@@ -1555,6 +1540,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :custom
   (project-mode-line t))
 
+(recentf-mode 1)
+
 (use-package dired
   :ensure nil ; built-in
   :general
@@ -1572,6 +1559,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :custom
   (dired-listing-switches "-aBhl --group-directories-first")
   (dired-create-destination-dirs t)
+  (dired-auto-revert-buffer t)
+  (dired-mouse-drag-files t)
   ;; Rename files using `vc-rename-file' if files are under version control.
   (dired-vc-rename-file t))
 
@@ -1660,6 +1649,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (use-package editorconfig
   :ensure t
   :config (editorconfig-mode 1))
+
+(setopt imenu-auto-rescan t)
 
 ;; Example configuration for Consult
 (use-package consult
@@ -2317,6 +2308,8 @@ With two prefix arguments, insert as top-level heading."
   (interactive)
   (insert (format-time-string "[%H:%M]")))
 
+(setopt apropos-do-all t)
+
 (use-package devdocs
   :ensure t
   :after general
@@ -2380,6 +2373,8 @@ With two prefix arguments, insert as top-level heading."
   :hook ((prog-mode . hl-todo-mode)
          (conf-mode . hl-todo-mode)))
 
+(setopt ediff-window-setup-function 'ediff-setup-windows-plain)
+
 (global-set-key (kbd "C-c f m") 'toggle-frame-maximized)
 (global-set-key (kbd "C-c f f") 'toggle-frame-fullscreen)
 (global-set-key (kbd "C-c f t") 'transpose-frame)
@@ -2425,6 +2420,9 @@ With two prefix arguments, insert as top-level heading."
 (global-set-key (kbd "C-, w =") 'balance-windows)
 (global-set-key (kbd "C-, w -") 'shrink-window-if-larger-than-buffer)
 
+(require 'uniquify)
+(setopt uniquify-buffer-name-style 'forward)
+
 (defun nuke-all-buffers ()
   "Kill all buffers except for *scratch*."
   (interactive)
@@ -2468,6 +2466,8 @@ With two prefix arguments, insert as top-level heading."
   (dir-config-allowed-directories '("~/repos"))
   :config
   (dir-config-mode))
+
+(setopt load-prefer-newer t)
 
 (defvar-keymap elpaca-fetch-prefix-map
   :doc "Elpaca fetch prefix map."

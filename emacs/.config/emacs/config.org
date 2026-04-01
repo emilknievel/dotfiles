@@ -26,101 +26,41 @@
 #+EMAIL: emil.vagstedt@icloud.com
 #+OPTIONS: toc:t
 
-** Better defaults
+** Emacs system files
 
-Opinionated default [[https://git.sr.ht/~technomancy/better-defaults][settings]].
+*** Save place
 
 #+begin_src emacs-lisp
-  (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
-    (ido-mode t)
-    (setopt ido-enable-flex-matching t))
-
-  (unless (memq window-system '(mac ns))
-    (menu-bar-mode -1))
-
-  (when (fboundp 'tool-bar-mode)
-    (tool-bar-mode -1))
-
-  (when (fboundp 'scroll-bar-mode)
-    (scroll-bar-mode -1))
-
-  (when (fboundp 'horizontal-scroll-bar-mode)
-    (horizontal-scroll-bar-mode -1))
-
-  (autoload 'zap-up-to-char "misc"
-    "Kill up to, but not including ARGth occurrence of CHAR." t)
-
-  (require 'uniquify)
-  (setopt uniquify-buffer-name-style 'forward)
-
-  ;; https://www.emacswiki.org/emacs/SavePlace
   (save-place-mode 1)
-
-  (global-set-key (kbd "M-/") 'hippie-expand)
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-  (global-set-key (kbd "M-z") 'zap-up-to-char)
-
-  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
-  (global-set-key (kbd "C-M-s") 'isearch-forward)
-  (global-set-key (kbd "C-M-r") 'isearch-backward)
-
-  (show-paren-mode 1)
-  (setq-default indent-tabs-mode nil)
-  (savehist-mode 1)
-  (recentf-mode 1)
-
-  (setq apropos-do-all t
-        ediff-window-setup-function 'ediff-setup-windows-plain)
-
-  (setopt save-interprogram-paste-before-kill t
-          apropos-do-all t
-          mouse-yank-at-point t
-          require-final-newline t
-          load-prefer-newer t
-          backup-by-copying t
-          frame-inhibit-implied-resize t
-          custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-  (load custom-file 'noerror)
-
-  ;; Revert buffers when the underlying file has changed
-  (global-auto-revert-mode 1)
-
-  ;; Revert Dired and other buffers
-  (setopt global-auto-revert-non-file-buffers t)
-
-  ;; Insert matching paren, bracket, etc. Surrounds active region with bracket.
-  (electric-pair-mode 1)
-
-  ;; Single space after a period is considered "end of sentence".
-  (set-default 'sentence-end-double-space nil)
-
-  ;; Turn off the bell by using the visual bell and setting it to `ignore'.
-  (setopt visible-bell nil
-          ring-bell-function 'ignore)
-
-  (setopt imenu-auto-rescan t
-          view-read-only t)
-
-  (setopt dired-auto-revert-buffer t
-          dired-mouse-drag-files t
-          shell-command-prompt-show-cwd t)
-
-  (etags-regen-mode 1)
-  (vc-auto-revert-mode 1)
-  (setopt vc-dir-save-some-buffers-on-revert t
-          vc-find-revision-no-save t
-          vc-use-incoming-outgoing-prefixes t)
 #+end_src
 
-** Emacs system files
+*** Save history
+
+#+begin_src emacs-lisp
+  (savehist-mode 1)
+#+end_src
+
+*** Custom file
+
+#+begin_src emacs-lisp
+  (setopt custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (load custom-file 'noerror)
+#+end_src
+
+*** Auto-revert
+
+#+begin_src emacs-lisp
+  (global-auto-revert-mode 1)
+  (setopt global-auto-revert-non-file-buffers t)
+#+end_src
 
 *** Backup files
 
 #+begin_src emacs-lisp
   (unless backup-directory-alist
     (setopt backup-directory-alist `(("." . "/tmp/backups/"))))
+
+  (setopt backup-by-copying t)
 #+end_src
 
 *** Auto-save files
@@ -372,6 +312,22 @@ Mainly used for making sure that org timestamps are consistent.
     (evil-set-initial-state 'term-mode 'emacs))
 #+end_src
 
+*** Global
+
+#+begin_src emacs-lisp
+  (autoload 'zap-up-to-char "misc"
+    "Kill up to, but not including ARGth occurrence of CHAR." t)
+
+  (global-set-key (kbd "M-/") 'hippie-expand)
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (global-set-key (kbd "M-z") 'zap-up-to-char)
+
+  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+  (global-set-key (kbd "C-M-s") 'isearch-forward)
+  (global-set-key (kbd "C-M-r") 'isearch-backward)
+#+end_src
+
 *** General.el
 
 General provides a more convenient, unified interface for binding keys in Emacs. Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
@@ -620,6 +576,32 @@ Repeat commands by typing a single character.
 
 ** Editing
 
+*** Kill ring
+
+#+begin_src emacs-lisp
+  (setopt save-interprogram-paste-before-kill t
+          mouse-yank-at-point t)
+#+end_src
+
+*** Parentheses
+
+#+begin_src emacs-lisp
+  (show-paren-mode 1)
+  (electric-pair-mode 1)
+#+end_src
+
+*** Sentences
+
+#+begin_src emacs-lisp
+  (set-default 'sentence-end-double-space nil)
+#+end_src
+
+*** View mode for read-only files
+
+#+begin_src emacs-lisp
+  (setopt view-read-only t)
+#+end_src
+
 *** iedit
 
 Edit multiple occurrences in the same way simultaneously.
@@ -632,6 +614,13 @@ Edit multiple occurrences in the same way simultaneously.
 #+end_src
 
 *** Whitespace
+
+**** Indentation and newlines
+
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (setopt require-final-newline t)
+#+end_src
 
 **** Show trailing whitespace
 
@@ -794,6 +783,24 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 
 ** Customization
 
+*** UI chrome
+
+Hide UI elements that aren't useful.
+
+#+begin_src emacs-lisp
+  (unless (memq window-system '(mac ns))
+    (menu-bar-mode -1))
+
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
+
+  (when (fboundp 'scroll-bar-mode)
+    (scroll-bar-mode -1))
+
+  (when (fboundp 'horizontal-scroll-bar-mode)
+    (horizontal-scroll-bar-mode -1))
+#+end_src
+
 *** Get rid of the annoying startup screen
 
 #+begin_src emacs-lisp
@@ -805,6 +812,13 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
 #+begin_src emacs-lisp
   (setopt confirm-kill-emacs 'y-or-n-p)
   (setopt use-short-answers t)
+#+end_src
+
+*** Bell
+
+#+begin_src emacs-lisp
+  (setopt visible-bell nil
+          ring-bell-function 'ignore)
 #+end_src
 
 *** Scrolling
@@ -825,6 +839,12 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
     :ensure t
     :config
     (ultra-scroll-mode 1))
+#+end_src
+
+*** Frames
+
+#+begin_src emacs-lisp
+  (setopt frame-inhibit-implied-resize t)
 #+end_src
 
 *** macOS
@@ -1553,6 +1573,16 @@ Display the current date and time on the mode line.
 
 ** Completion
 
+*** ido (fallback)
+
+Fallback completion when neither Helm nor Ivy are active.
+
+#+begin_src emacs-lisp
+  (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
+    (ido-mode t)
+    (setopt ido-enable-flex-matching t))
+#+end_src
+
 *** Nerd Icons Completion
 
 #+begin_src emacs-lisp
@@ -1955,6 +1985,12 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 ** LSP
 
+*** Tags
+
+#+begin_src emacs-lisp
+  (etags-regen-mode 1)
+#+end_src
+
 *** Eglot
 
 #+begin_src emacs-lisp
@@ -2323,7 +2359,22 @@ Lightweight alternative mode that is useful when working with very large C files
     (magit-post-refresh . diff-hl-magit-post-refresh))
 #+end_src
 
+*** VC
+
+#+begin_src emacs-lisp
+  (vc-auto-revert-mode 1)
+  (setopt vc-dir-save-some-buffers-on-revert t
+          vc-find-revision-no-save t
+          vc-use-incoming-outgoing-prefixes t)
+#+end_src
+
 ** Shell
+
+*** Defaults
+
+#+begin_src emacs-lisp
+  (setopt shell-command-prompt-show-cwd t)
+#+end_src
 
 *** Eshell
 
@@ -2458,6 +2509,12 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 
 ** File exploration
 
+*** Recent files
+
+#+begin_src emacs-lisp
+  (recentf-mode 1)
+#+end_src
+
 *** Dired
 
 #+begin_src emacs-lisp
@@ -2478,6 +2535,8 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     :custom
     (dired-listing-switches "-aBhl --group-directories-first")
     (dired-create-destination-dirs t)
+    (dired-auto-revert-buffer t)
+    (dired-mouse-drag-files t)
     ;; Rename files using `vc-rename-file' if files are under version control.
     (dired-vc-rename-file t))
 #+end_src
@@ -2621,6 +2680,12 @@ Makes it so that certain file deletion commands move the deleted file/directory 
 #+end_src
 
 ** Search
+
+*** imenu
+
+#+begin_src emacs-lisp
+  (setopt imenu-auto-rescan t)
+#+end_src
 
 *** Consult
 
@@ -3488,6 +3553,12 @@ GPTel allows us to talk with different LLMs from within Emacs.
 
 ** Documentation
 
+*** Apropos
+
+#+begin_src emacs-lisp
+  (setopt apropos-do-all t)
+#+end_src
+
 *** Devdocs
 
 #+begin_src emacs-lisp
@@ -3575,6 +3646,12 @@ Highlights common "TODO" keywords.
 
 ** Window management
 
+*** Ediff
+
+#+begin_src emacs-lisp
+  (setopt ediff-window-setup-function 'ediff-setup-windows-plain)
+#+end_src
+
 *** Frame actions
 
 #+begin_src emacs-lisp
@@ -3639,6 +3716,13 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 #+end_src
 
 ** Buffers
+
+*** Buffer naming
+
+#+begin_src emacs-lisp
+  (require 'uniquify)
+  (setopt uniquify-buffer-name-style 'forward)
+#+end_src
 
 #+begin_src emacs-lisp
   (defun nuke-all-buffers ()
@@ -3718,6 +3802,12 @@ Alternative to =.dir-locals= that allegedly is easier to maintain as =.dir-confi
 #+end_src
 
 ** Package management
+
+*** Defaults
+
+#+begin_src emacs-lisp
+  (setopt load-prefer-newer t)
+#+end_src
 
 *** Elpaca
 
