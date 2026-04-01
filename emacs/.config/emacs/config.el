@@ -49,6 +49,7 @@
 (show-paren-mode 1)
 (setq-default indent-tabs-mode nil)
 (savehist-mode 1)
+(recentf-mode 1)
 
 (setq apropos-do-all t
       ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -79,6 +80,19 @@
 ;; Turn off the bell by using the visual bell and setting it to `ignore'.
 (setopt visible-bell nil
         ring-bell-function 'ignore)
+
+(setopt imenu-auto-rescan t
+        view-read-only t)
+
+(setopt dired-auto-revert-buffer t
+        dired-mouse-drag-files t
+        shell-command-prompt-show-cwd t)
+
+(etags-regen-mode 1)
+(vc-auto-revert-mode 1)
+(setopt vc-dir-save-some-buffers-on-revert t
+        vc-find-revision-no-save t
+        vc-use-incoming-outgoing-prefixes t)
 
 (unless backup-directory-alist
   (setopt backup-directory-alist `(("." . "/tmp/backups/"))))
