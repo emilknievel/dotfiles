@@ -12,8 +12,6 @@ export PATH="$HOME/bin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-export EDITOR=vi
-
 # append commands to history file instead of overwriting
 shopt -s histappend
 
@@ -33,8 +31,12 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-command -v vim >/dev/null 2>&1 && alias vi=vim && export EDITOR=vim
-command -v nvim >/dev/null 2>&1 && alias vi=nvim && export EDITOR=nvim
+export ALTERNATE_EDITOR=vi
+command -v vim >/dev/null 2>&1 && alias vi=vim && export ALTERNATE_EDITOR=vim
+command -v nvim >/dev/null 2>&1 && alias vi=nvim && export ALTERNATE_EDITOR=nvim
+
+export EDITOR="emacsclient -r -a ''"
+export VISUAL="emacsclient -r -c -a ''"
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
