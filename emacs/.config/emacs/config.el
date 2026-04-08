@@ -428,11 +428,11 @@ loaded with a different theme."
 
 (use-package standard-themes :ensure t)
 
-(use-package batppuccin-themes
+(use-package batppuccin
   :ensure (:host "www.github.com"
                  :repo "bbatsov/batppuccin-emacs"
                  :branch "main"
-                 :main "batppuccin-themes.el")
+                 :main "batppuccin.el")
   :init
   (defun my-batppuccin-mocha ()
     (interactive)

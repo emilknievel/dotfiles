@@ -983,11 +983,11 @@ Workaround for copying text from Emacs to the Windows clipboard:
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package batppuccin-themes
+  (use-package batppuccin
     :ensure (:host "www.github.com"
                    :repo "bbatsov/batppuccin-emacs"
                    :branch "main"
-                   :main "batppuccin-themes.el")
+                   :main "batppuccin.el")
     :init
     (defun my-batppuccin-mocha ()
       (interactive)
