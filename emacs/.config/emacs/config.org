@@ -721,8 +721,8 @@ Invoked with ~M-x vundo~ or ~<leader> c u~.
   (use-package visual-fill-column
     :ensure t
     :custom
-    (visual-fill-column-width 90)
-    :hook (visual-line-mode . visual-fill-column-mode))
+    (visual-fill-column-width 90))
+    ;; :hook (visual-line-mode . visual-fill-column-mode))
 #+end_src
 
 *** Highlight line
