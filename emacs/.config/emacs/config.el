@@ -178,7 +178,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
 (with-eval-after-load 'general
   (my-leader-keys
     ;; emacsclient
-    "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process")))
+    "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process")
+    "q r" 'restart-emacs))
 
 (use-package surround
   :ensure t

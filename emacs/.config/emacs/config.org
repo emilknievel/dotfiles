@@ -438,7 +438,8 @@ General provides a more convenient, unified interface for binding keys in Emacs.
   (with-eval-after-load 'general
     (my-leader-keys
       ;; emacsclient
-      "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process")))
+      "q k" '(save-buffers-kill-emacs :wk "Kill emacsclient process")
+      "q r" 'restart-emacs))
 #+end_src
 
 *** Surround
