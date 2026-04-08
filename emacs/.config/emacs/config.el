@@ -2181,13 +2181,18 @@ With two prefix arguments, insert as top-level heading."
 (use-package vulpea-journal
   :ensure t
   :after (vulpea vulpea-ui)
-  :custom (vulpea-journal-default-template
-           '(:file-name "journal/%Y-%m-%d.org"
-                        :title "%Y-%m-%d %A"
-                        :tags ("journal" "daily")
-                        :head "#+created: %<[%Y-%m-%d]>"
-                        :body "* Work\n\n* Personal\n"))
-  :config (vulpea-journal-setup))
+  :config
+  (setq vulpea-journal-default-template
+        `(:file-name "journal/%Y-%m-%d.org"
+                     :title "%Y-%m-%d %A"
+                     :tags ("journal" "daily")
+                     :head "#+created: %<[%Y-%m-%d]>"
+                     :body ,(concat "* Work\n\n"
+                                    "* Personal\n"
+                                    ":PROPERTIES:\n"
+                                    ":VISIBILITY: folded\n"
+                                    ":END:\n")))
+  (vulpea-journal-setup))
 
 ;; NOTE: Only placed here because `:bind' doesn't work with it.
 (global-set-key (kbd "C-c v j") #'vulpea-journal)
