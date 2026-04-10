@@ -46,15 +46,28 @@ Each package's directory structure is mirrored as symlinks in =~=.
 
 ** Homebrew
 
-macOS packages are managed with [[https://brew.sh/][Homebrew]]. The Brewfile is tracked via =brew bundle=.
+macOS packages are managed with [[https://brew.sh/][Homebrew]]. The =homebrew= package provides:
 
-Dump currently installed packages to the Brewfile:
+- =.config/homebrew/Brewfile= — package list tracked via =brew bundle=
+- =.config/brew-aliases/= — native Homebrew alias scripts (e.g. =brew i=, =brew ud=)
+- =.local/bin/brew-visit= — external command to open a package's homepage in the browser
+
+*** Brewfile
+
+After stowing the =homebrew= package, =~/.config/homebrew/Brewfile= is a symlink back into this repo. =brew bundle --global= resolves the Brewfile via =$XDG_CONFIG_HOME= (set to =~/.config= in =.bashrc=), so no extra configuration is needed.
+
+Dump currently installed packages:
 
 #+begin_src sh
   brew bundle dump --global --force
 #+end_src
 
-With =$XDG_CONFIG_HOME= set, the Brewfile is placed in =~/.config/homebrew/= and tracked by this repo.
+Because =~/.config/homebrew/Brewfile= is a symlink, the dump writes directly to the tracked file. Review and commit the diff:
+
+#+begin_src sh
+  git diff homebrew/.config/homebrew/Brewfile
+  git add homebrew/.config/homebrew/Brewfile && git commit
+#+end_src
 
 To install all packages on a new system:
 
@@ -63,3 +76,11 @@ To install all packages on a new system:
 #+end_src
 
 See the [[https://docs.brew.sh/Brew-Bundle-and-Brewfile][brew bundle docs]] for details.
+
+*** Brew aliases
+
+Homebrew natively reads =~/.config/brew-aliases/= for alias scripts. The files in this repo are stowed there and become available as =brew <alias>=. Run =brew alias= to see the current list.
+
+*** brew visit
+
+=brew visit <package>= opens the first URL from =brew info <package>= in your browser. It is an [[https://docs.brew.sh/External-Commands][external brew command]] picked up automatically from =~/.local/bin/= (which is in =PATH= via =macos.sh=).
