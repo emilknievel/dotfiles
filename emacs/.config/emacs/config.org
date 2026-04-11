@@ -3026,9 +3026,9 @@ This package displays hidden emphasis markers while the cursor is on a rich text
     :custom
     (org-modern-star nil)
     (org-modern-block-fringe nil)
-    (org-modern-block-name nil)
-    :config
-    (global-org-modern-mode))
+    (org-modern-block-name nil))
+  ;; :config
+  ;; (global-org-modern-mode))
 #+end_src
 
 *** Heading font sizes

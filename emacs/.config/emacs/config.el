@@ -1950,9 +1950,9 @@ With two prefix arguments, insert as top-level heading."
   :custom
   (org-modern-star nil)
   (org-modern-block-fringe nil)
-  (org-modern-block-name nil)
-  :config
-  (global-org-modern-mode))
+  (org-modern-block-name nil))
+;; :config
+;; (global-org-modern-mode))
 
 (defun my-set-heading-heights ()
   "Set heading face heights for org and markdown modes."
