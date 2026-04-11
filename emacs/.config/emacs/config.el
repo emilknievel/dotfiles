@@ -605,7 +605,7 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-(defvar my-linux-font "jetbrains mono")
+(defvar my-linux-font "adwaita mono")
 (defvar my-macos-font "jetbrains mono")
 
 (if (eq system-type 'darwin)
@@ -617,7 +617,7 @@ loaded with a different theme."
            (defvar my-variable-pitch-font "sf pro")
            (defvar my-serif-font "georgia"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "noto sans")
+         (defvar my-variable-pitch-font "adwaita sans")
          (defvar my-serif-font "noto serif")))
 
 (defvar my-active-font-narrow-p
@@ -636,10 +636,10 @@ loaded with a different theme."
             my-medium-font-height (+ 120 my-font-offset)
             my-large-font-height (+ 130 my-font-offset)
             my-presentation-font-height (+ 150 my-font-offset))
-    (setq my-font-height (+ 100 my-font-offset)
-          my-small-font-height (+ 90 my-font-offset)
+    (setq my-font-height (+ 105 my-font-offset)
+          my-small-font-height (+ 100 my-font-offset)
           my-medium-font-height (+ 110 my-font-offset)
-          my-large-font-height (+ 130 my-font-offset)
+          my-large-font-height (+ 125 my-font-offset)
           my-presentation-font-height (+ 140 my-font-offset))))
 
 (if (eq system-type 'darwin)
