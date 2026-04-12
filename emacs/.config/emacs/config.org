@@ -1995,8 +1995,7 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 #+begin_src emacs-lisp
   (use-package eglot
-    :ensure t
-    :after general
+    :ensure nil
     :general (my-leader-keys "c a" 'eglot-code-actions)
     :custom
     (eglot-autoshutdown t)
@@ -2012,12 +2011,6 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
                                            ; to eglot
     :config
     (global-flycheck-eglot-mode 1))
-#+end_src
-
-**** Dependencies
-
-#+begin_src emacs-lisp
-  (use-package jsonrpc :ensure t)
 #+end_src
 
 ** Language configuration

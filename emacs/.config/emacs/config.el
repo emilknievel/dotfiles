@@ -1240,8 +1240,7 @@ its input."
 (etags-regen-mode 1)
 
 (use-package eglot
-  :ensure t
-  :after general
+  :ensure nil
   :general (my-leader-keys "c a" 'eglot-code-actions)
   :custom
   (eglot-autoshutdown t)
@@ -1255,8 +1254,6 @@ its input."
                                          ; to eglot
   :config
   (global-flycheck-eglot-mode 1))
-
-(use-package jsonrpc :ensure t)
 
 (use-package rust-mode
   :ensure t
