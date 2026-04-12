@@ -1995,11 +1995,9 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 *** Eglot
 
 #+begin_src emacs-lisp
-  (use-package flymake :ensure t)
-
   (use-package eglot
     :ensure t
-    :after (general flymake)
+    :after general
     :general (my-leader-keys "c a" 'eglot-code-actions)
     :custom
     (eglot-autoshutdown t)

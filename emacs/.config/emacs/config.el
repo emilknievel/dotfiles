@@ -1240,11 +1240,9 @@ its input."
 
 (etags-regen-mode 1)
 
-(use-package flymake :ensure t)
-
 (use-package eglot
   :ensure t
-  :after (general flymake)
+  :after general
   :general (my-leader-keys "c a" 'eglot-code-actions)
   :custom
   (eglot-autoshutdown t)
