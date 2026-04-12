@@ -2491,6 +2491,17 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
   (global-set-key (kbd "C-<f12>") 'ansi-term)
 #+end_src
 
+*** Ghostel
+
+#+begin_src emacs-lisp
+  (use-package ghostel
+    :ensure t
+    :config
+    (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+    :custom
+    (ghostel-tramp-shell-integration t))
+#+end_src
+
 ** Project
 
 #+begin_src emacs-lisp

@@ -1530,6 +1530,13 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (global-set-key (kbd "C-<f12>") 'ansi-term)
 
+(use-package ghostel
+  :ensure t
+  :config
+  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+  :custom
+  (ghostel-tramp-shell-integration t))
+
 (use-package project
   :ensure nil
   :general
