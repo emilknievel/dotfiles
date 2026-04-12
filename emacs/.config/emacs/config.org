@@ -2498,6 +2498,7 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     :ensure t
     :config
     (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+    (add-to-list 'ghostel-eval-cmds '("magit" magit))
     :custom
     (ghostel-tramp-shell-integration t))
 #+end_src
