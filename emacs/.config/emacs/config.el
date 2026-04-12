@@ -581,7 +581,6 @@ loaded with a different theme."
 
 (use-package auto-dark
   :ensure t
-  :if (eq system-type 'darwin)
   :init
   (defconst my-dark-theme 'modus-vivendi)
   (defconst my-light-theme 'modus-operandi)

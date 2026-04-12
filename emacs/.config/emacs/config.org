@@ -1168,7 +1168,6 @@ Inspired by Plan 9 Acme & Sam.
 #+begin_src emacs-lisp
   (use-package auto-dark
     :ensure t
-    :if (eq system-type 'darwin)
     :init
     (defconst my-dark-theme 'modus-vivendi)
     (defconst my-light-theme 'modus-operandi)
