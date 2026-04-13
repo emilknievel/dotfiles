@@ -40,10 +40,9 @@
 (setq package-enable-at-startup nil)
 
 ;; Customize frame size and titlebar
+(setq default-frame-alist '((width . 125) (height . 35)))
 (cond ((eq system-type 'darwin)
        ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-       (add-to-list 'default-frame-alist '(width .125))
-       (add-to-list 'default-frame-alist '(height . 35))
        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
       ((and (eq system-type 'gnu/linux)
             (not (getenv "WSL_DISTRO_NAME")))
