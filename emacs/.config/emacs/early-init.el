@@ -40,14 +40,17 @@
 (setq package-enable-at-startup nil)
 
 ;; Customize frame size and titlebar
-(setq default-frame-alist '((width . 125) (height . 35)))
 (cond ((eq system-type 'darwin)
        ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+       (add-to-list 'default-frame-alist '(width .125))
+       (add-to-list 'default-frame-alist '(height . 35))
        (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
       ((and (eq system-type 'gnu/linux)
             (not (getenv "WSL_DISTRO_NAME")))
-       (add-to-list 'default-frame-alist '(fullscreen . maximized))
-       (add-to-list 'default-frame-alist '(undecorated . t))))
+       (add-to-list 'default-frame-alist '(width . 160))
+       (add-to-list 'default-frame-alist '(height . 50))))
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'default-frame-alist '(undecorated . t))))
 
 ;; Load dark theme early to avoid getting flashed when launching Emacs.
 (load-theme 'wombat t)
