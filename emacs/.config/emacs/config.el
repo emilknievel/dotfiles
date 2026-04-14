@@ -604,7 +604,7 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-(defvar my-linux-font "adwaita mono")
+(defvar my-linux-font "jetbrains mono")
 (defvar my-macos-font "jetbrains mono")
 
 (if (eq system-type 'darwin)
@@ -635,8 +635,8 @@ loaded with a different theme."
             my-medium-font-height (+ 120 my-font-offset)
             my-large-font-height (+ 130 my-font-offset)
             my-presentation-font-height (+ 150 my-font-offset))
-    (setq my-font-height (+ 105 my-font-offset)
-          my-small-font-height (+ 100 my-font-offset)
+    (setq my-font-height (+ 102 my-font-offset)
+          my-small-font-height (+ 90 my-font-offset)
           my-medium-font-height (+ 110 my-font-offset)
           my-large-font-height (+ 125 my-font-offset)
           my-presentation-font-height (+ 140 my-font-offset))))

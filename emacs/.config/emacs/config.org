@@ -366,7 +366,6 @@ General provides a more convenient, unified interface for binding keys in Emacs.
       "u l" '(:ignore t :wk "Linum")
       "u m" '(:ignore t :wk "Mode Line")
       "w" '(:ignore t :wk "Windows")))
-
 #+end_src
 
 **** Files
@@ -1197,7 +1196,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Font variables
 
 #+begin_src emacs-lisp
-  (defvar my-linux-font "adwaita mono")
+  (defvar my-linux-font "jetbrains mono")
   (defvar my-macos-font "jetbrains mono")
 
   (if (eq system-type 'darwin)
@@ -1232,8 +1231,8 @@ Inspired by Plan 9 Acme & Sam.
               my-medium-font-height (+ 120 my-font-offset)
               my-large-font-height (+ 130 my-font-offset)
               my-presentation-font-height (+ 150 my-font-offset))
-      (setq my-font-height (+ 105 my-font-offset)
-            my-small-font-height (+ 100 my-font-offset)
+      (setq my-font-height (+ 102 my-font-offset)
+            my-small-font-height (+ 90 my-font-offset)
             my-medium-font-height (+ 110 my-font-offset)
             my-large-font-height (+ 125 my-font-offset)
             my-presentation-font-height (+ 140 my-font-offset))))
