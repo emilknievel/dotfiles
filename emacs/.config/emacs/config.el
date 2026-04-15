@@ -1443,7 +1443,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (magit-pre-refresh . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
-(vc-auto-revert-mode 1)
+(when (>= emacs-major-version 31)
+  (vc-auto-revert-mode 1))
 (setopt vc-dir-save-some-buffers-on-revert t
         vc-find-revision-no-save t
         vc-use-incoming-outgoing-prefixes t)

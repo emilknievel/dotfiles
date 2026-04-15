@@ -2352,7 +2352,8 @@ Lightweight alternative mode that is useful when working with very large C files
 *** VC
 
 #+begin_src emacs-lisp
-  (vc-auto-revert-mode 1)
+  (when (>= emacs-major-version 31)
+    (vc-auto-revert-mode 1))
   (setopt vc-dir-save-some-buffers-on-revert t
           vc-find-revision-no-save t
           vc-use-incoming-outgoing-prefixes t)
