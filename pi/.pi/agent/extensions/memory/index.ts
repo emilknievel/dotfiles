@@ -9,6 +9,7 @@ import {
 	formatMemoryList,
 	findMatchingMemories,
 	forgetByQuery,
+	getEffectiveConfidence,
 	isExpired,
 	isMemoryMessage,
 	markMemoriesUsed,
@@ -118,7 +119,7 @@ class MemoryListComponent {
 				lines.push(truncateToWidth(`  ${scope} ${kind} ${th.fg("text", item.text)}`, width));
 				lines.push(
 					truncateToWidth(
-						`      ${th.fg("dim", `confidence=${item.confidence.toFixed(2)} · id=${item.id.slice(0, 8)}`)}`,
+						`      ${th.fg("dim", `confidence=${item.confidence.toFixed(2)} · source=${item.source} · id=${item.id.slice(0, 8)}`)}`,
 						width,
 					),
 				);
@@ -476,7 +477,7 @@ export default function memoryExtension(pi: ExtensionAPI) {
 						"Selected:",
 						...chosen.map(
 							({ item, score, reasons }) =>
-								`- [${item.kind}] ${item.text}\n  score=${score.toFixed(3)} exact=${reasons.exactMatches.join(",") || "-"} overlap=${reasons.overlap.toFixed(2)}`,
+								`- [${item.kind}] ${item.text}\n  score=${score.toFixed(3)} exact=${reasons.exactMatches.join(",") || "-"} overlap=${reasons.overlap.toFixed(2)} eff_conf=${reasons.effectiveConfidence.toFixed(2)}`,
 						),
 					].join("\n");
 			const skippedSection =
@@ -511,7 +512,7 @@ export default function memoryExtension(pi: ExtensionAPI) {
 		description: "Remove expired task notes and duplicate entries",
 		handler: async (_args, ctx) => {
 			const before = store.length;
-			store = store.filter((item) => !isExpired(item));
+			store = store.filter((item) => !isExpired(item) && getEffectiveConfidence(item) >= 0.2);
 			persist();
 			pi.appendEntry<MemoryAuditEntry>("memory-state", {
 				action: "prune",

@@ -37,6 +37,21 @@ export function isExpired(item) {
 	return !!item.expiresAt && Date.parse(item.expiresAt) <= Date.now();
 }
 
+export function getReferenceTimestamp(item) {
+	return Date.parse(item.lastUsedAt ?? item.updatedAt ?? item.createdAt ?? 0);
+}
+
+export function getEffectiveConfidence(item, now = Date.now()) {
+	const base = clamp(item.confidence ?? 0, 0, 1);
+	if (item.source !== "extension") return base;
+	const ageMs = Math.max(0, now - getReferenceTimestamp(item));
+	const ageDays = ageMs / (24 * 60 * 60 * 1000);
+	if (ageDays <= 14) return base;
+	const decayPerWeek = item.kind === "task_note" ? 0.12 : 0.06;
+	const decay = ((ageDays - 14) / 7) * decayPerWeek;
+	return clamp(base - decay, 0.05, 1);
+}
+
 export function isMemoryMessage(message) {
 	return message.role === "custom" && message.customType === MEMORY_CUSTOM_TYPE;
 }
@@ -115,12 +130,12 @@ export function getSupersededIds(items) {
 	return supersededIds;
 }
 
-export function applicableMemories(items, repoKey, sessionFile) {
+export function applicableMemories(items, repoKey, sessionFile, now = Date.now()) {
 	const supersededIds = getSupersededIds(items);
 	return items.filter((item) => {
 		if (supersededIds.has(item.id)) return false;
 		if (isExpired(item)) return false;
-		if (item.confidence < MIN_CONFIDENCE) return false;
+		if (getEffectiveConfidence(item, now) < MIN_CONFIDENCE) return false;
 		if (item.scope === "global") return true;
 		if (item.scope === "repo") return item.repoKey === repoKey;
 		if (item.scope === "session") return item.sessionFile === sessionFile;
@@ -153,14 +168,15 @@ export function kindBonus(kind) {
 	}
 }
 
-export function scoreMemory(item, queryText, queryTokens) {
+export function scoreMemory(item, queryText, queryTokens, now = Date.now()) {
 	const memoryTokens = item.tags.length > 0 ? item.tags : tagsFromText(item.text);
 	const memoryTokenSet = new Set(memoryTokens);
 	const exactMatches = queryTokens.filter((token) => memoryTokenSet.has(token));
 	const exactMatchScore = exactMatches.length > 0 ? Math.min(0.5, exactMatches.length * 0.18) : 0;
 	const overlap = overlapScore(queryTokens, memoryTokens);
 	const contains = queryText && item.text.toLowerCase().includes(queryText.toLowerCase()) ? 0.4 : 0;
-	const confidence = item.confidence * 0.2;
+	const effectiveConfidence = getEffectiveConfidence(item, now);
+	const confidence = effectiveConfidence * 0.2;
 	const repoBoost = item.scope === "repo" ? 0.08 : 0;
 	const sessionBoost = item.scope === "session" ? 0.04 : 0;
 	const decisionBoost = item.kind === "decision" && exactMatches.length > 0 ? 0.12 : 0;
@@ -187,6 +203,7 @@ export function scoreMemory(item, queryText, queryTokens) {
 			overlap,
 			contains,
 			confidence,
+			effectiveConfidence,
 			repoBoost,
 			sessionBoost,
 			decisionBoost,
@@ -216,13 +233,13 @@ export function formatMemoryLine(item) {
 	return `- ${formatKind(item.kind)}: ${item.text}`;
 }
 
-export function chooseMemories(items, repoKey, sessionFile, messages) {
+export function chooseMemories(items, repoKey, sessionFile, messages, now = Date.now()) {
 	const queryText = getLatestRelevantText(messages);
 	const queryTokens = tokenize(queryText);
 	const supersededIds = getSupersededIds(items);
-	const scoredCandidates = applicableMemories(items, repoKey, sessionFile)
+	const scoredCandidates = applicableMemories(items, repoKey, sessionFile, now)
 		.map((item) => {
-			const scored = scoreMemory(item, queryText, queryTokens);
+			const scored = scoreMemory(item, queryText, queryTokens, now);
 			return { item, score: scored.score, reasons: scored.reasons };
 		})
 		.sort((a, b) => b.score - a.score);
@@ -275,7 +292,8 @@ export function chooseMemories(items, repoKey, sessionFile, messages) {
 					exactMatchScore: 0,
 					overlap: 0,
 					contains: 0,
-					confidence: item.confidence * 0.2,
+					confidence: getEffectiveConfidence(item, now) * 0.2,
+					effectiveConfidence: getEffectiveConfidence(item, now),
 					repoBoost: 0,
 					sessionBoost: 0,
 					decisionBoost: 0,

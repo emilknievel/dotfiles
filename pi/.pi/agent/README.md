@@ -28,7 +28,7 @@ Commands:
 - `/forget`
 - `/memories` — opens an interactive list in TUI mode, falls back to a visible message otherwise
 - `/memory-debug`
-- `/memory-prune`
+- `/memory-prune` — remove expired and very stale low-confidence memories
 
 ## Update flow
 

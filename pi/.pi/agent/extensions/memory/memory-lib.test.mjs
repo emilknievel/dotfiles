@@ -10,6 +10,7 @@ import {
 	findMatchingMemories,
 	forgetByQuery,
 	formatInjectedMemory,
+	getEffectiveConfidence,
 	isExpired,
 	markMemoriesUsed,
 	parseReplaceCommand,
@@ -64,6 +65,23 @@ test("applicableMemories excludes superseded memories", () => {
 	assert.deepEqual(result.map((item) => item.id), ["new"]);
 });
 
+test("getEffectiveConfidence decays stale extension memories", () => {
+	const stale = makeMemory({
+		id: "stale",
+		source: "extension",
+		confidence: 0.5,
+		updatedAt: "2026-01-01T00:00:00.000Z",
+	});
+	const fresh = makeMemory({
+		id: "fresh",
+		source: "extension",
+		confidence: 0.5,
+		updatedAt: "2026-04-10T00:00:00.000Z",
+	});
+	assert.ok(getEffectiveConfidence(stale, Date.parse("2026-04-20T00:00:00.000Z")) < 0.35);
+	assert.equal(getEffectiveConfidence(fresh, Date.parse("2026-04-20T00:00:00.000Z")), 0.5);
+});
+
 test("chooseMemories prefers relevant repo decision over generic preference", () => {
 	const items = [
 		makeMemory({ id: "pref", kind: "preference", scope: "global", repoKey: undefined, text: "Prefer minimal diffs", tags: ["minimal", "diffs"] }),
@@ -92,6 +110,16 @@ test("chooseMemories ignores existing hidden memory messages in context", () => 
 		userMessage("Update the zod validators"),
 	]);
 	assert.equal(result.chosen[0]?.item.id, "decision");
+});
+
+test("chooseMemories skips superseded memories in debug reasons", () => {
+	const items = [
+		makeMemory({ id: "old", text: "This repo uses pnpm" }),
+		makeMemory({ id: "new", text: "This repo uses bun", supersedes: ["old"] }),
+	];
+	const result = chooseMemories(items, "/repo", undefined, [userMessage("which package manager?")]);
+	assert.equal(result.skipped.some(({ item, skippedReason }) => item.id === "old" && /superseded/.test(skippedReason)), true);
+	assert.equal(result.chosen.some(({ item }) => item.id === "new"), true);
 });
 
 test("chooseMemories caps selected items by kind and records skipped reasons", () => {

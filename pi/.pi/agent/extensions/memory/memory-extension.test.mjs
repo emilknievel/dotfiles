@@ -213,6 +213,42 @@ test("tool_call learns repeated observations conservatively", async () => {
 	fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
+test("memory-prune removes stale low-confidence extension memories", async () => {
+	const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "pi-memory-prune-"));
+	fs.mkdirSync(path.join(tempDir, ".git"));
+
+	const notifications = [];
+	const ctx = createMockContext(tempDir, notifications);
+	const pi = createMockPi();
+	const extensionFactory = await loadExtensionFactory();
+		extensionFactory(pi);
+
+	await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+	const memoryPath = path.join(tempDir, ".pi", "memory.jsonl");
+	fs.mkdirSync(path.dirname(memoryPath), { recursive: true });
+	fs.writeFileSync(
+		memoryPath,
+		`${JSON.stringify({
+			id: "stale",
+			kind: "project_fact",
+			scope: "repo",
+			repoKey: tempDir,
+			text: "This repo uses pnpm",
+			tags: ["pnpm"],
+			source: "extension",
+			confidence: 0.3,
+			createdAt: "2026-01-01T00:00:00.000Z",
+			updatedAt: "2026-01-01T00:00:00.000Z",
+		})}\n`,
+	);
+	await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+	await pi.commands.get("memory-prune").handler("", ctx);
+	const raw = fs.readFileSync(memoryPath, "utf8");
+	assert.equal(raw.trim(), "");
+
+	fs.rmSync(tempDir, { recursive: true, force: true });
+});
+
 test("session_before_compact extracts durable memory candidates", async () => {
 	const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "pi-memory-compact-"));
 	fs.mkdirSync(path.join(tempDir, ".git"));
