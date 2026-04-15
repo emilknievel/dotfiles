@@ -1,19 +1,42 @@
 # Bash cleanup future session checklist
 
 ## Session protocol
+**Instruction:** Use `TODOs/bash-cleanup-session.md` as the source of truth for this work. Follow the session protocol, record the starting commit, work through the checklist one commit section at a time, and consult the rollback notes if needed.
+
 - Open this file first and use it as the source of truth for the session.
 - Work one commit section at a time, in the listed order unless there is a clear reason to reorder.
 - Before each commit:
   - review the diff summary
   - run the listed tests for that section
   - verify the review focus items
-- Check items off in this file as work is completed.
+- Update this file as part of the work: check off completed items before creating each commit.
+- Keep this checklist synchronized with reality at all times.
 - If scope changes during the session, update this file before continuing.
+- When the done criteria are met, remove `TODOs/bash-cleanup-session.md` in the final cleanup commit.
 - Do not move to the next commit section until the current one is implemented, validated, and committed.
 - Keep behavior the same unless a change clearly improves robustness.
 
 ## Goal
 Clean up the bash config without changing intended behavior, and produce a small series of logically grouped commits.
+
+## Rollback / recovery notes
+- Before starting the session, record the starting commit:
+  - `git rev-parse --short HEAD`
+- If you want to inspect what changed during the session:
+  - `git log --oneline`
+  - `git diff <starting-commit>..HEAD`
+- If the current changes are not committed and should be discarded:
+  - `git restore <file>`
+- If the most recent commit should be redone but changes kept locally:
+  - `git reset --soft HEAD~1`
+- If the most recent commit should be undone and changes left unstaged:
+  - `git reset HEAD~1`
+- If a completed commit should be undone safely without rewriting history:
+  - `git revert <commit>`
+- If you want a safety marker before beginning, create a temporary branch or tag:
+  - `git branch bash-cleanup-session-start`
+  - or `git tag bash-cleanup-session-start`
+- Prefer `git revert` for already-published history and `git reset` for local-only cleanup.
 
 ## Commit-by-commit checklist
 
@@ -194,6 +217,13 @@ Clean up the bash config without changing intended behavior, and produce a small
 - [ ] If on macOS, confirm brew/dotnet behavior
 - [ ] If on Linux, confirm completion and SSH agent behavior
 - [ ] If in WSL, confirm WSL-specific aliases/env still work
+
+## Done criteria and cleanup
+- [ ] All intended commit sections are completed, intentionally skipped, or revised in this file
+- [ ] The whole-session final checks pass
+- [ ] Any deviations from the original plan are documented in this file or in commit messages
+- [ ] The bash cleanup work is considered complete
+- [ ] Remove `TODOs/bash-cleanup-session.md` once the work is done
 
 ## Recommended commit sequence
 1. `bash: harden startup and clean up warnings`
