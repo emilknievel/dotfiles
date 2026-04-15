@@ -30,6 +30,81 @@ Commands:
 - `/memory-debug`
 - `/memory-prune` — remove expired and very stale low-confidence memories
 
+## Memory cheat sheet
+
+### Save memory
+
+Repo fact:
+
+```text
+/remember This repo uses pnpm
+```
+
+Global preference:
+
+```text
+/remember-pref Prefer minimal diffs
+```
+
+Repo decision:
+
+```text
+/remember-decision Keep schemas in src/schema
+```
+
+Session task note:
+
+```text
+/remember-task Need to rerun tests after config changes
+```
+
+### Inspect memory
+
+Open the memory list:
+
+```text
+/memories
+```
+
+Debug what would be injected:
+
+```text
+/memory-debug
+```
+
+### Update memory
+
+Replace an old fact with a new one:
+
+```text
+/replace-memory pnpm => This repo uses bun
+```
+
+### Delete memory
+
+Remove by substring or id:
+
+```text
+/forget pnpm
+```
+
+### Clean up
+
+Remove expired or stale low-confidence memories:
+
+```text
+/memory-prune
+```
+
+### Good starter set
+
+```text
+/remember-pref Prefer minimal diffs
+/remember-pref Ask before destructive commands
+/remember This repo uses pnpm
+/remember-decision Keep schemas in src/schema
+```
+
 ## Update flow
 
 From `~/.dotfiles`:
