@@ -253,15 +253,46 @@ export default function memoryExtension(pi: ExtensionAPI) {
 		description: "Show what memory would be injected on the next turn",
 		handler: async (_args, ctx) => {
 			const branchMessages = getBranchMessages(ctx);
-			const { queryText, chosen } = chooseMemories(store, repoKey, ctx.sessionManager.getSessionFile(), branchMessages);
-			const body =
+			const { queryText, chosen, skipped, tokenBudget, kindCounts } = chooseMemories(
+				store,
+				repoKey,
+				ctx.sessionManager.getSessionFile(),
+				branchMessages,
+			);
+			const selectedSection =
 				chosen.length === 0
 					? "No memory would be injected right now."
-					: formatInjectedMemory(chosen.map(({ item }) => item));
+					: [
+						"Selected:",
+						...chosen.map(
+							({ item, score, reasons }) =>
+								`- [${item.kind}] ${item.text}\n  score=${score.toFixed(3)} exact=${reasons.exactMatches.join(",") || "-"} overlap=${reasons.overlap.toFixed(2)}`,
+						),
+					].join("\n");
+			const skippedSection =
+				skipped.length === 0
+					? "Skipped: none"
+					: [
+						"Skipped:",
+						...skipped.slice(0, 8).map(
+							({ item, score, skippedReason }) =>
+								`- [${item.kind}] ${item.text}\n  score=${score.toFixed(3)} reason=${skippedReason}`,
+						),
+					].join("\n");
+			const injected = chosen.length === 0 ? "" : formatInjectedMemory(chosen.map(({ item }) => item));
 			sendVisibleMessage(
 				pi,
 				"memory-debug",
-				[`Query text: ${queryText || "(empty)"}`, "", body, "", `Estimated tokens: ${estimateTokens(body)}`].join("\n"),
+				[
+					`Query text: ${queryText || "(empty)"}`,
+					`Token budget used: ${tokenBudget}`,
+					`Kind counts: pref=${kindCounts.preference}, decision=${kindCounts.decision}, fact=${kindCounts.project_fact}, task=${kindCounts.task_note}`,
+					"",
+					selectedSection,
+					"",
+					skippedSection,
+					...(injected ? ["", "Injected block:", injected, "", `Estimated tokens: ${estimateTokens(injected)}`] : []),
+				].join("\n"),
 			);
 		},
 	});

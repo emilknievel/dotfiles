@@ -145,13 +145,46 @@ export function kindBonus(kind) {
 
 export function scoreMemory(item, queryText, queryTokens) {
 	const memoryTokens = item.tags.length > 0 ? item.tags : tagsFromText(item.text);
+	const memoryTokenSet = new Set(memoryTokens);
+	const exactMatches = queryTokens.filter((token) => memoryTokenSet.has(token));
+	const exactMatchScore = exactMatches.length > 0 ? Math.min(0.5, exactMatches.length * 0.18) : 0;
 	const overlap = overlapScore(queryTokens, memoryTokens);
 	const contains = queryText && item.text.toLowerCase().includes(queryText.toLowerCase()) ? 0.4 : 0;
-	const confidence = item.confidence * 0.22;
-	const repoBoost = item.scope === "repo" ? 0.06 : 0;
+	const confidence = item.confidence * 0.2;
+	const repoBoost = item.scope === "repo" ? 0.08 : 0;
 	const sessionBoost = item.scope === "session" ? 0.04 : 0;
+	const decisionBoost = item.kind === "decision" && exactMatches.length > 0 ? 0.12 : 0;
+	const taskBoost = item.kind === "task_note" && exactMatches.length > 0 ? 0.08 : 0;
 	const preferenceFallback = !queryText && item.kind === "preference" ? 0.35 : 0;
-	return overlap * 0.55 + contains + confidence + kindBonus(item.kind) + repoBoost + sessionBoost + preferenceFallback;
+	const genericPreferencePenalty = item.kind === "preference" && exactMatches.length === 0 && queryTokens.length > 0 ? 0.18 : 0;
+	const score =
+		exactMatchScore +
+		overlap * 0.38 +
+		contains +
+		confidence +
+		kindBonus(item.kind) +
+		repoBoost +
+		sessionBoost +
+		decisionBoost +
+		taskBoost +
+		preferenceFallback -
+		genericPreferencePenalty;
+	return {
+		score,
+		reasons: {
+			exactMatches,
+			exactMatchScore,
+			overlap,
+			contains,
+			confidence,
+			repoBoost,
+			sessionBoost,
+			decisionBoost,
+			taskBoost,
+			preferenceFallback,
+			genericPreferencePenalty,
+		},
+	};
 }
 
 export function formatKind(kind) {
@@ -176,20 +209,46 @@ export function formatMemoryLine(item) {
 export function chooseMemories(items, repoKey, sessionFile, messages) {
 	const queryText = getLatestRelevantText(messages);
 	const queryTokens = tokenize(queryText);
-	const candidates = applicableMemories(items, repoKey, sessionFile)
-		.map((item) => ({ item, score: scoreMemory(item, queryText, queryTokens) }))
-		.filter(({ score }) => score > 0.18)
+	const scoredCandidates = applicableMemories(items, repoKey, sessionFile)
+		.map((item) => {
+			const scored = scoreMemory(item, queryText, queryTokens);
+			return { item, score: scored.score, reasons: scored.reasons };
+		})
 		.sort((a, b) => b.score - a.score);
+	const candidates = scoredCandidates.filter(({ score }) => score > 0.18);
 
 	const chosen = [];
+	const skipped = [];
+	const kindCounts = { preference: 0, decision: 0, project_fact: 0, task_note: 0 };
+	const kindLimits = { preference: 2, decision: 2, project_fact: 2, task_note: 1 };
 	let tokenBudget = 0;
+	const strongestSpecific = candidates.find((candidate) => candidate.item.kind !== "preference");
 
 	for (const candidate of candidates) {
-		if (chosen.length >= MAX_INJECTED_ITEMS) break;
+		if (chosen.length >= MAX_INJECTED_ITEMS) {
+			skipped.push({ ...candidate, skippedReason: "max items reached" });
+			continue;
+		}
+		if (
+			candidate.item.kind === "preference" &&
+			strongestSpecific &&
+			candidate.score + 0.12 < strongestSpecific.score
+		) {
+			skipped.push({ ...candidate, skippedReason: "preference weaker than repo-specific hit" });
+			continue;
+		}
+		if (kindCounts[candidate.item.kind] >= kindLimits[candidate.item.kind]) {
+			skipped.push({ ...candidate, skippedReason: `kind limit reached for ${candidate.item.kind}` });
+			continue;
+		}
 		const line = formatMemoryLine(candidate.item);
 		const cost = estimateTokens(line);
-		if (chosen.length > 0 && tokenBudget + cost > SOFT_TOKEN_BUDGET) break;
+		if (chosen.length > 0 && tokenBudget + cost > SOFT_TOKEN_BUDGET) {
+			skipped.push({ ...candidate, skippedReason: "token budget exceeded" });
+			continue;
+		}
 		chosen.push(candidate);
+		kindCounts[candidate.item.kind]++;
 		tokenBudget += cost;
 	}
 
@@ -197,11 +256,33 @@ export function chooseMemories(items, repoKey, sessionFile, messages) {
 		const preferences = applicableMemories(items, repoKey, sessionFile)
 			.filter((item) => item.kind === "preference")
 			.slice(0, 2)
-			.map((item) => ({ item, score: 0.2 }));
+			.map((item) => ({
+				item,
+				score: 0.2,
+				reasons: {
+					exactMatches: [],
+					exactMatchScore: 0,
+					overlap: 0,
+					contains: 0,
+					confidence: item.confidence * 0.2,
+					repoBoost: 0,
+					sessionBoost: 0,
+					decisionBoost: 0,
+					taskBoost: 0,
+					preferenceFallback: 0.2,
+					genericPreferencePenalty: 0,
+				},
+				skippedReason: undefined,
+			}));
 		for (const pref of preferences) chosen.push(pref);
 	}
 
-	return { queryText, chosen };
+	const filteredOut = scoredCandidates.filter(({ score }) => score <= 0.18).map((candidate) => ({
+		...candidate,
+		skippedReason: "below score threshold",
+	}));
+
+	return { queryText, chosen, skipped: [...skipped, ...filteredOut], tokenBudget, kindCounts };
 }
 
 export function formatInjectedMemory(items) {

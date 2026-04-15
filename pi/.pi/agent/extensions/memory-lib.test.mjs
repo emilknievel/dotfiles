@@ -85,6 +85,19 @@ test("chooseMemories ignores existing hidden memory messages in context", () => 
 	assert.equal(result.chosen[0]?.item.id, "decision");
 });
 
+test("chooseMemories caps selected items by kind and records skipped reasons", () => {
+	const items = [
+		makeMemory({ id: "decision-1", kind: "decision", text: "Use zod for schema validation", tags: ["zod", "schema"] }),
+		makeMemory({ id: "decision-2", kind: "decision", text: "Keep zod schemas in src/schema", tags: ["zod", "schema", "src/schema"] }),
+		makeMemory({ id: "decision-3", kind: "decision", text: "Prefer zod-safe parsing helpers", tags: ["zod", "safe", "parsing"] }),
+		makeMemory({ id: "pref", kind: "preference", scope: "global", repoKey: undefined, text: "Prefer minimal diffs", tags: ["minimal", "diffs"] }),
+	];
+	const result = chooseMemories(items, "/repo", undefined, [userMessage("Please update the zod schema")]);
+	assert.deepEqual(result.chosen.filter(({ item }) => item.kind === "decision").length, 2);
+	assert.equal(result.skipped.some(({ item, skippedReason }) => item.id === "decision-3" && /kind limit/.test(skippedReason)), true);
+	assert.equal(result.skipped.some(({ item, skippedReason }) => item.id === "pref" && /(weaker than repo-specific hit|below score threshold)/.test(skippedReason)), true);
+});
+
 test("addOrUpdateMemory merges duplicates and extends tags", () => {
 	const existing = [makeMemory({ id: "same", text: "Use pnpm", tags: ["pnpm"], confidence: 0.6 })];
 	const result = addOrUpdateMemory(

@@ -113,6 +113,9 @@ test("memory-debug emits a visible summary message", async () => {
 	const last = pi.sentMessages.at(-1);
 	assert.equal(last.message.display, true);
 	assert.match(last.message.content, /Query text:/);
+	assert.match(last.message.content, /Selected:/);
+	assert.match(last.message.content, /Skipped:/);
+	assert.match(last.message.content, /score=/);
 	assert.match(last.message.content, /Use pnpm for package commands/);
 
 	fs.rmSync(tempDir, { recursive: true, force: true });
