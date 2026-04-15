@@ -1,9 +1,9 @@
 error_display() {
 	local exit_status=$1
-	if [ $exit_status -eq 1 ]; then
-		echo " ◍"
-	else
+	if [ $exit_status -eq 0 ]; then
 		echo ""
+	else
+		echo "[$exit_status]"
 	fi
 }
 
