@@ -51,5 +51,6 @@ Run the memory extension tests with:
 node --experimental-strip-types --test \
   ~/.dotfiles/pi/.pi/agent/extensions/memory/memory-lib.test.mjs \
   ~/.dotfiles/pi/.pi/agent/extensions/memory/memory-extract.test.mjs \
+  ~/.dotfiles/pi/.pi/agent/extensions/memory/memory-observe.test.mjs \
   ~/.dotfiles/pi/.pi/agent/extensions/memory/memory-extension.test.mjs
 ```

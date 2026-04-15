@@ -16,6 +16,7 @@ import {
 } from "./memory-lib.js";
 import { addOrUpdateMemoryInStore, findRepoRoot, getStorePath, persistStore, readStore } from "./memory-store.js";
 import { extractMemoryCandidatesFromMessages } from "./memory-extract.js";
+import { extractObservedCandidates, mergeObservedCandidates } from "./memory-observe.js";
 
 type MemoryKind = "preference" | "project_fact" | "decision" | "task_note";
 type MemoryScope = "global" | "repo" | "session";
@@ -44,6 +45,7 @@ interface MemoryAuditEntry {
 	text?: string;
 	query?: string;
 	count?: number;
+	toolName?: string;
 }
 
 function getBranchMessages(ctx: ExtensionContext): AgentMessage[] {
@@ -79,6 +81,7 @@ export default function memoryExtension(pi: ExtensionAPI) {
 	let repoKey = "";
 	let storePath = "";
 	let store: MemoryItem[] = [];
+	let observationCounts = new Map<string, number>();
 
 	const refreshStatus = (ctx: ExtensionContext) => {
 		const applicable = applicableMemories(store, repoKey, ctx.sessionManager.getSessionFile());
@@ -89,6 +92,39 @@ export default function memoryExtension(pi: ExtensionAPI) {
 		repoKey = findRepoRoot(ctx.cwd);
 		storePath = getStorePath(repoKey);
 		store = readStore(storePath) as MemoryItem[];
+		refreshStatus(ctx);
+	};
+
+	const learnObservedCandidates = (ctx: ExtensionContext, toolName: string, input: unknown) => {
+		const observed = extractObservedCandidates(toolName, input);
+		if (observed.length === 0) return;
+
+		const merged = mergeObservedCandidates(observationCounts, observed);
+		observationCounts = merged.counts;
+		let learned = 0;
+		for (const candidate of merged.accepted) {
+			const result = addOrUpdateMemoryInStore(store, {
+				kind: candidate.kind,
+				scope: candidate.scope,
+				repoKey: candidate.scope === "repo" ? repoKey : undefined,
+				sessionFile: undefined,
+				text: candidate.text,
+				tags: candidate.tags,
+				source: "extension",
+				confidence: candidate.confidence,
+				expiresAt: undefined,
+			});
+			const beforeSize = store.length;
+			store = result.items as MemoryItem[];
+			if (result.created || store.length !== beforeSize) learned++;
+		}
+		if (learned === 0) return;
+		persist();
+		pi.appendEntry<MemoryAuditEntry>("memory-state", {
+			action: "tool-observe",
+			count: learned,
+			toolName,
+		});
 		refreshStatus(ctx);
 	};
 
@@ -133,6 +169,11 @@ export default function memoryExtension(pi: ExtensionAPI) {
 
 	pi.on("session_tree", async (_event, ctx) => {
 		load(ctx);
+	});
+
+	pi.on("tool_call", async (event, ctx) => {
+		if (!storePath) load(ctx);
+		learnObservedCandidates(ctx, event.toolName, event.input);
 	});
 
 	pi.on("context", async (event, ctx) => {

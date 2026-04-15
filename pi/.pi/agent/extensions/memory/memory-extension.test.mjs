@@ -122,6 +122,28 @@ test("memory-debug emits a visible summary message", async () => {
 	fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
+test("tool_call learns repeated observations conservatively", async () => {
+	const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "pi-memory-observe-"));
+	fs.mkdirSync(path.join(tempDir, ".git"));
+
+	const notifications = [];
+	const ctx = createMockContext(tempDir, notifications);
+	const pi = createMockPi();
+	const extensionFactory = await loadExtensionFactory();
+		extensionFactory(pi);
+
+	await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+	await pi.handlers.get("tool_call")({ toolName: "bash", input: { command: "pnpm test" } }, ctx);
+	const memoryPath = path.join(tempDir, ".pi", "memory.jsonl");
+	assert.equal(fs.existsSync(memoryPath), false);
+	await pi.handlers.get("tool_call")({ toolName: "bash", input: { command: "pnpm lint" } }, ctx);
+	const raw = fs.readFileSync(memoryPath, "utf8");
+	assert.match(raw, /This repo uses pnpm/);
+	assert.equal(pi.appendedEntries.some((entry) => entry.data?.action === "tool-observe"), true);
+
+	fs.rmSync(tempDir, { recursive: true, force: true });
+});
+
 test("session_before_compact extracts durable memory candidates", async () => {
 	const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "pi-memory-compact-"));
 	fs.mkdirSync(path.join(tempDir, ".git"));
