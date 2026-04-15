@@ -25,7 +25,7 @@ Commands:
 - `/remember-decision`
 - `/remember-task`
 - `/forget`
-- `/memories`
+- `/memories` — opens an interactive list in TUI mode, falls back to a visible message otherwise
 - `/memory-debug`
 - `/memory-prune`
 

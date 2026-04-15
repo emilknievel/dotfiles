@@ -45,6 +45,10 @@ function createMockContext(cwd, notifications) {
 				notifications.push({ message, level });
 			},
 			setStatus() {},
+			custom: async (factory) => {
+				const component = factory({}, { fg: (_c, s) => s }, {}, () => {});
+				return component;
+			},
 		},
 	};
 }
@@ -85,6 +89,35 @@ test("memory extension registers commands and injects memory into context", asyn
 	assert.match(String(contextResult.messages[0].content), /Use zod for schema validation/);
 	assert.equal(pi.appendedEntries.length >= 2, true);
 	assert.equal(notifications.some((entry) => /Memory ready/.test(entry.message)), true);
+
+	fs.rmSync(tempDir, { recursive: true, force: true });
+});
+
+test("memories opens a custom UI when interactive", async () => {
+	const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "pi-memory-ui-"));
+	fs.mkdirSync(path.join(tempDir, ".git"));
+
+	const notifications = [];
+	let customCalled = false;
+	const baseCtx = createMockContext(tempDir, notifications);
+	const ctx = {
+		...baseCtx,
+		ui: {
+			...baseCtx.ui,
+			custom: async (factory) => {
+				customCalled = true;
+				return factory({}, { fg: (_c, s) => s }, {}, () => {});
+			},
+		},
+	};
+	const pi = createMockPi();
+	const extensionFactory = await loadExtensionFactory();
+		extensionFactory(pi);
+	await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+	await pi.commands.get("remember").handler("Use pnpm for package commands", ctx);
+	await pi.commands.get("memories").handler("", ctx);
+	assert.equal(customCalled, true);
+	assert.equal(pi.sentMessages.length, 0);
 
 	fs.rmSync(tempDir, { recursive: true, force: true });
 });

@@ -1,5 +1,5 @@
 import type { AgentMessage } from "@mariozechner/pi-agent-core";
-import type { ExtensionAPI, ExtensionContext, ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext, ExtensionCommandContext, Theme } from "@mariozechner/pi-coding-agent";
 import {
 	MEMORY_CUSTOM_TYPE,
 	applicableMemories,
@@ -46,6 +46,85 @@ interface MemoryAuditEntry {
 	query?: string;
 	count?: number;
 	toolName?: string;
+}
+
+function matchesKey(data: string, key: string): boolean {
+	return data === key;
+}
+
+function truncateToWidth(text: string, width: number): string {
+	return text.length <= width ? text : `${text.slice(0, Math.max(0, width - 1))}…`;
+}
+
+class MemoryListComponent {
+	private items: MemoryItem[];
+	private theme: Theme;
+	private onClose: () => void;
+	private cachedWidth?: number;
+	private cachedLines?: string[];
+
+	constructor(items: MemoryItem[], theme: Theme, onClose: () => void) {
+		this.items = items;
+		this.theme = theme;
+		this.onClose = onClose;
+	}
+
+	handleInput(data: string): void {
+		if (matchesKey(data, "escape") || matchesKey(data, "ctrl+c") || matchesKey(data, "enter")) {
+			this.onClose();
+		}
+	}
+
+	render(width: number): string[] {
+		if (this.cachedLines && this.cachedWidth === width) return this.cachedLines;
+		const th = this.theme;
+		const lines: string[] = [];
+		lines.push("");
+		const title = th.fg("accent", " Memories ");
+		const header = th.fg("borderMuted", "─".repeat(3)) + title + th.fg("borderMuted", "─".repeat(Math.max(0, width - 13)));
+		lines.push(truncateToWidth(header, width));
+		lines.push("");
+		if (this.items.length === 0) {
+			lines.push(truncateToWidth(`  ${th.fg("dim", "No stored memories.")}`, width));
+		} else {
+			const counts = {
+				preference: this.items.filter((item) => item.kind === "preference").length,
+				decision: this.items.filter((item) => item.kind === "decision").length,
+				project_fact: this.items.filter((item) => item.kind === "project_fact").length,
+				task_note: this.items.filter((item) => item.kind === "task_note").length,
+			};
+			lines.push(
+				truncateToWidth(
+					`  ${th.fg("muted", `${this.items.length} total · pref ${counts.preference} · decisions ${counts.decision} · facts ${counts.project_fact} · tasks ${counts.task_note}`)}`,
+					width,
+				),
+			);
+			lines.push("");
+			for (const item of this.items) {
+				const kindColor = item.kind === "preference" ? "accent" : item.kind === "decision" ? "success" : item.kind === "task_note" ? "warning" : "text";
+				const scope = th.fg("dim", `[${item.scope}]`);
+				const kind = th.fg(kindColor, item.kind.replace("_", " "));
+				lines.push(truncateToWidth(`  ${scope} ${kind} ${th.fg("text", item.text)}`, width));
+				lines.push(
+					truncateToWidth(
+						`      ${th.fg("dim", `confidence=${item.confidence.toFixed(2)} · id=${item.id.slice(0, 8)}`)}`,
+						width,
+					),
+				);
+			}
+		}
+		lines.push("");
+		lines.push(truncateToWidth(`  ${th.fg("dim", "Press Enter or Escape to close")}`, width));
+		lines.push("");
+		this.cachedWidth = width;
+		this.cachedLines = lines;
+		return lines;
+	}
+
+	invalidate(): void {
+		this.cachedWidth = undefined;
+		this.cachedLines = undefined;
+	}
 }
 
 function getBranchMessages(ctx: ExtensionContext): AgentMessage[] {
@@ -321,6 +400,10 @@ export default function memoryExtension(pi: ExtensionAPI) {
 		description: "Show stored memories relevant to the current repo/session",
 		handler: async (_args, ctx) => {
 			const items = applicableMemories(store, repoKey, ctx.sessionManager.getSessionFile());
+			if (ctx.hasUI && typeof ctx.ui.custom === "function") {
+				await ctx.ui.custom<void>((_tui, theme, _kb, done) => new MemoryListComponent(items, theme, () => done()));
+				return;
+			}
 			sendVisibleMessage(pi, "memory-list", formatMemoryList(items));
 			ctx.ui.notify(`Listed ${items.length} memory item${items.length === 1 ? "" : "s"}`, "info");
 		},
