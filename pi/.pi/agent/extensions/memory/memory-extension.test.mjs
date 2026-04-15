@@ -128,6 +128,36 @@ test("memories opens a custom UI when interactive", async () => {
 	fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
+test("replace-memory supersedes matching active memories", async () => {
+	const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "pi-memory-replace-"));
+	fs.mkdirSync(path.join(tempDir, ".git"));
+
+	const notifications = [];
+	const ctx = createMockContext(tempDir, notifications);
+	const pi = createMockPi();
+	const extensionFactory = await loadExtensionFactory();
+		extensionFactory(pi);
+
+	await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+	await pi.commands.get("remember").handler("This repo uses pnpm", ctx);
+	await pi.commands.get("replace-memory").handler("pnpm => This repo uses bun", ctx);
+
+	const raw = fs.readFileSync(path.join(tempDir, ".pi", "memory.jsonl"), "utf8");
+	assert.match(raw, /This repo uses pnpm/);
+	assert.match(raw, /This repo uses bun/);
+	assert.match(raw, /"supersedes":\[[^\]]+/);
+
+	const contextResult = await pi.handlers.get("context")(
+		{ type: "context", messages: [{ role: "user", content: "what package manager?", timestamp: Date.now() }] },
+		ctx,
+	);
+	assert.doesNotMatch(String(contextResult.messages[0].content), /pnpm/);
+	assert.match(String(contextResult.messages[0].content), /bun/);
+	assert.equal(pi.sentMessages.at(-1).message.content.includes("This repo uses bun"), true);
+
+	fs.rmSync(tempDir, { recursive: true, force: true });
+});
+
 test("memory-debug emits a visible summary message", async () => {
 	const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "pi-memory-debug-"));
 	fs.mkdirSync(path.join(tempDir, ".git"));

@@ -7,10 +7,12 @@ import {
 	applicableMemories,
 	chooseMemories,
 	dedupeItems,
+	findMatchingMemories,
 	forgetByQuery,
 	formatInjectedMemory,
 	isExpired,
 	markMemoriesUsed,
+	parseReplaceCommand,
 } from "./memory-lib.js";
 
 function makeMemory(overrides = {}) {
@@ -53,6 +55,13 @@ test("applicableMemories filters by repo/session/confidence/expiry", () => {
 		["global-pref", "repo-hit", "session-hit"],
 	);
 	assert.equal(isExpired(items[6]), true);
+});
+
+test("applicableMemories excludes superseded memories", () => {
+	const active = makeMemory({ id: "new", text: "This repo uses bun", supersedes: ["old"] });
+	const old = makeMemory({ id: "old", text: "This repo uses pnpm" });
+	const result = applicableMemories([old, active], "/repo", undefined);
+	assert.deepEqual(result.map((item) => item.id), ["new"]);
 });
 
 test("chooseMemories prefers relevant repo decision over generic preference", () => {
@@ -121,6 +130,24 @@ test("addOrUpdateMemory merges duplicates and extends tags", () => {
 	assert.equal(result.memory.id, "same");
 	assert.equal(result.memory.confidence, 1);
 	assert.deepEqual(result.memory.tags.sort(), ["package-manager", "pnpm"]);
+});
+
+test("parseReplaceCommand parses query and replacement text", () => {
+	assert.deepEqual(parseReplaceCommand("pnpm => This repo uses bun"), {
+		query: "pnpm",
+		replacement: "This repo uses bun",
+	});
+	assert.equal(parseReplaceCommand("invalid"), undefined);
+});
+
+test("findMatchingMemories ignores superseded entries and respects scope", () => {
+	const items = [
+		makeMemory({ id: "old", text: "This repo uses pnpm" }),
+		makeMemory({ id: "new", text: "This repo uses bun", supersedes: ["old"] }),
+		makeMemory({ id: "global", kind: "preference", scope: "global", repoKey: undefined, text: "Prefer concise answers" }),
+	];
+	const result = findMatchingMemories(items, "repo uses", "/repo", undefined);
+	assert.deepEqual(result.map((item) => item.id), ["new"]);
 });
 
 test("forgetByQuery removes matching global and current-repo memories only", () => {

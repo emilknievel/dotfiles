@@ -107,8 +107,18 @@ export function sortMemories(items) {
 	});
 }
 
+export function getSupersededIds(items) {
+	const supersededIds = new Set();
+	for (const item of items) {
+		for (const id of item.supersedes ?? []) supersededIds.add(id);
+	}
+	return supersededIds;
+}
+
 export function applicableMemories(items, repoKey, sessionFile) {
+	const supersededIds = getSupersededIds(items);
 	return items.filter((item) => {
+		if (supersededIds.has(item.id)) return false;
 		if (isExpired(item)) return false;
 		if (item.confidence < MIN_CONFIDENCE) return false;
 		if (item.scope === "global") return true;
@@ -209,6 +219,7 @@ export function formatMemoryLine(item) {
 export function chooseMemories(items, repoKey, sessionFile, messages) {
 	const queryText = getLatestRelevantText(messages);
 	const queryTokens = tokenize(queryText);
+	const supersededIds = getSupersededIds(items);
 	const scoredCandidates = applicableMemories(items, repoKey, sessionFile)
 		.map((item) => {
 			const scored = scoreMemory(item, queryText, queryTokens);
@@ -281,8 +292,11 @@ export function chooseMemories(items, repoKey, sessionFile, messages) {
 		...candidate,
 		skippedReason: "below score threshold",
 	}));
+	const superseded = items
+		.filter((item) => supersededIds.has(item.id))
+		.map((item) => ({ item, score: 0, reasons: undefined, skippedReason: "superseded by newer memory" }));
 
-	return { queryText, chosen, skipped: [...skipped, ...filteredOut], tokenBudget, kindCounts };
+	return { queryText, chosen, skipped: [...skipped, ...filteredOut, ...superseded], tokenBudget, kindCounts };
 }
 
 export function formatInjectedMemory(items) {
@@ -303,6 +317,16 @@ export function formatMemoryList(items) {
 				`- [${item.kind}] ${item.text} (scope=${item.scope}, confidence=${item.confidence.toFixed(2)}, id=${item.id})`,
 		)
 		.join("\n");
+}
+
+export function parseReplaceCommand(args) {
+	const text = normalizeText(args ?? "");
+	const separator = text.indexOf("=>");
+	if (separator === -1) return undefined;
+	const query = normalizeText(text.slice(0, separator));
+	const replacement = normalizeText(text.slice(separator + 2));
+	if (!query || !replacement) return undefined;
+	return { query, replacement };
 }
 
 export function addOrUpdateMemory(items, partial, createId) {
@@ -341,6 +365,20 @@ export function addOrUpdateMemory(items, partial, createId) {
 		confidence: clamp(partial.confidence, 0, 1),
 	};
 	return { items: dedupeItems([...items, memory]), memory, created: true };
+}
+
+export function findMatchingMemories(items, query, repoKey, sessionFile) {
+	const normalized = query.toLowerCase();
+	const supersededIds = getSupersededIds(items);
+	return items.filter((item) => {
+		if (supersededIds.has(item.id)) return false;
+		const matchesScope =
+			item.scope === "global" ||
+			(item.scope === "repo" && item.repoKey === repoKey) ||
+			(item.scope === "session" && item.sessionFile === sessionFile);
+		if (!matchesScope) return false;
+		return item.text.toLowerCase().includes(normalized) || item.id.toLowerCase().includes(normalized);
+	});
 }
 
 export function forgetByQuery(items, query, repoKey) {

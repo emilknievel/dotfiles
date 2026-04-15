@@ -24,6 +24,7 @@ Commands:
 - `/remember-pref`
 - `/remember-decision`
 - `/remember-task`
+- `/replace-memory` — replace matching active memories with a new one and supersede the old facts
 - `/forget`
 - `/memories` — opens an interactive list in TUI mode, falls back to a visible message otherwise
 - `/memory-debug`

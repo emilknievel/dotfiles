@@ -7,11 +7,13 @@ import {
 	estimateTokens,
 	formatInjectedMemory,
 	formatMemoryList,
+	findMatchingMemories,
 	forgetByQuery,
 	isExpired,
 	isMemoryMessage,
 	markMemoriesUsed,
 	parseCommandText,
+	parseReplaceCommand,
 	tagsFromText,
 } from "./memory-lib.js";
 import { addOrUpdateMemoryInStore, findRepoRoot, getStorePath, persistStore, readStore } from "./memory-store.js";
@@ -225,7 +227,7 @@ export default function memoryExtension(pi: ExtensionAPI) {
 		kind: MemoryKind,
 		scope: MemoryScope,
 		text: string,
-		options?: { confidence?: number; expiresAt?: string },
+		options?: { confidence?: number; expiresAt?: string; supersedes?: string[] },
 	) => {
 		const parsed = addOrUpdateMemoryInStore(store, {
 			kind,
@@ -237,6 +239,7 @@ export default function memoryExtension(pi: ExtensionAPI) {
 			source: "user",
 			confidence: options?.confidence ?? 1,
 			expiresAt: options?.expiresAt,
+			supersedes: options?.supersedes,
 		});
 		store = parsed.items as MemoryItem[];
 		persist();
@@ -371,6 +374,44 @@ export default function memoryExtension(pi: ExtensionAPI) {
 			}
 			const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 			remember(ctx, "task_note", "session", text, { confidence: 0.9, expiresAt });
+		},
+	});
+
+	pi.registerCommand("replace-memory", {
+		description: "Replace matching memories. Usage: /replace-memory <query> => <new text>",
+		handler: async (args, ctx) => {
+			const parsed = parseReplaceCommand(args);
+			if (!parsed) {
+				ctx.ui.notify("Usage: /replace-memory <query> => <new text>", "warning");
+				return;
+			}
+			const matches = findMatchingMemories(store, parsed.query, repoKey, ctx.sessionManager.getSessionFile());
+			if (matches.length === 0) {
+				ctx.ui.notify("No matching active memories", "info");
+				return;
+			}
+			const kinds = [...new Set(matches.map((item) => item.kind))];
+			const scopes = [...new Set(matches.map((item) => item.scope))];
+			const kind = (kinds.length === 1 ? kinds[0] : "project_fact") as MemoryKind;
+			const scope = (scopes.length === 1 ? scopes[0] : "repo") as MemoryScope;
+			remember(ctx, kind, scope, parsed.replacement, { supersedes: matches.map((item) => item.id) });
+			pi.appendEntry<MemoryAuditEntry>("memory-state", {
+				action: "replace",
+				query: parsed.query,
+				count: matches.length,
+				text: parsed.replacement,
+			});
+			sendVisibleMessage(
+				pi,
+				"memory-replace",
+				[
+					`Replaced ${matches.length} memor${matches.length === 1 ? "y" : "ies"}:`,
+					...matches.map((item) => `- [${item.kind}] ${item.text}`),
+					"",
+					`New active memory:`,
+					`- [${kind}] ${parsed.replacement}`,
+				].join("\n"),
+			);
 		},
 	});
 
