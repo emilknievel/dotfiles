@@ -10,7 +10,8 @@ Installed via stow to:
 
 ## Files
 
-- `extensions/memory.ts` — global memory extension for pi
+- `extensions/memory/index.ts` — global memory extension for pi
+- `extensions/memory/` — helper modules and tests for the memory extension
 
 ## Memory extension
 
@@ -48,6 +49,6 @@ Run the memory extension tests with:
 
 ```bash
 node --experimental-strip-types --test \
-  ~/.dotfiles/pi/.pi/agent/extensions/memory-lib.test.mjs \
-  ~/.dotfiles/pi/.pi/agent/extensions/memory-extension.test.mjs
+  ~/.dotfiles/pi/.pi/agent/extensions/memory/memory-lib.test.mjs \
+  ~/.dotfiles/pi/.pi/agent/extensions/memory/memory-extension.test.mjs
 ```

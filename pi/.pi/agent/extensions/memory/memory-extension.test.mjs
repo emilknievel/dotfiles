@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import fs from "node:fs";
 
-const extensionModulePath = new URL("./memory.ts", import.meta.url).pathname;
+const extensionModulePath = new URL("./index.ts", import.meta.url).pathname;
 
 function createMockPi() {
 	const commands = new Map();
