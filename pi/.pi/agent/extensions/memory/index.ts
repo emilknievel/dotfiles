@@ -49,7 +49,16 @@ interface MemoryAuditEntry {
 }
 
 function matchesKey(data: string, key: string): boolean {
-	return data === key;
+	switch (key) {
+		case "escape":
+			return data === "\x1b";
+		case "enter":
+			return data === "\r" || data === "\n";
+		case "ctrl+c":
+			return data === "\u0003";
+		default:
+			return data === key;
+	}
 }
 
 function truncateToWidth(text: string, width: number): string {

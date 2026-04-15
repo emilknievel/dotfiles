@@ -99,6 +99,7 @@ test("memories opens a custom UI when interactive", async () => {
 
 	const notifications = [];
 	let customCalled = false;
+	let closed = false;
 	const baseCtx = createMockContext(tempDir, notifications);
 	const ctx = {
 		...baseCtx,
@@ -106,7 +107,11 @@ test("memories opens a custom UI when interactive", async () => {
 			...baseCtx.ui,
 			custom: async (factory) => {
 				customCalled = true;
-				return factory({}, { fg: (_c, s) => s }, {}, () => {});
+				const component = factory({}, { fg: (_c, s) => s }, {}, () => {
+					closed = true;
+				});
+				component.handleInput?.("\x1b");
+				return component;
 			},
 		},
 	};
@@ -117,6 +122,7 @@ test("memories opens a custom UI when interactive", async () => {
 	await pi.commands.get("remember").handler("Use pnpm for package commands", ctx);
 	await pi.commands.get("memories").handler("", ctx);
 	assert.equal(customCalled, true);
+	assert.equal(closed, true);
 	assert.equal(pi.sentMessages.length, 0);
 
 	fs.rmSync(tempDir, { recursive: true, force: true });
