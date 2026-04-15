@@ -15,6 +15,7 @@ import {
 	tagsFromText,
 } from "./memory-lib.js";
 import { addOrUpdateMemoryInStore, findRepoRoot, getStorePath, persistStore, readStore } from "./memory-store.js";
+import { extractMemoryCandidatesFromMessages } from "./memory-extract.js";
 
 type MemoryKind = "preference" | "project_fact" | "decision" | "task_note";
 type MemoryScope = "global" | "repo" | "session";
@@ -158,6 +159,41 @@ export default function memoryExtension(pi: ExtensionAPI) {
 		return {
 			messages: [memoryMessage, ...filteredMessages],
 		};
+	});
+
+	pi.on("session_before_compact", async (event, ctx) => {
+		if (!storePath) load(ctx);
+
+		const messagesToScan = [...event.preparation.messagesToSummarize, ...event.preparation.turnPrefixMessages].filter(
+			(message) => !isMemoryMessage(message),
+		);
+		const candidates = extractMemoryCandidatesFromMessages(messagesToScan);
+		if (candidates.length === 0) return;
+
+		let added = 0;
+		for (const candidate of candidates) {
+			const result = addOrUpdateMemoryInStore(store, {
+				kind: candidate.kind,
+				scope: candidate.scope,
+				repoKey: candidate.scope === "repo" ? repoKey : undefined,
+				sessionFile: undefined,
+				text: candidate.text,
+				tags: candidate.tags,
+				source: "extension",
+				confidence: candidate.confidence,
+				expiresAt: undefined,
+			});
+			store = result.items as MemoryItem[];
+			if (result.created) added++;
+		}
+		if (added === 0) return;
+		persist();
+		pi.appendEntry<MemoryAuditEntry>("memory-state", {
+			action: "compact-extract",
+			count: added,
+		});
+		refreshStatus(ctx);
+		ctx.ui.notify(`Memory: extracted ${added} candidate${added === 1 ? "" : "s"} during compaction`, "info");
 	});
 
 	pi.registerCommand("remember", {

@@ -67,6 +67,7 @@ test("memory extension registers commands and injects memory into context", asyn
 	assert.ok(pi.commands.has("memory-debug"));
 	assert.ok(pi.handlers.has("session_start"));
 	assert.ok(pi.handlers.has("context"));
+	assert.ok(pi.handlers.has("session_before_compact"));
 
 	await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
 
@@ -117,6 +118,41 @@ test("memory-debug emits a visible summary message", async () => {
 	assert.match(last.message.content, /Skipped:/);
 	assert.match(last.message.content, /score=/);
 	assert.match(last.message.content, /Use pnpm for package commands/);
+
+	fs.rmSync(tempDir, { recursive: true, force: true });
+});
+
+test("session_before_compact extracts durable memory candidates", async () => {
+	const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "pi-memory-compact-"));
+	fs.mkdirSync(path.join(tempDir, ".git"));
+
+	const notifications = [];
+	const ctx = createMockContext(tempDir, notifications);
+	const pi = createMockPi();
+	const extensionFactory = await loadExtensionFactory();
+		extensionFactory(pi);
+
+	await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+	await pi.handlers.get("session_before_compact")(
+		{
+			type: "session_before_compact",
+			preparation: {
+				messagesToSummarize: [
+					{ role: "user", content: "Prefer minimal diffs.", timestamp: Date.now() },
+					{ role: "assistant", content: "This repo uses pnpm. Keep schemas in src/schema.", timestamp: Date.now() },
+				],
+				turnPrefixMessages: [],
+			},
+		},
+		ctx,
+	);
+
+	const memoryPath = path.join(tempDir, ".pi", "memory.jsonl");
+	assert.equal(fs.existsSync(memoryPath), true);
+	const raw = fs.readFileSync(memoryPath, "utf8");
+	assert.match(raw, /Prefer minimal diffs/);
+	assert.match(raw, /This repo uses pnpm/);
+	assert.equal(pi.appendedEntries.some((entry) => entry.data?.action === "compact-extract"), true);
 
 	fs.rmSync(tempDir, { recursive: true, force: true });
 });
