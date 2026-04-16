@@ -73,7 +73,13 @@ export function getMessageText(message) {
   if (!Array.isArray(content)) return "";
 
   return content
-    .filter((part) => !!part && typeof part === "object" && part.type === "text" && typeof part.text === "string")
+    .filter(
+      (part) =>
+        !!part &&
+        typeof part === "object" &&
+        part.type === "text" &&
+        typeof part.text === "string",
+    )
     .map((part) => part.text)
     .join("\n");
 }
@@ -130,7 +136,12 @@ export function getSupersededIds(items) {
   return supersededIds;
 }
 
-export function applicableMemories(items, repoKey, sessionFile, now = Date.now()) {
+export function applicableMemories(
+  items,
+  repoKey,
+  sessionFile,
+  now = Date.now(),
+) {
   const supersededIds = getSupersededIds(items);
   return items.filter((item) => {
     if (supersededIds.has(item.id)) return false;
@@ -169,20 +180,33 @@ export function kindBonus(kind) {
 }
 
 export function scoreMemory(item, queryText, queryTokens, now = Date.now()) {
-  const memoryTokens = item.tags.length > 0 ? item.tags : tagsFromText(item.text);
+  const memoryTokens =
+    item.tags.length > 0 ? item.tags : tagsFromText(item.text);
   const memoryTokenSet = new Set(memoryTokens);
   const exactMatches = queryTokens.filter((token) => memoryTokenSet.has(token));
-  const exactMatchScore = exactMatches.length > 0 ? Math.min(0.5, exactMatches.length * 0.18) : 0;
+  const exactMatchScore =
+    exactMatches.length > 0 ? Math.min(0.5, exactMatches.length * 0.18) : 0;
   const overlap = overlapScore(queryTokens, memoryTokens);
-  const contains = queryText && item.text.toLowerCase().includes(queryText.toLowerCase()) ? 0.4 : 0;
+  const contains =
+    queryText && item.text.toLowerCase().includes(queryText.toLowerCase())
+      ? 0.4
+      : 0;
   const effectiveConfidence = getEffectiveConfidence(item, now);
   const confidence = effectiveConfidence * 0.2;
   const repoBoost = item.scope === "repo" ? 0.08 : 0;
   const sessionBoost = item.scope === "session" ? 0.04 : 0;
-  const decisionBoost = item.kind === "decision" && exactMatches.length > 0 ? 0.12 : 0;
-  const taskBoost = item.kind === "task_note" && exactMatches.length > 0 ? 0.08 : 0;
-  const preferenceFallback = !queryText && item.kind === "preference" ? 0.35 : 0;
-  const genericPreferencePenalty = item.kind === "preference" && exactMatches.length === 0 && queryTokens.length > 0 ? 0.18 : 0;
+  const decisionBoost =
+    item.kind === "decision" && exactMatches.length > 0 ? 0.12 : 0;
+  const taskBoost =
+    item.kind === "task_note" && exactMatches.length > 0 ? 0.08 : 0;
+  const preferenceFallback =
+    !queryText && item.kind === "preference" ? 0.35 : 0;
+  const genericPreferencePenalty =
+    item.kind === "preference" &&
+    exactMatches.length === 0 &&
+    queryTokens.length > 0
+      ? 0.18
+      : 0;
   const score =
     exactMatchScore +
     overlap * 0.38 +
@@ -233,7 +257,13 @@ export function formatMemoryLine(item) {
   return `- ${formatKind(item.kind)}: ${item.text}`;
 }
 
-export function chooseMemories(items, repoKey, sessionFile, messages, now = Date.now()) {
+export function chooseMemories(
+  items,
+  repoKey,
+  sessionFile,
+  messages,
+  now = Date.now(),
+) {
   const queryText = getLatestRelevantText(messages);
   const queryTokens = tokenize(queryText);
   const supersededIds = getSupersededIds(items);
@@ -247,10 +277,22 @@ export function chooseMemories(items, repoKey, sessionFile, messages, now = Date
 
   const chosen = [];
   const skipped = [];
-  const kindCounts = { preference: 0, decision: 0, project_fact: 0, task_note: 0 };
-  const kindLimits = { preference: 2, decision: 2, project_fact: 2, task_note: 1 };
+  const kindCounts = {
+    preference: 0,
+    decision: 0,
+    project_fact: 0,
+    task_note: 0,
+  };
+  const kindLimits = {
+    preference: 2,
+    decision: 2,
+    project_fact: 2,
+    task_note: 1,
+  };
   let tokenBudget = 0;
-  const strongestSpecific = candidates.find((candidate) => candidate.item.kind !== "preference");
+  const strongestSpecific = candidates.find(
+    (candidate) => candidate.item.kind !== "preference",
+  );
 
   for (const candidate of candidates) {
     if (chosen.length >= MAX_INJECTED_ITEMS) {
@@ -262,11 +304,17 @@ export function chooseMemories(items, repoKey, sessionFile, messages, now = Date
       strongestSpecific &&
       candidate.score + 0.12 < strongestSpecific.score
     ) {
-      skipped.push({ ...candidate, skippedReason: "preference weaker than repo-specific hit" });
+      skipped.push({
+        ...candidate,
+        skippedReason: "preference weaker than repo-specific hit",
+      });
       continue;
     }
     if (kindCounts[candidate.item.kind] >= kindLimits[candidate.item.kind]) {
-      skipped.push({ ...candidate, skippedReason: `kind limit reached for ${candidate.item.kind}` });
+      skipped.push({
+        ...candidate,
+        skippedReason: `kind limit reached for ${candidate.item.kind}`,
+      });
       continue;
     }
     const line = formatMemoryLine(candidate.item);
@@ -306,15 +354,28 @@ export function chooseMemories(items, repoKey, sessionFile, messages, now = Date
     for (const pref of preferences) chosen.push(pref);
   }
 
-  const filteredOut = scoredCandidates.filter(({ score }) => score <= 0.18).map((candidate) => ({
-    ...candidate,
-    skippedReason: "below score threshold",
-  }));
+  const filteredOut = scoredCandidates
+    .filter(({ score }) => score <= 0.18)
+    .map((candidate) => ({
+      ...candidate,
+      skippedReason: "below score threshold",
+    }));
   const superseded = items
     .filter((item) => supersededIds.has(item.id))
-    .map((item) => ({ item, score: 0, reasons: undefined, skippedReason: "superseded by newer memory" }));
+    .map((item) => ({
+      item,
+      score: 0,
+      reasons: undefined,
+      skippedReason: "superseded by newer memory",
+    }));
 
-  return { queryText, chosen, skipped: [...skipped, ...filteredOut, ...superseded], tokenBudget, kindCounts };
+  return {
+    queryText,
+    chosen,
+    skipped: [...skipped, ...filteredOut, ...superseded],
+    tokenBudget,
+    kindCounts,
+  };
 }
 
 export function formatInjectedMemory(items) {
@@ -362,14 +423,22 @@ export function addOrUpdateMemory(items, partial, createId) {
     const updated = {
       ...existing,
       text: normalizedText,
-      tags: [...new Set([...(existing.tags ?? []), ...(partial.tags ?? [])])].slice(0, 12),
-      confidence: clamp(Math.max(existing.confidence, partial.confidence), 0, 1),
+      tags: [
+        ...new Set([...(existing.tags ?? []), ...(partial.tags ?? [])]),
+      ].slice(0, 12),
+      confidence: clamp(
+        Math.max(existing.confidence, partial.confidence),
+        0,
+        1,
+      ),
       source: partial.source,
       updatedAt: nowIso(),
       expiresAt: partial.expiresAt,
       supersedes: partial.supersedes,
     };
-    const next = items.map((item) => (item.id === existing.id ? updated : item));
+    const next = items.map((item) =>
+      item.id === existing.id ? updated : item,
+    );
     return { items: dedupeItems(next), memory: updated, created: false };
   }
 
@@ -395,7 +464,10 @@ export function findMatchingMemories(items, query, repoKey, sessionFile) {
       (item.scope === "repo" && item.repoKey === repoKey) ||
       (item.scope === "session" && item.sessionFile === sessionFile);
     if (!matchesScope) return false;
-    return item.text.toLowerCase().includes(normalized) || item.id.toLowerCase().includes(normalized);
+    return (
+      item.text.toLowerCase().includes(normalized) ||
+      item.id.toLowerCase().includes(normalized)
+    );
   });
 }
 
@@ -404,7 +476,9 @@ export function forgetByQuery(items, query, repoKey) {
   const removed = [];
   const kept = items.filter((item) => {
     const matchesScope = item.scope === "global" || item.repoKey === repoKey;
-    const matchesText = item.text.toLowerCase().includes(normalized) || item.id.toLowerCase().includes(normalized);
+    const matchesText =
+      item.text.toLowerCase().includes(normalized) ||
+      item.id.toLowerCase().includes(normalized);
     if (matchesScope && matchesText) {
       removed.push(item);
       return false;

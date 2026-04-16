@@ -1,6 +1,6 @@
+import { randomUUID } from "node:crypto";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { randomUUID } from "node:crypto";
 import { addOrUpdateMemory, dedupeItems, sortMemories } from "./memory-lib.js";
 
 export function findRepoRoot(startDir) {
@@ -27,7 +27,8 @@ export function readStore(storePath) {
     if (!trimmed) continue;
     try {
       const item = JSON.parse(trimmed);
-      if (item && item.id && item.text && item.kind && item.scope) items.push(item);
+      if (item && item.id && item.text && item.kind && item.scope)
+        items.push(item);
     } catch {
       // Skip malformed lines.
     }

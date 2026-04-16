@@ -136,6 +136,22 @@ Then reload in pi:
 /reload
 ```
 
+## Formatting
+
+Format the memory extension with Biome from the `pi/` directory:
+
+```bash
+cd ~/.dotfiles/pi
+npx @biomejs/biome format --write ./.pi/agent/extensions/memory
+```
+
+Check formatting without writing changes:
+
+```bash
+cd ~/.dotfiles/pi
+npx @biomejs/biome format ./.pi/agent/extensions/memory
+```
+
 ## Tests
 
 Run the memory extension tests with:

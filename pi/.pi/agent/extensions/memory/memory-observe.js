@@ -1,8 +1,11 @@
 import { normalizeText, tagsFromText } from "./memory-lib.js";
 
-const SAFE_PACKAGE_MANAGER_COMMANDS = /\b(pnpm|npm|yarn)\s+(test|run|exec|dlx|list|ls|why|lint|check|typecheck|build)\b/;
-const PACKAGE_MANAGER_INSTALL_COMMANDS = /\b(pnpm|npm|yarn)\s+(install|add|remove|unlink|link|upgrade|up|update)\b/;
-const NOISY_READ_PATHS = /(^|\/)(node_modules|dist|build|coverage|\.git|\.next|target)\//;
+const SAFE_PACKAGE_MANAGER_COMMANDS =
+  /\b(pnpm|npm|yarn)\s+(test|run|exec|dlx|list|ls|why|lint|check|typecheck|build)\b/;
+const PACKAGE_MANAGER_INSTALL_COMMANDS =
+  /\b(pnpm|npm|yarn)\s+(install|add|remove|unlink|link|upgrade|up|update)\b/;
+const NOISY_READ_PATHS =
+  /(^|\/)(node_modules|dist|build|coverage|\.git|\.next|target)\//;
 
 function compact(text) {
   return normalizeText(text).replace(/[.]+$/, "");
@@ -13,7 +16,8 @@ function fromBashInput(input) {
   if (!command) return [];
   if (/[|;&><`]/.test(command)) return [];
   if (PACKAGE_MANAGER_INSTALL_COMMANDS.test(command)) return [];
-  if (!SAFE_PACKAGE_MANAGER_COMMANDS.test(command) && !/\bzod\b/.test(command)) return [];
+  if (!SAFE_PACKAGE_MANAGER_COMMANDS.test(command) && !/\bzod\b/.test(command))
+    return [];
 
   const candidates = [];
   if (/\bpnpm\b/.test(command) && SAFE_PACKAGE_MANAGER_COMMANDS.test(command)) {
@@ -27,7 +31,10 @@ function fromBashInput(input) {
       minCount: 2,
     });
   }
-  if (/\bzod\b/.test(command) && /\b(test|lint|check|typecheck|build|run|exec)\b/.test(command)) {
+  if (
+    /\bzod\b/.test(command) &&
+    /\b(test|lint|check|typecheck|build|run|exec)\b/.test(command)
+  ) {
     candidates.push({
       kind: "decision",
       scope: "repo",
@@ -58,7 +65,10 @@ function fromReadInput(input) {
       minCount: 3,
     });
   }
-  if (/src\/schema|schema\//.test(target) && /\.(ts|tsx|js|jsx|json|zod)$/.test(target)) {
+  if (
+    /src\/schema|schema\//.test(target) &&
+    /\.(ts|tsx|js|jsx|json|zod)$/.test(target)
+  ) {
     candidates.push({
       kind: "decision",
       scope: "repo",
@@ -86,11 +96,16 @@ export function extractObservedCandidates(toolName, input) {
 export function mergeObservedCandidates(existing, observed, minCount = 2) {
   const counts = new Map(existing);
   for (const candidate of observed) {
-    counts.set(candidate.observationKey, (counts.get(candidate.observationKey) ?? 0) + 1);
+    counts.set(
+      candidate.observationKey,
+      (counts.get(candidate.observationKey) ?? 0) + 1,
+    );
   }
 
   const accepted = observed.filter(
-    (candidate) => (counts.get(candidate.observationKey) ?? 0) >= (candidate.minCount ?? minCount),
+    (candidate) =>
+      (counts.get(candidate.observationKey) ?? 0) >=
+      (candidate.minCount ?? minCount),
   );
   return { counts, accepted };
 }

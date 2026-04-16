@@ -1,8 +1,8 @@
-import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import fs from "node:fs";
+import test from "node:test";
 
 const extensionModulePath = new URL("./index.ts", import.meta.url).pathname;
 
@@ -54,7 +54,11 @@ function createMockContext(cwd, notifications) {
 }
 
 async function loadExtensionFactory() {
-  return (await import(`file://${extensionModulePath}?t=${Date.now()}-${Math.random()}`)).default;
+  return (
+    await import(
+      `file://${extensionModulePath}?t=${Date.now()}-${Math.random()}`
+    )
+  ).default;
 }
 
 test("memory extension registers commands and injects memory into context", async () => {
@@ -65,7 +69,7 @@ test("memory extension registers commands and injects memory into context", asyn
   const ctx = createMockContext(tempDir, notifications);
   const pi = createMockPi();
   const extensionFactory = await loadExtensionFactory();
-    extensionFactory(pi);
+  extensionFactory(pi);
 
   assert.ok(pi.commands.has("remember"));
   assert.ok(pi.commands.has("memory-debug"));
@@ -73,22 +77,42 @@ test("memory extension registers commands and injects memory into context", asyn
   assert.ok(pi.handlers.has("context"));
   assert.ok(pi.handlers.has("session_before_compact"));
 
-  await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+  await pi.handlers.get("session_start")(
+    { type: "session_start", reason: "startup" },
+    ctx,
+  );
 
   await pi.commands.get("remember-pref").handler("Prefer minimal diffs", ctx);
-  await pi.commands.get("remember-decision").handler("Use zod for schema validation", ctx);
+  await pi.commands
+    .get("remember-decision")
+    .handler("Use zod for schema validation", ctx);
 
   const contextResult = await pi.handlers.get("context")(
-    { type: "context", messages: [{ role: "user", content: "Update the zod schema", timestamp: Date.now() }] },
+    {
+      type: "context",
+      messages: [
+        {
+          role: "user",
+          content: "Update the zod schema",
+          timestamp: Date.now(),
+        },
+      ],
+    },
     ctx,
   );
 
   assert.equal(Array.isArray(contextResult.messages), true);
   assert.equal(contextResult.messages[0].role, "custom");
   assert.equal(contextResult.messages[0].display, false);
-  assert.match(String(contextResult.messages[0].content), /Use zod for schema validation/);
+  assert.match(
+    String(contextResult.messages[0].content),
+    /Use zod for schema validation/,
+  );
   assert.equal(pi.appendedEntries.length >= 2, true);
-  assert.equal(notifications.some((entry) => /Memory ready/.test(entry.message)), true);
+  assert.equal(
+    notifications.some((entry) => /Memory ready/.test(entry.message)),
+    true,
+  );
 
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
@@ -117,9 +141,14 @@ test("memories opens a custom UI when interactive", async () => {
   };
   const pi = createMockPi();
   const extensionFactory = await loadExtensionFactory();
-    extensionFactory(pi);
-  await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
-  await pi.commands.get("remember").handler("Use pnpm for package commands", ctx);
+  extensionFactory(pi);
+  await pi.handlers.get("session_start")(
+    { type: "session_start", reason: "startup" },
+    ctx,
+  );
+  await pi.commands
+    .get("remember")
+    .handler("Use pnpm for package commands", ctx);
   await pi.commands.get("memories").handler("", ctx);
   assert.equal(customCalled, true);
   assert.equal(closed, true);
@@ -136,24 +165,44 @@ test("replace-memory supersedes matching active memories", async () => {
   const ctx = createMockContext(tempDir, notifications);
   const pi = createMockPi();
   const extensionFactory = await loadExtensionFactory();
-    extensionFactory(pi);
+  extensionFactory(pi);
 
-  await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+  await pi.handlers.get("session_start")(
+    { type: "session_start", reason: "startup" },
+    ctx,
+  );
   await pi.commands.get("remember").handler("This repo uses pnpm", ctx);
-  await pi.commands.get("replace-memory").handler("pnpm => This repo uses bun", ctx);
+  await pi.commands
+    .get("replace-memory")
+    .handler("pnpm => This repo uses bun", ctx);
 
-  const raw = fs.readFileSync(path.join(tempDir, ".pi", "memory.jsonl"), "utf8");
+  const raw = fs.readFileSync(
+    path.join(tempDir, ".pi", "memory.jsonl"),
+    "utf8",
+  );
   assert.match(raw, /This repo uses pnpm/);
   assert.match(raw, /This repo uses bun/);
   assert.match(raw, /"supersedes":\[[^\]]+/);
 
   const contextResult = await pi.handlers.get("context")(
-    { type: "context", messages: [{ role: "user", content: "what package manager?", timestamp: Date.now() }] },
+    {
+      type: "context",
+      messages: [
+        {
+          role: "user",
+          content: "what package manager?",
+          timestamp: Date.now(),
+        },
+      ],
+    },
     ctx,
   );
   assert.doesNotMatch(String(contextResult.messages[0].content), /pnpm/);
   assert.match(String(contextResult.messages[0].content), /bun/);
-  assert.equal(pi.sentMessages.at(-1).message.content.includes("This repo uses bun"), true);
+  assert.equal(
+    pi.sentMessages.at(-1).message.content.includes("This repo uses bun"),
+    true,
+  );
 
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
@@ -163,20 +212,32 @@ test("memory-debug emits a visible summary message", async () => {
   fs.mkdirSync(path.join(tempDir, ".git"));
 
   const notifications = [];
-  const branchMessages = [{ role: "user", content: "Please use pnpm in this repo", timestamp: Date.now() }];
+  const branchMessages = [
+    {
+      role: "user",
+      content: "Please use pnpm in this repo",
+      timestamp: Date.now(),
+    },
+  ];
   const ctx = {
     ...createMockContext(tempDir, notifications),
     sessionManager: {
       getSessionFile: () => path.join(tempDir, ".pi", "sessions", "test.jsonl"),
-      getBranch: () => branchMessages.map((message) => ({ type: "message", message })),
+      getBranch: () =>
+        branchMessages.map((message) => ({ type: "message", message })),
     },
   };
   const pi = createMockPi();
   const extensionFactory = await loadExtensionFactory();
-    extensionFactory(pi);
+  extensionFactory(pi);
 
-  await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
-  await pi.commands.get("remember").handler("Use pnpm for package commands", ctx);
+  await pi.handlers.get("session_start")(
+    { type: "session_start", reason: "startup" },
+    ctx,
+  );
+  await pi.commands
+    .get("remember")
+    .handler("Use pnpm for package commands", ctx);
   await pi.commands.get("memory-debug").handler("", ctx);
 
   assert.equal(pi.sentMessages.length > 0, true);
@@ -199,16 +260,28 @@ test("tool_call learns repeated observations conservatively", async () => {
   const ctx = createMockContext(tempDir, notifications);
   const pi = createMockPi();
   const extensionFactory = await loadExtensionFactory();
-    extensionFactory(pi);
+  extensionFactory(pi);
 
-  await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
-  await pi.handlers.get("tool_call")({ toolName: "bash", input: { command: "pnpm test" } }, ctx);
+  await pi.handlers.get("session_start")(
+    { type: "session_start", reason: "startup" },
+    ctx,
+  );
+  await pi.handlers.get("tool_call")(
+    { toolName: "bash", input: { command: "pnpm test" } },
+    ctx,
+  );
   const memoryPath = path.join(tempDir, ".pi", "memory.jsonl");
   assert.equal(fs.existsSync(memoryPath), false);
-  await pi.handlers.get("tool_call")({ toolName: "bash", input: { command: "pnpm lint" } }, ctx);
+  await pi.handlers.get("tool_call")(
+    { toolName: "bash", input: { command: "pnpm lint" } },
+    ctx,
+  );
   const raw = fs.readFileSync(memoryPath, "utf8");
   assert.match(raw, /This repo uses pnpm/);
-  assert.equal(pi.appendedEntries.some((entry) => entry.data?.action === "tool-observe"), true);
+  assert.equal(
+    pi.appendedEntries.some((entry) => entry.data?.action === "tool-observe"),
+    true,
+  );
 
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
@@ -221,9 +294,12 @@ test("memory-prune removes stale low-confidence extension memories", async () =>
   const ctx = createMockContext(tempDir, notifications);
   const pi = createMockPi();
   const extensionFactory = await loadExtensionFactory();
-    extensionFactory(pi);
+  extensionFactory(pi);
 
-  await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+  await pi.handlers.get("session_start")(
+    { type: "session_start", reason: "startup" },
+    ctx,
+  );
   const memoryPath = path.join(tempDir, ".pi", "memory.jsonl");
   fs.mkdirSync(path.dirname(memoryPath), { recursive: true });
   fs.writeFileSync(
@@ -241,7 +317,10 @@ test("memory-prune removes stale low-confidence extension memories", async () =>
       updatedAt: "2026-01-01T00:00:00.000Z",
     })}\n`,
   );
-  await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+  await pi.handlers.get("session_start")(
+    { type: "session_start", reason: "startup" },
+    ctx,
+  );
   await pi.commands.get("memory-prune").handler("", ctx);
   const raw = fs.readFileSync(memoryPath, "utf8");
   assert.equal(raw.trim(), "");
@@ -257,16 +336,27 @@ test("session_before_compact extracts durable memory candidates", async () => {
   const ctx = createMockContext(tempDir, notifications);
   const pi = createMockPi();
   const extensionFactory = await loadExtensionFactory();
-    extensionFactory(pi);
+  extensionFactory(pi);
 
-  await pi.handlers.get("session_start")({ type: "session_start", reason: "startup" }, ctx);
+  await pi.handlers.get("session_start")(
+    { type: "session_start", reason: "startup" },
+    ctx,
+  );
   await pi.handlers.get("session_before_compact")(
     {
       type: "session_before_compact",
       preparation: {
         messagesToSummarize: [
-          { role: "user", content: "Prefer minimal diffs.", timestamp: Date.now() },
-          { role: "assistant", content: "This repo uses pnpm. Keep schemas in src/schema.", timestamp: Date.now() },
+          {
+            role: "user",
+            content: "Prefer minimal diffs.",
+            timestamp: Date.now(),
+          },
+          {
+            role: "assistant",
+            content: "This repo uses pnpm. Keep schemas in src/schema.",
+            timestamp: Date.now(),
+          },
         ],
         turnPrefixMessages: [],
       },
@@ -279,7 +369,12 @@ test("session_before_compact extracts durable memory candidates", async () => {
   const raw = fs.readFileSync(memoryPath, "utf8");
   assert.match(raw, /Prefer minimal diffs/);
   assert.match(raw, /This repo uses pnpm/);
-  assert.equal(pi.appendedEntries.some((entry) => entry.data?.action === "compact-extract"), true);
+  assert.equal(
+    pi.appendedEntries.some(
+      (entry) => entry.data?.action === "compact-extract",
+    ),
+    true,
+  );
 
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
