@@ -642,10 +642,10 @@ loaded with a different theme."
           my-presentation-font-height (+ 140 my-font-offset))))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height (+ 120 my-font-offset)
-          my-small-font-height (+ 110 my-font-offset)
-          my-medium-font-height (+ 130 my-font-offset)
-          my-large-font-height (+ 160 my-font-offset)
+    (setq my-font-height (+ 130 my-font-offset)
+          my-small-font-height (+ 120 my-font-offset)
+          my-medium-font-height (+ 140 my-font-offset)
+          my-large-font-height (+ 150 my-font-offset)
           my-presentation-font-height (+ 200 my-font-offset))
   (my-setup-linux-fonts))
 
