@@ -161,6 +161,11 @@ emacs/.config/emacs/devdocs
 /emacs/.config/emacs/wombag/
 /emacs/.config/emacs/request/
 
+# Repo-local assistant state
+/.pi/
+/.codex
+/.claude/
+
 ### Vim ###
 lazy-lock.json
 vim/.config/nvim/plugin/packer_compiled.lua
