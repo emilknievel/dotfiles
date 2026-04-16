@@ -12,6 +12,7 @@ Installed via stow to:
 
 - `extensions/memory/index.ts` — global memory extension for pi
 - `extensions/memory/` — helper modules, extraction logic, and tests for the memory extension
+- `prompts/plan.md` — reusable `/plan` prompt template for planning before edits
 
 ## Memory extension
 
@@ -104,6 +105,22 @@ Remove expired or stale low-confidence memories:
 /remember This repo uses pnpm
 /remember-decision Keep schemas in src/schema
 ```
+
+## Prompt templates
+
+### `/plan`
+
+Expands to a planning prompt that asks pi to:
+
+- think through the task step by step
+- avoid making changes yet
+- outline what to read first
+- describe intended changes and where
+- call out risks, side effects, and open questions
+
+Installed at:
+
+- `~/.pi/agent/prompts/plan.md`
 
 ## Update flow
 
