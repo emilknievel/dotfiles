@@ -9,13 +9,13 @@
 	adog = log --all --decorate --oneline --graph
 	agda = log --all --graph --decorate --abbrev-commit
 	c = commit
-	cA = commit -a
+	caa = commit -a
 	ca = commit --amend
 	cp = commit -p
 	cv = commit -v
 	co = checkout
 	f = fetch
-	F = pull
+	pl = pull
 	p = push
 	pf = push --force-with-lease
 	fa = fetch --all
