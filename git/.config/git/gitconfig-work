@@ -1,6 +1,0 @@
-[user]
-	email = emil.vagstedt@mio.se
-[commit]
-	gpgsign = false
-[url "git@ssh.dev.azure.com:v3/mioit/Mio.Services/"]
-	insteadOf = "svcs:"

@@ -35,7 +35,7 @@
 	precomposeunicode = true
 	# Display UTF-8 characters in filenames, if you're having problems seeing them
 	quotepath = false
-	excludesfile = .config/git/gitignore_global
+	excludesfile = ~/.config/git/ignore
 	autocrlf = input
 	whitespace = error
 [help]
@@ -64,4 +64,4 @@
 [github]
 	user = emilknievel
 [includeIf "gitdir:~/repos/work/"]
-	path = ~/.config/git/gitconfig-work
+	path = ~/.config/git/config-work
