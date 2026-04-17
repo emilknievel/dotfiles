@@ -24,13 +24,16 @@ export HISTFILESIZE=20000
 export HISTCONTROL=ignoreboth
 
 # User specific aliases and functions
-if [ -d ~/.bashrc.d ]; then
-	for rc in ~/.bashrc.d/*; do
-		if [ -f "$rc" ]; then
-			. "$rc"
-		fi
-	done
-fi
+for rc in ~/.bashrc.d/*.sh; do
+	[ -e "$rc" ] || continue
+	. "$rc"
+done
+
+for rc in ~/.bashrc.d/private/*.sh; do
+	[ -e "$rc" ] || continue
+	. "$rc"
+done
+
 unset rc
 
 command -v vim >/dev/null 2>&1 && alias vi=vim && export EDITOR=vim
@@ -110,4 +113,3 @@ if [[ -f ~/.bash-preexec.sh ]]; then
 else
 	printf "WARNING: ~/.bash-preexec.sh not found!"
 fi
-

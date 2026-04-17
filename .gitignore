@@ -177,4 +177,6 @@ git/.config/git/gitconfig-private
 styles/
 
 helix/.config/helix/themes/lugh*
-/bash/.bashrc.d/work_alias
+/bash/.bashrc.d/private/*
+!/bash/.bashrc.d/private/.gitkeep
+/.agent-shell/
