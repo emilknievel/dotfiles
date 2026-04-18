@@ -3524,7 +3524,7 @@ GPTel allows us to talk with different LLMs from within Emacs.
           (agent-shell-openai-make-authentication :login t)
 
           agent-shell-openai-codex-environment
-          (agent-shell-make-environment-variables :inherit-env t))
+          (agent-shell-make-environment-variables :inherit-env t)))
 #+end_src
 
 ** Popper (disabled)

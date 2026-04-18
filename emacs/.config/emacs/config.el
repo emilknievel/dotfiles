@@ -2321,7 +2321,7 @@ With two prefix arguments, insert as top-level heading."
         (agent-shell-openai-make-authentication :login t)
 
         agent-shell-openai-codex-environment
-        (agent-shell-make-environment-variables :inherit-env t))
+        (agent-shell-make-environment-variables :inherit-env t)))
 
 (defun my-insert-timestamp ()
   "Insert timestamp with format [%H:%M] at point."
