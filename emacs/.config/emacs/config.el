@@ -2307,11 +2307,21 @@ With two prefix arguments, insert as top-level heading."
 (use-package agent-shell
   :ensure t
   :config
-  (setq agent-shell-anthropic-claude-environment
+  (setq agent-shell-session-strategy 'prompt
+
+        ;; Anthropic
+        agent-shell-anthropic-claude-environment
         (agent-shell-make-environment-variables :inherit-env t)
+
         agent-shell-anthropic-authentication
         (agent-shell-anthropic-make-authentication :login t)
-        agent-shell-session-strategy 'prompt))
+
+        ;; OpenAI
+        agent-shell-openai-authentication
+        (agent-shell-openai-make-authentication :login t)
+
+        agent-shell-openai-codex-environment
+        (agent-shell-make-environment-variables :inherit-env t))
 
 (defun my-insert-timestamp ()
   "Insert timestamp with format [%H:%M] at point."
