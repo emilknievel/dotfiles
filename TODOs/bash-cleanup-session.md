@@ -48,7 +48,6 @@ Clean up the bash config without changing intended behavior, and produce a small
 - [ ] In `bash/.bashrc`, send missing-tool warnings to `stderr`
 - [ ] Add newlines to warning messages
 - [ ] Decide whether warnings should only appear in interactive shells
-- [ ] Review `.bash-preexec.sh` warning behavior and apply same policy
 
 #### Test steps
 - [ ] Run syntax check:
