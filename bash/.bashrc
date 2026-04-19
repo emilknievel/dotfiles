@@ -72,11 +72,40 @@ else
 	printf "WARNING: direnv not found!"
 fi
 
+# New shells can inherit mise-managed tool paths from parent processes such as
+# Emacs/Ghostel. Strip those entries before activation so mise rebuilds PATH in
+# a deterministic order for this shell.
+sanitize_inherited_mise_paths() {
+	local path_rest="${PATH}:"
+	local path_entry
+	local sanitized_parts=()
+	local sanitized_path
+
+	while [[ $path_rest == *:* ]]; do
+		path_entry=${path_rest%%:*}
+		path_rest=${path_rest#*:}
+
+		case "$path_entry" in
+			"$HOME/.local/share/mise/installs/"*) ;;
+			*) sanitized_parts+=("$path_entry") ;;
+		esac
+	done
+
+	printf -v sanitized_path '%s:' "${sanitized_parts[@]}"
+	PATH=${sanitized_path%:}
+	export PATH
+}
+
 if [[ -x "$(command -v mise)" ]]; then
+	sanitize_inherited_mise_paths
+	# Nested shells can inherit a stale mise baseline from their parent.
+	unset __MISE_ORIG_PATH
 	eval "$(~/.local/bin/mise activate bash)"
 else
 	printf "WARNING: mise not found!"
 fi
+
+unset -f sanitize_inherited_mise_paths
 
 
 [[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
@@ -107,4 +136,3 @@ if command -v fzf >/dev/null 2>&1; then
 else
 	printf "WARNING: fzf not found in PATH\n\n" >&2
 fi
-
