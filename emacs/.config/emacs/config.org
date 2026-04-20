@@ -26,11 +26,30 @@
 #+EMAIL: emil.vagstedt@icloud.com
 #+OPTIONS: toc:t
 
+** Defaults
+
+#+begin_src emacs-lisp
+  ;;; Performance
+
+  ;; Assume left-to-right text
+  (setq-default bidi-display-reordering 'left-to-right
+                bidi-paragraph-direction 'left-to-right)
+  (setq bidi-inhibit-bpa t)
+
+  ;; Skip fontification during input
+  (setq redisplay-skip-fontification-on-input t)
+#+end_src
+
 ** Emacs system files
 
 *** Save place
 
 #+begin_src emacs-lisp
+  ;; Recenter after `save-place' restores position
+  (advice-add 'save-place-find-file-hook :after
+              (lambda (&rest _)
+                (when buffer-file-name (ignore-errors (recenter)))))
+
   (save-place-mode 1)
 #+end_src
 
@@ -580,7 +599,15 @@ Repeat commands by typing a single character.
 
 #+begin_src emacs-lisp
   (setopt save-interprogram-paste-before-kill t
-          mouse-yank-at-point t)
+          mouse-yank-at-point t
+          kill-do-not-save-duplicates t)
+#+end_src
+
+*** Marks
+
+#+begin_src emacs-lisp
+  ;; Repeat C-SPC to continue popping the mark ring.
+  (setopt set-mark-command-repeat-pop t)
 #+end_src
 
 *** Parentheses
@@ -1984,6 +2011,13 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 ** LSP
 
+*** Performance
+
+#+begin_src emacs-lisp
+  ;; Increase process output buffer for LSP
+  (setq read-process-output-max (* 4 1024 1024)) ; 4MB
+#+end_src
+
 *** Tags
 
 #+begin_src emacs-lisp
@@ -2828,6 +2862,16 @@ Starts an interactive ripgrep session.
     :bind ("M-s M-s" . deadgrep))
 #+end_src
 
+*** Regexp
+
+#+begin_src emacs-lisp
+  ;; Live visual feedback while composing a regexp in the minibuffer
+  (minibuffer-regexp-mode 1)
+
+  ;; `string' syntax in re-builder instead of `read'
+  (setq reb-re-syntax 'string)
+#+end_src
+
 ** Org
 
 *** Base
@@ -3580,6 +3624,13 @@ GPTel allows us to talk with different LLMs from within Emacs.
 
 #+begin_src emacs-lisp
   (setopt apropos-do-all t)
+#+end_src
+
+*** Help windows
+
+#+begin_src emacs-lisp
+  ;; Auto-select Help windows
+  (setopt help-window-select t)
 #+end_src
 
 *** Devdocs

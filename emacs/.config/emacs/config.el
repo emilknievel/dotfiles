@@ -12,6 +12,21 @@
 
 ;;; Code:
 
+;;; Performance
+
+;; Assume left-to-right text
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+
+;; Skip fontification during input
+(setq redisplay-skip-fontification-on-input t)
+
+;; Recenter after `save-place' restores position
+(advice-add 'save-place-find-file-hook :after
+            (lambda (&rest _)
+              (when buffer-file-name (ignore-errors (recenter)))))
+
 (save-place-mode 1)
 
 (savehist-mode 1)
@@ -196,7 +211,11 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
   (which-key-idle-delay 0.3))
 
 (setopt save-interprogram-paste-before-kill t
-        mouse-yank-at-point t)
+        mouse-yank-at-point t
+        kill-do-not-save-duplicates t)
+
+;; Repeat C-SPC to continue popping the mark ring.
+(setopt set-mark-command-repeat-pop t)
 
 (show-paren-mode 1)
 (electric-pair-mode 1)
@@ -1237,6 +1256,9 @@ its input."
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
+;; Increase process output buffer for LSP
+(setq read-process-output-max (* 4 1024 1024)) ; 4MB
+
 (etags-regen-mode 1)
 
 (use-package eglot
@@ -1775,6 +1797,12 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (use-package deadgrep
   :ensure t
   :bind ("M-s M-s" . deadgrep))
+
+;; Live visual feedback while composing a regexp in the minibuffer
+(minibuffer-regexp-mode 1)
+
+;; `string' syntax in re-builder instead of `read'
+(setq reb-re-syntax 'string)
 
 (use-package org
   :ensure nil
@@ -2333,6 +2361,9 @@ With two prefix arguments, insert as top-level heading."
   (insert (format-time-string "[%H:%M]")))
 
 (setopt apropos-do-all t)
+
+;; Auto-select Help windows
+(setopt help-window-select t)
 
 (use-package devdocs
   :ensure t
