@@ -39,8 +39,10 @@ To stow a package:
 To stow all packages at once:
 
 #+begin_src sh
-  cd ~/.dotfiles && stow */
+  cd ~/.dotfiles && stow aerospace bash emacs ghostty git helix homebrew pi tmux vim
 #+end_src
+
+Not every top-level directory in this repo is a Stow package. Directories such as =TODOs/= and =styles/= are repo-local and should not be passed to Stow.
 
 Each package's directory structure is mirrored as symlinks in =~=.
 
