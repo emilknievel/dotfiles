@@ -63,5 +63,5 @@
 	allowedSignersFile = ~/.config/git/allowed_signers
 [github]
 	user = emilknievel
-[includeIf "gitdir:~/repos/work/"]
+[includeIf "gitdir:~/Projects/Work/"]
 	path = ~/.config/git/config-work
