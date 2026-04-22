@@ -1565,9 +1565,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :ensure t
   :commands (ghostel ghostel-project)
   :init
+  (setq ghostel-tramp-shell-integration t)
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
-  :custom
-  (ghostel-tramp-shell-integration t)
   :config
   (add-to-list 'ghostel-eval-cmds '("magit" magit))
   (add-to-list 'ghostel-eval-cmds '("ff" find-file))
