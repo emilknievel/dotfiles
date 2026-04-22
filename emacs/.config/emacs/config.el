@@ -894,6 +894,20 @@ loaded with a different theme."
   :init
   (minions-mode))
 
+(use-package spacious-padding
+  :ensure t
+  :custom
+  (spacious-padding-widths '( :internal-border-width 2
+                              :header-line-width 2
+                              :mode-line-width 2
+                              :tab-width 2
+                              :right-divider-width 8
+                              :scroll-bar-width 8
+                              :fringe-width 8))
+  (spacious-padding-subtle-frame-lines t)
+  :config
+  (spacious-padding-mode 1))
+
 (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
   (ido-mode t)
   (setopt ido-enable-flex-matching t))
