@@ -1010,10 +1010,7 @@ Workaround for copying text from Emacs to the Windows clipboard:
 
 #+begin_src emacs-lisp
   (use-package batppuccin
-    :ensure (:host "www.github.com"
-                   :repo "bbatsov/batppuccin-emacs"
-                   :branch "main"
-                   :main "batppuccin.el")
+    :ensure t
     :init
     (defun my-batppuccin-mocha ()
       (interactive)
