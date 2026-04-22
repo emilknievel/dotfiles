@@ -1545,8 +1545,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :hook ((eshell-load . eat-eshell-mode)
          (eshell-load . eat-eshell-visual-command-mode)))
 
-(global-set-key (kbd "S-<f12>") 'eat)
-
 (global-set-key (kbd "C-<f12>") 'ansi-term)
 
 (use-package ghostel
@@ -1560,6 +1558,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (add-to-list 'ghostel-eval-cmds '("magit" magit))
   (add-to-list 'ghostel-eval-cmds '("ff" find-file))
   (add-to-list 'ghostel-eval-cmds '("ffro" find-file-read-only)))
+
+(global-set-key (kbd "S-<f12>") 'ghostel)
 
 (use-package project
   :ensure nil

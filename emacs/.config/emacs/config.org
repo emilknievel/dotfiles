@@ -2507,8 +2507,6 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 
     :hook ((eshell-load . eat-eshell-mode)
            (eshell-load . eat-eshell-visual-command-mode)))
-
-  (global-set-key (kbd "S-<f12>") 'eat)
 #+end_src
 
 *** Ansi-term
@@ -2531,6 +2529,8 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     (add-to-list 'ghostel-eval-cmds '("magit" magit))
     (add-to-list 'ghostel-eval-cmds '("ff" find-file))
     (add-to-list 'ghostel-eval-cmds '("ffro" find-file-read-only)))
+
+  (global-set-key (kbd "S-<f12>") 'ghostel)
 #+end_src
 
 ** Project
