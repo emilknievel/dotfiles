@@ -1528,15 +1528,28 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
             (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)))
 
 (setq system-name (car (split-string system-name "\\.")))
-(setq eshell-prompt-regexp "^.+@.+:.+> ")
+(setq eshell-prompt-regexp "^\\(?:([0-9]+) \\)?.+@.+ .+ \\$ ")
+
+(defun my-eshell-prompt-directory ()
+  "Return a compact directory name for the Eshell prompt."
+  (let* ((dir (directory-file-name (abbreviate-file-name (eshell/pwd))))
+         (base (file-name-nondirectory dir)))
+    (cond
+     ((member dir '("~" "/")) dir)
+     ((string= base "") dir)
+     (t (concat ".../" base)))))
+
 (setq eshell-prompt-function
       (lambda ()
         (concat
+         (unless (zerop eshell-last-command-status)
+           (propertize (format "(%s) " eshell-last-command-status)
+                       'face 'font-lock-warning-face))
          (propertize (user-login-name) 'face 'font-lock-keyword-face)
          (propertize (format "@%s" (system-name)) 'face 'default)
-         (propertize ":" 'face 'font-lock-doc-face)
-         (propertize (abbreviate-file-name (eshell/pwd)) 'face 'font-lock-type-face)
-         (propertize "$" 'face 'font-lock-doc-face)
+         (propertize " " 'face 'font-lock-doc-face)
+         (propertize (my-eshell-prompt-directory) 'face 'font-lock-type-face)
+         (propertize " $" 'face 'font-lock-doc-face)
          (propertize " " 'face 'default))))
 
 (add-hook 'eshell-mode-hook
