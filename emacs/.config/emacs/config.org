@@ -2473,11 +2473,15 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
   (defun my-eshell-prompt-directory ()
     "Return a compact directory name for the Eshell prompt."
     (let* ((dir (directory-file-name (abbreviate-file-name (eshell/pwd))))
-           (base (file-name-nondirectory dir)))
+           (home-dir (string-prefix-p "~/" dir))
+           (prefix (if home-dir "~/" ""))
+           (path (if home-dir (substring dir 2) dir))
+           (parts (split-string path "/" t)))
       (cond
        ((member dir '("~" "/")) dir)
-       ((string= base "") dir)
-       (t (concat ".../" base)))))
+       ((<= (length parts) 2) dir)
+       (t (concat prefix ".../"
+                  (mapconcat #'identity (last parts 2) "/"))))))
 
   (setq eshell-prompt-function
         (lambda ()
