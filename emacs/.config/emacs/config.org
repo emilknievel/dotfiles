@@ -2889,6 +2889,16 @@ Starts an interactive ripgrep session.
 *** Base
 
 #+begin_src emacs-lisp
+  (defun my-org-capture-work-journal-template (key description template &rest properties)
+    "Create a work journal capture template with shared target settings."
+    `(,key ,description entry
+      (file+function my-work-journal-current-file my-work-journal-goto-today-heading)
+      ,template
+      :empty-lines 1
+      :empty-lines-before 1
+      :empty-lines-after 1
+      ,@properties))
+
   (use-package org
     :ensure nil
     :init
@@ -2931,13 +2941,30 @@ Starts an interactive ripgrep session.
     (org-reverse-note-order t)
 
     (org-capture-templates
-     '(("l" "Journelly")
+     `(("l" "Journelly")
        ("lm" "New journe(l)ly note with metadata" entry
         (file org-journelly-file)
         "* %U @ %(journelly-generate-metadata)\n%?" :prepend t)
        ("lp" "New plain journe(l)ly note" entry
         (file org-journelly-file)
         "* %U @ -\n%?" :prepend t)
+
+       ("j" "Journal")
+       ,(my-org-capture-work-journal-template
+         "jw" "Work journal"
+         "* %U %?")
+       ,(my-org-capture-work-journal-template
+         "jm" "Work meeting"
+         "* %U Möte: %^{Title}\n\nDeltagare: %^{Deltagare}\n\n%?\n\n** Action items\n")
+       ,(my-org-capture-work-journal-template
+         "jd" "Work decision"
+         "* %U Beslut: %^{Title}\n\nKontext:\n%?\n\nBeslut:\n\nUppföljning:\n")
+       ,(my-org-capture-work-journal-template
+         "ji" "Work investigation"
+         "* %U Undersökning: %^{Title}\n\nSymptom:\n%?\n\nHypotes:\n\nFynd:\n\nResultat:\n")
+       ,(my-org-capture-work-journal-template
+         "jr" "Work reminder"
+         "* TODO %U %?")
 
        ("m" "Meetings")
        ("mm" "Meetings - Mio" entry
@@ -3141,6 +3168,142 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
 #+end_src
 
 ** Notetaking
+
+*** Work journal
+
+#+begin_src emacs-lisp
+  (require 'org-id)
+  (require 'org)
+
+  (defvar my-work-notes-organizations
+    '(("mio" . "~/Documents/work-notes/mio/"))
+    "Known work note roots keyed by organization slug.")
+
+  (defvar my-work-notes-current-organization "mio"
+    "Organization slug used for work journal commands.")
+
+  (defconst my-work-journal-weekday-names
+    ["Måndag" "Tisdag" "Onsdag" "Torsdag" "Fredag" "Lördag" "Söndag"]
+    "Swedish weekday names for work journal headings.")
+
+  (defun my-work-notes-directory (&optional organization)
+    "Return note directory for ORGANIZATION."
+    (let* ((organization (or organization my-work-notes-current-organization))
+           (directory (cdr (assoc organization my-work-notes-organizations))))
+      (unless directory
+        (user-error "Unknown work notes organization: %s" organization))
+      (file-name-as-directory (expand-file-name directory))))
+
+  (defun my-work-journal--week-start (&optional time)
+    "Return Monday of the ISO week containing TIME."
+    (let* ((time (or time (current-time)))
+           (weekday (string-to-number (format-time-string "%u" time))))
+      (time-subtract time (days-to-time (1- weekday)))))
+
+  (defun my-work-journal--week-dates (&optional time)
+    "Return Monday through Friday dates for the ISO week containing TIME."
+    (let ((week-start (my-work-journal--week-start time)))
+      (mapcar (lambda (offset)
+                (time-add week-start (days-to-time offset)))
+              (number-sequence 0 4))))
+
+  (defun my-work-journal--weekday-name (&optional time)
+    "Return the Swedish weekday name for TIME."
+    (let* ((time (or time (current-time)))
+           (weekday (1- (string-to-number (format-time-string "%u" time)))))
+      (aref my-work-journal-weekday-names weekday)))
+
+  (defun my-work-journal-current-file (&optional time organization)
+    "Return current work journal file for TIME and ORGANIZATION."
+    (expand-file-name
+     (format-time-string "%G-W%V.org" (or time (current-time)))
+     (expand-file-name "journal" (my-work-notes-directory organization))))
+
+  (defun my-work-journal--insert-template (&optional time organization)
+    "Insert a weekly work journal template for TIME and ORGANIZATION."
+    (let* ((time (or time (current-time)))
+           (organization (or organization my-work-notes-current-organization))
+           (title (format-time-string "%G-W%V" time))
+           (created (format-time-string "[%Y-%m-%d]" time))
+           (tags (format ":journal:work:weekly:%s:" organization)))
+      (insert ":PROPERTIES:\n"
+              ":ID:       " (org-id-new) "\n"
+              ":END:\n"
+              "#+title: " title "\n"
+              "#+filetags: " tags "\n"
+              "#+created: " created "\n\n")
+      (dolist (date (my-work-journal--week-dates time))
+        (insert "* " (my-work-journal--weekday-name date) "\n"
+                ":PROPERTIES:\n"
+                ":JOURNAL_DATE: " (format-time-string "[%Y-%m-%d]" date) "\n"
+                ":END:\n\n"))))
+
+  (defun my-work-journal-ensure-file (&optional time organization)
+    "Create the weekly work journal for TIME and ORGANIZATION if needed."
+    (let ((file (my-work-journal-current-file time organization)))
+      (unless (file-exists-p file)
+        (make-directory (file-name-directory file) t)
+        (with-temp-file file
+          (org-mode)
+          (my-work-journal--insert-template time organization)))
+      file))
+
+  (defun my-work-journal--target-heading (&optional time)
+    "Return weekday heading for TIME."
+    (my-work-journal--weekday-name time))
+
+  (defun my-work-journal-read-date ()
+    "Read a date for opening a work journal."
+    (let ((org-read-date-prefer-future nil))
+      (org-read-date nil t nil "Work journal date: ")))
+
+  (defun my-work-journal-find-date-heading (&optional time organization)
+    "Move point to the date heading for TIME in ORGANIZATION's work journal.
+Return non-nil when the heading exists."
+    (my-work-journal-ensure-file time organization)
+    (goto-char (point-min))
+    (when (re-search-forward (format org-complex-heading-regexp-format
+                                     (regexp-quote (my-work-journal--target-heading time)))
+                             nil t)
+      (beginning-of-line)
+      t))
+
+  (defun my-work-journal-goto-or-create-date-heading (&optional time organization)
+    "Move point to the date heading for TIME, creating it when missing."
+    (unless (my-work-journal-find-date-heading time organization)
+      (goto-char (point-max))
+      (unless (bolp)
+        (insert "\n"))
+      (let ((heading-start (point)))
+        (insert "* " (my-work-journal--target-heading time) "\n"
+                ":PROPERTIES:\n"
+                ":JOURNAL_DATE: " (format-time-string "[%Y-%m-%d]"
+                                                       (or time (current-time)))
+                "\n"
+                ":END:\n\n")
+        (goto-char heading-start))))
+
+  (defalias 'my-work-journal-goto-today-heading
+    #'my-work-journal-goto-or-create-date-heading)
+
+  (defun my-work-journal-open (&optional time organization)
+    "Open the weekly work journal for TIME and ORGANIZATION.
+With a prefix argument, prompt for the date first."
+    (interactive (list (when current-prefix-arg
+                         (my-work-journal-read-date))))
+    (find-file (my-work-journal-ensure-file time organization))
+    (unless (my-work-journal-find-date-heading time organization)
+      (goto-char (point-max))))
+
+  (defun my-work-journal-open-date (time)
+    "Prompt for TIME and open the corresponding work journal."
+    (interactive (list (my-work-journal-read-date)))
+    (my-work-journal-open time))
+
+  (global-set-key (kbd "C-c v j") #'my-work-journal-open)
+  (global-set-key (kbd "C-c v w") #'my-work-journal-open)
+  (global-set-key (kbd "C-c v J") #'my-work-journal-open-date)
+#+end_src
 
 *** Denote
 
@@ -3377,29 +3540,6 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     :ensure t
     :after vulpea
     :bind ("C-c v s" . vulpea-ui-sidebar-toggle))
-#+end_src
-
-**** Vulpea-journal
-
-#+begin_src emacs-lisp
-  (use-package vulpea-journal
-    :ensure t
-    :after (vulpea vulpea-ui)
-    :config
-    (setq vulpea-journal-default-template
-          `(:file-name "journal/%Y-%m-%d.org"
-                       :title "%Y-%m-%d %A"
-                       :tags ("journal" "daily")
-                       :head "#+created: %<[%Y-%m-%d]>"
-                       :body ,(concat "* Work\n\n"
-                                      "* Personal\n"
-                                      ":PROPERTIES:\n"
-                                      ":VISIBILITY: folded\n"
-                                      ":END:\n")))
-    (vulpea-journal-setup))
-
-  ;; NOTE: Only placed here because `:bind' doesn't work with it.
-  (global-set-key (kbd "C-c v j") #'vulpea-journal)
 #+end_src
 
 ** Reading
