@@ -1904,9 +1904,9 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
      ,(my-org-capture-work-journal-template
        "ji" "Work investigation"
        "* %U Undersökning: %^{Title}\n\nSymptom:\n%?\n\nHypotes:\n\nFynd:\n\nResultat:\n")
-     ,(my-org-capture-work-journal-template
-       "jr" "Work reminder"
-       "* TODO %U %?")
+     ("jr" "Work reminder" entry
+      (file+olp org-work-notes-file "Mio" "Tasks")
+      "* TODO %U %?\n%a\n" :empty-lines 1 :prepend t)
 
      ("m" "Meetings")
      ("mm" "Meetings - Mio" entry
@@ -1962,6 +1962,11 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
+
+  (org-agenda-custom-commands
+   '(("J" "Journal TODOs" alltodo ""
+      ((org-agenda-files (my-work-journal-agenda-files))
+       (org-agenda-overriding-header "Journal TODOs")))))
 
   (org-preview-latex-default-process 'dvisvgm)
 
@@ -2124,6 +2129,19 @@ With two prefix arguments, insert as top-level heading."
     (expand-file-name
      (format-time-string "%G-W%V.org" (or time (current-time)))
      (expand-file-name "journal" (my-work-notes-directory organization))))
+
+  (defun my-work-journal-agenda-files (&optional organization)
+    "Return existing Org journal files for ORGANIZATION."
+    (let ((journal-directory (expand-file-name "journal"
+                                               (my-work-notes-directory organization))))
+      (when (file-directory-p journal-directory)
+        (condition-case error
+            (sort (directory-files journal-directory t "\\.org\\'")
+                  #'string<)
+          (file-error
+           (message "Cannot read work journal agenda directory: %s"
+                    (error-message-string error))
+           nil)))))
 
   (defun my-work-journal--insert-template (&optional time organization)
     "Insert a weekly work journal template for TIME and ORGANIZATION."
