@@ -2962,9 +2962,9 @@ Starts an interactive ripgrep session.
        ,(my-org-capture-work-journal-template
          "ji" "Work investigation"
          "* %U Undersökning: %^{Title}\n\nSymptom:\n%?\n\nHypotes:\n\nFynd:\n\nResultat:\n")
-       ("jr" "Work reminder" entry
-        (file+olp org-work-notes-file "Mio" "Tasks")
-        "* TODO %U %?\n%a\n" :empty-lines 1 :prepend t)
+       ,(my-org-capture-work-journal-template
+         "jr" "Work reminder"
+         "* TODO %U %?\n%a")
 
        ("m" "Meetings")
        ("mm" "Meetings - Mio" entry

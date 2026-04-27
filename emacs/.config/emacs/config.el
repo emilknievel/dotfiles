@@ -1904,9 +1904,9 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
      ,(my-org-capture-work-journal-template
        "ji" "Work investigation"
        "* %U Undersökning: %^{Title}\n\nSymptom:\n%?\n\nHypotes:\n\nFynd:\n\nResultat:\n")
-     ("jr" "Work reminder" entry
-      (file+olp org-work-notes-file "Mio" "Tasks")
-      "* TODO %U %?\n%a\n" :empty-lines 1 :prepend t)
+     ,(my-org-capture-work-journal-template
+       "jr" "Work reminder"
+       "* TODO %U %?\n%a")
 
      ("m" "Meetings")
      ("mm" "Meetings - Mio" entry
@@ -2078,7 +2078,7 @@ With two prefix arguments, insert as top-level heading."
           olivetti-minimum-body-width 72)
   :bind ("S-<f9>" . olivetti-mode))
 
-(require 'org-id)
+  (require 'org-id)
   (require 'org)
   (require 'org-agenda)
 
