@@ -1963,11 +1963,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
 
-  (org-agenda-custom-commands
-   '(("J" "Journal TODOs" alltodo ""
-      ((org-agenda-files (my-work-journal-agenda-files))
-       (org-agenda-overriding-header "Journal TODOs")))))
-
   (org-preview-latex-default-process 'dvisvgm)
 
   :bind (("C-c l" . org-store-link)
@@ -2131,7 +2126,46 @@ With two prefix arguments, insert as top-level heading."
      (format-time-string "%G-W%V.org" (or time (current-time)))
      (expand-file-name "journal" (my-work-notes-directory organization))))
 
-  (defun my-work-journal-agenda-files (&optional organization)
+  (defun my-work-journal--todo-keyword-name (keyword)
+    "Return KEYWORD without Org fast-selection suffixes."
+    (replace-regexp-in-string "\\(?:([^)]+)\\|{[^}]+}\\)\\'" "" keyword))
+
+  (defun my-work-journal--active-todo-keywords ()
+    "Return active TODO keywords from `org-todo-keywords'."
+    (let (keywords)
+      (dolist (sequence org-todo-keywords)
+        (when (memq (car-safe sequence) '(sequence type))
+          (let (active-keywords found-separator)
+            (dolist (keyword (cdr sequence))
+              (cond
+               ((equal keyword "|")
+                (setq found-separator t))
+               ((not found-separator)
+                (push keyword active-keywords))))
+            (unless found-separator
+              (setq active-keywords (cdr active-keywords)))
+            (dolist (keyword active-keywords)
+              (when (stringp keyword)
+                (push (my-work-journal--todo-keyword-name keyword)
+                      keywords))))))
+      (or (delete-dups (nreverse keywords)) '("TODO"))))
+
+  (defun my-work-journal--active-todo-regexp ()
+    "Return a regexp matching active Org TODO headlines."
+    (concat "^\\*+[ \t]+"
+            (regexp-opt (my-work-journal--active-todo-keywords) t)
+            "\\(?:[ \t]\\|$\\)"))
+
+  (defun my-work-journal--file-has-active-todo-p (file todo-regexp)
+    "Return non-nil when FILE contains a heading matching TODO-REGEXP."
+    (condition-case nil
+        (with-temp-buffer
+          (insert-file-contents file nil nil nil t)
+          (goto-char (point-min))
+          (re-search-forward todo-regexp nil t))
+      (file-error nil)))
+
+  (defun my-work-journal-files (&optional organization)
     "Return existing Org journal files for ORGANIZATION."
     (let ((journal-directory (expand-file-name "journal"
                                                (my-work-notes-directory organization))))
@@ -2144,11 +2178,26 @@ With two prefix arguments, insert as top-level heading."
                     (error-message-string error))
            nil)))))
 
+  (defun my-work-journal-agenda-files (&optional organization)
+    "Return Org journal files with active TODOs for ORGANIZATION."
+    (let ((todo-regexp (my-work-journal--active-todo-regexp))
+          agenda-files)
+      (dolist (file (my-work-journal-files organization))
+        (when (my-work-journal--file-has-active-todo-p file todo-regexp)
+          (push file agenda-files)))
+      (sort agenda-files #'string<)))
+
+  (add-to-list 'org-agenda-custom-commands
+               '("J" "Journal TODOs" alltodo ""
+                 ((org-agenda-files (my-work-journal-agenda-files))
+                  (org-agenda-overriding-header "Journal TODOs")))
+               t)
+
   (defun my-work-journal--journal-file-p (file &optional organization)
     "Return non-nil when FILE is an existing journal file for ORGANIZATION."
     (when file
       (catch 'found
-        (dolist (journal-file (my-work-journal-agenda-files organization))
+        (dolist (journal-file (my-work-journal-files organization))
           (when (file-equal-p file journal-file)
             (throw 'found t)))
         nil)))
