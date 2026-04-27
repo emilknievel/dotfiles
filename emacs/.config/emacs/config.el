@@ -2085,6 +2085,7 @@ With two prefix arguments, insert as top-level heading."
 
 (require 'org-id)
   (require 'org)
+  (require 'org-agenda)
 
   (defvar my-work-notes-organizations
     '(("mio" . "~/Documents/work-notes/mio/"))
@@ -2142,6 +2143,112 @@ With two prefix arguments, insert as top-level heading."
            (message "Cannot read work journal agenda directory: %s"
                     (error-message-string error))
            nil)))))
+
+  (defun my-work-journal--journal-file-p (file &optional organization)
+    "Return non-nil when FILE is an existing journal file for ORGANIZATION."
+    (when file
+      (catch 'found
+        (dolist (journal-file (my-work-journal-agenda-files organization))
+          (when (file-equal-p file journal-file)
+            (throw 'found t)))
+        nil)))
+
+  (defun my-work-journal--agenda-source-marker ()
+    "Return the Org source marker for the agenda item at point."
+    (let ((marker (catch 'found
+                    (let ((position (line-beginning-position))
+                          (end (line-end-position)))
+                      (while (<= position end)
+                        (when-let* ((marker (or (get-text-property position 'org-hd-marker)
+                                                (get-text-property position 'org-marker))))
+                          (throw 'found marker))
+                        (setq position (1+ position)))))))
+      (unless (and (markerp marker) (marker-buffer marker))
+        (user-error "No Org agenda item at point"))
+      marker))
+
+  (defun my-work-journal--work-tasks-refile-location ()
+    "Return the explicit refile location for work tasks."
+    (condition-case error
+        (let* ((marker (org-find-olp (list org-work-notes-file "Mio" "Tasks")))
+               (position (marker-position marker)))
+          (unless position
+            (user-error "Cannot find Mio/Tasks in %s" org-work-notes-file))
+          (list "Mio/Tasks" org-work-notes-file nil position))
+      (error
+       (user-error "Cannot find work tasks target: %s"
+                   (error-message-string error)))))
+
+  (defun my-work-journal--origin-marker (marker)
+    "Return the journal context marker for agenda source MARKER."
+    (with-current-buffer (marker-buffer marker)
+      (save-excursion
+        (goto-char marker)
+        (org-back-to-heading t)
+        (let (fallback)
+          (catch 'found
+            (while (org-up-heading-safe)
+              (unless fallback
+                (setq fallback (point-marker)))
+              (when (org-entry-get (point) "JOURNAL_DATE")
+                (throw 'found (point-marker))))
+            fallback)))))
+
+  (defun my-work-journal--origin-link (marker)
+    "Return an Org link describing the journal origin for MARKER."
+    (let ((origin-marker (my-work-journal--origin-marker marker)))
+      (if origin-marker
+          (with-current-buffer (marker-buffer origin-marker)
+            (save-excursion
+              (goto-char origin-marker)
+              (let* ((source-file (buffer-file-name))
+                     (heading (org-get-heading t t t t))
+                     (description (format "%s / %s"
+                                          (file-name-base source-file)
+                                          heading))
+                     (id (org-id-get-create)))
+                (org-link-make-string (concat "id:" id) description))))
+        (with-current-buffer (marker-buffer marker)
+          (let ((source-file (buffer-file-name)))
+            (org-link-make-string (concat "file:" source-file)
+                                  (file-name-nondirectory source-file)))))))
+
+  (defun my-work-journal--annotate-refiled-task (origin-link refiled-at)
+    "Annotate the refiled task with ORIGIN-LINK and REFILED-AT."
+    (org-back-to-heading t)
+    (org-entry-put (point) "JOURNAL_ORIGIN" origin-link)
+    (org-entry-put (point) "JOURNAL_REFILED_AT" refiled-at)
+    (save-excursion
+      (goto-char (org-log-beginning t))
+      (insert "- Refiled from journal on " refiled-at ".\n")))
+
+  (defun my-work-journal-agenda-refile-to-work-tasks ()
+    "Refile the journal TODO at point in an Org agenda to work tasks."
+    (interactive)
+    (unless (derived-mode-p 'org-agenda-mode)
+      (user-error "Use this command from an Org agenda buffer"))
+    (let* ((marker (my-work-journal--agenda-source-marker))
+           (source-buffer (marker-buffer marker))
+           (source-file (buffer-file-name source-buffer)))
+      (unless (my-work-journal--journal-file-p source-file)
+        (user-error "Agenda item is not from a work journal file"))
+      (with-current-buffer source-buffer
+        (save-excursion
+          (goto-char marker)
+          (unless (member (org-get-todo-state) org-not-done-keywords)
+            (user-error "Agenda item is not an active TODO"))))
+      (let ((origin-link (my-work-journal--origin-link marker))
+            (refiled-at (format-time-string "[%Y-%m-%d %a %H:%M]")))
+        (let ((org-after-refile-insert-hook
+               (cons (lambda ()
+                       (my-work-journal--annotate-refiled-task origin-link
+                                                               refiled-at))
+                     org-after-refile-insert-hook)))
+          (org-agenda-refile nil (my-work-journal--work-tasks-refile-location))))))
+
+  (with-eval-after-load 'org-agenda
+    (define-key org-agenda-mode-map (kbd "C-c C-m")
+                #'my-work-journal-agenda-refile-to-work-tasks))
 
   (defun my-work-journal--insert-template (&optional time organization)
     "Insert a weekly work journal template for TIME and ORGANIZATION."
