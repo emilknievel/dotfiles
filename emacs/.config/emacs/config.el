@@ -1965,6 +1965,9 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   (org-preview-latex-default-process 'dvisvgm)
 
+  ;; Only display grouped sub/-superscripts (surrounded by `{}')
+  (org-use-sub-superscripts '{})
+
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
