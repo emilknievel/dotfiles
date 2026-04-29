@@ -468,9 +468,9 @@ General provides a more convenient, unified interface for binding keys in Emacs.
     :bind-keymap ("M-'" . surround-keymap))
 #+end_src
 
-*** Meow (disabled)
+*** Meow
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package meow
     :ensure t
     :init
@@ -480,12 +480,14 @@ General provides a more convenient, unified interface for binding keys in Emacs.
                                              (keypad . "<K>")
                                              (insert . "<I>")
                                              (beacon . "<B>")))
+              ;; meow-expand-hint-remove-delay 0)
       (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
       (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
       (add-to-list 'meow-mode-state-list '(eat-mode . insert))
       (add-to-list 'meow-mode-state-list '(term-mode . insert))
-      (add-to-list 'meow-mode-state-list '(magit-mode . insert))
+      (add-to-list 'meow-mode-state-list '(magit-mode . motion))
+      (add-to-list 'meow-mode-state-list '(ghostel-mode . insert))
 
       (meow-motion-define-key
        '("j" . meow-next)
@@ -571,6 +573,18 @@ General provides a more convenient, unified interface for binding keys in Emacs.
     (meow-setup)
     (meow-setup-indicator)
     (meow-global-mode 1))
+#+end_src
+
+**** Meow-tree-sitter
+
+#+begin_src emacs-lisp
+  (use-package meow-tree-sitter
+    :ensure t
+    :after meow
+    :config
+    (meow-tree-sitter-register-defaults)
+    (meow-normal-define-key
+     '("o" . meow-tree-sitter-node)))
 #+end_src
 
 *** Repeat mode
