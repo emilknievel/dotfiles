@@ -1180,24 +1180,49 @@ Inspired by Plan 9 Acme & Sam.
 #+begin_src emacs-lisp
   (with-eval-after-load 'general
     (my-leader-keys
-      "t t s" 'my-toggle-solarized))
+      "t t s l" 'my-solarized-light
+      "t t s d" 'my-solarized-dark
+      "t t s t" 'my-toggle-solarized))
 
-  (defun my-toggle-solarized ()
-    "Toggle between light and dark solarized themes."
-    (interactive)
-    (if (eq (nth 0 custom-enabled-themes) 'doom-solarized-dark)
-        (my-solarized-light)
-      (my-solarized-dark)))
+  (use-package solarized-theme
+    :ensure t
+    :custom
+    (solarized-use-variable-pitch nil)
+    (solarized-scale-org-headlines nil))
 
   (defun my-solarized-light ()
     "Clear previous theme and load solarized light"
     (interactive)
-    (my-load-theme 'doom-solarized-light))
+    (my-load-theme 'solarized-light)
+    (custom-theme-set-faces
+     'solarized-light
+     '(markdown-code-face ((t (:background "#eee8d5" :foreground "#657b83"))))
+     '(markdown-inline-code-face ((t (:background "#eee8d5" :foreground "#657b83"))))
+     '(markdown-gfm-checkbox-face ((t (:foreground "#b58900" :weight bold))))
+     '(org-verbatim ((t (:background "#eee8d5" :foreground "#657b83"))))
+     '(org-code ((t (:background "#eee8d5" :foreground "#657b83"))))
+     '(org-checkbox ((t (:foreground "#b58900" :weight bold))))))
 
   (defun my-solarized-dark ()
     "Clear previous theme and load solarized dark"
     (interactive)
-    (my-load-theme 'doom-solarized-dark))
+    (my-load-theme 'solarized-dark)
+    (custom-theme-set-faces
+     'solarized-dark
+     '(markdown-code-face ((t (:background "#073642" :foreground "#839496"))))
+     '(markdown-inline-code-face ((t (:background "#073642" :foreground "#839496"))))
+     '(markdown-gfm-checkbox-face ((t (:foreground "#b58900" :weight bold))))
+     '(org-verbatim ((t (:background "#073642" :foreground "#839496"))))
+     '(org-code ((t (:background "#073642" :foreground "#839496"))))
+     '(org-checkbox ((t (:foreground "#b58900" :weight bold))))))
+
+  (defun my-toggle-solarized ()
+    "Toggle between light and dark Solarized themes."
+    (interactive)
+    (if (eq (nth 0 custom-enabled-themes) 'solarized-dark)
+        (my-solarized-light)
+      (my-solarized-dark)))
+
 #+end_src
 
 **** Auto-Dark for Emacs
