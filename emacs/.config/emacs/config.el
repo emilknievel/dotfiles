@@ -209,8 +209,8 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
                                            (keypad . "<K>")
                                            (insert . "<I>")
                                            (beacon . "<B>")))
-            ;; meow-expand-hint-remove-delay 0)
-    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    ;; (setopt meow-expand-hint-remove-delay 0)
+    (setopt meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
     (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
     (add-to-list 'meow-mode-state-list '(eat-mode . insert))
@@ -299,8 +299,11 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
      '("'" . repeat)
      '("<escape>" . ignore)))
   :config
+  (defun my-meow-restore-indicator ()
+    "Re-install the meow modeline indicator when meow-global-mode is enabled."
+    (when meow-global-mode (meow-setup-indicator)))
   (meow-setup)
-  (meow-setup-indicator)
+  (add-hook 'meow-global-mode-hook #'my-meow-restore-indicator)
   (meow-global-mode 1))
 
 (use-package meow-tree-sitter
