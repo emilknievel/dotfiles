@@ -20,9 +20,9 @@ A =.stowrc= file at the root configures stow defaults:
   --no-folding
 #+end_src
 
-- =--target=~= - symlinks are created in =~=
-- =--dir=~/.dotfiles= - package root is =~/.dotfiles=
-- =--no-folding= - real directories are always created, never directory symlinks. Required because multiple packages contribute to shared directories like =~/.config/= and =~/.local/bin/=
+- =--target=~= — symlinks are created in =~=
+- =--dir=~/.dotfiles= — package root is =~/.dotfiles=
+- =--no-folding= — real directories are always created, never directory symlinks. Required because multiple packages contribute to shared directories like =~/.config/= and =~/.local/bin/=
 
 Stow picks up =.stowrc= automatically when invoked from =~/.dotfiles=. To make it work from *any* directory, symlink it to =~=:
 
@@ -45,6 +45,21 @@ To stow all packages at once:
 Not every top-level directory in this repo is a Stow package. Directories such as =TODOs/= and =styles/= are repo-local and should not be passed to Stow.
 
 Each package's directory structure is mirrored as symlinks in =~=.
+
+** Emacs
+
+The Emacs package loads a private file from =~/.private.el= during
+=early-init.el=. Keep machine-local or sensitive configuration there instead of
+tracking it in this repository.
+
+Because the file is loaded before the main Emacs configuration, package-specific
+customization should usually be wrapped in =with-eval-after-load=:
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'some-package
+    ;; Private package-specific configuration.
+    )
+#+end_src
 
 ** Homebrew
 
