@@ -215,8 +215,9 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
     (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
     (add-to-list 'meow-mode-state-list '(eat-mode . insert))
     (add-to-list 'meow-mode-state-list '(term-mode . insert))
-    (add-to-list 'meow-mode-state-list '(magit-mode . motion))
     (add-to-list 'meow-mode-state-list '(ghostel-mode . insert))
+    (add-to-list 'meow-mode-state-list '(agent-shell-mode . insert))
+    (add-to-list 'meow-mode-state-list '(magit-mode . motion))
 
     (meow-motion-define-key
      '("j" . meow-next)
