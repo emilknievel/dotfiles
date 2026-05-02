@@ -1299,10 +1299,10 @@ Inspired by Plan 9 Acme & Sam.
               my-medium-font-height (+ 120 my-font-offset)
               my-large-font-height (+ 130 my-font-offset)
               my-presentation-font-height (+ 150 my-font-offset))
-      (setq my-font-height (+ 102 my-font-offset)
+      (setq my-font-height (+ 100 my-font-offset)
             my-small-font-height (+ 90 my-font-offset)
             my-medium-font-height (+ 110 my-font-offset)
-            my-large-font-height (+ 125 my-font-offset)
+            my-large-font-height (+ 130 my-font-offset)
             my-presentation-font-height (+ 140 my-font-offset))))
 
   (if (eq system-type 'darwin)
