@@ -54,8 +54,9 @@
 ;; Load dark theme early to avoid getting flashed when launching Emacs.
 (load-theme 'wombat t)
 
-(if (file-exists-p "~/.private.el")
-    (load-file "~/.private.el")
-  (message "WARNING: Unable to find file ~/.private.el."))
+(let ((private-file (expand-file-name "~/.private.el")))
+  (if (file-exists-p private-file)
+      (load-file private-file)
+    (warn "Unable to find file %s" private-file)))
 
 ;;; early-init.el ends here
