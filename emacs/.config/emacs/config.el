@@ -1646,6 +1646,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
           (lambda ()
             (add-to-list 'eshell-visual-options
                          '("git" "--help" "--paginate"))
+            (add-to-list 'eshell-visual-commands "btop")
+            (add-to-list 'eshell-visual-commands "bat")
             (add-to-list 'eshell-visual-subcommands
                          '("git" "log" "diff" "show"))))
 
