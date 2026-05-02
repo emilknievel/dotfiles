@@ -212,12 +212,13 @@ Example usage: \(get-auth-keyword \"test\" :secret)"
     ;; (setopt meow-expand-hint-remove-delay 0)
     (setopt meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
-    (add-to-list 'meow-mode-state-list '(eshell-mode . insert))
-    (add-to-list 'meow-mode-state-list '(eat-mode . insert))
-    (add-to-list 'meow-mode-state-list '(term-mode . insert))
-    (add-to-list 'meow-mode-state-list '(ghostel-mode . insert))
-    (add-to-list 'meow-mode-state-list '(agent-shell-mode . insert))
-    (add-to-list 'meow-mode-state-list '(magit-mode . motion))
+    (dolist (mode-state '((eshell-mode . insert)
+                          (eat-mode . insert)
+                          (term-mode . insert)
+                          (ghostel-mode . insert)
+                          (agent-shell-mode . insert)
+                          (magit-mode . motion)))
+      (add-to-list 'meow-mode-state-list mode-state))
 
     (meow-motion-define-key
      '("j" . meow-next)
@@ -1353,9 +1354,10 @@ its input."
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   ;; NOTE: The order matters!
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  (dolist (capf '(cape-dabbrev
+                  cape-file
+                  cape-elisp-block))
+    (add-to-list 'completion-at-point-functions capf))
   ;;(add-to-list 'completion-at-point-functions #'cape-history)
   ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
   ;;(add-to-list 'completion-at-point-functions #'cape-tex)
@@ -1722,9 +1724,10 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (setq ghostel-tramp-shell-integration t)
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
   :config
-  (add-to-list 'ghostel-eval-cmds '("magit" magit))
-  (add-to-list 'ghostel-eval-cmds '("ff" find-file))
-  (add-to-list 'ghostel-eval-cmds '("ffro" find-file-read-only)))
+  (dolist (cmd '(("magit" magit)
+                 ("ff" find-file)
+                 ("ffro" find-file-read-only)))
+    (add-to-list 'ghostel-eval-cmds cmd)))
 
 (global-set-key (kbd "S-<f12>") 'ghostel)
 
@@ -2597,17 +2600,15 @@ With a prefix argument, prompt for the date first."
 
   :config
   (with-eval-after-load 'org-capture
-    (add-to-list 'org-capture-templates '("ndj" "Journal"))
-    (add-to-list 'org-capture-templates
-                 '("ndjd" "Daily" entry
-                   (file denote-journal-path-to-new-or-existing-entry)
-                   "* %U\n\n%?"
-                   :kill-buffer t
-                   :empty-lines 1))
-    (add-to-list 'org-capture-templates
-                 '("ndjw" "Weekly (Not implemented)"))
-    (add-to-list 'org-capture-templates
-                 '("ndjm" "Monthly (Not implemented)")))
+    (dolist (template '(("ndj" "Journal")
+                        ("ndjd" "Daily" entry
+                         (file denote-journal-path-to-new-or-existing-entry)
+                         "* %U\n\n%?"
+                         :kill-buffer t
+                         :empty-lines 1)
+                        ("ndjw" "Weekly (Not implemented)")
+                        ("ndjm" "Monthly (Not implemented)")))
+      (add-to-list 'org-capture-templates template)))
 
   :bind
   (("C-c n j" . denote-journal-new-entry)
