@@ -2588,7 +2588,9 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     (dolist (cmd '(("magit" magit)
                    ("ff" find-file)
                    ("ffro" find-file-read-only)))
-      (add-to-list 'ghostel-eval-cmds cmd)))
+      (add-to-list 'ghostel-eval-cmds cmd))
+    :custom
+    (ghostel-module-auto-install 'download))
 
   (global-set-key (kbd "S-<f12>") 'ghostel)
 #+end_src

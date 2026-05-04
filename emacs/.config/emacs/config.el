@@ -1729,7 +1729,9 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (dolist (cmd '(("magit" magit)
                  ("ff" find-file)
                  ("ffro" find-file-read-only)))
-    (add-to-list 'ghostel-eval-cmds cmd)))
+    (add-to-list 'ghostel-eval-cmds cmd))
+  :custom
+  (ghostel-module-auto-install 'download))
 
 (global-set-key (kbd "S-<f12>") 'ghostel)
 
