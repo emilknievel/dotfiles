@@ -112,9 +112,9 @@ Monday as first day of the week.
   (setopt calendar-week-start-day 1)
 #+end_src
 
-** Environment variables
+** Process environment
 
-*** Get OS shell variables
+*** Import shell environment
 
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -129,13 +129,15 @@ Monday as first day of the week.
     (or (memq window-system '(mac ns x pgtk)) (daemonp)))
 #+end_src
 
-*** Emacs specific
+*** Emacs-local environment
 
 #+begin_src emacs-lisp
   (setenv "LANG" "en_US.UTF-8")
 #+end_src
 
-*** mise.el
+*** Project environments
+
+Apply mise-managed environments per buffer so project subprocesses use the versions, paths, and variables declared by the current project.
 
 #+begin_src emacs-lisp
   (use-package mise
