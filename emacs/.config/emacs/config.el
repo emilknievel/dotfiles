@@ -1758,8 +1758,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (when (string= system-type "darwin")
     (setopt dired-use-ls-dired t
             insert-directory-program "/opt/homebrew/bin/gls"))
-  :hook
-  (dired-mode . dired-hide-details-mode)
+  ;; :hook
+  ;; (dired-mode . dired-hide-details-mode)
   :custom
   (dired-listing-switches "-aBhl --group-directories-first")
   (dired-create-destination-dirs t)
