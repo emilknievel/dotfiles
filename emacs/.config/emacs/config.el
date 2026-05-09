@@ -713,9 +713,17 @@ loaded with a different theme."
    '(markdown-code-face ((t (:background "#eee8d5" :foreground "#657b83"))))
    '(markdown-inline-code-face ((t (:background "#eee8d5" :foreground "#657b83"))))
    '(markdown-gfm-checkbox-face ((t (:foreground "#b58900" :weight bold))))
-   '(org-verbatim ((t (:background "#eee8d5" :foreground "#657b83"))))
-   '(org-code ((t (:background "#eee8d5" :foreground "#657b83"))))
-   '(org-checkbox ((t (:foreground "#b58900" :weight bold))))))
+   '(org-verbatim ((t (:background "#eee8d5" :foreground "#657b83"
+                       :box (:line-width 1 :color "#eee8d5" :style nil)))))
+   '(org-code ((t (:background "#eee8d5" :foreground "#657b83"
+                  :box (:line-width 1 :color "#eee8d5" :style nil)))))
+   '(org-checkbox ((t (:foreground "#b58900" :weight bold)))))
+  (set-face-attribute 'mode-line nil
+                      :overline nil
+                      :underline nil)
+  (set-face-attribute 'mode-line-inactive nil
+                      :overline nil
+                      :underline nil))
 
 (defun my-solarized-dark ()
   "Clear previous theme and load solarized dark"
@@ -726,9 +734,17 @@ loaded with a different theme."
    '(markdown-code-face ((t (:background "#073642" :foreground "#839496"))))
    '(markdown-inline-code-face ((t (:background "#073642" :foreground "#839496"))))
    '(markdown-gfm-checkbox-face ((t (:foreground "#b58900" :weight bold))))
-   '(org-verbatim ((t (:background "#073642" :foreground "#839496"))))
-   '(org-code ((t (:background "#073642" :foreground "#839496"))))
-   '(org-checkbox ((t (:foreground "#b58900" :weight bold))))))
+   '(org-verbatim ((t (:background "#073642" :foreground "#839496"
+                       :box (:line-width 1 :color "#073642" :style nil)))))
+   '(org-code ((t (:background "#073642" :foreground "#839496"
+                  :box (:line-width 1 :color "#073642" :style nil)))))
+   '(org-checkbox ((t (:foreground "#b58900" :weight bold)))))
+  (set-face-attribute 'mode-line nil
+                      :overline nil
+                      :underline nil)
+  (set-face-attribute 'mode-line-inactive nil
+                      :overline nil
+                      :underline nil))
 
 (defun my-toggle-solarized ()
   "Toggle between light and dark Solarized themes."
