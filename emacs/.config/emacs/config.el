@@ -1986,8 +1986,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
     (file+function my-work-journal-current-file my-work-journal-goto-today-heading)
     ,template
     :empty-lines 1
-    :empty-lines-before 1
-    :empty-lines-after 1
     ,@properties))
 
 (use-package org
