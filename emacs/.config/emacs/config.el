@@ -1064,10 +1064,6 @@ loaded with a different theme."
   :config
   (spacious-padding-mode 1))
 
-(unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
-  (ido-mode t)
-  (setopt ido-enable-flex-matching t))
-
 (use-package nerd-icons-completion
   :ensure t
   :after (marginalia nerd-icons)

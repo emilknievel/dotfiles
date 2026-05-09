@@ -1659,16 +1659,6 @@ Display the current date and time on the mode line.
 
 ** Completion
 
-*** ido (fallback)
-
-Fallback completion when neither Helm nor Ivy are active.
-
-#+begin_src emacs-lisp
-  (unless (or (fboundp 'helm-mode) (fboundp 'ivy-mode))
-    (ido-mode t)
-    (setopt ido-enable-flex-matching t))
-#+end_src
-
 *** Nerd Icons Completion
 
 #+begin_src emacs-lisp
