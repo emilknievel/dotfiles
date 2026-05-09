@@ -2055,7 +2055,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
        "* %U Undersökning: %^{Title}\n\nSymptom:\n%?\n\nHypotes:\n\nFynd:\n\nResultat:\n")
      ,(my-org-capture-work-journal-template
        "jr" "Work reminder"
-       "* TODO %U %?\n%a")
+       "* TODO %U %?\n:PROPERTIES:\n:CAPTURED_FROM: %a\n:END:")
 
      ("m" "Meetings")
      ("mm" "Meetings - Mio" entry
@@ -2086,7 +2086,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
      ("tw" "Work tasks")
      ("twm" "New Mio task" entry
       (file+olp org-work-notes-file "Mio" "Tasks")
-      "* TODO %i%?\n%a\n" :empty-lines 1 :prepend t)
+      "* TODO %i%?\n:PROPERTIES:\n:CAPTURED_FROM: %a\n:END:\n" :empty-lines 1 :prepend t)
 
      ("w" "Web link" plain
       (file+function org-links-file
