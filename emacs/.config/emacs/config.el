@@ -83,7 +83,7 @@
 
 (defun my-get-auth-keyword (machine keyword)
   "Get KEYWORD value from auth-source for MACHINE.
-Example usage: \(get-auth-keyword \"test\" :secret)"
+Example usage: (get-auth-keyword \"test\" :secret)"
   (let ((result (auth-source-search :host machine :max 1)))
     (when result
       (let ((entry (car result)))
