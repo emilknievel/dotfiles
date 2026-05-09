@@ -1060,9 +1060,9 @@ loaded with a different theme."
                               :right-divider-width 8
                               :scroll-bar-width 8
                               :fringe-width 8))
-  (spacious-padding-subtle-frame-lines t)
-  :config
-  (spacious-padding-mode 1))
+  (spacious-padding-subtle-frame-lines t))
+  ;; :config
+  ;; (spacious-padding-mode 1))
 
 (use-package nerd-icons-completion
   :ensure t
