@@ -779,7 +779,7 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-(defvar my-linux-font "jetbrains mono")
+(defvar my-linux-font "dejavusansm nerd font")
 (defvar my-macos-font "jetbrains mono")
 
 (if (eq system-type 'darwin)
