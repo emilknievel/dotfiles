@@ -2960,10 +2960,10 @@ With a prefix argument, prompt for the date first."
 
 (defvar-keymap window-actions-repeat-map
   :repeat t
-  "h" #'my-shrink-window-horizontally
-  "l" #'my-enlarge-window-horizontally
-  "j" #'my-shrink-window
-  "k" #'my-enlarge-window
+  "H" #'my-shrink-window-horizontally
+  "L" #'my-enlarge-window-horizontally
+  "J" #'my-shrink-window
+  "K" #'my-enlarge-window
   "=" #'balance-windows
   "-" #'shrink-window-if-larger-than-buffer
   "0" #'delete-window
