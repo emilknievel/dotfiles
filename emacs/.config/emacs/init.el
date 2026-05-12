@@ -1,15 +1,18 @@
-;; -*- lexical-binding: t; -*-
+;;; init.el --- Bootstrap Emacs configuration -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;; Set up early startup behavior, bootstrap Elpaca, install packages needed
+;; before the main configuration, then load the literate config.
+
+;;; Code:
 
 (setq vc-follow-symlinks t) ; edit real file when opening symbolic link
 
 
 ;;; Bootstrap Elpaca
 
-;; `elpaca-core-date' needs to be set if Emacs is built from source. In my case
-;; this is true on my Linux setups.
-;;
-;; NOTE: as of <2025-04-21 Mon 15:22> this is no longer the case.
-;; I'm now using the pre-built binary for the distro.
+;; `elpaca-core-date' may be needed when using a source-built Emacs.
 ;; (when (eq system-type 'gnu/linux)
 ;;   (setq elpaca-core-date '(20250224)))
 
@@ -58,17 +61,16 @@
   (elpaca-use-package-mode))
 
 
-;;; Load below packages early
+;;; Load early packages
 
 (use-package project :ensure (:wait t))
 
-;; Remove org-mode's C-, binding to avoid conflict with general
+;; Remove org-mode's C-, binding to avoid conflict with general.
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-,") nil))
 
 (use-package general
   :ensure (:wait t)
-  ;; :init (keymap-global-unset "C-,")
   :demand t)
 (general-create-definer my-leader-keys :prefix "C-,")
 

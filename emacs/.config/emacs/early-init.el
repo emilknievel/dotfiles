@@ -1,12 +1,14 @@
-;;; early-init.el --- Early initialization -*- lexical-binding: t; -*-
+;;; early-init.el --- Configure Emacs before package startup -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
-;; Loaded before initialization.
+;; Tune startup garbage collection, suppress early redisplay noise, configure
+;; initial frame defaults, disable package.el startup activation, and load
+;; machine-local settings before the main init file runs.
 
 ;;; Code:
 
-;; Garbage collection
+;; Reduce garbage collection during startup and minibuffer interaction.
 
 (defun my-minibuffer-setup-hook ()
   (setq gc-cons-threshold most-positive-fixnum))
@@ -25,6 +27,7 @@
 (setq native-comp-jit-compilation nil)
 (setq load-prefer-newer noninteractive)
 
+;; Keep startup quiet until the first frame is ready.
 (setq-default inhibit-redisplay t
               inhibit-message t)
 (add-hook 'window-setup-hook
@@ -36,10 +39,10 @@
 (set-language-environment "UTF-8")
 (setq default-input-method nil)
 
-;; Prevent package.el loading packages prior to their init-file loading
+;; Let Elpaca manage package activation.
 (setq package-enable-at-startup nil)
 
-;; Customize frame size and titlebar
+;; Configure the initial frame.
 (setq default-frame-alist '((width . 130) (height . 35)))
 (cond ((eq system-type 'darwin)
        ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -51,9 +54,10 @@
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;; (add-to-list 'default-frame-alist '(undecorated . t))))
 
-;; Load dark theme early to avoid getting flashed when launching Emacs.
+;; Load dark theme early to prevent flashbang when launching Emacs.
 (load-theme 'wombat t)
 
+;; Load private config for machine-local and/or secret settings.
 (let ((private-file (expand-file-name "~/.private.el")))
   (if (file-exists-p private-file)
       (load-file private-file)
