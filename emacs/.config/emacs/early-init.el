@@ -44,15 +44,8 @@
 
 ;; Configure the initial frame.
 (setq default-frame-alist '((width . 130) (height . 35)))
-(cond ((eq system-type 'darwin)
-       ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-       (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
-      ((and (eq system-type 'gnu/linux)
-            (not (getenv "WSL_DISTRO_NAME")))
-       (add-to-list 'default-frame-alist '(width . 160))
-       (add-to-list 'default-frame-alist '(height . 50))))
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-;; (add-to-list 'default-frame-alist '(undecorated . t))))
+(when (eq system-type 'darwin)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
 
 ;; Load dark theme early to prevent flashbang when launching Emacs.
 (load-theme 'wombat t)
