@@ -143,11 +143,20 @@ Example usage: (get-auth-keyword \"test\" :secret)"
     "u m" '(:ignore t :wk "Mode Line")
     "w" '(:ignore t :wk "Windows")))
 
-(defun my-reload-emacs-config ()
-  "Tangle org file and reload the emacs config."
+(defun my-compile-emacs-config ()
+  "Tangle and byte-compile the Emacs config."
   (interactive)
-  (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
-  (load-file (expand-file-name "config.el" user-emacs-directory)))
+  (let ((tangled-config (expand-file-name "config.el" user-emacs-directory)))
+    (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
+    (unless (byte-compile-file tangled-config)
+      (user-error "Failed to byte-compile %s" tangled-config))))
+
+(defun my-reload-emacs-config ()
+  "Tangle, compile, and reload the Emacs config."
+  (interactive)
+  (let ((compiled-config (expand-file-name "config.elc" user-emacs-directory)))
+    (my-compile-emacs-config)
+    (load compiled-config)))
 
 (defun my-edit-emacs-config ()
   "Edit Emacs literate config file."
