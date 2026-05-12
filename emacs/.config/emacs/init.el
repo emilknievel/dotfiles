@@ -63,6 +63,9 @@
 
 ;;; Load early packages
 
+(when (< emacs-major-version 31)
+  (use-package compat :ensure (:wait t)))
+
 (use-package project :ensure (:wait t))
 
 ;; Remove org-mode's C-, binding to avoid conflict with general.
