@@ -2825,6 +2825,26 @@ With a prefix argument, prompt for the date first."
                          :jump-to-captured t)))
       (add-to-list 'org-capture-templates template t)))
 
+  (defun my-vulpea-work-note-migration-target (note &optional organization)
+    "Return the target path for migrating NOTE into ORGANIZATION work notes."
+    (expand-file-name (file-name-nondirectory (vulpea-note-path note))
+                      (my-work-notes-directory organization)))
+
+  (defun my-vulpea-preview-work-note-migration (notes &optional organization)
+    "Show NOTES that would be migrated into ORGANIZATION work notes."
+    (with-output-to-temp-buffer "*Vulpea work note migration*"
+      (princ (format "Move %d %s work note%s:\n\n"
+                     (length notes)
+                     (or organization my-work-notes-current-organization)
+                     (if (= 1 (length notes)) "" "s")))
+      (dolist (note notes)
+        (princ (format "%s\n" (vulpea-note-title note)))
+        (princ (format "  from: %s\n" (vulpea-note-path note)))
+        (princ (format "  to:   %s\n\n"
+                       (my-vulpea-work-note-migration-target
+                        note
+                        organization))))))
+
   (defun my-vulpea--migrate-work-note (note &optional organization)
     "Move NOTE into ORGANIZATION work notes and update Vulpea state."
     (unless (= (vulpea-note-level note) 0)
@@ -2832,8 +2852,7 @@ With a prefix argument, prompt for the date first."
     (unless (my-vulpea-work-note-p note organization)
       (user-error "Note is not tagged as a work note"))
     (let* ((old-path (vulpea-note-path note))
-           (new-path (expand-file-name (file-name-nondirectory old-path)
-                                       (my-work-notes-directory organization))))
+           (new-path (my-vulpea-work-note-migration-target note organization)))
       (when (string= (expand-file-name old-path) (expand-file-name new-path))
         (user-error "Note is already in the work notes directory"))
       (when (file-exists-p new-path)
@@ -2869,6 +2888,7 @@ With a prefix argument, prompt for the date first."
                              (vulpea-note-title b)))))
       (unless candidates
         (user-error "No personal Vulpea notes tagged work and %s" organization))
+      (my-vulpea-preview-work-note-migration candidates organization)
       (when (yes-or-no-p
              (format "Move %d %s work note%s to %s? "
                      (length candidates)
