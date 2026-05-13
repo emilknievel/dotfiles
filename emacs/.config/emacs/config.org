@@ -3749,7 +3749,8 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     :demand t
     :bind (("C-c v i" . vulpea-insert)
            ("C-c v f" . vulpea-find)
-           ("C-c v n" . my-vulpea-create-work-note))
+           ("C-c v n" . my-vulpea-create-work-note)
+           ("C-c v M" . my-vulpea-migrate-work-notes))
     :init
     (setq vulpea-db-sync-directories '("~/Documents/org/"
                                        "~/Documents/notes"
@@ -3767,6 +3768,18 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
       "Return an absolute Vulpea file name template for ORGANIZATION work notes."
       (expand-file-name "${timestamp}_${slug}.org"
                         (my-work-notes-directory organization)))
+
+    (defun my-vulpea-work-note-p (note &optional organization)
+      "Return non-nil when NOTE is tagged as an ORGANIZATION work note."
+      (let ((tags (vulpea-note-tags note))
+            (organization (or organization my-work-notes-current-organization)))
+        (and (member "work" tags)
+             (member organization tags))))
+
+    (defun my-vulpea-note-in-work-directory-p (note &optional organization)
+      "Return non-nil when NOTE is already under ORGANIZATION work notes."
+      (file-in-directory-p (vulpea-note-path note)
+                           (my-work-notes-directory organization)))
 
     (defun my-vulpea--create-work-note (title &optional organization body)
       "Create a work Vulpea note with TITLE for ORGANIZATION."
@@ -3798,6 +3811,62 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
                            :kill-buffer t
                            :jump-to-captured t)))
         (add-to-list 'org-capture-templates template t)))
+
+    (defun my-vulpea--migrate-work-note (note &optional organization)
+      "Move NOTE into ORGANIZATION work notes and update Vulpea state."
+      (unless (= (vulpea-note-level note) 0)
+        (user-error "Can only migrate file-level Vulpea notes"))
+      (unless (my-vulpea-work-note-p note organization)
+        (user-error "Note is not tagged as a work note"))
+      (let* ((old-path (vulpea-note-path note))
+             (new-path (expand-file-name (file-name-nondirectory old-path)
+                                         (my-work-notes-directory organization))))
+        (when (string= (expand-file-name old-path) (expand-file-name new-path))
+          (user-error "Note is already in the work notes directory"))
+        (when (file-exists-p new-path)
+          (user-error "Target already exists: %s" new-path))
+        (make-directory (file-name-directory new-path) t)
+        (when-let ((buffer (get-file-buffer old-path)))
+          (with-current-buffer buffer
+            (save-buffer))
+          (kill-buffer buffer))
+        (rename-file old-path new-path)
+        (org-id-add-location (vulpea-note-id note) new-path)
+        (vulpea-db--delete-file-notes old-path)
+        (vulpea-db-update-file new-path)
+        new-path))
+
+    (defun my-vulpea-migrate-work-notes ()
+      "Move personal Vulpea notes tagged `work' and organization into work notes."
+      (interactive)
+      (unless vulpea-default-notes-directory
+        (user-error "No personal Vulpea notes directory is configured"))
+      (let ((organization my-work-notes-current-organization)
+            candidates moved)
+        (dolist (note (vulpea-db-query-by-directory
+                       (expand-file-name vulpea-default-notes-directory)
+                       0))
+          (when (and (my-vulpea-work-note-p note organization)
+                     (not (my-vulpea-note-in-work-directory-p note organization)))
+            (push note candidates)))
+        (setq candidates
+              (sort candidates
+                    (lambda (a b)
+                      (string< (vulpea-note-title a)
+                               (vulpea-note-title b)))))
+        (unless candidates
+          (user-error "No personal Vulpea notes tagged work and %s" organization))
+        (when (yes-or-no-p
+               (format "Move %d %s work note%s to %s? "
+                       (length candidates)
+                       organization
+                       (if (= 1 (length candidates)) "" "s")
+                       (my-work-notes-directory organization)))
+          (dolist (note candidates)
+            (push (my-vulpea--migrate-work-note note organization) moved))
+          (message "Moved %d work note%s"
+                   (length moved)
+                   (if (= 1 (length moved)) "" "s")))))
 
     (vulpea-db-autosync-mode +1)
     :hook
