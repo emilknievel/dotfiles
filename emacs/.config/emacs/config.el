@@ -2715,7 +2715,8 @@ With a prefix argument, prompt for the date first."
   :ensure t
   :demand t
   :bind (("C-c v i" . vulpea-insert)
-         ("C-c v f" . vulpea-find))
+         ("C-c v f" . vulpea-find)
+         ("C-c v n" . my-vulpea-create-work-note))
   :init
   (setq vulpea-db-sync-directories '("~/Documents/org/"
                                      "~/Documents/notes"
@@ -2725,6 +2726,46 @@ With a prefix argument, prompt for the date first."
   :custom
   (vulpea-db-sync-scan-on-enable 'async)
   :config
+  (defun my-vulpea-work-note-tags (&optional organization)
+    "Return Vulpea tags for ORGANIZATION work notes."
+    (list "work" (or organization my-work-notes-current-organization)))
+
+  (defun my-vulpea-work-note-path-template (&optional organization)
+    "Return an absolute Vulpea file name template for ORGANIZATION work notes."
+    (expand-file-name "${timestamp}_${slug}.org"
+                      (my-work-notes-directory organization)))
+
+  (defun my-vulpea--create-work-note (title &optional organization body)
+    "Create a work Vulpea note with TITLE for ORGANIZATION."
+    (vulpea-create title
+                   (my-vulpea-work-note-path-template organization)
+                   :tags (my-vulpea-work-note-tags organization)
+                   :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))
+                   :body body))
+
+  (defun my-vulpea-create-work-note (title)
+    "Create and visit a work Vulpea note named TITLE."
+    (interactive "sWork note title: ")
+    (let ((note (my-vulpea--create-work-note title)))
+      (find-file (vulpea-note-path note))
+      note))
+
+  (defun my-vulpea-capture-work-note-target ()
+    "Create a work Vulpea note for `org-capture' and return its path."
+    (vulpea-note-path
+     (my-vulpea--create-work-note
+      (read-string "Work note title: "))))
+
+  (with-eval-after-load 'org-capture
+    (dolist (template '(("v" "Vulpea")
+                        ("vw" "Work note" plain
+                         (file my-vulpea-capture-work-note-target)
+                         "%?"
+                         :empty-lines 1
+                         :kill-buffer t
+                         :jump-to-captured t)))
+      (add-to-list 'org-capture-templates template t)))
+
   (vulpea-db-autosync-mode +1)
   :hook
   (org-mode . vulpea-title-change-detection-mode))
