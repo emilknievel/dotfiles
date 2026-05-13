@@ -2761,6 +2761,11 @@ With a prefix argument, prompt for the date first."
               (throw 'note note))))
         nil)))
 
+  (defun my-vulpea-weekly-work-brag-read-date ()
+    "Read a date for opening a weekly work brag note."
+    (let ((org-read-date-prefer-future nil))
+      (org-read-date nil t nil "Work brag week: ")))
+
   (defun my-vulpea-work-note-p (note &optional organization)
     "Return non-nil when NOTE is tagged as an ORGANIZATION work note."
     (let ((tags (vulpea-note-tags note))
@@ -2790,7 +2795,8 @@ With a prefix argument, prompt for the date first."
 
   (defun my-vulpea-weekly-work-brag (&optional time organization)
     "Open or create the weekly work brag note for TIME and ORGANIZATION."
-    (interactive)
+    (interactive (list (when current-prefix-arg
+                         (my-vulpea-weekly-work-brag-read-date))))
     (let* ((organization (or organization my-work-notes-current-organization))
            (note (or (my-vulpea-weekly-work-brag-note time organization)
                      (vulpea-create
