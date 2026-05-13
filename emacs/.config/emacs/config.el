@@ -2716,6 +2716,7 @@ With a prefix argument, prompt for the date first."
   :demand t
   :bind (("C-c v i" . vulpea-insert)
          ("C-c v f" . vulpea-find)
+         ("C-c v b" . my-vulpea-weekly-work-brag)
          ("C-c v n" . my-vulpea-create-work-note)
          ("C-c v M" . my-vulpea-migrate-work-notes))
   :init
@@ -2735,6 +2736,30 @@ With a prefix argument, prompt for the date first."
     "Return an absolute Vulpea file name template for ORGANIZATION work notes."
     (expand-file-name "${timestamp}_${slug}.org"
                       (my-work-notes-directory organization)))
+
+  (defun my-vulpea-weekly-work-brag-title (&optional time)
+    "Return the work brag title for the ISO week containing TIME."
+    (format-time-string "Work brag %G-W%V" (or time (current-time))))
+
+  (defun my-vulpea-weekly-work-brag-body ()
+    "Return the default body for a weekly work brag note."
+    "* Outcomes\n\n* Shipped\n\n* Decisions\n\n* Helped / unblocked\n\n* Evidence\n\n* Follow-ups\n")
+
+  (defun my-vulpea-weekly-work-brag-note (&optional time organization)
+    "Return the existing work brag note for TIME and ORGANIZATION."
+    (let ((title (my-vulpea-weekly-work-brag-title time))
+          (organization (or organization my-work-notes-current-organization)))
+      (catch 'note
+        (dolist (note (vulpea-db-query-by-directory
+                       (my-work-notes-directory organization)
+                       0))
+          (let ((tags (vulpea-note-tags note)))
+            (when (and (string= (vulpea-note-title note) title)
+                       (my-vulpea-work-note-p note organization)
+                       (member "brag" tags)
+                       (member "weekly" tags))
+              (throw 'note note))))
+        nil)))
 
   (defun my-vulpea-work-note-p (note &optional organization)
     "Return non-nil when NOTE is tagged as an ORGANIZATION work note."
@@ -2760,6 +2785,21 @@ With a prefix argument, prompt for the date first."
     "Create and visit a work Vulpea note named TITLE."
     (interactive "sWork note title: ")
     (let ((note (my-vulpea--create-work-note title)))
+      (find-file (vulpea-note-path note))
+      note))
+
+  (defun my-vulpea-weekly-work-brag (&optional time organization)
+    "Open or create the weekly work brag note for TIME and ORGANIZATION."
+    (interactive)
+    (let* ((organization (or organization my-work-notes-current-organization))
+           (note (or (my-vulpea-weekly-work-brag-note time organization)
+                     (vulpea-create
+                      (my-vulpea-weekly-work-brag-title time)
+                      (my-vulpea-work-note-path-template organization)
+                      :tags (append (my-vulpea-work-note-tags organization)
+                                    '("brag" "weekly"))
+                      :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))
+                      :body (my-vulpea-weekly-work-brag-body)))))
       (find-file (vulpea-note-path note))
       note))
 
