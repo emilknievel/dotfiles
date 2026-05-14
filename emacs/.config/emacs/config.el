@@ -1696,7 +1696,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 ;; Enable Bash-style `!' history expansion in Eshell
 ;; (e.g. `!!', `!n', `!command', `!?command').
-(with-eval-after-load 'eshell
+(with-eval-after-load 'em-hist
   (add-to-list 'eshell-expand-input-functions
                #'eshell-expand-history-references))
 
