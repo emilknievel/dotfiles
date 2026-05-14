@@ -782,9 +782,9 @@ loaded with a different theme."
   (defconst my-dark-theme 'modus-vivendi)
   (defconst my-light-theme 'modus-operandi)
 
-  (setopt auto-dark-allow-osascript t
-          auto-dark-themes `((,my-dark-theme) (,my-light-theme))
-          custom-safe-themes t)
+  (setopt custom-safe-themes t
+          auto-dark-allow-osascript t
+          auto-dark-themes `((,my-dark-theme) (,my-light-theme)))
 
   (auto-dark-mode 1)
 
