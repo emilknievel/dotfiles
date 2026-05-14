@@ -1143,22 +1143,6 @@ Workaround for copying text from Emacs to the Windows clipboard:
                "t t z" 'my-zenburn))
 #+end_src
 
-**** Naysayer
-
-Based on theme from Jonathan Blow's livestreams.
-
-#+begin_src emacs-lisp
-  (use-package naysayer-theme
-    :ensure t
-    :after general
-    :init
-    (defun my-naysayer-theme ()
-      "Clear previous theme and load naysayer."
-      (interactive)
-      (my-load-theme 'naysayer))
-    :general (my-leader-keys "t t n" 'my-naysayer-theme))
-#+end_src
-
 **** Acme theme
 
 Inspired by Plan 9 Acme & Sam.

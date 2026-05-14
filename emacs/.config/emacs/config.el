@@ -667,16 +667,6 @@ loaded with a different theme."
              "t t g" 'my-toggle-gruvbox
              "t t z" 'my-zenburn))
 
-(use-package naysayer-theme
-  :ensure t
-  :after general
-  :init
-  (defun my-naysayer-theme ()
-    "Clear previous theme and load naysayer."
-    (interactive)
-    (my-load-theme 'naysayer))
-  :general (my-leader-keys "t t n" 'my-naysayer-theme))
-
 (use-package acme-theme
   :ensure t
   :after general
