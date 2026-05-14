@@ -801,7 +801,7 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-(defvar my-linux-font "dejavusansm nerd font")
+(defvar my-linux-font "hack")
 (defvar my-macos-font "jetbrains mono")
 
 (if (eq system-type 'darwin)
@@ -813,7 +813,7 @@ loaded with a different theme."
            (defvar my-variable-pitch-font "sf pro")
            (defvar my-serif-font "georgia"))
   (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "adwaita sans")
+         (defvar my-variable-pitch-font "noto sans")
          (defvar my-serif-font "noto serif")))
 
 (defvar my-active-font-narrow-p
