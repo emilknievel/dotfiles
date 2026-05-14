@@ -100,7 +100,7 @@
              (file-newer-than-file-p tangled-config literate-config)))
     (load-file tangled-config))
    ((file-exists-p literate-config)
-    (org-babel-load-file literate-config))
+    (org-babel-load-file literate-config t))
    (t
     (user-error "No Emacs config found"))))
 

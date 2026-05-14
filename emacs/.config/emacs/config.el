@@ -143,13 +143,26 @@ Example usage: (get-auth-keyword \"test\" :secret)"
     "u m" '(:ignore t :wk "Mode Line")
     "w" '(:ignore t :wk "Windows")))
 
+(defun my-byte-compile-emacs-config ()
+  "Byte-compile the tangled Emacs config."
+  (let ((tangled-config (expand-file-name "config.el" user-emacs-directory)))
+    (unless (byte-compile-file tangled-config)
+      (user-error "Failed to byte-compile %s" tangled-config))))
+
+(defun my-byte-compile-emacs-config-after-tangle ()
+  "Byte-compile config.el after tangling config.org."
+  (when (and buffer-file-name
+             (file-equal-p buffer-file-name
+                           (expand-file-name "config.org" user-emacs-directory)))
+    (my-byte-compile-emacs-config)))
+
+(add-hook 'org-babel-tangle-finished-hook
+          #'my-byte-compile-emacs-config-after-tangle)
+
 (defun my-compile-emacs-config ()
   "Tangle and byte-compile the Emacs config."
   (interactive)
-  (let ((tangled-config (expand-file-name "config.el" user-emacs-directory)))
-    (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
-    (unless (byte-compile-file tangled-config)
-      (user-error "Failed to byte-compile %s" tangled-config))))
+  (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory)))
 
 (defun my-reload-emacs-config ()
   "Tangle, compile, and reload the Emacs config."

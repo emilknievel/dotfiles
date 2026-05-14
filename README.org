@@ -48,18 +48,27 @@ Each package's directory structure is mirrored as symlinks in =~=.
 
 ** Emacs
 
-The Emacs package loads a private file from =~/.private.el= during
-=early-init.el=. Keep machine-local or sensitive configuration there instead of
-tracking it in this repository.
+The Emacs package loads a private file from =~/.private.el= during =early-init.el=. Keep machine-local or sensitive configuration there instead of tracking it in this repository.
 
-Because the file is loaded before the main Emacs configuration, package-specific
-customization should usually be wrapped in =with-eval-after-load=:
+Because the file is loaded before the main Emacs configuration, package-specific customization should usually be wrapped in =with-eval-after-load=:
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'some-package
     ;; Private package-specific configuration.
     )
 #+end_src
+
+*** Tangling and compilation
+
+=emacs/.config/emacs/config.org= is the source of truth for the main Emacs configuration. It tangles to =config.el=, which is generated and should not be edited directly.
+
+During startup, =init.el= chooses the freshest usable config in this order:
+
+- load =config.elc= when it is newer than both =config.el= and =config.org=
+- load =config.el= when it is newer than =config.org=
+- otherwise tangle =config.org=, byte-compile the result, and load =config.elc=
+
+Manual tangles also keep bytecode current. An ~org-babel-tangle-finished-hook~ compiles =config.el= after tangling =config.org=, so ~org-babel-tangle~ and ~my-compile-emacs-config~ both update =config.elc=.
 
 ** Homebrew
 
