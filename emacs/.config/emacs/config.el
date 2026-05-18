@@ -1699,8 +1699,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
             (define-key eshell-mode-map (kbd "C-a") 'eshell-bol)
             (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)))
 
-(setq eshell-prompt-regexp "^\\(?:([0-9]+) \\)?.+@.+ .+ \\$ ")
-
 (defun my-eshell-prompt-directory ()
   "Return a compact directory name for the Eshell prompt."
   (let* ((dir (directory-file-name (abbreviate-file-name (eshell/pwd))))

@@ -2538,8 +2538,6 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 **** Prompt
 
 #+begin_src emacs-lisp
-  (setq eshell-prompt-regexp "^\\(?:([0-9]+) \\)?.+@.+ .+ \\$ ")
-
   (defun my-eshell-prompt-directory ()
     "Return a compact directory name for the Eshell prompt."
     (let* ((dir (directory-file-name (abbreviate-file-name (eshell/pwd))))
