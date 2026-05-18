@@ -2538,7 +2538,6 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 **** Prompt
 
 #+begin_src emacs-lisp
-  (setq system-name (car (split-string system-name "\\.")))
   (setq eshell-prompt-regexp "^\\(?:([0-9]+) \\)?.+@.+ .+ \\$ ")
 
   (defun my-eshell-prompt-directory ()
@@ -2561,7 +2560,7 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
              (propertize (format "(%s) " eshell-last-command-status)
                          'face 'font-lock-warning-face))
            (propertize (user-login-name) 'face 'font-lock-keyword-face)
-           (propertize (format "@%s" (system-name)) 'face 'default)
+           (propertize (format "@%s" (car (split-string (system-name) "\\."))) 'face 'default)
            (propertize " " 'face 'font-lock-doc-face)
            (propertize (my-eshell-prompt-directory) 'face 'font-lock-type-face)
            (propertize " $" 'face 'font-lock-doc-face)

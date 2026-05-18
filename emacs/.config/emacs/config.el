@@ -1699,7 +1699,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
             (define-key eshell-mode-map (kbd "C-a") 'eshell-bol)
             (define-key eshell-mode-map (kbd "C-u") 'eshell-kill-input)))
 
-(setq system-name (car (split-string system-name "\\.")))
 (setq eshell-prompt-regexp "^\\(?:([0-9]+) \\)?.+@.+ .+ \\$ ")
 
 (defun my-eshell-prompt-directory ()
@@ -1722,7 +1721,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
            (propertize (format "(%s) " eshell-last-command-status)
                        'face 'font-lock-warning-face))
          (propertize (user-login-name) 'face 'font-lock-keyword-face)
-         (propertize (format "@%s" (system-name)) 'face 'default)
+         (propertize (format "@%s" (car (split-string (system-name) "\\."))) 'face 'default)
          (propertize " " 'face 'font-lock-doc-face)
          (propertize (my-eshell-prompt-directory) 'face 'font-lock-type-face)
          (propertize " $" 'face 'font-lock-doc-face)
