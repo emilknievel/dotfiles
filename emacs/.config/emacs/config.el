@@ -3186,6 +3186,13 @@ With a prefix argument, prompt for the date first."
 
 (global-set-key (kbd "C-x M-k") 'my-kill-buffer-and-delete-window)
 
+;; Allow minibuffer commands while in the minibuffer.
+(setopt enable-recursive-minibuffers t)
+
+;; Show recursion depth in minibuffer prompt during recursive use of the
+;; minibuffer.
+(minibuffer-depth-indicate-mode 1)
+
 (setq-default compilation-scroll-output t)
 
 (global-set-key (kbd "<f5>") 'compile)

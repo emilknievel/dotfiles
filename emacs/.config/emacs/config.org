@@ -4394,6 +4394,21 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
   (global-set-key (kbd "C-x M-k") 'my-kill-buffer-and-delete-window)
 #+end_src
 
+*** Minibuffer
+
+**** Recursive minibuffers
+
+Source: https://vannilla.org/write/1778277936/article.html.
+
+#+begin_src emacs-lisp
+  ;; Allow minibuffer commands while in the minibuffer.
+  (setopt enable-recursive-minibuffers t)
+
+  ;; Show recursion depth in minibuffer prompt during recursive use of the
+  ;; minibuffer.
+  (minibuffer-depth-indicate-mode 1)
+#+end_src
+
 ** Compilation
 
 *** Scroll *compilation* buffer window as output appears
