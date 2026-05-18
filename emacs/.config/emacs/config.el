@@ -2144,7 +2144,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
-         ("<f8>" . my-org-timestamp-inactive)
          ("C-c b" . org-switchb))
 
   :general (my-leader-keys
@@ -2209,6 +2208,8 @@ With two prefix arguments, insert as top-level heading."
       (newline)))
    (t  ; No prefix - inline timestamp
     (org-timestamp-inactive '(16)))))
+
+(global-set-key (kbd "<f8>") 'my-org-timestamp-inactive)
 
 (use-package org-modern
   :ensure t

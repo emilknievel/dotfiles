@@ -3101,7 +3101,6 @@ Starts an interactive ripgrep session.
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
            ("C-c c" . org-capture)
-           ("<f8>" . my-org-timestamp-inactive)
            ("C-c b" . org-switchb))
 
     :general (my-leader-keys
@@ -3180,6 +3179,8 @@ This package displays hidden emphasis markers while the cursor is on a rich text
         (newline)))
      (t  ; No prefix - inline timestamp
       (org-timestamp-inactive '(16)))))
+
+  (global-set-key (kbd "<f8>") 'my-org-timestamp-inactive)
 #+end_src
 
 *** Org-modern
