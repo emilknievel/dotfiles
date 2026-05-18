@@ -1291,7 +1291,7 @@ Inspired by Plan 9 Acme & Sam.
 
 #+begin_src emacs-lisp
   (defvar my-linux-font "hack")
-  (defvar my-macos-font "jetbrains mono")
+  (defvar my-macos-font "hack")
 
   (if (eq system-type 'darwin)
       (defvar my-editor-font my-macos-font)
@@ -2104,6 +2104,14 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 #+end_src
 
 ** Language configuration
+
+*** Elisp
+
+Highlight symbols according to their semantic meaning.
+
+#+begin_src emacs-lisp
+  (setopt elisp-fontify-semantically t)
+#+end_src
 
 *** Treesitter
 

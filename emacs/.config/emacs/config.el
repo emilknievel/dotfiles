@@ -792,7 +792,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "hack")
-(defvar my-macos-font "jetbrains mono")
+(defvar my-macos-font "hack")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -1455,6 +1455,8 @@ its input."
                                          ; to eglot
   :config
   (global-flycheck-eglot-mode 1))
+
+(setopt elisp-fontify-semantically t)
 
 (use-package rust-mode
   :ensure t
