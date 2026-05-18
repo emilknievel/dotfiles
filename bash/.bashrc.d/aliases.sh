@@ -91,3 +91,5 @@ alias gdbt='gdb --batch --ex run --ex bt --ex q --args'
 # Helix
 alias hxl='hx -c $XDG_CONFIG_HOME/helix/config_light.toml'
 alias hxd='hx -c $XDG_CONFIG_HOME/helix/config_dark.toml'
+
+alias bat='bat --theme ansi'
