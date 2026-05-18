@@ -1642,6 +1642,11 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :ensure t
   :after (general magit))
 
+;; Link to Magit buffers from Org documents.
+(use-package orgit
+  :ensure t
+  :after magit)
+
 (use-package diff-hl
   :ensure t
   :init

@@ -2444,6 +2444,11 @@ Lightweight alternative mode that is useful when working with very large C files
   (use-package forge
     :ensure t
     :after (general magit))
+
+  ;; Link to Magit buffers from Org documents.
+  (use-package orgit
+    :ensure t
+    :after magit)
 #+end_src
 
 **** diff-hl
