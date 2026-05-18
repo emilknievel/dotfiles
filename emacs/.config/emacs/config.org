@@ -2409,9 +2409,21 @@ Lightweight alternative mode that is useful when working with very large C files
   (add-hook 'prog-mode-hook (lambda () (setq fill-column 80)))
 #+end_src
 
-** Git
+** Version control
 
-*** Magit
+*** VC
+
+#+begin_src emacs-lisp
+  (when (>= emacs-major-version 31)
+    (vc-auto-revert-mode 1))
+  (setopt vc-dir-save-some-buffers-on-revert t
+          vc-find-revision-no-save t
+          vc-use-incoming-outgoing-prefixes t)
+#+end_src
+
+*** Git
+
+**** Magit
 
 #+begin_src emacs-lisp
   (use-package magit
@@ -2434,7 +2446,7 @@ Lightweight alternative mode that is useful when working with very large C files
     :after (general magit))
 #+end_src
 
-*** diff-hl
+**** diff-hl
 
 #+begin_src emacs-lisp
   (use-package diff-hl
@@ -2446,16 +2458,6 @@ Lightweight alternative mode that is useful when working with very large C files
     :hook
     (magit-pre-refresh . diff-hl-magit-pre-refresh)
     (magit-post-refresh . diff-hl-magit-post-refresh))
-#+end_src
-
-*** VC
-
-#+begin_src emacs-lisp
-  (when (>= emacs-major-version 31)
-    (vc-auto-revert-mode 1))
-  (setopt vc-dir-save-some-buffers-on-revert t
-          vc-find-revision-no-save t
-          vc-use-incoming-outgoing-prefixes t)
 #+end_src
 
 ** Shell

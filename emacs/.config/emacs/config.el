@@ -1617,6 +1617,12 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (add-hook 'prog-mode-hook (lambda () (setq fill-column 80)))
 
+(when (>= emacs-major-version 31)
+  (vc-auto-revert-mode 1))
+(setopt vc-dir-save-some-buffers-on-revert t
+        vc-find-revision-no-save t
+        vc-use-incoming-outgoing-prefixes t)
+
 (use-package magit
   :ensure t
   :custom
@@ -1645,12 +1651,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :hook
   (magit-pre-refresh . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh))
-
-(when (>= emacs-major-version 31)
-  (vc-auto-revert-mode 1))
-(setopt vc-dir-save-some-buffers-on-revert t
-        vc-find-revision-no-save t
-        vc-use-incoming-outgoing-prefixes t)
 
 (setopt shell-command-prompt-show-cwd t)
 
