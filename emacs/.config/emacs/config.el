@@ -792,7 +792,7 @@ loaded with a different theme."
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defvar my-linux-font "meslolgsdz nerd font")
-(defvar my-macos-font "hack")
+(defvar my-macos-font "meslolgs nerd font")
 
 (if (eq system-type 'darwin)
     (defvar my-editor-font my-macos-font)
@@ -800,8 +800,8 @@ loaded with a different theme."
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "sf pro")
-           (defvar my-serif-font "georgia"))
+           (defvar my-variable-pitch-font "inter")
+           (defvar my-serif-font "noto serif"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "adwaita sans")
          (defvar my-serif-font "noto serif")))
