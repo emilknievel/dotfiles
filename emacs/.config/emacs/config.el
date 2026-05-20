@@ -1588,13 +1588,14 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
                           (setq indent-tabs-mode t
                                 sh-basic-offset 8)))
 
-;; (setopt c-ts-mode-indent-style 'linux
-;;         c-ts-mode-indent-offset 4)
-;; (add-hook 'c-ts-mode-hook (lambda () (c-ts-mode-toggle-comment-style -1)))
 (setq c-default-style '((java-mode . "java")
                         (awk-mode . "awk")
-                        (other . "linux")))
+                        (other . "k&r")))
+;; Use 4 spaces for indentation.
 (setq-default c-basic-offset 4)
+
+;; Default to C99 style comments (//), instead of ANSI C style (/* */). Comment
+;; style can interactively be changed in-buffer with `C-c C-k'
 (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
 
 (use-package simpc-mode
