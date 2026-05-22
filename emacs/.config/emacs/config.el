@@ -570,14 +570,6 @@ loaded with a different theme."
           modus-themes-variable-pitch-ui nil
           modus-themes-to-toggle '(modus-vivendi modus-operandi)
           modus-themes-common-palette-overrides '((fringe unspecified)))
-          ;; modus-themes-headings '((0 . (1.5))
-          ;;                         (1 . (1.4))
-          ;;                         (2 . (1.3))
-          ;;                         (3 . (1.2))
-          ;;                         (4 . (1.1))
-          ;;                         (5 . (1.1))
-          ;;                         (6 . (1.0))
-          ;;                         (7 . (1.0))))
   (modus-themes-include-derivatives-mode 1)
   (my-load-theme 'modus-vivendi)
   :general (my-leader-keys

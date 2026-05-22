@@ -1012,14 +1012,6 @@ Workaround for copying text from Emacs to the Windows clipboard:
             modus-themes-variable-pitch-ui nil
             modus-themes-to-toggle '(modus-vivendi modus-operandi)
             modus-themes-common-palette-overrides '((fringe unspecified)))
-            ;; modus-themes-headings '((0 . (1.5))
-            ;;                         (1 . (1.4))
-            ;;                         (2 . (1.3))
-            ;;                         (3 . (1.2))
-            ;;                         (4 . (1.1))
-            ;;                         (5 . (1.1))
-            ;;                         (6 . (1.0))
-            ;;                         (7 . (1.0))))
     (modus-themes-include-derivatives-mode 1)
     (my-load-theme 'modus-vivendi)
     :general (my-leader-keys
@@ -1039,19 +1031,6 @@ Workaround for copying text from Emacs to the Windows clipboard:
 #+end_src
 
 **** Catppuccin
-
-#+begin_src emacs-lisp :tangle no
-  (use-package modus-catppuccin
-    :ensure (:host "www.gitlab.com"
-                   :repo "magus/modus-catppuccin"
-                   :branch "main"
-                   :main "modus-catppuccin.el")
-    :init
-    (defun my-catppuccin-mocha ()
-      (interactive)
-      (my-load-theme 'catppuccin-mocha))
-    :general (my-leader-keys "t t c" 'my-catppuccin-mocha))
-#+end_src
 
 #+begin_src emacs-lisp
   (use-package batppuccin
