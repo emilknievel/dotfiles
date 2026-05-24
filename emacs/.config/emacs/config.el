@@ -783,71 +783,43 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-;; (defvar my-linux-font "meslolgsdz nerd font")
-;; (defvar my-macos-font "hack")
-
-;; (if (eq system-type 'darwin)
-;;     (defvar my-editor-font my-macos-font)
-;;   (defvar my-editor-font my-linux-font))
-(defvar my-editor-font "hack")
-
-(if (eq system-type 'darwin)
-    (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "inter variable")
-           (defvar my-serif-font "noto serif"))
-  (progn (defvar my-default-font my-editor-font)
-         (defvar my-variable-pitch-font "adwaita sans")
-         (defvar my-serif-font "noto serif")))
+(defvar my-mono-font "hack")
 
 (defvar my-active-font-narrow-p
   (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
-                  (downcase my-editor-font))
+                  (downcase my-mono-font))
   "`t' if font is narrow, i.e. appears smaller.")
 
 (defvar my-font-offset (if my-active-font-narrow-p 10 0)
   "Font size offset.")
 
 (defun my-setup-linux-fonts ()
-  "Separate setups for fonts in WSL and regular GNU/Linux."
-  (if (getenv "WSL_DISTRO_NAME")
-      (setq my-font-height (+ 110 my-font-offset)
-            my-small-font-height (+ 90 my-font-offset)
-            my-medium-font-height (+ 120 my-font-offset)
-            my-large-font-height (+ 130 my-font-offset)
-            my-presentation-font-height (+ 150 my-font-offset))
-    (setq my-font-height (+ 100 my-font-offset)
-          my-small-font-height (+ 90 my-font-offset)
-          my-medium-font-height (+ 110 my-font-offset)
-          my-large-font-height (+ 130 my-font-offset)
-          my-presentation-font-height (+ 140 my-font-offset))))
+  (defvar my-variable-pitch-font "adwaita sans")
+  (defvar my-serif-font "noto serif")
+
+  (setq my-font-height (+ 100 my-font-offset)
+        my-small-font-height (+ 90 my-font-offset)
+        my-medium-font-height (+ 110 my-font-offset)
+        my-large-font-height (+ 130 my-font-offset)
+        my-presentation-font-height (+ 140 my-font-offset)))
+
+(defun my-setup-darwin-fonts ()
+  (defvar my-variable-pitch-font "inter variable")
+  (defvar my-serif-font "noto serif")
+
+  (setq my-font-height (+ 130 my-font-offset)
+        my-small-font-height (+ 120 my-font-offset)
+        my-medium-font-height (+ 140 my-font-offset)
+        my-large-font-height (+ 150 my-font-offset)
+        my-presentation-font-height (+ 200 my-font-offset)))
 
 (if (eq system-type 'darwin)
-    (setq my-font-height (+ 130 my-font-offset)
-          my-small-font-height (+ 120 my-font-offset)
-          my-medium-font-height (+ 140 my-font-offset)
-          my-large-font-height (+ 150 my-font-offset)
-          my-presentation-font-height (+ 200 my-font-offset))
+    (my-setup-darwin-fonts)
   (my-setup-linux-fonts))
 
 (set-face-attribute 'default nil
-                    :family my-default-font
+                    :family my-mono-font
                     :height my-font-height)
-;; (set-face-attribute 'fixed-pitch nil
-;;                     :family my-editor-font
-;;                     :height 1.0)
-;; (set-face-attribute 'variable-pitch nil
-;;                     :family my-variable-pitch-font
-;;                     :height 1.0)
-;; (set-face-attribute 'italic nil :slant 'italic :underline nil)
-
-;; (defun my-reading-mode ()
-;;   (interactive)
-;;   (set-face-attribute 'variable-pitch nil
-;;                       :family my-serif-font))
-;; (defun my-quit-reading-mode ()
-;;   (interactive)
-;;   (set-face-attribute 'variable-pitch nil
-;;                       :family my-variable-pitch-font))
 
 ;; Persistent flag for mixed-pitch mode
 (defcustom my-enable-mixed-pitch t
@@ -931,12 +903,12 @@ loaded with a different theme."
            ;; omitted.
            ;; See the fontaine manual for the technicalities:
            ;; <https://protesilaos.com/emacs/fontaine>.
-           :default-family ,my-default-font
+           :default-family ,my-mono-font
            :default-weight regular
            :default-height ,my-font-height
 
-           :fixed-pitch-family ,my-default-font ; falls back to :default-family
-           :fixed-pitch-weight nil ; falls back to :default-weight
+           :fixed-pitch-family ,my-mono-font ; falls back to :default-family
+           :fixed-pitch-weight nil           ; falls back to :default-weight
            :fixed-pitch-height 1.0 ;,(/ 1 1.1)
 
            :fixed-pitch-serif-family nil ; falls back to :default-family
