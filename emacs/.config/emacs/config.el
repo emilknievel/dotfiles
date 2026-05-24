@@ -783,16 +783,17 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-(defvar my-linux-font "meslolgsdz nerd font")
-(defvar my-macos-font "meslolgs nerd font")
+;; (defvar my-linux-font "meslolgsdz nerd font")
+;; (defvar my-macos-font "hack")
 
-(if (eq system-type 'darwin)
-    (defvar my-editor-font my-macos-font)
-  (defvar my-editor-font my-linux-font))
+;; (if (eq system-type 'darwin)
+;;     (defvar my-editor-font my-macos-font)
+;;   (defvar my-editor-font my-linux-font))
+(defvar my-editor-font "hack")
 
 (if (eq system-type 'darwin)
     (progn (defvar my-default-font my-editor-font)
-           (defvar my-variable-pitch-font "inter")
+           (defvar my-variable-pitch-font "inter variable")
            (defvar my-serif-font "noto serif"))
   (progn (defvar my-default-font my-editor-font)
          (defvar my-variable-pitch-font "adwaita sans")
@@ -2247,7 +2248,7 @@ With two prefix arguments, insert as top-level heading."
   :general
   (my-leader-keys "u o" 'olivetti-mode)
   :init
-  (setopt olivetti-body-width 90
+  (setopt olivetti-body-width 100
           olivetti-minimum-body-width 72)
   :bind ("S-<f9>" . olivetti-mode))
 
