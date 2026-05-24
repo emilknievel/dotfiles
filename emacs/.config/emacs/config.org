@@ -3509,7 +3509,10 @@ With a prefix argument, prompt for the date first."
   (global-set-key (kbd "C-c v J") #'my-work-journal-open-date)
 #+end_src
 
-*** Denote
+*** Denote (disabled)
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle no
+:END:
 
 **** Base
 
