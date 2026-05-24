@@ -1748,6 +1748,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :init
   (setq ghostel-tramp-shell-integration t)
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+  (define-key project-prefix-map (kbd "G") #'ghostel-project)
   :config
   (dolist (cmd '(("magit" magit)
                  ("ff" find-file)
