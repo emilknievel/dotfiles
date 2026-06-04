@@ -596,14 +596,30 @@ General provides a more convenient, unified interface for binding keys in Emacs.
        '("Y" . meow-sync-grab)
        '("z" . meow-pop-selection)
        '("'" . repeat)
-       '("<escape>" . ignore)))
+       '("<escape>" . my-meow-terminal-escape)))
     :config
     (defun my-meow-restore-indicator ()
       "Re-install the meow modeline indicator when meow-global-mode is enabled."
       (when meow-global-mode (meow-setup-indicator)))
+
+    (defun my-meow-terminal-escape ()
+      "Pass <escape> on to the major mode after Meow has left insert state.
+  This is bound to <escape> in Meow's normal state.
+
+  In a terminal buffer such as Ghostel, the first press of <escape> leaves
+  insert state, and a second press runs the major mode's own <escape>
+  binding, which sends an escape to the program running in the terminal.
+
+  In buffers where the major mode does not bind <escape>, this command
+  does nothing."
+      (interactive)
+      (let ((cmd (local-key-binding [escape])))
+        (when (commandp cmd)
+          (call-interactively cmd))))
+
     (meow-setup)
-    (add-hook 'meow-global-mode-hook #'my-meow-restore-indicator)
-    (meow-global-mode 1))
+    (meow-global-mode 1)
+    :hook (meow-global-mode . my-meow-restore-indicator))
 #+end_src
 
 **** Meow-tree-sitter
