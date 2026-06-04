@@ -799,7 +799,7 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-(defvar my-mono-font "hack")
+(defvar my-mono-font "jetbrains mono")
 
 (defvar my-active-font-narrow-p
   (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"

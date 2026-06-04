@@ -1285,7 +1285,7 @@ Inspired by Plan 9 Acme & Sam.
 **** Setup editor fonts
 
 #+begin_src emacs-lisp
-  (defvar my-mono-font "hack")
+  (defvar my-mono-font "jetbrains mono")
 
   (defvar my-active-font-narrow-p
     (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
