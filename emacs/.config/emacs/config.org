@@ -2937,6 +2937,20 @@ Starts an interactive ripgrep session.
   (setq reb-re-syntax 'string)
 #+end_src
 
+*** Engine-mode
+
+Define search engines and easily query them from within Emacs. Invoked with =C-x /=.
+
+#+begin_src emacs-lisp
+  (use-package engine-mode
+    :ensure t
+    :config
+    (defengine kagi
+               "https://kagi.com/search?q=%s"
+               :keybinding "k")
+    (engine-mode t))
+#+end_src
+
 ** Org
 
 *** Base

@@ -2000,6 +2000,14 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 ;; `string' syntax in re-builder instead of `read'
 (setq reb-re-syntax 'string)
 
+(use-package engine-mode
+  :ensure t
+  :config
+  (defengine kagi
+             "https://kagi.com/search?q=%s"
+             :keybinding "k")
+  (engine-mode t))
+
 (defun my-org-capture-work-journal-template (key description template &rest properties)
   "Create a work journal capture template with shared target settings."
   `(,key ,description entry
