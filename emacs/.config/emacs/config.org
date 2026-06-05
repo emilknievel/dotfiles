@@ -534,7 +534,8 @@ General provides a more convenient, unified interface for binding keys in Emacs.
        '("9" . meow-digit-argument)
        '("0" . meow-digit-argument)
        '("/" . meow-keypad-describe-key)
-       '("?" . meow-cheatsheet))
+       '("?" . meow-cheatsheet)
+       '("u" . vundo))
       (meow-normal-define-key
        '("0" . meow-expand-0)
        '("9" . meow-expand-9)
@@ -765,13 +766,21 @@ Increase selected region by /semantic units/.
 
 Visual undo. Displays the undo history as a tree and lets you move in the tree to go back to previous buffer states.
 
-Invoked with ~M-x vundo~ or ~<leader> c u~.
+Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
 
 #+begin_src emacs-lisp
   (use-package vundo
     :ensure t
     :after general
-    :general (my-leader-keys "c u" 'vundo))
+    :general (my-leader-keys "c u" 'vundo)
+    :bind (:map vundo-mode-map
+                ("h" . vundo-backward)
+                ("l" . vundo-forward)
+                ("j" . vundo-next)
+                ("k" . vundo-previous)
+                ("q" . vundo-quit)
+                ("s" . vundo-save)
+                ("RET" . vundo-confirm)))
 #+end_src
 
 *** Multiple cursors

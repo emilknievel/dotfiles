@@ -261,7 +261,8 @@ Example usage: (get-auth-keyword \"test\" :secret)"
      '("9" . meow-digit-argument)
      '("0" . meow-digit-argument)
      '("/" . meow-keypad-describe-key)
-     '("?" . meow-cheatsheet))
+     '("?" . meow-cheatsheet)
+     '("u" . vundo))
     (meow-normal-define-key
      '("0" . meow-expand-0)
      '("9" . meow-expand-9)
@@ -428,7 +429,15 @@ does nothing."
 (use-package vundo
   :ensure t
   :after general
-  :general (my-leader-keys "c u" 'vundo))
+  :general (my-leader-keys "c u" 'vundo)
+  :bind (:map vundo-mode-map
+              ("h" . vundo-backward)
+              ("l" . vundo-forward)
+              ("j" . vundo-next)
+              ("k" . vundo-previous)
+              ("q" . vundo-quit)
+              ("s" . vundo-save)
+              ("RET" . vundo-confirm)))
 
 (use-package multiple-cursors
   :ensure t
