@@ -2980,14 +2980,12 @@ With a prefix argument, prompt for the date first."
 
 (defvar-keymap window-actions-repeat-map
   :repeat t
-  "H" #'my-shrink-window-horizontally
-  "L" #'my-enlarge-window-horizontally
-  "J" #'my-shrink-window
-  "K" #'my-enlarge-window
+  "h" #'my-shrink-window-horizontally
+  "l" #'my-enlarge-window-horizontally
+  "j" #'my-shrink-window
+  "k" #'my-enlarge-window
   "=" #'balance-windows
-  "-" #'shrink-window-if-larger-than-buffer
-  "0" #'delete-window
-  "1" #'delete-other-windows)
+  "-" #'shrink-window-if-larger-than-buffer)
 
 (global-set-key (kbd "C-, w h") 'my-shrink-window-horizontally)
 (global-set-key (kbd "C-, w l") 'my-enlarge-window-horizontally)
