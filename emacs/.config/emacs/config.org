@@ -38,6 +38,8 @@
 
   ;; Skip fontification during input
   (setq redisplay-skip-fontification-on-input t)
+
+  (setopt xref-search-program 'ripgrep)
 #+end_src
 
 ** Emacs system files
@@ -864,6 +866,15 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "M-D") #'delete-pair)
+#+end_src
+
+*** Dumb-jump
+
+#+begin_src emacs-lisp
+  (use-package dumb-jump
+    :ensure t
+    :demand t
+    :hook (xref-backend-functions . dumb-jump-xref-activate))
 #+end_src
 
 ** Eldoc

@@ -22,6 +22,8 @@
 ;; Skip fontification during input
 (setq redisplay-skip-fontification-on-input t)
 
+(setopt xref-search-program 'ripgrep)
+
 ;; Recenter after `save-place' restores position
 (advice-add 'save-place-find-file-hook :after
             (lambda (&rest _)
@@ -487,6 +489,11 @@ does nothing."
   (define-key evil-normal-state-map "zm" 'kirigami-close-folds))
 
 (global-set-key (kbd "M-D") #'delete-pair)
+
+(use-package dumb-jump
+  :ensure t
+  :demand t
+  :hook (xref-backend-functions . dumb-jump-xref-activate))
 
 (use-package eldoc
   :ensure nil
