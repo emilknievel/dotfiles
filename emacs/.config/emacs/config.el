@@ -347,9 +347,9 @@ does nothing."
       (when (commandp cmd)
         (call-interactively cmd))))
 
+  (add-hook 'meow-global-mode-hook #'my-meow-restore-indicator)
   (meow-setup)
-  (meow-global-mode 1)
-  :hook (meow-global-mode . my-meow-restore-indicator))
+  (meow-global-mode 1))
 
 (use-package meow-tree-sitter
   :ensure t
