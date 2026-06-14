@@ -687,6 +687,16 @@ Repeat commands by typing a single character.
   (set-default 'sentence-end-double-space nil)
 #+end_src
 
+*** Case conversion (DWIM)
+
+The DWIM variants act on the region when it is active, and on the appropriate semantic unit (e.g. word) otherwise. This makes the separate ~*-region~ commands redundant. See [[https://karthinks.com/software/batteries-included-with-emacs/][Batteries included with Emacs]].
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-u") 'upcase-dwim)
+  (global-set-key (kbd "M-l") 'downcase-dwim)
+  (global-set-key (kbd "M-c") 'capitalize-dwim)
+#+end_src
+
 *** View mode for read-only files
 
 #+begin_src emacs-lisp

@@ -381,6 +381,10 @@ does nothing."
 
 (set-default 'sentence-end-double-space nil)
 
+(global-set-key (kbd "M-u") 'upcase-dwim)
+(global-set-key (kbd "M-l") 'downcase-dwim)
+(global-set-key (kbd "M-c") 'capitalize-dwim)
+
 (setopt view-read-only t)
 
 (use-package iedit
