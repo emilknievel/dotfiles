@@ -43,7 +43,7 @@
 (setq package-enable-at-startup nil)
 
 ;; Configure the initial frame.
-(setq default-frame-alist '((width . 130) (height . 35)))
+(setq default-frame-alist '((width . 130) (height . 40)))
 (when (eq system-type 'darwin)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t)))
 
