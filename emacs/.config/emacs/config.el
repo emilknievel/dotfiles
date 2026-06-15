@@ -843,7 +843,7 @@ loaded with a different theme."
         my-presentation-font-height (+ 140 my-font-offset)))
 
 (defun my-setup-darwin-fonts ()
-  (defvar my-variable-pitch-font "inter variable")
+  (defvar my-variable-pitch-font "sf pro")
   (defvar my-serif-font "noto serif")
 
   (setq my-font-height (+ 130 my-font-offset)
