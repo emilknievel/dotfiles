@@ -605,7 +605,9 @@ loaded with a different theme."
   (setopt modus-themes-mixed-fonts nil
           modus-themes-variable-pitch-ui nil
           modus-themes-to-toggle '(modus-vivendi modus-operandi)
-          modus-themes-common-palette-overrides '((fringe unspecified)))
+          modus-themes-common-palette-overrides '((fringe unspecified))
+          modus-themes-bold-constructs t
+          modus-themes-italic-constructs t)
   (modus-themes-include-derivatives-mode 1)
   (my-load-theme 'modus-vivendi)
   :general (my-leader-keys
