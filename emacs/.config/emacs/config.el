@@ -2073,10 +2073,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   (org-capture-templates
    `(("l" "Journelly")
-     ("lm" "New journe(l)ly note with metadata" entry
-      (file org-journelly-file)
-      "* %U @ %(journelly-generate-metadata)\n%?" :prepend t)
-     ("lp" "New plain journe(l)ly note" entry
+     ("ll" "New plain journe(l)ly note (no location/weather data)" entry
       (file org-journelly-file)
       "* %U @ -\n%?" :prepend t)
 
