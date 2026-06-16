@@ -1769,7 +1769,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
                  ("ffro" find-file-read-only)))
     (add-to-list 'ghostel-eval-cmds cmd))
   :custom
-  (ghostel-module-auto-install 'download))
+  (ghostel-module-auto-install 'download)
+  (ghostel-max-scrollback 20000000))
 
 (global-set-key (kbd "S-<f12>") 'ghostel)
 

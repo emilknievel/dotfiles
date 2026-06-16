@@ -2619,7 +2619,8 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
                    ("ffro" find-file-read-only)))
       (add-to-list 'ghostel-eval-cmds cmd))
     :custom
-    (ghostel-module-auto-install 'download))
+    (ghostel-module-auto-install 'download)
+    (ghostel-max-scrollback 20000000))
 
   (global-set-key (kbd "S-<f12>") 'ghostel)
 #+end_src
