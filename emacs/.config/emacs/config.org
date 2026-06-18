@@ -2114,22 +2114,18 @@ Highlight symbols according to their semantic meaning.
 
 *** Treesitter
 
+**** Base
+
+#+begin_src emacs-lisp
+  (when (>= emacs-major-version 31)
+    (setopt treesit-auto-install-grammar t
+            treesit-enabled-modes t))
+#+end_src
+
 **** Lower font lock level to reduce the fruit salad (disabled)
 
 #+begin_src emacs-lisp :tangle no
   (setopt treesit-font-lock-level 2) ; default: 3
-#+end_src
-
-**** treesit-auto (disabled)
-
-#+begin_src emacs-lisp :tangle no
-  (use-package treesit-auto
-    :ensure t
-    :custom
-    (treesit-auto-install 'prompt)
-    :config
-    (treesit-auto-add-to-auto-mode-alist 'all)
-    (global-treesit-auto-mode))
 #+end_src
 
 *** Rust
