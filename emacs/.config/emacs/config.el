@@ -1501,7 +1501,12 @@ its input."
           markdown-fontify-code-blocks-natively t
           markdown-asymmetric-header t)
   :config
-  (add-to-list 'markdown-code-lang-modes '("js" . js-ts-mode)))
+  (dolist (ts-modes '(("js" . js-ts-mode)
+                      ("javascript" . js-ts-mode)
+                      ("c" . c-ts-mode)
+                      ("bash" . bash-ts-mode)
+                      ("sh" . bash-ts-mode)))
+    (add-to-list 'markdown-code-lang-modes ts-modes)))
 
 (defun cc/markdown-to-org-region (start end)
   "Convert Markdown formatted text in region (START, END) to Org.
@@ -1601,8 +1606,11 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (setq c-default-style '((java-mode . "java")
                         (awk-mode . "awk")
                         (other . "k&r")))
+(setq c-ts-mode-indent-style 'k&r)
+
 ;; Use 4 spaces for indentation.
 (setq-default c-basic-offset 4)
+(setq-default c-ts-indent-offset 4)
 
 ;; Default to C99 style comments (//), instead of ANSI C style (/* */). Comment
 ;; style can interactively be changed in-buffer with `C-c C-k'
