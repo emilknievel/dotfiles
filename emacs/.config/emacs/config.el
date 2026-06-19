@@ -1465,7 +1465,7 @@ its input."
 (setopt elisp-fontify-semantically t)
 
 (when (>= emacs-major-version 31)
-  (setopt treesit-auto-install-grammar t
+  (setopt treesit-auto-install-grammar 'ask
           treesit-enabled-modes t))
 
 (use-package rust-mode
