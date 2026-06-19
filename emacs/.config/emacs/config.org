@@ -2594,7 +2594,6 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
     (my-leader-keys "` e" 'eshell)
     (my-leader-keys "` a" 'eat)
     :custom
-    (eat-term-name "xterm-256color")
     (eat-kill-buffer-on-exit t)
 
     :hook ((eshell-load . eat-eshell-mode)

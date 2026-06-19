@@ -1760,7 +1760,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (my-leader-keys "` e" 'eshell)
   (my-leader-keys "` a" 'eat)
   :custom
-  (eat-term-name "xterm-256color")
   (eat-kill-buffer-on-exit t)
 
   :hook ((eshell-load . eat-eshell-mode)
