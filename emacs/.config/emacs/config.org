@@ -3140,7 +3140,7 @@ This package displays hidden emphasis markers while the cursor is on a rich text
     :ensure t
     :after general
     :config
-    (setopt org-hide-emphasis-markers nil
+    (setopt org-hide-emphasis-markers t
             org-appear-autoemphasis t
             org-appear-autolinks t
             org-appear-autosubmarkers t

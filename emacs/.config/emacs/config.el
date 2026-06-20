@@ -2184,7 +2184,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :ensure t
   :after general
   :config
-  (setopt org-hide-emphasis-markers nil
+  (setopt org-hide-emphasis-markers t
           org-appear-autoemphasis t
           org-appear-autolinks t
           org-appear-autosubmarkers t
