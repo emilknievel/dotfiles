@@ -3778,9 +3778,19 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     :demand t
     :bind (("C-c v i" . vulpea-insert)
            ("C-c v f" . vulpea-find)
+           ;; Work
            ("C-c v b" . my-vulpea-weekly-work-brag)
            ("C-c v n" . my-vulpea-create-work-note)
-           ("C-c v M" . my-vulpea-migrate-work-notes))
+           ("C-c v M" . my-vulpea-migrate-work-notes)
+           ;; Tags
+           ("C-c v t a" . vulpea-buffer-tags-add)
+           ("C-c v t r" . vulpea-buffer-tags-remove)
+           ("C-c v t r" . vulpea-buffer-tags-remove)
+           ;; Meta
+           ("C-c v m a" . vulpea-meta-add)
+           ("C-c v m l" . vulpea-meta-add-list)
+           ("C-c v m r" . vulpea-meta-remove)
+           ("C-c v m c" . vulpea-meta-clean))
     :init
     (setq vulpea-db-sync-directories '("~/Documents/org/"
                                        "~/Documents/notes"
