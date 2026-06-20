@@ -824,7 +824,7 @@ loaded with a different theme."
 (defvar my-mono-font
   (if (eq system-type 'darwin)
       "sf mono"
-    "noto sans mono"))
+    "jetbrains mono"))
 
 (defvar my-active-font-narrow-p
   (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
@@ -835,7 +835,7 @@ loaded with a different theme."
   "Font size offset.")
 
 (defun my-setup-linux-fonts ()
-  (defvar my-variable-pitch-font "adwaita sans")
+  (defvar my-variable-pitch-font "inter")
   (defvar my-serif-font "noto serif")
 
   (setq my-font-height (+ 100 my-font-offset)
