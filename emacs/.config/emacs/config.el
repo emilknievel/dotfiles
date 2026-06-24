@@ -841,16 +841,19 @@ loaded with a different theme."
 
   :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
-(defcustom my-mono-font
-  (if (eq system-type 'darwin) "menlo" "monospace")
-  "Monospace font family for the default and fixed-pitch faces."
-  :type 'string
+(defcustom my-mono-font nil
+  "Monospace font family for the default and fixed-pitch faces.
+When nil, Emacs uses its native default font (the frame font for
+`default', \"Monospace\" for `fixed-pitch')."
+  :type '(choice (const :tag "Emacs native default" nil)
+                 (string :tag "Font family"))
   :group 'faces)
 
-(defcustom my-variable-pitch-font
-  (if (eq system-type 'darwin) "sf pro" "noto sans")
-  "Proportional font family for the variable-pitch face."
-  :type 'string
+(defcustom my-variable-pitch-font nil
+  "Proportional font family for the variable-pitch face.
+When nil, Emacs uses its native default (\"Sans Serif\")."
+  :type '(choice (const :tag "Emacs native default" nil)
+                 (string :tag "Font family"))
   :group 'faces)
 
 ;; Size variables, recomputed from the active mono font by
@@ -869,7 +872,8 @@ loaded with a different theme."
 Narrow fonts (Iosevka, Aporetic, ...) get a +10 bump so they aren't
 rendered too small."
   (setq my-active-font-narrow-p
-        (and (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
+        (and my-mono-font
+             (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
                              (downcase my-mono-font))
              t)
         my-font-offset (if my-active-font-narrow-p 10 0))
@@ -883,16 +887,23 @@ rendered too small."
           my-large-font-height        (+ large my-font-offset)
           my-presentation-font-height (+ presentation my-font-offset))))
 
-(my-refresh-font-metrics)
+(defun my--apply-default-face ()
+  "Apply `my-mono-font' and `my-font-height' to the default face.
+The family is left untouched (Emacs's native font) when `my-mono-font'
+is nil."
+  (apply #'set-face-attribute 'default nil
+         :height my-font-height
+         (when my-mono-font (list :family my-mono-font))))
 
-(set-face-attribute 'default nil
-                    :family my-mono-font
-                    :height my-font-height)
+(my-refresh-font-metrics)
+(my--apply-default-face)
 
 (defun my--read-font (prompt current)
-  "Read a font family with completion using PROMPT, defaulting to CURRENT."
-  (completing-read prompt (sort (font-family-list) #'string-lessp)
-                   nil nil nil nil current))
+  "Read a font family with completion using PROMPT, defaulting to CURRENT.
+An empty selection returns nil, i.e. reset to the Emacs native default."
+  (let ((choice (completing-read prompt (sort (font-family-list) #'string-lessp)
+                                 nil nil nil nil current)))
+    (unless (string= choice "") choice)))
 
 (defun my--refresh-mixed-pitch-buffers ()
   "Re-apply `mixed-pitch-mode' wherever it is on so new fonts take effect.
@@ -909,9 +920,7 @@ picked up until the mode is re-run (heights track live, being relative)."
   "Persist VALUE for SYMBOL to `custom.el' and re-apply all fonts."
   (customize-save-variable symbol value)
   (my-refresh-font-metrics)
-  (set-face-attribute 'default nil
-                      :family my-mono-font
-                      :height my-font-height)
+  (my--apply-default-face)
   (when (fboundp 'my-apply-fontaine-presets)
     (my-apply-fontaine-presets))
   (my--refresh-mixed-pitch-buffers)
