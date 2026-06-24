@@ -849,7 +849,13 @@ When nil, Emacs uses its native default font (the frame font for
                  (string :tag "Font family"))
   :group 'faces)
 
-(defcustom my-variable-pitch-font nil
+(defcustom my-variable-pitch-font
+  ;; macOS (NS build) has no fontconfig, so the stock variable-pitch family
+  ;; "Sans Serif" does not resolve and falls back to the mono frame font.
+  ;; Default to `.AppleSystemUIFont' there: the OS system-font alias (San
+  ;; Francisco), proportional and present on every mac. Elsewhere nil keeps
+  ;; the native "Sans Serif" (fontconfig resolves it fine).
+  (when (eq system-type 'darwin) ".AppleSystemUIFont")
   "Proportional font family for the variable-pitch face.
 When nil, Emacs uses its native default (\"Sans Serif\")."
   :type '(choice (const :tag "Emacs native default" nil)
