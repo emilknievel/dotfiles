@@ -843,7 +843,7 @@ loaded with a different theme."
 
 (defvar my-mono-font
   (if (eq system-type 'darwin)
-      "sf mono"
+      "iosevka"
     "jetbrains mono"))
 
 (defvar my-active-font-narrow-p
@@ -865,8 +865,8 @@ loaded with a different theme."
         my-presentation-font-height (+ 140 my-font-offset)))
 
 (defun my-setup-darwin-fonts ()
-  (defvar my-variable-pitch-font "sf pro")
-  (defvar my-serif-font "noto serif")
+  (defvar my-variable-pitch-font "iosevka aile")
+  (defvar my-serif-font "georgia")
 
   (setq my-font-height (+ 130 my-font-offset)
         my-small-font-height (+ 120 my-font-offset)
