@@ -894,6 +894,17 @@ rendered too small."
   (completing-read prompt (sort (font-family-list) #'string-lessp)
                    nil nil nil nil current))
 
+(defun my--refresh-mixed-pitch-buffers ()
+  "Re-apply `mixed-pitch-mode' wherever it is on so new fonts take effect.
+`mixed-pitch' bakes the variable- and fixed-pitch font *families* into
+buffer-local face remaps when enabled, so a later family change is not
+picked up until the mode is re-run (heights track live, being relative)."
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (bound-and-true-p mixed-pitch-mode)
+        (mixed-pitch-mode -1)
+        (mixed-pitch-mode 1)))))
+
 (defun my--apply-font-change (symbol value)
   "Persist VALUE for SYMBOL to `custom.el' and re-apply all fonts."
   (customize-save-variable symbol value)
@@ -903,6 +914,7 @@ rendered too small."
                       :height my-font-height)
   (when (fboundp 'my-apply-fontaine-presets)
     (my-apply-fontaine-presets))
+  (my--refresh-mixed-pitch-buffers)
   (message "%s set to %s" symbol value))
 
 (defun my-set-mono-font (font)
