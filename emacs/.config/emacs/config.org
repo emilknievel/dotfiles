@@ -1336,47 +1336,83 @@ Inspired by Plan 9 Acme & Sam.
 
 **** Setup editor fonts
 
+These are the *default* font families. They are ~defcustom~ s, so a per-machine override can be set with =M-x my-set-mono-font= (and the variable-pitch / serif variants, bound under the ~u f~ prefix). The choice is persisted to the gitignored =custom.el= via ~customize-save-variable~, so trying out a new font no longer means editing and committing this file.
+
 #+begin_src emacs-lisp
-  (defvar my-mono-font
-    (if (eq system-type 'darwin)
-        "iosevka"
-      "jetbrains mono"))
+  (defcustom my-mono-font
+    (if (eq system-type 'darwin) "menlo" "monospace")
+    "Monospace font family for the default and fixed-pitch faces."
+    :type 'string
+    :group 'faces)
 
-  (defvar my-active-font-narrow-p
-    (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
-                    (downcase my-mono-font))
-    "`t' if font is narrow, i.e. appears smaller.")
+  (defcustom my-variable-pitch-font
+    (if (eq system-type 'darwin) "sf pro" "noto sans")
+    "Proportional font family for the variable-pitch face."
+    :type 'string
+    :group 'faces)
 
-  (defvar my-font-offset (if my-active-font-narrow-p 10 0)
-    "Font size offset.")
+  ;; Size variables, recomputed from the active mono font by
+  ;; `my-refresh-font-metrics' (narrow fonts get a small size bump).
+  (defvar my-active-font-narrow-p nil
+    "Non-nil if `my-mono-font' is a narrow font, i.e. appears smaller.")
+  (defvar my-font-offset 0 "Font size offset applied to narrow fonts.")
+  (defvar my-font-height nil "Default font height.")
+  (defvar my-small-font-height nil "Small font height.")
+  (defvar my-medium-font-height nil "Medium font height.")
+  (defvar my-large-font-height nil "Large font height.")
+  (defvar my-presentation-font-height nil "Presentation font height.")
 
-  (defun my-setup-linux-fonts ()
-    (defvar my-variable-pitch-font "inter")
-    (defvar my-serif-font "noto serif")
+  (defun my-refresh-font-metrics ()
+    "Recompute the font size variables from `my-mono-font' and the OS.
+  Narrow fonts (Iosevka, Aporetic, ...) get a +10 bump so they aren't
+  rendered too small."
+    (setq my-active-font-narrow-p
+          (and (string-match-p "aporetic\\|iosevka\\|mononoki\\|zed"
+                               (downcase my-mono-font))
+               t)
+          my-font-offset (if my-active-font-narrow-p 10 0))
+    (pcase-let ((`(,default ,small ,medium ,large ,presentation)
+                 (if (eq system-type 'darwin)
+                     '(130 120 140 150 200)
+                   '(100 90 110 130 140))))
+      (setq my-font-height              (+ default my-font-offset)
+            my-small-font-height        (+ small my-font-offset)
+            my-medium-font-height       (+ medium my-font-offset)
+            my-large-font-height        (+ large my-font-offset)
+            my-presentation-font-height (+ presentation my-font-offset))))
 
-    (setq my-font-height (+ 100 my-font-offset)
-          my-small-font-height (+ 90 my-font-offset)
-          my-medium-font-height (+ 110 my-font-offset)
-          my-large-font-height (+ 130 my-font-offset)
-          my-presentation-font-height (+ 140 my-font-offset)))
-
-  (defun my-setup-darwin-fonts ()
-    (defvar my-variable-pitch-font "iosevka aile")
-    (defvar my-serif-font "georgia")
-
-    (setq my-font-height (+ 130 my-font-offset)
-          my-small-font-height (+ 120 my-font-offset)
-          my-medium-font-height (+ 140 my-font-offset)
-          my-large-font-height (+ 150 my-font-offset)
-          my-presentation-font-height (+ 200 my-font-offset)))
-
-  (if (eq system-type 'darwin)
-      (my-setup-darwin-fonts)
-    (my-setup-linux-fonts))
+  (my-refresh-font-metrics)
 
   (set-face-attribute 'default nil
                       :family my-mono-font
                       :height my-font-height)
+
+  (defun my--read-font (prompt current)
+    "Read a font family with completion using PROMPT, defaulting to CURRENT."
+    (completing-read prompt (sort (font-family-list) #'string-lessp)
+                     nil nil nil nil current))
+
+  (defun my--apply-font-change (symbol value)
+    "Persist VALUE for SYMBOL to `custom.el' and re-apply all fonts."
+    (customize-save-variable symbol value)
+    (my-refresh-font-metrics)
+    (set-face-attribute 'default nil
+                        :family my-mono-font
+                        :height my-font-height)
+    (when (fboundp 'my-apply-fontaine-presets)
+      (my-apply-fontaine-presets))
+    (message "%s set to %s" symbol value))
+
+  (defun my-set-mono-font (font)
+    "Choose and persist the monospace FONT (`my-mono-font')."
+    (interactive (list (my--read-font "Mono font: " my-mono-font)))
+    (my--apply-font-change 'my-mono-font font))
+
+  (defun my-set-variable-pitch-font (font)
+    "Choose and persist the variable-pitch FONT (`my-variable-pitch-font')."
+    (interactive
+     (list (my--read-font "Variable-pitch font: " my-variable-pitch-font)))
+    (my--apply-font-change 'my-variable-pitch-font font))
 #+end_src
 
 **** Variable pitch
@@ -1462,71 +1498,86 @@ Preview fonts in Emacs.
   (use-package fontaine
     :ensure t
     :demand t
-    :general (my-leader-keys "u f p" 'fontaine-set-preset)
+    :general (my-leader-keys
+               "u f p" 'fontaine-set-preset
+               "u f m" 'my-set-mono-font
+               "u f v" 'my-set-variable-pitch-font)
     :bind ("<f7>" . fontaine-set-preset)
     :config
     (setq fontaine-latest-state-file
           (locate-user-emacs-file "fontaine-latest-state.eld"))
 
-    (setq fontaine-presets
-          `((small :default-height ,my-small-font-height)
-            (regular) ; like this it uses all the fallback values and is named
-                      ; `regular'
-            (medium :default-height ,my-medium-font-height)
-            (large :default-height ,my-large-font-height)
-            (presentation :default-height ,my-presentation-font-height)
-            (t
-             ;; I keep all properties for didactic purposes, but most can be
-             ;; omitted.
-             ;; See the fontaine manual for the technicalities:
-             ;; <https://protesilaos.com/emacs/fontaine>.
-             :default-family ,my-mono-font
-             :default-weight regular
-             :default-height ,my-font-height
+    (defun my-build-fontaine-presets ()
+      "Build `fontaine-presets' from the current font family variables.
+  Called at startup and again whenever a font is changed via the
+  `my-set-*-font' commands."
+      `((small :default-height ,my-small-font-height)
+        (regular) ; like this it uses all the fallback values and is named
+                                          ; `regular'
+        (medium :default-height ,my-medium-font-height)
+        (large :default-height ,my-large-font-height)
+        (presentation :default-height ,my-presentation-font-height)
+        (t
+         ;; I keep all properties for didactic purposes, but most can be
+         ;; omitted.
+         ;; See the fontaine manual for the technicalities:
+         ;; <https://protesilaos.com/emacs/fontaine>.
+         :default-family ,my-mono-font
+         :default-weight regular
+         :default-height ,my-font-height
 
-             :fixed-pitch-family ,my-mono-font ; falls back to :default-family
-             :fixed-pitch-weight nil           ; falls back to :default-weight
-             :fixed-pitch-height 1.0 ;,(/ 1 1.1)
+         :fixed-pitch-family ,my-mono-font ; falls back to :default-family
+         :fixed-pitch-weight nil           ; falls back to :default-weight
+         :fixed-pitch-height 1.0 ;,(/ 1 1.1)
 
-             :fixed-pitch-serif-family nil ; falls back to :default-family
-             :fixed-pitch-serif-weight nil ; falls back to :default-weight
-             :fixed-pitch-serif-height 1.0
+         :fixed-pitch-serif-family nil
+         :fixed-pitch-serif-weight nil ; falls back to :default-weight
+         :fixed-pitch-serif-height 1.0
 
-             :variable-pitch-family ,my-variable-pitch-font
-             :variable-pitch-weight nil
-             :variable-pitch-height 1.0 ; 1.1
+         :variable-pitch-family ,my-variable-pitch-font
+         :variable-pitch-weight nil
+         :variable-pitch-height 1.0 ; 1.1
 
-             :mode-line-active-family nil ; falls back to :default-family
-             :mode-line-active-weight nil ; falls back to :default-weight
-             :mode-line-active-height 1.0
+         :mode-line-active-family nil ; falls back to :default-family
+         :mode-line-active-weight nil ; falls back to :default-weight
+         :mode-line-active-height 1.0
 
-             :mode-line-inactive-family nil ; falls back to :default-family
-             :mode-line-inactive-weight nil ; falls back to :default-weight
-             :mode-line-inactive-height 1.0
+         :mode-line-inactive-family nil ; falls back to :default-family
+         :mode-line-inactive-weight nil ; falls back to :default-weight
+         :mode-line-inactive-height 1.0
 
-             :header-line-family nil ; falls back to :default-family
-             :header-line-weight nil ; falls back to :default-weight
-             :header-line-height 1.0
+         :header-line-family nil ; falls back to :default-family
+         :header-line-weight nil ; falls back to :default-weight
+         :header-line-height 1.0
 
-             :line-number-family nil ; falls back to :default-family
-             :line-number-weight nil ; falls back to :default-weight
-             :line-number-height 1.0
+         :line-number-family nil ; falls back to :default-family
+         :line-number-weight nil ; falls back to :default-weight
+         :line-number-height 1.0
 
-             :tab-bar-family nil ; falls back to :default-family
-             :tab-bar-weight nil ; falls back to :default-weight
-             :tab-bar-height 1.0
+         :tab-bar-family nil ; falls back to :default-family
+         :tab-bar-weight nil ; falls back to :default-weight
+         :tab-bar-height 1.0
 
-             :tab-line-family nil ; falls back to :default-family
-             :tab-line-weight nil ; falls back to :default-weight
-             :tab-line-height 1.0
+         :tab-line-family nil ; falls back to :default-family
+         :tab-line-weight nil ; falls back to :default-weight
+         :tab-line-height 1.0
 
-             :bold-family nil ; use whatever the underlying face has
-             :bold-weight nil
+         :bold-family nil ; use whatever the underlying face has
+         :bold-weight nil
 
-             :italic-family nil
-             :italic-slant nil
+         :italic-family nil
+         :italic-slant nil
 
-             :line-spacing nil)))
+         :line-spacing nil)))
+
+    (defun my-apply-fontaine-presets ()
+      "Rebuild `fontaine-presets' and re-apply the current preset.
+  Used by the `my-set-*-font' commands so a font change takes effect
+  immediately."
+      (setq fontaine-presets (my-build-fontaine-presets))
+      (fontaine-set-preset (or fontaine-current-preset 'regular)))
+
+    (setq fontaine-presets (my-build-fontaine-presets))
 
     ;; Set the last preset or fall back to desired style from `fontaine-presets'
     ;; (the `regular' in this case).
