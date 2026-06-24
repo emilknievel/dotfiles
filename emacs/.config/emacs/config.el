@@ -971,7 +971,35 @@ picked up until the mode is re-run (heights track live, being relative)."
   :ensure t
   :bind ("<f9>" . my-toggle-mixed-pitch)
   :hook ((org-mode markdown-mode) . my-maybe-enable-mixed-pitch)
-  :custom (mixed-pitch-variable-pitch-cursor nil))
+  :custom (mixed-pitch-variable-pitch-cursor nil)
+  :config
+  ;; `mixed-pitch-mode' forces :weight to the default face's weight on every
+  ;; face it remaps (those in `mixed-pitch-fixed-pitch-faces'), which flattens
+  ;; any bold faces in code blocks. There is no toggle for this, so strip the
+  ;; :weight property from its `face-remap-add-relative' calls -- only while the
+  ;; mode is toggling -- so each face keeps its own weight.
+  (defvar my--mixed-pitch-preserve-weight nil
+    "When non-nil, drop :weight from `face-remap-add-relative' specs.")
+
+  (defun my--mixed-pitch-strip-weight (args)
+    "Remove a :weight property from `face-remap-add-relative' ARGS."
+    (if (not my--mixed-pitch-preserve-weight)
+        args
+      (let ((face (car args)) (specs (cdr args)) (kept nil))
+        (while specs
+          (if (eq (car specs) :weight)
+              (setq specs (cddr specs))
+            (push (pop specs) kept)
+            (push (pop specs) kept)))
+        (cons face (nreverse kept)))))
+
+  (advice-add 'face-remap-add-relative :filter-args
+              #'my--mixed-pitch-strip-weight)
+
+  (define-advice mixed-pitch-mode
+      (:around (orig &rest args) my-preserve-bold)
+    (let ((my--mixed-pitch-preserve-weight t))
+      (apply orig args))))
 
 (use-package ligature
   :ensure t
