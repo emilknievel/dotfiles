@@ -1409,25 +1409,15 @@ These are the *default* font families. They are ~defcustom~ s, so a per-machine 
                                    nil nil nil nil current)))
       (unless (string= choice "") choice)))
 
-  (defun my--refresh-mixed-pitch-buffers ()
-    "Re-apply `mixed-pitch-mode' wherever it is on so new fonts take effect.
-  `mixed-pitch' bakes the variable- and fixed-pitch font *families* into
-  buffer-local face remaps when enabled, so a later family change is not
-  picked up until the mode is re-run (heights track live, being relative)."
-    (dolist (buffer (buffer-list))
-      (with-current-buffer buffer
-        (when (bound-and-true-p mixed-pitch-mode)
-          (mixed-pitch-mode -1)
-          (mixed-pitch-mode 1)))))
-
   (defun my--apply-font-change (symbol value)
-    "Persist VALUE for SYMBOL to `custom.el' and re-apply all fonts."
+    "Persist VALUE for SYMBOL to `custom.el' and re-apply all fonts.
+  `variable-pitch-mode' buffers track the variable-pitch face by
+  reference, so they pick up the new family without an explicit refresh."
     (customize-save-variable symbol value)
     (my-refresh-font-metrics)
     (my--apply-default-face)
     (when (fboundp 'my-apply-fontaine-presets)
       (my-apply-fontaine-presets))
-    (my--refresh-mixed-pitch-buffers)
     (message "%s set to %s" symbol value))
 
   (defun my-set-mono-font (font)
@@ -1444,70 +1434,68 @@ These are the *default* font families. They are ~defcustom~ s, so a per-machine 
 
 **** Variable pitch
 
+Use the built-in ~variable-pitch-mode~ rather than the =mixed-pitch= package. ~variable-pitch-mode~ remaps the buffer's =default= face to =variable-pitch=, turning the whole buffer proportional; it leaves a face monospace only if that face inherits =fixed-pitch=. The org and markdown code/table faces do not by default, so we add that inheritance ourselves (this is the curated list =mixed-pitch= used to maintain).
+
 #+begin_src emacs-lisp
-  ;; Persistent flag for mixed-pitch mode
-  (defcustom my-enable-mixed-pitch t
-    "Enable mixed-pitch mode in org and markdown buffers."
+  (defvar my-fixed-pitch-faces
+    '(org-block org-block-begin-line org-block-end-line
+      org-code org-verbatim org-table org-formula org-checkbox
+      org-meta-line org-document-info-keyword org-latex-and-related
+      markdown-code-face markdown-pre-face markdown-inline-code-face
+      markdown-table-face markdown-language-keyword-face)
+    "Faces forced to inherit `fixed-pitch' so they stay monospace under
+  `variable-pitch-mode' (code blocks, tables, verbatim, ...).")
+
+  (defun my-apply-fixed-pitch-inheritance (&rest _)
+    "Append `fixed-pitch' to the inheritance of `my-fixed-pitch-faces'.
+  Run at startup, after org/markdown load, and after a theme change --
+  enabling a theme can reset face inheritance."
+    (dolist (face my-fixed-pitch-faces)
+      (when (facep face)
+        (let* ((inherit (face-attribute face :inherit nil nil))
+               (inherit (cond ((memq inherit '(nil unspecified)) nil)
+                              ((listp inherit) inherit)
+                              (t (list inherit)))))
+          (unless (memq 'fixed-pitch inherit)
+            (set-face-attribute face nil
+                                :inherit (append inherit '(fixed-pitch))))))))
+
+  (my-apply-fixed-pitch-inheritance)
+  (with-eval-after-load 'org (my-apply-fixed-pitch-inheritance))
+  (with-eval-after-load 'markdown-mode (my-apply-fixed-pitch-inheritance))
+  (add-hook 'enable-theme-functions #'my-apply-fixed-pitch-inheritance)
+
+  ;; Persistent flag controlling variable-pitch in prose buffers.
+  (defcustom my-enable-variable-pitch t
+    "Enable `variable-pitch-mode' in org and markdown buffers."
     :type 'boolean
     :group 'editing
     :set (lambda (symbol value)
            (set-default symbol value)
-           ;; Apply to existing buffers when changed
+           ;; Apply to existing buffers when changed.
            (dolist (buffer (buffer-list))
              (with-current-buffer buffer
                (when (or (derived-mode-p 'org-mode)
                          (derived-mode-p 'markdown-mode))
-                 (if value
-                     (mixed-pitch-mode 1)
-                   (mixed-pitch-mode -1)))))))
+                 (variable-pitch-mode (if value 1 -1)))))))
 
-  ;; Function to conditionally enable mixed-pitch
-  (defun my-maybe-enable-mixed-pitch ()
-    "Enable mixed-pitch-mode if enabled."
-    (when my-enable-mixed-pitch
-      (mixed-pitch-mode 1)))
+  (defun my-maybe-enable-variable-pitch ()
+    "Enable `variable-pitch-mode' if `my-enable-variable-pitch' is set."
+    (when my-enable-variable-pitch
+      (variable-pitch-mode 1)))
 
-  ;; Toggle function for convenience
-  (defun my-toggle-mixed-pitch ()
-    "Toggle mixed-pitch mode setting."
+  (defun my-toggle-variable-pitch ()
+    "Toggle `my-enable-variable-pitch' and persist it."
     (interactive)
-    (customize-set-variable 'my-enable-mixed-pitch (not my-enable-mixed-pitch))
-    (customize-save-variable 'my-enable-mixed-pitch my-enable-mixed-pitch)
-    (message "Mixed-pitch %s" (if my-enable-mixed-pitch "enabled" "disabled")))
+    (customize-set-variable 'my-enable-variable-pitch
+                            (not my-enable-variable-pitch))
+    (customize-save-variable 'my-enable-variable-pitch my-enable-variable-pitch)
+    (message "Variable-pitch %s"
+             (if my-enable-variable-pitch "enabled" "disabled")))
 
-  (use-package mixed-pitch
-    :ensure t
-    :bind ("<f9>" . my-toggle-mixed-pitch)
-    :hook ((org-mode markdown-mode) . my-maybe-enable-mixed-pitch)
-    :custom (mixed-pitch-variable-pitch-cursor nil)
-    :config
-    ;; `mixed-pitch-mode' forces :weight to the default face's weight on every
-    ;; face it remaps (those in `mixed-pitch-fixed-pitch-faces'), which flattens
-    ;; any bold faces in code blocks. There is no toggle for this, so strip the
-    ;; :weight property from its `face-remap-add-relative' calls -- only while the
-    ;; mode is toggling -- so each face keeps its own weight.
-    (defvar my--mixed-pitch-preserve-weight nil
-      "When non-nil, drop :weight from `face-remap-add-relative' specs.")
-
-    (defun my--mixed-pitch-strip-weight (args)
-      "Remove a :weight property from `face-remap-add-relative' ARGS."
-      (if (not my--mixed-pitch-preserve-weight)
-          args
-        (let ((face (car args)) (specs (cdr args)) (kept nil))
-          (while specs
-            (if (eq (car specs) :weight)
-                (setq specs (cddr specs))
-              (push (pop specs) kept)
-              (push (pop specs) kept)))
-          (cons face (nreverse kept)))))
-
-    (advice-add 'face-remap-add-relative :filter-args
-                #'my--mixed-pitch-strip-weight)
-
-    (define-advice mixed-pitch-mode
-        (:around (orig &rest args) my-preserve-bold)
-      (let ((my--mixed-pitch-preserve-weight t))
-        (apply orig args))))
+  (add-hook 'org-mode-hook #'my-maybe-enable-variable-pitch)
+  (add-hook 'markdown-mode-hook #'my-maybe-enable-variable-pitch)
+  (keymap-global-set "<f9>" #'my-toggle-variable-pitch)
 #+end_src
 
 **** Ligatures
