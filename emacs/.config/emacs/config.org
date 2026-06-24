@@ -1013,12 +1013,32 @@ Workaround for copying text from Emacs to the Windows clipboard:
     (interactive)
     (mapc #'disable-theme custom-enabled-themes))
 
+  (defun my-fix-gnus-face-inheritance-cycle ()
+    "Work around a `doom-themes' face-inheritance cycle.
+  Gnus defines `gnus-group-news-low' to inherit
+  `gnus-group-news-low-empty', while `doom-themes' reverses that
+  direction (the -empty face inherits the base face). Once Gnus' faces
+  are realized the two can point at each other cyclically. Emacs 30
+  tolerated it silently, but Emacs 31 signals \"inheritance cycle:
+  gnus-group-news-low[-empty]\", which aborts the load and leaves every
+  later theme broken too. Pinning a high-priority override spec on BOTH
+  faces so neither inherits the other makes the cycle structurally
+  impossible, regardless of theme or leftover state. Harmless no-op on
+  Emacs 30."
+    (face-spec-set 'gnus-group-news-low
+                   '((t (:inherit gnus-group-mail-1)))
+                   'face-override-spec)
+    (face-spec-set 'gnus-group-news-low-empty
+                   '((t (:inherit gnus-group-mail-1-empty)))
+                   'face-override-spec))
+
   (defun my-load-theme (&optional theme)
     "Load THEME after clearing the previous one.
   If called interactively, prompt for a theme name. If THEME is provided
   as an argument, load that theme directly."
     (interactive)
     (my-clear-theme)
+    (my-fix-gnus-face-inheritance-cycle)
     (if theme
         (load-theme theme t)
       (call-interactively 'load-theme)))
