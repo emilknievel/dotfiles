@@ -562,7 +562,8 @@ does nothing."
         (let ((text (buffer-substring-no-properties start end)))
           (shell-command (concat "echo '" text "' | clip.exe"))))))
 
-(setopt custom-theme-directory "~/.config/emacs/themes/")
+(setopt custom-theme-directory "~/.config/emacs/themes/"
+        custom-safe-themes t)
 
 (defun my-clear-theme ()
   "Clear current theme"
@@ -617,7 +618,40 @@ loaded with a different theme."
                                      (car custom-enabled-themes)))
       (modus-themes-load-theme (car custom-enabled-themes)))))
 
+(defcustom my-theme 'modus-vivendi
+  "The theme restored at startup.
+Saved to `custom.el' whenever a theme is enabled, so the last-chosen
+theme persists across sessions."
+  :type 'symbol
+  :group 'faces)
+
+(defvar my-theme-persist-inhibit t
+  "When non-nil, `my-persist-theme' does not save the theme.
+Held non-nil during startup so the early fallback paint and the
+restore of `my-theme' don't clobber the persisted value; cleared by
+`my-restore-persisted-theme' once restore is done.")
+
+(defun my-persist-theme (theme)
+  "Persist THEME to `my-theme' (in `custom.el') so it is restored next session.
+Added to `enable-theme-functions', so it fires for every theme switch
+regardless of which command selected it."
+  (unless (or my-theme-persist-inhibit (eq my-theme theme))
+    (customize-save-variable 'my-theme theme)))
+
+(defun my-restore-persisted-theme ()
+  "Restore `my-theme', then enable persistence of future theme changes.
+Run from `elpaca-after-init-hook', when every theme package is loaded.
+No-op when the persisted theme is already active (e.g. a modus theme
+painted early in the modus `:init')."
+  (unless (eq (car custom-enabled-themes) my-theme)
+    (condition-case err
+        (my-load-theme my-theme)
+      (error (message "Could not restore theme `%s': %s" my-theme err))))
+  (setq my-theme-persist-inhibit nil))
+
 (add-hook 'after-make-frame-functions #'my-load-theme-in-all-frames)
+(add-hook 'enable-theme-functions #'my-persist-theme)
+(add-hook 'elpaca-after-init-hook #'my-restore-persisted-theme)
 
 (use-package modus-themes
   :ensure t
@@ -629,7 +663,13 @@ loaded with a different theme."
           modus-themes-bold-constructs t
           modus-themes-italic-constructs t)
   (modus-themes-include-derivatives-mode 1)
-  (my-load-theme 'modus-vivendi)
+  ;; Paint a theme early so startup isn't unstyled. Modus themes are
+  ;; built into Emacs, so the persisted theme can be restored now if it
+  ;; is one; otherwise fall back to modus-vivendi until
+  ;; `my-restore-persisted-theme' loads the real theme's package.
+  (my-load-theme (if (string-prefix-p "modus-" (symbol-name my-theme))
+                     my-theme
+                   'modus-vivendi))
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
 
@@ -721,9 +761,6 @@ loaded with a different theme."
     "Clear previous theme and load zenburn."
     (interactive)
     (my-load-theme 'doom-zenburn))
-  :custom
-  (doom-themes-enable-bold nil)
-  (doom-themes-enable-italic nil)
   :config
   (doom-themes-org-config)
   :general (my-leader-keys
@@ -829,31 +866,6 @@ loaded with a different theme."
       (my-solarized-light)
     (my-solarized-dark)))
 
-
-(use-package auto-dark
-  :ensure t
-  :init
-  (defconst my-dark-theme 'modus-vivendi)
-  (defconst my-light-theme 'modus-operandi)
-
-  (setopt custom-safe-themes t
-          auto-dark-allow-osascript t
-          auto-dark-themes `((,my-dark-theme) (,my-light-theme)))
-
-  (auto-dark-mode 1)
-
-  (defun my-toggle-auto-theme ()
-    (interactive)
-    (if (eq (nth 0 custom-enabled-themes) my-dark-theme)
-        (my-load-theme my-light-theme)
-      (my-load-theme my-dark-theme)))
-  :hook
-  (auto-dark-dark-mode . (lambda ()
-                             (my-load-theme my-dark-theme)))
-  (auto-dark-light-mode . (lambda ()
-                              (my-load-theme my-light-theme)))
-
-  :general (my-leader-keys "t t t" 'my-toggle-auto-theme))
 
 (defcustom my-mono-font nil
   "Monospace font family for the default and fixed-pitch faces.
