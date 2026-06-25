@@ -633,6 +633,20 @@ loaded with a different theme."
   :general (my-leader-keys
              "t t m" 'modus-themes-toggle))
 
+(use-package modus-nordic-night-theme
+  :ensure (:host codeberg :repo "ashton314/modus-nordic-night")
+  :init
+  (defun my-modus-nordic-night ()
+    (interactive)
+    (my-load-theme 'modus-nordic-night))
+
+  (defun my-modus-nordic-midnight ()
+    (interactive)
+    (my-load-theme 'modus-nordic-midnight))
+  :general
+  (my-leader-keys "t t n n" 'my-modus-nordic-night)
+  (my-leader-keys "t t n m" 'my-modus-nordic-midnight))
+
 (use-package ef-themes :ensure t)
 
 (use-package standard-themes :ensure t)

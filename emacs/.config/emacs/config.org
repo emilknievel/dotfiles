@@ -1086,6 +1086,24 @@ Workaround for copying text from Emacs to the Windows clipboard:
                "t t m" 'modus-themes-toggle))
 #+end_src
 
+**** Modus nordic
+
+#+begin_src emacs-lisp
+  (use-package modus-nordic-night-theme
+    :ensure (:host codeberg :repo "ashton314/modus-nordic-night")
+    :init
+    (defun my-modus-nordic-night ()
+      (interactive)
+      (my-load-theme 'modus-nordic-night))
+
+    (defun my-modus-nordic-midnight ()
+      (interactive)
+      (my-load-theme 'modus-nordic-midnight))
+    :general
+    (my-leader-keys "t t n n" 'my-modus-nordic-night)
+    (my-leader-keys "t t n m" 'my-modus-nordic-midnight))
+#+end_src
+
 **** Ef themes
 
 #+begin_src emacs-lisp
