@@ -1206,6 +1206,15 @@ immediately."
          ;; prevent icons from overlapping vertically
          (dired-mode . (lambda () (setq-local line-spacing 0.25)))))
 
+(use-package doom-modeline
+  :ensure t
+  :after nerd-icons
+  :custom
+  ;; Render minor modes through the minions menu instead of listing each one.
+  (doom-modeline-minor-modes t)
+  :init
+  (doom-modeline-mode 1))
+
 (column-number-mode 1)
 
 (set-face-attribute 'mode-line-active nil :inherit 'mode-line)
