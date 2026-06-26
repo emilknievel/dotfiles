@@ -663,6 +663,7 @@ painted early in the modus `:init')."
           modus-themes-bold-constructs t
           modus-themes-italic-constructs t)
   (modus-themes-include-derivatives-mode 1)
+
   ;; Paint a theme early so startup isn't unstyled. Modus themes are
   ;; built into Emacs, so the persisted theme can be restored now if it
   ;; is one; otherwise fall back to modus-vivendi until
@@ -670,8 +671,28 @@ painted early in the modus `:init')."
   (my-load-theme (if (string-prefix-p "modus-" (symbol-name my-theme))
                      my-theme
                    'modus-vivendi))
-  :general (my-leader-keys
-             "t t m" 'modus-themes-toggle))
+
+  (defun my-modus-load (base)
+    "Load a modus theme, prompting for one of BASE's variants."
+    (let ((variants (seq-filter (lambda (theme)
+                                  (string-prefix-p base (symbol-name theme)))
+                                (custom-available-themes))))
+      (my-load-theme (intern (completing-read (format "%s variant: " base)
+                                              (mapcar #'symbol-name variants)
+                                              nil t)))))
+
+  (defun my-modus-operandi ()
+    "Load `modus-operandi', choosing among its variants."
+    (interactive)
+    (my-modus-load "modus-operandi"))
+
+  (defun my-modus-vivendi ()
+    "Load `modus-vivendi', choosing among its variants."
+    (interactive)
+    (my-modus-load "modus-vivendi"))
+  :general
+  (my-leader-keys "t t m o" 'my-modus-operandi)
+  (my-leader-keys "t t m v" 'my-modus-vivendi))
 
 (use-package modus-nordic-night-theme
   :ensure (:host codeberg :repo "ashton314/modus-nordic-night")
