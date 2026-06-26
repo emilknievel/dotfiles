@@ -1038,13 +1038,17 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
   (defun my-load-theme (&optional theme)
     "Load THEME after clearing the previous one.
   If called interactively, prompt for a theme name. If THEME is provided
-  as an argument, load that theme directly."
+  as an argument, load that theme directly. The previous theme is cleared
+  only once a choice is made, so the prompt stays styled during selection."
     (interactive)
-    (my-clear-theme)
-    (my-fix-gnus-face-inheritance-cycle)
-    (if theme
-        (load-theme theme t)
-      (call-interactively 'load-theme)))
+    (let ((theme (or theme
+                     (intern (completing-read
+                              "Load theme: "
+                              (mapcar #'symbol-name (custom-available-themes))
+                              nil t)))))
+      (my-clear-theme)
+      (my-fix-gnus-face-inheritance-cycle)
+      (load-theme theme t)))
 
   (defun my-load-theme-in-all-frames (frame)
     "Load the current theme in the newly created FRAME.
