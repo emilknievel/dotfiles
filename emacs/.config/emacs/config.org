@@ -1036,19 +1036,19 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
                    'face-override-spec))
 
   (defun my-load-theme (&optional theme)
-    "Load THEME after clearing the previous one.
+    "Disable previous theme and load THEME.
   If called interactively, prompt for a theme name. If THEME is provided
-  as an argument, load that theme directly. The previous theme is cleared
-  only once a choice is made, so the prompt stays styled during selection."
+  as an argument, load that theme directly. The new theme is loaded before
+  the old one is disabled so there is never a gap without an active theme."
     (interactive)
     (let ((theme (or theme
                      (intern (completing-read
                               "Load theme: "
                               (mapcar #'symbol-name (custom-available-themes))
                               nil t)))))
-      (my-clear-theme)
       (my-fix-gnus-face-inheritance-cycle)
-      (load-theme theme t)))
+      (load-theme theme t)
+      (mapc #'disable-theme (remq theme custom-enabled-themes))))
 
   (defun my-load-theme-in-all-frames (frame)
     "Load the current theme in the newly created FRAME.
