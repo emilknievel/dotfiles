@@ -3448,7 +3448,8 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
     :init
     (setopt olivetti-body-width 100
             olivetti-minimum-body-width 72)
-    :bind ("S-<f9>" . olivetti-mode))
+    :bind ("S-<f9>" . olivetti-mode)
+    :hook ((org-mode markdown-mode markdown-ts-mode) . olivetti-mode))
 #+end_src
 
 ** Notetaking

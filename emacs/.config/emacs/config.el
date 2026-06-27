@@ -2450,7 +2450,8 @@ With two prefix arguments, insert as top-level heading."
   :init
   (setopt olivetti-body-width 100
           olivetti-minimum-body-width 72)
-  :bind ("S-<f9>" . olivetti-mode))
+  :bind ("S-<f9>" . olivetti-mode)
+  :hook ((org-mode markdown-mode markdown-ts-mode) . olivetti-mode))
 
   (require 'org-id)
   (require 'org)
