@@ -4,6 +4,7 @@ if [ "$(uname)" != "Linux" ]; then
 	return
 fi
 
+# shellcheck source=/dev/null
 if ! shopt -oq posix; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
 		. /usr/share/bash-completion/bash_completion
@@ -15,4 +16,4 @@ fi
 alias hx=helix
 
 # Bitwarden SSH agent
-export SSH_AUTH_SOCK=$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock
+export SSH_AUTH_SOCK="$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"

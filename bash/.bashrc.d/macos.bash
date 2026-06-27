@@ -8,10 +8,11 @@ if [ -z "$PS1" ]; then
 	return
 fi
 
+# shellcheck source=/dev/null
 [ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
 
 # change lang to en_US but keep encoding
-export LANG=${LANG/sv_SE/en_US}
+export LANG="${LANG/sv_SE/en_US}"
 
 ## Homebrew
 ## --------
@@ -34,9 +35,11 @@ export PATH="$HOME/.local/bin:$PATH"
 	export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
 
 # Add bash completion for brew packages
+# shellcheck source=/dev/null
 [ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ] &&
 	. "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
+# shellcheck source=/dev/null
 if type brew >/dev/null 2>&1; then
 	HOMEBREW_PREFIX="$(brew --prefix)"
 	if [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]; then

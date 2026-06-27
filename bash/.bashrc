@@ -26,11 +26,13 @@ export HISTCONTROL=ignoreboth
 # User specific aliases and functions
 for rc in ~/.bashrc.d/*.bash; do
 	[ -e "$rc" ] || continue
+	# shellcheck source=/dev/null
 	. "$rc"
 done
 
 for rc in ~/.bashrc.d/private/*.bash; do
 	[ -e "$rc" ] || continue
+	# shellcheck source=/dev/null
 	. "$rc"
 done
 
@@ -48,8 +50,9 @@ shopt -s checkwinsize
 # disable .net telemetry
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 
-# rust
+## rust
 export PATH="$HOME/.cargo/bin:$PATH"
+# shellcheck source=/dev/null
 source "$HOME/.cargo/env"
 
 # lua
@@ -57,6 +60,7 @@ export PATH="$PATH:$HOME/.luarocks/bin"
 alias luamake="~/tools/lua/lua-language-server/3rd/luamake/luamake"
 
 # bash shell integration for emacs-eat
+# shellcheck source=/dev/null
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
 	source "$EAT_SHELL_INTEGRATION_DIR/bash"
 
@@ -108,6 +112,7 @@ fi
 unset -f sanitize_inherited_mise_paths
 
 
+# shellcheck source=/dev/null
 [[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"
 
 if command -v fzf >/dev/null 2>&1; then

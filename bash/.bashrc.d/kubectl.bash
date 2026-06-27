@@ -51,8 +51,8 @@ kroll() {
 	fi
 
 	echo "Restarting $resource..."
-	kubectl rollout restart "$resource" $ns_flag || return 1
+	kubectl rollout restart "$resource" "$ns_flag" || return 1
 
 	echo "Watching rollout status..."
-	kubectl rollout status "$resource" $ns_flag -w
+	kubectl rollout status "$resource" "$ns_flag" -w
 }
