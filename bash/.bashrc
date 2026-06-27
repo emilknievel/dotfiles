@@ -24,12 +24,12 @@ export HISTFILESIZE=20000
 export HISTCONTROL=ignoreboth
 
 # User specific aliases and functions
-for rc in ~/.bashrc.d/*.sh; do
+for rc in ~/.bashrc.d/*.bash; do
 	[ -e "$rc" ] || continue
 	. "$rc"
 done
 
-for rc in ~/.bashrc.d/private/*.sh; do
+for rc in ~/.bashrc.d/private/*.bash; do
 	[ -e "$rc" ] || continue
 	. "$rc"
 done
