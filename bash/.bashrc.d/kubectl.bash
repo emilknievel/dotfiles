@@ -24,7 +24,7 @@ alias kpf='kubectl port-forward'
 
 kroll() {
 	local namespace=""
-	local ns_flag=""
+	local ns_flag=()
 
 	while getopts ":n:h" opt; do
 		case $opt in
@@ -37,7 +37,7 @@ kroll() {
 	shift $((OPTIND - 1))
 	OPTIND=1
 
-	if [ $# -eq 0 ] || [ "$opt" = "h" ]; then
+	if (( $# == 0 )) || [[ "$opt" = "h" ]]; then
 		echo "Usage: kroll [-n namespace] <resource_type/name>"
 		echo "Example: kroll deployment/myapp"
 		echo "Example: kroll -n mynamespace deployment/myapp"
@@ -46,13 +46,13 @@ kroll() {
 
 	local resource=$1
 
-	if [ -n "$namespace" ]; then
-		ns_flag="-n $namespace"
+	if [[ -n $namespace ]]; then
+		ns_flag=(-n "$namespace")
 	fi
 
 	echo "Restarting $resource..."
-	kubectl rollout restart "$resource" "$ns_flag" || return 1
+	kubectl rollout restart "$resource" "${ns_flag[@]}" || return 1
 
 	echo "Watching rollout status..."
-	kubectl rollout status "$resource" "$ns_flag" -w
+	kubectl rollout status "$resource" "${ns_flag[@]}" -w
 }

@@ -1,6 +1,6 @@
 error_display() {
 	local exit_status=$1
-	if [ "$exit_status" -eq 0 ]; then
+	if [[ $exit_status -eq 0 ]]; then
 		echo ""
 	else
 		echo "($exit_status) "

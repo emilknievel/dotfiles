@@ -1,15 +1,15 @@
 # macOS
 # -----
-if [ "$(uname)" != "Darwin" ]; then
+if [[ "$(uname)" != "Darwin" ]]; then
 	return
 fi
 
-if [ -z "$PS1" ]; then
+if [[ ! $- == *i* ]]; then
 	return
 fi
 
 # shellcheck source=/dev/null
-[ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
+[[ -r "/etc/bashrc_$TERM_PROGRAM" ]] && source "/etc/bashrc_$TERM_PROGRAM"
 
 # change lang to en_US but keep encoding
 export LANG="${LANG/sv_SE/en_US}"
@@ -31,22 +31,22 @@ export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # add docker desktop's docker cli bin dir to PATH, if it exists
-[ -d "/Applications/Docker.app/Contents/Resources/bin" ] &&
+[[ -d "/Applications/Docker.app/Contents/Resources/bin" ]] &&
 	export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
 
 # Add bash completion for brew packages
 # shellcheck source=/dev/null
-[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ] &&
-	. "/opt/homebrew/etc/profile.d/bash_completion.sh"
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] &&
+	source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 # shellcheck source=/dev/null
-if type brew >/dev/null 2>&1; then
+if command -v brew &>/dev/null; then
 	HOMEBREW_PREFIX="$(brew --prefix)"
-	if [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]; then
-		. "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+	if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+		source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 	else
 		for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-			[ -r "${COMPLETION}" ] && . "${COMPLETION}"
+			[[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
 		done
 	fi
 fi
@@ -54,7 +54,7 @@ fi
 eval "$(brew shellenv)"
 
 # dotnet from M$ website, already in path
-DOTNET_ROOT="$(dirname "$(which dotnet)")"
+DOTNET_ROOT="$(dirname "$(command -v dotnet)")"
 export DOTNET_ROOT
 
 # gnu coreutils version of stty doesn't work well with a lot of tools, so

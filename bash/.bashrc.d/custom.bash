@@ -7,7 +7,7 @@ copy() {
 		exec putclip
 	else
 		rm -f /tmp/clipboard 2> /dev/null
-		if [ $# -eq 0 ]; then
+		if (( $# == 0 )); then
 			cat > /tmp/clipboard
 		else
 			cat "$1" > /tmp/clipboard
@@ -20,7 +20,7 @@ pasta() {
 		exec pbpaste
 	elif hash xclip 2>/dev/null; then
 		exec xclip -selection clipboard -o
-	elif [ -e /tmp/clipboard ]; then
+	elif [[ -e /tmp/clipboard ]]; then
 		exec cat /tmp/clipboard
 	else
 		echo ''
@@ -28,7 +28,7 @@ pasta() {
 }
 
 cdls() {
-	if [ $# -eq 0 ]; then
+	if (( $# == 0 )); then
 		cd && ls --color=auto
 	else
 		local dir="${1}"

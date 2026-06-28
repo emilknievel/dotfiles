@@ -1,8 +1,9 @@
 # .bashrc
 
 # Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+# shellcheck source=/dev/null
+if [[ -f /etc/bashrc ]]; then
+	source /etc/bashrc
 fi
 
 # local scripts and binaries
@@ -23,17 +24,18 @@ export HISTSIZE=20000
 export HISTFILESIZE=20000
 export HISTCONTROL=ignoreboth
 
-# User specific aliases and functions
+# Source user specific aliases and functions.
 for rc in ~/.bashrc.d/*.bash; do
-	[ -e "$rc" ] || continue
+	[[ -e "$rc" ]] || continue
 	# shellcheck source=/dev/null
-	. "$rc"
+	source "$rc"
 done
 
+# Load machine-specific and/or secret configurations.
 for rc in ~/.bashrc.d/private/*.bash; do
-	[ -e "$rc" ] || continue
+	[[ -e "$rc" ]] || continue
 	# shellcheck source=/dev/null
-	. "$rc"
+	source "$rc"
 done
 
 unset rc
