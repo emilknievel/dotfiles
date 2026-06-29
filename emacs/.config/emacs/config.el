@@ -2256,6 +2256,15 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   ;; Ask how many minutes to keep if idle for at least 15 minutes.
   (org-clock-idle-time 15)
+  ;; Persist the clock history (recent tasks) across Emacs restarts. A
+  ;; running clock is not auto-resumed; only the history is restored.
+  (org-clock-persist 'history)
+  ;; Stop the clock when a heading is marked DONE.
+  (org-clock-out-when-done t)
+  ;; Drop accidental zero-minute clocks instead of recording them.
+  (org-clock-out-remove-zero-time-clocks t)
+  ;; Include the currently clocking task in clock reports.
+  (org-clock-report-include-clocking-task t)
 
   (org-reverse-note-order t)
 
@@ -2341,6 +2350,10 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   ;; Only display grouped sub/-superscripts (surrounded by `{}')
   (org-use-sub-superscripts '{})
+
+  :config
+  ;; Install the hooks that save/restore the clock per `org-clock-persist'.
+  (org-clock-persistence-insinuate)
 
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
