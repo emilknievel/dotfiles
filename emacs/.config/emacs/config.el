@@ -2217,17 +2217,21 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (use-package org
   :ensure nil
   :init
+  (defvar my-org-agenda-static-files nil
+    "Base `org-agenda-files', always included regardless of Vulpea project tagging.")
   (setopt org-directory (expand-file-name "~/Documents/org")
           org-default-notes-file (concat org-directory "/inbox.org")
           org-work-notes-file (concat org-directory "/work.org")
           org-projects-file (concat org-directory "/projects.org")
           org-journelly-file (concat org-directory "/Journelly.org")
-          org-links-file (concat org-directory "/links.org")
-          org-agenda-files (list org-default-notes-file
-                                 org-work-notes-file
-                                 org-projects-file
-                                 (concat org-directory "/calendar-beorg.org")
-                                 (concat org-directory "/home.org")))
+          org-links-file (concat org-directory "/links.org"))
+  (setq my-org-agenda-static-files
+        (list org-default-notes-file
+              org-work-notes-file
+              org-projects-file
+              (concat org-directory "/calendar-beorg.org")
+              (concat org-directory "/home.org")))
+  (setopt org-agenda-files my-org-agenda-static-files)
 
   (require 'org-indent)
 
@@ -2958,6 +2962,66 @@ With a prefix argument, prompt for the date first."
         (message "Moved %d work note%s"
                  (length moved)
                  (if (= 1 (length moved)) "" "s")))))
+
+  ;; --- Dynamic agenda: surface any note that has unfinished TODOs ---
+  ;; A note is tagged "project" on save when it contains an active TODO; the
+  ;; agenda then unions those notes with `my-org-agenda-static-files'. The
+  ;; project set is read from the Vulpea DB (a tag-filtered query), so the
+  ;; agenda stays fast as the vault grows instead of scanning every note.
+  ;; Adapted from
+  ;; https://www.d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5
+  (defun my-vulpea-note-buffer-p ()
+    "Return non-nil if the current buffer is a Vulpea-managed note file."
+    (and buffer-file-name
+         (seq-some
+          (lambda (dir)
+            (file-in-directory-p buffer-file-name (expand-file-name dir)))
+          vulpea-db-sync-directories)))
+
+  (defun my-vulpea-project-p ()
+    "Return non-nil if the current buffer has any unfinished TODO entry.
+Buffers whose only tasks are DONE return nil, so completed notes drop
+off the agenda automatically."
+    (seq-find
+     (lambda (type) (eq type 'todo))
+     (org-element-map
+         (org-element-parse-buffer 'headline)
+         'headline
+       (lambda (h) (org-element-property :todo-type h)))))
+
+  (defun my-vulpea-project-update-tag ()
+    "Add or remove the \"project\" tag based on whether this note has TODOs."
+    (when (and (not (active-minibuffer-window))
+               (my-vulpea-note-buffer-p))
+      (save-excursion
+        (goto-char (point-min))
+        (let* ((tags (vulpea-buffer-tags-get))
+               (original-tags tags))
+          (if (my-vulpea-project-p)
+              (setq tags (cons "project" tags))
+            (setq tags (remove "project" tags)))
+          (setq tags (seq-uniq tags))
+          (when (or (seq-difference tags original-tags)
+                    (seq-difference original-tags tags))
+            (apply #'vulpea-buffer-tags-set tags))))))
+
+  (defun my-vulpea-project-files ()
+    "Return the list of note files currently tagged \"project\"."
+    (seq-uniq
+     (seq-map #'vulpea-note-path
+              (vulpea-db-query-by-tags-some '("project")))))
+
+  (defun my-vulpea-agenda-files-update (&rest _)
+    "Set `org-agenda-files' to the static base plus tagged project notes."
+    (setq org-agenda-files
+          (seq-uniq
+           (append my-org-agenda-static-files
+                   (my-vulpea-project-files)))))
+
+  (add-hook 'find-file-hook #'my-vulpea-project-update-tag)
+  (add-hook 'before-save-hook #'my-vulpea-project-update-tag)
+  (advice-add 'org-agenda :before #'my-vulpea-agenda-files-update)
+  (advice-add 'org-todo-list :before #'my-vulpea-agenda-files-update)
 
   (vulpea-db-autosync-mode +1)
   :hook
