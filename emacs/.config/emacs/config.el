@@ -604,6 +604,17 @@ the old one is disabled so there is never a gap without an active theme."
     (load-theme theme t)
     (mapc #'disable-theme (remq theme custom-enabled-themes))))
 
+(defun my-load-theme-variant (base)
+  "Load a theme, prompting for one whose name starts with BASE.
+Useful for theme families that ship several related variants under a
+common prefix (modus, catppuccin, ...)."
+  (let ((variants (seq-filter (lambda (theme)
+                                (string-prefix-p base (symbol-name theme)))
+                              (custom-available-themes))))
+    (my-load-theme (intern (completing-read (format "%s variant: " base)
+                                            (mapcar #'symbol-name variants)
+                                            nil t)))))
+
 (defun my-load-theme-in-all-frames (frame)
   "Load the current theme in the newly created FRAME.
 When loaded after a new frame has been created with emacsclient, it
@@ -676,24 +687,15 @@ painted early in the modus `:init')."
                      my-theme
                    'modus-vivendi))
 
-  (defun my-modus-load (base)
-    "Load a modus theme, prompting for one of BASE's variants."
-    (let ((variants (seq-filter (lambda (theme)
-                                  (string-prefix-p base (symbol-name theme)))
-                                (custom-available-themes))))
-      (my-load-theme (intern (completing-read (format "%s variant: " base)
-                                              (mapcar #'symbol-name variants)
-                                              nil t)))))
-
   (defun my-modus-operandi ()
     "Load `modus-operandi', choosing among its variants."
     (interactive)
-    (my-modus-load "modus-operandi"))
+    (my-load-theme-variant "modus-operandi"))
 
   (defun my-modus-vivendi ()
     "Load `modus-vivendi', choosing among its variants."
     (interactive)
-    (my-modus-load "modus-vivendi"))
+    (my-load-theme-variant "modus-vivendi"))
   :general
   (my-leader-keys "t t m o" 'my-modus-operandi)
   (my-leader-keys "t t m v" 'my-modus-vivendi))
@@ -712,42 +714,49 @@ painted early in the modus `:init')."
   (my-leader-keys "t t n n" 'my-modus-nordic-night)
   (my-leader-keys "t t n m" 'my-modus-nordic-midnight))
 
-(use-package ef-themes :ensure t)
+(use-package ef-themes
+  :ensure t
+  :init
+  (defun my-ef ()
+    "Load an ef theme, choosing among its variants."
+    (interactive)
+    (my-load-theme-variant "ef-"))
+  :general
+  (my-leader-keys "t t e" 'my-ef))
 
-(use-package standard-themes :ensure t)
+(use-package standard-themes
+  :ensure t
+  :init
+  (defun my-standard ()
+    "Load a standard theme, choosing among its variants."
+    (interactive)
+    (my-load-theme-variant "standard-"))
+  :general
+  (my-leader-keys "t t S" 'my-standard))
 
 (use-package batppuccin
   :ensure t
   :init
-  (defun my-batppuccin-mocha ()
+  (defun my-batppuccin ()
+    "Load a catppuccin theme, choosing among its flavors."
     (interactive)
-    (my-load-theme 'batppuccin-mocha))
-
-  (defun my-batppuccin-macchiato ()
-    (interactive)
-    (my-load-theme 'batppuccin-macchiato))
-
-  (defun my-batppuccin-frappe ()
-    (interactive)
-    (my-load-theme 'batppuccin-frappe))
-
-  (defun my-batppuccin-latte ()
-    (interactive)
-    (my-load-theme 'batppuccin-latte))
+    (my-load-theme-variant "batppuccin"))
   :custom
   (batppuccin-scale-headings nil)
   :general
-  (my-leader-keys "t t b m" 'my-batppuccin-mocha)
-  (my-leader-keys "t t b M" 'my-batppuccin-macchiato)
-  (my-leader-keys "t t b f" 'my-batppuccin-frappe)
-  (my-leader-keys "t t b l" 'my-batppuccin-latte))
+  (my-leader-keys "t t b" 'my-batppuccin))
 
 (use-package doric-themes
   :ensure t
   :init
   (setopt doric-themes-to-toggle '(doric-dark doric-light))
+  (defun my-doric ()
+    "Load a doric theme, choosing among its variants."
+    (interactive)
+    (my-load-theme-variant "doric-"))
   :general
-  (my-leader-keys "t t o" 'doric-themes-toggle))
+  (my-leader-keys "t t o" 'doric-themes-toggle)
+  (my-leader-keys "t t D" 'my-doric))
 
 (use-package doom-themes
   :ensure t
