@@ -1151,6 +1151,18 @@ immediately."
     (setq fontaine-presets (my-build-fontaine-presets))
     (fontaine-set-preset (or fontaine-current-preset 'regular)))
 
+  (defun my-fontaine-sync-global-default ()
+    "Mirror the applied preset's height into `face--new-frame-defaults'.
+Emacs merges those globals (recorded by `my--apply-default-face')
+back over theme faces whenever frame parameters change, which
+`disable-theme' does on every theme switch. Without this sync that
+merge reverts fontaine's preset height to the base one."
+    (when (display-graphic-p)
+      (set-face-attribute 'default nil
+                          :height (face-attribute 'default :height))))
+
+  (add-hook 'fontaine-set-preset-hook #'my-fontaine-sync-global-default)
+
   (setq fontaine-presets (my-build-fontaine-presets))
 
   ;; Set the last preset or fall back to desired style from `fontaine-presets'
