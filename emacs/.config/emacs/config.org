@@ -2337,6 +2337,21 @@ Highlight symbols according to their semantic meaning.
   (setopt treesit-font-lock-level 2) ; default: 3
 #+end_src
 
+**** Use tree-sitter for some Org-babel blocks
+
+#+begin_src emacs-lisp
+  (defconst my-org-babel-treesit-langs
+    '(
+      ("bash" . bash-ts)
+      ("json" . json-ts)
+      ("yaml" . yaml-ts)
+      )
+    "Mappings between ob language and treesit version.")
+
+  (dolist (lang my-org-babel-treesit-langs)
+    (add-to-list 'org-src-lang-modes lang))
+#+end_src
+
 *** Rust
 
 **** Rust-mode

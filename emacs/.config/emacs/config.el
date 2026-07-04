@@ -1659,6 +1659,17 @@ its input."
   (setopt treesit-auto-install-grammar 'ask
           treesit-enabled-modes t))
 
+(defconst my-org-babel-treesit-langs
+  '(
+    ("bash" . bash-ts)
+    ("json" . json-ts)
+    ("yaml" . yaml-ts)
+    )
+  "Mappings between ob language and treesit version.")
+
+(dolist (lang my-org-babel-treesit-langs)
+  (add-to-list 'org-src-lang-modes lang))
+
 (use-package rust-mode
   :ensure t
   :init
