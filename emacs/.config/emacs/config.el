@@ -2253,16 +2253,11 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
     "Base `org-agenda-files', always included regardless of Vulpea project tagging.")
   (setopt org-directory (expand-file-name "~/Documents/org")
           org-default-notes-file (concat org-directory "/inbox.org")
-          org-work-notes-file (concat org-directory "/work.org")
-          org-projects-file (concat org-directory "/projects.org")
           org-journelly-file (concat org-directory "/Journelly.org")
           org-links-file (concat org-directory "/links.org"))
   (setq my-org-agenda-static-files
         (list org-default-notes-file
-              org-work-notes-file
-              org-projects-file
-              (concat org-directory "/calendar-beorg.org")
-              (concat org-directory "/home.org")))
+              (concat org-directory "/calendar-beorg.org")))
   (setopt org-agenda-files my-org-agenda-static-files)
 
   (require 'org-indent)
@@ -2325,35 +2320,12 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
        "jr" "Work reminder"
        "* TODO %U %?\n:PROPERTIES:\n:CAPTURED_FROM: %a\n:END:")
 
-     ("m" "Meetings")
-     ("mm" "Meetings - Mio" entry
-      (file+olp org-work-notes-file "Mio" "Meetings")
-      "* %^T %?" :empty-lines 1 :prepend t)
-
-     ("n" "Notes")
-
      ("t" "Tasks")
      ("tt" "New inbox task" entry
       (file org-default-notes-file)
       "* TODO %i%?" :empty-lines 1 :prepend t)
-     ("te" "New Emacs task" entry
-      (file+olp org-projects-file "Emacs")
-      "* TODO %i%?" :empty-lines 1 :prepend t)
-     ("tl" "New Learn task" entry
-      (file+olp org-projects-file "Learn")
-      "* TODO %i%?" :empty-lines 1 :prepend t)
-     ("td" "New Dev task" entry
-      (file+olp org-projects-file "Dev")
-      "* TODO %i%?" :empty-lines 1 :prepend t)
-     ("th" "New Homelab task" entry
-      (file+olp org-projects-file "Homelab")
-      "* TODO %i%?" :empty-lines 1 :prepend t)
-     ("to" "New Other task" entry
-      (file+olp org-projects-file "Other")
-      "* TODO %i%?" :empty-lines 1 :prepend t)
-     ("tw" "Work tasks")
-     ("twm" "New Mio task" entry
-      (file+olp org-work-notes-file "Mio" "Tasks")
+     ("tw" "New work task (into a selected work note)" entry
+      (file my-vulpea-capture-work-task-target)
       "* TODO %i%?\n:PROPERTIES:\n:CAPTURED_FROM: %a\n:END:\n" :empty-lines 1 :prepend t)
 
      ("w" "Web link" plain
@@ -2370,7 +2342,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 " :empty-lines 1 :prepend t)))
 
   (org-refile-targets
-   '((org-agenda-files :maxlevel . 4)
+   '((my-vulpea-refile-files :maxlevel . 4)
      (nil :maxlevel . 4)))
 
   (org-refile-use-outline-path t)
@@ -2655,16 +2627,9 @@ With two prefix arguments, insert as top-level heading."
       marker))
 
   (defun my-work-journal--work-tasks-refile-location ()
-    "Return the explicit refile location for work tasks."
-    (condition-case error
-        (let* ((marker (org-find-olp (list org-work-notes-file "Mio" "Tasks")))
-               (position (marker-position marker)))
-          (unless position
-            (user-error "Cannot find Mio/Tasks in %s" org-work-notes-file))
-          (list "Mio/Tasks" org-work-notes-file nil position))
-      (error
-       (user-error "Cannot find work tasks target: %s"
-                   (error-message-string error)))))
+    "Return the refile location: a selected work note."
+    (let ((note (my-vulpea-select-work-note)))
+      (list (vulpea-note-title note) (vulpea-note-path note) nil nil)))
 
   (defun my-work-journal--origin-marker (marker)
     "Return the journal context marker for agenda source MARKER."
@@ -2940,6 +2905,19 @@ With a prefix argument, prompt for the date first."
      (my-vulpea--create-work-note
       (read-string "Work note title: "))))
 
+  (defun my-vulpea-select-work-note ()
+    "Select a work note, creating it when missing."
+    (let ((note (vulpea-select-from
+                 "Work note"
+                 (vulpea-db-query-by-tags-every (my-vulpea-work-note-tags)))))
+      (if (vulpea-note-id note)
+          note
+        (my-vulpea--create-work-note (vulpea-note-title note)))))
+
+  (defun my-vulpea-capture-work-task-target ()
+    "Select or create a work note for a task capture; return its path."
+    (vulpea-note-path (my-vulpea-select-work-note)))
+
   (with-eval-after-load 'org-capture
     (dolist (template '(("v" "Vulpea")
                         ("vw" "Work note" plain
@@ -3160,6 +3138,11 @@ off the agenda automatically."
           (seq-uniq
            (append my-org-agenda-static-files
                    (my-vulpea-todo-files)))))
+
+  (defun my-vulpea-refile-files ()
+    "Return refile target files: the static base plus notes with TODOs."
+    (my-vulpea-agenda-files-update)
+    org-agenda-files)
 
   (add-hook 'find-file-hook #'my-vulpea-todo-update-tag)
   (add-hook 'before-save-hook #'my-vulpea-todo-update-tag)
