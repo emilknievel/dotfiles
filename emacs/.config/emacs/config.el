@@ -2291,6 +2291,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   ;; Persist the clock history (recent tasks) across Emacs restarts. A
   ;; running clock is not auto-resumed; only the history is restored.
   (org-clock-persist 'history)
+  ;; Clocking in marks the task as in progress.
+  (org-clock-in-switch-to-state "PROG")
   ;; Stop the clock when a heading is marked DONE.
   (org-clock-out-when-done t)
   ;; Drop accidental zero-minute clocks instead of recording them.
@@ -2312,7 +2314,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
        "* %U %?")
      ,(my-org-capture-work-journal-template
        "jm" "Work meeting"
-       "* %U Möte: %^{Title}\n\nDeltagare: %^{Deltagare}\n\n%?\n\n** Action items\n")
+       "* %U Möte: %^{Title}\n\nDeltagare: %(my-vulpea-capture-meeting-attendees)\n\n%?\n\n** Action items\n")
      ,(my-org-capture-work-journal-template
        "jd" "Work decision"
        "* %U Beslut: %^{Title}\n\nKontext:\n%?\n\nBeslut:\n\nUppföljning:\n")
@@ -2346,7 +2348,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
      ("th" "New Homelab task" entry
       (file+olp org-projects-file "Homelab")
       "* TODO %i%?" :empty-lines 1 :prepend t)
-     ("td" "New Other task" entry
+     ("to" "New Other task" entry
       (file+olp org-projects-file "Other")
       "* TODO %i%?" :empty-lines 1 :prepend t)
      ("tw" "Work tasks")
@@ -2376,7 +2378,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-refile-use-cache t)
 
   (org-todo-keywords
-   '((sequence "TODO(t)" "NEXT(n!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
+   '((sequence "TODO(t)" "PROG(p!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
 
   (org-preview-latex-default-process 'dvisvgm)
 
@@ -2386,6 +2388,18 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :config
   ;; Install the hooks that save/restore the clock per `org-clock-persist'.
   (org-clock-persistence-insinuate)
+
+  ;; One-keystroke overview: what's today, what's active, what's blocked,
+  ;; and what still needs to be refiled from the inbox.
+  (with-eval-after-load 'org-agenda
+    (add-to-list 'org-agenda-custom-commands
+                 '("d" "Dashboard"
+                   ((agenda "" ((org-agenda-span 'day)))
+                    (todo "PROG" ((org-agenda-overriding-header "In progress")))
+                    (todo "WAIT" ((org-agenda-overriding-header "Waiting")))
+                    (alltodo "" ((org-agenda-files (list org-default-notes-file))
+                                 (org-agenda-overriding-header "Inbox — to process")))))
+                 t))
 
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
@@ -2813,13 +2827,17 @@ With a prefix argument, prompt for the date first."
   :demand t
   :bind (("C-c v i" . vulpea-insert)
          ("C-c v f" . vulpea-find)
+         ("C-c v P" . my-vulpea-find-project)
+         ("C-c v S" . my-vulpea-stuck-projects)
          ;; Work
          ("C-c v b" . my-vulpea-weekly-work-brag)
          ("C-c v n" . my-vulpea-create-work-note)
          ("C-c v M" . my-vulpea-migrate-work-notes)
+         ;; People
+         ("C-c v p n" . my-vulpea-create-person-note)
+         ("C-c v p f" . my-vulpea-find-person)
          ;; Tags
          ("C-c v t a" . vulpea-buffer-tags-add)
-         ("C-c v t r" . vulpea-buffer-tags-remove)
          ("C-c v t r" . vulpea-buffer-tags-remove)
          ;; Meta
          ("C-c v m a" . vulpea-meta-add)
@@ -3008,11 +3026,91 @@ With a prefix argument, prompt for the date first."
                  (length moved)
                  (if (= 1 (length moved)) "" "s")))))
 
+  ;; --- People: person notes and meeting attendees ---
+  (defun my-vulpea--create-person-note (name &optional tags)
+    "Create a person note for NAME with extra TAGS in the personal vault."
+    (vulpea-create name nil
+                   :tags (cons "person" tags)
+                   :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))
+
+  (defun my-vulpea-create-person-note (name &optional tags)
+    "Create and visit a person note for NAME with extra TAGS."
+    (interactive
+     (list (read-string "Name: ")
+           (split-string (read-string "Extra tags: ") "[ ,]+" t)))
+    (let ((note (my-vulpea--create-person-note name tags)))
+      (find-file (vulpea-note-path note))
+      note))
+
+  (defun my-vulpea-capture-meeting-attendees ()
+    "Select person notes and return them as a string of Org links.
+Non-existing selections are created as person notes. Intended for
+capture templates via %(...)."
+    (mapconcat
+     (lambda (note)
+       (let ((note (if (vulpea-note-id note)
+                       note
+                     (my-vulpea--create-person-note
+                      (vulpea-note-title note)))))
+         (org-link-make-string (concat "id:" (vulpea-note-id note))
+                               (vulpea-note-title note))))
+     (vulpea-select-multiple-from
+      "Deltagare"
+      (vulpea-db-query-by-tags-some '("person")))
+     ", "))
+
+  (defun my-vulpea-find-person ()
+    "Select and visit a person note, creating it when missing."
+    (interactive)
+    (vulpea-find
+     :filter-fn (lambda (note) (member "person" (vulpea-note-tags note)))
+     :create-fn (lambda (title _props)
+                  (my-vulpea--create-person-note title))))
+
+  ;; --- Projects: scoped finder and stuck-project review ---
+  (defun my-vulpea-find-project ()
+    "Select and visit a project note, creating it when missing."
+    (interactive)
+    (vulpea-find
+     :filter-fn (lambda (note) (member "project" (vulpea-note-tags note)))
+     :create-fn (lambda (title _props)
+                  (vulpea-create title nil :tags '("project")))))
+
+  (defun my-vulpea--file-has-next-step-p (file)
+    "Return non-nil when FILE has a PROG heading or a scheduled task.
+Encrypted notes are assumed to have one, to avoid decrypting them."
+    (or (string-match-p "\\.\\(?:age\\|gpg\\)\\'" file)
+        (with-temp-buffer
+          (insert-file-contents file)
+          (goto-char (point-min))
+          (or (re-search-forward "^\\*+ PROG " nil t)
+              (progn (goto-char (point-min))
+                     (re-search-forward
+                      "^[ \t]*\\(?:SCHEDULED\\|DEADLINE\\):" nil t))))))
+
+  (defun my-vulpea--project-stuck-p (note)
+    "Return non-nil when project NOTE has no next step defined.
+A project is stuck when it has no active tasks at all (no \"todo\"
+tag) or none of them is in progress or scheduled."
+    (or (not (member "todo" (vulpea-note-tags note)))
+        (not (my-vulpea--file-has-next-step-p (vulpea-note-path note)))))
+
+  (defun my-vulpea-stuck-projects ()
+    "Select among project notes with no next step and visit the choice."
+    (interactive)
+    (if-let* ((stuck (seq-filter #'my-vulpea--project-stuck-p
+                                 (vulpea-db-query-by-tags-some '("project")))))
+        (vulpea-visit
+         (vulpea-select-from "Stuck project" stuck :require-match t))
+      (message "No stuck projects")))
+
   ;; --- Dynamic agenda: surface any note that has unfinished TODOs ---
-  ;; A note is tagged "project" on save when it contains an active TODO; the
+  ;; A note is tagged "todo" on save when it contains an active TODO; the
   ;; agenda then unions those notes with `my-org-agenda-static-files'. The
-  ;; project set is read from the Vulpea DB (a tag-filtered query), so the
+  ;; note set is read from the Vulpea DB (a tag-filtered query), so the
   ;; agenda stays fast as the vault grows instead of scanning every note.
+  ;; The "todo" tag is purely mechanical bookkeeping; "project" is a
+  ;; hand-assigned tag meaning "a project I am pursuing".
   ;; Adapted from
   ;; https://www.d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5
   (defun my-vulpea-note-buffer-p ()
@@ -3023,7 +3121,7 @@ With a prefix argument, prompt for the date first."
             (file-in-directory-p buffer-file-name (expand-file-name dir)))
           vulpea-db-sync-directories)))
 
-  (defun my-vulpea-project-p ()
+  (defun my-vulpea-note-has-todos-p ()
     "Return non-nil if the current buffer has any unfinished TODO entry.
 Buffers whose only tasks are DONE return nil, so completed notes drop
 off the agenda automatically."
@@ -3034,37 +3132,37 @@ off the agenda automatically."
          'headline
        (lambda (h) (org-element-property :todo-type h)))))
 
-  (defun my-vulpea-project-update-tag ()
-    "Add or remove the \"project\" tag based on whether this note has TODOs."
+  (defun my-vulpea-todo-update-tag ()
+    "Add or remove the \"todo\" tag based on whether this note has TODOs."
     (when (and (not (active-minibuffer-window))
                (my-vulpea-note-buffer-p))
       (save-excursion
         (goto-char (point-min))
         (let* ((tags (vulpea-buffer-tags-get))
                (original-tags tags))
-          (if (my-vulpea-project-p)
-              (setq tags (cons "project" tags))
-            (setq tags (remove "project" tags)))
+          (if (my-vulpea-note-has-todos-p)
+              (setq tags (cons "todo" tags))
+            (setq tags (remove "todo" tags)))
           (setq tags (seq-uniq tags))
           (when (or (seq-difference tags original-tags)
                     (seq-difference original-tags tags))
             (apply #'vulpea-buffer-tags-set tags))))))
 
-  (defun my-vulpea-project-files ()
-    "Return the list of note files currently tagged \"project\"."
+  (defun my-vulpea-todo-files ()
+    "Return the list of note files currently tagged \"todo\"."
     (seq-uniq
      (seq-map #'vulpea-note-path
-              (vulpea-db-query-by-tags-some '("project")))))
+              (vulpea-db-query-by-tags-some '("todo")))))
 
   (defun my-vulpea-agenda-files-update (&rest _)
-    "Set `org-agenda-files' to the static base plus tagged project notes."
+    "Set `org-agenda-files' to the static base plus notes with TODOs."
     (setq org-agenda-files
           (seq-uniq
            (append my-org-agenda-static-files
-                   (my-vulpea-project-files)))))
+                   (my-vulpea-todo-files)))))
 
-  (add-hook 'find-file-hook #'my-vulpea-project-update-tag)
-  (add-hook 'before-save-hook #'my-vulpea-project-update-tag)
+  (add-hook 'find-file-hook #'my-vulpea-todo-update-tag)
+  (add-hook 'before-save-hook #'my-vulpea-todo-update-tag)
   (advice-add 'org-agenda :before #'my-vulpea-agenda-files-update)
   (advice-add 'org-todo-list :before #'my-vulpea-agenda-files-update)
 
