@@ -2829,6 +2829,7 @@ With a prefix argument, prompt for the date first."
         vulpea-db-extra-extensions '(".org.age" ".org.gpg"))
   :custom
   (vulpea-db-sync-scan-on-enable 'async)
+  (vulpea-db-async-extraction 'full)
   :config
   (defun my-vulpea-work-note-tags (&optional organization)
     "Return Vulpea tags for ORGANIZATION work notes."
