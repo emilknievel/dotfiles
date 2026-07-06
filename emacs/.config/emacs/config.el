@@ -3162,6 +3162,16 @@ off the agenda automatically."
   (advice-add 'org-agenda :before #'my-vulpea-agenda-files-update)
   (advice-add 'org-todo-list :before #'my-vulpea-agenda-files-update)
 
+  (defun my-vulpea-org-id-find-file (fn id)
+    "Resolve ID via the vulpea database, falling back to FN.
+  As of vulpea v2.5.0 (2026-07), ids are registered with org-id only
+  when a file is parsed, and the startup scan skips unchanged files,
+  so `org-id-locations' can lack notes that the database knows about."
+    (if-let* ((note (vulpea-db-get-by-id id)))
+        (vulpea-note-path note)
+      (funcall fn id)))
+  (advice-add 'org-id-find-id-file :around #'my-vulpea-org-id-find-file)
+
   (vulpea-db-autosync-mode +1)
   :hook
   (org-mode . vulpea-title-change-detection-mode))
