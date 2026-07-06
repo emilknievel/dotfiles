@@ -3252,6 +3252,7 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
 
     (org-log-done 'note)
     (org-log-into-drawer t)
+    (org-log-refile 'note)
 
     ;; Ask how many minutes to keep if idle for at least 15 minutes.
     (org-clock-idle-time 15)

@@ -2280,6 +2280,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   (org-log-done 'note)
   (org-log-into-drawer t)
+  (org-log-refile 'note)
 
   ;; Ask how many minutes to keep if idle for at least 15 minutes.
   (org-clock-idle-time 15)
