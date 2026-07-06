@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+#: Usage: brew needs-sudo [--all] [--quiet] [--greedy]
+#:
+#: Report which *outdated casks* will likely prompt for `sudo` during
+#: `brew upgrade`. Formulae are never checked: Homebrew refuses to run as
+#: root and installs into a user-owned prefix, so they never need sudo.
+#:
+#: An upgrade uninstalls the old version before installing the new one, so
+#: both install- and uninstall-side root operations are considered.
+#:
+#:   --all      Also list casks that will NOT need sudo.
+#:   --quiet    Print only the tokens that definitely need sudo (for
+#:              scripts). Suppresses headers and "maybe" entries.
+#:   --greedy   Pass --greedy to `brew outdated` (include auto-updating
+#:              and :latest casks).
+#:
+#: Exit status is 1 if any cask definitely needs sudo, else 0. Example:
+#:   if brew needs-sudo --quiet; then echo "heads up: sudo required"; fi
+
+set -euo pipefail
+
+command -v jq >/dev/null 2>&1 || {
+	echo "brew needs-sudo: requires jq (brew install jq)" >&2
+	exit 2
+}
+
+mode="reasons"
+show_all=false
+greedy=()
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+	--all)    show_all=true ;;
+	--quiet)  mode="quiet" ;;
+	--greedy) greedy+=(--greedy) ;;
+	-h|--help)
+		sed -n 's/^#: \{0,1\}//p; s/^#:$//p' "$0"
+		exit 0
+		;;
+	*)
+		echo "brew needs-sudo: unknown option: $1" >&2
+		exit 2
+		;;
+	esac
+	shift
+done
+
+if [[ -t 1 && "$mode" != quiet ]]; then
+	R=$'\033[31m'; Y=$'\033[33m'; G=$'\033[32m'; B=$'\033[1m'; N=$'\033[0m'
+else
+	R=; Y=; G=; B=; N=
+fi
+
+mapfile -t outdated < <(brew outdated --cask --quiet "${greedy[@]}")
+if [[ ${#outdated[@]} -eq 0 ]]; then
+	[[ "$mode" == quiet ]] || echo "No outdated casks."
+	exit 0
+fi
+
+info_json="$(brew info --cask --json=v2 "${outdated[@]}")"
+
+# Classify each cask from its artifact stanzas.
+#   yes   -> a root operation is definitely part of the (un)install
+#   maybe -> depends on runtime facts we can't see in the JSON
+#   no    -> plain app copy, no root ops
+read -r -d '' jq_prog <<'JQ' || true
+.casks[]
+| .token as $t
+| (.artifacts // []) as $a
+| ( (if ($a | map(has("pkg")) | any)
+        then ["pkg installer"] else [] end)
+  + (if ($a | map(.installer? // empty | .[]? | .script?.sudo? == true) | any)
+        then ["installer runs sudo"] else [] end)
+  + (if ($a | map( (.uninstall? // .zap? // empty)[]?
+                   | ( has("pkgutil"),
+                       (.script?.sudo? == true),
+                       (.early_script?.sudo? == true) ) ) | any)
+        then ["pkgutil / sudo uninstall"] else [] end)
+  ) as $definite
+| ( if ($a | map( (.uninstall? // .zap? // empty)[]? | has("launchctl") ) | any)
+        then ["launchctl (root only if it's a system daemon)"] else [] end
+  ) as $maybe
+| [ $t,
+    (if ($definite | length) > 0 then "yes"
+     elif ($maybe | length) > 0 then "maybe"
+     else "no" end),
+    (($definite + $maybe) | join(", ")) ]
+| @tsv
+JQ
+
+need=0
+yes_n=0
+maybe_n=0
+no_n=0
+
+while IFS=$'\t' read -r token status reasons; do
+	case "$status" in
+	yes)
+		need=1
+		yes_n=$((yes_n + 1))
+		if [[ "$mode" == quiet ]]; then
+			echo "$token"
+		else
+			printf '  %s⚠ sudo %s %-26s %s\n' "$R" "$N" "$token" "$reasons"
+		fi
+		;;
+	maybe)
+		maybe_n=$((maybe_n + 1))
+		if [[ "$mode" != quiet ]]; then
+			printf '  %s? maybe%s %-26s %s\n' "$Y" "$N" "$token" "$reasons"
+		fi
+		;;
+	no)
+		no_n=$((no_n + 1))
+		if [[ "$show_all" == true && "$mode" != quiet ]]; then
+			printf '  %s✓ clear%s %-26s\n' "$G" "$N" "$token"
+		fi
+		;;
+	esac
+done <<< "$(printf '%s' "$info_json" | jq -r "$jq_prog")"
+
+if [[ "$mode" != quiet ]]; then
+	printf '%s%d need sudo, %d maybe, %d clear%s ' \
+		"$B" "$yes_n" "$maybe_n" "$no_n" "$N"
+	printf '(of %d outdated cask(s))\n' "${#outdated[@]}"
+	if [[ $need -eq 1 ]]; then
+		echo "Tip: run the upgrade in the foreground so the sudo prompt" \
+		     "doesn't time out, or set SUDO_ASKPASS + 'sudo -A'."
+	fi
+fi
+
+exit "$need"
