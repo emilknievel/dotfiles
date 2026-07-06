@@ -1094,12 +1094,20 @@ enabling a theme can reset face inheritance."
     "Build `fontaine-presets' from the current font family variables.
 Called at startup and again whenever a font is changed via the
 `my-set-*-font' commands."
-    `((small :default-height ,my-small-font-height)
+    `((small :default-height ,my-small-font-height
+             :fixed-pitch-height ,my-small-font-height
+             :variable-pitch-height ,(+ my-small-font-height 10))
       (regular) ; like this it uses all the fallback values and is named
                                         ; `regular'
-      (medium :default-height ,my-medium-font-height)
-      (large :default-height ,my-large-font-height)
-      (presentation :default-height ,my-presentation-font-height)
+      (medium :default-height ,my-medium-font-height
+              :fixed-pitch-height ,my-medium-font-height
+              :variable-pitch-height ,(+ my-medium-font-height 10))
+      (large :default-height ,my-large-font-height
+             :fixed-pitch-height ,my-large-font-height
+             :variable-pitch-height ,(+ my-large-font-height 10))
+      (presentation :default-height ,my-presentation-font-height
+                    :fixed-pitch-height ,my-presentation-font-height
+                    :variable-pitch-height ,(+ my-presentation-font-height 10))
       (t
        ;; I keep all properties for didactic purposes, but most can be
        ;; omitted.
@@ -1109,9 +1117,12 @@ Called at startup and again whenever a font is changed via the
        :default-weight regular
        :default-height ,my-font-height
 
-       :fixed-pitch-family ,my-mono-font ; falls back to :default-family
+       :fixed-pitch-family ,my-mono-font
        :fixed-pitch-weight nil           ; falls back to :default-weight
-       :fixed-pitch-height 1.0 ;,(/ 1 1.1)
+       ;; Make variable-pitch 1pt larger than mono; pin fixed-pitch to
+       ;; the mono size so code blocks are unaffected by
+       ;; `variable-pitch-mode'.
+       :fixed-pitch-height ,my-font-height
 
        :fixed-pitch-serif-family nil
        :fixed-pitch-serif-weight nil ; falls back to :default-weight
@@ -1119,7 +1130,7 @@ Called at startup and again whenever a font is changed via the
 
        :variable-pitch-family ,my-variable-pitch-font
        :variable-pitch-weight nil
-       :variable-pitch-height 1.0 ; 1.1
+       :variable-pitch-height ,(+ my-font-height 10)
 
        :mode-line-active-family nil ; falls back to :default-family
        :mode-line-active-weight nil ; falls back to :default-weight
