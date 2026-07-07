@@ -500,7 +500,7 @@ does nothing."
   :hook (xref-backend-functions . dumb-jump-xref-activate))
 
 (use-package eldoc
-  :ensure nil
+  :ensure nil ; installed in init.el
   :config
   (setq-default eldoc-idle-delay 0.2
                 ;; eldoc-echo-area-use-multiline-p t
@@ -1363,8 +1363,6 @@ merge reverts fontaine's preset height to the base one."
    '(("flyspell-correct-*" grid reverse)
      (org-refile grid reverse indexed)
      (consult-yank-pop indexed)
-     (consult-flycheck)
-     (consult-lsp-diagnostics)
      ))
   :init
   (defun kb/vertico-multiform-flat-toggle ()
@@ -1649,20 +1647,12 @@ its input."
 (etags-regen-mode 1)
 
 (use-package eglot
-  :ensure nil
+  :ensure t
   :general (my-leader-keys "c a" 'eglot-code-actions)
   :custom
   (eglot-autoshutdown t)
   (eglot-ignored-server-capabilities '(:inlayHintProvider
                                        :documentOnTypeFormattingProvider)))
-
-(use-package flycheck-eglot
-  :ensure t
-  :after (flycheck eglot)
-  :custom (flycheck-eglot-exclusive nil) ; cooperate with checkers in addition
-                                         ; to eglot
-  :config
-  (global-flycheck-eglot-mode 1))
 
 (setopt elisp-fontify-semantically t)
 
@@ -1688,11 +1678,6 @@ its input."
         rust-format-on-save t)
   :mode ("\\.rs\\'" . rust-mode)
   :hook (rust-mode . eglot-ensure))
-
-(use-package flycheck-rust
-  :ensure t
-  :after (rust-mode flycheck)
-  :hook (flycheck-mode . flycheck-rust-setup))
 
 (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
 
@@ -1832,11 +1817,13 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (use-package simpc-mode
   :ensure (:host github :repo "rexim/simpc-mode"))
 
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
-
-(use-package consult-flycheck :ensure t)
+(use-package flymake
+  :ensure nil ; installed in init.el
+  :hook (prog-mode . flymake-mode)
+  :general
+  (my-leader-keys
+    "c n" 'flymake-goto-next-error
+    "c p" 'flymake-goto-prev-error))
 
 (use-package apheleia
   :ensure t
@@ -2154,7 +2141,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
          ;; M-g bindings in `goto-map'
          ("M-g e" . consult-compile-error)
          ("M-g r" . consult-grep-match)
-         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+         ("M-g f" . consult-flymake)
          ("M-g g" . consult-goto-line)             ;; orig. goto-line
          ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
          ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading

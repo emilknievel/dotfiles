@@ -68,6 +68,19 @@
 
 (use-package project :ensure (:wait t))
 
+
+;;; Upgrade built-ins needed by eglot
+
+;; The ELPA eglot needs newer eldoc/jsonrpc/flymake than Emacs ships. Elpaca
+;; ignores built-ins as dependencies, so install them here before eglot is
+;; queued. eldoc is dumped into the binary and already loaded, so unload it
+;; first. flymake pulls in `project', so keep that installed above this block.
+(when (featurep 'eldoc)
+  (ignore-errors (unload-feature 'eldoc t)))
+(use-package eldoc :ensure (:wait t))
+(use-package jsonrpc :ensure (:wait t))
+(use-package flymake :ensure (:wait t))
+
 ;; Remove org-mode's C-, binding to avoid conflict with general.
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-,") nil))
