@@ -2369,6 +2369,24 @@ Highlight symbols according to their semantic meaning.
     :hook (rust-mode . eglot-ensure))
 #+end_src
 
+*** Python
+
+Start eglot through [[https://github.com/joaotavora/rassumfrassum][rassumfrassum]] (=rass=), an LSP multiplexer. The
+=python= preset runs =ty= (type checking) and =ruff= (lint) as one server;
+diagnostics surface via flymake. Equivalent to =C-u M-x eglot RET rass python=.
+
+Requires =rass=, =ty=, =ruff=, and =uv= on PATH or in the project =.venv=.
+
+#+begin_src emacs-lisp
+  (use-package python
+    :ensure nil
+    :config
+    (with-eval-after-load 'eglot
+      (add-to-list 'eglot-server-programs
+                   '((python-mode python-ts-mode) . ("rass" "python"))))
+    :hook ((python-mode python-ts-mode) . eglot-ensure))
+#+end_src
+
 *** Prolog
 
 Use prolog-mode instead of perl-mode for .pl files.

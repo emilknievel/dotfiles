@@ -1679,6 +1679,14 @@ its input."
   :mode ("\\.rs\\'" . rust-mode)
   :hook (rust-mode . eglot-ensure))
 
+(use-package python
+  :ensure nil
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((python-mode python-ts-mode) . ("rass" "python"))))
+  :hook ((python-mode python-ts-mode) . eglot-ensure))
+
 (add-to-list 'auto-mode-alist '("\\.pl?\\'" . prolog-mode))
 
 (use-package yaml-mode
