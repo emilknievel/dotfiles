@@ -1021,6 +1021,16 @@ enabling a theme can reset face inheritance."
 (with-eval-after-load 'markdown-mode (my-apply-fixed-pitch-inheritance))
 (add-hook 'enable-theme-functions #'my-apply-fixed-pitch-inheritance)
 
+;; shr's body face is `variable-pitch' x1.1; pin it to 1.0 so prose in
+;; devdocs/eww/nov matches fontaine's variable-pitch height.
+(defun my-normalize-variable-pitch-text (&rest _)
+  "Make `variable-pitch-text' equal `variable-pitch' (remove the 1.1x bump)."
+  (when (facep 'variable-pitch-text)
+    (set-face-attribute 'variable-pitch-text nil :height 1.0)))
+
+(my-normalize-variable-pitch-text)
+(add-hook 'enable-theme-functions #'my-normalize-variable-pitch-text)
+
 ;; Persistent flag controlling variable-pitch in prose buffers.
 (defcustom my-enable-variable-pitch t
   "Enable `variable-pitch-mode' in org and markdown buffers."
