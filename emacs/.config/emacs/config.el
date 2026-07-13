@@ -3269,8 +3269,8 @@ off the agenda automatically."
                   visual-fill-column-width 64
                   nov-text-width 106)
       (visual-fill-column-mode 1))
-    (when (featurep 'hl-line-mode)
-      (hl-line-mode -1))
+    ;; No current-line highlight while reading.
+    (setq-local global-hl-line-mode nil)
     (my-reading-font-setup)
     (olivetti-mode)
     ;; Re-render with new display settings
