@@ -470,9 +470,11 @@ does nothing."
 ;; (add-hook 'org-agenda-mode-hook 'hl-line-mode)
 
 (defun my-toggle-global-hl-line-mode ()
-  "Toggle `global-hl-line-mode'."
+  "Toggle `global-hl-line-mode' and persist it."
   (interactive)
-  (global-hl-line-mode 'toggle))
+  (customize-save-variable 'global-hl-line-mode (not global-hl-line-mode))
+  (message "Highlight line %s"
+           (if global-hl-line-mode "enabled" "disabled")))
 
 (with-eval-after-load 'general
   (my-leader-keys
