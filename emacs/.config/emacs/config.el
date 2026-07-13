@@ -934,7 +934,9 @@ When nil, Emacs uses its native default (\"Sans Serif\")."
   :group 'faces)
 
 ;; Size variables, recomputed from the active mono font by
-;; `my-refresh-font-metrics' (narrow fonts get a small size bump).
+;; `my-refresh-font-metrics' (narrow fonts get a small size bump).  The
+;; bump is a property of the mono font, so it is folded into these
+;; heights only; `my-variable-pitch-height' takes it back out again.
 (defvar my-active-font-narrow-p nil
   "Non-nil if `my-mono-font' is a narrow font, i.e. appears smaller.")
 (defvar my-font-offset 0 "Font size offset applied to narrow fonts.")
@@ -963,6 +965,13 @@ rendered too small."
           my-medium-font-height       (+ medium my-font-offset)
           my-large-font-height        (+ large my-font-offset)
           my-presentation-font-height (+ presentation my-font-offset))))
+
+(defun my-variable-pitch-height (mono-height)
+  "Return the variable-pitch height paired with MONO-HEIGHT.
+The +10 keeps proportional text level with the mono font.  The narrow
+bump is undone: it compensates for a narrow mono font, and applying it
+to a proportional font only makes that font too big."
+  (- (+ mono-height 10) my-font-offset))
 
 (defun my--apply-default-face ()
   "Apply `my-mono-font' and `my-font-height' to the default face.
@@ -1117,18 +1126,22 @@ Called at startup and again whenever a font is changed via the
 `my-set-*-font' commands."
     `((small :default-height ,my-small-font-height
              :fixed-pitch-height ,my-small-font-height
-             :variable-pitch-height ,(+ my-small-font-height 10))
+             :variable-pitch-height ,(my-variable-pitch-height
+                                      my-small-font-height))
       (regular) ; like this it uses all the fallback values and is named
                                         ; `regular'
       (medium :default-height ,my-medium-font-height
               :fixed-pitch-height ,my-medium-font-height
-              :variable-pitch-height ,(+ my-medium-font-height 10))
+              :variable-pitch-height ,(my-variable-pitch-height
+                                       my-medium-font-height))
       (large :default-height ,my-large-font-height
              :fixed-pitch-height ,my-large-font-height
-             :variable-pitch-height ,(+ my-large-font-height 10))
+             :variable-pitch-height ,(my-variable-pitch-height
+                                      my-large-font-height))
       (presentation :default-height ,my-presentation-font-height
                     :fixed-pitch-height ,my-presentation-font-height
-                    :variable-pitch-height ,(+ my-presentation-font-height 10))
+                    :variable-pitch-height ,(my-variable-pitch-height
+                                             my-presentation-font-height))
       (t
        ;; I keep all properties for didactic purposes, but most can be
        ;; omitted.
@@ -1151,7 +1164,7 @@ Called at startup and again whenever a font is changed via the
 
        :variable-pitch-family ,my-variable-pitch-font
        :variable-pitch-weight nil
-       :variable-pitch-height ,(+ my-font-height 10)
+       :variable-pitch-height ,(my-variable-pitch-height my-font-height)
 
        :mode-line-active-family nil ; falls back to :default-family
        :mode-line-active-weight nil ; falls back to :default-weight
