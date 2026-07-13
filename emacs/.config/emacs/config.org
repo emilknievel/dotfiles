@@ -472,7 +472,7 @@ General provides a more convenient, unified interface for binding keys in Emacs.
     (my-leader-keys
       ;; toggles
       "t v" '(visual-line-mode :wk "visual line mode")
-      "t n" '(global-display-line-numbers-mode :wk "display line numbers")
+      "t n" '(my-toggle-line-numbers :wk "display line numbers")
       "t c" '(visual-fill-column-mode :wk "visual fill column mode")))
 #+end_src
 
@@ -1766,35 +1766,72 @@ Increase line spacing slightly in buffers containing prose.
 
 *** Display line numbers
 
-Turn on line numbers for program and configuration modes.
+Line numbers in program and configuration buffers, toggled with =t n= and persisted to the gitignored =custom.el=. The type (absolute, relative, visual) is switched under the =u l= prefix and persisted the same way.
 
 #+begin_src emacs-lisp
   (use-package display-line-numbers
     :ensure nil
     :after general
+    :demand t
     :config
-    (defun my-display-line-numbers-absolute ()
-      "Setup for absolute line numbers."
+    ;; Persistent flag controlling line numbers in code buffers.
+    (defcustom my-enable-line-numbers t
+      "Enable `display-line-numbers-mode' in prog and conf buffers."
+      :type 'boolean
+      :group 'display
+      :set (lambda (symbol value)
+             (set-default symbol value)
+             ;; Apply to existing buffers when changed.
+             (dolist (buffer (buffer-list))
+               (with-current-buffer buffer
+                 (when (derived-mode-p 'prog-mode 'conf-mode)
+                   (display-line-numbers-mode (if value 1 -1)))))))
+
+    (defun my-maybe-enable-line-numbers ()
+      "Enable `display-line-numbers-mode' if `my-enable-line-numbers' is set."
+      (when my-enable-line-numbers
+        (display-line-numbers-mode 1)))
+
+    (defun my-toggle-line-numbers ()
+      "Toggle `my-enable-line-numbers' and persist it."
       (interactive)
-      (setopt display-line-numbers-type t)
-      (global-display-line-numbers-mode 1))
+      (customize-set-variable 'my-enable-line-numbers
+                              (not my-enable-line-numbers))
+      (customize-save-variable 'my-enable-line-numbers my-enable-line-numbers)
+      (message "Line numbers %s"
+               (if my-enable-line-numbers "enabled" "disabled")))
+
+    (defun my-set-line-numbers-type (type)
+      "Set `display-line-numbers-type' to TYPE, persist it, and refresh live buffers."
+      (customize-save-variable 'display-line-numbers-type type)
+      (dolist (buffer (buffer-list))
+        (with-current-buffer buffer
+          (when display-line-numbers-mode
+            (setq display-line-numbers type)))))
+
+    (defun my-display-line-numbers-absolute ()
+      "Show absolute line numbers."
+      (interactive)
+      (my-set-line-numbers-type t))
 
     (defun my-display-line-numbers-relative ()
-      "Setup for relative line numbers."
+      "Show relative line numbers."
       (interactive)
-      (setopt display-line-numbers-type 'relative)
-      (global-display-line-numbers-mode 1))
+      (my-set-line-numbers-type 'relative))
 
     (defun my-display-line-numbers-visual ()
-      "Setup for relative line numbers."
+      "Show line numbers relative to visual lines."
       (interactive)
-      (setopt display-line-numbers-type 'visual)
-      (global-display-line-numbers-mode 1))
+      (my-set-line-numbers-type 'visual))
 
     (defun my-display-line-numbers-hidden ()
       "Hide line numbers."
       (interactive)
-      (global-display-line-numbers-mode -1))
+      (customize-set-variable 'my-enable-line-numbers nil)
+      (customize-save-variable 'my-enable-line-numbers nil))
+
+    (add-hook 'prog-mode-hook #'my-maybe-enable-line-numbers)
+    (add-hook 'conf-mode-hook #'my-maybe-enable-line-numbers)
     :custom
     (display-line-numbers-width 3)
     (display-line-numbers-widen nil)
