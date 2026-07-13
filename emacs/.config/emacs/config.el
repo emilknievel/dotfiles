@@ -901,6 +901,15 @@ painted early in the modus `:init')."
     (my-solarized-dark)))
 
 
+(use-package folio-theme
+  :ensure (:host github :repo "kn66/folio-theme.el")
+  :init
+  (defun my-load-folio-theme ()
+    (interactive)
+    (my-load-theme 'folio))
+  :general
+  (my-leader-keys "t t f" 'my-load-folio-theme))
+
 (defcustom my-mono-font nil
   "Monospace font family for the default and fixed-pitch faces.
 When nil, Emacs uses its native default font (the frame font for

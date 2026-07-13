@@ -1400,6 +1400,21 @@ Inspired by Plan 9 Acme & Sam.
 
 #+end_src
 
+**** Folio
+
+Warm theme built on top of Ef and Modus themes.
+
+#+begin_src emacs-lisp
+  (use-package folio-theme
+    :ensure (:host github :repo "kn66/folio-theme.el")
+    :init
+    (defun my-load-folio-theme ()
+      (interactive)
+      (my-load-theme 'folio))
+    :general
+    (my-leader-keys "t t f" 'my-load-folio-theme))
+#+end_src
+
 *** Fonts
 
 **** Setup editor fonts
