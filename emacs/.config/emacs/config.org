@@ -2728,7 +2728,7 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
 #+begin_src emacs-lisp
   (use-package flymake
     :ensure nil ; installed in init.el
-    :hook (prog-mode . flymake-mode)
+    :hook ((prog-mode conf-mode) . flymake-mode)
     :general
     (my-leader-keys
       "c n" 'flymake-goto-next-error

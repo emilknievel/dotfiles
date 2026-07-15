@@ -1922,7 +1922,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
 (use-package flymake
   :ensure nil ; installed in init.el
-  :hook (prog-mode . flymake-mode)
+  :hook ((prog-mode conf-mode) . flymake-mode)
   :general
   (my-leader-keys
     "c n" 'flymake-goto-next-error
