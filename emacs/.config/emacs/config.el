@@ -905,6 +905,30 @@ painted early in the modus `:init')."
 
 (use-package folio-theme
   :ensure (:host github :repo "kn66/folio-theme.el")
+  :custom
+  (folio-theme-palette-overrides
+   '((fg-heading-0 blue-cooler)
+     (fg-heading-1 blue)
+     (fg-heading-2 yellow-text)
+     (fg-heading-3 magenta-cooler)
+     (fg-heading-4 green-cooler)
+     (fg-heading-5 cyan-cooler)
+     (fg-heading-6 red)
+     (fg-heading-7 fg-dim)
+     (fg-heading-8 fg-alt)
+     (bg-heading-1 bg-blue-nuanced)
+     (bg-heading-2 bg-yellow-nuanced)
+     (bg-heading-3 bg-magenta-nuanced)
+     (bg-heading-4 bg-green-nuanced)
+     (bg-heading-5 bg-cyan-nuanced)
+     (bg-heading-6 bg-red-nuanced)
+     (overline-heading-0 unspecified)
+     (overline-heading-1 blue)
+     (overline-heading-2 yellow-text)
+     (overline-heading-3 magenta-cooler)
+     (overline-heading-4 green-cooler)
+     (overline-heading-5 cyan-cooler)
+     (overline-heading-6 red)))
   :init
   (defun my-load-folio-theme ()
     (interactive)
