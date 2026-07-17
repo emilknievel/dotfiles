@@ -3317,15 +3317,10 @@ off the agenda automatically."
 
 (use-package org-noter
   :ensure t
+  :defer t
   :custom
-  ;; Directory where org-noter will look for note files if invoked in a
-  ;; non-org-roam buffer
   (org-noter-notes-search-path '("~/Documents/notes/literature"))
-
-  ;; Create highlight in pdf when creating note
   (org-noter-highlight-selected-text t)
-
-  ;; Remember last read location in document
   (org-noter-auto-save-last-location t))
 
 (use-package calibredb
