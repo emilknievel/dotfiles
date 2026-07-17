@@ -494,7 +494,10 @@ General provides a more convenient, unified interface for binding keys in Emacs.
     :bind-keymap ("M-'" . surround-keymap))
 #+end_src
 
-*** Meow
+*** Meow (disabled)
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle no
+:END:
 
 #+begin_src emacs-lisp
   (use-package meow
