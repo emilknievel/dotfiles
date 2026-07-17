@@ -110,3 +110,17 @@ Homebrew natively reads =~/.config/brew-aliases/= for alias scripts. The files i
 *** brew visit
 
 =brew visit <package>= opens the first URL from =brew info <package>= in your browser. It is an [[https://docs.brew.sh/External-Commands][external brew command]] picked up automatically from =~/.local/bin/= (which is in =PATH= via =macos.sh=).
+
+*** brew needs-sudo
+
+=brew needs-sudo= reports which outdated casks will likely prompt for =sudo= during =brew upgrade=, by inspecting install/uninstall artifact stanzas (=pkg= installers, sudo scripts, =pkgutil= uninstalls). Formulae are never checked, since Homebrew refuses to run them as root. It is an [[https://docs.brew.sh/External-Commands][external brew command]] picked up automatically from =~/.local/bin/=.
+
+#+begin_src sh
+  brew needs-sudo [--all] [--quiet] [--greedy]
+#+end_src
+
+- =--all= also lists casks that will *not* need sudo
+- =--quiet= prints only tokens that definitely need sudo, for scripting
+- =--greedy= passes =--greedy= to =brew outdated= (include auto-updating and =:latest= casks)
+
+Exit status is 1 if any cask definitely needs sudo, else 0.
