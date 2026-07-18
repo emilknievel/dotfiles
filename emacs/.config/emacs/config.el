@@ -3055,22 +3055,37 @@ capture templates via %(...)."
      :create-fn (lambda (title _props)
                   (vulpea-create title nil :tags '("project")))))
 
+  (defun my-vulpea-encrypted-note-path-p (path)
+    "Return non-nil when PATH names an encrypted note."
+    (string-match-p "\\.\\(?:age\\|gpg\\)\\'" path))
+
   (defun my-vulpea--file-has-next-step-p (file)
-    "Return non-nil when FILE has a PROG heading or a scheduled task.
-Encrypted notes are assumed to have one, to avoid decrypting them."
-    (or (string-match-p "\\.\\(?:age\\|gpg\\)\\'" file)
+    "Return non-nil when FILE has a task that counts as a next step.
+A next step is a heading in PROG or WAIT (a delegated task is still
+moving), or an active TODO with a SCHEDULED or DEADLINE planning
+line directly below the heading. Planning lines under DONE headings
+do not count. Encrypted notes are assumed to have a next step, to
+avoid decrypting them."
+    (or (my-vulpea-encrypted-note-path-p file)
         (with-temp-buffer
           (insert-file-contents file)
           (goto-char (point-min))
-          (or (re-search-forward "^\\*+ PROG " nil t)
-              (progn (goto-char (point-min))
-                     (re-search-forward
-                      "^[ \t]*\\(?:SCHEDULED\\|DEADLINE\\):" nil t))))))
+          (let ((heading-regexp (my-work-journal--active-todo-regexp))
+                (case-fold-search nil))
+            (catch 'found
+              (while (re-search-forward heading-regexp nil t)
+                (when (or (member (match-string 1) '("PROG" "WAIT"))
+                          (save-excursion
+                            (forward-line 1)
+                            (looking-at-p
+                             "[ \t]*\\(?:SCHEDULED\\|DEADLINE\\):")))
+                  (throw 'found t)))
+              nil)))))
 
   (defun my-vulpea--project-stuck-p (note)
     "Return non-nil when project NOTE has no next step defined.
 A project is stuck when it has no active tasks at all (no \"todo\"
-tag) or none of them is in progress or scheduled."
+tag) or none of them is in progress, waiting, or scheduled."
     (or (not (member "todo" (vulpea-note-tags note)))
         (not (my-vulpea--file-has-next-step-p (vulpea-note-path note)))))
 
