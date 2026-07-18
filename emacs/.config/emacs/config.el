@@ -3146,10 +3146,14 @@ off the agenda automatically."
             (apply #'vulpea-buffer-tags-set tags))))))
 
   (defun my-vulpea-todo-files ()
-    "Return the list of note files currently tagged \"todo\"."
-    (seq-uniq
-     (seq-map #'vulpea-note-path
-              (vulpea-db-query-by-tags-some '("todo")))))
+    "Return the list of note files currently tagged \"todo\".
+Encrypted notes are excluded: org-agenda opens every file it scans,
+so including them would prompt for a passphrase on each agenda
+build."
+    (seq-remove #'my-vulpea-encrypted-note-path-p
+                (seq-uniq
+                 (seq-map #'vulpea-note-path
+                          (vulpea-db-query-by-tags-some '("todo"))))))
 
   (defun my-vulpea-agenda-files-update (&rest _)
     "Set `org-agenda-files' to the static base plus notes with TODOs."
