@@ -2314,7 +2314,10 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 
   (org-refile-use-outline-path t)
   (org-refile-allow-creating-parent-nodes 'confirm)
-  (org-refile-use-cache t)
+  ;; No refile cache: targets come from `my-vulpea-refile-files', which
+  ;; changes as notes gain and lose the "todo" tag, and the cache would
+  ;; keep serving stale targets.
+  (org-refile-use-cache nil)
 
   (org-todo-keywords
    '((sequence "TODO(t)" "PROG(p!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
