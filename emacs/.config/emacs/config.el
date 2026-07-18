@@ -2867,11 +2867,17 @@ With a prefix argument, prompt for the date first."
       (find-file (vulpea-note-path note))
       note))
 
+  (defvar my-vulpea-capture--new-note nil
+    "Note created while resolving the current capture target.
+Consumed by `my-vulpea-capture--delete-new-note-on-abort' so that
+aborting the capture does not leave an empty note behind.")
+
   (defun my-vulpea-capture-work-note-target ()
     "Create a work Vulpea note for `org-capture' and return its path."
-    (vulpea-note-path
-     (my-vulpea--create-work-note
-      (read-string "Work note title: "))))
+    (let ((note (my-vulpea--create-work-note
+                 (read-string "Work note title: "))))
+      (setq my-vulpea-capture--new-note note)
+      (vulpea-note-path note)))
 
   (defun my-vulpea-select-work-note ()
     "Select a work note, creating it when missing."
@@ -2884,7 +2890,34 @@ With a prefix argument, prompt for the date first."
 
   (defun my-vulpea-capture-work-task-target ()
     "Select or create a work note for a task capture; return its path."
-    (vulpea-note-path (my-vulpea-select-work-note)))
+    (let ((note (vulpea-select-from
+                 "Work note"
+                 (vulpea-db-query-by-tags-every (my-vulpea-work-note-tags)))))
+      (unless (vulpea-note-id note)
+        (setq note (my-vulpea--create-work-note (vulpea-note-title note))
+              my-vulpea-capture--new-note note))
+      (vulpea-note-path note)))
+
+  (defun my-vulpea-capture--delete-new-note-on-abort ()
+    "Delete the note created for the current capture when it is aborted.
+`vulpea-create' writes the note file as soon as the capture target is
+resolved, so aborting with `C-c C-k' would otherwise leave an empty
+note on disk and in the database."
+    (let ((note my-vulpea-capture--new-note))
+      (setq my-vulpea-capture--new-note nil)
+      (when (and org-note-abort note)
+        (let ((path (vulpea-note-path note)))
+          (when-let* ((buffer (get-file-buffer path)))
+            (with-current-buffer buffer
+              (set-buffer-modified-p nil))
+            (kill-buffer buffer))
+          (when (file-exists-p path)
+            (delete-file path))
+          (vulpea-db--delete-file-notes path)
+          (message "Deleted note from aborted capture: %s" path)))))
+
+  (add-hook 'org-capture-after-finalize-hook
+            #'my-vulpea-capture--delete-new-note-on-abort)
 
   (with-eval-after-load 'org-capture
     (dolist (template '(("v" "Vulpea")
