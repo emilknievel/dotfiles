@@ -2870,6 +2870,14 @@ With a prefix argument, prompt for the date first."
       (find-file (vulpea-note-path note))
       note))
 
+  (defun my-vulpea-db-remove-file-notes (path)
+    "Remove all notes for PATH from the Vulpea database.
+Vulpea has no public API for removing a deleted or moved file, so
+this wraps the private one and fails loudly if an upgrade drops it."
+    (unless (fboundp 'vulpea-db--delete-file-notes)
+      (error "`vulpea-db--delete-file-notes' is gone; update `my-vulpea-db-remove-file-notes'"))
+    (vulpea-db--delete-file-notes path))
+
   (defvar my-vulpea-capture--new-note nil
     "Note created while resolving the current capture target.
 Consumed by `my-vulpea-capture--delete-new-note-on-abort' so that
@@ -2916,7 +2924,7 @@ note on disk and in the database."
             (kill-buffer buffer))
           (when (file-exists-p path)
             (delete-file path))
-          (vulpea-db--delete-file-notes path)
+          (my-vulpea-db-remove-file-notes path)
           (message "Deleted note from aborted capture: %s" path)))))
 
   (add-hook 'org-capture-after-finalize-hook
@@ -2971,7 +2979,7 @@ note on disk and in the database."
         (kill-buffer buffer))
       (rename-file old-path new-path)
       (org-id-add-location (vulpea-note-id note) new-path)
-      (vulpea-db--delete-file-notes old-path)
+      (my-vulpea-db-remove-file-notes old-path)
       (vulpea-db-update-file new-path)
       new-path))
 
