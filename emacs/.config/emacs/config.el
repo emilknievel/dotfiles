@@ -2767,6 +2767,7 @@ With a prefix argument, prompt for the date first."
          ;; People
          ("C-c v p n" . my-vulpea-create-person-note)
          ("C-c v p f" . my-vulpea-find-person)
+         ("C-c v p m" . my-vulpea-person-mentions)
          ;; Tags
          ("C-c v t a" . vulpea-buffer-tags-add)
          ("C-c v t r" . vulpea-buffer-tags-remove)
@@ -3161,6 +3162,23 @@ capture templates via %(...)."
      :filter-fn (lambda (note) (member "person" (vulpea-note-tags note)))
      :create-fn (lambda (title _props)
                   (my-vulpea--create-person-note title))))
+
+  (defun my-vulpea-person-mentions ()
+    "Select a person, then select and visit a note that mentions them."
+    (interactive)
+    (let* ((person (vulpea-select-from
+                    "Person"
+                    (vulpea-db-query-by-tags-some '("person"))
+                    :require-match t))
+           (mentions (vulpea-db-query-by-links-some
+                      (list (vulpea-note-id person)) "id")))
+      (if mentions
+          (vulpea-visit
+           (vulpea-select-from
+            (format "Notes mentioning %s" (vulpea-note-title person))
+            mentions
+            :require-match t))
+        (message "No notes link to %s" (vulpea-note-title person)))))
 
   ;; --- Projects: scoped finder and stuck-project review ---
   (defun my-vulpea-find-project ()
