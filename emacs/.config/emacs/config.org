@@ -4687,6 +4687,33 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     (advice-add 'org-id-find-id-file :around #'my-vulpea-org-id-find-file)
 
     (vulpea-db-autosync-mode +1)
+
+    (which-key-add-key-based-replacements
+      "C-c v i" "insert"
+      "C-c v f" "find"
+      "C-c v F" "find (consult)"
+      "C-c v g" "grep"
+      "C-c v s" "sidebar"
+      "C-c v P" "find project"
+      "C-c v S" "stuck projects"
+      "C-c v n" "new work note"
+      "C-c v M" "migrate work notes"
+      "C-c v b" "brag"
+      "C-c v B" "brag draft"
+      "C-c v j" "journal"
+      "C-c v j w" "work journal"
+      "C-c v p" "people"
+      "C-c v p n" "new person"
+      "C-c v p f" "find person"
+      "C-c v p m" "mentions"
+      "C-c v t" "tags"
+      "C-c v t a" "add"
+      "C-c v t r" "remove"
+      "C-c v m" "meta"
+      "C-c v m a" "add"
+      "C-c v m l" "add list"
+      "C-c v m r" "remove"
+      "C-c v m c" "clean")
     :hook
     (org-mode . vulpea-title-change-detection-mode))
 #+end_src
