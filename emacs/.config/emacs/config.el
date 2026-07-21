@@ -2761,6 +2761,7 @@ With a prefix argument, prompt for the date first."
          ("C-c v S" . my-vulpea-stuck-projects)
          ;; Work
          ("C-c v b" . my-vulpea-monthly-work-brag)
+         ("C-c v B" . my-vulpea-monthly-work-brag-draft)
          ("C-c v n" . my-vulpea-create-work-note)
          ("C-c v M" . my-vulpea-migrate-work-notes)
          ;; People
@@ -2859,6 +2860,120 @@ With a prefix argument, prompt for the date first."
                       :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))))
       (find-file (vulpea-note-path note))
       note))
+
+  (defun my-vulpea-monthly-work-brag--entry-text (week)
+    "Return the subtree text at point, excluding its property drawer.
+Appends a \"(vecka WEEK)\" marker to the heading line, so entries
+stay traceable to their source week once concatenated across
+multiple weekly journal files."
+    (org-back-to-heading t)
+    (let* ((heading (buffer-substring-no-properties (line-beginning-position)
+                                                     (line-end-position)))
+           (subtree-end (save-excursion (org-end-of-subtree t t) (point)))
+           (body-start (progn
+                         (forward-line 1)
+                         (when (looking-at-p org-property-drawer-re)
+                           (re-search-forward org-property-drawer-re nil t))
+                         (point))))
+      (concat heading (format " (vecka %s)" week) "\n"
+              (buffer-substring-no-properties body-start subtree-end))))
+
+  (defun my-vulpea-monthly-work-brag--day-entries (year month organization)
+    "Return an alist of (date . text) for weekday entries in YEAR-MONTH.
+Only considers weekly work journal notes for ORGANIZATION. Each TEXT
+excludes that day's property drawer."
+    (let (entries)
+      (dolist (note (vulpea-db-query-by-tags-every
+                     (list "journal" "work" "weekly" organization)))
+        (let ((week (vulpea-note-title note)))
+          (with-temp-buffer
+            (insert-file-contents (vulpea-note-path note))
+            (org-mode)
+            (org-map-entries
+             (lambda ()
+               (when-let* ((date (org-entry-get nil "JOURNAL_DATE")))
+                 (when (string-prefix-p (format "[%d-%02d-" year month) date)
+                   (push (cons date (my-vulpea-monthly-work-brag--entry-text week)) entries))))
+             "LEVEL=1"))))
+      (sort entries (lambda (a b) (string< (car a) (car b))))))
+
+  (defun my-vulpea-monthly-work-brag--month-journal-text (year month organization)
+    "Return concatenated journal entry text for YEAR-MONTH and ORGANIZATION."
+    (mapconcat #'cdr
+               (my-vulpea-monthly-work-brag--day-entries year month organization)
+               "\n\n"))
+
+  (defun my-vulpea-monthly-work-brag--linked-notes (text)
+    "Return an alist of (title . path) for `id:' links found in TEXT."
+    (let (ids)
+      (with-temp-buffer
+        (insert text)
+        (goto-char (point-min))
+        (while (re-search-forward "\\[\\[id:\\([-A-Za-z0-9]+\\)\\]" nil t)
+          (push (match-string 1) ids)))
+      (delq nil
+            (mapcar (lambda (id)
+                      (when-let* ((note (vulpea-db-get-by-id id)))
+                        (cons (vulpea-note-title note) (vulpea-note-path note))))
+                    (seq-uniq ids)))))
+
+  (defun my-vulpea-monthly-work-brag--previous-month-time (time)
+    "Return a time within the calendar month before TIME's month."
+    (let* ((decoded (decode-time time))
+           (month (nth 4 decoded))
+           (year (nth 5 decoded)))
+      (if (= month 1)
+          (encode-time 0 0 12 1 12 (1- year))
+        (encode-time 0 0 12 1 (1- month) year))))
+
+  (defun my-vulpea-monthly-work-brag--draft-prompt (time organization brag-path)
+    "Compose a draft prompt for TIME/ORGANIZATION targeting BRAG-PATH."
+    (let* ((decoded (decode-time time))
+           (year (nth 5 decoded))
+           (month (nth 4 decoded))
+           (journal-text (my-vulpea-monthly-work-brag--month-journal-text
+                          year month organization))
+           (previous (my-vulpea-monthly-work-brag-note
+                      (my-vulpea-monthly-work-brag--previous-month-time time)
+                      organization))
+           (linked (my-vulpea-monthly-work-brag--linked-notes journal-text)))
+      (concat
+       (format "Skriv ett utkast till min månatliga \"brag\"-anteckning för %s, baserat på veckojournalen nedan.\n\n"
+               (my-vulpea-monthly-work-brag-title time))
+       (format "Skriv resultatet direkt till: %s\n\n" brag-path)
+       (if previous
+           (format "Föregående brag-anteckning (för stil och kontinuitet): %s\n\n"
+                   (vulpea-note-path previous))
+         "")
+       "Gruppera per projekt/ämne, i samma stil som tidigare brag-anteckningar (fri rubrikstruktur per projekt, inte kategorier som \"Shipped\"/\"Decisions\").\n\n"
+       (if linked
+           (concat "Relaterade dokument omnämnda i journalen (läs vid behov):\n"
+                   (mapconcat (lambda (n) (format "- %s: %s" (car n) (cdr n))) linked "\n")
+                   "\n\n")
+         "")
+       "Rå veckojournal för månaden:\n\n"
+       journal-text)))
+
+  (defun my-vulpea-monthly-work-brag-draft (&optional time organization)
+    "Prepare a draft prompt for the work brag note for TIME/ORGANIZATION.
+Gathers this month's weekly journal entries, resolves any linked
+reference notes, and copies a drafting prompt to the kill ring.
+Paste it into whatever agent-shell session you start."
+    (interactive (list (when current-prefix-arg
+                         (my-vulpea-monthly-work-brag-read-date))))
+    (let* ((time (or time (current-time)))
+           (organization (or organization my-work-notes-current-organization))
+           (note (or (my-vulpea-monthly-work-brag-note time organization)
+                     (vulpea-create
+                      (my-vulpea-monthly-work-brag-title time)
+                      (my-vulpea-work-note-path-template organization)
+                      :tags (append (my-vulpea-work-note-tags organization)
+                                    '("brag"))
+                      :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>")))))
+           (prompt (my-vulpea-monthly-work-brag--draft-prompt
+                    time organization (vulpea-note-path note))))
+      (kill-new prompt)
+      (message "Draft prompt copied to kill ring — paste it (C-y) into your agent-shell session")))
 
   (defun my-vulpea-db-remove-file-notes (path)
     "Remove all notes for PATH from the Vulpea database.
