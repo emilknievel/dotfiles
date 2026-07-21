@@ -1203,9 +1203,7 @@ merge reverts fontaine's preset height to the base one."
   :after nerd-icons
   :custom
   ;; Render minor modes through the minions menu instead of listing each one.
-  (doom-modeline-minor-modes t)
-  :init
-  (doom-modeline-mode 1))
+  (doom-modeline-minor-modes t))
 
 (column-number-mode 1)
 
