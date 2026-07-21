@@ -2677,14 +2677,14 @@ With two prefix arguments, insert as top-level heading."
     (let* ((time (or time (current-time)))
            (organization (or organization my-work-notes-current-organization))
            (title (format-time-string "%G-W%V" time))
-           (created (format-time-string "[%Y-%m-%d]" time))
+           (created (format-time-string "[%Y-%m-%d %a %H:%M]" time))
            (tags (format ":journal:work:weekly:%s:" organization)))
       (insert ":PROPERTIES:\n"
               ":ID:       " (org-id-new) "\n"
+              ":CREATED:  " created "\n"
               ":END:\n"
               "#+title: " title "\n"
-              "#+filetags: " tags "\n"
-              "#+created: " created "\n\n")
+              "#+filetags: " tags "\n\n")
       (dolist (date (my-work-journal--week-dates time))
         (insert "* " (my-work-journal--weekday-name date) "\n"
                 ":PROPERTIES:\n"
@@ -3054,7 +3054,9 @@ capture templates via %(...)."
     (vulpea-find
      :filter-fn (lambda (note) (member "project" (vulpea-note-tags note)))
      :create-fn (lambda (title _props)
-                  (vulpea-create title nil :tags '("project")))))
+                  (vulpea-create title nil
+                                 :tags '("project")
+                                 :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))))
 
   (defun my-vulpea-encrypted-note-path-p (path)
     "Return non-nil when PATH names an encrypted note."
