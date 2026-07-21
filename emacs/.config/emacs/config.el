@@ -2547,16 +2547,11 @@ With two prefix arguments, insert as top-level heading."
 
   (defun my-work-journal-files (&optional organization)
     "Return existing Org journal files for ORGANIZATION."
-    (let ((journal-directory (expand-file-name "journal"
-                                               (my-work-notes-directory organization))))
-      (when (file-directory-p journal-directory)
-        (condition-case error
-            (sort (directory-files journal-directory t "\\.org\\'")
-                  #'string<)
-          (file-error
-           (message "Cannot read work journal agenda directory: %s"
-                    (error-message-string error))
-           nil)))))
+    (seq-uniq
+     (mapcar #'vulpea-note-path
+             (vulpea-db-query-by-tags-every
+              (list "journal" "work"
+                    (or organization my-work-notes-current-organization))))))
 
   (defun my-work-journal-agenda-files (&optional organization)
     "Return Org journal files with active TODOs for ORGANIZATION."
@@ -3233,6 +3228,22 @@ tag) or none of them is in progress, waiting, or scheduled."
         (vulpea-visit
          (vulpea-select-from "Stuck project" stuck :require-match t))
       (message "No stuck projects")))
+
+  (defun my-vulpea-stuck-project-files ()
+    "Return file paths of project notes with no next step."
+    (mapcar #'vulpea-note-path
+            (seq-filter #'my-vulpea--project-stuck-p
+                        (vulpea-db-query-by-tags-some '("project")))))
+
+  (add-to-list 'org-agenda-custom-commands
+               '("w" "Weekly review"
+                 ((alltodo "" ((org-agenda-files (my-vulpea-stuck-project-files))
+                                (org-agenda-overriding-header "Stuck projects")))
+                  (alltodo "" ((org-agenda-files (my-work-journal-agenda-files))
+                               (org-agenda-overriding-header "Journal TODOs")))
+                  (alltodo "" ((org-agenda-files (list org-default-notes-file))
+                               (org-agenda-overriding-header "Inbox — to process")))))
+               t)
 
   ;; --- Dynamic agenda: surface any note that has unfinished TODOs ---
   ;; A note is tagged "todo" on save when it contains an active TODO; the
