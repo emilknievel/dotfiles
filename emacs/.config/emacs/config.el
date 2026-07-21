@@ -3312,7 +3312,6 @@ build."
 
   (add-hook 'before-save-hook #'my-vulpea-todo-update-tag)
   (advice-add 'org-agenda :before #'my-vulpea-agenda-files-update)
-  (advice-add 'org-todo-list :before #'my-vulpea-agenda-files-update)
 
   (defun my-vulpea-org-id-find-file (fn id)
     "Resolve ID via the vulpea database, falling back to FN.
