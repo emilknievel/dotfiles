@@ -3912,14 +3912,9 @@ With a prefix argument, prompt for the date first."
     (unless (my-work-journal-find-date-heading time organization)
       (goto-char (point-max))))
 
-  (defun my-work-journal-open-date (time)
-    "Prompt for TIME and open the corresponding work journal."
-    (interactive (list (my-work-journal-read-date)))
-    (my-work-journal-open time))
-
-  (global-set-key (kbd "C-c v j") #'my-work-journal-open)
-  (global-set-key (kbd "C-c v w") #'my-work-journal-open)
-  (global-set-key (kbd "C-c v J") #'my-work-journal-open-date)
+  (define-prefix-command 'my-vulpea-journal-prefix-map)
+  (define-key my-vulpea-journal-prefix-map "w" #'my-work-journal-open)
+  (global-set-key (kbd "C-c v j") 'my-vulpea-journal-prefix-map)
 #+end_src
 
 *** Denote (disabled)
