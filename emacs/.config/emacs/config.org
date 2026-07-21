@@ -4128,7 +4128,7 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
            ("C-c v P" . my-vulpea-find-project)
            ("C-c v S" . my-vulpea-stuck-projects)
            ;; Work
-           ("C-c v b" . my-vulpea-weekly-work-brag)
+           ("C-c v b" . my-vulpea-monthly-work-brag)
            ("C-c v n" . my-vulpea-create-work-note)
            ("C-c v M" . my-vulpea-migrate-work-notes)
            ;; People
@@ -4161,34 +4161,30 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
       (expand-file-name "${timestamp}_${slug}.org"
                         (my-work-notes-directory organization)))
 
-    (defun my-vulpea-weekly-work-brag-title (&optional time)
-      "Return the work brag title for the ISO week containing TIME."
-      (format-time-string "Work brag %G-W%V" (or time (current-time))))
+    (defconst my-vulpea--swedish-month-names
+      ["januari" "februari" "mars" "april" "maj" "juni"
+       "juli" "augusti" "september" "oktober" "november" "december"]
+      "Swedish month names, indexed from 0 (januari).")
 
-    (defun my-vulpea-weekly-work-brag-body ()
-      "Return the default body for a weekly work brag note."
-      "* Outcomes\n\n* Shipped\n\n* Decisions\n\n* Helped / unblocked\n\n* Evidence\n\n* Follow-ups\n")
+    (defun my-vulpea-monthly-work-brag-title (&optional time)
+      "Return the work brag title for the calendar month containing TIME."
+      (let ((decoded (decode-time (or time (current-time)))))
+        (format "Brag %s %d"
+                (aref my-vulpea--swedish-month-names (1- (nth 4 decoded)))
+                (nth 5 decoded))))
 
-    (defun my-vulpea-weekly-work-brag-note (&optional time organization)
+    (defun my-vulpea-monthly-work-brag-note (&optional time organization)
       "Return the existing work brag note for TIME and ORGANIZATION."
-      (let ((title (my-vulpea-weekly-work-brag-title time))
-            (organization (or organization my-work-notes-current-organization)))
-        (catch 'note
-          (dolist (note (vulpea-db-query-by-directory
-                         (my-work-notes-directory organization)
-                         0))
-            (let ((tags (vulpea-note-tags note)))
-              (when (and (string= (vulpea-note-title note) title)
-                         (my-vulpea-work-note-p note organization)
-                         (member "brag" tags)
-                         (member "weekly" tags))
-                (throw 'note note))))
-          nil)))
+      (let* ((organization (or organization my-work-notes-current-organization))
+             (title (my-vulpea-monthly-work-brag-title time)))
+        (seq-find (lambda (note) (string= (vulpea-note-title note) title))
+                  (vulpea-db-query-by-tags-every
+                   (list "brag" "work" organization)))))
 
-    (defun my-vulpea-weekly-work-brag-read-date ()
-      "Read a date for opening a weekly work brag note."
+    (defun my-vulpea-monthly-work-brag-read-date ()
+      "Read a date for opening a work brag note."
       (let ((org-read-date-prefer-future nil))
-        (org-read-date nil t nil "Work brag week: ")))
+        (org-read-date nil t nil "Work brag month: ")))
 
     (defun my-vulpea-work-note-p (note &optional organization)
       "Return non-nil when NOTE is tagged as an ORGANIZATION work note."
@@ -4217,19 +4213,18 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
         (find-file (vulpea-note-path note))
         note))
 
-    (defun my-vulpea-weekly-work-brag (&optional time organization)
-      "Open or create the weekly work brag note for TIME and ORGANIZATION."
+    (defun my-vulpea-monthly-work-brag (&optional time organization)
+      "Open or create the work brag note for TIME and ORGANIZATION."
       (interactive (list (when current-prefix-arg
-                           (my-vulpea-weekly-work-brag-read-date))))
+                           (my-vulpea-monthly-work-brag-read-date))))
       (let* ((organization (or organization my-work-notes-current-organization))
-             (note (or (my-vulpea-weekly-work-brag-note time organization)
+             (note (or (my-vulpea-monthly-work-brag-note time organization)
                        (vulpea-create
-                        (my-vulpea-weekly-work-brag-title time)
+                        (my-vulpea-monthly-work-brag-title time)
                         (my-vulpea-work-note-path-template organization)
                         :tags (append (my-vulpea-work-note-tags organization)
-                                      '("brag" "weekly"))
-                        :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))
-                        :body (my-vulpea-weekly-work-brag-body)))))
+                                      '("brag"))
+                        :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))))
         (find-file (vulpea-note-path note))
         note))
 
