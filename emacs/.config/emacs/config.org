@@ -4493,12 +4493,11 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
       "Return non-nil if the current buffer has any unfinished TODO entry.
   Buffers whose only tasks are DONE return nil, so completed notes drop
   off the agenda automatically."
-      (seq-find
-       (lambda (type) (eq type 'todo))
-       (org-element-map
-           (org-element-parse-buffer 'headline)
-           'headline
-         (lambda (h) (org-element-property :todo-type h)))))
+      (org-element-map
+          (org-element-parse-buffer 'headline)
+          'headline
+        (lambda (h) (eq (org-element-property :todo-type h) 'todo))
+        nil 'first-match))
 
     (defun my-vulpea-todo-update-tag ()
       "Add or remove the \"todo\" tag based on whether this note has TODOs."
