@@ -3175,7 +3175,6 @@ build."
     (my-vulpea-agenda-files-update)
     org-agenda-files)
 
-  (add-hook 'find-file-hook #'my-vulpea-todo-update-tag)
   (add-hook 'before-save-hook #'my-vulpea-todo-update-tag)
   (advice-add 'org-agenda :before #'my-vulpea-agenda-files-update)
   (advice-add 'org-todo-list :before #'my-vulpea-agenda-files-update)
