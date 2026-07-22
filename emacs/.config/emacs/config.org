@@ -394,33 +394,16 @@ General provides a more convenient, unified interface for binding keys in Emacs.
 **** Files
 
 #+begin_src emacs-lisp
-  (defun my-byte-compile-emacs-config ()
-    "Byte-compile the tangled Emacs config."
-    (let ((tangled-config (expand-file-name "config.el" user-emacs-directory)))
-      (unless (byte-compile-file tangled-config)
-        (user-error "Failed to byte-compile %s" tangled-config))))
-
-  (defun my-byte-compile-emacs-config-after-tangle ()
-    "Byte-compile config.el after tangling config.org."
-    (when (and buffer-file-name
-               (file-equal-p buffer-file-name
-                             (expand-file-name "config.org" user-emacs-directory)))
-      (my-byte-compile-emacs-config)))
-
-  (add-hook 'org-babel-tangle-finished-hook
-            #'my-byte-compile-emacs-config-after-tangle)
-
-  (defun my-compile-emacs-config ()
-    "Tangle and byte-compile the Emacs config."
+  (defun my-tangle-emacs-config ()
+    "Tangle the Emacs config."
     (interactive)
     (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory)))
 
   (defun my-reload-emacs-config ()
-    "Tangle, compile, and reload the Emacs config."
+    "Tangle and reload the Emacs config."
     (interactive)
-    (let ((compiled-config (expand-file-name "config.elc" user-emacs-directory)))
-      (my-compile-emacs-config)
-      (load compiled-config)))
+    (my-tangle-emacs-config)
+    (load-file (expand-file-name "config.el" user-emacs-directory)))
 
   (defun my-edit-emacs-config ()
     "Edit Emacs literate config file."
