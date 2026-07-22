@@ -98,22 +98,15 @@
 (use-package org
   :ensure (:wait t))
 
-(let ((compiled-config (expand-file-name "config.elc" user-emacs-directory))
-      (tangled-config (expand-file-name "config.el" user-emacs-directory))
+(let ((tangled-config (expand-file-name "config.el" user-emacs-directory))
       (literate-config (expand-file-name "config.org" user-emacs-directory)))
   (cond
-   ((and (file-exists-p compiled-config)
-         (or (not (file-exists-p tangled-config))
-             (file-newer-than-file-p compiled-config tangled-config))
-         (or (not (file-exists-p literate-config))
-             (file-newer-than-file-p compiled-config literate-config)))
-    (load compiled-config))
    ((and (file-exists-p tangled-config)
          (or (not (file-exists-p literate-config))
              (file-newer-than-file-p tangled-config literate-config)))
     (load-file tangled-config))
    ((file-exists-p literate-config)
-    (org-babel-load-file literate-config t))
+    (org-babel-load-file literate-config))
    (t
     (user-error "No Emacs config found"))))
 
