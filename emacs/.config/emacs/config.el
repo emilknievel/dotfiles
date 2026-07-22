@@ -2353,6 +2353,25 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   ((org-mode markdown-mode) . (lambda ()
                                 (display-line-numbers-mode -1))))
 
+(use-package alert
+  :ensure t
+  :custom
+  (alert-default-style
+   (cond ((eq system-type 'darwin) 'osx-notifier)
+         ((eq system-type 'gnu/linux) 'libnotify)
+         (t 'message))))
+
+(use-package org-pomodoro
+  :ensure t
+  :after org
+  :custom
+  (org-pomodoro-keep-killed-pomodoro-time t)
+  (org-pomodoro-length 25)
+  (org-pomodoro-short-break-length 5)
+  (org-pomodoro-long-break-length 20)
+  :general
+  (my-leader-keys "o p" '(org-pomodoro :wk "Pomodoro")))
+
 (use-package org-appear
   :ensure t
   :after general

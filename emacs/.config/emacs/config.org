@@ -3482,6 +3482,33 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
                                   (display-line-numbers-mode -1))))
 #+end_src
 
+*** Pomodoro
+
+=org-pomodoro= clocks in on the current heading and runs a 25-minute timer. =org-pomodoro-keep-killed-pomodoro-time= keeps the clocked time when a pomodoro is stopped before the bell (the default discards it).
+
+Notifications go through [[https://github.com/jwiegley/alert][=alert=]], whose style is chosen per platform: =osx-notifier= on macOS, =libnotify= on Linux, falling back to the echo area elsewhere.
+
+#+begin_src emacs-lisp
+  (use-package alert
+    :ensure t
+    :custom
+    (alert-default-style
+     (cond ((eq system-type 'darwin) 'osx-notifier)
+           ((eq system-type 'gnu/linux) 'libnotify)
+           (t 'message))))
+
+  (use-package org-pomodoro
+    :ensure t
+    :after org
+    :custom
+    (org-pomodoro-keep-killed-pomodoro-time t)
+    (org-pomodoro-length 25)
+    (org-pomodoro-short-break-length 5)
+    (org-pomodoro-long-break-length 20)
+    :general
+    (my-leader-keys "o p" '(org-pomodoro :wk "Pomodoro")))
+#+end_src
+
 *** Appear
 
 This package displays hidden emphasis markers while the cursor is on a rich text word.
