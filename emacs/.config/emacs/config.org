@@ -3904,10 +3904,6 @@ With a prefix argument, prompt for the date first."
     (find-file (my-work-journal-ensure-file time organization))
     (unless (my-work-journal-find-date-heading time organization)
       (goto-char (point-max))))
-
-  (define-prefix-command 'my-vulpea-journal-prefix-map)
-  (define-key my-vulpea-journal-prefix-map "w" #'my-work-journal-open)
-  (global-set-key (kbd "C-c v j") 'my-vulpea-journal-prefix-map)
 #+end_src
 
 *** Denote (disabled)
@@ -4112,17 +4108,13 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     :ensure t
     :demand t
     :bind (("C-c v i" . vulpea-insert)
+           ("C-c v I" . my-vulpea-insert-project)
            ("C-c v f" . vulpea-find)
            ("C-c v P" . my-vulpea-find-project)
-           ("C-c v S" . my-vulpea-stuck-projects)
-           ;; Work
-           ("C-c v b" . my-vulpea-monthly-work-brag)
-           ("C-c v B" . my-vulpea-monthly-work-brag-draft)
-           ("C-c v n" . my-vulpea-create-work-note)
-           ("C-c v M" . my-vulpea-migrate-work-notes)
            ;; People
            ("C-c v p n" . my-vulpea-create-person-note)
            ("C-c v p f" . my-vulpea-find-person)
+           ("C-c v p i" . my-vulpea-insert-person)
            ("C-c v p m" . my-vulpea-person-mentions)
            ;; Tags
            ("C-c v t a" . vulpea-buffer-tags-add)
@@ -4478,6 +4470,25 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
                    (length moved)
                    (if (= 1 (length moved)) "" "s")))))
 
+    ;; --- Selection annotation: global backlink counts ---
+    ;; Annotate each candidate with its number of incoming id-links.
+    ;; `vulpea-select-dyncontext-fn' computes the whole count table once per
+    ;; selection (one grouped query) and hands it to the annotate function as
+    ;; its second argument, so the table is not rebuilt per candidate.
+    (defun my-vulpea--annotate-with-backlinks (note counts)
+      "Annotate NOTE with its incoming id-link count from COUNTS.
+  COUNTS is the table returned by `vulpea-db-query-backlink-counts'.  The
+  count is appended to vulpea's default annotation (tags and aliases)."
+      (concat (vulpea-select-annotate note)
+              (format "  %d↩" (gethash (vulpea-note-id note) counts 0))))
+
+    (defmacro my-vulpea--with-backlink-annotations (&rest body)
+      "Run BODY with the vulpea selection annotated by global id backlink counts."
+      `(let ((vulpea-select-dyncontext-fn
+              (lambda (_notes) (vulpea-db-query-backlink-counts "id")))
+             (vulpea-select-annotate-fn #'my-vulpea--annotate-with-backlinks))
+         ,@body))
+
     ;; --- People: person notes and meeting attendees ---
     (defun my-vulpea--create-person-note (name &optional tags)
       "Create a person note for NAME with extra TAGS in the personal vault."
@@ -4512,12 +4523,23 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
        ", "))
 
     (defun my-vulpea-find-person ()
-      "Select and visit a person note, creating it when missing."
+      "Select and visit a person note, creating it when missing.
+  People are global: one note per person, linked from any domain."
       (interactive)
-      (vulpea-find
-       :filter-fn (lambda (note) (member "person" (vulpea-note-tags note)))
-       :create-fn (lambda (title _props)
-                    (my-vulpea--create-person-note title))))
+      (my-vulpea--with-backlink-annotations
+       (vulpea-find
+        :filter-fn (lambda (note) (member "person" (vulpea-note-tags note)))
+        :create-fn (lambda (title _props)
+                     (my-vulpea--create-person-note title)))))
+
+    (defun my-vulpea-insert-person ()
+      "Insert a link to a person note, creating it when missing."
+      (interactive)
+      (my-vulpea--with-backlink-annotations
+       (vulpea-insert
+        :filter-fn (lambda (note) (member "person" (vulpea-note-tags note)))
+        :note-fn (lambda (title _props)
+                   (my-vulpea--create-person-note title)))))
 
     (defun my-vulpea-person-mentions ()
       "Select a person, then select and visit a note that mentions them."
@@ -4536,16 +4558,90 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
               :require-match t))
           (message "No notes link to %s" (vulpea-note-title person)))))
 
-    ;; --- Projects: scoped finder and stuck-project review ---
+    ;; --- Projects: global finder plus work-scoped variants ---
     (defun my-vulpea-find-project ()
-      "Select and visit a project note, creating it when missing."
+      "Select and visit any project note, creating a personal one when missing.
+  Projects are global: personal and work projects share one finder,
+  distinguished by their tags shown in the annotation."
       (interactive)
-      (vulpea-find
-       :filter-fn (lambda (note) (member "project" (vulpea-note-tags note)))
-       :create-fn (lambda (title _props)
-                    (vulpea-create title nil
-                                   :tags '("project")
-                                   :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))))
+      (my-vulpea--with-backlink-annotations
+       (vulpea-find
+        :filter-fn (lambda (note) (member "project" (vulpea-note-tags note)))
+        :create-fn (lambda (title _props)
+                     (vulpea-create title nil
+                                    :tags '("project")
+                                    :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>")))))))
+
+    (defun my-vulpea-insert-project ()
+      "Insert a link to any project note, creating a personal one when missing."
+      (interactive)
+      (my-vulpea--with-backlink-annotations
+       (vulpea-insert
+        :filter-fn (lambda (note) (member "project" (vulpea-note-tags note)))
+        :note-fn (lambda (title _props)
+                   (vulpea-create title nil
+                                  :tags '("project")
+                                  :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>")))))))
+
+    (defun my-vulpea--work-project-p (note)
+      "Return non-nil when NOTE is a project for the current work organization."
+      (and (member "project" (vulpea-note-tags note))
+           (my-vulpea-work-note-p note)))
+
+    (defun my-vulpea--create-work-project (title)
+      "Create a work project note titled TITLE in the work vault, and return it."
+      (vulpea-create title
+                     (my-vulpea-work-note-path-template)
+                     :tags (cons "project" (my-vulpea-work-note-tags))
+                     :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))
+
+    (defun my-vulpea-find-work-project ()
+      "Select and visit a work project for the current org, creating it when missing."
+      (interactive)
+      (my-vulpea--with-backlink-annotations
+       (vulpea-find
+        :filter-fn #'my-vulpea--work-project-p
+        :create-fn (lambda (title _props)
+                     (my-vulpea--create-work-project title)))))
+
+    (defun my-vulpea-insert-work-project ()
+      "Insert a link to a work project for the current org, creating it when missing."
+      (interactive)
+      (my-vulpea--with-backlink-annotations
+       (vulpea-insert
+        :filter-fn #'my-vulpea--work-project-p
+        :note-fn (lambda (title _props)
+                   (my-vulpea--create-work-project title)))))
+
+    (defun my-vulpea-tag-work-projects (&optional organization)
+      "Add `work' and ORGANIZATION tags to work-vault projects that lack them.
+  Lists file-level project notes physically under ORGANIZATION's work
+  directory that are missing the work tags and, after confirmation, adds
+  only the missing tags to that set.  Personal projects are never touched."
+      (interactive)
+      (let* ((organization (or organization my-work-notes-current-organization))
+             (dir (my-work-notes-directory organization))
+             (candidates
+              (seq-filter
+               (lambda (note)
+                 (and (member "project" (vulpea-note-tags note))
+                      (not (my-vulpea-work-note-p note organization))))
+               (vulpea-db-query-by-directory (expand-file-name dir) 0))))
+        (if (null candidates)
+            (message "No untagged work projects for %s" organization)
+          (when (yes-or-no-p
+                 (format "Tag %d project(s) under %s with work + %s?\n%s\nProceed? "
+                         (length candidates) dir organization
+                         (mapconcat (lambda (n) (format "  - %s" (vulpea-note-title n)))
+                                    candidates "\n")))
+            (dolist (note candidates)
+              (let ((missing (seq-remove
+                              (lambda (tag) (member tag (vulpea-note-tags note)))
+                              (my-vulpea-work-note-tags organization))))
+                (when missing
+                  (vulpea-utils-with-note-sync note
+                    (vulpea-buffer-tags-add missing)))))
+            (message "Tagged %d work project(s)" (length candidates))))))
 
     (defun my-vulpea-encrypted-note-path-p (path)
       "Return non-nil when PATH names an encrypted note."
@@ -4686,23 +4782,30 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
 
     (vulpea-db-autosync-mode +1)
 
+    ;; --- Work command submap (C-c v w) ---
+    (define-prefix-command 'my-vulpea-work-prefix-map)
+    (define-key my-vulpea-work-prefix-map "P" #'my-vulpea-find-work-project)
+    (define-key my-vulpea-work-prefix-map "I" #'my-vulpea-insert-work-project)
+    (define-key my-vulpea-work-prefix-map "n" #'my-vulpea-create-work-note)
+    (define-key my-vulpea-work-prefix-map "M" #'my-vulpea-migrate-work-notes)
+    (define-key my-vulpea-work-prefix-map "b" #'my-vulpea-monthly-work-brag)
+    (define-key my-vulpea-work-prefix-map "B" #'my-vulpea-monthly-work-brag-draft)
+    (define-key my-vulpea-work-prefix-map "S" #'my-vulpea-stuck-projects)
+    (define-key my-vulpea-work-prefix-map "j" #'my-work-journal-open)
+    (global-set-key (kbd "C-c v w") 'my-vulpea-work-prefix-map)
+
     (which-key-add-key-based-replacements
-      "C-c v i" "insert"
+      "C-c v i" "insert link"
+      "C-c v I" "insert project (all)"
       "C-c v f" "find"
       "C-c v F" "find (consult)"
       "C-c v g" "grep"
       "C-c v s" "sidebar"
-      "C-c v P" "find project"
-      "C-c v S" "stuck projects"
-      "C-c v n" "new work note"
-      "C-c v M" "migrate work notes"
-      "C-c v b" "brag"
-      "C-c v B" "brag draft"
-      "C-c v j" "journal"
-      "C-c v j w" "work journal"
+      "C-c v P" "find project (all)"
       "C-c v p" "people"
-      "C-c v p n" "new person"
-      "C-c v p f" "find person"
+      "C-c v p n" "new"
+      "C-c v p f" "find"
+      "C-c v p i" "insert"
       "C-c v p m" "mentions"
       "C-c v t" "tags"
       "C-c v t a" "add"
@@ -4711,7 +4814,16 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
       "C-c v m a" "add"
       "C-c v m l" "add list"
       "C-c v m r" "remove"
-      "C-c v m c" "clean")
+      "C-c v m c" "clean"
+      "C-c v w" "work"
+      "C-c v w P" "find project"
+      "C-c v w I" "insert project"
+      "C-c v w n" "new note"
+      "C-c v w M" "migrate notes"
+      "C-c v w b" "brag"
+      "C-c v w B" "brag draft"
+      "C-c v w S" "stuck projects"
+      "C-c v w j" "journal")
     :hook
     (org-mode . vulpea-title-change-detection-mode))
 #+end_src
