@@ -477,10 +477,7 @@ General provides a more convenient, unified interface for binding keys in Emacs.
     :bind-keymap ("M-'" . surround-keymap))
 #+end_src
 
-*** Meow (disabled)
-:PROPERTIES:
-:header-args:emacs-lisp: :tangle no
-:END:
+*** Meow
 
 #+begin_src emacs-lisp
   (use-package meow
@@ -1429,6 +1426,13 @@ The tint and overline carry the level on task headings, where ~org-todo~ / ~org-
       (my-load-theme 'folio))
     :general
     (my-leader-keys "t t f" 'my-load-folio-theme))
+#+end_src
+
+**** Modus Alabaster
+
+#+begin_src emacs-lisp
+  (use-package modus-alabaster
+    :ensure (:host github :repo "dpassen/modus-alabaster"))
 #+end_src
 
 *** Fonts
