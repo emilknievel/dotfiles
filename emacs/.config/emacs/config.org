@@ -1914,11 +1914,11 @@ Install the icons with ~M-x nerd-icons-install-fonts~.
   (column-number-mode 1)
 #+end_src
 
-**** Inherit active face from base
+**** Inherit active face from base (disabled)
 
 This ensures that =mode-line-active= face inherits =mode-line=.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (set-face-attribute 'mode-line-active nil :inherit 'mode-line)
 #+end_src
 

@@ -1190,8 +1190,6 @@ merge reverts fontaine's preset height to the base one."
 
 (column-number-mode 1)
 
-(set-face-attribute 'mode-line-active nil :inherit 'mode-line)
-
 (setopt display-time-format " %H:%M "
         display-time-interval 60
         display-time-default-load-average nil)
