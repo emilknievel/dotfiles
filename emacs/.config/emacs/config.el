@@ -3718,6 +3718,7 @@ build."
   :ensure t
   :config
   (setq agent-shell-session-strategy 'prompt
+        agent-shell-session-restore-verbosity 'full
 
         ;; Anthropic
         agent-shell-anthropic-claude-environment
