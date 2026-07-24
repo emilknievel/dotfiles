@@ -177,8 +177,21 @@ Example usage: (get-auth-keyword \"test\" :secret)"
     "b B" 'ibuffer
     "b c" 'consult-buffer
     "b X" 'scratch-buffer
+    "b d" 'kill-current-buffer
+    "b n" 'next-buffer
+    "b p" 'previous-buffer
     "q q" 'save-buffers-kill-terminal
     "b r" 'revert-buffer-quick))
+
+(with-eval-after-load 'general
+  (my-leader-keys
+    ;; windows
+    "w" '(nil :wk "windows")
+    "w s" 'split-window-below
+    "w v" 'split-window-right
+    "w d" 'delete-window
+    "w o" 'delete-other-windows
+    "w w" 'other-window))
 
 (with-eval-after-load 'general
   (my-leader-keys
