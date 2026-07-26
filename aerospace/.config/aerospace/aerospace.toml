@@ -49,12 +49,6 @@ key-mapping.preset = 'qwerty'
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-## PiP windows are "sticky", i.e. they move with workspace changes.
-# exec-on-workspace-change = [
-#     '/bin/bash', '-c',
-#     '~/.config/aerospace/pip-move.sh',
-# ]
-
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
