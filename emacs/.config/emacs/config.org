@@ -195,6 +195,20 @@ Use minibuffer for passphrase queries instead of using an external Pinentry prog
     (mapcar #'car alist))
 #+end_src
 
+*** Notifications
+
+[[https://github.com/jwiegley/alert][=alert=]] gives a common notification API that other packages (e.g. Ghostel) route desktop notifications through. Style is chosen per platform: =osx-notifier= on macOS, =libnotify= on Linux, falling back to the echo area elsewhere.
+
+#+begin_src emacs-lisp
+  (use-package alert
+    :ensure t
+    :custom
+    (alert-default-style
+     (cond ((eq system-type 'darwin) 'osx-notifier)
+           ((eq system-type 'gnu/linux) 'libnotify)
+           (t 'message))))
+#+end_src
+
 *** Time
 
 **** Ensure consistent time locale
@@ -2956,6 +2970,8 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 
 *** Ghostel
 
+Ghostel emits a desktop notification for OSC 9/777 escape sequences (e.g. shell integration signaling a long-running command finished). =ghostel-default-notify= routes these through [[https://github.com/jwiegley/alert][=alert=]] (see [[*Notifications][Notifications]]) when installed, falling back to the echo area otherwise.
+
 #+begin_src emacs-lisp
   (use-package ghostel
     :ensure t
@@ -3484,33 +3500,6 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     :hook
     ((org-mode markdown-mode) . (lambda ()
                                   (display-line-numbers-mode -1))))
-#+end_src
-
-*** Pomodoro
-
-=org-pomodoro= clocks in on the current heading and runs a 25-minute timer. =org-pomodoro-keep-killed-pomodoro-time= keeps the clocked time when a pomodoro is stopped before the bell (the default discards it).
-
-Notifications go through [[https://github.com/jwiegley/alert][=alert=]], whose style is chosen per platform: =osx-notifier= on macOS, =libnotify= on Linux, falling back to the echo area elsewhere.
-
-#+begin_src emacs-lisp
-  (use-package alert
-    :ensure t
-    :custom
-    (alert-default-style
-     (cond ((eq system-type 'darwin) 'osx-notifier)
-           ((eq system-type 'gnu/linux) 'libnotify)
-           (t 'message))))
-
-  (use-package org-pomodoro
-    :ensure t
-    :after org
-    :custom
-    (org-pomodoro-keep-killed-pomodoro-time t)
-    (org-pomodoro-length 25)
-    (org-pomodoro-short-break-length 5)
-    (org-pomodoro-long-break-length 20)
-    :general
-    (my-leader-keys "o p" '(org-pomodoro :wk "Pomodoro")))
 #+end_src
 
 *** Appear
