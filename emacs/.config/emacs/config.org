@@ -77,27 +77,32 @@
 
 *** Backup files
 
+Keep backup files out of the working directory unless something has already configured this. Copy rather than rename when backing up, so hard links and permissions on the original file stay intact.
+
 #+begin_src emacs-lisp
   (unless backup-directory-alist
-    (setopt backup-directory-alist `(("." . "/tmp/backups/"))))
+    (setopt backup-directory-alist `(("." . ,(concat temporary-file-directory "backups/")))))
 
   (setopt backup-by-copying t)
 #+end_src
 
 *** Auto-save files
 
+Auto-saves go to a dedicated tmp directory instead of next to the visited file. They're deleted on a clean exit, since they only matter for recovering from a crash.
+
 #+begin_src emacs-lisp
-  (make-directory "/tmp/auto-saves/" t)
+  (defvar my-auto-save-dir (concat temporary-file-directory "auto-saves/"))
 
-  (setopt auto-save-list-file-prefix "/tmp/auto-saves/sessions/"
-          auto-save-file-name-transforms `((".*" ,"/tmp/auto-saves/" t)))
+  (make-directory my-auto-save-dir t)
 
-  (add-hook 'kill-emacs-hook (lambda ()
-                               (dolist (file (directory-files
-                                              temporary-file-directory
-                                              t
-                                              "\\`auto-save-file-name-p\\'"))
-                                 (delete-file file))))
+  (setopt auto-save-list-file-prefix (concat my-auto-save-dir "sessions/")
+          auto-save-file-name-transforms `((".*" ,my-auto-save-dir t)))
+
+  (add-hook 'kill-emacs-hook
+            (lambda ()
+              (dolist (file (directory-files my-auto-save-dir t))
+                (when (auto-save-file-name-p (file-name-nondirectory file))
+                  (delete-file file)))))
 #+end_src
 
 *** Lock files

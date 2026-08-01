@@ -40,21 +40,22 @@
 (setopt global-auto-revert-non-file-buffers t)
 
 (unless backup-directory-alist
-  (setopt backup-directory-alist `(("." . "/tmp/backups/"))))
+  (setopt backup-directory-alist `(("." . ,(concat temporary-file-directory "backups/")))))
 
 (setopt backup-by-copying t)
 
-(make-directory "/tmp/auto-saves/" t)
+(defvar my-auto-save-dir (concat temporary-file-directory "auto-saves/"))
 
-(setopt auto-save-list-file-prefix "/tmp/auto-saves/sessions/"
-        auto-save-file-name-transforms `((".*" ,"/tmp/auto-saves/" t)))
+(make-directory my-auto-save-dir t)
 
-(add-hook 'kill-emacs-hook (lambda ()
-                             (dolist (file (directory-files
-                                            temporary-file-directory
-                                            t
-                                            "\\`auto-save-file-name-p\\'"))
-                               (delete-file file))))
+(setopt auto-save-list-file-prefix (concat my-auto-save-dir "sessions/")
+        auto-save-file-name-transforms `((".*" ,my-auto-save-dir t)))
+
+(add-hook 'kill-emacs-hook
+          (lambda ()
+            (dolist (file (directory-files my-auto-save-dir t))
+              (when (auto-save-file-name-p (file-name-nondirectory file))
+                (delete-file file)))))
 
 (setopt create-lockfiles nil)
 
