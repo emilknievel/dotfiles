@@ -107,6 +107,8 @@ Auto-saves go to a dedicated tmp directory instead of next to the visited file. 
 
 *** Lock files
 
+Lock symlinks warn about simultaneous edits by other users, which doesn't matter on a single-user machine; skip creating them.
+
 #+begin_src emacs-lisp
   (setopt create-lockfiles nil)
 #+end_src
