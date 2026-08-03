@@ -1,4 +1,3 @@
-# -*- visual-fill-column-width: 90; -*-
 :DOC-CONFIG:
 #+PROPERTY: header-args:emacs-lisp :tangle (concat (file-name-sans-extension (buffer-file-name)) ".el")
 #+PROPERTY: header-args :mkdirp yes :comments no
@@ -517,6 +516,8 @@ General provides a more convenient, unified interface for binding keys in Emacs.
 
 *** Meow
 
+Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
+
 #+begin_src emacs-lisp
   (use-package meow
     :ensure t
@@ -647,6 +648,8 @@ General provides a more convenient, unified interface for binding keys in Emacs.
 #+end_src
 
 **** Meow-tree-sitter
+
+Treesit-based meow motions. Adds additional "things" for "Inner of", "End of",  etc.
 
 #+begin_src emacs-lisp
   (use-package meow-tree-sitter
