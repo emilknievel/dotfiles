@@ -756,7 +756,7 @@ Edit multiple occurrences in the same way simultaneously.
   (dolist (hook '(prog-mode-hook
                   conf-mode-hook
                   org-mode-hook
-                  markdown-mode-hook
+                  markdown-ts-mode-hook
                   tex-mode-hook))
     (add-hook hook (lambda ()
                      (setq show-trailing-whitespace t))))
@@ -843,7 +843,7 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
 
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook 'visual-line-mode)
-  (add-hook 'markdown-mode-hook 'visual-line-mode)
+  (add-hook 'markdown-ts-mode-hook 'visual-line-mode)
   (add-hook 'visual-line-mode-hook 'visual-wrap-prefix-mode)
 #+end_src
 
@@ -1381,9 +1381,10 @@ Inspired by Plan 9 Acme & Sam.
     (my-load-theme 'solarized-light)
     (custom-theme-set-faces
      'solarized-light
-     '(markdown-code-face ((t (:background "#eee8d5" :foreground "#657b83"))))
-     '(markdown-inline-code-face ((t (:background "#eee8d5" :foreground "#657b83"))))
-     '(markdown-gfm-checkbox-face ((t (:foreground "#b58900" :weight bold))))
+     '(markdown-ts-code-block ((t (:background "#eee8d5" :foreground "#657b83"))))
+     '(markdown-ts-code-span ((t (:background "#eee8d5" :foreground "#657b83"))))
+     '(markdown-ts-task-unchecked ((t (:foreground "#b58900" :weight bold))))
+     '(markdown-ts-task-checked ((t (:foreground "#b58900" :weight bold))))
      '(org-verbatim ((t (:background "#eee8d5" :foreground "#657b83"
                          :box (:line-width 1 :color "#eee8d5" :style nil)))))
      '(org-code ((t (:background "#eee8d5" :foreground "#657b83"
@@ -1402,9 +1403,10 @@ Inspired by Plan 9 Acme & Sam.
     (my-load-theme 'solarized-dark)
     (custom-theme-set-faces
      'solarized-dark
-     '(markdown-code-face ((t (:background "#073642" :foreground "#839496"))))
-     '(markdown-inline-code-face ((t (:background "#073642" :foreground "#839496"))))
-     '(markdown-gfm-checkbox-face ((t (:foreground "#b58900" :weight bold))))
+     '(markdown-ts-code-block ((t (:background "#073642" :foreground "#839496"))))
+     '(markdown-ts-code-span ((t (:background "#073642" :foreground "#839496"))))
+     '(markdown-ts-task-unchecked ((t (:foreground "#b58900" :weight bold))))
+     '(markdown-ts-task-checked ((t (:foreground "#b58900" :weight bold))))
      '(org-verbatim ((t (:background "#073642" :foreground "#839496"
                          :box (:line-width 1 :color "#073642" :style nil)))))
      '(org-code ((t (:background "#073642" :foreground "#839496"
@@ -1594,8 +1596,8 @@ Use the built-in ~variable-pitch-mode~ rather than the =mixed-pitch= package. ~v
     '(org-block org-block-begin-line org-block-end-line
       org-code org-verbatim org-table org-formula org-checkbox
       org-meta-line org-document-info-keyword org-latex-and-related
-      markdown-code-face markdown-pre-face markdown-inline-code-face
-      markdown-table-face markdown-language-keyword-face)
+      markdown-ts-code-block markdown-ts-code-span markdown-ts-table
+      markdown-ts-indented-code-block markdown-ts-language-keyword)
     "Faces forced to inherit `fixed-pitch' so they stay monospace under
   `variable-pitch-mode' (code blocks, tables, verbatim, ...).")
 
@@ -1615,7 +1617,7 @@ Use the built-in ~variable-pitch-mode~ rather than the =mixed-pitch= package. ~v
 
   (my-apply-fixed-pitch-inheritance)
   (with-eval-after-load 'org (my-apply-fixed-pitch-inheritance))
-  (with-eval-after-load 'markdown-mode (my-apply-fixed-pitch-inheritance))
+  (with-eval-after-load 'markdown-ts-mode (my-apply-fixed-pitch-inheritance))
   (add-hook 'enable-theme-functions #'my-apply-fixed-pitch-inheritance)
 
   ;; shr's body face is `variable-pitch' x1.1; pin it to 1.0 so prose in
@@ -1657,7 +1659,7 @@ Use the built-in ~variable-pitch-mode~ rather than the =mixed-pitch= package. ~v
              (if my-enable-variable-pitch "enabled" "disabled")))
 
   (add-hook 'org-mode-hook #'my-maybe-enable-variable-pitch)
-  (add-hook 'markdown-mode-hook #'my-maybe-enable-variable-pitch)
+  (add-hook 'markdown-ts-mode-hook #'my-maybe-enable-variable-pitch)
   (keymap-global-set "<f9>" #'my-toggle-variable-pitch)
 #+end_src
 
@@ -1829,7 +1831,7 @@ Increase line spacing slightly in buffers containing prose.
   (dolist (hook '(
                   org-mode-hook
                   org-agenda-mode-hook
-                  markdown-mode-hook
+                  markdown-ts-mode-hook
                   eww-mode-hook
                   devdocs-mode-hook
                   Info-mode-hook
@@ -2542,24 +2544,27 @@ Use prolog-mode instead of perl-mode for .pl files.
 *** Markdown
 
 #+begin_src emacs-lisp
-  (use-package markdown-mode
-    :ensure t
-    :demand t
-    :mode ("\\.md\\'" . gfm-mode)
-    :init
-    (setopt markdown-command "pandoc"
-            markdown-header-scaling nil
-            markdown-enable-math t
-            markdown-make-gfm-checkboxes-buttons t
-            markdown-fontify-code-blocks-natively t
-            markdown-asymmetric-header t)
-    :config
-    (dolist (ts-modes '(("js" . js-ts-mode)
-                        ("javascript" . js-ts-mode)
-                        ("c" . c-ts-mode)
-                        ("bash" . bash-ts-mode)
-                        ("sh" . bash-ts-mode)))
-      (add-to-list 'markdown-code-lang-modes ts-modes)))
+  (use-package markdown-ts-mode
+    :ensure nil
+    :mode ("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)
+    :defer t)
+#+end_src
+
+Forge depends on the =markdown-mode= package (for rendering issue/PR bodies) and elpaca builds it asynchronously, so its autoloaded =auto-mode-alist= entry for =.md= can land in front of ours after startup finishes. Reassert ours once elpaca is done, mirroring the pattern used for [[*Persisting the theme][theme persistence]].
+
+#+begin_src emacs-lisp
+  (defun my-prefer-markdown-ts-mode ()
+    "Ensure `.md'/`.markdown' resolve to `markdown-ts-mode'.
+  `markdown-mode' (an indirect dependency of forge) registers itself in
+  `auto-mode-alist' via autoloads once elpaca finishes building it, which
+  can end up ahead of our own entry."
+    (setq auto-mode-alist
+          (rassq-delete-all 'markdown-mode
+                             (rassq-delete-all 'gfm-mode auto-mode-alist)))
+    (add-to-list 'auto-mode-alist
+                 '("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)))
+
+  (add-hook 'elpaca-after-init-hook #'my-prefer-markdown-ts-mode)
 #+end_src
 
 **** Convert Markdown to Org
@@ -3508,8 +3513,8 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
                "o b t" 'org-babel-tangle
                "o l d" 'org-toggle-link-display)
     :hook
-    ((org-mode markdown-mode) . (lambda ()
-                                  (display-line-numbers-mode -1))))
+    ((org-mode markdown-ts-mode) . (lambda ()
+                                     (display-line-numbers-mode -1))))
 #+end_src
 
 *** Appear
@@ -3614,17 +3619,17 @@ Scale heading faces in org and markdown buffers.
                     (org-level-7 . 1.0)
                     (org-level-8 . 1.0)))
       (set-face-attribute (car face) nil :height (cdr face)))
-    (when (facep 'markdown-header-face-1)
-      (dolist (face '((markdown-header-face-1 . 1.4)
-                      (markdown-header-face-2 . 1.3)
-                      (markdown-header-face-3 . 1.2)
-                      (markdown-header-face-4 . 1.1)
-                      (markdown-header-face-5 . 1.0)
-                      (markdown-header-face-6 . 1.0)))
+    (when (facep 'markdown-ts-heading-1)
+      (dolist (face '((markdown-ts-heading-1 . 1.4)
+                      (markdown-ts-heading-2 . 1.3)
+                      (markdown-ts-heading-3 . 1.2)
+                      (markdown-ts-heading-4 . 1.1)
+                      (markdown-ts-heading-5 . 1.0)
+                      (markdown-ts-heading-6 . 1.0)))
         (set-face-attribute (car face) nil :height (cdr face)))))
 
   (add-hook 'enable-theme-functions (lambda (_theme) (my-set-heading-heights)))
-  (add-hook 'markdown-mode-hook #'my-set-heading-heights)
+  (add-hook 'markdown-ts-mode-hook #'my-set-heading-heights)
   (my-set-heading-heights)
 #+end_src
 
@@ -5110,7 +5115,7 @@ Package repo.
     :hook
     ((js-mode
       . (lambda () (setq-local devdocs-current-docs '("javascript"))))
-     (markdown-mode
+     (markdown-ts-mode
       . (lambda () (setq-local devdocs-current-docs '("markdown"))))
      ((elisp-mode emacs-lisp-mode)
       . (lambda () (setq-local devdocs-current-docs '("elisp"))))

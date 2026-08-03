@@ -406,7 +406,7 @@ does nothing."
 (dolist (hook '(prog-mode-hook
                 conf-mode-hook
                 org-mode-hook
-                markdown-mode-hook
+                markdown-ts-mode-hook
                 tex-mode-hook))
   (add-hook hook (lambda ()
                    (setq show-trailing-whitespace t))))
@@ -463,7 +463,7 @@ does nothing."
   :hook (after-init . delete-selection-mode))
 
 (add-hook 'org-mode-hook 'visual-line-mode)
-(add-hook 'markdown-mode-hook 'visual-line-mode)
+(add-hook 'markdown-ts-mode-hook 'visual-line-mode)
 (add-hook 'visual-line-mode-hook 'visual-wrap-prefix-mode)
 
 (use-package visual-fill-column
@@ -864,9 +864,10 @@ painted early in the modus `:init')."
   (my-load-theme 'solarized-light)
   (custom-theme-set-faces
    'solarized-light
-   '(markdown-code-face ((t (:background "#eee8d5" :foreground "#657b83"))))
-   '(markdown-inline-code-face ((t (:background "#eee8d5" :foreground "#657b83"))))
-   '(markdown-gfm-checkbox-face ((t (:foreground "#b58900" :weight bold))))
+   '(markdown-ts-code-block ((t (:background "#eee8d5" :foreground "#657b83"))))
+   '(markdown-ts-code-span ((t (:background "#eee8d5" :foreground "#657b83"))))
+   '(markdown-ts-task-unchecked ((t (:foreground "#b58900" :weight bold))))
+   '(markdown-ts-task-checked ((t (:foreground "#b58900" :weight bold))))
    '(org-verbatim ((t (:background "#eee8d5" :foreground "#657b83"
                        :box (:line-width 1 :color "#eee8d5" :style nil)))))
    '(org-code ((t (:background "#eee8d5" :foreground "#657b83"
@@ -885,9 +886,10 @@ painted early in the modus `:init')."
   (my-load-theme 'solarized-dark)
   (custom-theme-set-faces
    'solarized-dark
-   '(markdown-code-face ((t (:background "#073642" :foreground "#839496"))))
-   '(markdown-inline-code-face ((t (:background "#073642" :foreground "#839496"))))
-   '(markdown-gfm-checkbox-face ((t (:foreground "#b58900" :weight bold))))
+   '(markdown-ts-code-block ((t (:background "#073642" :foreground "#839496"))))
+   '(markdown-ts-code-span ((t (:background "#073642" :foreground "#839496"))))
+   '(markdown-ts-task-unchecked ((t (:foreground "#b58900" :weight bold))))
+   '(markdown-ts-task-checked ((t (:foreground "#b58900" :weight bold))))
    '(org-verbatim ((t (:background "#073642" :foreground "#839496"
                        :box (:line-width 1 :color "#073642" :style nil)))))
    '(org-code ((t (:background "#073642" :foreground "#839496"
@@ -1049,8 +1051,8 @@ reference, so they pick up the new family without an explicit refresh."
   '(org-block org-block-begin-line org-block-end-line
     org-code org-verbatim org-table org-formula org-checkbox
     org-meta-line org-document-info-keyword org-latex-and-related
-    markdown-code-face markdown-pre-face markdown-inline-code-face
-    markdown-table-face markdown-language-keyword-face)
+    markdown-ts-code-block markdown-ts-code-span markdown-ts-table
+    markdown-ts-indented-code-block markdown-ts-language-keyword)
   "Faces forced to inherit `fixed-pitch' so they stay monospace under
 `variable-pitch-mode' (code blocks, tables, verbatim, ...).")
 
@@ -1070,7 +1072,7 @@ enabling a theme can reset face inheritance."
 
 (my-apply-fixed-pitch-inheritance)
 (with-eval-after-load 'org (my-apply-fixed-pitch-inheritance))
-(with-eval-after-load 'markdown-mode (my-apply-fixed-pitch-inheritance))
+(with-eval-after-load 'markdown-ts-mode (my-apply-fixed-pitch-inheritance))
 (add-hook 'enable-theme-functions #'my-apply-fixed-pitch-inheritance)
 
 ;; shr's body face is `variable-pitch' x1.1; pin it to 1.0 so prose in
@@ -1112,7 +1114,7 @@ enabling a theme can reset face inheritance."
            (if my-enable-variable-pitch "enabled" "disabled")))
 
 (add-hook 'org-mode-hook #'my-maybe-enable-variable-pitch)
-(add-hook 'markdown-mode-hook #'my-maybe-enable-variable-pitch)
+(add-hook 'markdown-ts-mode-hook #'my-maybe-enable-variable-pitch)
 (keymap-global-set "<f9>" #'my-toggle-variable-pitch)
 
 (use-package ligature
@@ -1780,24 +1782,23 @@ its input."
   (yaml-mode . (lambda ()
                  (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 
-(use-package markdown-mode
-  :ensure t
-  :demand t
-  :mode ("\\.md\\'" . gfm-mode)
-  :init
-  (setopt markdown-command "pandoc"
-          markdown-header-scaling nil
-          markdown-enable-math t
-          markdown-make-gfm-checkboxes-buttons t
-          markdown-fontify-code-blocks-natively t
-          markdown-asymmetric-header t)
-  :config
-  (dolist (ts-modes '(("js" . js-ts-mode)
-                      ("javascript" . js-ts-mode)
-                      ("c" . c-ts-mode)
-                      ("bash" . bash-ts-mode)
-                      ("sh" . bash-ts-mode)))
-    (add-to-list 'markdown-code-lang-modes ts-modes)))
+(use-package markdown-ts-mode
+  :ensure nil
+  :mode ("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)
+  :defer t)
+
+(defun my-prefer-markdown-ts-mode ()
+  "Ensure `.md'/`.markdown' resolve to `markdown-ts-mode'.
+`markdown-mode' (an indirect dependency of forge) registers itself in
+`auto-mode-alist' via autoloads once elpaca finishes building it, which
+can end up ahead of our own entry."
+  (setq auto-mode-alist
+        (rassq-delete-all 'markdown-mode
+                           (rassq-delete-all 'gfm-mode auto-mode-alist)))
+  (add-to-list 'auto-mode-alist
+               '("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)))
+
+(add-hook 'elpaca-after-init-hook #'my-prefer-markdown-ts-mode)
 
 (defun cc/markdown-to-org-region (start end)
   "Convert Markdown formatted text in region (START, END) to Org.
@@ -2477,8 +2478,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
              "o b t" 'org-babel-tangle
              "o l d" 'org-toggle-link-display)
   :hook
-  ((org-mode markdown-mode) . (lambda ()
-                                (display-line-numbers-mode -1))))
+  ((org-mode markdown-ts-mode) . (lambda ()
+                                   (display-line-numbers-mode -1))))
 
 (use-package org-appear
   :ensure t
@@ -2559,17 +2560,17 @@ With two prefix arguments, insert as top-level heading."
                   (org-level-7 . 1.0)
                   (org-level-8 . 1.0)))
     (set-face-attribute (car face) nil :height (cdr face)))
-  (when (facep 'markdown-header-face-1)
-    (dolist (face '((markdown-header-face-1 . 1.4)
-                    (markdown-header-face-2 . 1.3)
-                    (markdown-header-face-3 . 1.2)
-                    (markdown-header-face-4 . 1.1)
-                    (markdown-header-face-5 . 1.0)
-                    (markdown-header-face-6 . 1.0)))
+  (when (facep 'markdown-ts-heading-1)
+    (dolist (face '((markdown-ts-heading-1 . 1.4)
+                    (markdown-ts-heading-2 . 1.3)
+                    (markdown-ts-heading-3 . 1.2)
+                    (markdown-ts-heading-4 . 1.1)
+                    (markdown-ts-heading-5 . 1.0)
+                    (markdown-ts-heading-6 . 1.0)))
       (set-face-attribute (car face) nil :height (cdr face)))))
 
 (add-hook 'enable-theme-functions (lambda (_theme) (my-set-heading-heights)))
-(add-hook 'markdown-mode-hook #'my-set-heading-heights)
+(add-hook 'markdown-ts-mode-hook #'my-set-heading-heights)
 (my-set-heading-heights)
 
 (use-package olivetti
@@ -3744,7 +3745,7 @@ build."
   :hook
   ((js-mode
     . (lambda () (setq-local devdocs-current-docs '("javascript"))))
-   (markdown-mode
+   (markdown-ts-mode
     . (lambda () (setq-local devdocs-current-docs '("markdown"))))
    ((elisp-mode emacs-lisp-mode)
     . (lambda () (setq-local devdocs-current-docs '("elisp"))))
