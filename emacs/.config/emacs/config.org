@@ -2475,28 +2475,17 @@ Use prolog-mode instead of perl-mode for .pl files.
 
 *** Markdown
 
+=markdown-ts-mode= is a new and experimental mode (as of [2026-08-03 Mon 14:58]) for working with markdown files.
+
 #+begin_src emacs-lisp
   (use-package markdown-ts-mode
     :ensure nil
     :mode ("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)
     :defer t)
-#+end_src
 
-Forge depends on the =markdown-mode= package (for rendering issue/PR bodies) and elpaca builds it asynchronously, so its autoloaded =auto-mode-alist= entry for =.md= can land in front of ours after startup finishes. Reassert ours once elpaca is done, mirroring the pattern used for [[*Persisting the theme][theme persistence]].
-
-#+begin_src emacs-lisp
-  (defun my-prefer-markdown-ts-mode ()
-    "Ensure `.md'/`.markdown' resolve to `markdown-ts-mode'.
-  `markdown-mode' (an indirect dependency of forge) registers itself in
-  `auto-mode-alist' via autoloads once elpaca finishes building it, which
-  can end up ahead of our own entry."
-    (setq auto-mode-alist
-          (rassq-delete-all 'markdown-mode
-                             (rassq-delete-all 'gfm-mode auto-mode-alist)))
-    (add-to-list 'auto-mode-alist
-                 '("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)))
-
-  (add-hook 'elpaca-after-init-hook #'my-prefer-markdown-ts-mode)
+  ;; If `markdown-mode' is loaded for whatever reason, ensure that it instead
+  ;; activates `markdown-ts-mode'
+  (add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode))
 #+end_src
 
 **** Convert Markdown to Org

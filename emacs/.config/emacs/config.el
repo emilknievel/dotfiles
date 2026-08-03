@@ -1723,18 +1723,9 @@ its input."
   :mode ("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)
   :defer t)
 
-(defun my-prefer-markdown-ts-mode ()
-  "Ensure `.md'/`.markdown' resolve to `markdown-ts-mode'.
-`markdown-mode' (an indirect dependency of forge) registers itself in
-`auto-mode-alist' via autoloads once elpaca finishes building it, which
-can end up ahead of our own entry."
-  (setq auto-mode-alist
-        (rassq-delete-all 'markdown-mode
-                           (rassq-delete-all 'gfm-mode auto-mode-alist)))
-  (add-to-list 'auto-mode-alist
-               '("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)))
-
-(add-hook 'elpaca-after-init-hook #'my-prefer-markdown-ts-mode)
+;; If `markdown-mode' is loaded for whatever reason, ensure that it instead
+;; activates `markdown-ts-mode'
+(add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode))
 
 (defun cc/markdown-to-org-region (start end)
   "Convert Markdown formatted text in region (START, END) to Org.
