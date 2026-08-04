@@ -512,7 +512,8 @@ does nothing."
   (setq-default eldoc-idle-delay 0.2
                 ;; eldoc-echo-area-use-multiline-p t
                 eldoc-echo-area-prefer-doc-buffer t
-                eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
+                eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly
+                eldoc-help-at-pt t))
 
 (unless (memq window-system '(mac ns))
   (menu-bar-mode -1))
