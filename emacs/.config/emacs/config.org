@@ -2377,7 +2377,9 @@ Use the ELPA version instead of the one bundled with Emacs. Its newer ~eldoc~/~j
     :custom
     (eglot-autoshutdown t)
     (eglot-ignored-server-capabilities '(:inlayHintProvider
-                                         :documentOnTypeFormattingProvider)))
+                                         :documentOnTypeFormattingProvider))
+    (eglot-documentation-renderer 'markdown-ts-view-mode)
+    (eglot-code-action-indications nil))
 #+end_src
 
 Eglot drives flymake natively; diagnostics navigation lives under =M-g f=.

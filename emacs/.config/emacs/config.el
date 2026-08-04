@@ -1675,7 +1675,9 @@ its input."
   :custom
   (eglot-autoshutdown t)
   (eglot-ignored-server-capabilities '(:inlayHintProvider
-                                       :documentOnTypeFormattingProvider)))
+                                       :documentOnTypeFormattingProvider))
+  (eglot-documentation-renderer 'markdown-ts-view-mode)
+  (eglot-code-action-indications nil))
 
 (setopt elisp-fontify-semantically t)
 
