@@ -2263,10 +2263,10 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
 (defun my-org-capture-work-journal-template (key description template &rest properties)
   "Create a work journal capture template with shared target settings."
   `(,key ,description entry
-    (file+function my-work-journal-current-file my-work-journal-goto-today-heading)
-    ,template
-    :empty-lines 1
-    ,@properties))
+         (file+function my-work-journal-current-file my-work-journal-goto-today-heading)
+         ,template
+         :empty-lines 1
+         ,@properties))
 
 (use-package org
   :ensure nil
@@ -2277,9 +2277,12 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
           org-default-notes-file (concat org-directory "/inbox.org")
           org-journelly-file (concat org-directory "/Journelly.org")
           org-links-file (concat org-directory "/links.org"))
+  ;; The beorg files are written on iOS, so the `todo' tagging that feeds
+  ;; the dynamic agenda never runs on them; list them statically instead.
   (setq my-org-agenda-static-files
         (list org-default-notes-file
-              (concat org-directory "/calendar-beorg.org")))
+              (concat org-directory "/calendar-beorg.org")
+              (concat org-directory "/reminders-beorg.org")))
   (setopt org-agenda-files my-org-agenda-static-files)
 
   (require 'org-indent)
@@ -2857,6 +2860,9 @@ With a prefix argument, prompt for the date first."
 
   (add-hook 'before-save-hook #'my-vulpea-todo-update-tag)
   (advice-add 'org-agenda :before #'my-vulpea-agenda-files-update)
+  ;; Rebuilding from inside the agenda must see notes that gained a TODO
+  ;; since it was opened.  `org-agenda-redo-all' (g) delegates to this.
+  (advice-add 'org-agenda-redo :before #'my-vulpea-agenda-files-update)
   (advice-add 'org-id-find-id-file :around #'my-vulpea-org-id-find-file)
   (vulpea-db-autosync-mode +1)
 
@@ -3344,8 +3350,11 @@ tag) or none of them is in progress, waiting, or scheduled."
                       (vulpea-db-query-by-tags-some '("project")))))
 
 (defun my-vulpea-note-buffer-p ()
-  "Return non-nil if the current buffer is a Vulpea-managed note file."
+  "Return non-nil if the current buffer is an Org file Vulpea manages.
+The Org check matters: the sync directories also hold Markdown notes,
+and tagging one would write Org syntax into it."
   (and buffer-file-name
+       (derived-mode-p 'org-mode)
        (seq-some
         (lambda (dir)
           (file-in-directory-p buffer-file-name (expand-file-name dir)))
