@@ -2547,11 +2547,13 @@ With two prefix arguments, insert as top-level heading."
       (time-subtract time (days-to-time (1- weekday)))))
 
   (defun my-work-journal--week-dates (&optional time)
-    "Return Monday through Friday dates for the ISO week containing TIME."
+    "Return Monday through Sunday dates for the ISO week containing TIME.
+  The weekend is included so that a Saturday or Sunday entry finds its
+  heading in place instead of appending one below the reflection."
     (let ((week-start (my-work-journal--week-start time)))
       (mapcar (lambda (offset)
                 (time-add week-start (days-to-time offset)))
-              (number-sequence 0 4))))
+              (number-sequence 0 6))))
 
   (defun my-work-journal--weekday-name (&optional time)
     "Return the Swedish weekday name for TIME."
@@ -2743,7 +2745,8 @@ With two prefix arguments, insert as top-level heading."
         (insert "* " (my-work-journal--weekday-name date) "\n"
                 ":PROPERTIES:\n"
                 ":JOURNAL_DATE: " (format-time-string "[%Y-%m-%d]" date) "\n"
-                ":END:\n\n"))))
+                ":END:\n\n"))
+      (insert "* Reflektion\n\n")))
 
   (defun my-work-journal-ensure-file (&optional time organization)
     "Create the weekly work journal for TIME and ORGANIZATION if needed."
