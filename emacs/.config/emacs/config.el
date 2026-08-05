@@ -3162,35 +3162,19 @@ note on disk and in the database."
         (my-vulpea-db-remove-file-notes path)
         (message "Deleted note from aborted capture: %s" path)))))
 
-(defun my-vulpea--annotate-with-backlinks (note counts)
-  "Annotate NOTE with its incoming id-link count from COUNTS.
-COUNTS is the table returned by `vulpea-db-query-backlink-counts'.  The
-count is appended to vulpea's default annotation (tags and aliases)."
-  (concat (vulpea-select-annotate note)
-          (format "  %d↩" (gethash (vulpea-note-id note) counts 0))))
-
-(defmacro my-vulpea--with-backlink-annotations (&rest body)
-  "Run BODY with the vulpea selection annotated by global id backlink counts."
-  `(let ((vulpea-select-dyncontext-fn
-          (lambda (_notes) (vulpea-db-query-backlink-counts "id")))
-         (vulpea-select-annotate-fn #'my-vulpea--annotate-with-backlinks))
-     ,@body))
-
 (defun my-vulpea--find (filter-fn make-fn)
   "Select and visit a note accepted by FILTER-FN, creating it with MAKE-FN.
 MAKE-FN takes the new note's title and returns a `vulpea-note'."
-  (my-vulpea--with-backlink-annotations
-   (vulpea-find
-    :filter-fn filter-fn
-    :create-fn (lambda (title _props) (funcall make-fn title)))))
+  (vulpea-find
+   :filter-fn filter-fn
+   :create-fn (lambda (title _props) (funcall make-fn title))))
 
 (defun my-vulpea--insert (filter-fn make-fn)
   "Insert a link to a note accepted by FILTER-FN, creating it with MAKE-FN.
 MAKE-FN takes the new note's title and returns a `vulpea-note'."
-  (my-vulpea--with-backlink-annotations
-   (vulpea-insert
-    :filter-fn filter-fn
-    :note-fn (lambda (title _props) (funcall make-fn title)))))
+  (vulpea-insert
+   :filter-fn filter-fn
+   :note-fn (lambda (title _props) (funcall make-fn title))))
 
 (defun my-vulpea--create-person-note (name &optional tags)
   "Create a person note for NAME with extra TAGS in the personal vault."
