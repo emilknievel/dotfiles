@@ -384,7 +384,7 @@ does nothing."
 (show-paren-mode 1)
 (electric-pair-mode 1)
 
-(set-default 'sentence-end-double-space nil)
+(setq-default sentence-end-double-space nil)
 
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)

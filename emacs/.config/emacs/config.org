@@ -712,7 +712,7 @@ Repeat commands by typing a single character.
 *** Sentences
 
 #+begin_src emacs-lisp
-  (set-default 'sentence-end-double-space nil)
+  (setq-default sentence-end-double-space nil)
 #+end_src
 
 *** Case conversion (DWIM)
