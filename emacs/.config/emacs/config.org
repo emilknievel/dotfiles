@@ -124,6 +124,8 @@ Monday as first day of the week.
 
 *** Import shell environment
 
+Get environment variables such as =$PATH= from the shell.
+
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :ensure t
@@ -138,6 +140,8 @@ Monday as first day of the week.
 #+end_src
 
 *** Emacs-local environment
+
+Set =$LANG= here rather than importing it, since the shell doesn't reliably have it. Subprocesses then emit English, UTF-8 output, which the regexp-based parsers in Emacs depend on.
 
 #+begin_src emacs-lisp
   (setenv "LANG" "en_US.UTF-8")
