@@ -2314,6 +2314,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-clock-out-remove-zero-time-clocks t)
   ;; Include the currently clocking task in clock reports.
   (org-clock-report-include-clocking-task t)
+  ;; Display clocked in task in both mode line and frame title bar
+  (org-clock-clocked-in-display 'both)
 
   (org-reverse-note-order t)
 

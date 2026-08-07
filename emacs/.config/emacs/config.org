@@ -3345,6 +3345,8 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     (org-clock-out-remove-zero-time-clocks t)
     ;; Include the currently clocking task in clock reports.
     (org-clock-report-include-clocking-task t)
+    ;; Display clocked in task in both mode line and frame title bar
+    (org-clock-clocked-in-display 'both)
 
     (org-reverse-note-order t)
 
