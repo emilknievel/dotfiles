@@ -422,12 +422,6 @@ does nothing."
   (my-leader-keys
     "t w" 'my-toggle-show-trailing-whitespace))
 
-;; (use-package expand-region
-;;   :ensure t
-;;   :after general
-;;   :bind (("C-=" . er/expand-region)
-;;          ("C--" . er/contract-region)))
-
 ;; https://emacsredux.com/blog/2026/03/03/expreg-expand-region-reborn/
 (use-package expreg
   :ensure t
