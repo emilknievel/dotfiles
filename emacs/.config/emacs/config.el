@@ -899,7 +899,7 @@ When nil, Emacs uses its native default (\"Sans Serif\")."
   :group 'faces)
 
 ;; Size variables, recomputed from the active mono font by
-;; `my-refresh-font-metrics' (narrow fonts get a small size bump).  The
+;; `my-refresh-font-metrics' (narrow fonts get a small size bump). The
 ;; bump is a property of the mono font, so it is folded into these
 ;; heights only; `my-variable-pitch-height' takes it back out again.
 (defvar my-active-font-narrow-p nil
@@ -933,7 +933,7 @@ rendered too small."
 
 (defun my-variable-pitch-height (mono-height)
   "Return the variable-pitch height paired with MONO-HEIGHT.
-The +10 keeps proportional text level with the mono font.  The narrow
+The +10 keeps proportional text level with the mono font. The narrow
 bump is undone: it compensates for a narrow mono font, and applying it
 to a proportional font only makes that font too big."
   (- (+ mono-height 10) my-font-offset))
@@ -1503,14 +1503,14 @@ its input."
       `(orderless-literal . ,(substring pattern 0 -1))))
 
   (defun prot-orderless-strict-initialism-dispatcher (pattern _index _total)
-    "Leading initialism  dispatcher using the comma suffix.
+    "Leading initialism dispatcher using the comma suffix.
 It matches PATTERN _INDEX and _TOTAL according to how Orderless parses
 its input."
     (when (string-suffix-p "," pattern)
       `(orderless-strict-initialism . ,(substring pattern 0 -1))))
 
   (defun prot-orderless-flex-dispatcher (pattern _index _total)
-    "Flex  dispatcher using the tilde suffix.
+    "Flex dispatcher using the tilde suffix.
 It matches PATTERN _INDEX and _TOTAL according to how Orderless parses
 its input."
     (when (string-suffix-p "." pattern)
@@ -2193,7 +2193,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   :init
 
   ;; Tweak the register preview for `consult-register-load',
-  ;; `consult-register-store' and the built-in commands.  This improves the
+  ;; `consult-register-store' and the built-in commands. This improves the
   ;; register formatting, adds thin separator lines, register sorting and hides
   ;; the window mode line.
   (advice-add #'register-preview :override #'consult-register-window)
@@ -2858,7 +2858,7 @@ With a prefix argument, prompt for the date first."
   (add-hook 'before-save-hook #'my-vulpea-todo-update-tag)
   (advice-add 'org-agenda :before #'my-vulpea-agenda-files-update)
   ;; Rebuilding from inside the agenda must see notes that gained a TODO
-  ;; since it was opened.  `org-agenda-redo-all' (g) delegates to this.
+  ;; since it was opened. `org-agenda-redo-all' (g) delegates to this.
   (advice-add 'org-agenda-redo :before #'my-vulpea-agenda-files-update)
   (advice-add 'org-id-find-id-file :around #'my-vulpea-org-id-find-file)
   (vulpea-db-autosync-mode +1)
@@ -2976,7 +2976,7 @@ aborting the capture does not leave an empty note behind.")
   "Delete the note created for the current capture when it is aborted.
 `vulpea-create' writes the note file as soon as the capture target is
 resolved, so aborting with `C-c C-k' would otherwise leave an empty
-note behind.  `vulpea-db-autosync-mode' prunes the database itself
+note behind. `vulpea-db-autosync-mode' prunes the database itself
 once the file is gone."
   (let ((note my-vulpea-capture--new-note))
     (setq my-vulpea-capture--new-note nil)
