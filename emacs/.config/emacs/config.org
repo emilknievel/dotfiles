@@ -1075,16 +1075,20 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
       (load-theme theme t)
       (mapc #'disable-theme (remq theme custom-enabled-themes))))
 
+  (defun my-theme-variants (base)
+    "Return available themes whose names start with BASE."
+    (seq-filter (lambda (theme)
+                  (string-prefix-p base (symbol-name theme)))
+                (custom-available-themes)))
+
   (defun my-load-theme-variant (base)
     "Load a theme, prompting for one whose name starts with BASE.
   Useful for theme families that ship several related variants under a
   common prefix (modus, catppuccin, ...)."
-    (let ((variants (seq-filter (lambda (theme)
-                                  (string-prefix-p base (symbol-name theme)))
-                                (custom-available-themes))))
-      (my-load-theme (intern (completing-read (format "%s variant: " base)
-                                              (mapcar #'symbol-name variants)
-                                              nil t)))))
+    (my-load-theme (intern (completing-read
+                            (format "%s variant: " base)
+                            (mapcar #'symbol-name (my-theme-variants base))
+                            nil t))))
 
   (defun my-load-theme-in-all-frames (frame)
     "Load the current theme in the newly created FRAME.
@@ -1304,12 +1308,30 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
       "Clear previous theme and load zenburn."
       (interactive)
       (my-load-theme 'doom-zenburn))
+
+    ;; NOTE: These two lack a `lexical-binding' cookie upstream and warn on
+    ;; load. Re-check and unskip with:
+    ;;   grep -L lexical-binding ~/.config/emacs/elpaca/builds/doom-themes/*-theme.el
+    (defconst my-doom-theme-exclusions '(doom-earl-grey doom-nord-aurora)
+      "Doom themes excluded from `my-load-random-doom-theme'.")
+
+    (defun my-load-random-doom-theme ()
+      "Load a random doom theme."
+      (interactive)
+      ;; TODO: Drop this `seq-difference' and `my-doom-theme-exclusions' once
+      ;; upstream ships the cookies.
+      (let ((theme (seq-random-elt
+                    (seq-difference (my-theme-variants "doom-")
+                                    my-doom-theme-exclusions))))
+        (my-load-theme theme)
+        (message "Loaded theme `%s'" theme)))
     :config
     (doom-themes-org-config)
     :general (my-leader-keys
                "t t d" 'my-doom-one
                "t t g" 'my-toggle-gruvbox
-               "t t z" 'my-zenburn))
+               "t t z" 'my-zenburn
+               "t t r" 'my-load-random-doom-theme))
 #+end_src
 
 **** Acme theme
