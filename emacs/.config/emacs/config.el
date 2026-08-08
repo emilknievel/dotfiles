@@ -2382,6 +2382,13 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   ;; Only display grouped sub/-superscripts (surrounded by `{}')
   (org-use-sub-superscripts '{})
 
+  ;; The `todo' filetag is agenda bookkeeping; headings should not inherit it.
+  ;; `todo' marks a file for the dynamic agenda, not the headings inside it.
+  ;; Only `my-vulpea-todo-update-tag' writes `todo'; no heading ever means it.
+  ;; It's strictly a mechanical filetag, not something a heading claims about
+  ;; itself.
+  (org-tags-exclude-from-inheritance '("todo"))
+
   :config
   ;; Install the hooks that save/restore the clock per `org-clock-persist'.
   (org-clock-persistence-insinuate)
