@@ -3359,6 +3359,8 @@ build."
 
 (use-package agent-shell
   :ensure t
+  :custom
+  (agent-shell-header-style 'text)
   :config
   (setq agent-shell-session-strategy 'prompt
         agent-shell-session-restore-verbosity 'full
