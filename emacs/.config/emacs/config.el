@@ -231,6 +231,9 @@ Example usage: (get-auth-keyword \"test\" :secret)"
 
 (use-package meow
   :ensure t
+  :demand t
+  :hook ((view-mode-on . meow-motion-mode)
+         (view-mode-off . meow-normal-mode))
   :init
   (defun meow-setup ()
     (setopt meow-replace-state-name-list '((normal . "<N>")
