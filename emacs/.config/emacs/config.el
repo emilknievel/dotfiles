@@ -2322,7 +2322,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-startup-folded 'showall) ; Show content but respect `:VISIBILITY:' props.
   ;; (org-M-RET-may-split-line '((default . nil)))
 
-  (org-log-done 'note)
+  (org-log-done 'time)
   (org-log-into-drawer t)
   (org-log-refile 'note)
 
@@ -2400,7 +2400,7 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   (org-refile-use-cache nil)
 
   (org-todo-keywords
-   '((sequence "TODO(t)" "PROG(p!)" "WAIT(w@/!)" "|" "DONE(d!)" "CANX(c@/!)")))
+   '((sequence "TODO(t)" "PROG(p!)" "WAIT(w@/!)" "|" "DONE(d@)" "CANX(c@)")))
 
   (org-preview-latex-default-process 'dvisvgm)
 
