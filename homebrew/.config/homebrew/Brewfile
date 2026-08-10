@@ -1,200 +1,92 @@
-tap "acsandmann/tap"
-tap "azure/kubelogin"
-tap "barutsrb/tap"
-tap "d12frosted/emacs-plus"
-tap "felixkratz/formulae"
-tap "homeport/tap"
-tap "ibm/iaccess", "https://public.dhe.ibm.com/software/ibmi/products/odbc/macos/tap/"
-tap "jandedobbeleer/oh-my-posh"
-tap "nikitabobko/tap"
-brew "aspell"
-brew "autoconf"
-brew "automake"
+tap "azure/kubelogin", "https://github.com/Azure/homebrew-kubelogin", trusted: true
+tap "d12frosted/emacs-plus", trusted: true
+tap "getsentry/tools"
+tap "nikitabobko/tap", trusted: { casks: ["aerospace"] }
+# Microsoft Azure CLI 2.0
 brew "azure-cli"
+# Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
+# Programmable completion for Bash 4.2+
 brew "bash-completion@2"
-brew "coreutils"
-brew "bats-core"
-brew "biome"
-brew "btop"
-brew "chafa"
-brew "container", link: false
+# Create and run Linux containers using lightweight virtual machines
+brew "container"
+# Manage Apple Container with Docker Compose files
 brew "container-compose"
-brew "direnv"
-brew "dstp"
-brew "durdraw"
-brew "exercism"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
+# Simple, fast and user-friendly alternative to find
 brew "fd"
-brew "ffmpeg"
+# Monitor a directory for changes and run a shell command
 brew "fswatch"
+# GNU awk utility
 brew "gawk"
-brew "gdb"
-brew "gh"
-brew "git"
-brew "gitu"
-brew "glow"
-brew "glyph"
-brew "gnupg"
+# Open source programming language to build simple/reliable/efficient software
 brew "go"
-brew "gpg-tui"
-brew "helix"
+# Kubernetes package manager
 brew "helm"
-brew "ijq"
+# Convert Kubernetes Ingress resources to Kubernetes Gateway API resources
 brew "ingress2gateway"
-brew "jj"
-brew "jo"
+# Lightweight and flexible command-line JSON processor
 brew "jq"
+# Modern load testing tool, using Go and JavaScript
+brew "k6"
+# Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
-brew "kakoune"
+# Kubernetes testing according to Hardening Guidance by NSA and CISA
 brew "kubescape"
-brew "lazyjournal"
-brew "luarocks"
-brew "mas"
-brew "mermaid-cli"
-brew "neovim"
+# Linux virtual machines
+brew "lima"
+# Port scanning utility for large networks
 brew "nmap"
-brew "pandoc"
-brew "pastel"
-brew "pinentry-mac"
-brew "pipenv"
-brew "pkgconf"
-brew "plantuml"
-brew "poppler"
-brew "prettier"
-brew "python-setuptools"
+# Generic machine emulator and virtualizer
+brew "qemu"
+# Search tool like grep and The Silver Searcher
 brew "ripgrep"
-brew "sdcv"
-brew "senpai"
+# Static analysis and lint tool, for (ba)sh scripts
 brew "shellcheck"
-brew "sherlock"
-brew "sl"
+# Autoformat shell script source code
+brew "shfmt"
+# Scans and monitors projects for security vulnerabilities
 brew "snyk-cli"
+# Tail multiple Kubernetes pods & their containers
 brew "stern"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# Very fast implementation of tldr in Rust
 brew "tealdeer"
-brew "telnet"
-brew "tree"
+# Find and verify credentials
 brew "trufflehog"
-brew "unixodbc"
-brew "uv"
-brew "vale"
+# Executes a program periodically, showing output fullscreen
 brew "watch"
-brew "wget"
-brew "wireshark", link: false
-brew "xdg-ninja", args: ["HEAD"]
-brew "yq"
-brew "zoxide"
+# Network analyzer and capture tool - without graphical user interface
+brew "wireshark"
+# GNU Emacs text editor
 brew "d12frosted/emacs-plus/emacs-plus@31", args: ["with-xwidgets"]
-brew "homeport/tap/dyff"
+# Sentry command-line tool for error monitoring and debugging
+brew "getsentry/tools/sentry", trusted: true
+# Application launcher and productivity software
 cask "alfred"
-cask "anki"
+# Display management tool
 cask "betterdisplay"
+# Utility improving 3rd party mouse performance and functionalities
 cask "bettermouse"
-cask "bitwarden"
+# Web browser focusing on privacy
+cask "brave-browser"
+# Web security testing toolkit
 cask "burp-suite"
-cask "calibre"
-cask "container"
-cask "corelocationcli"
-cask "dbeaver-community"
-cask "diskspace"
+# App to build and share containerised applications and microservices
 cask "docker-desktop"
-cask "equinox"
-cask "firefox@developer-edition"
-cask "font-inter"
-cask "font-iosevka-ss14"
 cask "font-jetbrains-mono"
-cask "font-jetbrains-mono-nerd-font"
+cask "font-meslo-lg-nerd-font"
+cask "font-source-code-pro"
 cask "font-symbols-only-nerd-font"
-cask "forklift"
-cask "ghostty"
-cask "gpg-suite"
-cask "grandperspective"
-cask "gstreamer-runtime"
-cask "hyperkey"
-cask "ibm/iaccess/ibm-iaccess"
-cask "iina"
-cask "iterm2"
-cask "keyboardcleantool"
-cask "little-snitch"
-cask "mactex"
-cask "microsoft-remote-desktop"
-cask "netnewswire"
-cask "raindropio"
-cask "rectangle-pro"
-cask "rider"
+# Real time file synchronisation software
 cask "syncthing-app"
-cask "tailscale-app"
-cask "transmit"
-cask "vesktop"
-cask "visual-studio-code"
-cask "wireshark-app"
-mas "Amphetamine", id: 937984704
-mas "Balance Lock", id: 1019371109
-mas "Barbee", id: 1548711022
-mas "Consent-O-Matic", id: 1606897889
-mas "DeArrow", id: 6451469297
-mas "Developer", id: 640199958
-mas "Hand Mirror", id: 1502839586
-mas "Ivory", id: 6444602274
-mas "Kagi for Safari", id: 1622835804
-mas "Kagi News", id: 6748314243
-mas "Kagi Translate for Safari", id: 0
-mas "LocalSend", id: 1661733229
-mas "Paprika Recipe Manager 3", id: 1303222628
-mas "ReadKit", id: 1615798039
-mas "Save to Raindrop.io", id: 1549370672
-mas "Slack", id: 803453959
-mas "SponsorBlock", id: 1573461917
-mas "StopTheMadness Pro", id: 6471380298
-mas "TestFlight", id: 899247664
-mas "Userscripts", id: 1463298887
-mas "Wallabag QuickSave", id: 1621482657
-mas "Wallaroo", id: 1630565980
-mas "wBlock", id: 6746388723
-mas "Xcode", id: 497799835
-mas "Yesterday For Old Reddit", id: 1603279883
-vscode "anthropic.claude-code"
-vscode "bierner.markdown-checkbox"
-vscode "biomejs.biome"
-vscode "charliermarsh.ruff"
-vscode "editorconfig.editorconfig"
-vscode "github.copilot-chat"
-vscode "github.remotehub"
-vscode "ionide.ionide-fsharp"
-vscode "mikestead.dotenv"
-vscode "ms-azure-devops.azure-pipelines"
-vscode "ms-azure-load-testing.microsoft-testing"
-vscode "ms-azuretools.azure-dev"
-vscode "ms-azuretools.vscode-azure-github-copilot"
-vscode "ms-azuretools.vscode-azure-mcp-server"
-vscode "ms-azuretools.vscode-azureappservice"
-vscode "ms-azuretools.vscode-azurecontainerapps"
-vscode "ms-azuretools.vscode-azurefunctions"
-vscode "ms-azuretools.vscode-azureresourcegroups"
-vscode "ms-azuretools.vscode-azurestaticwebapps"
-vscode "ms-azuretools.vscode-azurestorage"
-vscode "ms-azuretools.vscode-azurevirtualmachines"
-vscode "ms-azuretools.vscode-containers"
-vscode "ms-azuretools.vscode-cosmosdb"
-vscode "ms-azuretools.vscode-docker"
-vscode "ms-azuretools.vscode-documentdb"
-vscode "ms-dotnettools.csdevkit"
-vscode "ms-dotnettools.csharp"
-vscode "ms-dotnettools.vscode-dotnet-runtime"
-vscode "ms-kubernetes-tools.vscode-kubernetes-tools"
-vscode "ms-python.debugpy"
-vscode "ms-python.python"
-vscode "ms-python.vscode-pylance"
-vscode "ms-python.vscode-python-envs"
-vscode "ms-toolsai.datawrangler"
-vscode "ms-vscode-remote.remote-containers"
-vscode "ms-vscode.azure-repos"
-vscode "ms-vscode.remote-repositories"
-vscode "ms-vscode.vscode-node-azure-pack"
-vscode "ms-windows-ai-studio.windows-ai-studio"
-vscode "redhat.vscode-yaml"
-vscode "sonarsource.sonarlint-vscode"
-vscode "vscodevim.vim"
+cargo "mat-sciencepark"
 cargo "rustlings"
 cargo "txtv"
 uv "kobodl"
+uv "rassumfrassum"
+npm "@agentclientprotocol/claude-agent-acp"
+npm "typescript-language-server"
+npm "typescript"
