@@ -549,7 +549,7 @@ does nothing."
     :ensure t
     :demand t
     :config (ns-auto-titlebar-mode))
-  (setq-default ns-use-proxy-icon nil
+  (setq-default ns-use-proxy-icon t
                 ns-use-mwheel-momentum t
                 ns-use-mwheel-acceleration t
                 ns-use-thin-smoothing t
@@ -557,8 +557,7 @@ does nothing."
                 mac-command-modifier 'meta
                 mac-right-command-modifier 'meta
                 mac-option-modifier 'none
-                mac-control-modifier 'control
-                frame-title-format ""))
+                mac-control-modifier 'control))
 
 (when (getenv "WSL_DISTRO_NAME")
   (defun copy-selected-text (start end)
