@@ -9,6 +9,11 @@ if [[ ! $- == *i* ]]; then
 fi
 
 # shellcheck source=/dev/null
+# XCode's bundled Git doesn't automatically wire completion so we need to do it
+# manually
+source "/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash"
+
+# shellcheck source=/dev/null
 [[ -r "/etc/bashrc_$TERM_PROGRAM" ]] && source "/etc/bashrc_$TERM_PROGRAM"
 
 # change lang to en_US but keep encoding
