@@ -40,9 +40,6 @@ done
 
 unset rc
 
-command -v vim >/dev/null 2>&1 && alias vi=vim && export EDITOR=vim
-command -v nvim >/dev/null 2>&1 && alias vi=nvim && export EDITOR=nvim
-
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
 
@@ -65,18 +62,6 @@ alias luamake="~/tools/lua/lua-language-server/3rd/luamake/luamake"
 # shellcheck source=/dev/null
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
 	source "$EAT_SHELL_INTEGRATION_DIR/bash"
-
-if [[ -x "$(command -v zoxide)" ]]; then
-	eval "$(zoxide init bash)"
-else
-	printf "WARNING: zoxide not found!"
-fi
-
-if [[ -x "$(command -v direnv)" ]]; then
-	eval "$(direnv hook bash)"
-else
-	printf "WARNING: direnv not found!"
-fi
 
 # New shells can inherit mise-managed tool paths from parent processes such as
 # Emacs/Ghostel. Strip those entries before activation so mise rebuilds PATH in
