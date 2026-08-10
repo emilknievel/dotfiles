@@ -1,3 +1,13 @@
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin()
+Plug 'tpope/vim-sensible'    " Sane defaults (scrolloff, incsearch, etc.)
+Plug 'tpope/vim-commentary'  " gcc / gc<motion> to comment
+call plug#end()
+
 syntax on
 nnoremap U <C-R>
 filetype plugin indent on
@@ -7,17 +17,7 @@ set tabstop     =8
 set softtabstop =4
 set shiftwidth  =4
 set expandtab
-"Note: Explicitly enter a <Tab> character with <Ctrl> + v <Tab>
+"Note: Explicitly enter a <Tab> character with <Ctrl-V><Tab>
 
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin()
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
-call plug#end()
+set directory=$HOME/.vim/swap//
+silent !mkdir -p $HOME/.vim/swap
