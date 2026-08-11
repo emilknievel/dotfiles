@@ -3444,6 +3444,8 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     ;; itself.
     (org-tags-exclude-from-inheritance '("todo"))
 
+    (org-attach-use-inheritance t)
+
     :config
     ;; Install the hooks that save/restore the clock per `org-clock-persist'.
     (org-clock-persistence-insinuate)

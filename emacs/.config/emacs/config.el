@@ -2413,6 +2413,8 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
   ;; itself.
   (org-tags-exclude-from-inheritance '("todo"))
 
+  (org-attach-use-inheritance t)
+
   :config
   ;; Install the hooks that save/restore the clock per `org-clock-persist'.
   (org-clock-persistence-insinuate)
