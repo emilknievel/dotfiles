@@ -2399,8 +2399,11 @@ Use the ELPA version instead of the one bundled with Emacs. Its newer ~eldoc~/~j
     :general (my-leader-keys "c a" 'eglot-code-actions)
     :custom
     (eglot-autoshutdown t)
+
     (eglot-ignored-server-capabilities '(:inlayHintProvider
-                                         :documentOnTypeFormattingProvider))
+                                         :documentOnTypeFormattingProvider
+                                         :semanticTokensProvider))
+
     (eglot-documentation-renderer 'markdown-ts-view-mode)
     (eglot-code-action-indications nil))
 #+end_src
@@ -2427,10 +2430,10 @@ Highlight symbols according to their semantic meaning.
             treesit-enabled-modes t))
 #+end_src
 
-**** Lower font lock level to reduce the fruit salad (disabled)
+**** Lower font lock level to get rid of the angry fruit salad
 
-#+begin_src emacs-lisp :tangle no
-  (setopt treesit-font-lock-level 2) ; default: 3
+#+begin_src emacs-lisp
+  (setopt treesit-font-lock-level 2)      ; default: 3
 #+end_src
 
 **** Use tree-sitter for some Org-babel blocks

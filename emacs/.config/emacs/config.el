@@ -1693,8 +1693,11 @@ its input."
   :general (my-leader-keys "c a" 'eglot-code-actions)
   :custom
   (eglot-autoshutdown t)
+
   (eglot-ignored-server-capabilities '(:inlayHintProvider
-                                       :documentOnTypeFormattingProvider))
+                                       :documentOnTypeFormattingProvider
+                                       :semanticTokensProvider))
+
   (eglot-documentation-renderer 'markdown-ts-view-mode)
   (eglot-code-action-indications nil))
 
@@ -1703,6 +1706,8 @@ its input."
 (when (>= emacs-major-version 31)
   (setopt treesit-auto-install-grammar 'ask
           treesit-enabled-modes t))
+
+(setopt treesit-font-lock-level 2)      ; default: 3
 
 (defconst my-org-babel-treesit-langs
   '(
