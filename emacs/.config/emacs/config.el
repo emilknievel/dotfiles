@@ -2132,14 +2132,6 @@ This command requires that pandoc (man page `pandoc(1)') be installed."
      (t (eshell/cd (if regexp (eshell-find-previous-directory regexp)
                      (completing-read "cd: " eshell-dirs)))))))
 
-(use-package zoxide
-  :ensure t
-  :after general
-  :hook (dired-mode . zoxide-add)
-  :general
-  (my-leader-keys
-    "d z" '(zoxide-travel :wk "Find directory with Zoxide")))
-
 (setopt delete-by-moving-to-trash t)
 
 (use-package editorconfig
