@@ -2,9 +2,8 @@
 
 ;;; Commentary:
 
-;; Set up early startup behavior, bootstrap Elpaca, install packages needed
-;; before the main configuration, load the literate config, then finally load
-;; any machine-specific configs from `~/.private.el'.
+;; Bootstrap Elpaca, install packages needed before the main configuration,
+;; then load the literate config.
 
 ;;; Code:
 
@@ -109,9 +108,3 @@
 
 (put 'upcase-region 'disabled nil)
 (load-file (expand-file-name "lisp/journelly.el" user-emacs-directory))
-
-;; Load private config for machine-local and/or secret settings.
-(let ((private-file (expand-file-name "~/.private.el")))
-  (if (file-exists-p private-file)
-      (load-file private-file)
-    (warn "Unable to find file %s" private-file)))
