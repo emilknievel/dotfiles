@@ -2440,10 +2440,16 @@ Highlight symbols according to their semantic meaning.
             treesit-enabled-modes t))
 #+end_src
 
-**** Lower font lock level to get rid of the angry fruit salad
+**** Lower font lock level to get rid of the angry fruit salad (disabled)
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle no
+:END:
+
+Level 2 in code buffers, but markdown keeps level 3: =markdown-ts-mode= puts inline code spans, emphasis, bold and links in its third feature group (=paragraph-inline=), so level 2 leaves all inline markup unfontified.
 
 #+begin_src emacs-lisp
-  (setopt treesit-font-lock-level 2)      ; default: 3
+  (setopt treesit-font-lock-level '((markdown-ts-mode . 3)
+                                    (t . 2)))   ; default: 3
 #+end_src
 
 **** Use tree-sitter for some Org-babel blocks

@@ -1572,8 +1572,6 @@ its input."
   (setopt treesit-auto-install-grammar 'ask
           treesit-enabled-modes t))
 
-(setopt treesit-font-lock-level 2)      ; default: 3
-
 (defconst my-org-babel-treesit-langs
   '(
     ("bash" . bash-ts)
