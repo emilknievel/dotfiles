@@ -50,10 +50,4 @@
 ;; Load dark theme early to prevent flashbang when launching Emacs.
 (load-theme 'wombat t)
 
-;; Load private config for machine-local and/or secret settings.
-(let ((private-file (expand-file-name "~/.private.el")))
-  (if (file-exists-p private-file)
-      (load-file private-file)
-    (warn "Unable to find file %s" private-file)))
-
 ;;; early-init.el ends here
