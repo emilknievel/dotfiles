@@ -42,15 +42,19 @@ To stow all packages at once:
   cd ~/.dotfiles && stow aerospace bash emacs ghostty git helix homebrew pi tmux vim
 #+end_src
 
-Not every top-level directory in this repo is a Stow package. Directories such as =TODOs/= and =styles/= are repo-local and should not be passed to Stow.
-
 Each package's directory structure is mirrored as symlinks in =~=.
+
+Every top-level directory in this repo is a Stow package. Packages that also carry repo-local files, such as =pi/README.md=, exclude them from stowing with a =.stow-local-ignore= file in the package root.
+
+** Bash
+
+=.bashrc= sources every =*.bash= file in =~/.bashrc.d/=, and then every =*.bash= file in =~/.bashrc.d/private/=. Only the =private/= directory itself is tracked; its contents are ignored, so machine-local or sensitive shell configuration goes there.
 
 ** Emacs
 
-The Emacs package loads a private file from =~/.private.el= during =early-init.el=. Keep machine-local or sensitive configuration there instead of tracking it in this repository.
+The Emacs package loads a private file from =~/.private.el= at the end of =early-init.el=, before Elpaca is bootstrapped and before the main configuration. Keep machine-local or sensitive configuration there instead of tracking it in this repository.
 
-Because the file is loaded before the main Emacs configuration, package-specific customization should usually be wrapped in =with-eval-after-load=:
+Loading it there means it can override everything =early-init.el= sets, such as =default-frame-alist= or the pre-theme, and that the rest of the configuration can read values defined there, such as secrets or host-specific paths. The tradeoff is that the main configuration runs afterwards and is free to overwrite them, so package-specific customization should usually be wrapped in =with-eval-after-load=:
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'some-package
@@ -58,17 +62,16 @@ Because the file is loaded before the main Emacs configuration, package-specific
     )
 #+end_src
 
-*** Tangling and compilation
+*** Tangling
 
-=emacs/.config/emacs/config.org= is the source of truth for the main Emacs configuration. It tangles to =config.el=, which is generated and should not be edited directly.
+=emacs/.config/emacs/config.org= is the source of truth for the main Emacs configuration. It tangles to =config.el=, which is generated, untracked, and should not be edited directly.
 
-During startup, =init.el= chooses the freshest usable config in this order:
+During startup, =init.el= loads =config.el= when it is newer than =config.org=. Otherwise it tangles =config.org= and loads the result.
 
-- load =config.elc= when it is newer than both =config.el= and =config.org=
-- load =config.el= when it is newer than =config.org=
-- otherwise tangle =config.org=, byte-compile the result, and load =config.elc=
+Two commands are bound under the =C-,= leader for editing the config:
 
-Manual tangles also keep bytecode current. An ~org-babel-tangle-finished-hook~ compiles =config.el= after tangling =config.org=, so ~org-babel-tangle~ and ~my-compile-emacs-config~ both update =config.elc=.
+- =f c f= — ~my-edit-emacs-config~ opens =config.org=
+- =f c r= — ~my-reload-emacs-config~ tangles =config.org= and reloads =config.el=
 
 ** Homebrew
 
@@ -109,7 +112,7 @@ Homebrew natively reads =~/.config/brew-aliases/= for alias scripts. The files i
 
 *** brew visit
 
-=brew visit <package>= opens the first URL from =brew info <package>= in your browser. It is an [[https://docs.brew.sh/External-Commands][external brew command]] picked up automatically from =~/.local/bin/= (which is in =PATH= via =macos.sh=).
+=brew visit <package>= opens the first URL from =brew info <package>= in your browser. It is an [[https://docs.brew.sh/External-Commands][external brew command]] picked up automatically from =~/.local/bin/= (which is added to =PATH= in =.bashrc=).
 
 *** brew needs-sudo
 
