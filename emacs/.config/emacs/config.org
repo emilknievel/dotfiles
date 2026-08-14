@@ -1,5 +1,5 @@
 :DOC-CONFIG:
-#+PROPERTY: header-args:emacs-lisp :tangle (concat (file-name-sans-extension (buffer-file-name)) ".el")
+#+PROPERTY: header-args:emacs-lisp :tangle (expand-file-name "config.el" user-emacs-directory)
 #+PROPERTY: header-args :mkdirp yes :comments no
 #+STARTUP: overview
 :END:
