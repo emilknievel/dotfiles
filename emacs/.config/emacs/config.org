@@ -1195,7 +1195,7 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
     (my-leader-keys "t t m v" 'my-modus-vivendi))
 #+end_src
 
-**** Modus nordic
+***** Modus nordic
 
 #+begin_src emacs-lisp
   (use-package modus-nordic-night-theme
@@ -1211,6 +1211,13 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
     :general
     (my-leader-keys "t t n n" 'my-modus-nordic-night)
     (my-leader-keys "t t n m" 'my-modus-nordic-midnight))
+#+end_src
+
+***** Modus Vague
+
+#+begin_src emacs-lisp
+  (use-package modus-vague
+    :ensure (:host github :repo "paniash/modus-vague"))
 #+end_src
 
 **** Ef themes

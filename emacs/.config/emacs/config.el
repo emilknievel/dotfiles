@@ -584,6 +584,9 @@ painted early in the modus `:init')."
   (my-leader-keys "t t n n" 'my-modus-nordic-night)
   (my-leader-keys "t t n m" 'my-modus-nordic-midnight))
 
+(use-package modus-vague
+  :ensure (:host github :repo "paniash/modus-vague"))
+
 (use-package ef-themes
   :ensure t
   :init
