@@ -4,10 +4,10 @@
  * Asks for confirmation before running potentially destructive bash commands,
  * and blocks them outright when there is no UI to ask (print/json modes).
  *
- * Tuned copy of the upstream example (examples/extensions/permission-gate.ts)
- * with additional git/docker patterns. These are heuristics — a seatbelt for
- * accidents and obvious prompt-injection weirdness, not a sandbox. The agent
- * can still bypass pattern matching (e.g. write a script, then run it).
+ * Tuned copy of the upstream example (examples/extensions/permission-gate.ts),
+ * broadened for polyglot/multi-repo work. These are heuristics — a seatbelt
+ * for accidents and obvious prompt-injection weirdness, not a sandbox. The
+ * agent can still bypass pattern matching (e.g. write a script, then run it).
  *
  * Hot-reload changes with /reload.
  */
@@ -36,12 +36,83 @@ const rules: { name: string; pattern: RegExp }[] = [
 		name: "force-delete branch",
 		pattern: /\bgit\s+branch\b[^|;&]*\s(-D\b|--delete-force\b)/,
 	},
+	// --staged is safe (index only); anything else discards worktree changes
+	{
+		name: "git restore (worktree)",
+		pattern: /\bgit\s+restore\b(?![^|;&]*--staged)/,
+	},
+	{
+		name: "git checkout -- discard",
+		pattern: /\bgit\s+checkout\b[^|;&]*(\s--(?!\s*-b)\s|\s\.(\s|$)|\s--$)/,
+	},
+	{
+		name: "git stash drop/clear",
+		pattern: /\bgit\s+stash\b[^|;&]*\b(drop|clear)\b/,
+	},
+	{ name: "git filter-branch", pattern: /\bgit\s+filter-branch\b/ },
+	{ name: "git reflog expire", pattern: /\bgit\s+reflog\b[^|;&]*expire/ },
+	{ name: "git push --mirror", pattern: /\bgit\s+push\b[^|;&]*--mirror/ },
 
 	// remote code execution
 	{
 		name: "curl|wget piped to shell",
 		pattern: /\b(curl|wget)\b[^|]*\|\s*(sudo\s+)?(ba|z|fi)?sh\b/,
 	},
+
+	// deletion via find/xargs (bypasses the rm rules)
+	{ name: "find -delete", pattern: /\bfind\b[^|;&]*\s-delete\b/ },
+	{ name: "xargs rm", pattern: /\bxargs\b[^|;&]*\brm\b/ },
+
+	// docker
+	{
+		name: "docker prune",
+		pattern:
+			/\bdocker\s+(system|volume|image|container|builder|network)\s+prune\b/,
+	},
+	{
+		name: "docker compose down -v",
+		pattern: /\bdocker(-compose)?\s+compose\s+down\b[^|;&]*(-v\b|--volumes\b)/,
+	},
+	{
+		name: "docker-compose down -v",
+		pattern: /\bdocker-compose\s+down\b[^|;&]*(-v\b|--volumes\b)/,
+	},
+	{ name: "docker volume rm", pattern: /\bdocker\s+volume\s+rm\b/ },
+
+	// databases
+	{ name: "dropdb", pattern: /\bdropdb\b/ },
+	{ name: "DROP DATABASE/SCHEMA", pattern: /\bDROP\s+(DATABASE|SCHEMA)\b/i },
+	{ name: "TRUNCATE TABLE", pattern: /\bTRUNCATE\s+TABLE\b/i },
+	{
+		name: "redis FLUSHALL/FLUSHDB",
+		pattern: /\bredis-cli\b[^|;&]*FLUSH(ALL|DB)/,
+	},
+	{ name: "mongo dropDatabase", pattern: /\bdb\.dropDatabase\s*\(/ },
+	{ name: "rails db drop/reset", pattern: /\brails\s+db:(drop|reset)\b/ },
+	{
+		name: "laravel db wipe/fresh",
+		pattern: /\bartisan\s+(migrate:fresh|db:wipe)\b/,
+	},
+	{ name: "django flush", pattern: /\bmanage\.py\s+flush\b/ },
+	{ name: "prisma migrate reset", pattern: /\bprisma\s+migrate\s+reset\b/ },
+	{
+		name: "doctrine database drop",
+		pattern: /\bdoctrine:database:drop\b/,
+	},
+
+	// infra
+	{ name: "terraform destroy", pattern: /\bterraform\b[^|;&]*\bdestroy\b/ },
+	{ name: "gh repo delete", pattern: /\bgh\s+repo\s+delete\b/ },
+	{
+		name: "kubectl delete ns/pvc",
+		pattern: /\bkubectl\b[^|;&]*delete\b[^|;&]*\s(ns|namespace|pvc|pv)\b/,
+	},
+
+	// publish (immutable registries — cannot be undone)
+	{ name: "npm publish", pattern: /\bnpm\s+publish\b/ },
+	{ name: "cargo publish", pattern: /\bcargo\s+publish\b/ },
+	{ name: "twine upload", pattern: /\btwine\s+upload\b/ },
+	{ name: "gem push", pattern: /\bgem\s+push\b/ },
 ];
 
 export default function (pi: ExtensionAPI) {
