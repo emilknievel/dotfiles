@@ -4870,19 +4870,6 @@ Helpful is basically =Help= with some extra features.
       "h s" 'shortdoc))
 #+end_src
 
-** TODOs
-
-*** hl-todo
-
-Highlights common "TODO" keywords.
-
-#+begin_src emacs-lisp
-  (use-package hl-todo
-    :ensure t
-    :hook ((prog-mode . hl-todo-mode)
-           (conf-mode . hl-todo-mode)))
-#+end_src
-
 ** Window management
 
 *** Ediff
