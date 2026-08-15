@@ -115,11 +115,25 @@ const rules: { name: string; pattern: RegExp }[] = [
 	{ name: "gem push", pattern: /\bgem\s+push\b/ },
 ];
 
+/**
+ * Replace git commit/tag/merge -m/--message payloads with a placeholder:
+ * message text is metadata git never executes, so regex-matching it only
+ * produces false positives (e.g. a commit message mentioning "sudo").
+ */
+function stripGitMessages(cmd: string): string {
+	return cmd
+		.replace(
+			/(\s--message\s+|\s-[a-z]*m\s+)("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')/gi,
+			'$1"<msg>"',
+		)
+		.replace(/(--message=)("[^"]*"|'[^']*'|[^\s&|;]+)/gi, '$1"<msg>"');
+}
+
 export default function (pi: ExtensionAPI) {
 	pi.on("tool_call", async (event, ctx) => {
 		if (event.toolName !== "bash") return undefined;
 
-		const command = event.input.command as string;
+		const command = stripGitMessages(event.input.command as string);
 		const matched = rules.find((r) => r.pattern.test(command));
 
 		if (matched) {
