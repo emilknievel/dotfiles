@@ -39,7 +39,7 @@ To stow a package:
 To stow all packages at once:
 
 #+begin_src sh
-  cd ~/.dotfiles && stow aerospace bash emacs ghostty git helix homebrew pi tmux vim
+  cd ~/.dotfiles && stow aerospace bash emacs ghostty git helix homebrew npm pi tmux vim
 #+end_src
 
 Each package's directory structure is mirrored as symlinks in =~=.
