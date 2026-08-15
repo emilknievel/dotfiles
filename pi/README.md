@@ -7,5 +7,5 @@ See the main documentation here:
 - [`./.pi/agent/README.md`](./.pi/agent/README.md)
 
 Key files:
-- `./.pi/agent/extensions/memory/index.ts`
+- `./.pi/agent/prompts/plan.md`
 - `./.pi/agent/README.md`
