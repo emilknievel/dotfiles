@@ -11,6 +11,13 @@ Installed via stow to:
 ## Files
 
 - `prompts/plan.md` — reusable `/plan` prompt template for planning before edits
+- `extensions/permission-gate.ts` — asks before destructive bash commands (`rm -r*`, `sudo`, force push, `git reset --hard`, curl-to-shell, ...); blocks them in non-interactive modes
+- `extensions/protected-paths.ts` — blocks `write`/`edit` to `.env*`, `node_modules/`, `.git/`, `~/.ssh`, `~/.config/gh`, `~/.pi/agent/auth.json`, and any dotfile directly in `~`
+
+Both extensions are tuned copies of the upstream examples in
+`<pi install>/examples/extensions/`. They are heuristics (a seatbelt, not a
+sandbox) — for genuinely untrusted work, run pi in a container instead.
+Edit the rule lists in the files; `/reload` picks up changes.
 
 ## Prompt templates
 
