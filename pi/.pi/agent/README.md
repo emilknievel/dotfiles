@@ -22,6 +22,14 @@ Both extensions are tuned copies of the upstream examples in
 sandbox) — for genuinely untrusted work, run pi in a container instead.
 Edit the rule lists in the files; `/reload` picks up changes.
 
+## Packages
+
+npm pi-packages (the `packages` list in `~/.pi/agent/settings.json`). Install them with the following one-liner:
+
+```bash
+for p in pi-hermes-memory pi-web-access pi-mcp-adapter pi-lens pi-subagents; do pi install "npm:$p"; done
+```
+
 ## Prompt templates
 
 ### `/plan`
