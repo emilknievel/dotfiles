@@ -11,16 +11,12 @@ Installed via stow to:
 ## Files
 
 - `prompts/plan.md` — reusable `/plan` prompt template for planning before edits
-- `extensions/permission-gate.ts` — asks before destructive bash commands, and blocks them in non-interactive modes. `git commit`/`tag`/`merge -m "…"` message text is stripped before matching (metadata, never executed) so prose mentioning `sudo` etc. doesn't trigger prompts. Covers: recursive `rm`, `chmod/chown 777`, `dd`/`mkfs`, `sudo`, shutdown; git (`reset --hard`, force push, `clean -f`, `restore`, `checkout --`, `stash drop`, `filter-branch`, `push --mirror`); `find -delete`/`xargs rm`; docker (`prune`, `compose down -v`, `volume rm`); databases (`dropdb`, `DROP DATABASE/SCHEMA`, `TRUNCATE`, redis `FLUSHALL`, mongo `dropDatabase`, framework resets: rails/artisan/django/prisma/doctrine); infra (`terraform destroy`, `gh repo delete`, `kubectl delete ns/pvc`); immutable publishes (npm/cargo/twine/gem); `curl`/`wget` piped to a shell
+- `extensions/permission-gate.ts` — prompts before destructive bash commands (rm, chmod 777, sudo, docker, DB drops, infra teardown, immutable publishes, piped curl/wget). Blocks in non-interactive mode. Git message text is stripped so prose matching doesn't trigger.
 - `extensions/protected-paths.ts` — guards `write`/`edit` in two tiers:
   - **block** — `node_modules/`, `.git/`, `~/.ssh`, `~/.gnupg`, `~/.aws`, `~/.config/gh`, `~/.pi/agent/{auth,trust}.json`, SSH keys (`id_rsa`/`id_ed25519`/...), `authorized_keys`, `*.pem|*.p12|*.pfx`, and any dotfile directly in `~`
-  - **ask** — real env files (`.env`, `.env.local`, `.env.production`, ...) plus `secrets.{json,yml,yaml,toml}`, `credentials.json`, `.netrc`
-  - template env files (`.env.example`, `.env.sample`, `.env.template`, `.env.dist`) are freely writable — placeholders, not secrets
+  - **ask** — real env files (`.env`, `.env.local`, `.env.production`, ...) plus `secrets.{json,yml,yaml,toml}`, `credentials.json`, `.netrc`. Template env files (`*.example`, `*.sample`, `*.template`, `*.dist`) are allowed freely.
 
-Both extensions are tuned copies of the upstream examples in
-`<pi install>/examples/extensions/`. They are heuristics (a seatbelt, not a
-sandbox) — for genuinely untrusted work, run pi in a container instead.
-Edit the rule lists in the files; `/reload` picks up changes.
+Tuned copies of upstream examples (`<pi install>/examples/extensions/`). Seatbelt, not sandbox. Edit rules in the files; `/reload` picks up changes.
 
 ## Packages
 
@@ -41,10 +37,6 @@ Expands to a planning prompt that asks pi to:
 - outline what to read first
 - describe intended changes and where
 - call out risks, side effects, and open questions
-
-Installed at:
-
-- `~/.pi/agent/prompts/plan.md`
 
 ## Update flow
 
