@@ -3831,34 +3831,37 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
     (define-key org-agenda-mode-map (kbd "C-c C-m")
                 #'my-work-journal-agenda-refile-to-work-tasks))
 
-  (defun my-work-journal--insert-template (&optional time organization)
-    "Insert a weekly work journal template for TIME and ORGANIZATION."
-    (let* ((time (or time (current-time)))
-           (organization (or organization my-work-notes-current-organization))
-           (title (format-time-string "%G-W%V" time))
-           (created (format-time-string "[%Y-%m-%d %a %H:%M]" time))
-           (tags (format ":journal:work:weekly:%s:" organization)))
-      (insert ":PROPERTIES:\n"
-              ":ID:       " (org-id-new) "\n"
-              ":CREATED:  " created "\n"
-              ":END:\n"
-              "#+title: " title "\n"
-              "#+filetags: " tags "\n\n")
-      (dolist (date (my-work-journal--week-dates time))
-        (insert "* " (my-work-journal--weekday-name date) "\n"
-                ":PROPERTIES:\n"
-                ":JOURNAL_DATE: " (format-time-string "[%Y-%m-%d]" date) "\n"
-                ":END:\n\n"))
-      (insert "* Reflektion\n\n")))
+  (defun my-work-journal--week-body (time)
+    "Return the weekly template body for TIME: day headings and reflection."
+    (concat
+     (mapconcat
+      (lambda (date)
+        (format "* %s\n:PROPERTIES:\n:JOURNAL_DATE: %s\n:END:\n\n"
+                (my-work-journal--weekday-name date)
+                (format-time-string "[%Y-%m-%d]" date)))
+      (my-work-journal--week-dates time)
+      "")
+     "* Reflektion\n\n"))
 
   (defun my-work-journal-ensure-file (&optional time organization)
     "Create the weekly work journal for TIME and ORGANIZATION if needed."
-    (let ((file (my-work-journal-current-file time organization)))
+    (let* ((time (or time (current-time)))
+           (file (my-work-journal-current-file time organization)))
       (unless (file-exists-p file)
-        (make-directory (file-name-directory file) t)
-        (with-temp-file file
-          (org-mode)
-          (my-work-journal--insert-template time organization)))
+        ;; CREATED is anchored to TIME, not `now': opening a past week
+        ;; late must stamp that week, like the old template did. The
+        ;; literal value skips template expansion, and an explicit
+        ;; `:properties' beats `vulpea-create-default-template'.
+        (vulpea-create (format-time-string "%G-W%V" time)
+                       file
+                       :tags (list "journal" "work" "weekly"
+                                   (or organization
+                                       my-work-notes-current-organization))
+                       :properties
+                       (list (cons "CREATED"
+                                   (format-time-string
+                                    "[%Y-%m-%d %a %H:%M]" time)))
+                       :body (my-work-journal--week-body time)))
       file))
 
   (defun my-work-journal--target-heading (&optional time)
@@ -4138,6 +4141,12 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     :custom
     (vulpea-db-sync-scan-on-enable 'async)
     (vulpea-db-async-extraction 'full)
+    ;; Single source of CREATED stamping for file-level notes: the
+    ;; work/person/project creators below rely on this default instead of
+    ;; passing :properties themselves.
+    (vulpea-create-default-template
+     '(:file-name "${timestamp}_${slug}.org"
+       :properties (("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))
 
     :config
     (add-hook 'org-capture-after-finalize-hook
@@ -4235,7 +4244,6 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     (vulpea-create title
                    (my-vulpea-work-note-path-template organization)
                    :tags (my-vulpea-work-note-tags organization)
-                   :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))
                    :body body))
 
   (defun my-vulpea-create-work-note (title)
@@ -4269,6 +4277,116 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     (if-let* ((note (vulpea-db-get-by-id id)))
         (vulpea-note-path note)
       (funcall fn id)))
+#+end_src
+
+**** Backfill CREATED
+
+One-shot maintenance command for notes that predate the CREATED convention: derive the stamp from the filename timestamp or the =#+created:= keyword and write it into the property drawer. Denote-era notes are deliberately deferred (their =T=-separated names are not matched); the command is idempotent, so re-run it after extending the derivation.
+
+#+begin_src emacs-lisp
+  (defmacro my-vulpea--with-file-once (file &rest body)
+    "Execute BODY in a buffer visiting FILE.
+  Kill the buffer afterwards when this macro created it; a buffer
+  that already visited FILE is left alone."
+    (declare (indent 1) (debug t))
+    `(let ((existing (get-file-buffer ,file)))
+       (unwind-protect
+           (with-current-buffer (find-file-noselect ,file)
+             ,@body)
+         (unless existing
+           (when-let* ((buffer (get-file-buffer ,file)))
+             (kill-buffer buffer))))))
+
+  (defun my-vulpea--denote-filename-p (path)
+    "Return non-nil when PATH has a denote-style timestamp name."
+    (string-match-p "\\`[0-9]\\{8\\}T[0-9]\\{6\\}"
+                    (file-name-nondirectory path)))
+
+  (defun my-vulpea--creation-from-filename (path)
+    "Derive a CREATED value from the vulpea-era name of PATH.
+  Names of the form YYYYMMDDHHMMSS_-slug.org yield
+  [YYYY-MM-DD Day HH:MM]. Denote-style names are not matched."
+    (let ((name (file-name-nondirectory path)))
+      (when (string-match
+             (concat "\\`\\([0-9]\\{4\\}\\)\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)"
+                     "\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)[_-]")
+             name)
+        (format-time-string
+         "[%Y-%m-%d %a %H:%M]"
+         (encode-time
+          (list 0
+                (string-to-number (match-string 5 name))
+                (string-to-number (match-string 4 name))
+                (string-to-number (match-string 3 name))
+                (string-to-number (match-string 2 name))
+                (string-to-number (match-string 1 name))))))))
+
+  (defun my-vulpea--derive-creation (path)
+    "Return (VALUE . SOURCE) for the CREATED stamp of the note at PATH.
+  An `#+created:' keyword value is kept verbatim (SOURCE `keyword');
+  otherwise the filename timestamp is used (SOURCE `filename').
+  Nil when nothing can be derived."
+    (my-vulpea--with-file-once path
+      (let ((keyword-value
+             (car (cdr (assoc-string "created"
+                                     (org-collect-keywords '("created"))
+                                     'case-insensitive))))
+            (from-filename (my-vulpea--creation-from-filename path)))
+        (cond
+         (keyword-value (cons keyword-value 'keyword))
+         (from-filename (cons from-filename 'filename))))))
+
+  (defun my-vulpea-backfill-created (&optional dry-run)
+    "Backfill the CREATED property on existing vulpea notes.
+  With a prefix argument (DRY-RUN), report the planned changes
+  without writing anything. Denote-era filenames, files under
+  `~/Documents/org' and files with no derivable date are skipped."
+    (interactive "P")
+    (let* ((org-dir (file-name-as-directory
+                     (expand-file-name "~/Documents/org")))
+           (candidates
+            (seq-uniq
+             (mapcar #'vulpea-note-path
+                     (vulpea-db-query
+                      (lambda (note)
+                        (and (zerop (vulpea-note-level note))
+                             (null (vulpea-note-created-at note))))))
+             #'string=))
+           (actions nil)
+           (skipped-denote 0)
+           (skipped-org 0)
+           (skipped-underived 0))
+      (dolist (path candidates)
+        (cond
+         ((string-prefix-p org-dir path)
+          (setq skipped-org (1+ skipped-org)))
+         ((my-vulpea--denote-filename-p path)
+          (setq skipped-denote (1+ skipped-denote)))
+         (t
+          (let ((derived (my-vulpea--derive-creation path)))
+            (if derived
+                (push (cons path derived) actions)
+              (setq skipped-underived (1+ skipped-underived)))))))
+      (setq actions (sort actions
+                          (lambda (a b)
+                            (string-lessp (car a) (car b)))))
+      (unless dry-run
+        (dolist (action actions)
+          (my-vulpea--with-file-once (car action)
+            (goto-char (point-min))
+            (org-entry-put nil "CREATED" (cadr action))
+            (let ((make-backup-files nil))
+              (save-buffer)))))
+      (with-output-to-temp-buffer "*vulpea-created-backfill*"
+        (princ (format "CREATED backfill%s\n\n" (if dry-run " (dry run)" "")))
+        (dolist (action actions)
+          (princ (format "%-70s %s (%s)\n"
+                         (car action) (cadr action) (cddr action))))
+        (princ (format
+                "\n%d %s, %d denote-era deferred, %d undated skipped, %d under org/ skipped\n"
+                (length actions)
+                (if dry-run "to backfill" "backfilled")
+                skipped-denote skipped-underived skipped-org)))))
 #+end_src
 
 **** Capture targets
@@ -4337,8 +4455,7 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
   (defun my-vulpea--create-person-note (name &optional tags)
     "Create a person note for NAME with extra TAGS in the personal vault."
     (vulpea-create name nil
-                   :tags (cons "person" tags)
-                   :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))
+                   :tags (cons "person" tags)))
 
   (defun my-vulpea-create-person-note (name &optional tags)
     "Create and visit a person note for NAME with extra TAGS."
@@ -4414,15 +4531,13 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
   (defun my-vulpea--create-project (title)
     "Create a personal project note titled TITLE, and return it."
     (vulpea-create title nil
-                   :tags '("project")
-                   :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))
+                   :tags '("project")))
 
   (defun my-vulpea--create-work-project (title)
     "Create a work project note titled TITLE in the work vault, and return it."
     (vulpea-create title
                    (my-vulpea-work-note-path-template)
-                   :tags (cons "project" (my-vulpea-work-note-tags))
-                   :properties '(("CREATED" . "%<[%Y-%m-%d %a %H:%M]>"))))
+                   :tags (cons "project" (my-vulpea-work-note-tags))))
 
   (defun my-vulpea-find-project ()
     "Select and visit any project note, creating a personal one when missing.
