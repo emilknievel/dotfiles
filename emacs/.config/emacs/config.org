@@ -4834,6 +4834,9 @@ Package repo.
 #+begin_src emacs-lisp
   (use-package agent-shell
     :ensure t
+    :bind (:map agent-shell-ui-fragment-map
+                ("RET" . nil)
+                ("z"   . agent-shell-ui-toggle-fragment))
     :custom
     (agent-shell-header-style 'text)
     :config
