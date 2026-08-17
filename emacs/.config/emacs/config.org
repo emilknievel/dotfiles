@@ -2763,6 +2763,10 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
   (use-package apheleia
     :ensure t
     :config
+    ;; Reformat on save, asynchronously, preserving point. Buffers whose formatter
+    ;; is not installed are skipped.
+    (apheleia-global-mode +1)
+
     ;; Python
     (setf (alist-get 'python-mode apheleia-mode-alist)
           '(ruff-isort ruff))
