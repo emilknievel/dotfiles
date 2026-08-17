@@ -2692,21 +2692,44 @@ Notable keymaps:
 
 *** C
 
-**** C mode
+**** C(-ts-)mode
 
 #+begin_src emacs-lisp
+  ;; C layout lives in ~/.clang-format (stowed from this dotfiles repo): the
+  ;; single source of truth, discovered by clang-format, clangd (eglot), and
+  ;; apheleia alike; project .clang-format files win by proximity. This section
+  ;; only handles the two things those tools can't do for Emacs: comment syntax
+  ;; and TAB indentation.
+
+  ;; cc-mode, used only when no tree-sitter grammar is available.
   (setq c-default-style '((java-mode . "java")
                           (awk-mode . "awk")
                           (other . "k&r")))
-  (setq c-ts-mode-indent-style 'k&r)
-
-  ;; Use 4 spaces for indentation.
   (setq-default c-basic-offset 4)
+
+  ;; c-ts-mode, which C files open in.
   (setq-default c-ts-indent-offset 4)
 
-  ;; Default to C99 style comments (//), instead of ANSI C style (/* */). Comment
-  ;; style can interactively be changed in-buffer with `C-c C-k'
+  (defun my-c-ts-indent-style ()
+    "`k&r' rules, but wrapped argument/parameter lists indent block-style:
+  one offset in from the line opening the list, closing paren aligned with
+  it. Matches AlignAfterOpenBracket: BlockIndent in ~/.clang-format, so
+  TAB agrees with the formatters."
+    `((c . (((match ")" ,(rx (or "argument_list" "parameter_list")))
+             parent-bol 0)
+            ((parent-is ,(rx (or "argument_list" "parameter_list")))
+             parent-bol c-ts-indent-offset)
+            ,@(alist-get 'c (c-ts-mode--simple-indent-rules 'c 'k&r))))))
+
+  (setq c-ts-mode-indent-style #'my-c-ts-indent-style)
+
+  ;; C99 // comments instead of ANSI /* */. `c-toggle-comment-style' is a cc-mode
+  ;; command that does not work in c-ts-mode, so set the comment syntax there
+  ;; directly.
   (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
+  (add-hook 'c-ts-mode-hook (lambda ()
+                              (setq comment-start "// "
+                                    comment-end "")))
 #+end_src
 
 **** Simple C mode
