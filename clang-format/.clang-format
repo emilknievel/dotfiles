@@ -1,0 +1,13 @@
+# Personal clang-format style, the single source of truth for C layout.
+# Nearest file wins, so project .clang-format files override this; anything
+# under $HOME falls back to it. clang-format, clangd (eglot), and apheleia
+# discover it on their own; the c-ts-mode TAB setup in config.org mirrors it.
+BasedOnStyle: LLVM
+IndentWidth: 4
+ContinuationIndentWidth: 4
+PointerAlignment: Right
+ColumnLimit: 80
+BreakBeforeBraces: Linux
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: BlockIndent
