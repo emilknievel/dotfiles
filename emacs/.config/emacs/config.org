@@ -912,7 +912,6 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
 #+begin_src emacs-lisp
   (use-package dumb-jump
     :ensure t
-    :demand t
     :hook (xref-backend-functions . dumb-jump-xref-activate))
 #+end_src
 
@@ -4086,8 +4085,7 @@ Use denote for note-taking. Most of this is copied from Prot's config.
 #+begin_src emacs-lisp
   (use-package denote-org
     :ensure t
-    :demand t
-    :after denote)
+    :defer t)
 #+end_src
 
 **** Markdown
@@ -4099,8 +4097,7 @@ Use denote for note-taking. Most of this is copied from Prot's config.
     ;; link my Obsidian notes with my denote(s) would be really nice. Definitely
     ;; going to look into this.
     :ensure t
-    :demand t
-    :after denote)
+    :defer t)
 #+end_src
 
 **** Silo
@@ -4108,7 +4105,6 @@ Use denote for note-taking. Most of this is copied from Prot's config.
 #+begin_src emacs-lisp
   (use-package denote-silo
     :ensure t
-    :demand t
     :after denote
     :custom
     (denote-silo-directories (list denote-directory denote-workdir))
@@ -5025,27 +5021,24 @@ Helpful is basically =Help= with some extra features.
 #+begin_src emacs-lisp
   (use-package helpful
     :ensure t
-    :demand t
-    :config
-    ;; Note that the built-in `describe-function' includes both functions and
-    ;; macros. `helpful-function' is functions only, so we provide
-    ;; `helpful-callable' as a drop-in replacement.
-    (global-set-key (kbd "C-h f") #'helpful-callable)
+    :bind
+    ;; The built-in `describe-function' includes both functions and macros.
+    ;; `helpful-function' is functions only, so we provide `helpful-callable'
+    ;; as a drop-in replacement.
+    (("C-h f" . helpful-callable)
+     ("C-h v" . helpful-variable)
+     ("C-h k" . helpful-key)
+     ("C-h x" . helpful-command)
+     ;; Lookup the current symbol at point. C-c C-d is a common keybinding for
+     ;; this in lisp modes.
+     ;; ("C-c C-d" . helpful-at-point)
 
-    (global-set-key (kbd "C-h v") #'helpful-variable)
-    (global-set-key (kbd "C-h k") #'helpful-key)
-    (global-set-key (kbd "C-h x") #'helpful-command)
-    ;; Lookup the current symbol at point. C-c C-d is a common keybinding for
-    ;; this in lisp modes.
-    ;; (global-set-key (kbd "C-c C-d") #'helpful-at-point)
-
-    ;; Look up *F*unctions (excludes macros).
-    ;;
-    ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
-    ;; already links to the manual, if a function is referenced there.
-    (global-set-key (kbd "C-h F") #'helpful-function)
-
-    (global-set-key (kbd "C-h o") #'helpful-symbol))
+     ;; Look up *F*unctions (excludes macros).
+     ;;
+     ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
+     ;; already links to the manual, if a function is referenced there.
+     ("C-h F" . helpful-function)
+     ("C-h o" . helpful-symbol)))
 #+end_src
 
 *** shortdoc
