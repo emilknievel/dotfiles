@@ -3339,17 +3339,9 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
 
 ** Org
 
-*** Base
+*** Directories & agenda files
 
 #+begin_src emacs-lisp
-  (defun my-org-capture-work-journal-template (key description template &rest properties)
-    "Create a work journal capture template with shared target settings."
-    `(,key ,description entry
-           (file+function my-work-journal-current-file my-work-journal-goto-today-heading)
-           ,template
-           :empty-lines 1
-           ,@properties))
-
   (use-package org
     :ensure nil
     :init
@@ -3365,8 +3357,14 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
           (list org-default-notes-file
                 (concat org-directory "/calendar-beorg.org")
                 (concat org-directory "/reminders-beorg.org")))
-    (setopt org-agenda-files my-org-agenda-static-files)
+    (setopt org-agenda-files my-org-agenda-static-files))
+#+end_src
 
+*** General behavior
+
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure nil
     :custom
     (org-return-follows-link t)
     (org-startup-with-inline-images t)
@@ -3381,29 +3379,36 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     (org-insert-heading-respect-content t)
     (org-startup-folded 'showall) ; Show content but respect `:VISIBILITY:' props.
     ;; (org-M-RET-may-split-line '((default . nil)))
-
-    (org-log-done 'time)
-    (org-log-into-drawer t)
-    (org-log-refile 'note)
-
-    ;; Ask how many minutes to keep if idle for at least 15 minutes.
-    (org-clock-idle-time 15)
-    ;; Persist the clock history (recent tasks) across Emacs restarts. A
-    ;; running clock is not auto-resumed; only the history is restored.
-    (org-clock-persist 'history)
-    ;; Clocking in marks the task as in progress.
-    (org-clock-in-switch-to-state "PROG")
-    ;; Stop the clock when a heading is marked DONE.
-    (org-clock-out-when-done t)
-    ;; Drop accidental zero-minute clocks instead of recording them.
-    (org-clock-out-remove-zero-time-clocks t)
-    ;; Include the currently clocking task in clock reports.
-    (org-clock-report-include-clocking-task t)
-    ;; Display clocked in task in both mode line and frame title bar
-    (org-clock-clocked-in-display 'both)
-
     (org-reverse-note-order t)
+    (org-preview-latex-default-process 'dvisvgm)
+    ;; Only display grouped sub/-superscripts (surrounded by `{}')
+    (org-use-sub-superscripts '{})
+    ;; The `todo' filetag is agenda bookkeeping; headings should not inherit it.
+    ;; `todo' marks a file for the dynamic agenda, not the headings inside it.
+    ;; Only `my-vulpea-todo-update-tag' writes `todo'; no heading ever means it.
+    ;; It's strictly a mechanical filetag, not something a heading claims about
+    ;; itself.
+    (org-tags-exclude-from-inheritance '("todo"))
+    (org-attach-use-inheritance t)
+    :hook
+    ((org-mode markdown-ts-mode) . (lambda ()
+                                     (display-line-numbers-mode -1))))
+#+end_src
 
+*** Capture
+
+#+begin_src emacs-lisp
+  (defun my-org-capture-work-journal-template (key description template &rest properties)
+    "Create a work journal capture template with shared target settings."
+    `(,key ,description entry
+           (file+function my-work-journal-current-file my-work-journal-goto-today-heading)
+           ,template
+           :empty-lines 1
+           ,@properties))
+
+  (use-package org
+    :ensure nil
+    :custom
     (org-capture-templates
      `(("l" "Journelly")
        ("ll" "New plain journe(l)ly note (no location/weather data)" entry
@@ -3446,63 +3451,95 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
   :DATE_CAPTURED: %U
   :END:
   %?
-  " :empty-lines 1 :prepend t)))
+  " :empty-lines 1 :prepend t))))
+#+end_src
 
+*** Refile
+
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure nil
+    :custom
     (org-refile-targets
      '((my-vulpea-refile-files :maxlevel . 4)
        (nil :maxlevel . 4)))
-
     (org-refile-use-outline-path t)
     (org-refile-allow-creating-parent-nodes 'confirm)
     ;; No refile cache: targets come from `my-vulpea-refile-files', which
     ;; changes as notes gain and lose the "todo" tag, and the cache would
     ;; keep serving stale targets.
-    (org-refile-use-cache nil)
+    (org-refile-use-cache nil))
+#+end_src
 
+*** "TODO" keywords
+
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure nil
+    :custom
     (org-todo-keywords
-     '((sequence "TODO(t)" "PROG(p!)" "WAIT(w@/!)" "|" "DONE(d@)" "CANX(c@)")))
+     '((sequence "TODO(t)" "PROG(p!)" "WAIT(w@/!)" "|" "DONE(d@)" "CANX(c@)"))))
+#+end_src
 
-    (org-preview-latex-default-process 'dvisvgm)
+*** Clocking
 
-    ;; Only display grouped sub/-superscripts (surrounded by `{}')
-    (org-use-sub-superscripts '{})
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure nil
+    :custom
+    (org-log-done 'time)
+    (org-log-into-drawer t)
+    (org-log-refile 'note)
 
-    ;; The `todo' filetag is agenda bookkeeping; headings should not inherit it.
-    ;; `todo' marks a file for the dynamic agenda, not the headings inside it.
-    ;; Only `my-vulpea-todo-update-tag' writes `todo'; no heading ever means it.
-    ;; It's strictly a mechanical filetag, not something a heading claims about
-    ;; itself.
-    (org-tags-exclude-from-inheritance '("todo"))
-
-    (org-attach-use-inheritance t)
+    ;; Ask how many minutes to keep if idle for at least 15 minutes.
+    (org-clock-idle-time 15)
+    ;; Persist the clock history (recent tasks) across Emacs restarts. A
+    ;; running clock is not auto-resumed; only the history is restored.
+    (org-clock-persist 'history)
+    ;; Clocking in marks the task as in progress.
+    (org-clock-in-switch-to-state "PROG")
+    ;; Stop the clock when a heading is marked DONE.
+    (org-clock-out-when-done t)
+    ;; Drop accidental zero-minute clocks instead of recording them.
+    (org-clock-out-remove-zero-time-clocks t)
+    ;; Include the currently clocking task in clock reports.
+    (org-clock-report-include-clocking-task t)
+    ;; Display clocked in task in both mode line and frame title bar
+    (org-clock-clocked-in-display 'both)
 
     :config
     ;; Install the hooks that save/restore the clock per `org-clock-persist'.
-    (org-clock-persistence-insinuate)
+    (org-clock-persistence-insinuate))
+#+end_src
 
-    ;; One-keystroke overview: what's today, what's active, what's blocked,
-    ;; and what still needs to be refiled from the inbox.
-    (with-eval-after-load 'org-agenda
-      (add-to-list 'org-agenda-custom-commands
-                   '("d" "Dashboard"
-                     ((agenda "" ((org-agenda-span 'day)))
-                      (todo "PROG" ((org-agenda-overriding-header "In progress")))
-                      (todo "WAIT" ((org-agenda-overriding-header "Waiting")))
-                      (alltodo "" ((org-agenda-files (list org-default-notes-file))
-                                   (org-agenda-overriding-header "Inbox — to process")))))
-                   t))
+*** Agenda dashboard
 
+#+begin_src emacs-lisp
+  ;; One-keystroke overview: what's today, what's active, what's blocked,
+  ;; and what still needs to be refiled from the inbox.
+  (with-eval-after-load 'org-agenda
+    (add-to-list 'org-agenda-custom-commands
+                 '("d" "Dashboard"
+                   ((agenda "" ((org-agenda-span 'day)))
+                    (todo "PROG" ((org-agenda-overriding-header "In progress")))
+                    (todo "WAIT" ((org-agenda-overriding-header "Waiting")))
+                    (alltodo "" ((org-agenda-files (list org-default-notes-file))
+                                 (org-agenda-overriding-header "Inbox — to process")))))
+                 t))
+#+end_src
+
+*** Keybindings
+
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure nil
     :bind (("C-c l" . org-store-link)
            ("C-c a" . org-agenda)
            ("C-c c" . org-capture)
            ("C-c b" . org-switchb))
-
     :general (my-leader-keys
                "o b t" 'org-babel-tangle
-               "o l d" 'org-toggle-link-display)
-    :hook
-    ((org-mode markdown-ts-mode) . (lambda ()
-                                     (display-line-numbers-mode -1))))
+               "o l d" 'org-toggle-link-display))
 #+end_src
 
 *** Indent .org files on startup
