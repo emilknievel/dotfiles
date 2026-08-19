@@ -848,7 +848,6 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'markdown-ts-mode-hook 'visual-line-mode)
-  (add-hook 'visual-line-mode-hook 'visual-wrap-prefix-mode)
 #+end_src
 
 **** Wrap at a set column when visual-line-mode is active
@@ -3368,8 +3367,6 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
                 (concat org-directory "/reminders-beorg.org")))
     (setopt org-agenda-files my-org-agenda-static-files)
 
-    (require 'org-indent)
-
     :custom
     (org-return-follows-link t)
     (org-startup-with-inline-images t)
@@ -3382,7 +3379,6 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     (org-fold-catch-invisible-edits 'show-and-error)
     (org-special-ctrl-a/e t)
     (org-insert-heading-respect-content t)
-    ;; (org-startup-indented t)
     (org-startup-folded 'showall) ; Show content but respect `:VISIBILITY:' props.
     ;; (org-M-RET-may-split-line '((default . nil)))
 
@@ -3507,6 +3503,16 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     :hook
     ((org-mode markdown-ts-mode) . (lambda ()
                                      (display-line-numbers-mode -1))))
+#+end_src
+
+*** Indent .org files on startup
+
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure nil
+    :init (require 'org-indent)
+    :custom (org-startup-indented t)
+             (org-indent-mode-turns-on-hiding-stars nil))
 #+end_src
 
 *** Appear
