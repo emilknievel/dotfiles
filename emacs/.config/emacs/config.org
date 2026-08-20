@@ -1179,37 +1179,18 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
     (my-load-theme (if (string-prefix-p "modus-" (symbol-name my-theme))
                        my-theme
                      'modus-vivendi))
-
-    (defun my-modus-operandi ()
-      "Load `modus-operandi', choosing among its variants."
-      (interactive)
-      (my-load-theme-variant "modus-operandi"))
-
-    (defun my-modus-vivendi ()
-      "Load `modus-vivendi', choosing among its variants."
-      (interactive)
-      (my-load-theme-variant "modus-vivendi"))
     :general
-    (my-leader-keys "t t m o" 'my-modus-operandi)
-    (my-leader-keys "t t m v" 'my-modus-vivendi))
+    (my-leader-keys "t t m"
+      '(:def
+        (lambda () (interactive) (my-load-theme-variant "modus-"))
+        :wk "modus")))
 #+end_src
 
 ***** Modus nordic
 
 #+begin_src emacs-lisp
   (use-package modus-nordic-night-theme
-    :ensure (:host codeberg :repo "ashton314/modus-nordic-night")
-    :init
-    (defun my-modus-nordic-night ()
-      (interactive)
-      (my-load-theme 'modus-nordic-night))
-
-    (defun my-modus-nordic-midnight ()
-      (interactive)
-      (my-load-theme 'modus-nordic-midnight))
-    :general
-    (my-leader-keys "t t n n" 'my-modus-nordic-night)
-    (my-leader-keys "t t n m" 'my-modus-nordic-midnight))
+    :ensure (:host codeberg :repo "ashton314/modus-nordic-night"))
 #+end_src
 
 ***** Modus Vague
@@ -1224,13 +1205,11 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 #+begin_src emacs-lisp
   (use-package ef-themes
     :ensure t
-    :init
-    (defun my-ef ()
-      "Load an ef theme, choosing among its variants."
-      (interactive)
-      (my-load-theme-variant "ef-"))
     :general
-    (my-leader-keys "t t e" 'my-ef))
+    (my-leader-keys "t t e"
+      '(:def
+        (lambda () (interactive) (my-load-theme-variant "ef-"))
+        :wk "ef")))
 #+end_src
 
 **** Standard themes
@@ -1238,13 +1217,11 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 #+begin_src emacs-lisp
   (use-package standard-themes
     :ensure t
-    :init
-    (defun my-standard ()
-      "Load a standard theme, choosing among its variants."
-      (interactive)
-      (my-load-theme-variant "standard-"))
     :general
-    (my-leader-keys "t t S" 'my-standard))
+    (my-leader-keys "t t S"
+      '(:def
+        (lambda () (interactive) (my-load-theme-variant "standard-"))
+        :wk "standard")))
 #+end_src
 
 **** Catppuccin
@@ -1252,15 +1229,14 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 #+begin_src emacs-lisp
   (use-package batppuccin
     :ensure t
-    :init
-    (defun my-batppuccin ()
-      "Load a catppuccin theme, choosing among its flavors."
-      (interactive)
-      (my-load-theme-variant "batppuccin"))
     :custom
+    ;; Scaled manually to keep it consistent between themes.
     (batppuccin-scale-headings nil)
     :general
-    (my-leader-keys "t t b" 'my-batppuccin))
+    (my-leader-keys "t t b"
+      '(:def
+        (lambda () (interactive) (my-load-theme-variant "batppuccin-"))
+        :wk "batppuccin")))
 #+end_src
 
 **** Doric themes
@@ -1268,15 +1244,11 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 #+begin_src emacs-lisp
   (use-package doric-themes
     :ensure t
-    :init
-    (setopt doric-themes-to-toggle '(doric-dark doric-light))
-    (defun my-doric ()
-      "Load a doric theme, choosing among its variants."
-      (interactive)
-      (my-load-theme-variant "doric-"))
     :general
-    (my-leader-keys "t t o" 'doric-themes-toggle)
-    (my-leader-keys "t t D" 'my-doric))
+    (my-leader-keys "t t o"
+      '(:def
+        (lambda () (interactive) (my-load-theme-variant "doric-"))
+        :wk "doric")))
 #+end_src
 
 **** Doom
@@ -1284,42 +1256,7 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 #+begin_src emacs-lisp
   (use-package doom-themes
     :ensure t
-    :after general
     :init
-    (defun my-doom-one ()
-      "Clear previous theme and load doom-one."
-      (interactive)
-      (my-load-theme 'doom-one))
-
-    (defun my-gruvbox ()
-      "Clear previous theme and load gruvbox."
-      (interactive)
-      (my-load-theme 'doom-gruvbox))
-
-    (defun my-gruvbox-light ()
-      "Clear previous theme and load gruvbox."
-      (interactive)
-      (my-load-theme 'doom-gruvbox-light))
-
-    (defun my-toggle-gruvbox ()
-      "Toggle between light and dark Gruvbox themes."
-      (interactive)
-      (if (eq (nth 0 custom-enabled-themes) 'doom-gruvbox)
-          (my-gruvbox-light)
-        (my-gruvbox)))
-
-    (defun my-toggle-tomorrow ()
-      "Toggle between light and dark Tomorrow themes."
-      (interactive)
-      (if (eq (nth 0 custom-enabled-themes) 'doom-tomorrow-night)
-          (my-load-theme 'doom-tomorrow-day)
-        (my-load-theme 'doom-tomorrow-night)))
-
-    (defun my-zenburn ()
-      "Clear previous theme and load zenburn."
-      (interactive)
-      (my-load-theme 'doom-zenburn))
-
     ;; NOTE: These two lack a `lexical-binding' cookie upstream and warn on
     ;; load. Re-check and unskip with:
     ;;   grep -L lexical-binding ~/.config/emacs/elpaca/builds/doom-themes/*-theme.el
@@ -1338,11 +1275,11 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
         (message "Loaded theme `%s'" theme)))
     :config
     (doom-themes-org-config)
-    :general (my-leader-keys
-               "t t d" 'my-doom-one
-               "t t g" 'my-toggle-gruvbox
-               "t t z" 'my-zenburn
-               "t t r" 'my-load-random-doom-theme))
+    :general
+    (my-leader-keys "t t d"
+      '(:def
+        (lambda () (interactive) (my-load-theme-variant "doom-"))
+        :wk "doom")))
 #+end_src
 
 **** Acme theme
@@ -1360,7 +1297,11 @@ Inspired by Plan 9 Acme & Sam.
       "Clear previous theme and load acme."
       (interactive)
       (my-load-theme 'acme))
-    :general (my-leader-keys "t t a" 'my-acme-theme))
+    :general
+    (my-leader-keys "t t a"
+      '(:def
+        (lambda () (interactive) (my-load-theme 'acme))
+        :wk "acme")))
 #+end_src
 
 **** Kaolin
@@ -1368,28 +1309,11 @@ Inspired by Plan 9 Acme & Sam.
 #+begin_src emacs-lisp
   (use-package kaolin-themes
     :ensure t
-    :init
-    (defun my-kaolin-dark ()
-      "Clear previous theme and load kaolin dark."
-      (interactive)
-      (my-load-theme 'kaolin-dark))
-
-    (defun my-kaolin-light ()
-      "Clear previous theme and load kaolin light."
-      (interactive)
-      (my-load-theme 'kaolin-light))
-
-    (defun my-kaolin-mono-dark ()
-      "Clear previous theme and load kaolin mono dark."
-      (interactive)
-      (my-load-theme 'kaolin-mono-dark))
-
-    (defun my-kaolin-mono-light ()
-      "Clear previous theme and load kaolin mono light."
-      (interactive)
-      (my-load-theme 'kaolin-mono-light))
-
-    :general (my-leader-keys "t t k" 'my-kaolin-dark))
+    :general
+    (my-leader-keys "t t k"
+      '(:def
+        (lambda () (interactive) (my-load-theme-variant "kaolin-"))
+        :wk "kaolin")))
 #+end_src
 
 **** Folio
@@ -1427,12 +1351,11 @@ The tint and overline carry the level on task headings, where ~org-todo~ / ~org-
        (overline-heading-4 green-cooler)
        (overline-heading-5 cyan-cooler)
        (overline-heading-6 red)))
-    :init
-    (defun my-load-folio-theme ()
-      (interactive)
-      (my-load-theme 'folio))
     :general
-    (my-leader-keys "t t f" 'my-load-folio-theme))
+    (my-leader-keys "t t f"
+      '(:def
+        (lambda () (interactive) (my-load-theme 'folio))
+        :wk "folio")))
 #+end_src
 
 **** Modus Alabaster
