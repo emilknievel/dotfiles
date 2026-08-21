@@ -60,6 +60,31 @@
   (savehist-mode 1)
 #+end_src
 
+*** Window configuration history
+
+Undo/redo window layout changes with ~C-c <left>~ / ~C-c <right>~. Enabled before the desktop restore, so the restore itself is undoable back to the startup scratch frame.
+
+#+begin_src emacs-lisp
+  (winner-mode 1)
+#+end_src
+
+*** Desktop
+
+Restore buffers, points, frames and window layout across restarts. Terminal buffers are excluded since their processes are gone.
+
+#+begin_src emacs-lisp
+  (require 'desktop)
+
+  (setopt desktop-path (list user-emacs-directory)
+          desktop-save t                    ; save silently on exit
+          desktop-load-locked-desktop 'check-pid)
+
+  (dolist (mode '(ghostel-mode agent-shell-mode eat-mode term-mode vterm-mode))
+    (add-to-list 'desktop-modes-not-to-save mode))
+
+  (desktop-save-mode 1)
+#+end_src
+
 *** Custom file
 
 #+begin_src emacs-lisp
