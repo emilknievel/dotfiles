@@ -3,56 +3,85 @@
 set -e
 set -o pipefail
 
+AUTO_YES=0
+
+# Parse flags
+for arg in "$@"; do
+    case "$arg" in
+        -y|--yes) AUTO_YES=1 ;;
+        -h|--help)
+            printf "Usage: %s [--yes|-y]\n" "$(basename "$0")"
+            printf "  -y, --yes  Run all steps without prompting\n"
+            exit 0
+            ;;
+        *)
+            printf "Unknown option: %s\n" "$arg" >&2
+            exit 1
+            ;;
+    esac
+done
+
+ask() {
+    if (( AUTO_YES )); then
+        return 0
+    fi
+    local prompt="$1"
+    local reply
+    printf '\n'
+    read -rp "$prompt [Y/n] " reply
+    [[ -z "$reply" || "$reply" =~ ^[Yy]$ ]]
+}
+
 printf "===================\nUPGRADING PACKAGES:\n===================\n"
 
-if command -v dnf >/dev/null 2>&1; then
-    printf "\n====\nDNF:\n====\n\n[dnf upgrade]\n"
+if command -v dnf >/dev/null 2>&1 && ask "Run DNF upgrade?"; then
+    printf "====\nDNF:\n====\n\n[dnf upgrade]\n"
     sudo dnf upgrade
 fi
 
-if command -v flatpak >/dev/null 2>&1; then
-    printf "\n\n========\nFLATPAK:\n========\n\n[flatpak update]\n"
-    flatpak update
+if command -v flatpak >/dev/null 2>&1 && ask "Run Flatpak update?"; then
+    printf "\n========\nFLATPAK:\n========\n\n[flatpak update]\n"
+    flatpak update || true
 fi
 
-if command -v mise >/dev/null 2>&1; then
-    printf "\n\n=====\nMISE:\n=====\n\n[mise self-update]\n"
-    mise self-update
+if command -v mise >/dev/null 2>&1 && ask "Run mise updates?"; then
+    printf "\n=====\nMISE:\n=====\n\n[mise self-update]\n"
+    mise self-update || true
     printf "\n[mise up]\n"
-    mise up
+    mise up || true
 fi
 
-if command -v uv >/dev/null 2>&1; then
-    printf "\n\n===\nUV:\n===\n\n[uv tool upgrade --all]\n"
-    uv tool upgrade --all
+if command -v uv >/dev/null 2>&1 && ask "Run uv tool upgrade --all?"; then
+    printf "\n===\nUV:\n===\n\n[uv tool upgrade --all]\n"
+    uv tool upgrade --all || true
 fi
 
-if command -v pipx >/dev/null 2>&1; then
-    printf "\n\n=====\nPIPX:\n=====\n\n[pipx upgrade all]\n"
-    pipx upgrade-all
+if command -v pipx >/dev/null 2>&1 && ask "Run pipx upgrade-all?"; then
+    printf "\n=====\nPIPX:\n=====\n\n[pipx upgrade all]\n"
+    pipx upgrade-all || true
 fi
 
-if command -v rustup >/dev/null 2>&1; then
-    printf "\n\n=======\nRUSTUP:\n=======\n\n[rustup upgrade]\n"
-    rustup upgrade
+if command -v rustup >/dev/null 2>&1 && ask "Run rustup upgrade?"; then
+    printf "\n=======\nRUSTUP:\n=======\n\n[rustup upgrade]\n"
+    rustup upgrade || true
 fi
 
-if command -v npm >/dev/null 2>&1; then
-    printf "\n\n====\nNPM:\n====\n\n[npm ls -g]\n"
-    npm ls -g
+if command -v npm >/dev/null 2>&1 && ask "Run npm global updates?"; then
+    printf "\n====\nNPM:\n====\n\n[npm ls -g]\n"
+    npm ls -g || true
     printf "[npm u -g]\n"
-    npm u -g
+    npm u -g || true
     printf "\n[npm ls -g]\n"
-    npm ls -g
+    npm ls -g || true
 fi
 
 sleep 1
 
-if command -v pi >/dev/null 2>&1; then
-    printf "\n\n===\nPI:\n===\n\n[pi update]\n"
-    pi update
+if command -v pi >/dev/null 2>&1 && ask "Run pi updates?"; then
+    printf "\n===\nPI:\n===\n\n[pi update]\n"
+    pi update || true
     printf "\n[pi update --extensions]\n"
-    pi update --extensions
+    pi update --extensions || true
 fi
 
 if command -v dnf >/dev/null 2>&1; then
