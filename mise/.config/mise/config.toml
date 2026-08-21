@@ -1,0 +1,11 @@
+[settings]
+experimental = true
+python.uv_venv_auto = true # automatically use venv created by `uv`
+idiomatic_version_file_enable_tools = ["node"]
+
+[tools]
+node = "latest"
+ruff = "latest"
+ty = "latest"
+usage = "latest"
+uv = "latest"
