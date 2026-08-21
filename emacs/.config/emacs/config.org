@@ -3496,8 +3496,9 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
   (use-package org
     :ensure nil
     :init (require 'org-indent)
-    :custom (org-startup-indented t)
-             (org-indent-mode-turns-on-hiding-stars nil))
+    :custom
+    (org-startup-indented t)
+    (org-indent-mode-turns-on-hiding-stars t))
 #+end_src
 
 *** Appear
