@@ -1102,7 +1102,16 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
                               nil t)))))
       (my-fix-gnus-face-inheritance-cycle)
       (load-theme theme t)
-      (mapc #'disable-theme (remq theme custom-enabled-themes))))
+      (mapc #'disable-theme (remq theme custom-enabled-themes))
+      ;; Fix org-hide face to match new theme's background color
+      (when (and (featurep 'org) (facep 'org-hide))
+        (set-face-attribute 'org-hide nil :foreground (face-background 'default nil))
+        ;; Reinitialize org-indent in org buffers to apply the fix
+        (dolist (buf (buffer-list))
+          (with-current-buffer buf
+            (when (and (eq major-mode 'org-mode) org-indent-mode)
+              (org-indent-mode -1)
+              (org-indent-mode 1)))))))
 
   (defun my-theme-variants (base)
     "Return available themes whose names start with BASE."
