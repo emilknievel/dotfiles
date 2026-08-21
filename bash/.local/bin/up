@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+printf "===================\nUPGRADING PACKAGES:\n===================\n"
+
+if command -v dnf >/dev/null 2>&1; then
+    printf "\n====\nDNF:\n====\n\n[dnf upgrade]\n"
+    sudo dnf upgrade
+fi
+
+if command -v flatpak >/dev/null 2>&1; then
+    printf "\n\n========\nFLATPAK:\n========\n\n[flatpak update]\n"
+    flatpak update
+fi
+
+if command -v mise >/dev/null 2>&1; then
+    printf "\n\n=====\nMISE:\n=====\n\n[mise self-update]\n"
+    mise self-update
+    printf "\n[mise up]\n"
+    mise up
+fi
+
+if command -v uv >/dev/null 2>&1; then
+    printf "\n\n===\nUV:\n===\n\n[uv tool upgrade --all]\n"
+    uv tool upgrade --all
+fi
+
+if command -v pipx >/dev/null 2>&1; then
+    printf "\n\n=====\nPIPX:\n=====\n\n[pipx upgrade all]\n"
+    pipx upgrade-all
+fi
+
+if command -v rustup >/dev/null 2>&1; then
+    printf "\n\n=======\nRUSTUP:\n=======\n\n[rustup upgrade]\n"
+    rustup upgrade
+fi
+
+if command -v npm >/dev/null 2>&1; then
+    printf "\n\n====\nNPM:\n====\n\n[npm ls -g]\n"
+    npm ls -g
+    printf "[npm u -g]\n"
+    npm u -g
+    printf "\n[npm ls -g]\n"
+    npm ls -g
+fi
+
+sleep 1
+
+if command -v pi >/dev/null 2>&1; then
+    printf "\n\n===\nPI:\n===\n\n[pi update]\n"
+    pi update
+    printf "\n[pi update --extensions]\n"
+    pi update --extensions
+fi
+
+if command -v dnf >/dev/null 2>&1; then
+    if dnf needs-restarting -r &>/dev/null; then
+        printf "\nNEEDS RESTARTING?...yes\n"
+    else
+        printf "\nNEEDS RESTARTING?...no\n"
+    fi
+fi
+
+printf "\n\nDONE UPGRADING\n"
