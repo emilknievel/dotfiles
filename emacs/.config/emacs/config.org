@@ -68,11 +68,11 @@ Undo/redo window layout changes with ~C-c <left>~ / ~C-c <right>~. Enabled befor
   (winner-mode 1)
 #+end_src
 
-*** Desktop
+*** Desktop (disabled)
 
 Restore buffers, points, frames and window layout across restarts. Terminal buffers are excluded since their processes are gone.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (require 'desktop)
 
   (setopt desktop-path (list user-emacs-directory)
