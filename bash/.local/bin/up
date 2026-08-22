@@ -5,91 +5,226 @@ set -o pipefail
 
 AUTO_YES=0
 
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/up"
+LOG="$STATE_DIR/last.log"
+
 # Parse flags
 for arg in "$@"; do
-    case "$arg" in
-        -y|--yes) AUTO_YES=1 ;;
-        -h|--help)
-            printf "Usage: %s [--yes|-y]\n" "$(basename "$0")"
-            printf "  -y, --yes  Run all steps without prompting\n"
-            exit 0
-            ;;
-        *)
-            printf "Unknown option: %s\n" "$arg" >&2
-            exit 1
-            ;;
-    esac
+	case "$arg" in
+	-y | --yes) AUTO_YES=1 ;;
+	-r | --recap)
+		if [[ -s "$STATE_DIR/recap.txt" ]]; then
+			cat "$STATE_DIR/recap.txt"
+			exit 0
+		fi
+		printf "No recap from a previous run.\n" >&2
+		exit 1
+		;;
+	-h | --help)
+		printf "Usage: %s [--yes|-y] [--recap|-r]\n" "$(basename "$0")"
+		printf "  -y, --yes    Run all steps without prompting\n"
+		printf "  -r, --recap  Show the recap of the last run and exit\n"
+		exit 0
+		;;
+	*)
+		printf "Unknown option: %s\n" "$arg" >&2
+		exit 1
+		;;
+	esac
 done
 
 ask() {
-    if (( AUTO_YES )); then
-        return 0
-    fi
-    local prompt="$1"
-    local reply
-    printf '\n'
-    read -rp "$prompt [Y/n] " reply
-    [[ -z "$reply" || "$reply" =~ ^[Yy]$ ]]
+	if ((AUTO_YES)); then
+		return 0
+	fi
+	local prompt="$1"
+	local reply
+	printf '\n'
+	read -rp "$prompt [Y/n] " reply
+	[[ -z "$reply" || "$reply" =~ ^[Yy]$ ]]
+}
+
+TMP=$(mktemp -d)
+trap 'rm -rf "$TMP"' EXIT
+
+mkdir -p "$STATE_DIR"
+: >"$LOG"
+
+RECAP="$TMP/recap"
+FAILURES="$TMP/failures"
+printf "up %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" >"$RECAP"
+: >"$FAILURES"
+
+# Announce a command, run it, and log its output. A failure does not abort
+# the run; it is recorded in $FAILURES and reported in the recap.
+run() {
+	printf '\n[%s]\n' "$*" | tee -a "$LOG"
+	local status=0
+	"$@" 2>&1 | tee -a "$LOG" || status=$?
+	if ((status)); then
+		printf '[exit %s]\n' "$status" | tee -a "$LOG"
+		printf '%s (exit %s)\n' "$*" "$status" >>"$FAILURES"
+	fi
+	return 0
+}
+
+# Capture a tool's state listing to $TMP/$key for later diffing.
+snap() {
+	local key="$1"
+	shift
+	"$@" >"$TMP/$key" 2>/dev/null || : >"$TMP/$key"
+}
+
+# Append a recap entry for NAME: changed lines between the .before/.after
+# snapshots, or "(no changes)". An optional third arg adds a trailing note.
+changed() {
+	local name="$1" key="$2" note="${3:-}" out
+	out=$(diff --unchanged-group-format='' \
+		--old-line-format='  - %L' \
+		--new-line-format='  + %L' \
+		"$TMP/$key.before" "$TMP/$key.after" || true)
+	{
+		printf '\n%s:\n' "$name"
+		if [[ -n "$out" ]]; then
+			printf '%s\n' "$out"
+		else
+			printf '  (no changes)\n'
+		fi
+		if [[ -n "$note" ]]; then
+			printf '%s\n' "$note"
+		fi
+	} >>"$RECAP"
+}
+
+# Record a step that was offered but declined.
+skip() {
+	printf '\n%s: (skipped)\n' "$1" >>"$RECAP"
 }
 
 printf "===================\nUPGRADING PACKAGES:\n===================\n"
 
-if command -v dnf >/dev/null 2>&1 && ask "Run DNF upgrade?"; then
-    printf "====\nDNF:\n====\n\n[dnf upgrade]\n"
-    sudo dnf upgrade
+if command -v dnf >/dev/null 2>&1; then
+	if ask "Run DNF upgrade?"; then
+		printf "\n====\nDNF:\n====\n"
+		snap dnf.before bash -c 'rpm -qa --qf "%{NAME} %{EVR}\n" | sort'
+		run sudo dnf upgrade
+		snap dnf.after bash -c 'rpm -qa --qf "%{NAME} %{EVR}\n" | sort'
+		changed DNF dnf
+	else
+		skip DNF
+	fi
 fi
 
-if command -v flatpak >/dev/null 2>&1 && ask "Run Flatpak update?"; then
-    printf "\n========\nFLATPAK:\n========\n\n[flatpak update]\n"
-    flatpak update || true
+if command -v flatpak >/dev/null 2>&1; then
+	if ask "Run Flatpak update?"; then
+		printf "\n========\nFLATPAK:\n========\n"
+		snap flatpak.before flatpak list --app --columns=application,version
+		run flatpak update
+		snap flatpak.after flatpak list --app --columns=application,version
+		changed FLATPAK flatpak
+	else
+		skip FLATPAK
+	fi
 fi
 
-if command -v mise >/dev/null 2>&1 && ask "Run mise updates?"; then
-    printf "\n=====\nMISE:\n=====\n\n[mise self-update]\n"
-    mise self-update || true
-    printf "\n[mise up]\n"
-    mise up || true
+if command -v mise >/dev/null 2>&1; then
+	if ask "Run mise updates?"; then
+		printf "\n=====\nMISE:\n=====\n"
+		snap mise.before bash -c 'mise --version; mise ls --current'
+		run mise self-update
+		run mise up
+		snap mise.after bash -c 'mise --version; mise ls --current'
+		changed MISE mise
+	else
+		skip MISE
+	fi
 fi
 
-if command -v uv >/dev/null 2>&1 && ask "Run uv tool upgrade --all?"; then
-    printf "\n===\nUV:\n===\n\n[uv tool upgrade --all]\n"
-    uv tool upgrade --all || true
+if command -v uv >/dev/null 2>&1; then
+	if ask "Run uv tool upgrade --all?"; then
+		printf "\n===\nUV:\n===\n"
+		snap uv.before uv tool list
+		run uv tool upgrade --all
+		snap uv.after uv tool list
+		changed UV uv
+	else
+		skip UV
+	fi
 fi
 
-if command -v pipx >/dev/null 2>&1 && ask "Run pipx upgrade-all?"; then
-    printf "\n=====\nPIPX:\n=====\n\n[pipx upgrade all]\n"
-    pipx upgrade-all || true
+if command -v pipx >/dev/null 2>&1; then
+	if ask "Run pipx upgrade-all?"; then
+		printf "\n=====\nPIPX:\n=====\n"
+		snap pipx.before pipx list --short
+		run pipx upgrade-all
+		snap pipx.after pipx list --short
+		changed PIPX pipx
+	else
+		skip PIPX
+	fi
 fi
 
-if command -v rustup >/dev/null 2>&1 && ask "Run rustup upgrade?"; then
-    printf "\n=======\nRUSTUP:\n=======\n\n[rustup upgrade]\n"
-    rustup upgrade || true
+if command -v rustup >/dev/null 2>&1; then
+	if ask "Run rustup upgrade?"; then
+		printf "\n=======\nRUSTUP:\n=======\n"
+		snap rustup.before bash -c 'rustup --version 2>/dev/null; rustc --version'
+		run rustup upgrade
+		snap rustup.after bash -c 'rustup --version 2>/dev/null; rustc --version'
+		changed RUSTUP rustup
+	else
+		skip RUSTUP
+	fi
 fi
 
-if command -v npm >/dev/null 2>&1 && ask "Run npm global updates?"; then
-    printf "\n====\nNPM:\n====\n\n[npm ls -g]\n"
-    npm ls -g || true
-    printf "[npm u -g]\n"
-    npm u -g || true
-    printf "\n[npm ls -g]\n"
-    npm ls -g || true
+if command -v npm >/dev/null 2>&1; then
+	if ask "Run npm global updates?"; then
+		printf "\n====\nNPM:\n====\n"
+		snap npm.before npm ls -g --depth=0
+		run npm u -g
+		snap npm.after npm ls -g --depth=0
+		changed NPM npm
+	else
+		skip NPM
+	fi
 fi
 
 sleep 1
 
-if command -v pi >/dev/null 2>&1 && ask "Run pi updates?"; then
-    printf "\n===\nPI:\n===\n\n[pi update]\n"
-    pi update || true
-    printf "\n[pi update --extensions]\n"
-    pi update --extensions || true
+if command -v pi >/dev/null 2>&1; then
+	if ask "Run pi updates?"; then
+		printf "\n===\nPI:\n===\n"
+		snap pi.before pi --version
+		run pi update
+		run pi update --extensions
+		snap pi.after pi --version
+		changed PI pi "  (extensions: see log)"
+	else
+		skip PI
+	fi
 fi
 
 if command -v dnf >/dev/null 2>&1; then
-    if dnf needs-restarting -r &>/dev/null; then
-        printf "\nNEEDS RESTARTING?...yes\n"
-    else
-        printf "\nNEEDS RESTARTING?...no\n"
-    fi
+	RESTART=no
+	if dnf needs-restarting -r &>/dev/null; then
+		RESTART=yes
+	fi
+	printf "\nNEEDS RESTARTING?...%s\n" "$RESTART"
+	printf '\nNEEDS RESTARTING?...%s\n' "$RESTART" >>"$RECAP"
 fi
+
+# Strip progress-bar noise (\r, ANSI escapes) from the log, then assemble
+# and save the recap.
+ESC=$'\033'
+sed -i -e 's/\r//g' -e "s/${ESC}\[[0-9;?]*[a-zA-Z]//g" "$LOG"
+
+if [[ -s "$FAILURES" ]]; then
+	printf '\nFAILED:\n' >>"$RECAP"
+	cat "$FAILURES" >>"$RECAP"
+fi
+printf '\nfull log: %s\n' "$LOG" >>"$RECAP"
+
+printf "\n========\nRECAP:\n========\n"
+cat "$RECAP"
+cp "$RECAP" "$STATE_DIR/recap.txt"
 
 printf "\n\nDONE UPGRADING\n"
