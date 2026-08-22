@@ -6,22 +6,25 @@ copy() {
 	elif hash putclip 2>/dev/null; then
 		exec putclip
 	else
-		rm -f /tmp/clipboard 2> /dev/null
+		local clip="${XDG_RUNTIME_DIR:-/tmp}/clipboard"
+		mkdir -p "${clip%/*}"
+		rm -f "$clip" 2> /dev/null
 		if (( $# == 0 )); then
-			cat > /tmp/clipboard
+			cat > "$clip"
 		else
-			cat "$1" > /tmp/clipboard
+			cat "$1" > "$clip"
 		fi
 	fi
 }
 
 pasta() {
+	local clip="${XDG_RUNTIME_DIR:-/tmp}/clipboard"
 	if hash pbpaste 2>/dev/null; then
 		exec pbpaste
 	elif hash xclip 2>/dev/null; then
 		exec xclip -selection clipboard -o
-	elif [[ -e /tmp/clipboard ]]; then
-		exec cat /tmp/clipboard
+	elif [[ -e "$clip" ]]; then
+		exec cat "$clip"
 	else
 		echo ''
 	fi
