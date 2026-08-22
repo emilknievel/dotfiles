@@ -30,10 +30,10 @@ greedy=()
 
 while [[ $# -gt 0 ]]; do
 	case "$1" in
-	--all)    show_all=true ;;
-	--quiet)  mode="quiet" ;;
+	--all) show_all=true ;;
+	--quiet) mode="quiet" ;;
 	--greedy) greedy+=(--greedy) ;;
-	-h|--help)
+	-h | --help)
 		sed -n 's/^#: \{0,1\}//p; s/^#:$//p' "$0"
 		exit 0
 		;;
@@ -46,9 +46,17 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -t 1 && "$mode" != quiet ]]; then
-	R=$'\033[31m'; Y=$'\033[33m'; G=$'\033[32m'; B=$'\033[1m'; N=$'\033[0m'
+	R=$'\033[31m'
+	Y=$'\033[33m'
+	G=$'\033[32m'
+	B=$'\033[1m'
+	N=$'\033[0m'
 else
-	R=; Y=; G=; B=; N=
+	R=
+	Y=
+	G=
+	B=
+	N=
 fi
 
 mapfile -t outdated < <(brew outdated --cask --quiet "${greedy[@]}")
@@ -117,7 +125,7 @@ while IFS=$'\t' read -r token status reasons; do
 		fi
 		;;
 	esac
-done <<< "$(printf '%s' "$info_json" | jq -r "$jq_prog")"
+done <<<"$(printf '%s' "$info_json" | jq -r "$jq_prog")"
 
 if [[ "$mode" != quiet ]]; then
 	printf '%s%d need sudo, %d maybe, %d clear%s ' \
@@ -125,7 +133,7 @@ if [[ "$mode" != quiet ]]; then
 	printf '(of %d outdated cask(s))\n' "${#outdated[@]}"
 	if [[ $need -eq 1 ]]; then
 		echo "Tip: run the upgrade in the foreground so the sudo prompt" \
-		     "doesn't time out, or set SUDO_ASKPASS + 'sudo -A'."
+			"doesn't time out, or set SUDO_ASKPASS + 'sudo -A'."
 	fi
 fi
 

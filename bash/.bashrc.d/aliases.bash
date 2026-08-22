@@ -1,7 +1,7 @@
 alias sorc="source ~/.bashrc"
 
 alias dotnet64="/usr/local/share/dotnet/x64/dotnet"
-alias bc='bc -l'                       # Start calculator with math support
+alias bc='bc -l' # Start calculator with math support
 alias h='history'
 alias j='jobs -l'
 alias hg='history | grep'              # Find command in history
@@ -13,7 +13,7 @@ alias lg='lazygit'
 alias lga='git lga'
 alias gbvv='git branch -vv'
 alias gc-='git checkout -' # Checkout previous branch
-alias gbm='git branch -m' # Rename branch
+alias gbm='git branch -m'  # Rename branch
 
 # Homebrew
 alias bri='brew install'
@@ -31,16 +31,18 @@ alias brl='brew list'
 alias brmd='brew doctor'
 
 # Kitty
-alias kki='kitty +kitten icat'    # Display an image inline in terminal
-alias kkt='kitty +kitten themes'  # List and swap between kitten themes
-alias kkc='kitty +edit-config'    # Edit kitty config
-alias kks='kitty +kitten ssh'     # Kitty shell integration over ssh
+alias kki='kitty +kitten icat'   # Display an image inline in terminal
+alias kkt='kitty +kitten themes' # List and swap between kitten themes
+alias kkc='kitty +edit-config'   # Edit kitty config
+alias kks='kitty +kitten ssh'    # Kitty shell integration over ssh
 alias kktl='kitty +kitten themes --reload-in=all Catppuccin-latte'
 alias kktd='kitty +kitten themes --reload-in=all Catppuccin-mocha'
 
 # Yabai
-alias yqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"' # Query info about open windows
-alias yqwm='yabai -m query --windows --window mouse | jq' # Query window under mouse
+# Query info about open windows
+alias yqw='yabai -m query --windows | jq ".[] | { App: .app, Title: .title }"'
+# Query window under mouse
+alias yqwm='yabai -m query --windows --window mouse | jq'
 
 alias lsofp='lsof -i tcp:' # List open files using specified port
 

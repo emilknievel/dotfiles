@@ -60,8 +60,7 @@ alias luamake="~/tools/lua/lua-language-server/3rd/luamake/luamake"
 
 # bash shell integration for emacs-eat
 # shellcheck source=/dev/null
-[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
-	source "$EAT_SHELL_INTEGRATION_DIR/bash"
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
 
 # New shells can inherit mise-managed tool paths from parent processes such as
 # Emacs/Ghostel. Strip those entries before activation so mise rebuilds PATH in
@@ -77,8 +76,8 @@ sanitize_inherited_mise_paths() {
 		path_rest=${path_rest#*:}
 
 		case "$path_entry" in
-			"$HOME/.local/share/mise/installs/"*) ;;
-			*) sanitized_parts+=("$path_entry") ;;
+		"$HOME/.local/share/mise/installs/"*) ;;
+		*) sanitized_parts+=("$path_entry") ;;
 		esac
 	done
 
@@ -97,7 +96,6 @@ else
 fi
 
 unset -f sanitize_inherited_mise_paths
-
 
 # shellcheck source=/dev/null
 [[ -f "$HOME/.fzf.bash" ]] && . "$HOME/.fzf.bash"

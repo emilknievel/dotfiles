@@ -28,16 +28,25 @@ kroll() {
 
 	while getopts ":n:h" opt; do
 		case $opt in
-			n) namespace="$OPTARG" ;;
-			h) opt="h" ; break ;;
-			\?) echo "Unknown option: -$OPTARG" ; return 1 ;;
-			:) echo "Option -$OPTARG requires an argument" ; return 1 ;;
+		n) namespace="$OPTARG" ;;
+		h)
+			opt="h"
+			break
+			;;
+		\?)
+			echo "Unknown option: -$OPTARG"
+			return 1
+			;;
+		:)
+			echo "Option -$OPTARG requires an argument"
+			return 1
+			;;
 		esac
 	done
 	shift $((OPTIND - 1))
 	OPTIND=1
 
-	if (( $# == 0 )) || [[ "$opt" = "h" ]]; then
+	if (($# == 0)) || [[ "$opt" = "h" ]]; then
 		echo "Usage: kroll [-n namespace] <resource_type/name>"
 		echo "Example: kroll deployment/myapp"
 		echo "Example: kroll -n mynamespace deployment/myapp"

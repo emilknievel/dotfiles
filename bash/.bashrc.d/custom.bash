@@ -8,11 +8,11 @@ copy() {
 	else
 		local clip="${XDG_RUNTIME_DIR:-/tmp}/clipboard"
 		mkdir -p "${clip%/*}"
-		rm -f "$clip" 2> /dev/null
-		if (( $# == 0 )); then
-			cat > "$clip"
+		rm -f "$clip" 2>/dev/null
+		if (($# == 0)); then
+			cat >"$clip"
 		else
-			cat "$1" > "$clip"
+			cat "$1" >"$clip"
 		fi
 	fi
 }
@@ -31,7 +31,7 @@ pasta() {
 }
 
 cdls() {
-	if (( $# == 0 )); then
+	if (($# == 0)); then
 		cd && ls --color=auto
 	else
 		local dir="${1}"
