@@ -11,7 +11,7 @@ export PATH="$HOME/.local/scripts:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 
-export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 export EDITOR=vim
 
