@@ -2640,10 +2640,18 @@ Notable keymaps:
 *** Shell
 
 #+begin_src emacs-lisp
-  ;; Use tab for indentation in shell scripts
-  (add-hook 'sh-mode-hook (lambda ()
-                            (setq indent-tabs-mode t
-                                  sh-basic-offset 8)))
+  (defun my-shfmt-style-indent ()
+    "Indent like shfmt's defaults: tabs, flush case labels,
+  continuations one level in."
+    (setq-local indent-tabs-mode t
+                tab-width 8
+                sh-basic-offset 8             ; one level = 8 columns = 1 tab
+                sh-indent-for-case-label 0    ; shfmt: case labels unindented
+                sh-indent-for-case-alt 8      ; ...body one level under case
+                sh-indent-for-continuation 8  ; shfmt: +1 level continuations
+                sh-indent-after-continuation 'always))
+  (add-hook 'sh-mode-hook #'my-shfmt-style-indent)
+  (add-hook 'bash-ts-mode-hook #'my-shfmt-style-indent)
 #+end_src
 
 *** C

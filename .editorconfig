@@ -2,7 +2,7 @@
 end_of_line = lf
 insert_final_newline = true
 
-[{*.gitconfig,gitconfig-personal,gitconfig-work,sh,bash}]
+[{*.gitconfig,gitconfig-personal,gitconfig-work,*.sh,*.bash}]
 indent_style = tab
 
 [*.md]
