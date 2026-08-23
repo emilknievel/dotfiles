@@ -215,7 +215,7 @@ fi
 
 if command -v dnf >/dev/null 2>&1; then
 	RESTART=no
-	if dnf needs-restarting -r &>/dev/null; then
+	if ! dnf needs-restarting -r &>/dev/null; then
 		RESTART=yes
 	fi
 	printf "\nNEEDS RESTARTING?...%s\n" "$RESTART"
