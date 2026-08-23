@@ -107,7 +107,13 @@ if command -v dnf >/dev/null 2>&1; then
 	if ask "Run DNF upgrade?"; then
 		printf "\n====\nDNF:\n====\n"
 		snap dnf.before bash -c 'rpm -qa --qf "%{NAME} %{EVR}\n" | sort'
-		run sudo dnf upgrade
+		# -y in auto mode: dnf's "Is this ok" prompt reads stdin fine here,
+		# but AUTO_YES promises no prompting.
+		if ((AUTO_YES)); then
+			run sudo dnf upgrade -y
+		else
+			run sudo dnf upgrade
+		fi
 		snap dnf.after bash -c 'rpm -qa --qf "%{NAME} %{EVR}\n" | sort'
 		changed DNF dnf
 	else
@@ -118,9 +124,13 @@ fi
 if command -v flatpak >/dev/null 2>&1; then
 	if ask "Run Flatpak update?"; then
 		printf "\n========\nFLATPAK:\n========\n"
-		snap flatpak.before flatpak list --app --columns=application,version
-		run flatpak update
-		snap flatpak.after flatpak list --app --columns=application,version
+		# --app alone misses runtime updates (they live in --runtime), and
+		# runtime versions live in the branch column, not version.
+		snap flatpak.before flatpak list --app --runtime --columns=application,branch,version
+		# --noninteractive is required: run() pipes stdout through tee, and
+		# flatpak auto-answers "no" to any question when stdout is not a tty.
+		run flatpak update --noninteractive
+		snap flatpak.after flatpak list --app --runtime --columns=application,branch,version
 		changed FLATPAK flatpak
 	else
 		skip FLATPAK
