@@ -2201,20 +2201,13 @@ Display the current date and time on the mode line.
     ;; Display information about current completion item after 0.2 seconds.
     (corfu-popupinfo-delay 0.2)
 
-    ;; Keybindings
-    (global-set-key (kbd "C-M-i") #'corfu-complete) ; To invoke completion
-                                                    ; manually.
-
     :bind
-    (:map corfu-map (("SPC" . corfu-insert-separator)
-                     ("RET" . nil)
-                     ("M-n" . corfu-next)
-                     ("M-p" . corfu-previous)
-                     ("C-M-i" . corfu-insert)))
+    (:map corfu-map
+          (("SPC" . corfu-insert-separator)
+           ("RET" . nil)
+           ("M-n" . corfu-next)
+           ("M-p" . corfu-previous)))
 
-    ;; Recommended: Enable Corfu globally.
-    ;; This is recommended since Dabbrev can be used globally (M-/).
-    ;; See also `corfu-exclude-modes'.
     :init
     (global-corfu-mode)
     (corfu-popupinfo-mode))
@@ -2231,7 +2224,8 @@ Display the current date and time on the mode line.
     ;; (setq read-extended-command-predicate
     ;;       #'command-completion-default-include-p)
 
-    (setopt tab-always-indent t))
+    ;; TAB triggers completion first, then indents
+    (setopt tab-always-indent 'complete))
 #+end_src
 
 **** Nerd icons for Corfu
