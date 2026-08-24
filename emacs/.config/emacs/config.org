@@ -911,6 +911,14 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
   (add-hook 'conf-mode-hook 'kill-ring-deindent-mode)
 #+end_src
 
+*** Subword movement
+
+#+begin_src emacs-lisp
+  (use-package subword
+    :ensure nil
+    :hook ((prog-mode conf-mode yaml-ts-mode) . subword-mode))
+#+end_src
+
 *** Text Folding
 
 **** Kirigami.el
