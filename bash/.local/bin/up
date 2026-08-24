@@ -8,13 +8,67 @@ AUTO_YES=0
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/up"
 LOG="$STATE_DIR/last.log"
 
+# Print a recap with diff-style coloring: removal ("- ") lines red, addition
+# ("+ ") lines green. A "- " line directly followed by a "+ " line is a
+# before/after pair (changed() guarantees it: pairs are adjacent, diff
+# groups are separated by blank lines); for pairs the unchanged prefix and
+# suffix keep the line color while the changed middle is bolded, like a git
+# word diff. Display-only — stored recaps stay plain text, and color is
+# skipped when stdout is not a tty or NO_COLOR is set.
+show_recap() {
+	if [[ ! -t 1 || -n ${NO_COLOR:-} ]]; then
+		cat "$1"
+		return
+	fi
+	awk '
+		BEGIN {
+			red = "\033[31m"; green = "\033[32m"
+			bold = "\033[1m"; unbold = "\033[22m"; reset = "\033[0m"
+		}
+		function flush_pending() {
+			if (pkind == "-")
+				print red pline reset
+			else if (pkind == "+")
+				print green pline reset
+			else if (pkind != "")
+				print pline
+			pkind = ""
+		}
+		function emit_pair(oline, nline,    op, np, ol, nl, p, s) {
+			op = substr(oline, 5); np = substr(nline, 5) # strip "  - " / "  + "
+			ol = length(op); nl = length(np)
+			p = 0
+			while (p < ol && p < nl && substr(op, p + 1, 1) == substr(np, p + 1, 1))
+				p++
+			s = 0
+			while (s < ol - p && s < nl - p && substr(op, ol - s, 1) == substr(np, nl - s, 1))
+				s++
+			print red "  - " substr(op, 1, p) bold substr(op, p + 1, ol - p - s) unbold substr(op, ol - s + 1) reset
+			print green "  + " substr(np, 1, p) bold substr(np, p + 1, nl - p - s) unbold substr(np, nl - s + 1) reset
+		}
+		/^  - / { flush_pending(); pline = $0; pkind = "-"; next }
+		/^  \+ / {
+			if (pkind == "-") {
+				emit_pair(pline, $0)
+				pkind = ""
+			} else {
+				flush_pending()
+				print green $0 reset
+			}
+			next
+		}
+		{ flush_pending(); print }
+		END { flush_pending() }
+	' "$1"
+}
+
 # Parse flags
 for arg in "$@"; do
 	case "$arg" in
 	-y | --yes) AUTO_YES=1 ;;
 	-r | --recap)
 		if [[ -s "$STATE_DIR/recap.txt" ]]; then
-			cat "$STATE_DIR/recap.txt"
+			show_recap "$STATE_DIR/recap.txt"
 			exit 0
 		fi
 		printf "No recap from a previous run.\n" >&2
@@ -76,13 +130,43 @@ snap() {
 }
 
 # Append a recap entry for NAME: changed lines between the .before/.after
-# snapshots, or "(no changes)". An optional third arg adds a trailing note.
+# snapshots, with each "after" line directly under the "before" line it
+# replaced, or "(no changes)". Pairing is per diff group, so a deletion is
+# never stacked under an unrelated addition; unpaired lines print in order.
+# Diff groups are separated by a blank line, so a "- " line directly above
+# a "+ " line is always a before/after pair — show_recap relies on this.
+# An optional third arg adds a trailing note.
 changed() {
 	local name="$1" key="$2" note="${3:-}" out
-	out=$(diff --unchanged-group-format='' \
-		--old-line-format='  - %L' \
-		--new-line-format='  + %L' \
-		"$TMP/$key.before" "$TMP/$key.after" || true)
+	local nl=$'\n' sep=$'\036'
+	out=$(
+		diff \
+			--unchanged-group-format='' \
+			--old-group-format="$nl$sep$nl%<" \
+			--new-group-format="$nl$sep$nl%>" \
+			--changed-group-format="$nl$sep$nl%<%>" \
+			--old-line-format='  - %L' \
+			--new-line-format='  + %L' \
+			"$TMP/$key.before" "$TMP/$key.after" |
+			awk -v sep="$sep" '
+				BEGIN { h = 1; q = 0 }
+				function flush(    i) {
+					for (i = h; i <= q; i++)
+						print pend[i]
+					h = 1
+					q = 0
+				}
+				index($0, sep) == 1 { flush(); print ""; next }
+				/^  - / { pend[++q] = $0; next }
+				/^  \+ / {
+					if (h <= q)
+						print pend[h++]
+					print
+					next
+				}
+				END { flush() }
+			' || true
+	)
 	{
 		printf '\n%s:\n' "$name"
 		if [[ -n "$out" ]]; then
@@ -231,7 +315,7 @@ fi
 printf '\nfull log: %s\n' "$LOG" >>"$RECAP"
 
 printf "\n========\nRECAP:\n========\n"
-cat "$RECAP"
+show_recap "$RECAP"
 cp "$RECAP" "$STATE_DIR/recap.txt"
 
 printf "\n\nDONE UPGRADING\n"
