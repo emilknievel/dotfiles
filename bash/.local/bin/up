@@ -198,14 +198,11 @@ if command -v npm >/dev/null 2>&1; then
 	fi
 fi
 
-sleep 1
-
 if command -v pi >/dev/null 2>&1; then
 	if ask "Run pi updates?"; then
 		printf "\n===\nPI:\n===\n"
 		snap pi.before pi --version
-		run pi update
-		run pi update --extensions
+		run pi update --all
 		snap pi.after pi --version
 		changed PI pi "  (extensions: see log)"
 	else
