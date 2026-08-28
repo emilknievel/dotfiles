@@ -2776,6 +2776,7 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
 #+begin_src emacs-lisp
   (use-package magit
     :ensure t
+    :hook (magit-status-mode . visual-line-mode)
     :custom
     ;; Make Magit the only window in the frame when invoked.
     (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
