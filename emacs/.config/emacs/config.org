@@ -2662,12 +2662,6 @@ Notable keymaps:
 **** C(-ts-)mode
 
 #+begin_src emacs-lisp
-  ;; C layout lives in ~/.clang-format (stowed from this dotfiles repo): the
-  ;; single source of truth, discovered by clang-format, clangd (eglot), and
-  ;; apheleia alike; project .clang-format files win by proximity. This section
-  ;; only handles the two things those tools can't do for Emacs: comment syntax
-  ;; and TAB indentation.
-
   ;; cc-mode, used only when no tree-sitter grammar is available.
   (setq c-default-style '((java-mode . "java")
                           (awk-mode . "awk")
@@ -2730,10 +2724,6 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
   (use-package apheleia
     :ensure t
     :config
-    ;; Reformat on save, asynchronously, preserving point. Buffers whose formatter
-    ;; is not installed are skipped.
-    (apheleia-global-mode +1)
-
     ;; Python
     (setf (alist-get 'python-mode apheleia-mode-alist)
           '(ruff-isort ruff))
