@@ -1236,11 +1236,18 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
     :ensure (:host codeberg :repo "ashton314/modus-nordic-night"))
 #+end_src
 
-***** Modus Vague
+***** Modus vague
 
 #+begin_src emacs-lisp
   (use-package modus-vague
     :ensure (:host github :repo "paniash/modus-vague"))
+#+end_src
+
+***** Modus alabaster
+
+#+begin_src emacs-lisp
+  (use-package modus-alabaster
+    :ensure (:host github :repo "dpassen/modus-alabaster"))
 #+end_src
 
 **** Ef themes
@@ -1399,13 +1406,6 @@ The tint and overline carry the level on task headings, where ~org-todo~ / ~org-
       '(:def
         (lambda () (interactive) (my-load-theme 'folio))
         :wk "folio")))
-#+end_src
-
-**** Modus Alabaster
-
-#+begin_src emacs-lisp
-  (use-package modus-alabaster
-    :ensure (:host github :repo "dpassen/modus-alabaster"))
 #+end_src
 
 *** Fonts
