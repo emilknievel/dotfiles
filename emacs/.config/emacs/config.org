@@ -2234,7 +2234,9 @@ Display the current date and time on the mode line.
     ;;       #'command-completion-default-include-p)
 
     ;; TAB triggers completion first, then indents
-    (setopt tab-always-indent 'complete))
+    (setopt tab-always-indent 'complete)
+
+    (setq-default completion-ignore-case t))
 #+end_src
 
 **** Nerd icons for Corfu
@@ -2309,6 +2311,24 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
     (kind-icon-formatted 'variable)
     :config
     (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+#+end_src
+
+*** Completion Preview
+
+Built-in (Emacs 30+) inline "ghost text" completion.  Complements the manual Corfu setup above: the preview silently suggests the obvious completion as you type (accept with ~TAB~), while ambiguous completions still go through Corfu (~TAB~ when no preview is shown).  Both use the same ~completion-at-point-functions~ (incl. Cape), so no extra backends are needed.
+
+#+begin_src emacs-lisp
+  (use-package completion-preview
+    :ensure nil
+    :custom
+    (completion-preview-idle-delay 0.2)
+    (completion-preview-exact-match-only t)
+    (completion-preview-ignore-case t)
+    :bind (:map completion-preview-active-mode-map
+                ("M-n" . completion-preview-next-candidate)
+                ("M-p" . completion-preview-prev-candidate))
+    :init
+    (global-completion-preview-mode 1))
 #+end_src
 
 *** Snippets
