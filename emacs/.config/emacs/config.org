@@ -2953,8 +2953,6 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 
 *** Ghostel
 
-Ghostel emits a desktop notification for OSC 9/777 escape sequences (e.g. shell integration signaling a long-running command finished). =ghostel-default-notify= routes these through [[https://github.com/jwiegley/alert][=alert=]] (see [[*Notifications][Notifications]]) when installed, falling back to the echo area otherwise.
-
 #+begin_src emacs-lisp
   (use-package ghostel
     :ensure t
