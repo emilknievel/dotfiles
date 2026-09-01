@@ -950,6 +950,21 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
     :hook (xref-backend-functions . dumb-jump-xref-activate))
 #+end_src
 
+*** Drag and drop
+
+#+begin_src emacs-lisp
+  (setopt mouse-drag-and-drop-region t
+          mouse-drag-and-drop-region-cross-program t)
+#+end_src
+
+*** Xref mouse mode
+
+Ctrl + left click on a function name to jump to its definition.
+
+#+begin_src emacs-lisp
+  (setopt global-xref-mouse-mode t)
+#+end_src
+
 ** Eldoc
 
 #+begin_src emacs-lisp
@@ -5151,7 +5166,8 @@ Source: https://vannilla.org/write/1778277936/article.html.
 *** Scroll *compilation* buffer window as output appears
 
 #+begin_src emacs-lisp
-  (setq-default compilation-scroll-output t)
+  ;; Stop scrolling at first error.
+  (setq-default compilation-scroll-output 'first-error)
 #+end_src
 
 *** Keybindings
