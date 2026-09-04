@@ -2537,6 +2537,17 @@ Use prolog-mode instead of perl-mode for .pl files.
      "pandoc -f markdown -t org --wrap=preserve" t t))
 #+end_src
 
+**** grip-mode
+
+Live-preview of Markdown and Org files, through grip (or alternatives like mdopen, go-grip) which needs to be installed for the mode to function.
+
+#+begin_src emacs-lisp
+  (use-package grip-mode
+  :ensure t
+  :custom
+  (grip-command 'auto))
+#+end_src
+
 *** Clojure
 
 #+begin_src emacs-lisp
