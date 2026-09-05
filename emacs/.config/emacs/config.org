@@ -1254,6 +1254,10 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 ***** Modus vague
 
 #+begin_src emacs-lisp
+  ;; Workaround: modus-vague's autoloads run `modus-themes-theme' before
+  ;; the theme file defines `modus-vague-custom-faces'.
+  (defvar modus-vague-custom-faces nil)
+
   (use-package modus-vague
     :ensure (:host github :repo "paniash/modus-vague"))
 #+end_src
