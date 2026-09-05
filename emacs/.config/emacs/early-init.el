@@ -42,6 +42,13 @@
 ;; Let Elpaca manage package activation.
 (setq package-enable-at-startup nil)
 
+;; Development builds otherwise get the prior release's date from Elpaca
+;; (with a warning). Pre-binding `elpaca-core-date' wins over its `defvar'.
+(when (> (length (version-to-list emacs-version)) 2) ; development version
+  (setq elpaca-core-date
+        (list (string-to-number
+               (format-time-string "%Y%m%d" emacs-build-time)))))
+
 ;; Configure the initial frame.
 (setq default-frame-alist '((width . 130) (height . 40)))
 (when (eq system-type 'darwin)
