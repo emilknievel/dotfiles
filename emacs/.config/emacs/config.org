@@ -1538,7 +1538,7 @@ These are the *default* font families. They are ~defcustom~ s, so a per-machine 
 
 **** Variable pitch
 
-Use the built-in ~variable-pitch-mode~ rather than the =mixed-pitch= package. ~variable-pitch-mode~ remaps the buffer's =default= face to =variable-pitch=, turning the whole buffer proportional; it leaves a face monospace only if that face inherits =fixed-pitch=. The org and markdown code/table faces do not by default, so we add that inheritance ourselves (this is the curated list =mixed-pitch= used to maintain).
+~variable-pitch-mode~ remaps the =default= face to =variable-pitch=, so a face stays monospace only if it inherits =fixed-pitch=; the org and markdown code/table faces don't by default, so that inheritance is added below.
 
 #+begin_src emacs-lisp
   (defvar my-fixed-pitch-faces
@@ -1547,13 +1547,10 @@ Use the built-in ~variable-pitch-mode~ rather than the =mixed-pitch= package. ~v
       org-meta-line org-document-info-keyword org-latex-and-related
       markdown-ts-code-block markdown-ts-code-span markdown-ts-table
       markdown-ts-indented-code-block markdown-ts-language-keyword)
-    "Faces forced to inherit `fixed-pitch' so they stay monospace under
-  `variable-pitch-mode' (code blocks, tables, verbatim, ...).")
+    "Faces kept monospace under `variable-pitch-mode'.")
 
   (defun my-apply-fixed-pitch-inheritance (&rest _)
-    "Append `fixed-pitch' to the inheritance of `my-fixed-pitch-faces'.
-  Run at startup, after org/markdown load, and after a theme change --
-  enabling a theme can reset face inheritance."
+    "Append `fixed-pitch' to the inheritance of `my-fixed-pitch-faces'.")
     (dolist (face my-fixed-pitch-faces)
       (when (facep face)
         (let* ((inherit (face-attribute face :inherit nil nil))
@@ -1567,26 +1564,25 @@ Use the built-in ~variable-pitch-mode~ rather than the =mixed-pitch= package. ~v
   (my-apply-fixed-pitch-inheritance)
   (with-eval-after-load 'org (my-apply-fixed-pitch-inheritance))
   (with-eval-after-load 'markdown-ts-mode (my-apply-fixed-pitch-inheritance))
+  ;; Enabling a theme can reset face inheritance.
   (add-hook 'enable-theme-functions #'my-apply-fixed-pitch-inheritance)
 
   ;; shr's body face is `variable-pitch' x1.1; pin it to 1.0 so prose in
   ;; devdocs/eww/nov matches fontaine's variable-pitch height.
   (defun my-normalize-variable-pitch-text (&rest _)
-    "Make `variable-pitch-text' equal `variable-pitch' (remove the 1.1x bump)."
+    "Set `variable-pitch-text' height to 1.0."
     (when (facep 'variable-pitch-text)
       (set-face-attribute 'variable-pitch-text nil :height 1.0)))
 
   (my-normalize-variable-pitch-text)
   (add-hook 'enable-theme-functions #'my-normalize-variable-pitch-text)
 
-  ;; Persistent flag controlling variable-pitch in prose buffers.
   (defcustom my-enable-variable-pitch t
     "Enable `variable-pitch-mode' in org and markdown buffers."
     :type 'boolean
     :group 'editing
     :set (lambda (symbol value)
            (set-default symbol value)
-           ;; Apply to existing buffers when changed.
            (dolist (buffer (buffer-list))
              (with-current-buffer buffer
                (when (or (derived-mode-p 'org-mode)
