@@ -182,3 +182,4 @@ helix/.config/helix/themes/lugh*
 /bash/.bashrc.d/private/*
 !/bash/.bashrc.d/private/.gitkeep
 /.agent-shell/
+TAGS
