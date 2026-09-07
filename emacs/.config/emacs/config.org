@@ -1152,6 +1152,14 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
                             (mapcar #'symbol-name (my-theme-variants base))
                             nil t))))
 
+  (defun my-load-random-theme-variant (base &optional exclusions)
+    "Load a random theme whose name starts with BASE.
+  EXCLUSIONS is a list of theme symbols to leave out of the draw."
+    (let ((theme (seq-random-elt
+                  (seq-difference (my-theme-variants base) exclusions))))
+      (my-load-theme theme)
+      (message "Loaded theme `%s'" theme)))
+
   (defun my-load-theme-in-all-frames (frame)
     "Load the current theme in the newly created FRAME.
   When loaded after a new frame has been created with emacsclient, it
@@ -1329,26 +1337,21 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
     ;; NOTE: These two lack a `lexical-binding' cookie upstream and warn on
     ;; load. Re-check and unskip with:
     ;;   grep -L lexical-binding ~/.config/emacs/elpaca/builds/doom-themes/*-theme.el
+    ;; TODO: Drop this once upstream ships the cookies.
     (defconst my-doom-theme-exclusions '(doom-earl-grey doom-nord-aurora)
-      "Doom themes excluded from `my-load-random-doom-theme'.")
-
-    (defun my-load-random-doom-theme ()
-      "Load a random doom theme."
-      (interactive)
-      ;; TODO: Drop this `seq-difference' and `my-doom-theme-exclusions' once
-      ;; upstream ships the cookies.
-      (let ((theme (seq-random-elt
-                    (seq-difference (my-theme-variants "doom-")
-                                    my-doom-theme-exclusions))))
-        (my-load-theme theme)
-        (message "Loaded theme `%s'" theme)))
+      "Doom themes excluded from the random draw.")
     :config
     (doom-themes-org-config)
     :general
     (my-leader-keys "t t d"
       '(:def
         (lambda () (interactive) (my-load-theme-variant "doom-"))
-        :wk "doom")))
+        :wk "doom"))
+    (my-leader-keys "t t D"
+      '(:def
+        (lambda () (interactive)
+          (my-load-random-theme-variant "doom-" my-doom-theme-exclusions))
+        :wk "random doom")))
 #+end_src
 
 **** Acme theme
@@ -1382,7 +1385,11 @@ Inspired by Plan 9 Acme & Sam.
     (my-leader-keys "t t k"
       '(:def
         (lambda () (interactive) (my-load-theme-variant "kaolin-"))
-        :wk "kaolin")))
+        :wk "kaolin"))
+    (my-leader-keys "t t K"
+      '(:def
+        (lambda () (interactive) (my-load-random-theme-variant "kaolin-"))
+        :wk "random kaolin")))
 #+end_src
 
 **** Folio
