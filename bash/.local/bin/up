@@ -130,25 +130,17 @@ snap() {
 }
 
 # Append a recap entry for NAME: changed lines between the .before/.after
-# snapshots, with each "after" line directly under the "before" line it
-# replaced, or "(no changes)". Pairing is per diff group, so a deletion is
-# never stacked under an unrelated addition; unpaired lines print in order.
-# Diff groups are separated by a blank line, so a "- " line directly above
-# a "+ " line is always a before/after pair — show_recap relies on this.
-# An optional third arg adds a trailing note.
+# snapshots, each "after" line under the "before" it replaced, or
+# "(no changes)". Optional third arg adds a trailing note.
+# diff -U 0 because BSD diff lacks GNU's --*-group-format; with no context
+# each hunk is one group. Pairing is per group, and groups are blank-line
+# separated, so a "- " directly above a "+ " is always a pair (show_recap
+# relies on this).
 changed() {
 	local name="$1" key="$2" note="${3:-}" out
-	local nl=$'\n' sep=$'\036'
 	out=$(
-		diff \
-			--unchanged-group-format='' \
-			--old-group-format="$nl$sep$nl%<" \
-			--new-group-format="$nl$sep$nl%>" \
-			--changed-group-format="$nl$sep$nl%<%>" \
-			--old-line-format='  - %L' \
-			--new-line-format='  + %L' \
-			"$TMP/$key.before" "$TMP/$key.after" |
-			awk -v sep="$sep" '
+		diff -U 0 "$TMP/$key.before" "$TMP/$key.after" |
+			awk '
 				BEGIN { h = 1; q = 0 }
 				function flush(    i) {
 					for (i = h; i <= q; i++)
@@ -156,12 +148,13 @@ changed() {
 					h = 1
 					q = 0
 				}
-				index($0, sep) == 1 { flush(); print ""; next }
-				/^  - / { pend[++q] = $0; next }
-				/^  \+ / {
+				/^@@/ { flush(); print ""; hunk = 1; next }
+				!hunk { next } # the ---/+++ file headers
+				/^-/ { pend[++q] = "  - " substr($0, 2); next }
+				/^\+/ {
 					if (h <= q)
 						print pend[h++]
-					print
+					print "  + " substr($0, 2)
 					next
 				}
 				END { flush() }
@@ -305,8 +298,10 @@ fi
 
 # Strip progress-bar noise (\r, ANSI escapes) from the log, then assemble
 # and save the recap.
+# Not sed -i: BSD sed takes the next argument as a backup suffix.
 ESC=$'\033'
-sed -i -e 's/\r//g' -e "s/${ESC}\[[0-9;?]*[a-zA-Z]//g" "$LOG"
+sed -e 's/\r//g' -e "s/${ESC}\[[0-9;?]*[a-zA-Z]//g" "$LOG" >"$TMP/log.clean"
+mv "$TMP/log.clean" "$LOG"
 
 if [[ -s "$FAILURES" ]]; then
 	printf '\nFAILED:\n' >>"$RECAP"
