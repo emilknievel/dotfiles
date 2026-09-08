@@ -2701,6 +2701,16 @@ Lightweight alternative mode that is useful when working with very large C files
     :ensure (:host github :repo "rexim/simpc-mode"))
 #+end_src
 
+*** Conf
+
+**** Unix style
+
+#+begin_src emacs-lisp
+  (use-package conf-unix-mode
+    :ensure nil
+    :mode "\\.container\\'")
+#+end_src
+
 ** Syntax checking
 
 Flymake. Eglot enables it in managed buffers; the hook covers the rest.
