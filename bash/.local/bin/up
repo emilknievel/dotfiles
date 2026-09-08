@@ -87,6 +87,15 @@ for arg in "$@"; do
 	esac
 done
 
+# One instance at a time: two concurrent runs would interleave into the
+# same log and recap.
+mkdir -p "$STATE_DIR"
+exec 9>"$STATE_DIR/lock"
+if command -v flock >/dev/null 2>&1 && ! flock -n 9; then
+	printf "another 'up' run appears to be in progress\n" >&2
+	exit 1
+fi
+
 ask() {
 	if ((AUTO_YES)); then
 		return 0
@@ -101,7 +110,6 @@ ask() {
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 
-mkdir -p "$STATE_DIR"
 : >"$LOG"
 
 RECAP="$TMP/recap"
@@ -110,12 +118,18 @@ printf "up %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" >"$RECAP"
 : >"$FAILURES"
 
 # Announce a command, run it, and log its output. A failure does not abort
-# the run; it is recorded in $FAILURES and reported in the recap.
+# the run; it is recorded in $FAILURES and reported in the recap. `-k N`
+# treats exit code N as success (fwupdmgr exits 2 for "nothing to do").
 run() {
+	local ok=""
+	while [[ $1 == -k ]]; do
+		ok+=",$2"
+		shift 2
+	done
 	printf '\n[%s]\n' "$*" | tee -a "$LOG"
 	local status=0
 	"$@" 2>&1 | tee -a "$LOG" || status=$?
-	if ((status)); then
+	if ((status)) && [[ ,$ok, != *",$status,"* ]]; then
 		printf '[exit %s]\n' "$status" | tee -a "$LOG"
 		printf '%s (exit %s)\n' "$*" "$status" >>"$FAILURES"
 	fi
@@ -178,21 +192,49 @@ skip() {
 	printf '\n%s: (skipped)\n' "$1" >>"$RECAP"
 }
 
+# Format seconds elapsed since T0 (a $SECONDS snapshot) as "4m07s".
+took() {
+	local d=$((SECONDS - $1))
+	printf '%dm%02ds' $((d / 60)) $((d % 60))
+}
+
+# Clean the log (strip progress-bar noise: \r and ANSI escapes), append
+# failures, and persist the recap to the state dir. Runs on normal
+# completion and on interrupt, so Ctrl-C keeps a partial recap.
+# Not sed -i: BSD sed takes the next argument as a backup suffix.
+save_recap() {
+	local esc=$'\033'
+	sed -e 's/\r//g' -e "s/${esc}\[[0-9;?]*[a-zA-Z]//g" "$LOG" >"$TMP/log.clean" && mv "$TMP/log.clean" "$LOG"
+	if [[ -s "$FAILURES" ]]; then
+		printf '\nFAILED:\n' >>"$RECAP"
+		cat "$FAILURES" >>"$RECAP"
+	fi
+	printf '\nfull log: %s\n' "$LOG" >>"$RECAP"
+	cp "$RECAP" "$STATE_DIR/recap.txt"
+}
+trap 'save_recap; printf "\ninterrupted; partial recap saved to %s\n" "$STATE_DIR/recap.txt" >&2; exit 130' INT TERM
+
 printf "===================\nUPGRADING PACKAGES:\n===================\n"
 
 if command -v dnf >/dev/null 2>&1; then
 	if ask "Run DNF upgrade?"; then
 		printf "\n====\nDNF:\n====\n"
-		snap dnf.before bash -c 'rpm -qa --qf "%{NAME} %{EVR}\n" | sort'
+		t0=$SECONDS
 		# -y in auto mode: dnf's "Is this ok" prompt reads stdin fine here,
 		# but AUTO_YES promises no prompting.
+		snap dnf.before bash -c 'rpm -qa --qf "%{NAME} %{EVR}\n" | sort'
 		if ((AUTO_YES)); then
 			run sudo dnf upgrade -y
 		else
 			run sudo dnf upgrade
 		fi
+		if ((AUTO_YES)); then
+			run sudo dnf autoremove -y
+		else
+			run sudo dnf autoremove
+		fi
 		snap dnf.after bash -c 'rpm -qa --qf "%{NAME} %{EVR}\n" | sort'
-		changed DNF dnf
+		changed DNF dnf "  (took $(took "$t0"))"
 	else
 		skip DNF
 	fi
@@ -201,27 +243,51 @@ fi
 if command -v flatpak >/dev/null 2>&1; then
 	if ask "Run Flatpak update?"; then
 		printf "\n========\nFLATPAK:\n========\n"
+		t0=$SECONDS
 		# --app alone misses runtime updates (they live in --runtime), and
 		# runtime versions live in the branch column, not version.
 		snap flatpak.before flatpak list --app --runtime --columns=application,branch,version
 		# --noninteractive is required: run() pipes stdout through tee, and
 		# flatpak auto-answers "no" to any question when stdout is not a tty.
 		run flatpak update --noninteractive
+		# -y for the same reason: without it the cleanup silently does nothing.
+		run flatpak uninstall --unused -y --noninteractive
 		snap flatpak.after flatpak list --app --runtime --columns=application,branch,version
-		changed FLATPAK flatpak
+		changed FLATPAK flatpak "  (took $(took "$t0"))"
 	else
 		skip FLATPAK
+	fi
+fi
+
+if command -v fwupdmgr >/dev/null 2>&1; then
+	if ask "Check firmware updates (fwupdmgr)?"; then
+		printf "\n=========\nFIRMWARE:\n=========\n"
+		t0=$SECONDS
+		run -k 2 fwupdmgr refresh
+		# get-updates exits non-zero when nothing is pending, so snap()
+		# leaves the file empty and -s is the "updates exist" test.
+		snap fw.updates fwupdmgr get-updates
+		if [[ -s "$TMP/fw.updates" ]]; then
+			# --no-reboot-check: the reboot decision stays with the user.
+			run fwupdmgr update -y --no-reboot-check
+			printf '\nFIRMWARE:\n  (staged; applied after reboot; took %s)\n' "$(took "$t0")" >>"$RECAP"
+		else
+			printf '\nFIRMWARE:\n  (no updates; took %s)\n' "$(took "$t0")" >>"$RECAP"
+		fi
+	else
+		skip FIRMWARE
 	fi
 fi
 
 if command -v mise >/dev/null 2>&1; then
 	if ask "Run mise updates?"; then
 		printf "\n=====\nMISE:\n=====\n"
+		t0=$SECONDS
 		snap mise.before bash -c 'mise --version; mise ls --current'
 		run mise self-update
 		run mise up
 		snap mise.after bash -c 'mise --version; mise ls --current'
-		changed MISE mise
+		changed MISE mise "  (took $(took "$t0"))"
 	else
 		skip MISE
 	fi
@@ -230,10 +296,11 @@ fi
 if command -v uv >/dev/null 2>&1; then
 	if ask "Run uv tool upgrade --all?"; then
 		printf "\n===\nUV:\n===\n"
+		t0=$SECONDS
 		snap uv.before uv tool list
 		run uv tool upgrade --all
 		snap uv.after uv tool list
-		changed UV uv
+		changed UV uv "  (took $(took "$t0"))"
 	else
 		skip UV
 	fi
@@ -242,10 +309,11 @@ fi
 if command -v pipx >/dev/null 2>&1; then
 	if ask "Run pipx upgrade-all?"; then
 		printf "\n=====\nPIPX:\n=====\n"
+		t0=$SECONDS
 		snap pipx.before pipx list --short
 		run pipx upgrade-all
 		snap pipx.after pipx list --short
-		changed PIPX pipx
+		changed PIPX pipx "  (took $(took "$t0"))"
 	else
 		skip PIPX
 	fi
@@ -254,36 +322,81 @@ fi
 if command -v rustup >/dev/null 2>&1; then
 	if ask "Run rustup upgrade?"; then
 		printf "\n=======\nRUSTUP:\n=======\n"
+		t0=$SECONDS
 		snap rustup.before bash -c 'rustup --version 2>/dev/null; rustc --version'
 		run rustup upgrade
 		snap rustup.after bash -c 'rustup --version 2>/dev/null; rustc --version'
-		changed RUSTUP rustup
+		changed RUSTUP rustup "  (took $(took "$t0"))"
 	else
 		skip RUSTUP
+	fi
+fi
+
+if command -v cargo >/dev/null 2>&1; then
+	if ask "Run cargo updates?"; then
+		printf "\n======\nCARGO:\n======\n"
+		t0=$SECONDS
+		# install-update comes from the cargo-update helper; build it on
+		# first use.
+		if ! command -v cargo-install-update >/dev/null 2>&1; then
+			run cargo install cargo-update
+		fi
+		snap cargo.before cargo install --list
+		run cargo install-update -a
+		snap cargo.after cargo install --list
+		changed CARGO cargo "  (took $(took "$t0"))"
+	else
+		skip CARGO
 	fi
 fi
 
 if command -v npm >/dev/null 2>&1; then
 	if ask "Run npm global updates?"; then
 		printf "\n====\nNPM:\n====\n"
+		t0=$SECONDS
 		snap npm.before npm ls -g --depth=0
 		run npm u -g
 		snap npm.after npm ls -g --depth=0
-		changed NPM npm
+		changed NPM npm "  (took $(took "$t0"))"
 	else
 		skip NPM
+	fi
+fi
+
+if command -v opencode >/dev/null 2>&1; then
+	if ask "Run opencode upgrade?"; then
+		printf "\n=========\nOPENCODE:\n=========\n"
+		t0=$SECONDS
+		snap opencode.before opencode --version
+		run opencode upgrade
+		snap opencode.after opencode --version
+		changed OPENCODE opencode "  (took $(took "$t0"))"
+	else
+		skip OPENCODE
 	fi
 fi
 
 if command -v pi >/dev/null 2>&1; then
 	if ask "Run pi updates?"; then
 		printf "\n===\nPI:\n===\n"
+		t0=$SECONDS
 		snap pi.before pi --version
 		run pi update --all
 		snap pi.after pi --version
-		changed PI pi "  (extensions: see log)"
+		changed PI pi "  (extensions: see log; took $(took "$t0"))"
 	else
 		skip PI
+	fi
+fi
+
+if command -v tldr >/dev/null 2>&1; then
+	if ask "Update tldr cache?"; then
+		printf "\n====\nTLDR:\n====\n"
+		t0=$SECONDS
+		run tldr --update
+		printf '\nTLDR:\n  (cache updated; took %s)\n' "$(took "$t0")" >>"$RECAP"
+	else
+		skip TLDR
 	fi
 fi
 
@@ -296,21 +409,9 @@ if command -v dnf >/dev/null 2>&1; then
 	printf '\nNEEDS RESTARTING?...%s\n' "$RESTART" >>"$RECAP"
 fi
 
-# Strip progress-bar noise (\r, ANSI escapes) from the log, then assemble
-# and save the recap.
-# Not sed -i: BSD sed takes the next argument as a backup suffix.
-ESC=$'\033'
-sed -e 's/\r//g' -e "s/${ESC}\[[0-9;?]*[a-zA-Z]//g" "$LOG" >"$TMP/log.clean"
-mv "$TMP/log.clean" "$LOG"
-
-if [[ -s "$FAILURES" ]]; then
-	printf '\nFAILED:\n' >>"$RECAP"
-	cat "$FAILURES" >>"$RECAP"
-fi
-printf '\nfull log: %s\n' "$LOG" >>"$RECAP"
+save_recap
 
 printf "\n========\nRECAP:\n========\n"
 show_recap "$RECAP"
-cp "$RECAP" "$STATE_DIR/recap.txt"
 
 printf "\n\nDONE UPGRADING\n"
