@@ -1256,8 +1256,19 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 
 #+begin_src emacs-lisp
   (use-package modus-nordic-night-theme
-    :ensure (:host codeberg :repo "ashton314/modus-nordic-night"))
-#+end_src
+    :ensure (:host codeberg :repo "ashton314/modus-nordic-night")
+    :custom
+    (modus-nordic-night-theme-palette-overrides
+     '((bg-mode-line-active bg-prose-block-contents)
+       (fg-mode-line-active fg-main)
+       (bg-mode-line-inactive "#141518")
+       (fg-mode-line-inactive fg-dim)))
+    (modus-nordic-midnight-theme-palette-overrides
+     '((bg-mode-line-active bg-prose-block-contents)
+       (fg-mode-line-active fg-main)
+       (bg-mode-line-inactive "#0c1016")
+       (fg-mode-line-inactive fg-dim))))
+  #+end_src
 
 ***** Modus vague
 
