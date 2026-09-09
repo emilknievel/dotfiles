@@ -3448,6 +3448,11 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
      '((my-vulpea-refile-files :maxlevel . 4)
        (nil :maxlevel . 4)))
     (org-refile-use-outline-path t)
+    ;; Default `t' drives completion through `org-olpath-completing-read',
+    ;; which asks for the path in separate per-segment steps instead of
+    ;; `completing-read' — so vertico/orderless can't fuzzy-match a full
+    ;; path like "Torsdag/Uppgifter" in one go.
+    (org-outline-path-complete-in-steps nil)
     (org-refile-allow-creating-parent-nodes 'confirm)
     ;; No refile cache: targets come from `my-vulpea-refile-files', which
     ;; changes as notes gain and lose the "todo" tag, and the cache would
@@ -3891,7 +3896,7 @@ Olivetti is a minor mode that provides a nice writing environment by setting com
     (concat
      (mapconcat
       (lambda (date)
-        (format "* %s\n:PROPERTIES:\n:JOURNAL_DATE: %s\n:END:\n\n"
+        (format "* %s\n:PROPERTIES:\n:JOURNAL_DATE: %s\n:END:\n\n** Uppgifter\n\n"
                 (my-work-journal--weekday-name date)
                 (format-time-string "[%Y-%m-%d]" date)))
       (my-work-journal--week-dates time)
@@ -3951,7 +3956,7 @@ Return non-nil when the heading exists."
                 ":JOURNAL_DATE: " (format-time-string "[%Y-%m-%d]"
                                                        (or time (current-time)))
                 "\n"
-                ":END:\n\n")
+                ":END:\n\n** Uppgifter\n\n")
         (goto-char heading-start))))
 
   (defalias 'my-work-journal-goto-today-heading
