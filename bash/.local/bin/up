@@ -284,8 +284,13 @@ if command -v mise >/dev/null 2>&1; then
 		printf "\n=====\nMISE:\n=====\n"
 		t0=$SECONDS
 		snap mise.before bash -c 'mise --version; mise ls --current'
-		run mise self-update
-		run mise up
+		if ((AUTO_YES)); then
+			run mise self-update -y
+			run mise up -y
+		else
+			run mise self-update
+			run mise up
+		fi
 		snap mise.after bash -c 'mise --version; mise ls --current'
 		changed MISE mise "  (took $(took "$t0"))"
 	else
