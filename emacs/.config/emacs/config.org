@@ -4252,6 +4252,7 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
       "C-c v f" "find"
       "C-c v F" "find (consult)"
       "C-c v g" "grep"
+      "C-c v G" "graph"
       "C-c v s" "sidebar"
       "C-c v P" "find project (all)"
       "C-c v p" "people"
@@ -4275,6 +4276,17 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
 
     :hook
     (org-mode . vulpea-title-change-detection-mode))
+#+end_src
+
+**** Graph UI
+
+#+begin_src emacs-lisp
+  (use-package vulpea-graph
+    :ensure (:host github
+              :repo "Arenile/vulpea-graph-ui"
+              :files ("*.el" "assets"))
+    :bind ("C-c v G" . vulpea-graph)
+    :commands (vulpea-graph-mode))
 #+end_src
 
 **** Work note basics
