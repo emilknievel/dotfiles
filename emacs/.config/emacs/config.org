@@ -2369,7 +2369,8 @@ Use the ELPA version instead of the one bundled with Emacs. Its newer ~eldoc~/~j
                                          :semanticTokensProvider))
 
     (eglot-documentation-renderer 'markdown-ts-view-mode)
-    (eglot-code-action-indications nil))
+    (eglot-code-action-indications nil)
+    :hook ((c-mode c-ts-mode c++-mode c++-ts-mode) . eglot-ensure))
 #+end_src
 
 Eglot drives flymake natively; diagnostics navigation lives under =M-g f=.
@@ -2668,32 +2669,11 @@ Notable keymaps:
 **** C(-ts-)mode
 
 #+begin_src emacs-lisp
-  ;; cc-mode, used only when no tree-sitter grammar is available.
-  (setq c-default-style '((java-mode . "java")
-                          (awk-mode . "awk")
-                          (other . "k&r")))
-  (setq-default c-basic-offset 4)
+  ;; c-ts-mode, which C files open in.  k&r = attached braces, like LLVM;
+  ;; layout authority is clang-format (LLVM) via apheleia on save.
+  (setq c-ts-mode-indent-style 'k&r)
 
-  ;; c-ts-mode, which C files open in.
-  (setq-default c-ts-indent-offset 4)
-
-  (defun my-c-ts-indent-style ()
-    "`k&r' rules, but wrapped argument/parameter lists indent block-style:
-  one offset in from the line opening the list, closing paren aligned with
-  it. Matches AlignAfterOpenBracket: BlockIndent in ~/.clang-format, so
-  TAB agrees with the formatters."
-    `((c . (((match ")" ,(rx (or "argument_list" "parameter_list")))
-             parent-bol 0)
-            ((parent-is ,(rx (or "argument_list" "parameter_list")))
-             parent-bol c-ts-indent-offset)
-            ,@(alist-get 'c (c-ts-mode--simple-indent-rules 'c 'k&r))))))
-
-  (setq c-ts-mode-indent-style #'my-c-ts-indent-style)
-
-  ;; C99 // comments instead of ANSI /* */. `c-toggle-comment-style' is a cc-mode
-  ;; command that does not work in c-ts-mode, so set the comment syntax there
-  ;; directly.
-  (add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
+  ;; Line comments by default (upstream default is /* */).
   (add-hook 'c-ts-mode-hook (lambda ()
                               (setq comment-start "// "
                                     comment-end "")))
@@ -2739,6 +2719,7 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
 #+begin_src emacs-lisp
   (use-package apheleia
     :ensure t
+    :hook (prog-mode . apheleia-mode)
     :config
     ;; Python
     (setf (alist-get 'python-mode apheleia-mode-alist)
