@@ -2477,8 +2477,9 @@ Use prolog-mode instead of perl-mode for .pl files.
 #+begin_src emacs-lisp
   (use-package markdown-ts-mode
     :ensure nil
-    :mode ("\\.\\(?:md\\|markdown\\)\\'" . markdown-ts-mode)
-    :defer t)
+    :mode ("\\.md\\'" "\\.mdx\\'" "\\.markdown\\'")
+    :config
+    (require 'markdown-ts-mode-x))
 
   ;; If `markdown-mode' is loaded for whatever reason, ensure that it instead
   ;; activates `markdown-ts-mode'
