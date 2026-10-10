@@ -2670,8 +2670,7 @@ Notable keymaps:
 **** C(-ts-)mode
 
 #+begin_src emacs-lisp
-  (setq c-ts-mode-indent-style 'bsd
-        c-ts-indent-offset 4)
+  (setq c-ts-mode-indent-style 'bsd)
 #+end_src
 
 **** Simple C mode
@@ -2720,7 +2719,21 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
     (setf (alist-get 'python-mode apheleia-mode-alist)
           '(ruff-isort ruff))
     (setf (alist-get 'python-ts-mode apheleia-mode-alist)
-          '(ruff-isort ruff)))
+          '(ruff-isort ruff))
+    ;; C: follow BSD style; fall back to it when there's no project .clang-format.
+    (defun my-clang-format-style-arg ()
+      (unless (locate-dominating-file
+               (or (apheleia-formatters-local-buffer-file-name)
+                   default-directory)
+               ".clang-format")
+        "--style={BasedOnStyle: LLVM, IndentWidth: 4, BreakBeforeBraces: Allman}"))
+    (setf (alist-get 'clang-format apheleia-formatters)
+          '("clang-format"
+            "-assume-filename"
+            (or (apheleia-formatters-local-buffer-file-name)
+                (apheleia-formatters-mode-extension)
+                ".c")
+            (my-clang-format-style-arg))))
 #+end_src
 
 *** fill-column
