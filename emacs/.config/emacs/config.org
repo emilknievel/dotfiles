@@ -1200,8 +1200,11 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
   (defun my-persist-theme (theme)
     "Persist THEME to `my-theme' (in `custom.el') so it is restored next session.
   Added to `enable-theme-functions', so it fires for every theme switch
-  regardless of which command selected it."
-    (unless (or my-theme-persist-inhibit (eq my-theme theme))
+  regardless of which command selected it.  Ignore pseudo themes such
+  as =user=, which fire the hook but are not restorable."
+    (when (and (not my-theme-persist-inhibit)
+               (not (eq my-theme theme))
+               (memq theme (custom-available-themes)))
       (customize-save-variable 'my-theme theme)))
 
   (defun my-restore-persisted-theme ()
@@ -1321,6 +1324,57 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
       '(:def
         (lambda () (interactive) (my-load-theme-variant "batppuccin-"))
         :wk "batppuccin")))
+#+end_src
+
+Batppuccin paints the active mode line almost the same color as the buffer background, which reads as transparent, while inactive ones stand out. Give both a shade treatment instead: the active one a shade lighter than the buffer, halfway to =surface0=, and inactive ones a touch darker, halfway from =base= to =mantle=. All of it is applied inside the batppuccin theme itself, so other themes are unaffected.
+
+#+begin_src emacs-lisp
+  (require 'color)
+
+  (defun my-batppuccin-mix (a b)
+    "Average the two hex colors A and B."
+    (let ((ca (color-name-to-rgb a))
+          (cb (color-name-to-rgb b)))
+      (color-rgb-to-hex
+       (/ (+ (nth 0 ca) (nth 0 cb)) 2)
+       (/ (+ (nth 1 ca) (nth 1 cb)) 2)
+       (/ (+ (nth 2 ca) (nth 2 cb)) 2)
+       2)))
+
+  (defun my-batppuccin-mode-line-faces (theme)
+    "Shade the mode line: active lighter, inactive darker and faint."
+    (when (string-prefix-p "batppuccin-" (symbol-name theme))
+      (let* ((text     (batppuccin-get-color "bat-text" theme))
+             (overlay  (batppuccin-get-color "bat-overlay1" theme))
+             (base     (batppuccin-get-color "bat-base" theme))
+             (surface0 (batppuccin-get-color "bat-surface0" theme))
+             (surface1 (batppuccin-get-color "bat-surface1" theme))
+             (mantle   (batppuccin-get-color "bat-mantle" theme))
+             (crust    (batppuccin-get-color "bat-crust" theme))
+             (bg       (my-batppuccin-mix base surface0))
+             (bg-inactive (my-batppuccin-mix base mantle))
+             (box      (unless batppuccin-flat-mode-line
+                         (list :line-width -1 :color surface1)))
+             (box-inactive (unless batppuccin-flat-mode-line
+                             (list :line-width -1 :color crust))))
+        (custom-theme-set-faces
+         theme
+         `(mode-line ((t (:foreground ,text :background ,bg :box ,box))))
+         `(mode-line-active ((t (:inherit mode-line))))
+         `(mode-line-inactive ((t (:foreground ,overlay :background ,bg-inactive
+                                               :box ,box-inactive))))
+         `(mode-line-buffer-id ((t (:foreground ,text :weight bold))))))))
+
+  (defun my-batppuccin-restore-mode-line ()
+    "Put the Batppuccin theme back on top after Fontaine redefines faces."
+    (let ((theme (seq-find
+                  (lambda (theme)
+                    (string-prefix-p "batppuccin-" (symbol-name theme)))
+                  custom-enabled-themes)))
+      (when theme (enable-theme theme))))
+
+  (add-hook 'enable-theme-functions #'my-batppuccin-mode-line-faces)
+  (add-hook 'fontaine-set-preset-hook #'my-batppuccin-restore-mode-line)
 #+end_src
 
 **** Doric themes
@@ -1858,6 +1912,35 @@ Install the icons with ~M-x nerd-icons-install-fonts~.
     :custom
     ;; Render minor modes through the minions menu instead of listing each one.
     (doom-modeline-minor-modes t))
+#+end_src
+
+**** Buffer name dimming
+
+Make the buffer name bold in the selected window and quiet in unselected ones, by rendering =mode-line-buffer-identification= state-aware. This is applied only while a batppuccin theme is active; other themes keep the stock =mode-line-buffer-id= in both states. The inactive face inherits =mode-line-inactive=, so it follows the theme's own muted color.
+
+#+begin_src emacs-lisp
+  (defun my-batppuccin-active-p ()
+    "Whether a batppuccin theme is the current one."
+    (when-let ((theme (car custom-enabled-themes)))
+      (string-prefix-p "batppuccin-" (symbol-name theme))))
+
+  (defface my-mode-line-buffer-id-inactive
+    '((t (:inherit mode-line-inactive)))
+    "Face for the buffer name in unselected mode lines."
+    :group 'mode-line-faces)
+
+  (defun my-mode-line-buffer-name-face (selected)
+    "Face for the buffer name; SELECTED is the window state."
+    (cond (selected 'mode-line-buffer-id)
+          ((my-batppuccin-active-p) 'my-mode-line-buffer-id-inactive)
+          (t 'mode-line-buffer-id)))
+
+  (setq-default mode-line-buffer-identification
+                '(:eval (propertize
+                         (format "%12s" (buffer-name))
+                         'face (my-mode-line-buffer-name-face
+                                (mode-line-window-selected-p))
+                         'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer")))
 #+end_src
 
 **** Display cursor column
