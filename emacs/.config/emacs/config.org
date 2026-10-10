@@ -2670,7 +2670,8 @@ Notable keymaps:
 **** C(-ts-)mode
 
 #+begin_src emacs-lisp
-  (setq c-ts-mode-indent-style 'bsd)
+  (setq c-ts-mode-indent-style 'bsd
+        c-ts-mode-indent-offset 4)
 #+end_src
 
 **** Simple C mode
