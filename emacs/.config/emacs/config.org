@@ -2670,14 +2670,8 @@ Notable keymaps:
 **** C(-ts-)mode
 
 #+begin_src emacs-lisp
-  ;; c-ts-mode, which C files open in.  k&r = attached braces, like LLVM;
-  ;; layout authority is clang-format (LLVM) via apheleia on save.
-  (setq c-ts-mode-indent-style 'k&r)
-
-  ;; Line comments by default (upstream default is /* */).
-  (add-hook 'c-ts-mode-hook (lambda ()
-                              (setq comment-start "// "
-                                    comment-end "")))
+  (setq c-ts-mode-indent-style 'bsd
+        c-ts-indent-offset 4)
 #+end_src
 
 **** Simple C mode
