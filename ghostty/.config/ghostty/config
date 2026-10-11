@@ -8,7 +8,7 @@ font-thicken-strength = 0
 # disable ligatures
 font-feature= -calt
 
-theme = dark:Kibble,light:Light Owl
+theme = dark:Terminal Basic Dark,light:Terminal Basic
 
 # minimum-contrast = 1.1
 
