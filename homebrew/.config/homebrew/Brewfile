@@ -8,6 +8,10 @@ brew "azure-cli"
 brew "bash"
 # Programmable completion for Bash 4.2+
 brew "bash-completion@2"
+# Language Server for Bash
+brew "bash-language-server"
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
 # Create and run Linux containers using lightweight virtual machines
 brew "container"
 # Manage Apple Container with Docker Compose files
@@ -16,6 +20,8 @@ brew "container-compose"
 brew "coreutils"
 # Simple, fast and user-friendly alternative to find
 brew "fd"
+# Play, record, convert, and stream select audio and video codecs
+brew "ffmpeg"
 # Monitor a directory for changes and run a shell command
 brew "fswatch"
 # GNU awk utility
@@ -24,8 +30,6 @@ brew "gawk"
 brew "go"
 # Kubernetes package manager
 brew "helm"
-# Convert Kubernetes Ingress resources to Kubernetes Gateway API resources
-brew "ingress2gateway"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Modern load testing tool, using Go and JavaScript
@@ -38,6 +42,10 @@ brew "kubescape"
 brew "lima"
 # Port scanning utility for large networks
 brew "nmap"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
+# Paste PNG into files
+brew "pngpaste"
 # Generic machine emulator and virtualizer
 brew "qemu"
 # Search tool like grep and The Silver Searcher
@@ -68,26 +76,17 @@ brew "getsentry/tools/sentry", trusted: true
 cask "alfred"
 # Display management tool
 cask "betterdisplay"
-# Utility improving 3rd party mouse performance and functionalities
-cask "bettermouse"
 # Web browser focusing on privacy
 cask "brave-browser"
 # Web security testing toolkit
 cask "burp-suite"
-# App to build and share containerised applications and microservices
-cask "docker-desktop"
-cask "font-geist"
-cask "font-geist-mono"
-cask "font-jetbrains-mono"
-cask "font-meslo-lg-nerd-font"
-cask "font-source-code-pro"
+# Blocks all Keyboard and TouchBar input
+cask "keyboardcleantool"
 # Real time file synchronisation software
 cask "syncthing-app"
 cargo "mat-sciencepark"
+cargo "mdopen"
 cargo "rustlings"
 cargo "txtv"
 uv "kobodl"
 uv "rassumfrassum"
-npm "@agentclientprotocol/claude-agent-acp"
-npm "typescript-language-server"
-npm "typescript"
