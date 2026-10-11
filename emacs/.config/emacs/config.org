@@ -1534,8 +1534,13 @@ These are the *default* font families. They are ~defcustom~ s, so a per-machine 
   (defun my--read-font (prompt current)
     "Read a font family with completion using PROMPT, defaulting to CURRENT.
   An empty selection returns nil, i.e. reset to the Emacs native default."
-    (let ((choice (completing-read prompt (sort (font-family-list) #'string-lessp)
-                                   nil nil nil nil current)))
+    (let* ((families (append (font-family-list)
+                             ;; macOS system font aliases, absent from `font-family-list'.
+                             (when (eq system-type 'darwin)
+                               (list ".AppleSystemUIFont" ".AppleSystemUIFontMonospaced"
+                                     ".AppleSystemUIFontSerif" ".AppleSystemUIFontRounded"))))
+           (choice (completing-read prompt (sort families #'string-lessp)
+                                    nil nil nil nil current)))
       (unless (string= choice "") choice)))
 
   (defun my--apply-font-change (symbol value)
