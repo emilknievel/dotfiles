@@ -1,5 +1,5 @@
-font-family =
-font-size =
+font-family = menlo
+font-size = 13
 
 # thickens the font, but only minimally
 font-thicken = true
@@ -8,7 +8,7 @@ font-thicken-strength = 0
 # disable ligatures
 font-feature= -calt
 
-theme = dark:wez,light:apple system colors light
+theme = dark:Kibble,light:Light Owl
 
 # minimum-contrast = 1.1
 
@@ -20,9 +20,10 @@ macos-auto-secure-input = true
 macos-secure-input-indication = true
 macos-icon =
 macos-option-as-alt = true
-window-height = 32
+window-height = 35
 window-width = 120
 cursor-style =
+cursor-style-blink = false
 adjust-cursor-thickness = 125%
 shell-integration-features = no-cursor, sudo, ssh-env
 mouse-hide-while-typing = true
