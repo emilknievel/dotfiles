@@ -4297,12 +4297,6 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     ;; since it was opened. `org-agenda-redo-all' (g) delegates to this.
     (advice-add 'org-agenda-redo :before #'my-vulpea-agenda-files-update)
     (advice-add 'org-id-find-id-file :around #'my-vulpea-org-id-find-file)
-    ;; fswatch parses --latency in the current locale, so with
-    ;; LC_NUMERIC=sv_SE (decimal comma) the "0.1" vulpea passes is
-    ;; rejected ("Invalid value: 0.1", exit 3) and the sentinel
-    ;; restart-loops forever.  Pin the locale for that process only.
-    (advice-add 'vulpea-db-sync--setup-fswatch :around
-                #'my-vulpea-fswatch-locale)
     (vulpea-db-autosync-mode +1)
 
     ;; --- Work command submap (C-c v w) ---
@@ -4414,16 +4408,6 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
     (if-let* ((note (vulpea-db-get-by-id id)))
         (vulpea-note-path note)
       (funcall fn id)))
-
-  (defun my-vulpea-fswatch-locale (fn &rest args)
-    "Run FN with LC_NUMERIC pinned to C around ARGS.
-    vulpea hands fswatch a `--latency 0.1' argument, but fswatch
-    parses numbers in the current locale, so with LC_NUMERIC=sv_SE
-    (decimal comma) it rejects the value (\"Invalid value: 0.1\",
-    exit code 3) and the sync sentinel restart-loops forever.  See
-    emcrisostomo/fswatch#166: upstream considers this a feature."
-    (let ((process-environment (cons "LC_NUMERIC=C" process-environment)))
-      (apply fn args)))
 #+end_src
 
 **** Backfill CREATED
