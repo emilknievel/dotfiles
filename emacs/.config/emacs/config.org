@@ -1926,7 +1926,7 @@ Make the buffer name bold in the selected window and quiet in unselected ones, b
 #+begin_src emacs-lisp
   (defun my-batppuccin-active-p ()
     "Whether a batppuccin theme is the current one."
-    (when-let ((theme (car custom-enabled-themes)))
+    (and-let* ((theme (car custom-enabled-themes)))
       (string-prefix-p "batppuccin-" (symbol-name theme))))
 
   (defface my-mode-line-buffer-id-inactive
