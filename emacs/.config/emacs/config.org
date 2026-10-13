@@ -2457,8 +2457,7 @@ Use the ELPA version instead of the one bundled with Emacs. Its newer ~eldoc~/~j
                                          :semanticTokensProvider))
 
     (eglot-documentation-renderer 'markdown-ts-view-mode)
-    (eglot-code-action-indications nil)
-    :hook ((c-mode c-ts-mode c++-mode c++-ts-mode) . eglot-ensure))
+    (eglot-code-action-indications nil))
 #+end_src
 
 Eglot drives flymake natively; diagnostics navigation lives under =M-g f=.
