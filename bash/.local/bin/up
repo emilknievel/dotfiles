@@ -87,6 +87,13 @@ for arg in "$@"; do
 	esac
 done
 
+# The prompts need a terminal: on a closed or piped stdin, read hits EOF,
+# the empty reply counts as "yes", and every step would run unasked.
+if (( ! AUTO_YES )) && [[ ! -t 0 ]]; then
+	printf "stdin is not a terminal; rerun interactively or use -y\n" >&2
+	exit 1
+fi
+
 # One instance at a time: two concurrent runs would interleave into the
 # same log and recap.
 mkdir -p "$STATE_DIR"
@@ -104,7 +111,7 @@ ask() {
 	local reply
 	printf '\n'
 	read -rp "$prompt [Y/n] " reply
-	[[ -z "$reply" || "$reply" =~ ^[Yy]$ ]]
+	[[ -z "$reply" || "$reply" =~ ^[Yy] ]] # prefix match: y, Y, yes, ...
 }
 
 TMP=$(mktemp -d)
@@ -120,6 +127,8 @@ printf "up %s\n" "$(date '+%Y-%m-%d %H:%M:%S')" >"$RECAP"
 # Announce a command, run it, and log its output. A failure does not abort
 # the run; it is recorded in $FAILURES and reported in the recap. `-k N`
 # treats exit code N as success (fwupdmgr exits 2 for "nothing to do").
+# 130/143 (command killed by INT/TERM) are never failures: the INT/TERM
+# trap reports the interruption, so listing the step too would be noise.
 run() {
 	local ok=""
 	while [[ $1 == -k ]]; do
@@ -129,18 +138,20 @@ run() {
 	printf '\n[%s]\n' "$*" | tee -a "$LOG"
 	local status=0
 	"$@" 2>&1 | tee -a "$LOG" || status=$?
-	if ((status)) && [[ ,$ok, != *",$status,"* ]]; then
+	if ((status)) && ((status != 130 && status != 143)) && [[ ,$ok, != *",$status,"* ]]; then
 		printf '[exit %s]\n' "$status" | tee -a "$LOG"
 		printf '%s (exit %s)\n' "$*" "$status" >>"$FAILURES"
 	fi
 	return 0
 }
 
-# Capture a tool's state listing to $TMP/$key for later diffing.
+# Capture a tool's state listing to $TMP/$key for later diffing. Stderr
+# goes to the log so a failed listing is debuggable instead of silently
+# diffing to "(no changes)".
 snap() {
 	local key="$1"
 	shift
-	"$@" >"$TMP/$key" 2>/dev/null || : >"$TMP/$key"
+	"$@" >"$TMP/$key" 2>>"$LOG" || : >"$TMP/$key"
 }
 
 # Append a recap entry for NAME: changed lines between the .before/.after
@@ -407,7 +418,9 @@ fi
 
 if command -v dnf >/dev/null 2>&1; then
 	RESTART=no
-	if ! dnf needs-restarting -r &>/dev/null; then
+	# -C: cacheonly; the check only reads the rpm db, so don't spend time
+	# (and a network round trip) refreshing repo metadata.
+	if ! dnf -C needs-restarting -r &>/dev/null; then
 		RESTART=yes
 	fi
 	printf "\nNEEDS RESTARTING?...%s\n" "$RESTART"
@@ -420,3 +433,9 @@ printf "\n========\nRECAP:\n========\n"
 show_recap "$RECAP"
 
 printf "\n\nDONE UPGRADING\n"
+
+# Non-zero exit when something failed, so timers and wrappers can tell a
+# clean run from a degraded one.
+if [[ -s "$FAILURES" ]]; then
+	exit 1
+fi
