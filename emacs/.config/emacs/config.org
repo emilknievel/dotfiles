@@ -3247,6 +3247,12 @@ Makes it so that certain file deletion commands move the deleted file/directory 
   (setopt delete-by-moving-to-trash t)
 #+end_src
 
+*** find-file-at-point bindings
+
+#+begin_src emacs-lisp
+  (ffap-bindings)
+#+end_src
+
 ** Editorconfig
 
 #+begin_src emacs-lisp
