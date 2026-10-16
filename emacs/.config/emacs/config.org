@@ -3743,6 +3743,7 @@ This package displays hidden emphasis markers while the cursor is on a rich text
         (set-face-attribute face nil :height 1.15))))
 
   (add-hook 'enable-theme-functions (lambda (_theme) (my-set-heading-heights)))
+  (with-eval-after-load 'markdown-ts-mode (my-set-heading-heights))
   (my-set-heading-heights)
 #+end_src
 
