@@ -1255,7 +1255,7 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
         :wk "modus")))
 #+end_src
 
-***** Modus nordic
+**** Modus nordic
 
 #+begin_src emacs-lisp
   (use-package modus-nordic-night-theme
@@ -1273,14 +1273,14 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
        (fg-mode-line-inactive fg-dim))))
   #+end_src
 
-***** Modus vague
+**** Modus vague
 
 #+begin_src emacs-lisp
   (use-package modus-vague
     :ensure (:host github :repo "paniash/modus-vague"))
 #+end_src
 
-***** Modus alabaster
+**** Modus alabaster
 
 #+begin_src emacs-lisp
   (use-package modus-alabaster
@@ -1311,7 +1311,7 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
         :wk "standard")))
 #+end_src
 
-**** Catppuccin
+**** Batppuccin
 
 #+begin_src emacs-lisp
   (use-package batppuccin
@@ -1493,6 +1493,33 @@ The tint and overline carry the level on task headings, where ~org-todo~ / ~org-
       '(:def
         (lambda () (interactive) (my-load-theme 'folio))
         :wk "folio")))
+#+end_src
+
+**** Foxglove themes
+
+https://gitlab.com/vegasharmon/foxglove-themes/.
+
+#+begin_src emacs-lisp
+  (use-package foxglove-themes
+    :ensure (:host gitlab :repo "vegasharmon/foxglove-themes"))
+#+end_src
+
+**** Au themes
+
+https://github.com/szymonwilczek/au-themes.
+
+#+begin_src emacs-lisp
+  (use-package au-themes
+    :ensure (:host github :repo "szymonwilczek/au-themes"))
+#+end_src
+
+**** Modus flexoki
+
+https://github.com/dpassen/modus-flexoki.
+
+#+begin_src emacs-lisp
+  (use-package modus-flexoki
+    :ensure (:host github :repo "dpassen/modus-flexoki"))
 #+end_src
 
 *** Fonts
