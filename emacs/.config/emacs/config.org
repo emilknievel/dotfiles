@@ -503,10 +503,7 @@ General provides a more convenient, unified interface for binding keys in Emacs.
     :bind-keymap ("M-'" . surround-keymap))
 #+end_src
 
-*** Meow (disabled)
-:PROPERTIES:
-:header-args:emacs-lisp: :tangle no
-:END:
+*** Meow
 
 Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
 
@@ -514,8 +511,6 @@ Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
   (use-package meow
     :ensure t
     :demand t
-    :hook ((view-mode-on . meow-motion-mode)
-           (view-mode-off . meow-normal-mode))
     :init
     (defun meow-setup ()
       (setopt meow-replace-state-name-list '((normal . "<N>")
@@ -531,6 +526,7 @@ Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
                             (term-mode . insert)
                             (ghostel-mode . insert)
                             (agent-shell-mode . insert)
+                            (vundo-mode . motion)
                             (magit-mode . motion)))
         (add-to-list 'meow-mode-state-list mode-state))
 
@@ -619,25 +615,61 @@ Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
        '("<escape>" . my-meow-terminal-escape)))
     :config
     (defun my-meow-restore-indicator ()
-      "Re-install the meow modeline indicator when meow-global-mode is enabled."
-      (when meow-global-mode (meow-setup-indicator)))
+      "Install the meow modeline indicator unless doom-modeline provides one.
+  doom-modeline is toggled manually: enabled, its modals segment shows
+  the meow state natively; disabled, it writes the stock
+  `mode-line-format' into the default value and into every buffer,
+  dropping this indicator again.  Hooked on both
+  `meow-global-mode-hook' and `doom-modeline-mode-hook'.
+  `meow-setup-indicator' only prepends to the default value, which
+  existing buffers with a buffer-local format ignore, so those are
+  fixed up here as well."
+      (when (and meow-global-mode
+                 (not (bound-and-true-p doom-modeline-mode)))
+        (meow-setup-indicator)
+        (dolist (buffer (buffer-list))
+          (with-current-buffer buffer
+            ;; A nil local value means the buffer shows the default,
+            ;; which `meow-setup-indicator' has already fixed.
+            (when (and (local-variable-p 'mode-line-format)
+                       mode-line-format
+                       (not (member '(:eval (meow-indicator))
+                                    mode-line-format)))
+              (setq mode-line-format
+                    (cons '(:eval (meow-indicator))
+                          mode-line-format)))))))
+
+    (defun my-meow-view-state (&rest _)
+      "Switch Meow state to match `view-mode' in the current buffer.
+  Runs from `view-mode-hook' on enable and from advice on
+  `view-mode-exit', the single funnel for every View-mode exit path
+  \(View-exit, View-quit, View-quit-all, View-leave).  The
+  `local-variable-p' guard skips buffers where view-mode was never
+  on, e.g. whatever becomes current after View-quit kills the
+  buffer."
+      (when (and (bound-and-true-p meow-global-mode)
+                 (local-variable-p 'view-mode))
+        (meow--switch-state (if view-mode 'motion 'normal))))
 
     (defun my-meow-terminal-escape ()
       "Pass <escape> on to the major mode after Meow has left insert state.
-  This is bound to <escape> in Meow's normal state.
+    This is bound to <escape> in Meow's normal state.
 
-  In a terminal buffer such as Ghostel, the first press of <escape> leaves
-  insert state, and a second press runs the major mode's own <escape>
-  binding, which sends an escape to the program running in the terminal.
+    In a terminal buffer such as Ghostel, the first press of <escape> leaves
+    insert state, and a second press runs the major mode's own <escape>
+    binding, which sends an escape to the program running in the terminal.
 
-  In buffers where the major mode does not bind <escape>, this command
-  does nothing."
+    In buffers where the major mode does not bind <escape>, this command
+    does nothing."
       (interactive)
       (let ((cmd (local-key-binding [escape])))
         (when (commandp cmd)
           (call-interactively cmd))))
 
     (add-hook 'meow-global-mode-hook #'my-meow-restore-indicator)
+    (add-hook 'doom-modeline-mode-hook #'my-meow-restore-indicator)
+    (add-hook 'view-mode-hook #'my-meow-view-state)
+    (advice-add 'view-mode-exit :after #'my-meow-view-state)
     (meow-setup)
     (meow-global-mode 1))
 #+end_src
@@ -880,7 +912,10 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
 
 *** Text Folding
 
-**** Kirigami.el
+**** Kirigami (disabled)
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle no
+:END:
 
 #+begin_src emacs-lisp
   (use-package kirigami
