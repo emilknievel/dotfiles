@@ -926,6 +926,44 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
       "t h" 'my-toggle-global-hl-line-mode))
 #+end_src
 
+*** hl-todo
+
+#+begin_src emacs-lisp
+  (use-package hl-todo
+    :ensure t
+    :custom
+    (hl-todo-wrap-movement t)
+    :config
+    (defun my-hl-todo-flymake-enable ()
+      "Register `hl-todo-flymake' as a buffer-local flymake backend."
+      (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake nil t))
+
+    (add-hook 'flymake-mode-hook #'my-hl-todo-flymake-enable)
+    (add-hook 'eglot-managed-mode-hook #'my-hl-todo-flymake-enable)
+
+    (defun my-hl-todo-ensure-org-keywords (_theme)
+      "Append Org TODO keywords missing from `hl-todo-keyword-faces'."
+      (pcase-dolist (`(,keyword . ,face)
+                     '(("WAIT" . font-lock-warning-face)
+                       ("CANX" . shadow)))
+        (unless (assoc keyword hl-todo-keyword-faces)
+          (setq hl-todo-keyword-faces
+                (cons (cons keyword face) hl-todo-keyword-faces))))
+      (customize-set-variable 'hl-todo-keyword-faces
+                              hl-todo-keyword-faces))
+
+    (add-hook 'enable-theme-functions #'my-hl-todo-ensure-org-keywords)
+    (my-hl-todo-ensure-org-keywords nil)
+
+    (with-eval-after-load 'magit
+      (add-hook 'magit-log-wash-summary-hook
+                #'hl-todo-search-and-highlight t)
+      (add-hook 'magit-revision-wash-message-hook
+                #'hl-todo-search-and-highlight t))
+
+    (global-hl-todo-mode 1))
+#+end_src
+
 *** Deindent text saved to kill-ring
 
 #+begin_src emacs-lisp
