@@ -3036,7 +3036,14 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
     ;; Restore previous layout when exiting Magit.
     (magit-bury-buffer-function #'magit-restore-window-configuration)
 
+    (git-commit-summary-max-length 50)
+    (git-commit-style-convention-checks
+     '(non-empty-second-line overlong-summary-line))
+
     :config
+    (add-hook 'git-commit-setup-hook
+              (lambda () (setq-local fill-column 72)))
+
     ;; List worktrees in magit-status buffer
     ;; https://emacsredux.com/blog/2026/09/02/working-with-git-worktrees-in-magit/
     (magit-add-section-hook 'magit-status-sections-hook
