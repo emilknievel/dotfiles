@@ -5128,37 +5128,6 @@ Package repo.
     (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
-** AI
-
-*** Agent-shell
-
-#+begin_src emacs-lisp
-  (use-package agent-shell
-    :ensure t
-    :bind (:map agent-shell-ui-fragment-map
-                ("RET" . nil)
-                ("z"   . agent-shell-ui-toggle-fragment))
-    :custom
-    (agent-shell-header-style 'text)
-    :config
-    (setq agent-shell-session-strategy 'prompt
-          agent-shell-session-restore-verbosity 'full
-
-          ;; Anthropic
-          agent-shell-anthropic-claude-environment
-          (agent-shell-make-environment-variables :inherit-env t)
-
-          agent-shell-anthropic-authentication
-          (agent-shell-anthropic-make-authentication :login t)
-
-          ;; OpenAI
-          agent-shell-openai-authentication
-          (agent-shell-openai-make-authentication :login t)
-
-          agent-shell-openai-codex-environment
-          (agent-shell-make-environment-variables :inherit-env t)))
-#+end_src
-
 ** Popper (disabled)
 
 #+begin_src emacs-lisp :tangle no
