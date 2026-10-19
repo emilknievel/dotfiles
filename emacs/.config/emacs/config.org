@@ -3756,8 +3756,8 @@ rich text word.
   (use-package org-appear
     :ensure t
     :after general
-    :config
-    (setopt org-hide-emphasis-markers t
+    :init
+    (setopt org-hide-emphasis-markers nil
             org-appear-autoemphasis t
             org-appear-autolinks t
             org-appear-autosubmarkers t
