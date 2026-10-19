@@ -3473,10 +3473,7 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     ;; It's strictly a mechanical filetag, not something a heading claims about
     ;; itself.
     (org-tags-exclude-from-inheritance '("todo"))
-    (org-attach-use-inheritance t)
-    :hook
-    ((org-mode markdown-ts-mode) . (lambda ()
-                                     (display-line-numbers-mode -1))))
+    (org-attach-use-inheritance t))
 #+end_src
 
 *** Capture
