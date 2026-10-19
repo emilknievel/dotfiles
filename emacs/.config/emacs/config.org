@@ -62,7 +62,9 @@
 
 *** Window configuration history
 
-Undo/redo window layout changes with ~C-c <left>~ / ~C-c <right>~. Enabled before the desktop restore, so the restore itself is undoable back to the startup scratch frame.
+Undo/redo window layout changes with ~C-c <left>~ / ~C-c <right>~.
+Enabled before the desktop restore, so the restore itself is undoable
+back to the startup scratch frame.
 
 #+begin_src emacs-lisp
   (winner-mode 1)
@@ -70,7 +72,8 @@ Undo/redo window layout changes with ~C-c <left>~ / ~C-c <right>~. Enabled befor
 
 *** Desktop (disabled)
 
-Restore buffers, points, frames and window layout across restarts. Terminal buffers are excluded since their processes are gone.
+Restore buffers, points, frames and window layout across restarts.
+Terminal buffers are excluded since their processes are gone.
 
 #+begin_src emacs-lisp :tangle no
   (require 'desktop)
@@ -101,7 +104,9 @@ Restore buffers, points, frames and window layout across restarts. Terminal buff
 
 *** Backup files
 
-Keep backup files out of the working directory unless something has already configured this. Copy rather than rename when backing up, so hard links and permissions on the original file stay intact.
+Keep backup files out of the working directory unless something has
+already configured this. Copy rather than rename when backing up, so
+hard links and permissions on the original file stay intact.
 
 #+begin_src emacs-lisp
   (unless backup-directory-alist
@@ -112,7 +117,9 @@ Keep backup files out of the working directory unless something has already conf
 
 *** Auto-save files
 
-Auto-saves go to a dedicated tmp directory instead of next to the visited file. They're deleted on a clean exit, since they only matter for recovering from a crash.
+Auto-saves go to a dedicated tmp directory instead of next to the
+visited file. They're deleted on a clean exit, since they only matter
+for recovering from a crash.
 
 #+begin_src emacs-lisp
   (defvar my-auto-save-dir (concat temporary-file-directory "auto-saves/"))
@@ -131,7 +138,8 @@ Auto-saves go to a dedicated tmp directory instead of next to the visited file. 
 
 *** Lock files
 
-Lock symlinks warn about simultaneous edits by other users, which doesn't matter on a single-user machine; skip creating them.
+Lock symlinks warn about simultaneous edits by other users, which
+doesn't matter on a single-user machine; skip creating them.
 
 #+begin_src emacs-lisp
   (setopt create-lockfiles nil)
@@ -167,7 +175,9 @@ Get environment variables such as =$PATH= from the shell.
 
 *** Emacs-local environment
 
-Set =$LANG= here rather than importing it, since the shell doesn't reliably have it. Subprocesses then emit English, UTF-8 output, which the regexp-based parsers in Emacs depend on.
+Set =$LANG= here rather than importing it, since the shell doesn't
+reliably have it. Subprocesses then emit English, UTF-8 output, which
+the regexp-based parsers in Emacs depend on.
 
 #+begin_src emacs-lisp
   (setenv "LANG" "en_US.UTF-8")
@@ -175,7 +185,8 @@ Set =$LANG= here rather than importing it, since the shell doesn't reliably have
 
 *** Project environments
 
-Apply mise-managed environments per buffer so project subprocesses use the versions, paths, and variables declared by the current project.
+Apply mise-managed environments per buffer so project subprocesses use
+the versions, paths, and variables declared by the current project.
 
 #+begin_src emacs-lisp
   (use-package mise
@@ -215,7 +226,8 @@ Integrate Emacs with GnuTLS to ensure trusted connections.
 
 **** Loopback pinentry mode
 
-Use minibuffer for passphrase queries instead of using an external Pinentry program.
+Use minibuffer for passphrase queries instead of using an external
+Pinentry program.
 
 #+begin_src emacs-lisp
   (setopt epg-pinentry-mode 'loopback)
@@ -233,7 +245,10 @@ Use minibuffer for passphrase queries instead of using an external Pinentry prog
 
 *** Notifications
 
-[[https://github.com/jwiegley/alert][=alert=]] gives a common notification API that other packages (e.g. Ghostel) route desktop notifications through. Style is chosen per platform: =osx-notifier= on macOS, =libnotify= on Linux, falling back to the echo area elsewhere.
+[[https://github.com/jwiegley/alert][=alert=]] gives a common notification API that other packages (e.g.
+Ghostel) route desktop notifications through. Style is chosen per
+platform: =osx-notifier= on macOS, =libnotify= on Linux, falling back
+to the echo area elsewhere.
 
 #+begin_src emacs-lisp
   (use-package alert
@@ -312,7 +327,11 @@ Mainly used for making sure that org timestamps are consistent.
 
 **** Evil collection
 
-evil-collection requires ~evil-want-keybinding~ to be nil before evil loads (set in the base package above). ~evil-collection-evil-ghostel-escape~ keeps ghostel's own smart ESC routing (ESC goes to the terminal in alt-screen apps, otherwise enters normal state) instead of the plain evil default.
+evil-collection requires ~evil-want-keybinding~ to be nil before evil
+loads (set in the base package above).
+~evil-collection-evil-ghostel-escape~ keeps ghostel's own smart ESC
+routing (ESC goes to the terminal in alt-screen apps, otherwise enters
+normal state) instead of the plain evil default.
 
 #+begin_src emacs-lisp
   (use-package evil-collection
@@ -326,7 +345,12 @@ evil-collection requires ~evil-want-keybinding~ to be nil before evil loads (set
 
 **** Evil-ghostel
 
-Official evil integration for the ghostel terminal. Ghostel buffers start in insert state; the terminal cursor is kept in sync with point, and ESC routing follows ~evil-ghostel-escape~ (auto by default: to the terminal in alt-screen apps like vim, less and htop, to normal state otherwise). Use =C-c C-r= to toggle the routing and =C-c ESC= for a one-shot switch to normal state.
+Official evil integration for the ghostel terminal. Ghostel buffers
+start in insert state; the terminal cursor is kept in sync with point,
+and ESC routing follows ~evil-ghostel-escape~ (auto by default: to the
+terminal in alt-screen apps like vim, less and htop, to normal state
+otherwise). Use =C-c C-r= to toggle the routing and =C-c ESC= for a
+one-shot switch to normal state.
 
 #+begin_src emacs-lisp
   (use-package evil-ghostel
@@ -362,7 +386,9 @@ Official evil integration for the ghostel terminal. Ghostel buffers start in ins
 
 *** General.el
 
-General provides a more convenient, unified interface for binding keys in Emacs. Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading before configuring with general.el.
+General provides a more convenient, unified interface for binding keys
+in Emacs. Check [[https://github.com/noctuid/general.el#reading-recommendations][this section]] in the repo for recommended reading
+before configuring with general.el.
 
 **** Preamble
 
@@ -505,7 +531,8 @@ General provides a more convenient, unified interface for binding keys in Emacs.
 
 *** Meow
 
-Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
+Modal editing that doesn't conflict with Emacs bindings. Inspired by
+Kakoune.
 
 #+begin_src emacs-lisp
   (use-package meow
@@ -676,7 +703,8 @@ Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
 
 **** Meow-tree-sitter
 
-Treesit-based meow motions. Adds additional "things" for "Inner of", "End of",  etc.
+Treesit-based meow motions. Adds additional "things" for "Inner of",
+"End of", etc.
 
 #+begin_src emacs-lisp
   (use-package meow-tree-sitter
@@ -741,7 +769,11 @@ Repeat commands by typing a single character.
 
 *** Case conversion (DWIM)
 
-The DWIM variants act on the region when it is active, and on the appropriate semantic unit (e.g. word) otherwise. This makes the separate ~*-region~ commands redundant. See [[https://karthinks.com/software/batteries-included-with-emacs/][Batteries included with Emacs]].
+The DWIM variants act on the region when it is active, and on the
+appropriate semantic unit (e.g. word) otherwise. This makes the
+separate ~*-region~ commands redundant. See
+[[https://karthinks.com/software/batteries-included-with-emacs/][Batteries
+included with Emacs]].
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "M-u") 'upcase-dwim)
@@ -822,9 +854,11 @@ Increase selected region by /semantic units/.
 
 *** Vundo
 
-Visual undo. Displays the undo history as a tree and lets you move in the tree to go back to previous buffer states.
+Visual undo. Displays the undo history as a tree and lets you move in
+the tree to go back to previous buffer states.
 
-Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
+Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el
+~<leader> u~.
 
 #+begin_src emacs-lisp
   (use-package vundo
@@ -1060,6 +1094,7 @@ Hide UI elements that aren't useful.
 *** WSL
 
 Workaround for copying text from Emacs to the Windows clipboard:
+
 #+begin_src emacs-lisp
   (when (getenv "WSL_DISTRO_NAME")
     (defun copy-selected-text (start end)
@@ -1071,7 +1106,12 @@ Workaround for copying text from Emacs to the Windows clipboard:
 
 *** Themes
 
-The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom~ saved to the gitignored =custom.el= whenever a theme is enabled, so the last-chosen theme is restored on the next startup. Every theme-switching command goes through ~enable-theme-functions~, so the choice sticks regardless of which command (or package toggler) selected it.
+The active theme is persisted the same way fonts are: ~my-theme~ is a
+~defcustom~ saved to the gitignored =custom.el= whenever a theme is
+enabled, so the last-chosen theme is restored on the next startup.
+Every theme-switching command goes through ~enable-theme-functions~,
+so the choice sticks regardless of which command (or package toggler)
+selected it.
 
 **** Themes directory
 
@@ -1175,7 +1215,12 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 
 **** Persisting the theme
 
-~my-theme~ holds the theme to load at startup. It is saved to =custom.el= whenever a theme is enabled (via ~enable-theme-functions~), and restored on ~elpaca-after-init-hook~, i.e. once all theme packages have finished building, so themes from elpaca packages (doom, kaolin, ...) are available, not just the built-in modus themes.
+~my-theme~ holds the theme to load at startup. It is saved to
+=custom.el= whenever a theme is enabled (via
+~enable-theme-functions~), and restored on ~elpaca-after-init-hook~,
+i.e. once all theme packages have finished building, so themes from
+elpaca packages (doom, kaolin, ...) are available, not just the
+built-in modus themes.
 
 #+begin_src emacs-lisp
   (defcustom my-theme 'modus-vivendi
@@ -1320,7 +1365,12 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
         :wk "batppuccin")))
 #+end_src
 
-Batppuccin paints the active mode line almost the same color as the buffer background, which reads as transparent, while inactive ones stand out. Give both a shade treatment instead: the active one a shade lighter than the buffer, halfway to =surface0=, and inactive ones a touch darker, halfway from =base= to =mantle=. All of it is applied inside the batppuccin theme itself, so other themes are unaffected.
+Batppuccin paints the active mode line almost the same color as the
+buffer background, which reads as transparent, while inactive ones
+stand out. Give both a shade treatment instead: the active one a shade
+lighter than the buffer, halfway to =surface0=, and inactive ones a
+touch darker, halfway from =base= to =mantle=. All of it is applied
+inside the batppuccin theme itself, so other themes are unaffected.
 
 #+begin_src emacs-lisp
   (require 'color)
@@ -1451,9 +1501,14 @@ Inspired by Plan 9 Acme & Sam.
 
 Warm theme built on top of Ef and Modus themes.
 
-*Note:* Upstream keeps every heading blue, so emphasis does not track depth. Give each level its own foreground, tint and overline instead, ordered by hue angle so neighbouring depths stay far apart (blue and cyan are close, hence yellow at level 2).
+*Note:* Upstream keeps every heading blue, so emphasis does not track
+depth. Give each level its own foreground, tint and overline instead,
+ordered by hue angle so neighbouring depths stay far apart (blue and
+cyan are close, hence yellow at level 2).
 
-The tint and overline carry the level on task headings, where ~org-todo~ / ~org-fontify-done-headline~ own the foreground. Red is at level 6, not 2, to avoid the red ~prose-todo~ keyword.
+The tint and overline carry the level on task headings, where
+~org-todo~ / ~org-fontify-done-headline~ own the foreground. Red is at
+level 6, not 2, to avoid the red ~prose-todo~ keyword.
 
 #+begin_src emacs-lisp
   (use-package folio-theme
@@ -1520,7 +1575,13 @@ https://github.com/dpassen/modus-flexoki.
 
 **** Setup editor fonts
 
-These are the *default* font families. They are ~defcustom~ s, so a per-machine override can be set with =M-x my-set-mono-font= (and the variable-pitch variant, bound under the ~u f~ prefix). The choice is persisted to the gitignored =custom.el= via ~customize-save-variable~, so trying out a new font does not involve editing this file. Font *sizes* are defined in one place, =my-build-fontaine-presets= (Fontaine section below).
+These are the *default* font families. They are ~defcustom~ s, so a
+per-machine override can be set with =M-x my-set-mono-font= (and the
+variable-pitch variant, bound under the ~u f~ prefix). The choice is
+persisted to the gitignored =custom.el= via ~customize-save-variable~,
+so trying out a new font does not involve editing this file. Font
+*sizes* are defined in one place, =my-build-fontaine-presets=
+(Fontaine section below).
 
 #+begin_src emacs-lisp
   (defcustom my-mono-font nil
@@ -1587,7 +1648,10 @@ These are the *default* font families. They are ~defcustom~ s, so a per-machine 
 
 **** Variable pitch
 
-~variable-pitch-mode~ remaps the =default= face to =variable-pitch=, so a face stays monospace only if it inherits =fixed-pitch=; the org and markdown code/table faces don't by default, so that inheritance is added below.
+~variable-pitch-mode~ remaps the =default= face to =variable-pitch=,
+so a face stays monospace only if it inherits =fixed-pitch=; the org
+and markdown code/table faces don't by default, so that inheritance is
+added below.
 
 #+begin_src emacs-lisp
   (defvar my-fixed-pitch-faces
@@ -1659,7 +1723,8 @@ These are the *default* font families. They are ~defcustom~ s, so a per-machine 
 
 **** Ligatures
 
-Display ligatures. Disabled by default. Enable with ~<leader> u f l~ =(ui->fonts->ligatures)=.
+Display ligatures. Disabled by default. Enable with ~<leader> u f l~
+=(ui->fonts->ligatures)=.
 
 #+begin_src emacs-lisp
   (use-package ligature
@@ -1696,7 +1761,11 @@ Preview fonts in Emacs.
 
 **** Fontaine
 
-Presets for the =u f p= / =<f7>= menu, built by =my-build-fontaine-presets= from the font defcustoms above: per-platform base sizes, the narrow-font bump (~my-font-size-offset~), and a +10 variable-pitch pairing. The chosen preset persists across restarts.
+Presets for the =u f p= / =<f7>= menu, built by
+=my-build-fontaine-presets= from the font defcustoms above:
+per-platform base sizes, the narrow-font bump (~my-font-size-offset~),
+and a +10 variable-pitch pairing. The chosen preset persists across
+restarts.
 
 #+begin_src emacs-lisp
   (use-package fontaine
@@ -1827,7 +1896,10 @@ Increase line spacing slightly in buffers containing prose.
 
 *** Display line numbers
 
-Line numbers in program and configuration buffers, toggled with =t n= and persisted to the gitignored =custom.el=. The type (absolute, relative, visual) is switched under the =u l= prefix and persisted the same way.
+Line numbers in program and configuration buffers, toggled with =t n=
+and persisted to the gitignored =custom.el=. The type (absolute,
+relative, visual) is switched under the =u l= prefix and persisted the
+same way.
 
 #+begin_src emacs-lisp
   (use-package display-line-numbers
@@ -1942,7 +2014,12 @@ Install the icons with ~M-x nerd-icons-install-fonts~.
 
 **** Buffer name dimming
 
-Make the buffer name bold in the selected window and quiet in unselected ones, by rendering =mode-line-buffer-identification= state-aware. This is applied only while a batppuccin theme is active; other themes keep the stock =mode-line-buffer-id= in both states. The inactive face inherits =mode-line-inactive=, so it follows the theme's own muted color.
+Make the buffer name bold in the selected window and quiet in
+unselected ones, by rendering =mode-line-buffer-identification=
+state-aware. This is applied only while a batppuccin theme is active;
+other themes keep the stock =mode-line-buffer-id= in both states. The
+inactive face inherits =mode-line-inactive=, so it follows the theme's
+own muted color.
 
 #+begin_src emacs-lisp
   (defun my-batppuccin-active-p ()
@@ -2377,7 +2454,9 @@ Display the current date and time on the mode line.
 
 *** Kind-icon
 
-Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560185][this]] post for handling theme changes.
+Note: See
+[[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560185][this]]
+post for handling theme changes.
 
 #+begin_src emacs-lisp
   (use-package kind-icon
@@ -2399,7 +2478,12 @@ Note: See [[https://github.com/jdtsmith/kind-icon/issues/34#issuecomment-1668560
 
 *** Completion Preview
 
-Built-in (Emacs 30+) inline "ghost text" completion.  Complements the manual Corfu setup above: the preview silently suggests the obvious completion as you type (accept with ~TAB~), while ambiguous completions still go through Corfu (~TAB~ when no preview is shown).  Both use the same ~completion-at-point-functions~ (incl. Cape), so no extra backends are needed.
+Built-in (Emacs 30+) inline "ghost text" completion. Complements the
+manual Corfu setup above: the preview silently suggests the obvious
+completion as you type (accept with ~TAB~), while ambiguous
+completions still go through Corfu (~TAB~ when no preview is shown).
+Both use the same ~completion-at-point-functions~ (incl. Cape), so no
+extra backends are needed.
 
 #+begin_src emacs-lisp
   (use-package completion-preview
@@ -2464,7 +2548,8 @@ Built-in (Emacs 30+) inline "ghost text" completion.  Complements the manual Cor
 
 *** Eglot
 
-Use the ELPA version instead of the one bundled with Emacs. Its newer ~eldoc~/~jsonrpc~ dependencies are installed in init.el.
+Use the ELPA version instead of the one bundled with Emacs. Its newer
+~eldoc~/~jsonrpc~ dependencies are installed in init.el.
 
 #+begin_src emacs-lisp
   (use-package eglot
@@ -2481,7 +2566,8 @@ Use the ELPA version instead of the one bundled with Emacs. Its newer ~eldoc~/~j
     (eglot-code-action-indications nil))
 #+end_src
 
-Eglot drives flymake natively; diagnostics navigation lives under =M-g f=.
+Eglot drives flymake natively; diagnostics navigation lives under
+=M-g f=.
 
 ** Language configuration
 
@@ -2508,7 +2594,10 @@ Highlight symbols according to their semantic meaning.
 :header-args:emacs-lisp: :tangle no
 :END:
 
-Level 2 in code buffers, but markdown keeps level 3: =markdown-ts-mode= puts inline code spans, emphasis, bold and links in its third feature group (=paragraph-inline=), so level 2 leaves all inline markup unfontified.
+Level 2 in code buffers, but markdown keeps level 3:
+=markdown-ts-mode= puts inline code spans, emphasis, bold and links in
+its third feature group (=paragraph-inline=), so level 2 leaves all
+inline markup unfontified.
 
 #+begin_src emacs-lisp
   (setopt treesit-font-lock-level '((markdown-ts-mode . 3)
@@ -2546,9 +2635,14 @@ Level 2 in code buffers, but markdown keeps level 3: =markdown-ts-mode= puts inl
 
 *** Python
 
-Start eglot through [[https://github.com/joaotavora/rassumfrassum][rassumfrassum]] (=rass=), an LSP multiplexer. The =python= preset runs =ty= (type checking) and =ruff= (lint) as one server; diagnostics surface via flymake. Equivalent to =C-u M-x eglot RET rass python=.
+Start eglot through
+[[https://github.com/joaotavora/rassumfrassum][rassumfrassum]]
+(=rass=), an LSP multiplexer. The =python= preset runs =ty= (type
+checking) and =ruff= (lint) as one server; diagnostics surface via
+flymake. Equivalent to =C-u M-x eglot RET rass python=.
 
-Requires =rass=, =ty=, =ruff=, and =uv= on PATH or in the project =.venv=.
+Requires =rass=, =ty=, =ruff=, and =uv= on PATH or in the project
+=.venv=.
 
 #+begin_src emacs-lisp
   (use-package python
@@ -2580,7 +2674,8 @@ Use prolog-mode instead of perl-mode for .pl files.
 
 *** Markdown
 
-=markdown-ts-mode= is a new and experimental mode (as of [2026-08-03 Mon 14:58]) for working with markdown files.
+=markdown-ts-mode= is a new and experimental mode (as of
+[2026-08-03 Mon 14:58]) for working with markdown files.
 
 #+begin_src emacs-lisp
   (use-package markdown-ts-mode
@@ -2609,7 +2704,9 @@ Use prolog-mode instead of perl-mode for .pl files.
 
 **** grip-mode
 
-Live-preview of Markdown and Org files, through grip (or alternatives like mdopen, go-grip) which needs to be installed for the mode to function.
+Live-preview of Markdown and Org files, through grip (or alternatives
+like mdopen, go-grip) which needs to be installed for the mode to
+function.
 
 #+begin_src emacs-lisp
   (use-package grip-mode
@@ -2680,7 +2777,9 @@ Live-preview of Markdown and Org files, through grip (or alternatives like mdope
 
 *** jq
 
-Info about interactive use in a JSON buffer, Org-babel support and how to use with yq for yaml provided [[https://github.com/ljos/jq-mode][here]].
+Info about interactive use in a JSON buffer, Org-babel support and how
+to use with yq for yaml provided
+[[https://github.com/ljos/jq-mode][here]].
 
 #+begin_src emacs-lisp
   (use-package jq-mode
@@ -2692,7 +2791,9 @@ Info about interactive use in a JSON buffer, Org-babel support and how to use wi
 
 **** restclient.el
 
-This package provides a simple way to interact with RESTful APIs from within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/ episode highlights some of its features.
+This package provides a simple way to interact with RESTful APIs from
+within Emacs. [[https://emacsrocks.com/e15.html][This]] /Emacs Rocks!/
+episode highlights some of its features.
 
 Notable keymaps:
 
@@ -2784,7 +2885,8 @@ Notable keymaps:
 
 **** Simple C mode
 
-Lightweight alternative mode that is useful when working with very large C files.
+Lightweight alternative mode that is useful when working with very
+large C files.
 
 #+begin_src emacs-lisp
   (use-package simpc-mode
@@ -2803,7 +2905,8 @@ Lightweight alternative mode that is useful when working with very large C files
 
 ** Syntax checking
 
-Flymake. Eglot enables it in managed buffers; the hook covers the rest.
+Flymake. Eglot enables it in managed buffers; the hook covers the
+rest.
 
 #+begin_src emacs-lisp
   (use-package flymake
@@ -3180,7 +3283,9 @@ Drill down subdirectories in dired.
 
 *** Treemacs
 
-Treemacs is an Emacs package that provides a customizable, tree-style file explorer and project manager, streamlining file navigation and organization.
+Treemacs is an Emacs package that provides a customizable, tree-style
+file explorer and project manager, streamlining file navigation and
+organization.
 
 #+begin_src emacs-lisp
   (use-package treemacs
@@ -3235,7 +3340,9 @@ Jump to previously visited directory, not unlike using =zoxide=.
 
 *** Delete by moving into trash
 
-Makes it so that certain file deletion commands move the deleted file/directory to the system trashcan instead of permanently deleting it.
+Makes it so that certain file deletion commands move the deleted
+file/directory to the system trashcan instead of permanently deleting
+it.
 
 #+begin_src emacs-lisp
   (setopt delete-by-moving-to-trash t)
@@ -3409,7 +3516,8 @@ Starts an interactive ripgrep session.
 
 *** Engine-mode
 
-Define search engines and easily query them from within Emacs. Invoked with =C-x /=.
+Define search engines and easily query them from within Emacs. Invoked
+with =C-x /=.
 
 #+begin_src emacs-lisp
   (use-package engine-mode
@@ -3641,7 +3749,8 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
 
 *** Appear
 
-This package displays hidden emphasis markers while the cursor is on a rich text word.
+This package displays hidden emphasis markers while the cursor is on a
+rich text word.
 
 #+begin_src emacs-lisp
   (use-package org-appear
@@ -3746,7 +3855,8 @@ This package displays hidden emphasis markers while the cursor is on a rich text
 
 ** Olivetti
 
-Olivetti is a minor mode that provides a nice writing environment by setting comfortable window margins etc.
+Olivetti is a minor mode that provides a nice writing environment by
+setting comfortable window margins etc.
 
 #+begin_src emacs-lisp
   (use-package olivetti
@@ -4193,7 +4303,8 @@ Use denote for note-taking. Most of this is copied from Prot's config.
 
 **** Denote explore
 
-Auxiliary functions to manage and explore denote files: https://lucidmanager.org/productivity/denote-explore/.
+Auxiliary functions to manage and explore denote files:
+https://lucidmanager.org/productivity/denote-explore/.
 
 #+begin_src emacs-lisp
   (use-package denote-explore
@@ -4435,7 +4546,12 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
 
 **** Backfill CREATED
 
-One-shot maintenance command for notes that predate the CREATED convention: derive the stamp from the filename timestamp or the =#+created:= keyword and write it into the property drawer. Denote-era notes are deliberately deferred (their =T=-separated names are not matched); the command is idempotent, so re-run it after extending the derivation.
+One-shot maintenance command for notes that predate the CREATED
+convention: derive the stamp from the filename timestamp or the
+=#+created:= keyword and write it into the property drawer. Denote-era
+notes are deliberately deferred (their =T=-separated names are not
+matched); the command is idempotent, so re-run it after extending the
+derivation.
 
 #+begin_src emacs-lisp
   (defmacro my-vulpea--with-file-once (file &rest body)
@@ -4585,7 +4701,10 @@ One-shot maintenance command for notes that predate the CREATED convention: deri
 
 **** Selection
 
-=my-vulpea--find= and =my-vulpea--insert= wrap the two vulpea entry points. Every finder command below is a thin call to one of them, differing only in which notes it accepts and how it creates a missing one.
+=my-vulpea--find= and =my-vulpea--insert= wrap the two vulpea entry
+points. Every finder command below is a thin call to one of them,
+differing only in which notes it accepts and how it creates a missing
+one.
 
 #+begin_src emacs-lisp
   (defun my-vulpea--find (filter-fn make-fn)
@@ -4762,9 +4881,15 @@ One-shot maintenance command for notes that predate the CREATED convention: deri
 
 **** Dynamic agenda
 
-A note is tagged =todo= on save when it contains an active TODO; the agenda then unions those notes with =my-org-agenda-static-files=. The note set is read from the Vulpea DB (a tag-filtered query), so the agenda stays fast as the vault grows instead of scanning every note. The =todo= tag is purely mechanical bookkeeping; =project= is a hand-assigned tag meaning "a project I am pursuing".
+A note is tagged =todo= on save when it contains an active TODO; the
+agenda then unions those notes with =my-org-agenda-static-files=. The
+note set is read from the Vulpea DB (a tag-filtered query), so the
+agenda stays fast as the vault grows instead of scanning every note.
+The =todo= tag is purely mechanical bookkeeping; =project= is a
+hand-assigned tag meaning "a project I am pursuing".
 
-Adapted from https://www.d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5
+Adapted from
+https://www.d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5
 
 #+begin_src emacs-lisp
   (defun my-vulpea-note-buffer-p ()
@@ -4852,7 +4977,8 @@ Adapted from https://www.d12frosted.io/posts/2021-01-16-task-management-with-roa
 
 *** PDF
 
-Use PDF tools package to turn Emacs into a PDF viewer with annotation support etc.
+Use PDF tools package to turn Emacs into a PDF viewer with annotation
+support etc.
 
 #+begin_src emacs-lisp
   (use-package pdf-tools
@@ -4910,9 +5036,13 @@ Use PDF tools package to turn Emacs into a PDF viewer with annotation support et
 
 *** Organizing Literature
 
-My main source of literature is the calibre folder in my file system. Calibre is the software I use for organizing and maintaining my digital library. Calibredb is a package that allows us to manage the Calibre library from within Emacs.
+My main source of literature is the calibre folder in my file system.
+Calibre is the software I use for organizing and maintaining my
+digital library. Calibredb is a package that allows us to manage the
+Calibre library from within Emacs.
 
-This package requires that calibredb is installed on the system (included with the Calibre app) as well as sqlite3.
+This package requires that calibredb is installed on the system
+(included with the Calibre app) as well as sqlite3.
 
 #+begin_src emacs-lisp
   (use-package calibredb
@@ -5298,7 +5428,8 @@ Source: https://vannilla.org/write/1778277936/article.html.
 
 ** dir-config
 
-Alternative to =.dir-locals= that allegedly is easier to maintain as =.dir-config= files use standard elisp code instead of nested alists.
+Alternative to =.dir-locals= that allegedly is easier to maintain as
+=.dir-config= files use standard elisp code instead of nested alists.
 
 #+begin_src emacs-lisp
   (use-package dir-config
