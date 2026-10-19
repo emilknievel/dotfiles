@@ -3758,6 +3758,7 @@ rich text word.
     :after general
     :init
     (setopt org-hide-emphasis-markers nil
+            org-link-descriptive nil
             org-appear-autoemphasis t
             org-appear-autolinks t
             org-appear-autosubmarkers t
