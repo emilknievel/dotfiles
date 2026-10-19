@@ -2655,7 +2655,7 @@ inline markup unfontified.
     :ensure t
     :init
     (setq rust-mode-treesitter-derive t
-          rust-format-on-save t)
+          rust-format-on-save nil)
     :mode ("\\.rs\\'" . rust-mode)
     :hook (rust-mode . eglot-ensure))
 #+end_src
@@ -2945,9 +2945,42 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
 *** Apheleia
 
 #+begin_src emacs-lisp
+  (defun my-format-dwim ()
+    "Format the active region, or the whole buffer when there is none.
+  A region goes through eglot's range formatting in eglot-managed buffers
+  and `indent-region' elsewhere. The whole buffer goes through
+  `apheleia-format-buffer' when the mode has Apheleia formatters
+  configured, then eglot, then `indent-region'. With a prefix argument,
+  prompt for which Apheleia formatter to run."
+    (interactive)
+    (if (use-region-p)
+        (let ((beg (region-beginning))
+              (end (region-end)))
+          (if (bound-and-true-p eglot--managed-mode)
+              (condition-case err
+                  (eglot-format beg end)
+                (error
+                 (message "eglot region formatting failed (%s); indenting instead"
+                          (error-message-string err))
+                 (indent-region beg end)))
+            (indent-region beg end)))
+      (cond
+       ((and (fboundp 'apheleia--get-formatters)
+             (apheleia--get-formatters))
+        (if current-prefix-arg
+            (call-interactively #'apheleia-format-buffer)
+          (apheleia-format-buffer)))
+       ((bound-and-true-p eglot--managed-mode)
+        (eglot-format))
+       (t
+        (indent-region (point-min) (point-max))))))
+#+end_src
+
+#+begin_src emacs-lisp
   (use-package apheleia
     :ensure t
-    :hook (prog-mode . apheleia-mode)
+    :commands (apheleia-format-buffer)
+    :general (my-leader-keys "c f" 'my-format-dwim)
     :config
     ;; Python
     (setf (alist-get 'python-mode apheleia-mode-alist)
