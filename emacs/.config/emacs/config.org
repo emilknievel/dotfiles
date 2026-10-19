@@ -2840,8 +2840,15 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
       "g i" 'magit-info
       "g l" 'magit-log))
 
+  ;; Pinned to the commit before "forge-browse: Support repository at
+  ;; point" (2026-10-18): that commit added a `magit-repolist-mode-map'
+  ;; binding to forge's `magit-mode' autoload block, but the map is
+  ;; defined in `magit-repos', which magit 4.x loads later than
+  ;; `magit-mode' -- so loading magit fails outright (forge issue #876).
+  ;; Remove this pin once upstream fixes it, then `M-x elpaca-rebuild
+  ;; RET forge RET'.
   (use-package forge
-    :ensure t
+    :ensure (:host github :repo "magit/forge" :ref "4233cbba4f566988d78cdb9c5f85af8a171f518d")
     :after (general magit))
 
   ;; Link to Magit buffers from Org documents.
