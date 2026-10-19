@@ -257,7 +257,10 @@ Mainly used for making sure that org timestamps are consistent.
 
 ** Key bindings
 
-*** Evil
+*** Evil (disabled)
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle no
+:END:
 
 **** Base package
 
@@ -309,7 +312,7 @@ Mainly used for making sure that org timestamps are consistent.
 
 **** Evil collection
 
-evil-collection requires `evil-want-keybinding' to be nil before evil loads (set in the base package above). `evil-collection-evil-ghostel-escape' keeps ghostel's own smart ESC routing (ESC goes to the terminal in alt-screen apps, otherwise enters normal state) instead of the plain `evil' default.
+evil-collection requires ~evil-want-keybinding~ to be nil before evil loads (set in the base package above). ~evil-collection-evil-ghostel-escape~ keeps ghostel's own smart ESC routing (ESC goes to the terminal in alt-screen apps, otherwise enters normal state) instead of the plain evil default.
 
 #+begin_src emacs-lisp
   (use-package evil-collection
@@ -323,7 +326,7 @@ evil-collection requires `evil-want-keybinding' to be nil before evil loads (set
 
 **** Evil-ghostel
 
-Official evil integration for the ghostel terminal. Ghostel buffers start in insert state; the terminal cursor is kept in sync with point, and ESC routing follows `evil-ghostel-escape' (`auto' by default: to the terminal in alt-screen apps like vim, less and htop, to normal state otherwise). Use `C-c C-r' to toggle the routing and `C-c ESC' for a one-shot switch to normal state.
+Official evil integration for the ghostel terminal. Ghostel buffers start in insert state; the terminal cursor is kept in sync with point, and ESC routing follows ~evil-ghostel-escape~ (auto by default: to the terminal in alt-screen apps like vim, less and htop, to normal state otherwise). Use =C-c C-r= to toggle the routing and =C-c ESC= for a one-shot switch to normal state.
 
 #+begin_src emacs-lisp
   (use-package evil-ghostel
@@ -367,7 +370,7 @@ General provides a more convenient, unified interface for binding keys in Emacs.
   (with-eval-after-load 'general
     (my-leader-keys
       ;; Top level functions
-      "SPC" '(execute-extended-command :wk "M-x")
+      "C-," '(execute-extended-command :wk "M-x")
 
       ;; Prefixes
 
@@ -393,7 +396,8 @@ General provides a more convenient, unified interface for binding keys in Emacs.
       "u" '(:ignore t :wk "UI")
       "u f" '(:ignore t :wk "Fonts")
       "u l" '(:ignore t :wk "Linum")
-      "u m" '(:ignore t :wk "Mode Line")))
+      "u m" '(:ignore t :wk "Mode Line")
+      "w" '(:ignore t :wk "Windows")))
 #+end_src
 
 **** Files
@@ -442,6 +446,20 @@ General provides a more convenient, unified interface for binding keys in Emacs.
       "b r" 'revert-buffer-quick))
 #+end_src
 
+**** Windows
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'general
+    (my-leader-keys
+      ;; windows
+      "w" '(nil :wk "windows")
+      "w s" 'split-window-below
+      "w v" 'split-window-right
+      "w d" 'delete-window
+      "w o" 'delete-other-windows
+      "w w" 'other-window))
+#+end_src
+
 **** Help
 
 #+begin_src emacs-lisp
@@ -477,12 +495,8 @@ General provides a more convenient, unified interface for binding keys in Emacs.
       "q r" 'restart-emacs))
 #+end_src
 
-*** Surround (disabled)
-:PROPERTIES:
-:header-args:emacs-lisp: :tangle no
-:END:
+*** Surround
 
-Superseded by evil-surround while evil-mode is enabled.
 #+begin_src emacs-lisp
   (use-package surround
     :ensure t
@@ -785,12 +799,14 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
     :ensure t
     :after general
     :general (my-leader-keys "c u" 'vundo)
-    :config
-    ;; evil-collection's vundo module covers h/j/k/l and RET in normal
-    ;; state; restore the remaining keys.
-    (evil-define-key 'normal vundo-mode-map
-      "q" #'vundo-quit
-      "s" #'vundo-save))
+    :bind (:map vundo-mode-map
+                ("h" . vundo-backward)
+                ("l" . vundo-forward)
+                ("j" . vundo-next)
+                ("k" . vundo-previous)
+                ("q" . vundo-quit)
+                ("s" . vundo-save)
+                ("RET" . vundo-confirm)))
 #+end_src
 
 *** Multiple cursors
@@ -5133,6 +5149,39 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 #+begin_src emacs-lisp
   (setopt frame-resize-pixelwise t)
+#+end_src
+
+*** Window actions
+
+#+begin_src emacs-lisp
+  (defun my-shrink-window-horizontally ()
+    (interactive)
+    (shrink-window-horizontally 8))
+  (defun my-enlarge-window-horizontally ()
+    (interactive)
+    (enlarge-window-horizontally 8))
+  (defun my-shrink-window ()
+    (interactive)
+    (shrink-window 8))
+  (defun my-enlarge-window ()
+    (interactive)
+    (enlarge-window 8))
+
+  (defvar-keymap window-actions-repeat-map
+    :repeat t
+    "h" #'my-shrink-window-horizontally
+    "l" #'my-enlarge-window-horizontally
+    "j" #'my-shrink-window
+    "k" #'my-enlarge-window
+    "=" #'balance-windows
+    "-" #'shrink-window-if-larger-than-buffer)
+
+  (global-set-key (kbd "C-, w h") 'my-shrink-window-horizontally)
+  (global-set-key (kbd "C-, w l") 'my-enlarge-window-horizontally)
+  (global-set-key (kbd "C-, w j") 'my-shrink-window)
+  (global-set-key (kbd "C-, w k") 'my-enlarge-window)
+  (global-set-key (kbd "C-, w =") 'balance-windows)
+  (global-set-key (kbd "C-, w -") 'shrink-window-if-larger-than-buffer)
 #+end_src
 
 ** Buffers
