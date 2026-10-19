@@ -257,10 +257,7 @@ Mainly used for making sure that org timestamps are consistent.
 
 ** Key bindings
 
-*** Evil (disabled)
-:PROPERTIES:
-:header-args:emacs-lisp: :tangle no
-:END:
+*** Evil
 
 **** Base package
 
@@ -268,78 +265,23 @@ Mainly used for making sure that org timestamps are consistent.
   (use-package evil
     :ensure t
     :hook (elpaca-log-mode . (lambda ()
-                               (evil-local-set-key 'normal (kbd "gd")
-                                                   'elpaca-log-view-diff)))
+                               ;; `elpaca-log-mode-map' binds `gd' upstream;
+                               ;; evil's normal state shadows it, so
+                               ;; re-establish it there.
+                               (when (bound-and-true-p evil-local-mode)
+                                 (evil-local-set-key 'normal (kbd "gd")
+                                                     'elpaca-log-view-diff))))
     :init
-    ;; https://evil.readthedocs.io/en/latest/settings.html
-    (setq evil-want-integration t
-          evil-want-keybinding nil
-          evil-toggle-key "C-z"
-          evil-want-C-i-jump t
-          evil-want-C-u-delete nil
-          evil-want-C-u-scroll t ; default `nil'
-          evil-want-C-d-scroll t
-          evil-want-C-w-delete t
-          evil-want-C-w-in-emacs-state nil
-          evil-want-Y-yank-to-eol nil
-          evil-disable-insert-state-bindings nil
-
-          ;; Search
-          evil-search-module 'isearch
-          evil-regexp-search t
-          evil-search-wrap t
-          evil-flash-delay 2
-          evil-ex-hl-update-delay 0.02
-          evil-ex-search-incremental t
-
-          ;; Indentation
-          evil-auto-indent t
-          evil-shift-width 4
-          evil-shift-round t
-          evil-indent-convert-tabs nil ; default `t'
-
-          ;; Cursor movement
-          evil-repeat-move-cursor t
-          evil-move-cursor-back t
-          evil-move-beyond-eol nil
-          evil-v$-excludes-newline nil
-          evil-cross-lines nil
-          evil-respect-visual-line-mode t ; default `nil'
-          evil-track-eol t
-          evil-start-of-line nil
-
-          ;; Cursor display
-          evil-default-cursor t
-
-          ;; Window management
-          evil-auto-balance-windows t
-          evil-split-window-below nil
-          evil-vsplit-window-right nil
-
-          ;; Parenthesis highlighting
-          evil-show-paren-range 0
-          evil-highlight-closing-paren-at-point-states '(not
-                                                         emacs
-                                                         insert
-                                                         replace)
-
-          ;; Miscellaneous
-          evil-want-fine-undo nil
-          evil-undo-system 'undo-redo ; default `nil'
-          evil-backspace-join-lines t
-          evil-kbd-macro-suppress-motion-error nil
-          evil-mode-line-format 'before
-          evil-mouse-word 'evil-word
-          evil-transient-mouse-selection nil
-          ;; evil-bigword default value used
-          evil-esc-delay 0.01
-          evil-intercept-esc 'always
-          evil-kill-on-visual-paste t
-          evil-echo-state t
-          evil-complete-all-buffers t
-          evil-want-empty-ex-last-command t
-          )
+    (setq evil-want-keybinding nil        ; required by evil-collection
+          evil-undo-system 'undo-redo     ; `u' undo, `C-r' redo
+          evil-want-C-u-scroll t
+          evil-respect-visual-line-mode t
+          evil-indent-convert-tabs nil
+          evil-symbol-word-search t)      ; `*' and `#' search symbols
     :config
+    ;; Restore the global `M-.' (embark-dwim) binding; evil's
+    ;; `evil-repeat-pop-next' is not needed.
+    (define-key evil-normal-state-map (kbd "M-.") nil)
     (evil-mode 1))
 #+end_src
 
@@ -348,24 +290,46 @@ Mainly used for making sure that org timestamps are consistent.
 #+begin_src emacs-lisp
   (use-package evil-surround
     :ensure t
+    :after evil
     :config
     (global-evil-surround-mode 1)
-    (with-eval-after-load 'evil-surround
-      (defun my-org-surround-pairs ()
-        "Add Org markup pairs in org-mode buffers."
-        (push '(?~ . ("~" . "~")) evil-surround-pairs-alist)
-        (push '(?= . ("=" . "=")) evil-surround-pairs-alist)
-        (push '(?* . ("*" . "*")) evil-surround-pairs-alist)
-        (push '(?/ . ("/" . "/")) evil-surround-pairs-alist))
-      (add-hook 'org-mode-hook #'my-org-surround-pairs)))
+
+    (defun my-org-surround-pairs ()
+      "Add Org markup pairs in org-mode buffers.
+  `evil-surround-pairs-alist' is buffer-local."
+      (setq-local evil-surround-pairs-alist
+                  (append '((?~ . ("~" . "~"))
+                            (?= . ("=" . "="))
+                            (?* . ("*" . "*"))
+                            (?/ . ("/" . "/")))
+                          evil-surround-pairs-alist)))
+
+    (add-hook 'org-mode-hook #'my-org-surround-pairs))
 #+end_src
 
 **** Evil collection
 
+evil-collection requires `evil-want-keybinding' to be nil before evil loads (set in the base package above). `evil-collection-evil-ghostel-escape' keeps ghostel's own smart ESC routing (ESC goes to the terminal in alt-screen apps, otherwise enters normal state) instead of the plain `evil' default.
+
 #+begin_src emacs-lisp
   (use-package evil-collection
     :ensure t
-    :config (evil-collection-init))
+    :after evil
+    :init
+    (setopt evil-collection-evil-ghostel-escape 'auto)
+    :config
+    (evil-collection-init))
+#+end_src
+
+**** Evil-ghostel
+
+Official evil integration for the ghostel terminal. Ghostel buffers start in insert state; the terminal cursor is kept in sync with point, and ESC routing follows `evil-ghostel-escape' (`auto' by default: to the terminal in alt-screen apps like vim, less and htop, to normal state otherwise). Use `C-c C-r' to toggle the routing and `C-c ESC' for a one-shot switch to normal state.
+
+#+begin_src emacs-lisp
+  (use-package evil-ghostel
+    :ensure t
+    :after evil
+    :hook (ghostel-mode . evil-ghostel-mode))
 #+end_src
 
 **** Evil-commentary
@@ -375,14 +339,6 @@ Mainly used for making sure that org timestamps are consistent.
     :ensure t
     :config
     (evil-commentary-mode))
-#+end_src
-
-**** Use "Emacs" initial state in terminal modes
-
-#+begin_src emacs-lisp
-  (with-eval-after-load 'evil
-    (evil-set-initial-state 'eshell-mode 'emacs)
-    (evil-set-initial-state 'term-mode 'emacs))
 #+end_src
 
 *** Global
@@ -411,7 +367,7 @@ General provides a more convenient, unified interface for binding keys in Emacs.
   (with-eval-after-load 'general
     (my-leader-keys
       ;; Top level functions
-      "C-," '(execute-extended-command :wk "M-x")
+      "SPC" '(execute-extended-command :wk "M-x")
 
       ;; Prefixes
 
@@ -437,8 +393,7 @@ General provides a more convenient, unified interface for binding keys in Emacs.
       "u" '(:ignore t :wk "UI")
       "u f" '(:ignore t :wk "Fonts")
       "u l" '(:ignore t :wk "Linum")
-      "u m" '(:ignore t :wk "Mode Line")
-      "w" '(:ignore t :wk "Windows")))
+      "u m" '(:ignore t :wk "Mode Line")))
 #+end_src
 
 **** Files
@@ -487,20 +442,6 @@ General provides a more convenient, unified interface for binding keys in Emacs.
       "b r" 'revert-buffer-quick))
 #+end_src
 
-**** Windows
-
-#+begin_src emacs-lisp
-  (with-eval-after-load 'general
-    (my-leader-keys
-      ;; windows
-      "w" '(nil :wk "windows")
-      "w s" 'split-window-below
-      "w v" 'split-window-right
-      "w d" 'delete-window
-      "w o" 'delete-other-windows
-      "w w" 'other-window))
-#+end_src
-
 **** Help
 
 #+begin_src emacs-lisp
@@ -536,8 +477,12 @@ General provides a more convenient, unified interface for binding keys in Emacs.
       "q r" 'restart-emacs))
 #+end_src
 
-*** Surround
+*** Surround (disabled)
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle no
+:END:
 
+Superseded by evil-surround while evil-mode is enabled.
 #+begin_src emacs-lisp
   (use-package surround
     :ensure t
@@ -840,14 +785,12 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
     :ensure t
     :after general
     :general (my-leader-keys "c u" 'vundo)
-    :bind (:map vundo-mode-map
-                ("h" . vundo-backward)
-                ("l" . vundo-forward)
-                ("j" . vundo-next)
-                ("k" . vundo-previous)
-                ("q" . vundo-quit)
-                ("s" . vundo-save)
-                ("RET" . vundo-confirm)))
+    :config
+    ;; evil-collection's vundo module covers h/j/k/l and RET in normal
+    ;; state; restore the remaining keys.
+    (evil-define-key 'normal vundo-mode-map
+      "q" #'vundo-quit
+      "s" #'vundo-save))
 #+end_src
 
 *** Multiple cursors
@@ -5183,39 +5126,6 @@ Transpose arrangement of frame windows (eg. horizontal to vertical).
 
 #+begin_src emacs-lisp
   (setopt frame-resize-pixelwise t)
-#+end_src
-
-*** Window actions
-
-#+begin_src emacs-lisp
-  (defun my-shrink-window-horizontally ()
-    (interactive)
-    (shrink-window-horizontally 8))
-  (defun my-enlarge-window-horizontally ()
-    (interactive)
-    (enlarge-window-horizontally 8))
-  (defun my-shrink-window ()
-    (interactive)
-    (shrink-window 8))
-  (defun my-enlarge-window ()
-    (interactive)
-    (enlarge-window 8))
-
-  (defvar-keymap window-actions-repeat-map
-    :repeat t
-    "h" #'my-shrink-window-horizontally
-    "l" #'my-enlarge-window-horizontally
-    "j" #'my-shrink-window
-    "k" #'my-enlarge-window
-    "=" #'balance-windows
-    "-" #'shrink-window-if-larger-than-buffer)
-
-  (global-set-key (kbd "C-, w h") 'my-shrink-window-horizontally)
-  (global-set-key (kbd "C-, w l") 'my-enlarge-window-horizontally)
-  (global-set-key (kbd "C-, w j") 'my-shrink-window)
-  (global-set-key (kbd "C-, w k") 'my-enlarge-window)
-  (global-set-key (kbd "C-, w =") 'balance-windows)
-  (global-set-key (kbd "C-, w -") 'shrink-window-if-larger-than-buffer)
 #+end_src
 
 ** Buffers

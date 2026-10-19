@@ -77,14 +77,19 @@
 (use-package jsonrpc :ensure (:wait t))
 (use-package flymake :ensure (:wait t))
 
-;; Remove org-mode's C-, binding to avoid conflict with general.
-(with-eval-after-load 'org
-  (define-key org-mode-map (kbd "C-,") nil))
+;; Only needed for a `C-,' leader. The leader is `SPC' now (`M-SPC' in
+;; non-normal states), which org-mode does not bind.
+;; (with-eval-after-load 'org
+;;   (define-key org-mode-map (kbd "C-,") nil))
 
 (use-package general
   :ensure (:wait t)
   :demand t)
-(general-create-definer my-leader-keys :prefix "C-,")
+(general-create-definer my-leader-keys
+  :keymaps 'override
+  :states '(normal visual motion insert emacs)
+  :prefix "SPC"
+  :non-normal-prefix "M-SPC")
 
 ;; Make sure that we use the latest version of `transient'.
 (use-package transient :ensure (:wait t))
