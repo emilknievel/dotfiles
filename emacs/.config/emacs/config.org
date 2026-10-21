@@ -3718,17 +3718,17 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     (org-indent-mode-turns-on-hiding-stars t))
 #+end_src
 
-*** Appear
+*** Appear (disabled)
 
 This package displays hidden emphasis markers while the cursor is on a rich text word.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package org-appear
     :ensure t
     :after general
     :init
-    (setopt org-hide-emphasis-markers nil
-            org-link-descriptive nil
+    (setopt org-hide-emphasis-markers t
+            org-link-descriptive t
             org-appear-autoemphasis t
             org-appear-autolinks t
             org-appear-autosubmarkers t
