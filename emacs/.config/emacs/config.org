@@ -873,9 +873,9 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
 #+begin_src emacs-lisp
   (use-package visual-fill-column
     :ensure t
+    :hook ((org-mode markdown-mode markdown-ts-mode) . visual-fill-column-mode)
     :custom
     (visual-fill-column-width 90))
-    ;; :hook (visual-line-mode . visual-fill-column-mode))
 #+end_src
 
 *** Highlight line
@@ -3822,22 +3822,6 @@ This package displays hidden emphasis markers while the cursor is on a rich text
   (add-hook 'enable-theme-functions (lambda (_theme) (my-set-heading-heights)))
   (with-eval-after-load 'markdown-ts-mode (my-set-heading-heights))
   (my-set-heading-heights)
-#+end_src
-
-** Olivetti
-
-Olivetti is a minor mode that provides a nice writing environment by setting comfortable window margins etc.
-
-#+begin_src emacs-lisp
-  (use-package olivetti
-    :ensure t
-    :after general
-    :general
-    (my-leader-keys "u o" 'olivetti-mode)
-    :init
-    (setopt olivetti-body-width 100
-            olivetti-minimum-body-width 72)
-    :bind ("S-<f9>" . olivetti-mode))
 #+end_src
 
 ** Notetaking
