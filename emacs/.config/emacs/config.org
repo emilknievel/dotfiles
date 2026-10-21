@@ -3552,7 +3552,8 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     ;; It's strictly a mechanical filetag, not something a heading claims about
     ;; itself.
     (org-tags-exclude-from-inheritance '("todo"))
-    (org-attach-use-inheritance t))
+    (org-attach-use-inheritance t)
+    (org-link-descriptive nil))
 #+end_src
 
 *** Capture
@@ -3728,7 +3729,6 @@ This package displays hidden emphasis markers while the cursor is on a rich text
     :after general
     :init
     (setopt org-hide-emphasis-markers t
-            org-link-descriptive t
             org-appear-autoemphasis t
             org-appear-autolinks t
             org-appear-autosubmarkers t
