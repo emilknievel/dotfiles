@@ -3589,10 +3589,6 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
        ,(my-org-capture-work-journal-template
          "ji" "Work investigation"
          "* %U Undersökning: %^{Title}\n\nSymptom:\n%?\n\nHypotes:\n\nFynd:\n\nResultat:\n")
-       ,(my-org-capture-work-journal-template
-         "jr" "Work reminder"
-         "* TODO %U %?\n:PROPERTIES:\n:CAPTURED_FROM: %a\n:END:")
-
        ("t" "Tasks")
        ("tt" "New inbox task" entry
         (file org-default-notes-file)
@@ -3628,7 +3624,7 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     ;; Default `t' drives completion through `org-olpath-completing-read',
     ;; which asks for the path in separate per-segment steps instead of
     ;; `completing-read' — so vertico/orderless can't fuzzy-match a full
-    ;; path like "Torsdag/Uppgifter" in one go.
+    ;; multi-segment outline path in one go.
     (org-outline-path-complete-in-steps nil)
     (org-refile-allow-creating-parent-nodes 'confirm)
     ;; No refile cache: targets come from `my-vulpea-refile-files', which
@@ -3909,15 +3905,6 @@ This package displays hidden emphasis markers while the cursor is on a rich text
             (regexp-opt (my-work-journal--active-todo-keywords) t)
             "\\(?:[ \t]\\|$\\)"))
 
-  (defun my-work-journal--file-has-active-todo-p (file todo-regexp)
-    "Return non-nil when FILE contains a heading matching TODO-REGEXP."
-    (condition-case nil
-        (with-temp-buffer
-          (insert-file-contents file nil nil nil t)
-          (goto-char (point-min))
-          (re-search-forward todo-regexp nil t))
-      (file-error nil)))
-
   (defun my-work-journal-files (&optional organization)
     "Return existing Org journal files for ORGANIZATION."
     (seq-uniq
@@ -3925,21 +3912,6 @@ This package displays hidden emphasis markers while the cursor is on a rich text
              (vulpea-db-query-by-tags-every
               (list "journal" "work"
                     (or organization my-work-notes-current-organization))))))
-
-  (defun my-work-journal-agenda-files (&optional organization)
-    "Return Org journal files with active TODOs for ORGANIZATION."
-    (let ((todo-regexp (my-work-journal--active-todo-regexp))
-          agenda-files)
-      (dolist (file (my-work-journal-files organization))
-        (when (my-work-journal--file-has-active-todo-p file todo-regexp)
-          (push file agenda-files)))
-      (sort agenda-files #'string<)))
-
-  (add-to-list 'org-agenda-custom-commands
-               '("J" "Journal TODOs" alltodo ""
-                 ((org-agenda-files (my-work-journal-agenda-files))
-                  (org-agenda-overriding-header "Journal TODOs")))
-               t)
 
   (defun my-work-journal--journal-file-p (file &optional organization)
     "Return non-nil when FILE is an existing journal file for ORGANIZATION."
@@ -4045,7 +4017,7 @@ This package displays hidden emphasis markers while the cursor is on a rich text
     (concat
      (mapconcat
       (lambda (date)
-        (format "* %s\n:PROPERTIES:\n:JOURNAL_DATE: %s\n:END:\n\n** Uppgifter\n\n"
+        (format "* %s\n:PROPERTIES:\n:JOURNAL_DATE: %s\n:END:\n\n"
                 (my-work-journal--weekday-name date)
                 (format-time-string "[%Y-%m-%d]" date)))
       (my-work-journal--week-dates time)
@@ -4105,7 +4077,7 @@ Return non-nil when the heading exists."
                 ":JOURNAL_DATE: " (format-time-string "[%Y-%m-%d]"
                                                        (or time (current-time)))
                 "\n"
-                ":END:\n\n** Uppgifter\n\n")
+                ":END:\n\n")
         (goto-char heading-start))))
 
   (defalias 'my-work-journal-goto-today-heading
@@ -4372,8 +4344,6 @@ Auxiliary functions to manage and explore denote files: https://lucidmanager.org
                  '("w" "Weekly review"
                    ((alltodo "" ((org-agenda-files (my-vulpea-stuck-project-files))
                                  (org-agenda-overriding-header "Stuck projects")))
-                    (alltodo "" ((org-agenda-files (my-work-journal-agenda-files))
-                                 (org-agenda-overriding-header "Journal TODOs")))
                     (alltodo "" ((org-agenda-files (list org-default-notes-file))
                                  (org-agenda-overriding-header "Inbox — to process")))))
                  t)
