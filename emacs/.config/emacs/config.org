@@ -1170,6 +1170,10 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
               (org-indent-mode -1)
               (org-indent-mode 1)))))))
 
+  (with-eval-after-load 'general
+    (my-leader-keys
+      "t t t" 'my-load-theme))
+
   (defun my-theme-variants (base)
     "Return available themes whose names start with BASE."
     (seq-filter (lambda (theme)
