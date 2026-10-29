@@ -482,7 +482,7 @@ General provides a more convenient, unified interface for binding keys in Emacs.
       ;; toggles
       "t v" '(visual-line-mode :wk "visual line mode")
       "t n" '(my-toggle-line-numbers :wk "display line numbers")
-      "t c" '(visual-fill-column-mode :wk "visual fill column mode")))
+      "t o" '(olivetti-mode :wk "olivetti mode")))
 #+end_src
 
 **** Emacs Client
@@ -861,21 +861,15 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
     :hook (after-init . delete-selection-mode))
 #+end_src
 
-*** Wrap lines exceeding window size where appropriate
+*** Olivetti
+
+Center and wrap text for comfy writing.
 
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook 'visual-line-mode)
-  (add-hook 'markdown-ts-mode-hook 'visual-line-mode)
-#+end_src
-
-**** Wrap at a set column when visual-line-mode is active
-
-#+begin_src emacs-lisp
-  (use-package visual-fill-column
+  (use-package olivetti
     :ensure t
-    :hook ((org-mode markdown-mode markdown-ts-mode) . visual-fill-column-mode)
-    :custom
-    (visual-fill-column-width 90))
+    ;; :hook ((org-mode markdown-mode markdown-ts-mode) . olivetti-mode)
+    )
 #+end_src
 
 *** Highlight line
