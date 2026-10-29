@@ -2924,7 +2924,7 @@ Flymake. Eglot enables it in managed buffers; the hook covers the rest.
 *** fill-column
 
 #+begin_src emacs-lisp
-  (setq-default fill-column 80)
+  (add-hook 'prog-mode-hook (lambda () (setq-local fill-column 80)))
 #+end_src
 
 ** Version control
