@@ -861,9 +861,21 @@ Invoked with ~M-x vundo~, ~<leader> c u~, or when using Meow.el ~<leader> u~.
     :hook (after-init . delete-selection-mode))
 #+end_src
 
-*** Olivetti
+*** Text wrapping
 
-Center and wrap text for comfy writing.
+**** Visual line mode
+
+Wrap text on /word boundaries/ in prose modes.
+
+#+begin_src emacs-lisp
+  (add-hook 'markdown-mode-hook #'visual-line-mode)
+  (add-hook 'markdown-ts-mode-hook #'visual-line-mode)
+  (add-hook 'org-mode-hook #'visual-line-mode)
+#+end_src
+
+**** Olivetti
+
+Center text into a comfy writing mode.
 
 #+begin_src emacs-lisp
   (use-package olivetti
