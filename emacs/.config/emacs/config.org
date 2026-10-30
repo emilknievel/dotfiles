@@ -1857,23 +1857,6 @@ Presets for the =u f p= / =<f7>= menu, built by =my-build-fontaine-presets= from
     (fontaine-mode 1))
 #+end_src
 
-**** Line spacing (disabled)
-
-Increase line spacing slightly in buffers containing prose.
-
-#+begin_src emacs-lisp :tangle no
-  (dolist (hook '(
-                  org-mode-hook
-                  org-agenda-mode-hook
-                  markdown-ts-mode-hook
-                  eww-mode-hook
-                  devdocs-mode-hook
-                  Info-mode-hook
-                  ))
-    (add-hook hook (lambda ()
-                     (setq-local line-spacing .25))))
-#+end_src
-
 *** Display line numbers
 
 Line numbers in all buffers via ~global-display-line-numbers-mode~, toggled with =t n= and persisted to =custom.el=. The type (absolute, relative, visual) is switched under the =u l= prefix and persisted the same way.
