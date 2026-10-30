@@ -519,6 +519,8 @@ Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
                                              (insert . "<I>")
                                              (beacon . "<B>")))
       ;; (setopt meow-expand-hint-remove-delay 0)
+      ;; Hints are hidden per buffer by `my-meow-expand-hints-by-pitch' instead.
+      (setopt meow-expand-exclude-mode-list nil)
       (setopt meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
 
       (dolist (mode-state '((eshell-mode . insert)
@@ -666,12 +668,21 @@ Modal editing that doesn't conflict with Emacs bindings. Inspired by Kakoune.
         (when (commandp cmd)
           (call-interactively cmd))))
 
-    (add-hook 'meow-global-mode-hook #'my-meow-restore-indicator)
-    (add-hook 'doom-modeline-mode-hook #'my-meow-restore-indicator)
-    (add-hook 'view-mode-hook #'my-meow-view-state)
+    (defun my-meow-expand-hints-by-pitch ()
+      "Hide Meow's expand hints while `variable-pitch-mode' is on.
+  The hints replace characters via a `display' overlay, which shifts
+  proportional text.  Meow only excludes by major mode, so the
+  current one is listed buffer-locally."
+      (if (and buffer-face-mode (eq buffer-face-mode-face 'variable-pitch))
+          (setq-local meow-expand-exclude-mode-list (list major-mode))
+        (kill-local-variable 'meow-expand-exclude-mode-list)))
+
     (advice-add 'view-mode-exit :after #'my-meow-view-state)
     (meow-setup)
-    (meow-global-mode 1))
+    (meow-global-mode 1)
+    :hook ((buffer-face-mode . my-meow-expand-hints-by-pitch)
+           ((meow-global-mode doom-modeline-mode) . my-meow-restore-indicator)
+           (view-mode . my-meow-view-state)))
 #+end_src
 
 **** Meow-tree-sitter
