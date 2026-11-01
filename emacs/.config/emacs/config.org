@@ -2479,7 +2479,7 @@ Built-in (Emacs 30+) inline "ghost text" completion. Complements the manual Corf
 
 *** Eglot
 
-Use the ELPA version instead of the one bundled with Emacs. Its newer ~eldoc~/~jsonrpc~ dependencies are installed in init.el.
+Use the ELPA version instead of the one bundled with Emacs. Its newer ~eldoc~/~jsonrpc/xref~ dependencies are installed in init.el.
 
 #+begin_src emacs-lisp
   (use-package eglot

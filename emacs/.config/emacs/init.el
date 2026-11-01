@@ -75,6 +75,7 @@
   (ignore-errors (unload-feature 'eldoc t)))
 (use-package eldoc :ensure (:wait t))
 (use-package jsonrpc :ensure (:wait t))
+(use-package xref :ensure (:wait t))
 (use-package flymake :ensure (:wait t))
 
 ;; Remove org-mode's C-, binding to avoid conflict with general.
