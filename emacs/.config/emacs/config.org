@@ -3679,9 +3679,9 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
                "o l d" 'org-toggle-link-display))
 #+end_src
 
-*** Indent .org files on startup
+*** Indent .org files on startup (disabled)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (use-package org
     :ensure nil
     :init (require 'org-indent)
