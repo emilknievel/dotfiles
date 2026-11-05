@@ -3490,12 +3490,7 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
             org-default-notes-file (concat org-directory "/inbox.org")
             org-journelly-file (concat org-directory "/Journelly.org")
             org-links-file (concat org-directory "/links.org"))
-    ;; The beorg files are written on iOS, so the `todo' tagging that feeds
-    ;; the dynamic agenda never runs on them; list them statically instead.
-    (setq my-org-agenda-static-files
-          (list org-default-notes-file
-                (concat org-directory "/calendar-beorg.org")
-                (concat org-directory "/reminders-beorg.org")))
+    (setq my-org-agenda-static-files (list org-default-notes-file))
     (setopt org-agenda-files my-org-agenda-static-files))
 #+end_src
 
