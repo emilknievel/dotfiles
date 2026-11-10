@@ -1331,7 +1331,7 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
 
 #+begin_src emacs-lisp
   (use-package modus-vague
-    :ensure (:host github :repo "paniash/modus-vague"))
+    :ensure t)
 #+end_src
 
 **** Modus alabaster
