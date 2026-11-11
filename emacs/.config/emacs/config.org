@@ -1183,7 +1183,7 @@ The active theme is persisted the same way fonts are: ~my-theme~ is a ~defcustom
         ;; Reinitialize org-indent in org buffers to apply the fix
         (dolist (buf (buffer-list))
           (with-current-buffer buf
-            (when (and (eq major-mode 'org-mode) org-indent-mode)
+            (when (and (eq major-mode 'org-mode) (bound-and-true-p org-indent-mode))
               (org-indent-mode -1)
               (org-indent-mode 1)))))))
 
