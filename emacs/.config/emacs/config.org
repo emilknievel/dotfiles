@@ -3050,19 +3050,6 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
 **** Prompt
 
 #+begin_src emacs-lisp
-  (defun my-eshell-prompt-directory ()
-    "Return a compact directory name for the Eshell prompt."
-    (let* ((dir (directory-file-name (abbreviate-file-name (eshell/pwd))))
-           (home-dir (string-prefix-p "~/" dir))
-           (prefix (if home-dir "~/" ""))
-           (path (if home-dir (substring dir 2) dir))
-           (parts (split-string path "/" t)))
-      (cond
-       ((member dir '("~" "/")) dir)
-       ((<= (length parts) 2) dir)
-       (t (concat prefix ".../"
-                  (mapconcat #'identity (last parts 2) "/"))))))
-
   (setq eshell-prompt-function
         (lambda ()
           (concat
@@ -3070,11 +3057,9 @@ https://www.masteringemacs.org/article/complete-guide-mastering-eshell
              (propertize (format "(%s) " eshell-last-command-status)
                          'face 'font-lock-warning-face))
            (propertize (user-login-name) 'face 'font-lock-keyword-face)
-           (propertize (format "@%s" (car (split-string (system-name) "\\."))) 'face 'default)
-           (propertize " " 'face 'font-lock-doc-face)
-           (propertize (my-eshell-prompt-directory) 'face 'font-lock-type-face)
-           (propertize " $" 'face 'font-lock-doc-face)
-           (propertize " " 'face 'default))))
+           (propertize "@" 'face 'default)
+           (propertize (car (split-string (system-name) "\\.")) 'face 'font-lock-type-face)
+           (propertize (if (zerop (user-uid)) " # " " $ ") 'face 'default))))
 #+end_src
 
 **** Scroll behavior
