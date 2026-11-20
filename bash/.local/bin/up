@@ -418,9 +418,7 @@ fi
 
 if command -v dnf >/dev/null 2>&1; then
 	RESTART=no
-	# -C: cacheonly; the check only reads the rpm db, so don't spend time
-	# (and a network round trip) refreshing repo metadata.
-	if ! dnf -C needs-restarting -r &>/dev/null; then
+	if ! dnf needs-restarting -r &>/dev/null; then
 		RESTART=yes
 	fi
 	printf "\nNEEDS RESTARTING?...%s\n" "$RESTART"
