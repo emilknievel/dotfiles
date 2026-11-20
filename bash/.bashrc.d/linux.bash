@@ -15,3 +15,6 @@ fi
 
 # Bitwarden SSH agent
 export SSH_AUTH_SOCK="$HOME/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
+
+alias setbrightness="ddcutil setvcp 0x10"
+alias getbrightness="ddcutil getvcp 0x10"
