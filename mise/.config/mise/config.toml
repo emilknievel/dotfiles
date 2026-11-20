@@ -3,6 +3,9 @@ experimental = true
 python.uv_venv_auto = true # automatically use venv created by `uv`
 idiomatic_version_file_enable_tools = ["node"]
 
+[settings.self_update]
+auto = true
+
 [tools]
 node = "latest"
 ruff = "latest"
