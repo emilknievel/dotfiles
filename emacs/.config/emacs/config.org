@@ -1564,7 +1564,7 @@ https://github.com/szymonwilczek/au-themes.
 
 #+begin_src emacs-lisp
   (use-package au-themes
-    :ensure (:host github :repo "szymonwilczek/au-themes"))
+    :ensure t)
 #+end_src
 
 **** Modus flexoki
