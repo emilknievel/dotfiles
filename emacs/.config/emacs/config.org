@@ -3428,7 +3428,7 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
     :ensure nil
     :init
     (defvar my-org-work-file nil "Work tasks and projects.")
-    (defvar my-org-home-file nil "Personal tasks and projects.")
+    (defvar my-org-personal-file nil "Personal tasks and projects.")
     (defvar my-org-agenda-static-files nil
       "Task files always in the agenda; see `my-org-agenda-files'.")
     (setopt org-directory (expand-file-name "~/Documents/org")
@@ -3436,9 +3436,9 @@ Define search engines and easily query them from within Emacs. Invoked with =C-x
             org-journelly-file (concat org-directory "/Journelly.org")
             org-links-file (concat org-directory "/links.org"))
     (setq my-org-work-file (concat org-directory "/work.org")
-          my-org-home-file (concat org-directory "/home.org")
+          my-org-personal-file (concat org-directory "/personal.org")
           my-org-agenda-static-files
-          (list org-default-notes-file my-org-work-file my-org-home-file))
+          (list org-default-notes-file my-org-work-file my-org-personal-file))
     (setopt org-agenda-files my-org-agenda-static-files))
 #+end_src
 
